@@ -2,13 +2,12 @@
 /**
  * @package KVD.dom
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @version $Id: KVDdom_MapperFactory.class.php,v 1.1 2006/01/12 14:46:02 Koen Exp $
+ * @version $Id$
  */
 
 /**
  * Factory voor KVDdom_DataMappers
  *
- * Kan extended worden om andere mappers te kunnen gebruiken
  * @package KVD.dom
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
  * @since 1.0.0
@@ -22,18 +21,18 @@ class KVDdom_MapperFactory
     protected $_sessie;
 
     /**
-     * @var string
+     * @var array
      */
-    private $mapperDir;
+    private $mapperDirs;
     
     /**
      * @param KVDdom_Sessie $sessie Wordt doorgegeven aan de mapper omwille van de Uow en de connection.
-     * @param string $mapperDir Directory waar de mappers gevonden kunnen worden.
+     * @param array $mapperDirs Directories waar de mappers gevonden kunnen worden.
      */
-    public function __construct ( $sessie , $mapperDir = '' )
+    public function __construct ( $sessie , $mapperDirs )
     {
         $this->_sessie = $sessie;
-        $this->mapperDir = $mapperDir;
+        $this->mapperDirs = $mapperDirs;
     }
     
     /**
@@ -45,8 +44,15 @@ class KVDdom_MapperFactory
     public function createMapper ( $teMappenClass )
     {
         try {
-            $classMapper = $teMappenClass . 'DataMapper';
-            $classMapperFile = $this->mapperDir . $teMappenClass . 'DM.class.php';
+            $classMapper = $this->getClassMapper (  $teMappenClass );
+            
+            foreach ( $this->mapperDirs as $mapperDir) {
+                
+                $classMapperFile = $mapperDir . $teMappenClass . '.class.php';
+                if ( file_exists( $classMapperFile ) ) {
+                    require_once( $classMapperFile )
+                }
+            }
             if (!file_exists($classMapperFile)) {
                 throw new Exception ("Bestand $classMapperFile bestaat niet" , 1);
             }
@@ -62,6 +68,26 @@ class KVDdom_MapperFactory
             }
             throw new Exception ($message);
         }
+    }
+
+    /**
+     * @param string $teMappenClass Naam van de class waarvoor de naam van de mapper gedetermineerd moet worden.
+     * @return string Naam van de datamapper voor de te mappen class.
+     * @throws <b>Exception</b> - Indien de naam van de te mappen class ongeldig is.
+     */
+    private function getClassMapper ( $teMappenClass )
+    {
+        $underscorePos = strpos( $teMappenClass , '_');
+        if ( $underscorePos === false ) {
+            throw new Exception ( "Ongeldige DomainObject naam: $teMappenClass. Er kon geen prefix gedetermineerd worden. Er moet een underscore aanwezig zijn.");
+        }
+        $prefix = substr ( $teMappenClass, 0, $underscorePos );
+        $suffix = substr ( $teMappenClass , $underscorePos );
+        $prefix = str_replace ( 'do', 'dm', $prefix);
+
+        $classMapper = $prefix + $suffix;
+
+        return $classMapper;
     }
 }
 ?>
