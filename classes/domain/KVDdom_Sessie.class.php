@@ -27,6 +27,11 @@ class KVDdom_Sessie {
     private $commitVolgorde;
 
     /**
+     * Naam van de class die gebruikt worden om gebruikers te beheren.
+     * @var string
+     */
+    private $gebruikerClass;
+    /**
      * @var integer
      */
     private $gebruikerId;
@@ -61,18 +66,21 @@ class KVDdom_Sessie {
      *
      * De parameter $config is vrij uitgebreid, maar is nodig voor een aantal zaken.
      * Ze moet 3 keys bevatten:
-     *      - 'dataMapperDir' Een directory waar de datamappers kunnen gevonden worden.
+     *      - 'dataMapperDirs' Een array van directories waar de datamappers kunnen gevonden worden.
      *      - 'commitVolgorde' Een array waaruit kan afgeleid worden in welke volgorde DomainObjects naar de databank geschreven moeten worden.
      *      - 'dataMappersConnections' Een array met namen van DataMappers als key en de naam van een connectie als value. Alle DataMappers die niet in deze array voorkomen zullen met de default connectie werken.
+     *      - 'gebruikerClass' Naam van de class die gebruikt moet worden voor gebruiker-objecten.
      * Voorbeeld:
      * <code>
-     *      $config = array (   'dataMapperDir'     => '/opt/datamappers/',
+     *      $config = array (   'dataMapperDirs'     => array (  '/opt/datamappers/',
+     *                                                          '/usr/datamappers/'),
      *                          'commitVolgorde'    => array (  1 => 'Adres',
      *                                                          2 => 'Persoon',
      *                                                          3 => 'Organisatie',
      *                                                          4 => 'PersoonNaarOrganisatie',
      *                                                          5 => 'Vondstmelding'),
-     *                          'dataMappersConnections'    => array (  'Vondstmelding' => 'CAI')
+     *                          'dataMappersConnections'    => array (  'Vondstmelding' => 'CAI'),
+     *                          'gebruikerClass'            => 'OEIdo_GebGebruiker'
      *                          );
      *      $dbm = new DatabaseManager ();                    
      *      $sessie = new KVDdom_Sessie ( 25 , $dbm, $config);                    
@@ -85,7 +93,11 @@ class KVDdom_Sessie {
     {
         $this->_gebruiker = null;
         $this->gebruikerId = $gebruikerId;
-        $this->_mapperRegistry = new KVDdom_MapperRegistry( new KVDdom_MapperFactory( $this , $config['dataMapperDir'] ) );
+        if ( !array_key_exists( 'gebruikerClass', $config)) {
+            throw new InvalidArgumentException ( 'De parameter config moet een array-sleutel gebruikerClass hebben.');
+        }
+        $this->gebruikerClass = $config['gebruikerClass'];
+        $this->_mapperRegistry = new KVDdom_MapperRegistry( new KVDdom_MapperFactory( $this , $config['dataMapperDirs'] ) );
         
         $this->_newObjects = new KVDdom_GenericIdentityMap();
         $this->_dirtyObjects = new KVDdom_GenericIdentityMap();
@@ -112,7 +124,7 @@ class KVDdom_Sessie {
     public function getGebruiker()
     {
         if ( $this->_gebruiker === null ) {
-            $gebruikerMapper = $this->_mapperRegistry->getMapper (KVDdom_LogableDataMapper::GEBRUIKERCLASS);
+            $gebruikerMapper = $this->_mapperRegistry->getMapper ( $this->gebruikerClass );
             $this->_gebruiker = $gebruikerMapper->findById ( $this->gebruikerId );
         }
         return $this->_gebruiker;
@@ -310,9 +322,9 @@ class KVDdom_Sessie {
 	public function getDatabaseConnection ( $dataMapper )
 	{
         if (array_key_exists($dataMapper,$this->dataMappersConnections)) {
-            return $this->databaseManager->getDatabase($this->dataMappersConnections[$dataMapper])->getConnection();        
+            return $this->_databaseManager->getDatabase($this->dataMappersConnections[$dataMapper])->getConnection();        
         } else {
-            return $this->databaseManager->getDatabase('default')->getConnection();            
+            return $this->_databaseManager->getDatabase('default')->getConnection();            
         }
 	}
 

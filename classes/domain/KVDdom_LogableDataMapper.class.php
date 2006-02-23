@@ -30,13 +30,6 @@ abstract class KVDdom_LogableDataMapper extends KVDdom_ChangeableDataMapper
     const SFVELDEN = "gebruiker_id, bewerkt_op, versie, gecontroleerd";
 
     /**
-     * De class die wordt gebruikt als gebruiker-class.
-     *
-     * Standaard wordt deze ingesteld op de naam van de KVDdom_Gebruiker interface. Dit moet dus voor elke applicatie aangepast worden.
-     */
-    const GEBRUIKERCLASS = "KVDdom_Gebruiker" 
-
-    /**
      * @return string SQL statement
      */
     abstract protected function getFindByLogIdStatement();

@@ -13,7 +13,7 @@
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
  * @since 1.0.0
  */
-abstract class KVDdom_ChangeableDomainObject implements CAI_DomainObject {
+abstract class KVDdom_ChangeableDomainObject implements KVDdom_DomainObject {
 
     /**
      * Een constante om aan te geven dat een bepaald veld nog geladen moet worden.

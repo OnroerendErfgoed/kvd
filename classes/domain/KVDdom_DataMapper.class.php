@@ -50,7 +50,7 @@ abstract class KVDdom_DataMapper {
     public function __construct( $sessie )
     {
         $this->_sessie = $sessie;
-        $this->_conn = $sessie->getConnection( get_class($this) )
+        $this->_conn = $sessie->getDatabaseConnection( get_class($this) );
     }
 
     /**

@@ -18,7 +18,7 @@ interface KVDdom_Gebruiker extends KVDdom_DomainObject {
 
     public function getWachtwoord();
 
-    public function setGebruikersNaam ( $gebruikerNaam );
+    public function setGebruikersNaam ( $gebruikersNaam );
 
     public function setWachtwoord ( $wachtwoord);
     

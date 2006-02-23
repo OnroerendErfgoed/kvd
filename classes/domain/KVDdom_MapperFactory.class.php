@@ -43,31 +43,25 @@ class KVDdom_MapperFactory
      */
     public function createMapper ( $teMappenClass )
     {
-        try {
-            $classMapper = $this->getClassMapper (  $teMappenClass );
+        $classMapper = $this->getClassMapper (  $teMappenClass );
             
-            foreach ( $this->mapperDirs as $mapperDir) {
+        foreach ( $this->mapperDirs as $mapperDir) {
+            if ( substr( $mapperDir , -1) != '/' ) {
+                $mapperDir .= '/';
+            }
                 
-                $classMapperFile = $mapperDir . $teMappenClass . '.class.php';
-                if ( file_exists( $classMapperFile ) ) {
-                    require_once( $classMapperFile )
-                }
+            $classMapperFile = $mapperDir . $classMapper . '.class.php';
+            if ( file_exists( $classMapperFile ) ) {
+                require_once( $classMapperFile );
             }
-            if (!file_exists($classMapperFile)) {
-                throw new Exception ("Bestand $classMapperFile bestaat niet" , 1);
-            }
-            require_once ($classMapperFile);
-            if (!class_exists($classMapper)) {
-                throw new Exception ("Class $classMapper bestaat niet" , 2);
-            }
-            return new $classMapper ($this->_sessie);
-        } catch (Exception $e) {
-            $message = "Er werd geen mapper voor class $teMappenClass gevonden.";
-            if ($e->getCode() == 1 || $e->getCode() == 2) {
-                $message .= " Reden: {$e->getMessage()}.";
-            }
-            throw new Exception ($message);
         }
+            
+        if (!class_exists($classMapper)) {
+            $message = "Er werd geen mapper voor class $teMappenClass gevonden. Class $classMapper werd niet gevonden. Doorzochte directories: \n";
+            $message .= implode( $this->mapperDirs , ",\n" );
+            throw new Exception ( $message  );
+        }
+        return new $classMapper ($this->_sessie);
     }
 
     /**
@@ -85,7 +79,7 @@ class KVDdom_MapperFactory
         $suffix = substr ( $teMappenClass , $underscorePos );
         $prefix = str_replace ( 'do', 'dm', $prefix);
 
-        $classMapper = $prefix + $suffix;
+        $classMapper = $prefix . $suffix;
 
         return $classMapper;
     }
