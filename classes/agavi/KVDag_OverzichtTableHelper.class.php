@@ -60,8 +60,8 @@ class KVDag_OverzichtTableHelper {
         $this->module = $moduleConfig['module'];
         // maak de basisurl aan voor navigatie door de records
         if (!is_array ( $moduleConfig['actionOverzicht'] ) ) {
-            $this->actionOverzicht =    array ( MO_MODULE_ACCESSOR => $this->module,
-                                                MO_ACTION_ACCESSOR => $moduleConfig['actionOverzicht']);
+            $this->actionOverzicht =    array ( AG_MODULE_ACCESSOR => $this->module,
+                                                AG_ACTION_ACCESSOR => $moduleConfig['actionOverzicht']);
         } else {
             $this->actionOverzicht = $moduleConfig['actionOverzicht'];
         }
