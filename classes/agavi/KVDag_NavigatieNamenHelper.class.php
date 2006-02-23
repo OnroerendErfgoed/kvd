@@ -77,8 +77,8 @@ class KVDag_NavigatieNamenHelper
     {
         foreach ($this->actions as $action) {
             if (!is_array ( $action['action'] ) ) {
-                $action['action'] =  array (  MO_MODULE_ACCESSOR => $this->module,
-                                              MO_ACTION_ACCESSOR => $action['action']);
+                $action['action'] =  array (  AG_MODULE_ACCESSOR => $this->module,
+                                              AG_ACTION_ACCESSOR => $action['action']);
             } 
             $parameters = $action['action'];
             if (isset($action['id'])) {
