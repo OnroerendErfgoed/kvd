@@ -12,7 +12,7 @@
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
  * @since 1.0.0
  */
-class KVDagavi_SingleRecordToHtml {
+class KVDag_SingleRecordToHtml {
 
     /**
      * @var WebController

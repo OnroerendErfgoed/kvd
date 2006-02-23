@@ -10,7 +10,7 @@
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
  * @since 1.0.0
  */
-class KVDagavi_PagedOverzichtTableHelper extends KVDagavi_OverzichtTableHelper {
+class KVDag_PagedOverzichtTableHelper extends KVDag_OverzichtTableHelper {
 
     /**
      * @var KVDdomain_ObjectCollectionPager
