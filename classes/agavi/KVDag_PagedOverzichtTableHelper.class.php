@@ -13,7 +13,7 @@
 class KVDag_PagedOverzichtTableHelper extends KVDag_OverzichtTableHelper {
 
     /**
-     * @var KVDdomain_ObjectCollectionPager
+     * @var KVDdom_DomainObjectCollectionPager
      */
     private $pager;
 
@@ -33,7 +33,7 @@ class KVDag_PagedOverzichtTableHelper extends KVDag_OverzichtTableHelper {
      * </code>
      * @param WebController $ctrl
      * @param array $moduleConfig
-     * @param KVDdomain_ObjectCollectionPager $pager
+     * @param KVDdom_DomainObjectCollectionPager $pager
      */
     public function __construct ( $ctrl , $moduleConfig , $pager )
     {

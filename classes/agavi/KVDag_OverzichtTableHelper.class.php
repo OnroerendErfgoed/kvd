@@ -92,10 +92,10 @@ class KVDag_OverzichtTableHelper {
     {
         // bouw het overzicht
         foreach ($rows as &$row) {
-            $parameters =   array ( MO_MODULE_ACCESSOR => $this->module,
+            $parameters =   array ( AG_MODULE_ACCESSOR => $this->module,
                                     'id' => $row[0]);
             foreach ($this->actionsPerRow as $action) {
-                $parameters[MO_ACTION_ACCESSOR] = $action['action'];
+                $parameters[AG_ACTION_ACCESSOR] = $action['action'];
                 $row[] = $this->_htmlLinkHelper->genHtmlLink($this->_controller->genURL(null, $parameters),$action['naam'],$action['titel']);
             }
         }
