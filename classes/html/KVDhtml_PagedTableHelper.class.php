@@ -22,7 +22,7 @@ class KVDhtml_PagedTableHelper extends KVDhtml_TableHelper {
      */
     public function __construct() {
         parent::__construct();
-        $this->_HtmlLinkHelper = New CAI_HtmlLinkHelper();
+        $this->_HtmlLinkHelper = New KVDhtml_LinkHelper();
     }
     
     /**
