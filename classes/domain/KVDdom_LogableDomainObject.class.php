@@ -32,7 +32,7 @@ abstract class KVDdom_LogableDomainObject extends KVDdom_ChangeableDomainObject
     {
         parent::__construct ($id , $sessie );
         if ($systemFields === null) {
-            $this->_systemFields = new KVDdom_SystemFields($this->_sessie->getGebruiker());
+            $this->_systemFields = new KVDdom_SystemFields($this->_sessie->getGebruiker()->getGebruikersNaam());
         } else {
             $this->_systemFields = $systemFields;
         }
