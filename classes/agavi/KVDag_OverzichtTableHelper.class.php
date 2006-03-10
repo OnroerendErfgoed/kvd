@@ -47,7 +47,8 @@ class KVDag_OverzichtTableHelper {
      *                          'actionOverzicht' => 'OrganisatieOverzicht',
      *                          'actionsPerRow' => array (  'action' => 'OrganisatieTonen',
      *                                                      'titel' => 'Deze organisatie tonen',
-     *                                                      'naam' => 'Toon')
+     *                                                      'naam' => 'Toon',
+     *                                                      'credential' => 'Raadpleger')
      *                        );
      * ?>                      
      * </code>
@@ -94,9 +95,11 @@ class KVDag_OverzichtTableHelper {
         foreach ($rows as &$row) {
             $parameters =   array ( AG_MODULE_ACCESSOR => $this->module,
                                     'id' => $row[0]);
-            foreach ($this->actionsPerRow as $action) {
-                $parameters[AG_ACTION_ACCESSOR] = $action['action'];
-                $row[] = $this->_htmlLinkHelper->genHtmlLink($this->_controller->genURL(null, $parameters),$action['naam'],$action['titel']);
+            foreach ($this->actionsPerRow as &$action) {
+                if ( $this->checkCredential( $action) ) {
+                    $parameters[AG_ACTION_ACCESSOR] = $action['action'];
+                    $row[] = $this->_htmlLinkHelper->genHtmlLink($this->_controller->genURL(null, $parameters),$action['naam'],$action['titel']);
+                }
             }
         }
         $this->_htmlTableHelper->setRows ( $rows );
@@ -114,6 +117,25 @@ class KVDag_OverzichtTableHelper {
         }
         return $this->_htmlTableHelper->toHtml();
     }
-
+    
+    /**
+     * @param array $action
+     * @return boolean True indien de actie getoond mag worden, anders false.
+     */
+    private function checkCredential(  &$action )
+    {
+        if (  !array_key_exists(  'credential', $action) ) {
+            return true;
+        } else {
+            if (  !(  $this->_controller->getContext(  )->getUser(  ) instanceof BasicSecurityUser) ) {
+                throw new Exception (  'U kunt enkel maar credentials toewijzen indien er met een BasicSecurityUser gewerkt wordt.');
+            }
+            if (  $this->_controller->getContext(  )->getUser(  )->hasCredential(  $action['credential'] ) ) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
 }
 ?>
