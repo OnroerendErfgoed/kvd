@@ -72,7 +72,7 @@ class KVDdom_LazyDomainObjectCollection extends KVDdom_DomainObjectCollection
     }
     
     /**
-     * @return KVDdom_DomainObject
+     * @return void
      */
     public function next()
     {
