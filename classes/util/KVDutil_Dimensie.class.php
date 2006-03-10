@@ -48,7 +48,8 @@ abstract class KVDutil_Dimensie
         if ( !isset (self::$_dimensieNamenEnAfkortingen) ) {
             self::$_dimensieNaamAfkorting = new KVDutil_DimensieNaamAfkorting();     
         }
-        $this->dimensie = self::$_dimensieConvertor->convertDimensie( $dimensie , $dimensieMaat , $this->getDimensieMaat() );
+        $doelDimensie = $this->getDimensieMaat( );
+        $this->dimensie = self::$_dimensieConvertor->convertDimensie( $dimensie , $dimensieMaat , $doelDimensie );
         $this->dimensieSoort = $dimensieSoort;
     }
 
