@@ -75,40 +75,78 @@ class KVDag_NavigatieNamenHelper
      */
     public function genHtmlLinks()
     {
-        foreach ($this->actions as $action) {
-            if (!is_array ( $action['action'] ) ) {
-                $action['action'] =  array (  AG_MODULE_ACCESSOR => $this->module,
-                                              AG_ACTION_ACCESSOR => $action['action']);
-            } 
-            $parameters = $action['action'];
-            if (isset($action['id'])) {
-                $parameters['id'] = $action['id'];
-            } else {
-                if (isset($parameters['id'])) {
-                    unset ($parameters['id']);
+        foreach ($this->actions as &$action) {
+            if ( $this->checkCredential( $action ) ) {
+                $parameters = $this->checkAction ( $action );
+                $this->checkReferer ( $action, $parameters);
+                $this->checkIdSet ( $action, $parameters);
+                $attribute = $this->checkAttribute ( $action );
+                if (!isset($action['noHtml'])) {
+                    $Links[$attribute] = $this->_htmlLink->genHtmlLink ( $this->_controller->genURL( null , $parameters),
+                                                                         $action['naam'],
+                                                                         $action['titel']);
+                } else {
+                    $Links[$attribute] = $this->_controller->genURL(null,$parameters);
                 }
             }
-            if (isset($action['refererKey']) && isset ( $action['referer'] ) ) {
-                $parameters[$action['refererKey']] = $action['referer'];    
-            }
-            if (isset($action['refererIdKey']) && isset ( $action['refererId'] ) ) {
-                $parameters[$action['refererIdKey']] = $action['refererId'];    
-            }
-            if (isset($action['attribute'])) {
-                $attribute = $action['attribute'];
-            } else {
-                $attribute = $action['action'];
-            }
-            if (!isset($action['noHtml'])) {
-                $Links[$attribute] = $this->_htmlLink->genHtmlLink ( $this->_controller->genURL( null , $parameters),
-                                                                     $action['naam'],
-                                                                     $action['titel']);
-            } else {
-                $Links[$attribute] = $this->_controller->genURL(null,$parameters);
-            }
-        }
+        }   
 
         return $Links;
+    }
+
+    private function checkAttribute ( &$action )
+    {
+        if (isset($action['attribute'])) {
+            return $action['attribute'];
+        } else {
+            return $action['action'];
+        }
+    }
+
+    private function checkAction ( &$action )
+    {
+        if (!is_array ( $action['action'] ) ) {
+            $action['action'] =  array (  AG_MODULE_ACCESSOR => $this->module,
+                                          AG_ACTION_ACCESSOR => $action['action']);
+        } 
+        return $action['action'];
+    }
+
+    private function checkReferer ( &$action, &$parameters )
+    {
+        if (isset($action['refererKey']) && isset ( $action['referer'] ) ) {
+            $parameters[$action['refererKey']] = $action['referer'];    
+        }
+        if (isset($action['refererIdKey']) && isset ( $action['refererId'] ) ) {
+            $parameters[$action['refererIdKey']] = $action['refererId'];    
+        }
+    }
+
+    private function checkIdSet ( &$action , &$parameters )
+    {
+        if (isset($action['id'])) {
+            $parameters['id'] = $action['id'];
+        } else {
+            if (isset($parameters['id'])) {
+                unset ($parameters['id']);
+            }
+        }
+    }
+
+    private function checkCredential(  &$action )
+    {
+        if (  !array_key_exists(  'credential', $action) ) {
+            return true;
+        } else {
+            if (  !(  $this->_controller->getContext(  )->getUser(  ) instanceof BasicSecurityUser) ) {
+                throw new Exception (  'U kunt enkel maar credentials toewijzen indien er met een BasicSecurityUser gewerkt wordt.');
+            }
+            if (  $this->_controller->getContext(  )->getUser(  )->hasCredential(  $action['credential'] ) ) {
+                return true;
+            } else {
+                return false;
+            }
+        }
     }
 }
 ?>
