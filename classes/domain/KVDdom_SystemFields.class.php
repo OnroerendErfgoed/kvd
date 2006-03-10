@@ -16,9 +16,9 @@
 class KVDdom_SystemFields {
     /**
      * De gebruiker die iets met het record gedaan heeft. Meestal is dit de invoerder.
-     * @var KVDdom_Gebruiker
+     * @var string Een gebruikersnaam zoals ze voorkomt in de databank.
      */
-    private $_gebruiker;
+    private $gebruikersNaam;
 
     /**
      * Een versienummer. Belangrijk voor de Concurrency Control. Implementatie van Optimistic Offline Concurrency (POEAA).
@@ -46,17 +46,17 @@ class KVDdom_SystemFields {
 
     /**
      * Maak het object aan. Enkel het gebruikersobject is verreist. De andere velden kunnen worden opgevuld met standaardwaarden.
-     * @param KVDdom_Gebruiker $gebruiker Object met gebruikerinfo.
-     * @param integer $versie 
-     * @param date $bewerktOp
-     * @param boolean $gecontroleerd
+     * @param string $gebruikers Naam van de gebruiker.
+     * @param integer $versie Huidige versie van het record.
+     * @param date $bewerktOp Wanneer werd deze versie van het record aangemaakt?
+     * @param boolean $gecontroleerd Werd het record al gecontroleerd?
      */ 
-    public function __construct ( $gebruiker, $currentRecord = true, $versie = 0, $bewerktOp = null, $gecontroleerd = false)
+    public function __construct ( $gebruikersNaam, $currentRecord = true, $versie = 0, $bewerktOp = null, $gecontroleerd = false)
     {
         if ($bewerktOp == null) {
             $bewerktOp = date('Y-m-d H:i:s', time());
         }
-        $this->_gebruiker = $gebruiker;
+        $this->gebruikersNaam = $gebruikersNaam;
         $this->currentRecord = $currentRecord;
         $this->versie = $versie;
         $this->bewerktOp = $bewerktOp;
@@ -66,12 +66,15 @@ class KVDdom_SystemFields {
     /**
      * Verhoog de versie-informatie in het object naar de volgende versie. 
      *
-     * @param KVDdom_Gebruiker $gebruiker Object met gebruikerinfo. Indien afwezig wordt de huidige gebruiker behouden.
+     * @param string $gebruikersNaam Naam van de gebruiker die de update uitvoerde. Indien afwezig wordt de huidige gebruiker behouden.
      */
-    public function updateSystemFields ($gebruiker = null)
+    public function updateSystemFields ($gebruikersNaam=null)
     {
-        if ($gebruiker != null) {
-            $this->_gebruiker = $gebruiker;
+        if ( $gebruikersNaam instanceof KVDdom_Gebruiker) {
+            throw new IllegalArgumentException ( 'Gebruikersnaam moet een string zijn!');
+        }
+        if ($gebruikersNaam != null) {
+            $this->gebruikersNaam = $gebruikersNaam;
         }
         $this->versie++;
         $this->bewerktOp = date('Y-m-d H:i:s', time());
@@ -80,19 +83,11 @@ class KVDdom_SystemFields {
     }
 
     /**
-     * @return integer Geef het id van de huidige gebruiker weer.
+     * @return string 
      */
-    public function getGebruikerId()
+    public function getGebruikersNaam()
     {
-        return $this->_gebruiker->getId();
-    }
-
-    /**
-     * @return KVDdom_Gebruiker 
-     */
-    public function getGebruiker()
-    {
-        return $this->_gebruiker;
+        return $this->gebruikersNaam;
     }
 
     /**
