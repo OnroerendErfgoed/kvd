@@ -13,13 +13,6 @@
 class KVDhtml_FormFieldCheckbox extends KVDhtml_FormField
 {
     
-    protected function toHtmlAttribValue()
-    {
-        if ($this->value != '' && $this->value == true) {
-            $this->value = " checked";
-        }
-    }
-    
     /**
      * @return string
      */
@@ -27,10 +20,10 @@ class KVDhtml_FormFieldCheckbox extends KVDhtml_FormField
     {
         $this->toHtmlAttribValue();
         $this->toHtmlAttribClass();
-        $this->toHtmlAttribReadonly();
         $this->toHtmlAttribDisabled();
+        $this->toHtmlAttribChecked( );
      
-        return sprintf($this->fieldFormat, 'checkbox', $this->name, $this->value, $this->class, $this->readonly, $this->disabled);
+        return sprintf($this->fieldFormat, 'checkbox', $this->name, $this->value, $this->class, '', $this->disabled, $this->checked);
     }
 }
 ?>
