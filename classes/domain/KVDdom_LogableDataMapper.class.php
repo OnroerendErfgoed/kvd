@@ -27,7 +27,7 @@ abstract class KVDdom_LogableDataMapper extends KVDdom_ChangeableDataMapper
     /**
      * De velden die nodig zijn voor het SystemFields object.
      */
-    const SFVELDEN = "gebruiker_id, bewerkt_op, versie, gecontroleerd";
+    const SFVELDEN = "gebruiker, bewerkt_op, versie, gecontroleerd";
 
     /**
      * @return string SQL statement
@@ -52,6 +52,16 @@ abstract class KVDdom_LogableDataMapper extends KVDdom_ChangeableDataMapper
     /**
      * @return string SQL statement
      */
+    abstract protected function getApproveRecordStatement( );
+
+    /**
+     * @return string SQL statement
+     */
+    abstract protected function getApproveLogRecordsStatement( );
+
+    /**
+     * @return string SQL statement
+     */
     protected function getLogOrderStatement()
     {
         return " ORDER BY versie DESC";    
@@ -69,14 +79,12 @@ abstract class KVDdom_LogableDataMapper extends KVDdom_ChangeableDataMapper
         if ($prefix !== null) {
             $prefix = $prefix . '_';
         }
-        $gebruikerMapper = $this->_sessie->getMapper (self::GEBRUIKERCLASS);
-        $gebruiker = $gebruikerMapper->findById ( $rs->getInt( $prefix . 'gebruiker_id' ) );
-        return new KVDdom_SystemFields (   $gebruiker,
-                                        $currentRecord,
-                                        $rs->getInt( $prefix . 'versie' ),
-                                        $rs->getTimeStamp( $prefix . 'bewerkt_op' ),
-                                        $rs->getBoolean( $prefix .'gecontroleerd' )
-                                    );
+        return new KVDdom_SystemFields (    $rs->getString ( $prefix . 'gebruiker'),
+                                            $currentRecord,
+                                            $rs->getInt ( $prefix . 'versie' ),
+                                            $rs->getTimeStamp ( $prefix . 'bewerkt_op' ),
+                                            $rs->getBoolean ( $prefix .'gecontroleerd' )
+                                        );
     }
      
     /**
@@ -89,7 +97,7 @@ abstract class KVDdom_LogableDataMapper extends KVDdom_ChangeableDataMapper
     public function doSetSystemFields($stmt, $domainObject, $firstParam)
     {
         $systemFields = $domainObject->getSystemFields();
-        $stmt->setInt($firstParam, $systemFields->getGebruikerId());
+        $stmt->setString($firstParam, $systemFields->getGebruikersNaam());
         $stmt->setTimeStamp($firstParam+1, $systemFields->getBewerktOp());
         $stmt->setInt($firstParam+2, $systemFields->getVersie());
         $stmt->setBoolean($firstParam+3, $systemFields->getGecontroleerd());
@@ -170,12 +178,7 @@ abstract class KVDdom_LogableDataMapper extends KVDdom_ChangeableDataMapper
     {
         $stmt = $this->_conn->prepareStatement ( $this->getLogFindAllStatement() );
         $stmt->setInt( 1 , $id );
-        $rs = $stmt->executeQuery();
-        $domainObjects = array();
-        while ($rs->next()) {
-            $domainObjects[] = $this->doLogLoad ( $rs->getInt('id') , $rs );
-        }
-        return new KVDdom_DomainObjectCollection ( $domainObjects );
+        return $this->executeLogFindMany ( $stmt );
     }
 
     /**
@@ -199,6 +202,45 @@ abstract class KVDdom_LogableDataMapper extends KVDdom_ChangeableDataMapper
      * @return KVDdom_DomainObject
      */
     abstract public function doLogLoad ( $id , $rs);
-}
 
+    /**
+     * Zoek alle records van deze datamapper die nog niet gecontroleerd zijn.
+     * @return KVDdom_DomainObjectCollection
+     */
+    protected function abstractFindTeRedacteren ( )
+    {
+        $stmt = $this->_conn->preparestatement ( $this->getFindTeRedacterenStatement() );
+        return $this->executeFindMany ( $stmt );
+    }
+
+    public function approveRecord ( $id )
+    {
+        $stmt = $this->_conn->preparestatement ( $this->getApproveRecordStatement( ) );
+        $stmt->setInt(1, $id );
+        try {
+            $stmt->executeUpdate( );
+        } catch (SQLException $e) {
+            throw new Exception ( 'Het record kan niet goedgekeurd worden omwille van een SQL probleem: ' . $e->getMessage( ) );
+        }
+        $stmt = $this->_conn->preparestatement (  $this->getApproveLogRecordsStatement( ) );
+        $stmt->setInt( 1, $id );
+        try {
+            $stmt->executeUpdate( );
+        } catch (SQLException $e) {
+            throw new Exception ( 'Het record kan niet goedgekeurd worden omwille van een SQL probleem: ' . $e->getMessage( ) );
+        }
+        
+    }
+
+    protected function executeLogFindMany( $stmt )
+    {
+        $rs = $stmt->executeQuery( );
+        $domainObjects =array ( );
+        while ( $rs->next( ) ) {
+            $logObject = $this->doLogLoad( $rs->getInt( 'id' ), $rs );
+            $domainObjects[] = $logObject;
+        }
+        return new KVDdom_DomainObjectCollection ( $domainObjects );
+    }
+}
 ?>
