@@ -38,9 +38,14 @@ abstract class KVDhtml_FormField
     protected $readonly;
 
     /**
+     * @var string
+     */
+    protected $checked;
+
+    /**
      * @var string 
      */
-    protected $fieldFormat = "<input type=\"%s\" name=\"%s\"%s%s%s%s/>\n";
+    protected $fieldFormat = "<input type=\"%s\" name=\"%s\"%s%s%s%s%s/>\n";
 
     /**
      * @param array $fieldOptions
@@ -64,6 +69,7 @@ abstract class KVDhtml_FormField
         $this->class = (isset($fieldOptions['class'])) ? $fieldOptions['class'] : '';
         $this->readonly = (isset($fieldOptions['readonly'])) ? $fieldOptions['readonly'] : '';
         $this->disabled = (isset($fieldOptions['disabled'])) ? $fieldOptions['disabled'] : '';
+        $this->checked = ( isset($fieldOptions['checked'])) ? $fieldOptions['checked'] : '';
     }
 
     protected function toHtmlAttribClass()
@@ -82,16 +88,23 @@ abstract class KVDhtml_FormField
 
     protected function toHtmlAttribReadonly()
     {
-        if ($this->readonly === TRUE) {
+        if ($this->readonly == TRUE) {
             $this->readonly = " readonly";
         } 
     }
 
     protected function toHtmlAttribDisabled()
     {
-        if ($this->disabled === TRUE) {
+        if ($this->disabled == TRUE) {
             $this->disabled = " disabled";
         } 
+    }
+
+    protected function toHtmlAttribChecked( )
+    {
+        if ( $this->checked == TRUE ) {
+            $this->checked = " checked";
+        }
     }
 
     abstract public function toHtml();
