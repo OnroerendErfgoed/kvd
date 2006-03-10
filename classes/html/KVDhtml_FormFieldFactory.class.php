@@ -40,6 +40,15 @@ class KVDhtml_FormFieldFactory
             case 'hidden':
                 $field = new KVDhtml_FormFieldHidden($fieldOptions);
                 break;
+            case 'submit':
+                $field = new KVDhtml_FormFieldSubmit( $fieldOptions );
+                break;
+            case 'reset':
+                $field = new KVDhtml_FormFieldReset( $fieldOptions );
+                break;
+            case 'radio':
+                $field = new KVDhtml_FormFieldRadio( $fieldOptions );
+                break;
         }
         return $field;
     }
