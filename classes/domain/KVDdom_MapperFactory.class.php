@@ -45,6 +45,20 @@ class KVDdom_MapperFactory
     {
         $classMapper = $this->getClassMapper (  $teMappenClass );
             
+        if ( !class_exists( $classMapper) ) {
+            $this->loadClassMapperFile (  $classMapper );
+        }
+
+        if (!class_exists($classMapper)) {
+            $message = "Er werd geen mapper voor class $teMappenClass gevonden. Class $classMapper werd niet gevonden. Doorzochte directories: \n";
+            $message .= implode( $this->mapperDirs , ",\n" );
+            throw new Exception ( $message  );
+        }
+        return new $classMapper ($this->_sessie);
+    }
+
+    private function loadClassMapperFile ( $classMapper )
+    {
         foreach ( $this->mapperDirs as $mapperDir) {
             if ( substr( $mapperDir , -1) != '/' ) {
                 $mapperDir .= '/';
@@ -55,13 +69,6 @@ class KVDdom_MapperFactory
                 require_once( $classMapperFile );
             }
         }
-            
-        if (!class_exists($classMapper)) {
-            $message = "Er werd geen mapper voor class $teMappenClass gevonden. Class $classMapper werd niet gevonden. Doorzochte directories: \n";
-            $message .= implode( $this->mapperDirs , ",\n" );
-            throw new Exception ( $message  );
-        }
-        return new $classMapper ($this->_sessie);
     }
 
     /**
