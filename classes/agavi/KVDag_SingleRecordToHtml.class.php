@@ -18,6 +18,7 @@ class KVDag_SingleRecordToHtml {
      * @var WebController
      */
     protected $_controller;
+
     /**
      * @var KVDhtml_LinkHelper
      */
@@ -62,16 +63,34 @@ class KVDag_SingleRecordToHtml {
         foreach ($rows as &$row) {
             if ( is_array ($row) && array_key_exists ( 'actions' , $row) ) {
                 foreach ($row['actions'] as &$action) {
-                    $parameters = $action['action'];
-                    $row[] = $this->_htmlLinkHelper->genHtmlLink (  $this->_controller->genURL(null, $parameters),
-                                                                    $action['naam'],
-                                                                    $action['titel']);
+                    if ( $this->checkCredential( $action) ) {
+                        $parameters = $action['action'];
+                        $row[] = $this->_htmlLinkHelper->genHtmlLink (  $this->_controller->genURL(null, $parameters),
+                                                                        $action['naam'],
+                                                                        $action['titel']);
+                    }
                 }
                 unset ($row['actions']);
             }
             
         }
         $this->_htmlTableHelper->setRows ( $rows );
+    }
+
+    private function checkCredential( &$action )
+    {
+        if ( !array_key_exists( 'credential', $action) ) {
+            return true;
+        } else {
+            if ( !( $this->_controller->getContext( )->getUser( ) instanceof BasicSecurityUser) ) {
+                throw new Exception ( 'U kunt enkel maar credentials toewijzen indien er met een BasicSecurityUser gewerkt wordt.');
+            }
+            if ( $this->_controller->getContext( )->getUser( )->hasCredential( $action['credential'] ) ) {
+                return true;
+            } else {
+                return false;
+            }
+        }
     }
 
     /**
@@ -92,12 +111,14 @@ class KVDag_SingleRecordToHtml {
      *                                                                                                      'action'    => 'AdresTonen',
      *                                                                                                      'id'        => 245),
      *                                                                                 'naam' => 'Tonen',
-     *                                                                                 'titel' => 'Het adres van deze persoon tonen'),
+     *                                                                                 'titel' => 'Het adres van deze persoon tonen',
+     *                                                                                 'credential' => 'Raadpleger'),
      *                                                                  1 => array (    'action' => array ( 'module'    => 'Gebruiker',
      *                                                                                                      'action'    => 'AdresBewerken',
      *                                                                                                      'id'        => 245),
      *                                                                                  'naam'  =>  'Bewerken',
-     *                                                                                  'titel' =>  'Het adres bewerken.')
+     *                                                                                  'titel' =>  'Het adres bewerken.',
+     *                                                                                  'credential' => 'Invoerder')
      *                                                                )
      *                                           )
      *                          )
@@ -106,7 +127,7 @@ class KVDag_SingleRecordToHtml {
      */
     public function genRows ( $recordConfig )
     {
-       $this->_htmlTableHelper->setHeaders ( array_keys ( $recordConfig) );
+       $this->setHeaders ( array_keys ( $recordConfig) );
        $this->setRows ( array_values ( $recordConfig) );
     }
 
@@ -116,7 +137,7 @@ class KVDag_SingleRecordToHtml {
      */
     public function setSystemFields ( $systemFields = null )
     {
-        $recordUpdater = $systemFields->getGebruiker()->getOmschrijving();
+        $recordUpdater = $systemFields->getGebruikersNaam( );
         $recordUpdateDatum = $systemFields->getBewerktOp();
         $recordVersie = $systemFields->getVersie();
         $recordGecontroleerd = $systemFields->getGecontroleerd() ? '' : 'Nog niet gecontroleerd';
