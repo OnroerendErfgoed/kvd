@@ -18,7 +18,7 @@ class KVDdom_DomainObjectCollection implements SeekableIterator
     /**
      * @var array De KVDdom_DomainObjects
      */
-    protected $collection = array();
+    protected $collection;
 
     /**
      * @param array $collection
@@ -61,7 +61,7 @@ class KVDdom_DomainObjectCollection implements SeekableIterator
      */
     public function next()
     {
-        return next ( $this->collection );
+        next ( $this->collection );
     }
 
     public function rewind()
@@ -75,14 +75,15 @@ class KVDdom_DomainObjectCollection implements SeekableIterator
      */
     public function seek ($index)
     {
-        if ( $index < 0 || $index >= $this->getTotalRecordCount() - 1) {
-            throw new Exception('Invalid seek position');    
+        if ( $index < 0 || $index >= $this->getTotalRecordCount() ) {
+            $index = 0; 
         }
         $this->rewind();
-        while ( $index > $this->key() ) {
-            next ( $this->collection );    
+        $position = 0;
+        while ( $position < $index && $this->valid( ) ) {
+            $this->next( );
+            $position++;
         }
-        return $this->current();
     }
 
     /**
@@ -90,7 +91,11 @@ class KVDdom_DomainObjectCollection implements SeekableIterator
      */
     public function valid()
     {
-        return $this->current() !== false;
+        if ( is_null( key( $this->collection)) ) {
+            return false;
+        } else {
+            return true;
+        }
     }
     
 }
