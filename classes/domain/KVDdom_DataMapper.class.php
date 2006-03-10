@@ -51,6 +51,7 @@ abstract class KVDdom_DataMapper {
     {
         $this->_sessie = $sessie;
         $this->_conn = $sessie->getDatabaseConnection( get_class($this) );
+        $this->_conn->executeQuery( 'SET CLIENT_ENCODING TO LATIN1' );
     }
 
     /**
@@ -97,7 +98,7 @@ abstract class KVDdom_DataMapper {
     protected function abstractFindAll ()
     {
         $stmt = $this->_conn->prepareStatement ( $this->getFindAllStatement() );
-        return new KVDdom_LazyDomainObjectCollection ( new KVDdom_ChunkyQuery ( $stmt , $this ) );     
+        return $this->executeLazyFindMany( $stmt );
     }
 
     abstract public function findAll ();
@@ -110,6 +111,30 @@ abstract class KVDdom_DataMapper {
      * @return KVDdom_DomainObject Het geladen DomainObject.
      */
     abstract public function doLoad( $id , $rs );
+
+    /**
+     * Voor een query uit en geef de resultaten terug als een collectie van domainobjects.
+     * @param $stmt Statement
+     * @return KVDdom_DomainObjectCollection
+     */
+    protected function executeFindMany ( $stmt )
+    {
+        $rs = $stmt->executeQuery( );
+        $domainObjects = array ( );
+        while ( $rs->next( ) ) {
+            $domainObjects[] = $this->doLoad ( $rs->getInt( 'id' ) , $rs );
+        }
+        return new KVDdom_DomainObjectCollection ( $domainObjects );
+    }
+    /**
+     * Voor een query uit en geef de resultaten terug als een luie collectie van domainobjects.
+     * @param $stmt Statement
+     * @return KVDdom_LazyDomainObjectCollection
+     */
+    protected function executeLazyFindMany ( $stmt )
+    {
+        return new KVDdom_LazyDomainObjectCollection ( new KVDdom_ChunkyQuery( $stmt , $this ) );
+    }
     
 }
 
