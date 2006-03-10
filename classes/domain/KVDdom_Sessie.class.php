@@ -124,7 +124,7 @@ class KVDdom_Sessie {
     public function getGebruiker()
     {
         if ( $this->_gebruiker === null ) {
-            $gebruikerMapper = $this->_mapperRegistry->getMapper ( $this->gebruikerClass );
+            $gebruikerMapper = $this->getGebruikerMapper();
             $this->_gebruiker = $gebruikerMapper->findById ( $this->gebruikerId );
         }
         return $this->_gebruiker;
@@ -153,6 +153,15 @@ class KVDdom_Sessie {
             throw new Exception ( 'Geen DomainObject of geen naam van een DomainObject.' );
         }
         return $this->_mapperRegistry->getMapper( $teMappenClass );
+    }
+
+    /**
+     * @return KVDdom_Datamapper Datamapper voor het DomainObject dat als gebruikersobject telt.
+     * @throws <b>Exception</b> - Indien de mapper voor het gebruikersobject niet gevonden wordt.
+     */
+    public function getGebruikerMapper ( )
+    {
+        return $this->getMapper( $this->gebruikerClass );
     }
         
 
