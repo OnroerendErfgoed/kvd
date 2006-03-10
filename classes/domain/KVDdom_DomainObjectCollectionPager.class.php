@@ -43,6 +43,9 @@ class KVDdom_DomainObjectCollectionPager
      */
     public function __construct ( $collection , $page = 1 , $rowsPerPage = 25)
     {
+        if ( $collection == null) {
+            $collection = new KVDdom_DomainObjectCollection( array( ) );
+        }
         $this->_collection = $collection;
         $this->page = $page;
         $this->rowsPerPage = $rowsPerPage;
