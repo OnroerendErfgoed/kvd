@@ -16,18 +16,41 @@ class KVDhtml_FormHelper {
      * @var KVDhtml_FormFieldFactory
      */
     protected $_formFieldFactory;
+    
     /**
      * @var KVDhtml_TableHelper
      */
     protected $_tableHelper;
 
-    public function __construct ()
+    /**
+     * @var string
+     */
+    private $formMethod;
+
+    /**
+     * @var string
+     */
+    private $formAction;
+
+    /**
+     * @param string $formAction Url naar waar de form moet gepost worden.
+     * @param string $formMethod Methode die de form moet gebruiken.
+     */
+    public function __construct ($formAction,$formMethod='POST')
     {
         $this->_tableHelper = New KVDhtml_TableHelper();
         
         $this->_formFieldFactory = New KVDhtml_FormFieldFactory();
 
         $this->_tableHelper->setLijst(false);
+
+        $this->formAction = $formAction;
+
+        if  ( !( $formMethod == 'POST' OR $formMethod == 'GET')) {
+            throw new IllegalArgumentException ( __CLASS__ . ':formMethod moet GET of POST zijn.');
+        }
+
+        $this->formMethod = $formMethod;
     }
 
     /**
@@ -56,11 +79,14 @@ class KVDhtml_FormHelper {
     public function genRows ( $fieldOptions )
     {
         $hiddenfields = array();
+        $footerfields = array( );
         $rows = array();
         $headers = array();
         foreach ( $fieldOptions as $header => $fieldOption ) {
             if ( isset ( $fieldOption['type'] ) && $fieldOption['type'] == 'hidden' ) {
                 $hiddenfields[] = $this->_formFieldFactory->getFormField ( $fieldOption )->toHtml();
+            } elseif ( isset ( $fieldOption['location'] ) && $fieldOption['location'] == 'footer'){
+                $footerfields[] = $this->_formFieldFactory->getFormField ( $fieldOption )->toHtml( );
             } else {
                 $rows[] = $this->_formFieldFactory->getFormField ( $fieldOption )->toHtml();
                 $headers[] = $header;
@@ -68,7 +94,19 @@ class KVDhtml_FormHelper {
         }
         $this->setHeaders ( $headers );
         $this->setRows ( $rows );
-        $this->_tableHelper->setFooter( implode ( "\n" , $hiddenfields) );
+        $footer = implode ( "\n" , $hiddenfields );
+        $footer .= implode (  "\n" , $footerfields );
+        $this->_tableHelper->setFooter( $footer );
+    }
+
+    private function toHtmlFormHeader( )
+    {
+        return '<form method="' . $this->formMethod . '" action="' . $this->formAction . '">' . "\n";
+    }
+
+    private function toHtmlFormFooter( )
+    {
+        return "</form>\n";
     }
 
     /**
@@ -78,10 +116,13 @@ class KVDhtml_FormHelper {
      */
     public function toHtml ( $cssClasses = null )
     {
+        $html = $this->toHtmlFormHeader( );
         if (!is_null($cssClasses)) {
             $this->_tableHelper->setCssClasses($cssClasses);
         }
-        return $this->_tableHelper->toHtml();
+        $html .= $this->_tableHelper->toHtml();
+        $html .= $this->toHtmlFormFooter( );
+        return $html;
     }
 }
 ?>
