@@ -20,7 +20,7 @@ class KVDdom_DomainObjectNotFoundException extends Exception
     private $type;
 
     /**
-     * @var integer
+     * @var mixed
      */
     private $id;
     
@@ -39,7 +39,7 @@ class KVDdom_DomainObjectNotFoundException extends Exception
     
     private function generateMessage ()
     {
-        $this->message .= " [DONotFound Error: Het record van het type {$this->getType()} met nummer {$this->getId()}dat u probeert te openen kon niet gevonden worden.]";    
+        $this->message .= " [DONotFound Error: Het record van het type {$this->getType()} met sleutel {$this->getId()}dat u probeert te openen kon niet gevonden worden.]";    
     }
 
      /**
@@ -52,8 +52,8 @@ class KVDdom_DomainObjectNotFoundException extends Exception
      }
 
      /**
-      * De id van het object dat niet gevonden kon worden.
-      * @return integer
+      * De sleutel van het object dat niet gevonden kon worden. Meestal is dit een integer.
+      * @return mixed
       */
      public function getId()
      {
