@@ -18,6 +18,12 @@
 abstract class KVDdom_ValueDomainObject implements KVDdom_DomainObject
 {
     /**
+     * Constante om aan te geven dat bepaalde waarden pas later geladen moeten worden.
+     * @var string
+     */
+    const PLACEHOLDER = "TE LADEN";
+    
+    /**
      * Id nummer van het domainObject
      * @var integer
      */
