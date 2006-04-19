@@ -30,11 +30,19 @@ abstract class KVDdom_ValueDomainObject implements KVDdom_DomainObject
     protected $id;
 
     /**
-     * @param $id Id nummer van het object.
+     * Sessie object om aan mappers te kunnen.
+     * @var KVDdom_Sessie
      */
-    public function __construct ( $id )
+    protected $_sessie;
+
+    /**
+     * @param integer $id Id nummer van het object.
+     * @param KVDdom_Sessie $sessie Het sessie object. Is optioneel omdat vele ValueDomainObjecten nooit een sessie gaan nodig hebben.
+     */
+    public function __construct ( $id , $sessie = null)
     {
         $this->id = $id;
+        $this->_sessie = $sessie;
     }
 
     /**
