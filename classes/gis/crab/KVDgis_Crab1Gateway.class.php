@@ -306,7 +306,7 @@ class KVDgis_Crab1Gateway
      *
      * @param int straatnaamId      
      * @param int sorteerVeld      
-     * @return assocArray
+     * @return array Een array met de sleutels huisnummer en huisnummerId.
      * @access public
      */
     public function listHuisnummersByStraatnaamId( $straatnaamId,  $sorteerVeld ) {
@@ -375,7 +375,7 @@ class KVDgis_Crab1Gateway
     /**
      *
      * @param integer huisnummerId
-     * @return array
+     * @return array Een array met de sleutels huisnummer, huisnummerId en straatnaamId.
      * @access public
      * @throws RuntimeException Indien het huisnummer niet geladen kon worden.
      */
@@ -392,7 +392,7 @@ class KVDgis_Crab1Gateway
      *
      * @param string huisnummer
      * @param integer straatnaamId
-     * @return array
+     * @return array Een array met de sleutels huisnummer, huisnummerId en straatnaamId.
      * @access public
      * @throws RuntimeException Indien het huisnummer niet geladen kon worden.
      */
@@ -403,6 +403,26 @@ class KVDgis_Crab1Gateway
         } catch ( UnexpectedValueException $e ) {
             throw new RuntimeException ( "Kon het huisnummer met huisnummer $huisnummer in de straat $straatnaamId niet laden. Controleer of deze wel bestaat.");
         }
+    }
+
+    /**
+     * @param integer $huisnummerId
+     * @return array Een array met maar 1 sleutel, nl. postkantonCode.
+     * @throws RuntimeException Indien het postkanton niet geladen kon worden.
+     */
+    public function getPostkantonByHuisnummerId ( $huisnummerId )
+    {
+        $params = new stdClass( );
+        $params->huisnrid = ( int ) $huisnummerId;
+        $paramsWrapper = new SoapParam ( $params , "CRABgethuisnummerpostcode");
+        $result = $this->_client->CRABgethuisnummerpostcode( $paramsWrapper );
+
+        $xmlObject = @simplexml_load_string( $result->CRAB_huisnummerpostcodeResult->any );
+        if ( !( $xmlObject instanceof SimpleXMLElement ) ) {
+            throw new RuntimeException ( "Kon het postkanton van het huisnummer met huisnummerId $huisnummerId niet laden. Controleer of deze wel bestaat.");
+        }
+        $postcode = array ( 'postkantonCode' => $xmlObject->CRAB_huisnummerpositie->huisnummerpositie );
+        return $postcode;
     }
 
     /**
