@@ -1,0 +1,7 @@
+SET NAMES 'LATIN1';
+
+-- Gebruikers-permissies
+GRANT USAGE ON SCHEMA kvd_adr TO PUBLIC;
+
+GRANT SELECT ON kvd_adr.provincie TO PUBLIC;
+GRANT SELECT, UPDATE, DELETE, INSERT ON kvd_adr.provincie TO kvd;
