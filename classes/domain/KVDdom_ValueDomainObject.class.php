@@ -1,6 +1,7 @@
 <?php
 /**
- * DomainObject voor KeuzeLijsten en andere Read-only objecten.
+ * DomainObject voor KeuzeLijsten en andere simpele objecten.
+ *
  * @package KVD.dom
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
  * @version $Id: KVDdom_ValueDomainObject.class.php,v 1.1 2006/01/12 14:46:03 Koen Exp $
@@ -9,7 +10,11 @@
 /**
  * DomainObject voor o.a. KeuzeLijsten.
  *
- * Een class die door alle value domein-objecten van een applicatie geërfd wordt. Meestal zijn dit de waarden die in de keuzelijsten zitten. DataMappers voor deze objecten zouden in DataMappers van de objecten die verwijzen naar de keuzelijst moeten zitten, tenzij het om een keuzelijst gaat die door veel verschillende tabellen geraadpleegd wordt. Dan wordt er een aparte DM aangemaakt.
+ * Een class die door alle value domein-objecten van een applicatie geerfd wordt. 
+ * Meestal zijn dit de waarden die in de keuzelijsten zitten. 
+ * DataMappers voor deze objecten zouden in DataMappers van de objecten die verwijzen naar de keuzelijst moeten zitten, 
+ * tenzij het om een keuzelijst gaat die door veel verschillende tabellen geraadpleegd wordt. Dan wordt er een aparte DM aangemaakt.
+ * Ingewikkelde keuzelijsten die ook nog veel andere data bevatten gebruiken best de KVDdom_ReadonlyDomainObject class als superclass.
  * @package KVD.dom
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
  * @since 1.0.0
@@ -17,12 +22,6 @@
 
 abstract class KVDdom_ValueDomainObject implements KVDdom_DomainObject
 {
-    /**
-     * Constante om aan te geven dat bepaalde waarden pas later geladen moeten worden.
-     * @var string
-     */
-    const PLACEHOLDER = "TE LADEN";
-    
     /**
      * Id nummer van het domainObject
      * @var integer
@@ -37,12 +36,10 @@ abstract class KVDdom_ValueDomainObject implements KVDdom_DomainObject
 
     /**
      * @param integer $id Id nummer van het object.
-     * @param KVDdom_Sessie $sessie Het sessie object. Is optioneel omdat vele ValueDomainObjecten nooit een sessie gaan nodig hebben.
      */
-    public function __construct ( $id , $sessie = null)
+    public function __construct ( $id )
     {
         $this->id = $id;
-        $this->_sessie = $sessie;
     }
 
     /**
