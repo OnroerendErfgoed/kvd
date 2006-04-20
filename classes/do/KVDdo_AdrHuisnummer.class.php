@@ -10,7 +10,7 @@
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
  * @since 1.0.0
  */
-class KVDdo_AdrHuisnummer extends KVDdom_ValueDomainObject {
+class KVDdo_AdrHuisnummer extends KVDdom_ReadonlyDomainObject {
     
     /**
      * @var string

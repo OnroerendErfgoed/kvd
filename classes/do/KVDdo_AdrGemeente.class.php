@@ -10,7 +10,7 @@
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
  * @since 1.0.0
  */
-class KVDdo_AdrGemeente extends KVDdom_ValueDomainObject {
+class KVDdo_AdrGemeente extends KVDdom_ReadonlyDomainObject {
     
     /**
      * Het id dat voor de crab-webservice gebruikt wordt.
