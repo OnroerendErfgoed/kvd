@@ -2,7 +2,7 @@
 /**
  * @package KVD.dom
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @version $Id: KVDdom_LazyDomainObjectCollection.class.php,v 1.1 2006/01/12 14:46:02 Koen Exp $
+ * @version $Id$
  */
 
 /**

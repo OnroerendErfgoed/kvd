@@ -2,7 +2,7 @@
 /**
  * @package KVD.dom
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @version $Id: KVDdom_DataMapper.class.php,v 1.2 2006/01/13 13:45:24 Koen Exp $
+ * @version $Id$
  */
 
 /**

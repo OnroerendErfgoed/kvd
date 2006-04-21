@@ -2,7 +2,7 @@
 /**
  * @package KVD.dom
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @version $Id: KVDdom_Sessie.class.php,v 1.2 2006/01/13 13:44:15 Koen Exp $
+ * @version $Id$
  */
 
 /**

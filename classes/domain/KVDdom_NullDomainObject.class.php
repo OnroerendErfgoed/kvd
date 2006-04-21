@@ -2,7 +2,7 @@
 /**
  * @package KVD.dom
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @version $Id: KVDdom_NullDomainObject.class.php,v 1.1 2006/01/12 14:46:48 Koen Exp $
+ * @version $Id$
  */
 
 /**
