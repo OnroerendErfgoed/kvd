@@ -40,7 +40,7 @@ class KVDdom_MapperRegistry {
      * @param KVDdom_DataMapper $domainObjectMapper
      * @return void
      */ 
-    protected function setMapper ( $key , $domainObjectMapper )
+    private function setMapper ( $key , $domainObjectMapper )
     {
         $this->mappers[$key] = $domainObjectMapper;
     }
