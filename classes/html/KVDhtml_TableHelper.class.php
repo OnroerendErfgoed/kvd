@@ -33,10 +33,16 @@ class KVDhtml_TableHelper {
     private $footer;
     
     /**
-     * Het caption element van de tabel
+     * Het caption element van de tabel. Dit is een apart html element dat buiten de tabel zelf staat.
      * @var string
      */
     private $caption;
+
+    /**
+     * De titel van de tabel.
+     * @var string
+     */
+    private $title = null;
     
     /**
      * Het summary element van de tabel
@@ -129,6 +135,15 @@ class KVDhtml_TableHelper {
     public function setCaption($caption)
     {
         $this->caption = $caption;
+    }
+
+    /**
+     * Voeg dit toe als een titel aan de tabel ( komt neer op een rij in Thead die de breedte van de volledig tabel omvat en een aparte css kan hebben).
+     * @param string $title
+     */
+    public function setTableTitle($title)
+    {
+        $this->title = $title;
     }
 
     /**
@@ -226,7 +241,7 @@ class KVDhtml_TableHelper {
      * Stel waarden in voor css classes.
      *
      * De parameter is een array met een sleutel voor elk element waaraan een css-class gekoppeld kan worden.
-     * Toegestane waarden zijn Table, THead, TBody, TFoot, TH, TD.
+     * Toegestane waarden zijn Table, THead, TBody, TFoot, TH, TD, TTitel.
      * @param array $classes
      */
     public function setCssClasses(&$classes) {
@@ -239,7 +254,7 @@ class KVDhtml_TableHelper {
      * Stel de mogelijk css classes in.
      */
     private function initClasses() {
-        $this->cssClasses = array ('Table' => '', 'THead' => '', 'TBody' => '', 'TFoot' => '', 'TH' => '', 'TD' => '');
+        $this->cssClasses = array ('Table' => '', 'THead' => '', 'TBody' => '', 'TFoot' => '', 'TH' => '', 'TD' => '', 'TTitel' => '');
     }
 
     /**
@@ -289,8 +304,11 @@ class KVDhtml_TableHelper {
         if (isset($this->caption)) {
             $header .= " <caption>{$this->caption}</caption>\n";
         }
-        if (isset($this->headers) && $this->lijst) {
+        if (isset( $this->title ) || ( isset($this->headers) && $this->lijst)) {
             $header .= " <thead {$this->cssClasses['THead']}>\n";
+            if ( isset( $this->title) ) {
+                $header .="  <tr {$this->cssClasses['TTitel']} colspan=\"{$this->numCols}\">{$this->title}</th>\n";
+            }
             $header .= "  <tr>\n";
             foreach ($this->headers as $colheader) {
                 $header .= "   <th {$this->cssClasses['TH']} scope=\"col\">$colheader</th>\n";
