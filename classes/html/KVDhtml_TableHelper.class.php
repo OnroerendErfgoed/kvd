@@ -306,12 +306,15 @@ class KVDhtml_TableHelper {
         }
         if (isset( $this->title ) || ( isset($this->headers) && $this->lijst)) {
             $header .= " <thead {$this->cssClasses['THead']}>\n";
-            if ( isset( $this->title) ) {
-                $header .="  <tr {$this->cssClasses['TTitel']} colspan=\"{$this->numCols}\">{$this->title}</th>\n";
+            if ( isset( $this->title ) ) {
+                $colspan = $this->lijst ? $this->numCols : $this->numCols + 1;
+                $header .="  <tr>\n   <th {$this->cssClasses['TTitel']} colspan=\"$colspan\">{$this->title}</th>\n  </tr>";
             }
             $header .= "  <tr>\n";
-            foreach ($this->headers as $colheader) {
-                $header .= "   <th {$this->cssClasses['TH']} scope=\"col\">$colheader</th>\n";
+            if ( $this->lijst ) {
+                foreach ($this->headers as $colheader) {
+                    $header .= "   <th {$this->cssClasses['TH']} scope=\"col\">$colheader</th>\n";
+                }
             }
             $header .= "  </tr>\n </thead>\n";
         }
