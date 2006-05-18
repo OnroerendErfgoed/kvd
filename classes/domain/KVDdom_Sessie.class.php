@@ -59,7 +59,12 @@ class KVDdom_Sessie {
     /**
      * @var DatabaseManager
      */
-    private $_databaseManager; 
+    private $_databaseManager;
+
+    /**
+     * @var KVDutil_GatewayRegistry
+     */
+    private $_gatewayRegistry;
 
     /**
      * Maak een nieuwe KVDdom_Sessie aan.
@@ -70,18 +75,29 @@ class KVDdom_Sessie {
      *      - 'commitVolgorde' Een array waaruit kan afgeleid worden in welke volgorde DomainObjects naar de databank geschreven moeten worden.
      *      - 'dataMappersConnections' Een array met namen van DataMappers als key en de naam van een connectie als value. Alle DataMappers die niet in deze array voorkomen zullen met de default connectie werken.
      *      - 'gebruikerClass' Naam van de class die gebruikt moet worden voor gebruiker-objecten.
+     *      - 'gatewayFactoryConfig'    Configuratie-instellingen voor de gatewayFactory. Zie {@link KVDutil_GatewayFactory} voor meer info. 
+     *                                  Indien dit weggelaten wordt dan wordt er geen gatewayRegistry aangelegd.
      * Voorbeeld:
      * <code>
-     *      $config = array (   'dataMapperDirs'     => array (  '/opt/datamappers/',
-     *                                                          '/usr/datamappers/'),
-     *                          'commitVolgorde'    => array (  1 => 'Adres',
-     *                                                          2 => 'Persoon',
-     *                                                          3 => 'Organisatie',
-     *                                                          4 => 'PersoonNaarOrganisatie',
-     *                                                          5 => 'Vondstmelding'),
-     *                          'dataMappersConnections'    => array (  'Vondstmelding' => 'CAI'),
-     *                          'gebruikerClass'            => 'OEIdo_GebGebruiker'
-     *                          );
+     * $config = array (
+     *              'dataMapperDirs'     => array ( '/opt/datamappers/',
+     *                                              '/usr/datamappers/'),
+     *              'commitVolgorde'    => array (  1 => 'Adres',
+     *                                              2 => 'Persoon',
+     *                                              3 => 'Organisatie',
+     *                                              4 => 'PersoonNaarOrganisatie',
+     *                                              5 => 'Vondstmelding'),
+     *              'dataMappersConnections'    => array (  'Vondstmelding' => 'CAI'),
+     *              'gebruikerClass'            => 'OEIdo_GebGebruiker',
+     *              'gatewayFactoryConfig'      => array ( 
+     *                                              'KVDgis_Crab1Gateway' => array ( 'wsdl' => 'http://webservices.gisvlaanderen.be/wsdl',
+     *                                                                               'username' => 'testUser',
+     *                                                                               'password' => 'testpassword'),
+     *                                              'KVDgis_Crab2Gateway' => array ( 'wsdl' => 'http://test.gisvlaanderen.be/wsdl',
+     *                                                                               'username' => 'testUser',
+     *                                                                               'password' => 'testPassword')
+     *                                              )
+     *                 );
      *      $dbm = new DatabaseManager ();                    
      *      $sessie = new KVDdom_Sessie ( 25 , $dbm, $config);                    
      * </code>
@@ -107,10 +123,16 @@ class KVDdom_Sessie {
 
         $this->_databaseManager = $databaseManager;
 
+        if ( !array_key_exists( 'gatewayFactoryConfig', $config)) {
+            $this->_gatewayRegistry = null;
+        } else {
+            $factory = new KVDutil_GatewayFactory ( $config['gatewayFactoryConfig'] );
+            $this->_gatewayRegistry = new KVDutil_GatewayRegistry ( $factory );
+        }
+        
         if (!array_key_exists('dataMappersConnections',$config)) {
             $config['dataMappersConnections'] = array();    
         }
-        
         $this->initializeCommitVolgorde( $config['commitVolgorde'] );
         $this->initializeDataMappersConnections ( $config['dataMappersConnections']);
     }
@@ -353,6 +375,19 @@ class KVDdom_Sessie {
     private function initializeDataMappersConnections ( $dataMappersConnections )
     {
         $this->dataMappersConnections = $dataMappersConnections;
+    }
+    
+    /**
+     * @param string $gateway Naam van de gevraagde gateway.
+     * @return KVDutil_Gateway Een gateway naar een externe service.
+     * @throws <b>LogicException</b> - Indien er geen gatewayRegistry aanwezig is.
+     */
+    public function getGateway ( $gateway )
+    {
+        if ( $this->gatewayRegistry == null ) {
+            throw new LogicException ( 'Er is geen gatewayRegistry beschikbaar, dus kan deze actie niet uitgevoerd worden. Controleer de configuratie.');
+        }
+        return $this->gatewayRegistry->getGateway( $gateway );
     }
 }
 ?>
