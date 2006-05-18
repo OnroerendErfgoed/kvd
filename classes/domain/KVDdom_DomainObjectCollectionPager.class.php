@@ -47,8 +47,8 @@ class KVDdom_DomainObjectCollectionPager
             $collection = new KVDdom_DomainObjectCollection( array( ) );
         }
         $this->_collection = $collection;
-        $this->page = $page;
         $this->rowsPerPage = $rowsPerPage;
+        $this->setPage( $page );
     }
     /**
      * @return integer
@@ -71,7 +71,7 @@ class KVDdom_DomainObjectCollectionPager
      */
     public function getPrev()
     {
-        if ( $this->getPage() != $this->getFirstPage() ) {
+        if ( $this->getPage() > $this->getFirstPage() ) {
 				$prev = $this->getPage() - 1;
 		} else {
 				$prev = false;
@@ -84,7 +84,7 @@ class KVDdom_DomainObjectCollectionPager
      */
     public function getNext()
     {
-        if ( $this->getPage() != $this->getLastPage() ) {
+        if ( $this->getPage() < $this->getLastPage() ) {
 				$next = $this->getPage() + 1;
 		} else {
 				$next = false;
@@ -181,6 +181,21 @@ class KVDdom_DomainObjectCollectionPager
     public function getResult()
     {
         return new LimitIterator ( $this->_collection , $this->calculateStart() , $this->rowsPerPage );    
+    }
+
+    /**
+     * @param integer $page
+     */
+    private function setPage( $page )
+    {
+        $page = ( int ) $page;
+        if ( $page < $this->getFirstPage( ) ) {
+            $page = $this->getFirstPage( );
+        }
+        if ( $page > $this->getLastPage( ) ) {
+            $page = $this->getLastPage( );
+        }
+        $this->page = $page;
     }
 }
 ?>
