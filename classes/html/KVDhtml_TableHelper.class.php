@@ -163,10 +163,10 @@ class KVDhtml_TableHelper {
      * Stel een array van kolom- of rijkoppen in.
      * @param array $headers
      */
-    public function setHeaders(&$headers)
+    public function setHeaders($headers)
     {
         $this->clearHeaders();
-        foreach ($headers as &$header) {
+        foreach ($headers as $header) {
             $this->addHeader($header);
         }
     }
@@ -175,7 +175,7 @@ class KVDhtml_TableHelper {
      * Voeg 1 kolom- of rijkop toe aan de bestaande koppen.
      * @param string $header
      */
-    public function addHeader(&$header)
+    public function addHeader($header)
     {
         $this->headers[] = $header;
     }
