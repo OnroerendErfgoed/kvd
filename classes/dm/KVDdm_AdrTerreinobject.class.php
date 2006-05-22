@@ -62,7 +62,7 @@ class KVDdm_AdrTerreinobject {
      * @param string $id IdentificatorTerreinobject uit Crab.
      * @return KVDdo_AdrTerreinobjet
      * @throws <b>KVDdom_DomainObjectNotFoundException</b> - Indien het object niet geladen kon worden.
-     * @throws <b>LogicException</b> - Indien deze functie opgeroepen wordt met een Crab1 Gateway aangezien deze dit niet ondersteund.
+     * @throws <b>BadMethodCallException</b> - Indien deze functie opgeroepen wordt met een Crab1 Gateway aangezien deze dit niet ondersteund.
      */ 
     public function findById ( $id )
     {
