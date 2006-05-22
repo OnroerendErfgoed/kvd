@@ -16,10 +16,11 @@ define ('UTILMAP' , '/data/projects/kvd/mel/webapp/lib/kvd/classes/util/');
 //require_once(GISTESTMAP.'KVDgis_MsMapState.test.php');
 //require_once(GISTESTMAP.'KVDgis_MsMapAjaxHandler.test.php');
 //require_once(GISTESTMAP.'exception/KVDgis_MsMapActionBestaatNietException.test.php');
-require_once(GISTESTMAP.'geometry/KVDgis_GeomPoint.test.php');
-require_once(GISTESTMAP.'crab/KVDgis_Crab1Gateway.test.php');
-require_once(GISTESTMAP.'crab/KVDgis_CrabCache.test.php');
-require_once(GISTESTMAP.'crab/KVDgis_NullCrabCache.test.php');
+require_once ( UTILMAP . 'Gateway/KVDutil_Gateway.interface.php' );
+require_once ( GISTESTMAP.'geometry/KVDgis_GeomPoint.test.php');
+require_once ( GISTESTMAP.'crab/KVDgis_Crab1Gateway.test.php');
+require_once ( GISTESTMAP.'crab/KVDgis_CrabCache.test.php');
+require_once ( GISTESTMAP.'crab/KVDgis_NullCrabCache.test.php');
 
 $test = new GroupTest('KVDgis_AllTests');
 //$test->addTestCase( new TestOfMsMapActionBestaatNietException());
