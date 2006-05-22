@@ -1,6 +1,13 @@
 <?php
 
-Mock::generate('KVDdom_Sessie');
+Mock::generate( 'KVDdom_Sessie');
+
+class genericConnection{
+    public function executeQuery( $sql )
+    {
+        return true;
+    }
+}
 
 class TestOfMapperFactory extends UnitTestCase
 {
@@ -11,6 +18,8 @@ class TestOfMapperFactory extends UnitTestCase
     function setUp( )
     {
         $this->_sessie = new MockKVDdom_Sessie( $this );
+        $conn = new genericConnection();
+        $this->_sessie->setReturnReference( 'getDatabaseConnection', $conn, array( 'OEIdm_GebPersoon' ) );
         $mapperDirs = array ( '/', '/data', OEI_CLASSES_DIR . 'dm');
         $this->_mapperFactory = new KVDdom_MapperFactory (  $this->_sessie , $mapperDirs );
     }
