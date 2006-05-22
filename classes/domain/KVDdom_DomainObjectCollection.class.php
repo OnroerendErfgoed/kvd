@@ -13,7 +13,7 @@
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
  * @since 1.0.0
  */
-class KVDdom_DomainObjectCollection implements SeekableIterator
+class KVDdom_DomainObjectCollection implements SeekableIterator, Countable
 {
     /**
      * @var array De KVDdom_DomainObjects
@@ -36,6 +36,14 @@ class KVDdom_DomainObjectCollection implements SeekableIterator
      * @return integer
      */
     public function getTotalRecordCount()
+    {
+        return count( $this->collection );
+    }
+
+    /**
+     * @return integer
+     */
+    public function count( )
     {
         return count( $this->collection );
     }
