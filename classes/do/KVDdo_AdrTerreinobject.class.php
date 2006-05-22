@@ -16,7 +16,19 @@ class KVDdo_AdrTerreinobject extends KVDdom_ReadonlyDomainObject {
      * De IdentificatorTerreinobject uit CRAB
      * @var string
      */
-    private $id;
+    protected $id;
+
+    /**
+     * Geeft aan om welk soort terreinobject het gaat.
+     * @var string
+     */
+    private $aardTerreinobjectCode;
+
+    /**
+     * Het huisnummer waarbij dit terreinobject hoort.
+     * @var KVDdo_AdrHuisnummer
+     */
+    private $_huisnummer;
 
     /**
      * Een geometrie die het centrum van het terreinobject vormt.
@@ -25,14 +37,18 @@ class KVDdo_AdrTerreinobject extends KVDdom_ReadonlyDomainObject {
     private $_center;
 
     /**
-     * @param string $id
+     * @param string $id Het identificatorTerreinobject uit Crab
      * @param KVDdom_Sessie $sessie
-     * @param KVDgis_GeomPoint $center
+     * @param string $terreinobjectCode Het soort terreinobject
+     * @param KVDdo_AdrHuisnummer Het huisnummer waartoe dit terreinobject hoort.
+     * @param KVDgis_GeomPoint $center De centroide van het terreinObject.
      */
-    public function __construct ( $id , $sessie , $center = null)
+    public function __construct ( $id , $sessie , $aardTerreinobjectCode , $huisnummer , $center )
     {
         parent::__construct ( $id , $sessie);
-        $this->_center = ( $center === null ) ? self::PLACEHOLDER : $center;
+        $this->aardTerreinobjectCode = $aardTerreinobjectCode;
+        $this->_huisnummer = $huisnummer;
+        $this->_center = $center;
     }
 
     /**
@@ -44,14 +60,32 @@ class KVDdo_AdrTerreinobject extends KVDdom_ReadonlyDomainObject {
     }
 
     /**
+     * @return string
+     */
+    public function getAardTerreinObject( )
+    {
+        return $this->aardTerreinobjectCode;
+    }
+
+    /**
+     * @return KVDdo_AdrHuisnummer
+     */
+    public function getHuisnummer( )
+    {
+        return $this->_huisnummer;
+    }
+
+    /**
      * @return KVDgis_GeomPoint
      */
     public function getCenter( )
     {
+        /*
         if ( $this->_center === self::PLACEHOLDER ) {
-            $huisnummerMapper = $this->_sessie->getMapper( 'KVDdo_AdrHuisnummer');
-            $this->_center = $huisnummerMapper->findCenterTerreinobjectByTerreinobject( $this )
+            $terreinobjectMapper = $this->_sessie->getMapper( 'KVDdo_AdrTerreinobject');
+            $this->_center = $terreinobjectMapper->findCenterTerreinobjectByTerreinobject( $this )
         }
+        */
         return $this->_center;
     }
 
