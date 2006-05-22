@@ -16,7 +16,7 @@ class KVDdo_AdrGemeente extends KVDdom_ReadonlyDomainObject {
      * Het id dat voor de crab-webservice gebruikt wordt.
      * @var integer
      */
-    private $crabId
+    private $crabId;
 
     /**
      * @var string
@@ -40,7 +40,7 @@ class KVDdo_AdrGemeente extends KVDdom_ReadonlyDomainObject {
      * @param string $naam
      * @param integer $crabId
      * @param KVddo_AdrProvincie $provincie
-     * @param KVDdom_DomainObjectCollection $gemeenten
+     * @param KVDdom_DomainObjectCollection $straten
      */
     public function __construct ( $id , $sessie , $naam = 'Onbepaald', $crabId = 0, $provincie = null, $straten = null )
     {
@@ -72,7 +72,7 @@ class KVDdo_AdrGemeente extends KVDdom_ReadonlyDomainObject {
      */
     public function getProvincie( )
     {
-        return $this->_provincie
+        return $this->_provincie;
     }
 
     /**
