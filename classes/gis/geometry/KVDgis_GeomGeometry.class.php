@@ -44,16 +44,17 @@ abstract class KVDgis_GeomGeometry
     /**
      * @param string $string De string waaruit geplukt moet worden.
      * @return string De tekst die zich binnen de buitenste haakjes bevindt.
+     * @throws <b>InvalidArgumentException</b> - Indien de string geen haakjes bevat.
      */
     protected function getStringBetweenBraces ( $string )
     {
         $firstBrace = strpos($string,'(');
         if ($firstBrace === FALSE) {
-            throw new Exception ('Ongeldige parameter. ' . $string . ' bevat geen openingshaakje!');    
+            throw new InvlaidArgumentException ('Ongeldige parameter. ' . $string . ' bevat geen openingshaakje!');    
         }
         $lastBrace = strrpos($string,')');
         if ($lastBrace === FALSE) {
-            throw new Exception ('Ongeldige parameter. ' . $string . ' bevat geen sluitshaakje!');
+            throw new InvalidArgumentException ('Ongeldige parameter. ' . $string . ' bevat geen sluitshaakje!');
         }
         return substr($string,$firstBrace+1,$lastBrace-1);
     }
