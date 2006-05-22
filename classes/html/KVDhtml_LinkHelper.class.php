@@ -15,7 +15,7 @@ class KVDhtml_LinkHelper
     /**
      * @var string
      */
-    private $linkformat = '<a href="%s" title="%s" %s>%s</a>';
+    private $linkformat = '<a href="%s" title="%s" %s%s>%s</a>';
 
     /**
      * Genereer een html link.
@@ -35,7 +35,7 @@ class KVDhtml_LinkHelper
      * @param string $class Css-class die wordt toegekend aan het element.
      * @return string Een volledig opgemaakt a element (<a>...</a>)
      */
-    public function genHtmlLink ($href, $naam, $titel='',$class='')
+    public function genHtmlLink ($href, $naam, $titel='',$class='',$target='')
     {
         if ($titel == '') {
             $titel=$naam;
@@ -43,7 +43,10 @@ class KVDhtml_LinkHelper
         if ($class != '') {
             $class = "class=\"$class\"";
         }
-        $retval = sprintf($this->linkformat, $href, $titel, $class, $naam);
+        if ( $target != '') {
+            $target = " target=\"$target\"";
+        }
+        $retval = sprintf($this->linkformat, $href, $titel, $class, $target,$naam);
         return $retval;
     }
 }
