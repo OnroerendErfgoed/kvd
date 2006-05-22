@@ -14,6 +14,13 @@ require_once ( KVD_CLASSES_DIR . 'util/KVDutil_DimensieNaamAfkorting.class.php')
 require_once ( KVD_CLASSES_DIR . 'util/KVDutil_Dimensies.class.php');
 require_once ( KVD_CLASSES_DIR . 'util/KVDutil_VoorwerpAfmeting.class.php');
 require_once ( KVD_CLASSES_DIR . 'util/KVDutil_VoorwerpGewicht.class.php');
+require_once ( KVD_CLASSES_DIR . 'util/Gateway/KVDutil_Gateway.interface.php');
+require_once ( KVD_CLASSES_DIR . 'util/Gateway/KVDutil_GatewayFactory.class.php');
+require_once ( KVD_CLASSES_DIR . 'util/Gateway/KVDutil_GatewayRegistry.class.php');
+require_once ( KVD_CLASSES_DIR . 'gis/crab/KVDgis_Crab1Gateway.class.php');
+require_once ( KVD_CLASSES_DIR . 'gis/crab/KVDgis_CrabCache.class.php');
+require_once ( KVD_CLASSES_DIR . 'gis/crab/KVDgis_NullCrabCache.class.php');
+
 
 //require_once ( 'util/KVDutil_DimensieConvertor.test.php');
 
@@ -22,6 +29,8 @@ $test->addTestFile( KVD_TESTS_DIR . 'util/KVDutil_DimensieConvertor.test.php');
 $test->addTestFile( KVD_TESTS_DIR . 'util/KVDutil_Dimensie.test.php');
 $test->addTestFile( KVD_TESTS_DIR . 'util/KVDutil_DimensieNaamAfkorting.test.php');
 $test->addTestFile( KVD_TESTS_DIR . 'util/KVDutil_Dimensies.test.php');
+$test->addTestFile( KVD_TESTS_DIR . 'util/KVDutil_GatewayFactory.test.php');
+$test->addTestFile( KVD_TESTS_DIR . 'util/KVDutil_GatewayRegistry.test.php');
 $test->run(new TextReporter());
 
 ?>
