@@ -56,7 +56,8 @@ abstract class KVDgis_GeomGeometry
         if ($lastBrace === FALSE) {
             throw new InvalidArgumentException ('Ongeldige parameter. ' . $string . ' bevat geen sluitshaakje!');
         }
-        return substr($string,$firstBrace+1,$lastBrace-1);
+        $length = ( $lastBrace ) - ( $firstBrace + 1);
+        return substr($string,$firstBrace+1,$length);
     }
 
     /**
