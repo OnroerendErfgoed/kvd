@@ -12,6 +12,11 @@
  */
 class KVDgis_NullCrabCache extends KVDgis_CrabCache
 {
+    public function __construct ()
+    {
+
+    }
+
     /**
      *
      * @param string functionName      
