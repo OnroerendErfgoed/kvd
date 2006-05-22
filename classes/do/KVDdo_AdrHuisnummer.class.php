@@ -36,18 +36,18 @@ class KVDdo_AdrHuisnummer extends KVDdom_ReadonlyDomainObject {
     /**
      * @param integer $id
      * @param KVDdom_Sessie $sessie
+     * @param KVDdo_AdrStraat $straat
      * @param string $huisnummer
      * @param integer $postcode
-     * @param KVDdo_AdrStraat $straat
      * @param KVDdom_DomainObjectCollection $percelen
      */
-    public function __construct ( $id , $sessie , $huisnummer = 'Onbepaald', $postcode = 0, $straat = null, $percelen = null )
+    public function __construct ( $id , $sessie , $straat , $huisnummer = 'Onbepaald', $postcode = null, $percelen = null )
     {
         parent::__construct ( $id , $sessie);
         $this->huisnummer = $huisnummer;
-        $this->postcode = ( $postcode === null ) ? self::PLACEHOLDER : $postcode;
-        $this->_straat= ( $straat === null ) ? new KVDdo_AdrStraat( 0 , $sessie) : $straat;
-        $this->_percelen = ( $percelen === null ) ? self::PLACEHOLDER : $percelen;
+        $this->_straat= $straat;
+        $this->postcode = ( is_null( $postcode ) ) ? self::PLACEHOLDER : $postcode;
+        $this->_percelen = ( is_null( $postcode ) ) ? self::PLACEHOLDER : $percelen;
     }
 
     /**
