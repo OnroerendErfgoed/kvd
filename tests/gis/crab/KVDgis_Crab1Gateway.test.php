@@ -9,8 +9,11 @@ class TestOfCrab1Gateway extends UnitTestCase
     
     function setUp()
     {
-        $wsdl = 'http://webservices.gisvlaanderen.be/crab/wscrab.asmx?WSDL';
-        $this->_testGateway = new KVDgis_Crab1Gateway( $wsdl, 'VIOE', 'GISTLIBE');
+        $parameters = array (   'wsdl' => 'http://webservices.gisvlaanderen.be/crab/wscrab.asmx?WSDL',
+                                'username' => 'VIOE',
+                                'password' => 'GISTLIBE'
+                            );
+        $this->_testGateway = new KVDgis_Crab1Gateway( $parameters );
     }
 
     function tearDown()
@@ -146,6 +149,5 @@ class TestOfCrab1Gateway extends UnitTestCase
         $this->assertNotNull( $terreinobjecten[0]['centerY']);
     }
 
-    
 }
 ?>
