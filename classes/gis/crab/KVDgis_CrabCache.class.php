@@ -33,14 +33,17 @@ class KVDgis_CrabCache
     
     /**
      * @param string $cacheDir
-     * @param array $expirtationTimes
+     * @param array $expirationTimes
      */
     public function __construct( $cacheDir, $expirationTimes )
     {
-        $this->cacheDir = $cacheDir;
         if ( !is_dir( $cacheDir) ) {
             throw new InvalidArgumentException ( 'De parameter $cacheDir van KVDgis_CrabCache is een directory die niet bestaat!');
         }
+        if ( strrpos( $cacheDir , '/' ) !== strlen( $cacheDir) - 1  ) {
+            $cacheDir .= '/';
+        }
+        $this->cacheDir = $cacheDir;
         if ( !isset( $expirationTimes['default'])) {
             throw new InvalidArgumentException ( 'De parameter $expirationTimes van KVDgis_CrabCache moet een sleutel default bevatten!');
         }
