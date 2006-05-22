@@ -1,0 +1,40 @@
+SET NAMES 'LATIN1';
+
+DROP SCHEMA kvd_adr CASCADE;
+
+BEGIN TRANSACTION;
+
+CREATE SCHEMA kvd_adr;
+
+-- Provincie (Te gebruiken als keuzelijst)
+CREATE TABLE kvd_adr.provincie (
+	id integer NOT NULL,
+	provincie_naam varchar(30),
+	CONSTRAINT provincie_pkey PRIMARY KEY (id),
+	CONSTRAINT prvincie_provincie UNIQUE (provincie_naam)
+);
+
+INSERT INTO kvd_adr.provincie VALUES ( 10000, 'Antwerpen');
+INSERT INTO kvd_adr.provincie VALUES ( 20001, 'Vlaams-Brabant');
+INSERT INTO kvd_adr.provincie VALUES ( 30000, 'West-Vlaanderen');
+INSERT INTO kvd_adr.provincie VALUES ( 40000, 'Oost-Vlaanderen');
+INSERT INTO kvd_adr.provincie VALUES ( 70000, 'Limburg');
+
+COMMIT TRANSACTION;
+
+BEGIN TRANSACTION;
+
+-- Gemeente (Te gebruiken als keuzelijst)
+CREATE TABLE kvd_adr.gemeente (
+	id integer NOT NULL,
+	gemeente_naam varchar(50) NOT NULL,
+	crab_id integer NOT NULL,
+	provincie_id integer NOT NULL REFERENCES kvd_adr.provincie (id),
+	CONSTRAINT gemeente_pkey PRIMARY KEY (id),
+	CONSTRAINT gemeente_gemeente_naam UNIQUE (gemeente_naam)
+);
+
+CREATE INDEX gemeente_crab_id_idx ON kvd_adr.gemeente (crab_id);
+CREATE INDEX gemeente_provincie_id_idx ON kvd_adr.gemeente (provincie_id);
+
+COMMIT TRANSACTION;
