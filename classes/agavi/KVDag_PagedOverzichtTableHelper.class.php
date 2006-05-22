@@ -18,48 +18,41 @@ class KVDag_PagedOverzichtTableHelper extends KVDag_OverzichtTableHelper {
     private $pager;
 
     /**
+     * @var string
+     */
+    private $pageParameterName;
+
+    /**
      * Maak het object aan.
      * 
-     * $moduleConfig ziet er ongeveer zo uit:
-     * <code>
-     * <?php
-     * $moduleConfig =  array ( 'module' => 'Gebruiker' ,
-     *                          'actionOverzicht' => 'OrganisatieOverzicht',
-     *                          array ( 'action' => 'OrganisatieTonen',
-     *                                   'titel' => 'Deze organisatie tonen',
-     *                                   'naam' => 'Toon')
-     *                        );
-     * ?>                      
-     * </code>
+     * $moduleConfig is hetzelfde als voor {@link KVDag_OverzichtTableHelper} behalve dat er een extra parameter 'pageParameterName' is.
+     * Deze parameter bepaalt met parameter in de urls gebruikt wordt om de pagina's van de tabel aan te duiden.
+     * Differentiatie is nodig indien er meerdere KVDag_PagedOverzichtTableHelper op een pagina staan.
+     * @see KVDag_OverzichtTableHelper::__construct( )
      * @param WebController $ctrl
      * @param array $moduleConfig
      * @param KVDdom_DomainObjectCollectionPager $pager
      */
     public function __construct ( $ctrl , $moduleConfig , $pager )
     {
-        $this->_controller = $ctrl;
-        $this->module = $moduleConfig['module'];
-        // maak de basisurl aan voor gepagineerde navigatie door de records
-        if (!is_array ( $moduleConfig['actionOverzicht'] ) ) {
-            $this->actionOverzicht =    array ( AG_MODULE_ACCESSOR => $this->module,
-                                                AG_ACTION_ACCESSOR => $moduleConfig['actionOverzicht']);
-        } else {
-            $this->actionOverzicht = $moduleConfig['actionOverzicht'];
-        }
-        $this->actionsPerRow = $moduleConfig['actionsPerRow'];
+        parent::__construct( $ctrl, $moduleConfig);
+
+        // Een PagedTableHelper aanmaken ipv de standaard TableHelper
+        $this->_htmlTableHelper = New KVDhtml_PagedTableHelper( );
+                
+        $this->pageParameterName = isset( $moduleConfig['pageParameterName']) ? $moduleConfig['pageParameterName'] : 'page';
         
-        $this->_htmlTableHelper = New KVDhtml_PagedTableHelper();
-        
-        $this->_htmlLinkHelper = New KVDhtml_LinkHelper();
-    
         $this->_pager = $pager;    
     }
 
     /**
-     * @param string $pageParameterName
+     * @param string $pageParameterName Indien niet gespecifieerd wordt de waare uit de config of de default waarde 'page' genomen.
      */
-    public function genPageLinks ( $pageParameterName = 'page' )
+    public function genPageLinks ( $pageParameterName = null)
     {
+        if ( is_null( $pageParameterName ) ) {
+            $pageParameterName = $this->pageParameterName;
+        }
         $parameters = $this->actionOverzicht;
         $pageLinks = array();
         $parameters[$pageParameterName] = $this->_pager->getFirstPage();
@@ -92,29 +85,13 @@ class KVDag_PagedOverzichtTableHelper extends KVDag_OverzichtTableHelper {
      */
     public function genRows ()
     {
-        $domainObjects = $this->_pager->getResult();
-        $rows=array();
-        foreach ($domainObjects as $domainObject) {
-            $rows[] = array ( $domainObject->getId() , $domainObject->getOmschrijving() );   
+        try {
+            $domainObjects = $this->_pager->getResult();
+        } catch ( Exception $e ) {
+            throw new UnexpectedValueException ( 'Kon geen objecten krijgen van de pager. De pager deelde het volgende mee: ' . $e->getMessage( ) );
         }
-        if (count ( $rows ) > 0) {
-            $this->setRows ( $rows );
-            $this->setHeaders ( array ( 'Id' , 'Omschrijving' ) );    
-        }
+        $this->genRowsForCollection( $domainObjects );
     }
-      
-    /**
-     * @param array $cssClasses
-     * @see KVDhtml_TableHelper::setCssClasses()
-     * @return string
-     */
-    public function toHtml ( $cssClasses = null )
-    {
-        if (!is_null($cssClasses)) {
-            $this->_htmlTableHelper->setCssClasses($cssClasses);
-        }
-        return $this->_htmlTableHelper->toHtml();
-    }
-
+    
 }
 ?>

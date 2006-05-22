@@ -38,6 +38,17 @@ class KVDag_OverzichtTableHelper {
     protected $_htmlTableHelper;
 
     /**
+     * @var array;
+     */
+    protected $headers;
+
+    /**
+     * @var array;
+     */
+    protected $fieldsPerRow;
+    
+
+    /**
      * Maak het object aan.
      * 
      * $moduleConfig ziet er ongeveer zo uit:
@@ -45,10 +56,17 @@ class KVDag_OverzichtTableHelper {
      * <?php
      * $moduleConfig =  array ( 'module' => 'Gebruiker' ,
      *                          'actionOverzicht' => 'OrganisatieOverzicht',
-     *                          'actionsPerRow' => array (  'action' => 'OrganisatieTonen',
-     *                                                      'titel' => 'Deze organisatie tonen',
-     *                                                      'naam' => 'Toon',
-     *                                                      'credential' => 'Raadpleger')
+     *                          'headers'         => array ( array ( 'titel' => 'Id'),
+     *                                                       array ( 'titel' => 'Omschrijving',
+     *                                                               'orderField' => true,
+     *                                                               'orderFieldName' => 'omschrijving')
+     *                                                             )
+     *                                                      ),
+     *                          'fieldsPerRow'  => array ( 'getId', 'getOmschrijving' ),
+     *                          'actionsPerRow' => array ( 'action' => 'OrganisatieTonen',
+     *                                                     'titel' => 'Deze organisatie tonen',
+     *                                                     'naam' => 'Toon',
+     *                                                     'credential => 'Raadpleger')
      *                        );
      * ?>                      
      * </code>
@@ -57,6 +75,12 @@ class KVDag_OverzichtTableHelper {
      */
     public function __construct ( $ctrl , $moduleConfig )
     {
+        // Een TableHelper aanmaken
+        $this->_htmlTableHelper = New KVDhtml_TableHelper();
+        
+        // Een Linkhelper aanmaken
+        $this->_htmlLinkHelper = New KVDhtml_LinkHelper();
+        
         $this->_controller = $ctrl;
         $this->module = $moduleConfig['module'];
         // maak de basisurl aan voor navigatie door de records
@@ -66,13 +90,25 @@ class KVDag_OverzichtTableHelper {
         } else {
             $this->actionOverzicht = $moduleConfig['actionOverzicht'];
         }
-        $this->actionsPerRow = $moduleConfig['actionsPerRow'];
 
-        // Een TableHelper aanmaken
-        $this->_htmlTableHelper = New KVDhtml_TableHelper();
+        if ( isset( $moduleConfig['fieldsPerRow'] ) ) {
+             $this->fieldsPerRow = $moduleConfig['fieldsPerRow'];
+        } else {
+            $this->fieldsPerRow = array (  'getId', 'getOmschrijving' );
+        }
         
-        // Een Linkhelper aanmaken
-        $this->_htmlLinkHelper = New KVDhtml_LinkHelper();
+        if ( isset ( $moduleConfig['actionsPerRow'] ) ) {
+            $this->actionsPerRow = $moduleConfig['actionsPerRow'];
+        } else {
+            $this->actionsPerRow = array( );
+        }
+
+        if ( isset( $moduleConfig['headers'] ) ) {
+            $this->genHeaders(  $moduleConfig['headers'] , null );
+        } else {
+            $this->headers = array (  'Id', 'Omschrijving' );
+        }
+
     }
 
     /**
@@ -135,6 +171,63 @@ class KVDag_OverzichtTableHelper {
             } else {
                 return false;
             }
+        }
+    }
+
+    /**
+     *@param array $headerConfig
+     */
+    protected function genHeaders (  $headerConfig , $pageParameterName = null)
+    {
+        $this->headers = array(  );
+        
+        foreach (  $headerConfig as $header ) {
+            if (  isset(  $header['orderField']) && $header['orderField'] == true ) {
+                if (  !isset(  $header['orderFieldName'] ) ) {
+                    throw new InvalidArgumentException (  'U hebt gespecifieerd dat er moet gesorteerd worden, maar niet op welk veld. Voeg de parameter orderFieldName toe.');
+                }
+                $parameters = $this->actionOverzicht;
+                $parameters['orderField'] = $header['orderFieldName'];
+                if ( $pageParameterName !== null ) {
+                    $parameters[$pageParameterName] = 1;
+                }
+                $url = $this->_controller->genURL( null, $parameters);
+                $this->headers[] = $this->_htmlLinkHelper->genHtmlLink(  $url, $header['titel'], 'Sorteren op ' . $header['titel'] );
+            } else {
+                $this->headers[] = $header['titel'];
+            }
+        }
+    }
+
+    /**
+     * @param KVDdom_DomainObject $domainObject
+     * @param string $fieldString
+     */
+    protected function getDataForFieldString(  $domainObject, $fieldString)
+    {
+        $fields = explode( '.',$fieldString );
+        foreach (  $fields as $field) {
+            $domainObject = $domainObject->$field(  );
+        }
+        return $domainObject;
+    }
+
+    /**
+     * @param KVDdom_DomainObjectCollection $collection
+     */
+    public function genRowsForCollection ( $collection )
+    {
+        $rows=array( );
+        foreach ( $collection as $domainObject) {
+            $row = array(  );
+            foreach (  $this->fieldsPerRow as $field ) {
+                $row[] = $this->getDataForFieldString(  $domainObject , $field );
+            }
+            $rows[] = $row;
+        }
+        if ( count ( $rows ) > 0) {
+            $this->setRows (  $rows );
+            $this->setHeaders (  $this->headers );
         }
     }
 }
