@@ -13,19 +13,19 @@
 class KVDgis_GeomPoint extends KVDgis_GeomGeometry
 {
     /**
-     * @var integer
+     * @var number
      */
     private $x;
 
     /**
-     * @var integer
+     * @var number
      */
     private $y;
 
     /**
      * @param integer $srid
-     * @param integer $x
-     * @param integer $y
+     * @param number $x
+     * @param number $y
      */
     public function __construct ( $srid = -1, $x= 0, $y=0)
     {
@@ -35,23 +35,31 @@ class KVDgis_GeomPoint extends KVDgis_GeomGeometry
     }
     
     /**
-     * @param integer $x
+     * @param number $x
+     * @throws InvalidArgumentException - Indien $x geen integer of float is.
      */
     public function setX($x)
     {
+        if ( !is_numeric( $x ) ) {
+            throw new InvalidArgumentException( "$x is geen geldig nummer en kan dus geen punt in een geometry zijn!" );
+        }
         $this->x = $x;
     }
 
     /**
-     * @param integer $y
+     * @param number $y
+     * @throws InvalidArgumentException - Indien $x geen integer of float is.
      */
     public function setY($y)
     {
+        if ( !is_numeric( $y ) ) {
+            throw new InvalidArgumentException( "$y is geen geldig nummer en kan dus geen punt in een geometry zijn!" );
+        }
         $this->y = $y;
     }
 
     /**
-     * @return integer
+     *@return number
      */
     public function getX()
     {
@@ -59,7 +67,7 @@ class KVDgis_GeomPoint extends KVDgis_GeomGeometry
     }
 
     /**
-     * @return integer
+     * @return number
      */
     public function getY()
     {
@@ -69,11 +77,12 @@ class KVDgis_GeomPoint extends KVDgis_GeomGeometry
     /**
      * @see KVDgis_GeomGeometry::setGeometryFromText()
      * @param string $wkt
+     * @throws <b>InvalidArgumentException<b> - Indien de wkt-string ongeldig is.
      */
     public function setGeometryFromText ( $wkt )
     {
         if (substr($wkt,0,5) != 'POINT') {
-            throw new Exception ('Ongeldige Well-Known Text string: ' . $wkt . "\n. De string zou moeten beginnen met 'POINT'.");
+            throw new InvalidArgumentException ('Ongeldige Well-Known Text string: ' . $wkt . "\n. De string zou moeten beginnen met 'POINT'.");
         }
         
         $stringPoint = $this->getStringBetweenBraces($wkt);
