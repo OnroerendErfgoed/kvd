@@ -12,7 +12,7 @@
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
  * @since 1.0.0
  */
-class KVDgis_Crab1Gateway
+class KVDgis_Crab1Gateway implements KVDutil_Gateway
 {
     const CRAB_NAMESPACE = "http://www.gisvlaanderen.be/webservices/";
 
@@ -29,23 +29,60 @@ class KVDgis_Crab1Gateway
     private $_cache;
 
     /**
+     * Initializeer de Crab1Gateway voor gebruik.
      *
-     * @param string $wsdl      
-     * @param string $username      
-     * @param string $password
-     * @param string $crabcache
-     * @return KVDgis_Crab1Gateway
-     * @access public
+     * Parameters is een associatieve array met de volgende sleutels: wsdl ( url naar de wsdl file), username, password. Deze parameters zijn altijd vereist.
+     * De parmeter cache is optioneel. Indien ze weggelaten wordt zal er geen data gecached worden. De parameter is eveneens een array met de volgende sleutels:
+     * - active ( boolean ): indien false zal er geen data gecached worden
+     * - cacheDir ( string ): dir waarin de caches worden aangemaakt
+     * - expirationTimes ( array ): een array met verschillende sleutels per te cachen functie. Er moet minstens een sleutel default aanwezig zijn.
+     *   ExpirationTimes is optioneel. Indien niet aanwezig worden er caches aangemaakt die nooit verlopen tenzij door manuele tussenkomst.
+     * bv.:
+     * <code>
+     *  $parameters = array (   'wsdl'      => 'http://gisvlaanderen.be/crab/wsdl',
+     *                          'username'  => 'USERNAME',
+     *                          'password'  => 'PASSWORD',
+     *                          'cache'     => array (  'active'    => true,
+     *                                                  'cacheDir'  => '/tmp/',
+     *                                                  'expirationTimes' => array (    'default' => false,
+     *                                                                                  'listStraatnamenByGemeenteId' => 3600
+     *                                                                             )
+     *                                                )
+     *                      )
+     * </code>
+     * @param array $parameters
+     * @return boolean true indien succesvol geinitializeerd
+     * @throws <b>IllegalArgumentException</b> - Indien er foute of ontbrekende parameters zijn.
      */
-    public function __construct( $wsdl,  $username,  $password , $crabcache = null) {
-        $this->_client = new SoapClient (  $wsdl);
-        $this->authenticate (   $username , $password );
-        if ( $crabcache != null ) {
-            $this->_cache = $crabcache;
-        } else {
-            $this->_cache = new KVDgis_NullCrabCache( );
+    public function __construct ( $parameters )
+    {
+        if ( !isset( $parameters['wsdl'] ) ) {
+            throw new InvalidArgumentException ( 'De array parameters moet een sleutel wsdl bevatten!' );
         }
-    } 
+        $this->_client = new SoapClient ( $parameters['wsdl'] );
+        
+        if ( !isset( $parameters['username']) || !isset( $parameters['password'])) {
+            throw new InvalidArgumentException ( 'De array parameters moet de sleutels username en password bevatten!');
+        }
+        $this->authenticate( $parameters['username'], $parameters['password']);
+
+        if ( !isset( $parameters['cache'] ) ) {
+            $this->_cache = new KVDgis_NullCrabCache( );
+        } else {
+            if ( !isset ( $parameters['cache']['active'] ) || $parameters['cache']['active'] == false ) {
+                $this->_cache = new KVDgis_NullCrabCache( );
+            } else {
+                if ( !isset( $parameters['cache']['cacheDir'] ) ) {
+                    throw new InvalidArgumentException ( 'Kan geen cache aanmaken omdat de parameter cacheDir niet aanwezig is!');
+                }
+                if ( !isset( $parameters['cache']['expirationTimes']) ) {
+                    $parameters['cache']['expirationTimes']['default'] = false;
+                }
+                $this->_cache = new KVDgis_CrabCache( $parameters['cache']['cacheDir'], $parameters['cache']['expirationTimes']);
+            }
+        }
+        
+    }
 
     /**
      * Stel de authenticatie-informatie in.
@@ -55,6 +92,7 @@ class KVDgis_Crab1Gateway
      * @access private
      */
     private function authenticate( $username,  $password ) {
+        $auth = new StdClass( );
         $auth->Username = $username;
         $auth->Password = $password;
         
@@ -138,6 +176,7 @@ class KVDgis_Crab1Gateway
      */
     private function CRABgetgemeente( $vraagtype, $vraagwaarde )
     {
+        $params = new stdClass( );
         $params->vraagtype = $vraagtype;
         $params->vraagwaarde = $vraagwaarde;
         $params->eigentaal = true;
@@ -239,6 +278,7 @@ class KVDgis_Crab1Gateway
      */
     private function CRABgetstraatnaam ( $vraagtype , $vraagwaarde, $gemid)
     {
+        $params = new stdClass( );
         $params->vraagtype = $vraagtype;
         $params->vraagwaarde = $vraagwaarde;
         $params->gemid = $gemid;
@@ -273,7 +313,12 @@ class KVDgis_Crab1Gateway
     /**
      *
      * @param integer $straatnaamId      
-     * @return array
+     * @return array Een associatieve array met de volgende sleutels:
+     *              straatnaam      - Naam van de straat
+     *              straatnaamId    - Id van de straatnaam binnen Crab
+     *              gemeenteId      - Id (geen NIS-code) van de gemeente waarin de straat ligt
+     *              taalCode        - Taal waarin de straatnaam is opgesteld
+     *              straatnaamLabel - Een label voor de straatnaam, te gebruiken in keuzelijsten
      * @access public
      * @throws RuntimeException Indien de straatnaam niet kon geladen worden
      */
@@ -282,7 +327,7 @@ class KVDgis_Crab1Gateway
         try {
             return $this->CRABgetstraatnaam( 10 , $straatnaamId , 0 );
         } catch ( UnexpectedValueException $e ) {
-            throw new RuntimeException ( "Kon de straatnaam met straatnaamId $straatnaamId niet laden. Controleer of deze wel bestaat.");
+            $message = "Kon de straatnaam met straatnaamId $straatnaamId niet laden. Reden: \n" . $e->getMessage( );
         }
     }
 
@@ -290,7 +335,14 @@ class KVDgis_Crab1Gateway
      *
      * @param string $straatnaam      
      * @param integer $gemeenteId
-     * @return array
+     * @return array Een associatieve array met de volgende sleutels:
+     * <ul>
+     *  <li> straatnaam      - Naam van de straat</li>
+     *  <li> straatnaamId    - Id van de straatnaam binnen Crab</li>
+     *  <li> gemeenteId      - Id (geen NIS-code) van de gemeente waarin de straat ligt</li>
+     *  <li> taalCode        - Taal waarin de straatnaam is opgesteld</li>
+     *  <li> straatnaamLabel - Een label voor de straatnaam, te gebruiken in keuzelijsten</li>
+     * </ul>
      * @throws RuntimeException Indien de straatnaam niet kon geladen worden 
      * @access public
      */
@@ -344,6 +396,7 @@ class KVDgis_Crab1Gateway
      */
     private function CRABgethuisnummer ( $vraagtype , $vraagwaarde, $straatnaamid)
     {
+        $params = new stdClass( );
         $params->vraagtype = $vraagtype;
         $params->vraagwaarde = $vraagwaarde;
         $params->straatnaamid = $straatnaamid;
@@ -375,7 +428,12 @@ class KVDgis_Crab1Gateway
     /**
      *
      * @param integer huisnummerId
-     * @return array Een array met de sleutels huisnummer, huisnummerId en straatnaamId.
+     * @return array Een associatieve array met de volgende sleutels:
+     * <ul>
+     *  <li>huisnummer      - Een string voorstelling van het huisnummer ( kan bv. bis bevatten)</li>
+     *  <li>huisnummerId    - Het id van het huisnummer in Crab.</li>
+     *  <li>straatnaamId    - Het id van de straat waarin het huisnummer ligt.</li>
+     * </ul>
      * @access public
      * @throws RuntimeException Indien het huisnummer niet geladen kon worden.
      */
@@ -392,7 +450,7 @@ class KVDgis_Crab1Gateway
      *
      * @param string huisnummer
      * @param integer straatnaamId
-     * @return array Een array met de sleutels huisnummer, huisnummerId en straatnaamId.
+     * @return array Een array met de sleutels huisnummer, huisnummerId en straatnaamId. Zie {@link KVDgis_Crab1Gateway::getHuisnummerByHuisnummerId} voor meer info.
      * @access public
      * @throws RuntimeException Indien het huisnummer niet geladen kon worden.
      */
@@ -417,11 +475,11 @@ class KVDgis_Crab1Gateway
         $paramsWrapper = new SoapParam ( $params , "CRABgethuisnummerpostcode");
         $result = $this->_client->CRABgethuisnummerpostcode( $paramsWrapper );
 
-        $xmlObject = @simplexml_load_string( $result->CRAB_huisnummerpostcodeResult->any );
+        $xmlObject = @simplexml_load_string( $result->CRABgethuisnummerpostcodeResult->any );
         if ( !( $xmlObject instanceof SimpleXMLElement ) ) {
             throw new RuntimeException ( "Kon het postkanton van het huisnummer met huisnummerId $huisnummerId niet laden. Controleer of deze wel bestaat.");
         }
-        $postcode = array ( 'postkantonCode' => $xmlObject->CRAB_huisnummerpositie->huisnummerpositie );
+        $postcode = array ( 'postkantonCode' => $xmlObject->CRAB_huisnummerpostcode->huisnummerpostcode->postKantonCode );
         return $postcode;
     }
 
@@ -504,7 +562,7 @@ class KVDgis_Crab1Gateway
             $terreinobjectArray['centerY'] = ( float ) $terreinobject->y_coordinaat;
             $terreinobjecten[] = $terreinobjectArray;
         }
-        $this->_cache->cachePut ( __FUNCTION__ , $functionParameters , serialize( $terreinobjectArray ) );
+        $this->_cache->cachePut ( __FUNCTION__ , $functionParameters , serialize( $terreinobjecten ) );
         return $terreinobjecten;
     } 
 
