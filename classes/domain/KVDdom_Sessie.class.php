@@ -384,10 +384,10 @@ class KVDdom_Sessie {
      */
     public function getGateway ( $gateway )
     {
-        if ( $this->gatewayRegistry == null ) {
+        if ( $this->_gatewayRegistry == null ) {
             throw new LogicException ( 'Er is geen gatewayRegistry beschikbaar, dus kan deze actie niet uitgevoerd worden. Controleer de configuratie.');
         }
-        return $this->gatewayRegistry->getGateway( $gateway );
+        return $this->_gatewayRegistry->getGateway( $gateway );
     }
 }
 ?>
