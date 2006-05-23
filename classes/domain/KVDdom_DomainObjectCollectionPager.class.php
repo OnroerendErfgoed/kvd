@@ -100,9 +100,10 @@ class KVDdom_DomainObjectCollectionPager
         if ( !isset ( $this->totalPages ) ) {
 			if ( $this->rowsPerPage > 0) {
 					$this->totalPages = ceil ( $this->getTotalRecordCount() / $this->rowsPerPage );
-			} else {
-					$this->totalPages = 0;
 			}
+            if ( $this->totalPages < 1 ) {
+                $this->totalPages = 1;
+            }
 		}
 		return $this->totalPages;    
     }
@@ -164,7 +165,12 @@ class KVDdom_DomainObjectCollectionPager
      */
     private function calculateStart()
     {
-        return ($this->page - 1) * $this->rowsPerPage;    
+        $result = ($this->page - 1) * $this->rowsPerPage;
+
+        if ( $result < 0 ) {
+            throw new UnexpectedValueException ( "Start zou niet kleiner dan 0 mogen zijn, maar is $result.");
+        }
+        return $result;
     }
 
     /**
