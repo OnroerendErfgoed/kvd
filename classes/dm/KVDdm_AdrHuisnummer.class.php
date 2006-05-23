@@ -100,7 +100,7 @@ class KVDdm_AdrHuisnummer {
     public function findByStraat ( $straat )
     {
         $huisnummerArray = $this->_gateway->listHuisnummersByStraatnaamId( $straat->getId( ) , 2);
-        $domainObject = array( );
+        $domainObjects = array( );
         foreach ( $huisnummerArray as $huisnummerArray ) {
             $huisnummer = $this->doLoad ( $huisnummerArray['huisnummerId'] , $huisnummerArray , $straat);
             $domainObjects[] = $huisnummer;
