@@ -14,6 +14,8 @@ class KVDhtml_FormFieldFactory
 {
     /**
      * @param array $fieldOptions
+     * @return KVDhtml_FormField
+     * @throws <b>InvalidArgumentException</b> - Indien er om een ongeldig type gevraagd wordt.
      */
     public function getFormField( &$fieldOptions )
     {
@@ -49,6 +51,8 @@ class KVDhtml_FormFieldFactory
             case 'radio':
                 $field = new KVDhtml_FormFieldRadio( $fieldOptions );
                 break;
+            default:
+                throw new InvalidArgumentException ( "U hebt een ongeldig veldtype opgegeven: {$fieldOptions['type']}");
         }
         return $field;
     }
