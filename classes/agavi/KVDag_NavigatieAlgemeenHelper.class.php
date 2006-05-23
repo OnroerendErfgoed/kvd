@@ -72,7 +72,7 @@ class KVDag_NavigatieAlgemeenHelper
     {
         if (!is_array($actions)) {
             $err = "De acties moet u opgegeven onder de vorm van een array!";
-            throw New IllegalArgumentException($err);
+            throw New InvalidArgumentException($err);
         }
         $this->actions = $actions;
     }
