@@ -77,7 +77,7 @@ class KVDgis_GeomPoint extends KVDgis_GeomGeometry
     /**
      * @see KVDgis_GeomGeometry::setGeometryFromText()
      * @param string $wkt
-     * @throws <b>InvalidArgumentException<b> - Indien de wkt-string ongeldig is.
+     * @throws <b>InvalidArgumentException</b> - Indien de wkt-string ongeldig is.
      */
     public function setGeometryFromText ( $wkt )
     {
