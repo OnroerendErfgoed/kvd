@@ -7,7 +7,7 @@
  */
     
 /**
- * @package KVD.agavi.domHtml
+ * @package KVD.ag.domHtml
  * @subpackage Adres
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
  * @since 1.0.0
