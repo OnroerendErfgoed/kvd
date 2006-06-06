@@ -1,8 +1,8 @@
 <?php
 Error_Reporting (  E_ALL & ~E_STRICT);
 
-define ( 'KVD_CLASSES_DIR' , '/data/projects/kvd/mel/webapp/lib/kvd/classes/');
-define ( 'OEI_CLASSES_DIR' , '/data/projects/kvd/mel/webapp/lib/oei/classes/');
+define ( 'KVD_CLASSES_DIR' , '/data/projects/kvd/kvd/classes/');
+define ( 'OEI_CLASSES_DIR' , '/data/projects/kvd/oei/trunk/classes/');
 
 require_once('simpletest/unit_tester.php');
 require_once('simpletest/reporter.php');

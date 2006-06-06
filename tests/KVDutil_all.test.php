@@ -5,8 +5,8 @@ require_once('simpletest/unit_tester.php');
 require_once('simpletest/reporter.php');
 require_once('simpletest/mock_objects.php');
 
-define ( 'KVD_CLASSES_DIR' , '/data/projects/kvd/mel/webapp/lib/kvd/classes/');
-define ( 'KVD_TESTS_DIR' , '/data/projects/kvd/mel/webapp/lib/kvd/tests/');
+define ( 'KVD_CLASSES_DIR' , '/data/projects/kvd/kvd/classes/');
+define ( 'KVD_TESTS_DIR' , '/data/projects/kvd/kvd/tests/');
 
 require_once ( KVD_CLASSES_DIR . 'util/KVDutil_DimensieConvertor.class.php');
 require_once ( KVD_CLASSES_DIR . 'util/KVDutil_Dimensie.class.php');
