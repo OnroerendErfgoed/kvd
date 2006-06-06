@@ -51,6 +51,9 @@ class KVDhtml_FormFieldFactory
             case 'radio':
                 $field = new KVDhtml_FormFieldRadio( $fieldOptions );
                 break;
+            case 'file':
+                $field = new KVDhtml_FormFieldFile( $fieldOptions );
+                break;
             default:
                 throw new InvalidArgumentException ( "U hebt een ongeldig veldtype opgegeven: {$fieldOptions['type']}");
         }
