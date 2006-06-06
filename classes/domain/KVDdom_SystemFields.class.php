@@ -46,7 +46,8 @@ class KVDdom_SystemFields {
 
     /**
      * Maak het object aan. Enkel het gebruikersobject is verreist. De andere velden kunnen worden opgevuld met standaardwaarden.
-     * @param string $gebruikers Naam van de gebruiker.
+     * @param string $gebruikersNaam Naam van de gebruiker.
+     * @param boolean $currentRecord Gaat het om de meest recente versie van een record of niet?
      * @param integer $versie Huidige versie van het record.
      * @param date $bewerktOp Wanneer werd deze versie van het record aangemaakt?
      * @param boolean $gecontroleerd Werd het record al gecontroleerd?
@@ -120,6 +121,11 @@ class KVDdom_SystemFields {
     public function isCurrentRecord()
     {
         return $this->currentRecord; 
+    }
+
+    public function setApproved( )
+    {
+        $this->gecontroleerd = true;
     }
 }
 ?>
