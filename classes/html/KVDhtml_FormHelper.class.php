@@ -33,6 +33,16 @@ class KVDhtml_FormHelper {
     private $formAction;
 
     /**
+     * @var string
+     */
+    private $formEncType = 'application/x-www-form-urlencoded';
+
+    /**
+     * @var string
+     */
+    private $formHeader = '<form method="%s" action="%s" enctype="%s">';
+
+    /**
      * @param string $formAction Url naar waar de form moet gepost worden.
      * @param string $formMethod Methode die de form moet gebruiken.
      */
@@ -83,6 +93,9 @@ class KVDhtml_FormHelper {
         $rows = array();
         $headers = array();
         foreach ( $fieldOptions as $header => $fieldOption ) {
+            if ( isset ( $fieldOption['type'] ) && $fieldOption['type'] == 'file' ) {
+                $this->formEncType = 'multipart/form-data';   
+            }
             if ( isset ( $fieldOption['type'] ) && $fieldOption['type'] == 'hidden' ) {
                 $hiddenfields[] = $this->_formFieldFactory->getFormField ( $fieldOption )->toHtml();
             } elseif ( isset ( $fieldOption['location'] ) && $fieldOption['location'] == 'footer'){
@@ -101,7 +114,7 @@ class KVDhtml_FormHelper {
 
     private function toHtmlFormHeader( )
     {
-        return '<form method="' . $this->formMethod . '" action="' . $this->formAction . '">' . "\n";
+        return sprintf( $this->formHeader, $this->formMethod, $this->formAction, $this->formEncType);
     }
 
     private function toHtmlFormFooter( )
@@ -116,7 +129,7 @@ class KVDhtml_FormHelper {
      */
     public function toHtml ( $cssClasses = null )
     {
-        $html = $this->toHtmlFormHeader( );
+        $html = $this->toHtmlFormHeader( ) . "\n";
         if (!is_null($cssClasses)) {
             $this->_tableHelper->setCssClasses($cssClasses);
         }
