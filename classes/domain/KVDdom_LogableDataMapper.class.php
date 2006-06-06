@@ -213,17 +213,21 @@ abstract class KVDdom_LogableDataMapper extends KVDdom_ChangeableDataMapper
         return $this->executeFindMany ( $stmt );
     }
 
-    public function approveRecord ( $id )
+    /**
+     * @param KVDdom_DomainObject $domainObject
+     * @throws <b>Exception</b> - Indien een record niet goedgekeurd kan worden.
+     */
+    public function approve ( $domainObject )
     {
         $stmt = $this->_conn->preparestatement ( $this->getApproveRecordStatement( ) );
-        $stmt->setInt(1, $id );
+        $stmt->setInt(1, $domainObject->getId( ) );
         try {
             $stmt->executeUpdate( );
         } catch (SQLException $e) {
             throw new Exception ( 'Het record kan niet goedgekeurd worden omwille van een SQL probleem: ' . $e->getMessage( ) );
         }
         $stmt = $this->_conn->preparestatement (  $this->getApproveLogRecordsStatement( ) );
-        $stmt->setInt( 1, $id );
+        $stmt->setInt( 1, $domainObject->getId( ) );
         try {
             $stmt->executeUpdate( );
         } catch (SQLException $e) {
@@ -231,7 +235,11 @@ abstract class KVDdom_LogableDataMapper extends KVDdom_ChangeableDataMapper
         }
         
     }
-
+    
+    /**
+     * @param Statement $stmt
+     * @return KVDdom_DomainObjectCollection
+     */
     protected function executeLogFindMany( $stmt )
     {
         $rs = $stmt->executeQuery( );
