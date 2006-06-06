@@ -52,6 +52,7 @@ class KVDdom_Sessie {
     private $_newObjects;
     private $_dirtyObjects;
     private $_removedObjects;
+    private $_approvedObjects;
     
     private $_identityMap;
     /**#@-*/
@@ -118,6 +119,7 @@ class KVDdom_Sessie {
         $this->_newObjects = new KVDdom_GenericIdentityMap();
         $this->_dirtyObjects = new KVDdom_GenericIdentityMap();
         $this->_removedObjects = new KVDdom_GenericIdentityMap();
+        $this->_approvedObjects = new KVDdom_GenericIdentityMap();
         
         $this->_identityMap = new KVDdom_GenericIdentityMap();
 
@@ -228,8 +230,7 @@ class KVDdom_Sessie {
         if ($this->_identityMap->getDomainObject($type, $id) == null) {
             throw new Exception ('Een object dat niet in de IdentityMap zit kan niet als dirty gemarkeerd worden.');
         }
-        if (($this->_newObjects->getDomainObject($type, $id) == null) && 
-            ($this->_dirtyObjects->getDomainObject($type, $id) == null)) {
+        if ( ($this->_newObjects->getDomainObject($type, $id) == null) && ($this->_dirtyObjects->getDomainObject($type, $id) == null) ) {
             $this->_dirtyObjects->addDomainObject ( $domainObject );
         }
     }
@@ -273,9 +274,34 @@ class KVDdom_Sessie {
         }
         $this->_identityMap->addDomainObject ( $domainObject );
     }
+    
+    /**
+     * @param KVDdom_DomainObject $domainObject
+     * @throws <b>Exception</b> - Indien er een probleem bij het registreren is.
+     * @throws <b>LogicException</b> - Indien er geprobeerd wordt een object goed te keuren dat niet goedgekeurd mag worden.
+     */
+    public function registerApproved ( $domainObject )
+    {
+        if ( $domainObject->getId( ) == null ) {
+            throw new Exception ( 'Een object moet een id hebben' );
+        }
+        if ( $this->_identityMap->getDomainObject( $domainObject->getClass( ), $domainObject->getId( ) ) == null ) {
+            throw new LogicException ( 'Een object dat niet in de IdentityMap zit kan niet als goed te keuren gemarkeerd worden.');
+        }
+        if ( $this->_newObjects->getDomainObject( $domainObject->getClass( ) , $domainObject->getId( ) ) != null ) {
+            throw new LogicException ( 'Een object dat pas als nieuw gemarkeerd werd kan niet goedgekeurd worden. Het object moet eerst opgeslagen worden.');
+        }
+        if ( $this->_dirtyObjects->getDomainObject( $domainObject->getClass( ) , $domainObject->getId( ) ) != null ) {
+            throw new LogicException ( 'Een object dat gewijzigd werd kan niet goedgekeurd worden. Het object moet eerst opgeslagen worden.');
+        }
+        if ( $this->_removedObjects->getDomainObject( $domainObject->getClass( ) , $domainObject->getId( ) ) != null ) {
+            throw new LogicException ( 'Een object dat verwijderd  werd kan niet goedgekeurd worden. Het object moet eerst opgeslagen worden.');
+        }
+        $this->_approvedObjects->addDomainObject( $domainObject );
+    }
 
     /**
-     * @return array Een array met 3 keys ( 'insert' , 'update' , 'delete' )die het aantal affected records bevatten.
+     * @return array Een array met 3 keys ( 'insert' , 'update' , 'delete' , 'approved' )die het aantal affected records bevatten.
      */
     public function commit()
     {
@@ -283,6 +309,7 @@ class KVDdom_Sessie {
         $affected['insert'] = $this->insertNew();
         $affected['update'] = $this->updateDirty();
         $affected['delete'] = $this->deleteRemoved();
+        $affected['approved'] = $this->updateApproved( );
         return $affected;
     }
 
@@ -336,6 +363,25 @@ class KVDdom_Sessie {
                 $mapper = $this->_mapperRegistry->getMapper ( $type );
                 foreach ( $removedObjects as $removed ) {
                     $mapper->delete($removed);
+                    $count++;
+                }
+            }
+        }
+        return $count;
+    }
+
+    /**
+     * @return integer Het aantal goedgekeurde records.
+     */
+    private function updateApproved( )
+    {
+        $count = 0;
+        foreach ( $this->commitVolgorde as $type ) {
+            $approvedObjects = $this->_approvedObjects->getDomainObjects( $type );
+            if ( $approvedObjects !== null ) {
+                $mapper = $this->_mapperRegistry->getMapper ( $type );
+                foreach ( $approvedObjects as $approved ) {
+                    $mapper->approve($approved);
                     $count++;
                 }
             }
