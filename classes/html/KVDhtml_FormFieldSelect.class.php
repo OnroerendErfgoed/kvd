@@ -51,7 +51,7 @@ class KVDhtml_FormFieldSelect extends KVDhtml_FormField
 
     protected function toHtmlAttribValue()
     {
-        if ($this->value == '') {
+        if ($this->value === '') {
             $this->value = -1;
         }
     }
