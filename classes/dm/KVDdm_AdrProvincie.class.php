@@ -10,7 +10,7 @@
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
  * @since 1.0.0
  */
-class KVDdm_AdrProvincie extends KVDdom_DataMapper {
+class KVDdm_AdrProvincie extends KVDdom_PDODataMapper {
 
     const ID = "provincie.id";
     
@@ -50,7 +50,7 @@ class KVDdm_AdrProvincie extends KVDdom_DataMapper {
      */
     protected function abstractFindAll ( )
     {
-        $stmt = $this->_conn->prepareStatement( $this->getFindAllStatement( ) );
+        $stmt = $this->_conn->prepare( $this->getFindAllStatement( ) );
         return $this->executeFindMany( $stmt );
     }
 
@@ -76,7 +76,7 @@ class KVDdm_AdrProvincie extends KVDdom_DataMapper {
 
         return new KVDdo_AdrProvincie ( $id , 
                                         $this->_sessie,
-                                        $rs->getString( 'provincie_naam') 
+                                        $rs->provincie_naam 
                                         );
     }
     

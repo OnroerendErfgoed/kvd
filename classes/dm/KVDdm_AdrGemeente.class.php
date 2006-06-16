@@ -10,7 +10,7 @@
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
  * @since 1.0.0
  */
-class KVDdm_AdrGemeente extends KVDdom_DataMapper {
+class KVDdm_AdrGemeente extends KVDdom_PDODataMapper {
 
     const ID = "gemeente.id";
     
@@ -64,7 +64,7 @@ class KVDdm_AdrGemeente extends KVDdom_DataMapper {
      */
     public function findAll( $orderField = null )
     {
-        $stmt = $this->_conn->prepareStatement ( $this->getFindAllStatement( ) . $this->getOrderClause( $orderField ));
+        $stmt = $this->_conn->prepare( $this->getFindAllStatement( ) . $this->getOrderClause( $orderField ));
         return $this->executeFindMany( $stmt );
     }
 
@@ -75,14 +75,14 @@ class KVDdm_AdrGemeente extends KVDdom_DataMapper {
      */
     public function findByCrabId( $crabId )
     {
-         $stmt = $this->_conn->prepareStatement( $this->getFindByCrabIdStatement( ));
-         $stmt->setInt( 1, $crabId);
-         $rs = $stmt->executeQuery( );
-         if ( !$rs->next( )) {
+         $stmt = $this->_conn->prepare( $this->getFindByCrabIdStatement( ));
+         $stmt->bindParam( 1, $crabId);
+         $stmt->execute( );
+         if ( !$row = $stmt->fetch( PDO::FETCH_OBJ )) {
             $msg = "KVDdo_AdrGemeente met crabId $crabId kon niet gevonden worden";
             throw new KVDdom_DomainObjectNotFoundException (  $msg , 'KVDdo_AdrGemeente' , $crabId );
          }
-         return $this->doLoad( $rs->getInt( 'id' ),$rs);
+         return $this->doLoad( $row->id, $row);
     }
 
     /**
@@ -98,12 +98,12 @@ class KVDdm_AdrGemeente extends KVDdom_DataMapper {
         }
 
         $provincieMapper = $this->_sessie->getMapper( 'KVDdo_AdrProvincie' ); 
-        $provincie = $provincieMapper->doLoad( $rs->getInt ( 'provincie_id') , $rs );
+        $provincie = $provincieMapper->doLoad( $rs->provincie_id , $rs );
         
         return new KVDdo_AdrGemeente (  $id , 
                                         $this->_sessie,
-                                        $rs->getString ( 'gemeente_naam'),
-                                        $rs->getInt ( 'crab_id'),
+                                        $rs->gemeente_naam,
+                                        $rs->crab_id,
                                         $provincie
                                         );
     }
@@ -115,8 +115,9 @@ class KVDdm_AdrGemeente extends KVDdom_DataMapper {
      */
     public function findByProvincie ( $provincie , $orderField = null)
     {
-       $stmt = $this->_conn->prepareStatement ( $this->getFindByProvincieStatement( ) . $this->getOrderClause( $orderField) );
-       $stmt->setInt( 1, $provincie->getId( ) );
+       $stmt = $this->_conn->prepare ( $this->getFindByProvincieStatement( ) . $this->getOrderClause( $orderField) );
+       $id = $provincie->getId( );
+       $stmt->bindParam( 1, $id );
        return $this->executeFindMany( $stmt );
     }
 
