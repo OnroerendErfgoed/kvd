@@ -68,6 +68,19 @@ abstract class KVDdom_LogableDataMapper extends KVDdom_ChangeableDataMapper
     }
 
     /**
+     * @return string Lijst van de velden met een prefix toegepast.
+     */
+    protected function getLogVelden( $velden, $logtabel )
+    {
+        $fields = explode ( ', ' , $velden );
+        foreach ( $fields as &$field ) {
+            $field = "$logtabel.$field AS $field";
+        }
+        return implode ( ', ', $fields );
+    }
+
+
+    /**
      * Laad een SystemFields object op basis van een ResultSet
      *
      * @param ResultSet $rs Een ResultSet object dat de nodige velden bevat om een SystemFields object mee samen te stellen.
@@ -163,8 +176,7 @@ abstract class KVDdom_LogableDataMapper extends KVDdom_ChangeableDataMapper
         $stmt->setInt(1, $id);
         $rs = $stmt->executeQuery();
         if (!$rs->next()) {
-            $msg = "$returnType met id $id en versienummer $versie kon niet gevonden worden";
-            throw new KVDdom_LogDomainObjectNotFoundException ( $msg );
+            throw new KVDdom_LogDomainObjectNotFoundException ( '', $returnType, $id, $versie);
         }
         return $this->doLogLoad ( $id , $rs );
     }
@@ -209,8 +221,14 @@ abstract class KVDdom_LogableDataMapper extends KVDdom_ChangeableDataMapper
      */
     protected function abstractFindTeRedacteren ( )
     {
-        $stmt = $this->_conn->preparestatement ( $this->getFindTeRedacterenStatement() );
+        $stmt = $this->_conn->prepareStatement ( $this->getFindTeRedacterenStatement() );
         return $this->executeFindMany ( $stmt );
+    }
+
+    protected function abstractFindVerwijderde( )
+    {
+        $stmt = $this->_conn->prepareStatement( $this->getFindVerwijderdeStatement( ) );
+        return $this->executeLogFindMany( $stmt );
     }
 
     /**
@@ -219,21 +237,35 @@ abstract class KVDdom_LogableDataMapper extends KVDdom_ChangeableDataMapper
      */
     public function approve ( $domainObject )
     {
-        $stmt = $this->_conn->preparestatement ( $this->getApproveRecordStatement( ) );
+        $stmt = $this->_conn->prepareStatement ( $this->getApproveRecordStatement( ) );
         $stmt->setInt(1, $domainObject->getId( ) );
         try {
             $stmt->executeUpdate( );
         } catch (SQLException $e) {
             throw new Exception ( 'Het record kan niet goedgekeurd worden omwille van een SQL probleem: ' . $e->getMessage( ) );
         }
-        $stmt = $this->_conn->preparestatement (  $this->getApproveLogRecordsStatement( ) );
+        $stmt = $this->_conn->prepareStatement (  $this->getApproveLogRecordsStatement( ) );
         $stmt->setInt( 1, $domainObject->getId( ) );
         try {
             $stmt->executeUpdate( );
         } catch (SQLException $e) {
             throw new Exception ( 'Het record kan niet goedgekeurd worden omwille van een SQL probleem: ' . $e->getMessage( ) );
         }
-        
+    }
+
+    /**
+     * @param KVDdom_DomainObject $domainObject
+     * @throws <b>Exception</b> - Indien een record zijn geschiedenis niet gewist kan worden.
+     */
+    public function clearHistory( $domainObject )
+    {
+        $stmt = $this->_conn->prepareStatement( $this->getClearLogStatement( ) );
+        $stmt->setInt( 1,$domainObject->getId( ) );
+        try {
+            $stmt->executeUpdate( );
+        } catch ( SQLException $e ) {
+            throw new Exception ( 'De geschiedenis van het record kan niet verwijderd worden omwille van een SQL probleem: ' . $e->getMessage( ) );
+        }
     }
     
     /**
