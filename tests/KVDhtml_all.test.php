@@ -13,7 +13,6 @@ require_once( KVD_CLASSES_DIR . 'html/KVDhtml_FormField.class.php');
 require_once( KVD_CLASSES_DIR . 'html/KVDhtml_FormFieldFile.class.php');
 
 require_once('html/KVDhtml_FormFieldFile.test.php');
-//require_once('CAI_Sessie.test.php');
 
 $test = new GroupTest('KVDhtml_AllTests');
 $test->addTestCase( new TestOfFormFieldFile());
