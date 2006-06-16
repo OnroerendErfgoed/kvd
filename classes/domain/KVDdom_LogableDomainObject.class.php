@@ -14,7 +14,7 @@
  * @since 1.0.0
  */
 
-abstract class KVDdom_LogableDomainObject extends KVDdom_ChangeableDomainObject implements KVDdom_Nullable
+abstract class KVDdom_LogableDomainObject extends KVDdom_ChangeableDomainObject implements KVDdom_Nullable, KVDdom_Verwijderbaar
 {
 
     /**
@@ -22,6 +22,11 @@ abstract class KVDdom_LogableDomainObject extends KVDdom_ChangeableDomainObject 
      * @var KVDdom_SystemFields
      */
     protected $_systemFields;
+
+    /**
+     * @var KVDdom_DomainObjectCollection
+     */
+    protected $_geschiedenis;
 
     /**
      * @param KVDdom_Sessie $sessie 
@@ -41,17 +46,29 @@ abstract class KVDdom_LogableDomainObject extends KVDdom_ChangeableDomainObject 
         if ( $this->_systemFields->isCurrentRecord( ) ) {
             $this->markClean( );
         }
+        $this->_geschiedenis = self::PLACEHOLDER;
     }
 
     /**
      * Markeert dit object als Approved
      *
-     * Dit record zal door KVDdom_Sessie worden goedgeurd in de databank bij het verwerken van de UnitOfWork. Dit komt neer op het uitvoeren van een
+     * Dit record zal door KVDdom_Sessie worden goedgeurd in de databank bij het verwerken van de UnitOfWork.
      */
     protected function markApproved(  )
     {
         $this->_sessie->registerApproved( $this );
     }
+
+    /**
+     * Markeert dit object als HistoryCleared
+     *
+     * Dit geschiedenis van dit record zal door KVDdom_Sessie worden doorgevoerdb in de databank bij het verwerken van de UnitOfWork.
+     */
+    protected function markHistoryCleared(  )
+    {
+        $this->_sessie->registerHistoryCleared( $this );
+    }
+    
     
     /**
      * Geef het SystemFields object van dit DomainObject terug
@@ -76,6 +93,35 @@ abstract class KVDdom_LogableDomainObject extends KVDdom_ChangeableDomainObject 
     public function isNull( )
     {
         return false;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isVerwijderd( )
+    {
+        return false;
+    }
+
+    /**
+     * Verwijder de geschiedenis van het object
+     */
+    public function verwijderGeschiedenis( )
+    {
+        $this->_geschiedenis = new KVDdom_DomainObjectCollection( array( ) );
+        $this->markHistoryCleared( );
+    }
+
+    /**
+     * @return KVDdom_DomainObjectCollection
+     */
+    public function getGeschiedenis( )
+    {
+        if ( $this->_geschiedenis === self::PLACEHOLDER ) {
+            $mapper = $this->_sessie->getMapper( $this->getClass( ) );
+            $this->_geschiedenis = $mapper->findLogAll( $this->id );
+        }
+        return $this->_geschiedenis;
     }
 
 }
