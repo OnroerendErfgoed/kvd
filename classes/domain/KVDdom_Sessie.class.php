@@ -53,6 +53,7 @@ class KVDdom_Sessie {
     private $_dirtyObjects;
     private $_removedObjects;
     private $_approvedObjects;
+    private $_historyClearedObjects;
     
     private $_identityMap;
     /**#@-*/
@@ -120,6 +121,7 @@ class KVDdom_Sessie {
         $this->_dirtyObjects = new KVDdom_GenericIdentityMap();
         $this->_removedObjects = new KVDdom_GenericIdentityMap();
         $this->_approvedObjects = new KVDdom_GenericIdentityMap();
+        $this->_historyClearedObjects = new KVDdom_GenericIdentityMap();
         
         $this->_identityMap = new KVDdom_GenericIdentityMap();
 
@@ -300,8 +302,16 @@ class KVDdom_Sessie {
         $this->_approvedObjects->addDomainObject( $domainObject );
     }
 
+    public function registerHistoryCleared( $domainObject )
+    {
+        if ( $domainObject->getId( ) == null ) {
+            throw new LogicException ( 'Een object waarvan de geschiedenis verwijderd moet worden moet een id hebben' );
+        }
+        $this->_historyClearedObjects->addDomainObject( $domainObject );
+    }
+
     /**
-     * @return array Een array met 3 keys ( 'insert' , 'update' , 'delete' , 'approved' )die het aantal affected records bevatten.
+     * @return array Een array met 4 keys ( 'insert' , 'update' , 'delete' , 'approved', 'historyCleared' )die het aantal affected records bevatten.
      */
     public function commit()
     {
@@ -310,6 +320,7 @@ class KVDdom_Sessie {
         $affected['update'] = $this->updateDirty();
         $affected['delete'] = $this->deleteRemoved();
         $affected['approved'] = $this->updateApproved( );
+        $affected['historyCleared'] = $this->deleteHistoryCleared( );
         return $affected;
     }
 
@@ -382,6 +393,25 @@ class KVDdom_Sessie {
                 $mapper = $this->_mapperRegistry->getMapper ( $type );
                 foreach ( $approvedObjects as $approved ) {
                     $mapper->approve($approved);
+                    $count++;
+                }
+            }
+        }
+        return $count;
+    }
+
+    /**
+     * @return integer Het aantal records waarvan de geschiedenis gecleared werd.
+     */
+    private function deleteHistoryCleared( )
+    {
+        $count = 0;
+        foreach ( $this->commitVolgorde as $type ) {
+            $objects = $this->_historyClearedObjects->getDomainObjects( $type );
+            if ( $objects !== null ) {
+                $mapper = $this->_mapperRegistry->getMapper ( $type );
+                foreach ( $objects as $object ) {
+                    $mapper->clearHistory( $object );
                     $count++;
                 }
             }
