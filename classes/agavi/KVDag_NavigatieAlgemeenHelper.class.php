@@ -143,8 +143,7 @@ class KVDag_NavigatieAlgemeenHelper
 
     private function checkIdSet ( &$action , &$parameters )
     {
-        
-        if (isset($action['needsId']) && $action['needsId'] == true ) {
+        if (isset($action['needsId']) && $action['needsId'] == true && $this->id != null) {
             $parameters['id'] = $this->id;
         } else {
             if (isset($parameters['id'])) {

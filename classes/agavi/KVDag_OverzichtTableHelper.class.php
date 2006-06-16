@@ -10,7 +10,8 @@
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
  * @since 1.0.0
  */
-class KVDag_OverzichtTableHelper {
+class KVDag_OverzichtTableHelper extends KVDag_AbstractHelper
+{
 
     /**
      * @var WebController
@@ -19,7 +20,7 @@ class KVDag_OverzichtTableHelper {
     /**
      * @var string
      */
-    protected $module;
+    protected $standardModule;
     /**
      * @var array
      */
@@ -82,10 +83,10 @@ class KVDag_OverzichtTableHelper {
         $this->_htmlLinkHelper = New KVDhtml_LinkHelper();
         
         $this->_controller = $ctrl;
-        $this->module = $moduleConfig['module'];
+        $this->standardModule = $moduleConfig['module'];
         // maak de basisurl aan voor navigatie door de records
         if (!is_array ( $moduleConfig['actionOverzicht'] ) ) {
-            $this->actionOverzicht =    array ( AG_MODULE_ACCESSOR => $this->module,
+            $this->actionOverzicht =    array ( AG_MODULE_ACCESSOR => $this->standardModule,
                                                 AG_ACTION_ACCESSOR => $moduleConfig['actionOverzicht']);
         } else {
             $this->actionOverzicht = $moduleConfig['actionOverzicht'];
@@ -129,7 +130,7 @@ class KVDag_OverzichtTableHelper {
     {
         // bouw het overzicht
         foreach ($rows as &$row) {
-            $parameters =   array ( AG_MODULE_ACCESSOR => $this->module,
+            $parameters =   array ( AG_MODULE_ACCESSOR => $this->standardModule,
                                     'id' => $row[0]);
             foreach ($this->actionsPerRow as &$action) {
                 if ( $this->checkCredential( $action) ) {
@@ -215,7 +216,7 @@ class KVDag_OverzichtTableHelper {
     /**
      * @param KVDdom_DomainObjectCollection $collection
      */
-    public function genRowsForCollection ( $collection )
+    public function genRowsForCollection ( $collection , $generateActions = true )
     {
         $rows=array( );
         foreach ( $collection as $domainObject) {
@@ -223,12 +224,39 @@ class KVDag_OverzichtTableHelper {
             foreach (  $this->fieldsPerRow as $field ) {
                 $row[] = $this->getDataForFieldString(  $domainObject , $field );
             }
+            if ( $generateActions && isset( $this->actionsPerRow ) ) {
+                $row[] = $this->getLinks( $domainObject );           
+            }
             $rows[] = $row;
         }
         if ( count ( $rows ) > 0) {
-            $this->setRows (  $rows );
-            $this->setHeaders (  $this->headers );
+            $this->_htmlTableHelper->setRows (  $rows );
+            $this->_htmlTableHelper->setHeaders (  $this->headers );
         }
+    }
+
+    private function getLinks ( $domainObject )
+    {
+         $links = array(  );
+         foreach( $this->actionsPerRow as &$action ) {
+             if (  $this->checkCredential(  $action ) ) {
+                 if (  $this->checkForCurrentRecord(  $action, $domainObject ) &&
+                    $this->checkForGecontroleerd(  $action, $domainObject ) ) {
+                    $links[$action['naam']] = $this->genLinkFromAction(  $action , $domainObject);
+                 }
+             }
+         }
+         return implode ( ' ' , $links );
+    }
+
+    protected function determineAction( $action , $domainObject )
+    {
+         if ( !is_array ( $action['action'] ) ) {
+            $action['action'] = array (  AG_MODULE_ACCESSOR => $this->standardModule,
+                                         AG_ACTION_ACCESSOR => $action['action']);
+         }
+         $action['action']['id'] = $domainObject->getId( );
+         return $action['action'];
     }
 }
 ?>

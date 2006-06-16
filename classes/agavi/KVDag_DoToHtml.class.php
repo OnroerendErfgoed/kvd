@@ -9,6 +9,7 @@
  * @package KVD.ag.domHtml
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
  * @since 1.0.0
+ * @deprecated
  */
 abstract class KVDag_DoToHtml
 {

@@ -11,6 +11,7 @@
  * @package KVD.agavi
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
  * @since 1.0.0
+ * @deprecated
  */
 class KVDag_SingleRecordToHtml {
 
