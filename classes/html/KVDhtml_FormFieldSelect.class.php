@@ -25,7 +25,7 @@ class KVDhtml_FormFieldSelect extends KVDhtml_FormField
     /**
      * @var string
      */
-    protected $fieldFormat = "<select name=\"%s\"%s%s%s>\n";
+    protected $fieldFormat = "<select name=\"%s\"%s%s%s%s>\n";
 
     /**
      * @var string
@@ -65,12 +65,13 @@ class KVDhtml_FormFieldSelect extends KVDhtml_FormField
         $this->tohtmlAttribMultiple();
         $this->toHtmlAttribValue();
         $this->toHtmlAttribDisabled();
+        $this->toHtmlAttribSize( );
 
         if ($this->multiple && substr($this->name, -2) != "[]") {
             $this->name .= "[]";
         }
         
-        $select = sprintf($this->fieldFormat,$this->name, $this->class, $this->multiple, $this->disabled);
+        $select = sprintf($this->fieldFormat,$this->name, $this->class, $this->multiple, $this->disabled,$this->size);
         foreach ($this->options as $value => $text) {
             $selected = ($value == $this->value) ? ' selected' : '';
             $select .= sprintf($this->optionFormat, $value, $selected, $text);

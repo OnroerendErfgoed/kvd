@@ -21,8 +21,9 @@ class KVDhtml_FormFieldPassword extends KVDhtml_FormField
         $this->toHtmlAttribClass();
         $this->toHtmlAttribReadonly();
         $this->toHtmlAttribDisabled();
+        $this->toHtmlAttribSize( );
      
-        return sprintf($this->fieldFormat, 'password', $this->name, $this->value, $this->class, $this->readonly, $this->disabled,'');
+        return sprintf($this->fieldFormat, 'password', $this->name, $this->value, $this->class, $this->readonly, $this->disabled,$this->size,'');
         
     }
 }

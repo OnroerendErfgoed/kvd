@@ -16,7 +16,7 @@ class KVDhtml_FormFieldRadio extends KVDhtml_FormField
     /**
      * @var string
      */
-    protected $fieldFormat = "<input type=\"radio\" name=\"%s\"%s%s%s%s/>%s\n";
+    protected $fieldFormat = "<input type=\"radio\" name=\"%s\"%s%s%s%s%s/>%s\n";
 
     /**
      * @var string
@@ -38,8 +38,9 @@ class KVDhtml_FormFieldRadio extends KVDhtml_FormField
         $this->toHtmlAttribClass();
         $this->toHtmlAttribDisabled();
         $this->toHtmlAttribChecked( );
+        $this->toHtmlAttribSize( );
      
-        return sprintf($this->fieldFormat, $this->name, $this->value, $this->class, $this->disabled, $this->checked, $this->legend);
+        return sprintf($this->fieldFormat, $this->name, $this->value, $this->class, $this->disabled, $this->checked, $this->size,$this->legend);
     }
 }
 ?>

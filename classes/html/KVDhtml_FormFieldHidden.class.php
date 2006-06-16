@@ -19,7 +19,7 @@ class KVDhtml_FormFieldHidden extends KVDhtml_FormField
     {
         $this->toHtmlAttribValue();
         
-        return sprintf($this->fieldFormat, 'hidden', $this->name, $this->value, '', '', '','');
+        return sprintf($this->fieldFormat, 'hidden', $this->name, $this->value, '', '', '','','');
     }
 }
 ?>

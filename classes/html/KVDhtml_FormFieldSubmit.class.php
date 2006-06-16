@@ -20,8 +20,9 @@ class KVDhtml_FormFieldSubmit extends KVDhtml_FormField
         $this->toHtmlAttribValue();
         $this->toHtmlAttribClass();
         $this->toHtmlAttribDisabled();
+        $this->toHtmlAttribSize( );
      
-        return sprintf($this->fieldFormat, 'submit', $this->name, $this->value, $this->class, '', $this->disabled,'');
+        return sprintf($this->fieldFormat, 'submit', $this->name, $this->value, $this->class, '', $this->disabled,$this->size,'');
     }
 }
 ?>
