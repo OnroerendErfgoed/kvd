@@ -311,7 +311,7 @@ class KVDdom_Sessie {
     }
 
     /**
-     * @return array Een array met 4 keys ( 'insert' , 'update' , 'delete' , 'approved', 'historyCleared' )die het aantal affected records bevatten.
+     * @return array Een array met 5 keys ( 'insert' , 'update' , 'delete' , 'approved', 'historyCleared' )die het aantal affected records bevatten.
      */
     public function commit()
     {
@@ -329,18 +329,7 @@ class KVDdom_Sessie {
      */
     private function insertNew()
     {
-        $count = 0;
-        foreach ($this->commitVolgorde as $type) {
-            $newObjects = $this->_newObjects->getDomainObjects($type);
-            if ( $newObjects !== null ) {
-                $mapper = $this->_mapperRegistry->getMapper ( $type );
-                foreach ( $newObjects as $new ) {
-                    $mapper->insert($new);
-                    $count++;
-                }
-            }
-        }
-        return $count;
+        return $this->processIdentityMap( $this->_newObjects, 'insert' );
     }
 
     /**
@@ -348,18 +337,7 @@ class KVDdom_Sessie {
      */
     private function updateDirty()
     {
-        $count = 0;
-        foreach ($this->commitVolgorde as $type) {
-            $dirtyObjects = $this->_dirtyObjects->getDomainObjects($type);
-            if ( $dirtyObjects !== null ) {
-                $mapper = $this->_mapperRegistry->getMapper ( $type );
-                foreach ( $dirtyObjects as $dirty ) {
-                    $mapper->update($dirty);
-                    $count++;
-                }
-            }
-        }
-        return $count;
+        return $this->processIdentityMap( $this->_dirtyObjects, 'update' );
     }
 
     /**
@@ -367,18 +345,7 @@ class KVDdom_Sessie {
      */
     private function deleteRemoved()
     {
-        $count=0;
-        foreach ($this->commitVolgorde as $type) {
-            $removedObjects = $this->_removedObjects->getDomainObjects($type);
-            if ( $removedObjects !== null ) {
-                $mapper = $this->_mapperRegistry->getMapper ( $type );
-                foreach ( $removedObjects as $removed ) {
-                    $mapper->delete($removed);
-                    $count++;
-                }
-            }
-        }
-        return $count;
+        return $this->processIdentityMap( $this->_removedObjects , 'delete');
     }
 
     /**
@@ -386,18 +353,7 @@ class KVDdom_Sessie {
      */
     private function updateApproved( )
     {
-        $count = 0;
-        foreach ( $this->commitVolgorde as $type ) {
-            $approvedObjects = $this->_approvedObjects->getDomainObjects( $type );
-            if ( $approvedObjects !== null ) {
-                $mapper = $this->_mapperRegistry->getMapper ( $type );
-                foreach ( $approvedObjects as $approved ) {
-                    $mapper->approve($approved);
-                    $count++;
-                }
-            }
-        }
-        return $count;
+        return $this->processIdentityMap( $this->_approvedObjects , 'approve');
     }
 
     /**
@@ -405,14 +361,26 @@ class KVDdom_Sessie {
      */
     private function deleteHistoryCleared( )
     {
+        return $this->processIdentityMap( $this->_historyClearedObjects , 'clearHistory');
+    }
+
+    /**
+     * @param KVDdom_GenericIdentityMap De te verwerken IdentityMap.
+     * @param string $mapperFunction De naam van de functie op de bijhorende mapper die moet aangeroepen worden.
+     * @return integer Het aantal verwerkte objecten.
+     */
+    private function processIdentityMap ( $identityMap, $mapperFunction )
+    {
         $count = 0;
         foreach ( $this->commitVolgorde as $type ) {
-            $objects = $this->_historyClearedObjects->getDomainObjects( $type );
+            $objects = $identityMap->getDomainObjects( $type );
             if ( $objects !== null ) {
                 $mapper = $this->_mapperRegistry->getMapper ( $type );
                 foreach ( $objects as $object ) {
-                    $mapper->clearHistory( $object );
+                    $mapper->$mapperFunction( $object );
                     $count++;
+                    $identityMap->removeDomainObject( $type, $object->getId( ) );
+                    $this->_identityMap->removeDomainObject( $type, $object->getId( ) );
                 }
             }
         }
