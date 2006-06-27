@@ -124,4 +124,27 @@ abstract class KVDdom_LogableDomainObject extends KVDdom_ChangeableDomainObject 
         return $this->_geschiedenis;
     }
 
+    /**
+     * @param KVDdom_LogableDomainObject
+     */
+    abstract public function updateToPreviousVersion ( $previous );
+
+    /**
+     * Controleer of het mogelijk is het huidige DomainObject te updaten naar de vorige versie.
+     * @param KVDdom_LogableDomainObject
+     */
+    protected function checkPreviousVersion( $previous )
+    {
+        if ( !$previous->getClass( ) === $this->getClass( ) ) {
+            throw new LogicException ( 'Kan enkel update naar een vorige versie van mezelf!' );
+        }
+        if ( !$this->getSystemFields( )->isCurrentRecord( ) && !$this->isNull( ) ) {
+            throw new LogicException ( 'Dit object is niet de huidige versie of een verwijderde versie en kan dus niet geupdate worden!');
+        }
+        if ( $previous->getSystemFields( )->isCurrentRecord( ) ) {
+            throw new LogicException ( 'Er kan enkel geupate worden naar oude versies! ');
+        }
+    }
+    
+
 }
