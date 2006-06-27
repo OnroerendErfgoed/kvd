@@ -62,6 +62,22 @@ abstract class KVDdom_LogableDataMapper extends KVDdom_ChangeableDataMapper
     /**
      * @return string SQL statement
      */
+    abstract protected function getFindTeRedacterenStatement( );
+
+    /**
+     * @return string SQL statement
+     */
+    abstract protected function getFindVerwijderdeStatement( );
+
+    /**
+     * @return string SQL statement
+     */
+    abstract protected function getClearLogStatement( );
+    
+
+    /**
+     * @return string SQL statement
+     */
     protected function getLogOrderStatement()
     {
         return " ORDER BY versie DESC";    
@@ -155,6 +171,31 @@ abstract class KVDdom_LogableDataMapper extends KVDdom_ChangeableDataMapper
         }
     }
 
+
+    /**
+     * Een abstract functie die het grootste deel van het opzoekwerk naar een DomainObject met een specifieke Id uitvoert
+     *
+     * @param string $returnType Het soort DomainObject dat gevraagd wordt, nodig om de IdentityMap te controleren.
+     * @param integer $id Het id nummer van het gevraagd DomainObject.
+     * @return KVDdom_DomainObject Een DomainObject van het type dat gevraagd werd met de parameter $returnType.
+     * @throws <b>KVDdom_DomainObjectNotFoundException</b> - Indien het gevraagde DomainObject niet werd gevonden.
+     */
+    protected function abstractFindById ( $returnType , $id )
+    {
+        try {
+            $domainObject = parent::abstractFindById( $returnType, $id );
+        } catch ( KVDdom_DomainObjectNotFoundException $e ) {
+            try {
+                $laatsteVersie = $this->findByLogId( $id );
+            } catch ( KVDdom_LogDomainObjectNotFoundException $le ) {
+                throw $e;
+            }
+            $systemFields = new KVDdom_SystemFields( 'ongekend',false,$laatsteVersie->getSystemFields( )->getVersie( ) );
+            $domainObject = $this->createDeleted( $id, $systemFields );
+        }
+        return $domainObject;
+    }
+
     /**
      * Een abstracte methode om een gelogde versie van een domainObject aan te maken.
      *
@@ -216,6 +257,22 @@ abstract class KVDdom_LogableDataMapper extends KVDdom_ChangeableDataMapper
     abstract public function doLogLoad ( $id , $rs);
 
     /**
+     * @param integer $id
+     * @return KVDdom_DomainObjectCollection
+     */
+    abstract public function findLogAll( $id );
+
+    /**
+     * @param KVDdom_DomainObjectCollection
+     */
+    abstract public function findTeRedacteren( );
+
+    /**
+     * @param KVDdom_DomainObjectCollection
+     */
+    abstract public function findVerwijderde( );
+
+    /**
      * Zoek alle records van deze datamapper die nog niet gecontroleerd zijn.
      * @return KVDdom_DomainObjectCollection
      */
@@ -230,6 +287,24 @@ abstract class KVDdom_LogableDataMapper extends KVDdom_ChangeableDataMapper
         $stmt = $this->_conn->prepareStatement( $this->getFindVerwijderdeStatement( ) );
         return $this->executeLogFindMany( $stmt );
     }
+
+    /**
+     * @param KVDdom_LogableDomainObject
+     * @return KVDdom_LogableDomainObject
+     */
+    protected function restoreDeleted( $domainObject )
+    {
+        $domainObject->getSystemFields( )->updateSystemFields( $this->_sessie->getGebruiker( )->getGebruikersNaam( ));
+        $this->insert( $domainObject );
+        return $domainObject;
+    }
+
+    /**
+     * Maak een Special Case aan van een domainObject dat null is maar wel kan geupadte worden.
+     * @param integer $id
+     * @param KVDdom_SystemFields $systemFields
+     */
+    abstract protected function createDeleted( $id, $systemFields );
 
     /**
      * @param KVDdom_DomainObject $domainObject
