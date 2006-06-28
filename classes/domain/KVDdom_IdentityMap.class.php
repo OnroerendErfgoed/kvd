@@ -11,7 +11,7 @@
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
  * @since 1.0.0
  */
-class KVDdom_GenericIdentityMap implements Iterator {
+class KVDdom_GenericIdentityMap implements Iterator, Countable {
     
     /**
      * @var array;
@@ -111,6 +111,14 @@ class KVDdom_GenericIdentityMap implements Iterator {
             }
         }
         return false;
+    }
+    
+    /**
+     * @return integer Het aantal domainObject die nog aanwezig zijn in deze identity map. Onafhankelijk van hun type.
+     */
+    public function count( )
+    {
+        return count( $this->maps, COUNT_RECURSIVE) - count( $this->maps,0 );        
     }
 }
 ?>
