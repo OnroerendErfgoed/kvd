@@ -11,7 +11,7 @@
  * Is ook het centrale aanspreekpunt voor de Identity Map en het MapperRegistry.
  * @package KVD.dom
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @since 1.0.0
+ * @since 2005
  * @todo Uitzoeken of deze class nog nood heeft aan een ref naar de gebruiker aangezien deze info wschl in het User object zal zitten.
  */
 class KVDdom_Sessie {
@@ -341,11 +341,14 @@ class KVDdom_Sessie {
     }
 
     /**
+     * Verwijder alle domainObjects die al Te Verwijderen gemarkeerd zijn uit de databank. 
+     * Het verwijderen zal in de omgekeerde volgorde van de commitVolgorde gebeuren, dit zal waarschijnlijk de regels voor referentiele integriteit beter respecteren.
      * @return integer Het aantal verwijderde records.
      */
     private function deleteRemoved()
     {
-        return $this->processIdentityMap( $this->_removedObjects , 'delete');
+        $commitVolgorde = array_reverse( $this->commitVolgorde );
+        return $this->processIdentityMap( $this->_removedObjects , 'delete', $commitVolgorde );
     }
 
     /**
@@ -367,12 +370,16 @@ class KVDdom_Sessie {
     /**
      * @param KVDdom_GenericIdentityMap De te verwerken IdentityMap.
      * @param string $mapperFunction De naam van de functie op de bijhorende mapper die moet aangeroepen worden.
+     * @param array $commitVolgorde Een array die aangeeft in welk volgorde de mappers moeten aangesproken worden.
      * @return integer Het aantal verwerkte objecten.
      */
-    private function processIdentityMap ( $identityMap, $mapperFunction )
+    private function processIdentityMap ( $identityMap, $mapperFunction , $commitVolgorde = null )
     {
+        if ( $commitVolgorde === null ) {
+            $commitVolgorde = $this->commitVolgorde;
+        }
         $count = 0;
-        foreach ( $this->commitVolgorde as $type ) {
+        foreach ( $commitVolgorde as $type ) {
             $objects = $identityMap->getDomainObjects( $type );
             if ( $objects !== null ) {
                 $mapper = $this->_mapperRegistry->getMapper ( $type );
