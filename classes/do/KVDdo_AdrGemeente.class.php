@@ -35,20 +35,28 @@ class KVDdo_AdrGemeente extends KVDdom_ReadonlyDomainObject {
     private $_straten;
 
     /**
+     * Collectie van alle deelgemeenten in deze gemeente.
+     * @var KVDdom_DomainObjectCollection
+     */
+    private $_deelgemeenten;
+
+    /**
      * @param integer $id
      * @param KVDdom_Sessie $sessie
      * @param string $naam
      * @param integer $crabId
      * @param KVddo_AdrProvincie $provincie
      * @param KVDdom_DomainObjectCollection $straten
+     * @param KVDdom_DomainObjectCollection $deelgemeenten
      */
-    public function __construct ( $id , $sessie , $naam = 'Onbepaald', $crabId = 0, $provincie = null, $straten = null )
+    public function __construct ( $id , $sessie , $naam = 'Onbepaald', $crabId = 0, $provincie = null, $straten = null, $deelgemeenten = null)
     {
         parent::__construct ( $id , $sessie);
         $this->naam = $naam;
         $this->crabId = $crabId;
         $this->_provincie = ( $provincie === null ) ? new KVDdo_AdrProvincie( 0 , $sessie) : $provincie;
         $this->_straten = ( $straten === null ) ? self::PLACEHOLDER : $straten;
+        $this->_deelgemeenten = ( $deelgemeenten === null ) ? self::PLACEHOLDER : $deelgemeenten;
     }
 
     /**
@@ -87,6 +95,19 @@ class KVDdo_AdrGemeente extends KVDdom_ReadonlyDomainObject {
             
         }
         return $this->_straten;    
+    }
+
+    /**
+     * Een collectie van KVDdo_Deelgemeente objecten.
+     * @return KVDdom_DomainObjectCollection
+     */
+    public function getDeelgemeenten( )
+    {
+        if ( $this->_deelgemeenten === self::PLACEHOLDER ) {
+            $mapper = $this->_sessie->getMapper( 'KVDdo_AdrDeelgemeente' );
+            $this->_deelgemeenten = $mapper->findByGemeente( $this , 'deelgemeenteNaam');
+        }
+        return $this->_deelgemeenten;
     }
 
     /**
