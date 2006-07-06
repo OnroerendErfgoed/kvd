@@ -8,7 +8,7 @@
 /**
  * @package KVD.do.adr
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @since 1.0.0
+ * @since maart 2006
  */
 class KVDdo_AdrStraat extends KVDdom_ReadonlyDomainObject {
     
@@ -37,6 +37,7 @@ class KVDdo_AdrStraat extends KVDdom_ReadonlyDomainObject {
      * @param integer $id
      * @param KVDdom_Sessie $sessie
      * @param string $naam
+     * @param string $label
      * @param KVDdo_AdrGemeente $gemeente
      * @param KVDdom_DomainObjectCollection $huisnummers
      */
