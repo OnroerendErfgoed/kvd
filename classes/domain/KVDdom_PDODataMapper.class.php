@@ -114,7 +114,7 @@ abstract class KVDdom_PDODataMapper {
 
     /**
      * Voor een query uit en geef de resultaten terug als een collectie van domainobjects.
-     * @param $stmt Statement
+     * @param PDOStatement $stmt
      * @return KVDdom_DomainObjectCollection
      */
     protected function executeFindMany ( $stmt )
@@ -128,12 +128,12 @@ abstract class KVDdom_PDODataMapper {
     }
     /**
      * Voor een query uit en geef de resultaten terug als een luie collectie van domainobjects.
-     * @param $stmt Statement
+     * @param string $sql
      * @return KVDdom_LazyDomainObjectCollection
      */
-    protected function executeLazyFindMany ( $stmt )
+    protected function executeLazyFindMany ( $sql )
     {
-        return new KVDdom_LazyDomainObjectCollection ( new KVDdom_ChunkyQuery( $stmt , $this ) );
+        return new KVDdom_LazyDomainObjectCollection ( new KVDdom_PDOChunkyQuery( $this->_conn , $this , $sql) );
     }
     
 }
