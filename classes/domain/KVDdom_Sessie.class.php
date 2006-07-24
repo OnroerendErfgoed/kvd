@@ -391,6 +391,9 @@ class KVDdom_Sessie {
                 }
             }
         }
+        if ( count( $identityMap ) > 0 ) {
+            throw new KVDdom_IncompleteSessieCommitException ( 'Het verwerken van de sessie is niet compleet.', $mapperFunction, count( $identityMap ) );
+        }
         return $count;
     }
 
