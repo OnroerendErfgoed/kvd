@@ -10,7 +10,7 @@
  *
  * @package KVD.dom.exception
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @since 1.0.0
+ * @since 21 april 2006
  */
 class KVDdom_ConcurrencyException extends Exception
 {
@@ -50,5 +50,25 @@ class KVDdom_ConcurrencyException extends Exception
         return $this->domainObject;
     }
 
+}
+
+/**
+ * Bij het committen van een sessie werd niet alle data verwerkt
+ * @package KVD.dom.exception
+ * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
+ * @since 28 jun 2006
+ */
+class KVDdom_IncompleteSessieCommitException extends Exception
+{
+    /**
+     * @param string $msg
+     * @param string $identityMap Naam van de Identity Map die niet volledig verwerkt werd.
+     * @param integer $mapCount Aantal overblijvende objecten.
+     */
+    public function __construct ( $msg, $identityMap, $mapCount)
+    {
+        parent::__construct( $msg );
+        $this->message .= " [Sessie Error: {$identityMap} werd niet volledig verwerkt en bevat nog {$mapCount} objecten.]";
+    }
 }
 ?>
