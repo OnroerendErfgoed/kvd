@@ -13,7 +13,7 @@
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
  * @since 1.0.0
  */
-abstract class KVDdom_ReadonlyDomainObject implements KVDdom_DomainObject {
+abstract class KVDdom_ReadonlyDomainObject implements KVDdom_DomainObject , KVDdom_Nullable {
 
     /**
      * Een constante om aan te geven dat een bepaald veld nog geladen moet worden.
@@ -60,6 +60,14 @@ abstract class KVDdom_ReadonlyDomainObject implements KVDdom_DomainObject {
     public function getClass()
     {
         return get_class( $this );
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isNull( )
+    {
+        return false;
     }
     
     /**
