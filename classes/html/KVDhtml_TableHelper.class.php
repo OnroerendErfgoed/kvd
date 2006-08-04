@@ -230,7 +230,7 @@ class KVDhtml_TableHelper {
      */
     public function addRows(&$rows) {
         if (!is_array($rows)) {
-            throw new Exception ( 'Ongeldige parameter! $rows is geen array!' );    
+            throw new Exception ( "Ongeldige parameter! $rows is geen array!" );    
         }
         foreach ($rows as &$row) {
             $this->addRow($row);
