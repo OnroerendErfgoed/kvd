@@ -377,11 +377,13 @@ class KVDgis_Crab1Gateway implements KVDutil_Gateway
 
         $xmlObject = @simplexml_load_string ( $result->CRABgethuisnummerlijstResult->any );
         $huisnummers = array( );
-        foreach ( $xmlObject->CRAB_huisnummerlijst->huisnummerlijst as $huisnummer ) {
-            $huisnummerArray = array( );
-            $huisnummerArray['huisnummer'] = utf8_decode( $huisnummer->huisNummer );
-            $huisnummerArray['huisnummerId'] = ( int ) $huisnummer->huisNummerId;
-            $huisnummers[] = $huisnummerArray;
+        if ( isset( $xmlObject->CRAB_huisnummerlijst ) ) {
+            foreach ( $xmlObject->CRAB_huisnummerlijst->huisnummerlijst as $huisnummer ) {
+                $huisnummerArray = array( );
+                $huisnummerArray['huisnummer'] = utf8_decode( $huisnummer->huisNummer );
+                $huisnummerArray['huisnummerId'] = ( int ) $huisnummer->huisNummerId;
+                $huisnummers[] = $huisnummerArray;
+            }
         }
         $this->_cache->cachePut ( __FUNCTION__ , $functionParameters , serialize( $huisnummers ) );
         return $huisnummers;
