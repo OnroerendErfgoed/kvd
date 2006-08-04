@@ -24,7 +24,7 @@ class KVDhtml_FormFieldText extends KVDhtml_FormField
         $this->toHtmlAttribDisabled();
         $this->toHtmlAttribSize( );
      
-        return sprintf($this->fieldFormat, 'text', $this->name, $this->value, $this->class, $this->readonly, $this->disabled,$this->size,'');
+        return sprintf($this->fieldFormat, 'text', $this->name, $this->id, $this->value, $this->class, $this->readonly, $this->disabled,$this->size,'');
     }
 }
 ?>

@@ -15,7 +15,7 @@ class KVDhtml_FormFieldTextarea extends KVDhtml_FormField
     /**
      * @var string
      */
-    protected $fieldFormat = "<textarea name=\"%s\" cols=\"%s\" rows=\"%s\"%s%s%s>\n%s\n</textarea>\n";
+    protected $fieldFormat = "<textarea name=\"%s\" id=\"%s\" cols=\"%s\" rows=\"%s\"%s%s%s>\n%s\n</textarea>\n";
 
     /**
      * @var integer
@@ -46,7 +46,7 @@ class KVDhtml_FormFieldTextarea extends KVDhtml_FormField
         $this->toHtmlAttribReadonly();
         $this->toHtmlAttribDisabled();
      
-        return sprintf($this->fieldFormat, $this->name, $this->cols, $this->rows, $this->class, $this->readonly, $this->disabled, $this->value);
+        return sprintf($this->fieldFormat, $this->name, $this->id, $this->cols, $this->rows, $this->class, $this->readonly, $this->disabled, $this->value);
     }
 }
 ?>

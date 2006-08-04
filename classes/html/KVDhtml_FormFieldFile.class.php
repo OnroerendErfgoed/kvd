@@ -39,7 +39,7 @@ class KVDhtml_FormFieldFile extends KVDhtml_FormField
         $this->toHtmlAttribReadonly();
         $this->toHtmlAttribSize( );
      
-        return sprintf($this->fieldFormat, 'file', $this->name, $this->value, $this->class, $this->readonly, $this->disabled,$this->size,'');
+        return sprintf($this->fieldFormat, 'file', $this->name, $this->id, $this->value, $this->class, $this->readonly, $this->disabled,$this->size,'');
     }
 }
 ?>

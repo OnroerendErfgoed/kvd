@@ -25,7 +25,7 @@ class KVDhtml_FormFieldSelect extends KVDhtml_FormField
     /**
      * @var string
      */
-    protected $fieldFormat = "<select name=\"%s\"%s%s%s%s>\n";
+    protected $fieldFormat = "<select name=\"%s\" id=\"%s\"%s%s%s%s>\n";
 
     /**
      * @var string
@@ -38,7 +38,7 @@ class KVDhtml_FormFieldSelect extends KVDhtml_FormField
     protected function setField(&$fieldOptions)
     {
         parent::setField($fieldOptions);
-        $this->options = (isset($fieldOptions['options'])) ? $fieldOptions['options'] : '';
+        $this->options = (isset($fieldOptions['options'])) ? $fieldOptions['options'] : array( );
         $this->multiple = (isset($fieldOptions['multiple'])) ? $fieldOptions['multiple'] : '';
     }
 
@@ -71,7 +71,7 @@ class KVDhtml_FormFieldSelect extends KVDhtml_FormField
             $this->name .= "[]";
         }
         
-        $select = sprintf($this->fieldFormat,$this->name, $this->class, $this->multiple, $this->disabled,$this->size);
+        $select = sprintf($this->fieldFormat,$this->name,$this->id, $this->class, $this->multiple, $this->disabled,$this->size);
         foreach ($this->options as $value => $text) {
             $selected = ($value == $this->value) ? ' selected' : '';
             $select .= sprintf($this->optionFormat, $value, $selected, $text);

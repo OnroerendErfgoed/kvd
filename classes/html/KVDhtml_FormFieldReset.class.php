@@ -22,7 +22,7 @@ class KVDhtml_FormFieldReset extends KVDhtml_FormField
         $this->toHtmlAttribDisabled();
         $this->toHtmlAttribSize( );
      
-        return sprintf($this->fieldFormat, 'reset', $this->name, $this->value, $this->class, '', $this->disabled,$this->size,'');
+        return sprintf($this->fieldFormat, 'reset', $this->name, $this->id, $this->value, $this->class, '', $this->disabled,$this->size,'');
     }
 }
 ?>

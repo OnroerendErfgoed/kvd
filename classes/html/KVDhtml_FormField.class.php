@@ -48,9 +48,14 @@ abstract class KVDhtml_FormField
     protected $size;
 
     /**
+     * @var string
+     */
+    protected $id;
+
+    /**
      * @var string 
      */
-    protected $fieldFormat = "<input type=\"%s\" name=\"%s\"%s%s%s%s%s%s/>\n";
+    protected $fieldFormat = "<input type=\"%s\" name=\"%s\" id=\"%s\"%s%s%s%s%s%s/>\n";
 
     /**
      * @param array $fieldOptions
@@ -76,6 +81,7 @@ abstract class KVDhtml_FormField
         $this->disabled = (isset($fieldOptions['disabled'])) ? $fieldOptions['disabled'] : '';
         $this->checked = ( isset($fieldOptions['checked'])) ? $fieldOptions['checked'] : '';
         $this->size = ( isset( $fieldOptions['size'])) ? $fieldOptions['size'] : '';
+        $this->id = ( isset( $fieldOptions['id'])) ? $fieldOptions['id'] : $this->name;
     }
 
     protected function toHtmlAttribClass()

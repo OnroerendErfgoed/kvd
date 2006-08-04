@@ -24,7 +24,7 @@ class KVDhtml_FormFieldCheckbox extends KVDhtml_FormField
         $this->toHtmlAttribChecked( );
         $this->toHtmlAttribSize( );
      
-        return sprintf($this->fieldFormat, 'checkbox', $this->name, $this->value, $this->class, '', $this->disabled, $this->checked, $this->size);
+        return sprintf($this->fieldFormat, 'checkbox', $this->name, $this->id, $this->value, $this->class, '', $this->disabled, $this->checked, $this->size);
     }
 }
 ?>
