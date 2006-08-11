@@ -109,5 +109,30 @@ class TestOfGenericIdentityMap extends UnitTestCase
         $this->assertFalse ($this->_identityMap->next());
     }
 
+    public function testCount( )
+    {
+        $this->_identityMap->addDomainObject ( $this->_domObject );
+        $this->_identityMap->addDomainObject ( $this->_domObject2 );
+
+        $this->assertEqual( count( $this->_identityMap ) , 2 );
+
+        $domObjectBis = new MockGenericDomainObject( $this );
+        $domObjectBis->setReturnValue('getId', '123456789');
+        $domObjectBis->setReturnValue('getClass', 'GenericDomainObjectBis');
+        $domObjectBis->expectAtLeastOnce('getId');
+        $this->_identityMap->addDomainObject ( $domObjectBis );
+
+        $this->assertEqual( count( $this->_identityMap ) , 3 );
+
+        $this->_identityMap->removeDomainObject ( 'GenericDomainObjectBis',123456789);
+
+        $this->assertEqual( count( $this->_identityMap ) , 2 );
+
+        $this->_identityMap->removeDomainObject ( 'GenericDomainObject',54321);
+        $this->_identityMap->removeDomainObject ( 'GenericDomainObject',9876);
+        
+        $this->assertEqual( count( $this->_identityMap ) , 0 );
+    }
+
 }
 ?>
