@@ -201,19 +201,6 @@ class KVDag_OverzichtTableHelper extends KVDag_AbstractHelper
     }
 
     /**
-     * @param KVDdom_DomainObject $domainObject
-     * @param string $fieldString
-     */
-    protected function getDataForFieldString(  $domainObject, $fieldString)
-    {
-        $fields = explode( '.',$fieldString );
-        foreach (  $fields as $field) {
-            $domainObject = $domainObject->$field(  );
-        }
-        return $domainObject;
-    }
-
-    /**
      * @param KVDdom_DomainObjectCollection $collection
      */
     public function genRowsForCollection ( $collection , $generateActions = true )
@@ -225,7 +212,7 @@ class KVDag_OverzichtTableHelper extends KVDag_AbstractHelper
                 $row[] = $this->getDataForFieldString(  $domainObject , $field );
             }
             if ( $generateActions && isset( $this->actionsPerRow ) ) {
-                $row[] = $this->getLinks( $domainObject );           
+                $row = array_merge ( $row , $this->getLinks( $domainObject ) );           
             }
             $rows[] = $row;
         }
@@ -246,7 +233,7 @@ class KVDag_OverzichtTableHelper extends KVDag_AbstractHelper
                  }
              }
          }
-         return implode ( ' ' , $links );
+         return $links;
     }
 
     protected function determineAction( $action , $domainObject )
