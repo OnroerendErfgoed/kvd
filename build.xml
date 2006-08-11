@@ -1,0 +1,39 @@
+<?xml version="1.0" ?>
+
+<project name="kvd" default="main" basedir="/data/projects/kvd/kvd/">
+
+	<property name="projectsDir" value="/data/projects/kvd" />
+
+	<property name="kvdLibDir" value="${projectsDir}/kvd" />
+	<property name="kvdSqlDir" value="${projectsDir}/kvd/sql" />
+
+	<target name="main" description="Overzicht van de mogelijke taken">
+		<echo msg="U kunt volgende taken uitvoeren:" />
+		<echo msg=" createSchema:	Maak de db-schema's van KVD_adr aan." />
+		<echo msg=" clearCrabCache: Maak de crab cache leeg." />
+	</target>
+
+	<target name="createSchema" description="Maak de schema's van deze applicatie aan.">
+		<echo msg="Bestaande schema's worden verwijderd." />
+		<sql url="pgsql://vandaeko:leko!0414@localhost/oei" autocommit="on" onerror="continue">
+			DROP SCHEMA kvd_adr CASCADE;
+		</sql>
+		<echo msg="Bezig met aanmaken van schema kvd_adr." />
+		<sql url="pgsql://vandaeko:leko!0414@localhost/oei" src="${kvdSqlDir}/dbcreate/kvd_adr.psql" autocommit="off" onerror="abort"/>
+		<echo msg="Bezig met toekennen van rechten op schema kvd_adr." />
+		<sql url="pgsql://vandaeko:leko!0414@localhost/oei" src="${kvdSqlDir}/usergrant/kvd_adr.psql" autocommit="off" onerror="abort"/>
+		<echo msg="Bezig met vullen van de gemeentelijst." />
+		<sql url="pgsql://vandaeko:leko!0414@localhost/oei" src="${kvdSqlDir}/dbcreate/kvd_adr_fill_gemeenten.psql" autocommit="off" onerror="abort"/>
+		<echo msg="Bezig met vullen van de deelgemeentelijst." />
+		<sql url="pgsql://vandaeko:leko!0414@localhost/oei" src="${kvdSqlDir}/dbcreate/kvd_adr_fill_deelgemeenten.psql" autocommit="off" onerror="abort"/>
+	</target>
+
+	<target name="clearCrabCache" description="Leeg de crab Cache.">
+		<echo msg="Alle bestanden met de extense crbcache in de map /tmp worden gewist." />
+		<delete verbose="true" >
+			<fileset dir="/tmp/crabcache">
+				<include name="*.crbcache" />
+			</fileset>
+		</delete>
+	</target>
+</project>
