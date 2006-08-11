@@ -72,15 +72,16 @@ class KVDdm_AdrHuisnummer {
     }
 
     /**
-     * Zoek een huisnummer op basis van zijn huisnummer. Dit is een tekstuele voorstelling van het huisnummer met inbegrip van eventuele bis-waarden.
+     * Zoek een huisnummer op basis van zijn huisnummer. Dit is een tekstuele voorstelling van het huisnummer met inbegrip van eventuele bis-waarden. Tevens is het crabId van de straat nodig.
      * @param string $huisnummer Het huisnummer volgens Crab.
+     * @param integer $straatId Het crabId van de straat.
      * @return KVDdo_AdrHuisnummer
      * @throws <b>KVDdom_DomainObjectNotFoundException</b> - Indien het object niet geladen kon worden.
      */ 
-    public function findByHuisnummer ( $huisnummer )
+    public function findByHuisnummer ( $huisnummer , $straatId )
     {
         try {
-            $huisnummerArray = $this->_gateway->getHuisnummerByHuisnummer( $huisnummer );
+            $huisnummerArray = $this->_gateway->getHuisnummerByHuisnummer( $huisnummer , $straatId );
         } catch ( RuntimeException $e ) {
             $message = 'Kon een huisnummer niet laden. Waarschijnlijk is het huisnummer ongeldig.';
             $message .= "\nDe Crab-Gateway gaf de volgende foutmelding: " . $e->getMessage( );
@@ -89,7 +90,7 @@ class KVDdm_AdrHuisnummer {
             $message = "Kon een huisnummer niet laden omdat de crab service een fout gaf:\n" . $e->getMessage( );
             throw new KVDdom_DomainObjectNotFoundException ( $message , 'KVDdo_AdrHuisnummer' , $huisnummer );
         }
-        return $this->doLoad( $id , $huisnummerArray);
+        return $this->doLoad( $huisnummerArray['huisnummerId'] , $huisnummerArray);
     }
 
     /**
