@@ -235,11 +235,14 @@ class KVDag_DomainObjectToHtml {
     {
         $fields = explode(  '.',$fieldString );
         foreach ( $fields as $field) {
-            if ( $domainObject instanceof KVDdom_DomainObject ) {
+            if ( is_object ( $domainObject ) ) {
                 $domainObject = $domainObject->$field(   );
             } else {
-                throw new RuntimeException ( 'U probeert een waarde van een veld te bekomen dat geen waarde heeft en ook geen NullObject is.');
+                throw new RuntimeException ( 'U probeert een veld ( ' . $field . ' ) op te vragen van een niet niet-bestaand object.' );
             }
+        }
+        if ( is_bool( $domainObject ) ) {
+            $domainObject = ( $domainObject ) ? 'Ja' : 'Nee';
         }
         return $domainObject;
     }
