@@ -21,11 +21,13 @@ abstract class KVDag_AbstractHelper
     {
         $fields = explode(  '.',$fieldString );
         foreach ( $fields as $field) {
-            if ( $domainObject instanceof KVDdom_DomainObject ) {
-                $domainObject = $domainObject->$field(   );
-            } else {
-                throw new RuntimeException ( 'U probeert een waarde van een veld te bekomen dat geen waarde heeft en ook geen NullObject is.');
+            if ( !is_object( $domainObject) ) {
+                throw new Exception ( 'U probeert een veld ('. $field . ') op te vragen van een niet bestaande object: ' . $domainObject );
             }
+            $domainObject = $domainObject->$field( );
+        }
+        if ( is_bool( $domainObject ) ) {
+            $domainObject = ( $domainObject ) ? 'Ja' : 'Nee';
         }
         return $domainObject;
     }
