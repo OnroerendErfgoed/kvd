@@ -15,7 +15,7 @@ class KVDhtml_FormFieldTextarea extends KVDhtml_FormField
     /**
      * @var string
      */
-    protected $fieldFormat = "<textarea name=\"%s\" id=\"%s\" cols=\"%s\" rows=\"%s\"%s%s%s>\n%s\n</textarea>\n";
+    protected $fieldFormat = "<textarea name=\"%s\" id=\"%s\" cols=\"%s\" rows=\"%s\"%s%s%s>%s</textarea>\n";
 
     /**
      * @var integer
