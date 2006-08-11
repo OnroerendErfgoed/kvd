@@ -29,7 +29,7 @@ require_once( 'domain/KVDdom_DomainObjectCollection.test.php');
 $test = new GroupTest('KVDdom_AllTests');
 $test->addTestCase( new TestOfMapperFactory());
 //$test->addTestCase( new TestOfMapperRegistry());
-//$test->addTestCase( new TestOfGenericIdentityMap());
+$test->addTestCase( new TestOfGenericIdentityMap());
 //$test->addTestCase( new TestOfDomainObjectCollection( ));
 //$test->addTestCase( new TestOfSessie());
 $test->run(new TextReporter());
