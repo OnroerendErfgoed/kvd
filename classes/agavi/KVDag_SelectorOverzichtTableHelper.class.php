@@ -1,4 +1,4 @@
-<?php
+<?php;
 /**
  * @package KVD.agavi
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
@@ -12,10 +12,21 @@
  */
 class KVDag_SelectorOverzichtTableHelper extends KVDag_PagedOverzichtTableHelper
 {
+    /**
+     * @var string
+     */
     private $idField;
     
+    /**
+     * @var string
+     */
     private $formAction;
     
+    /**
+     * @param Controller $ctrl
+     * @param array $config
+     * @param KVDdom_DomainObjectCollectionPager $pager
+     */
     public function __construct( $ctrl, $config , $pager)
     {
         parent::__construct( $ctrl, $config , $pager);
@@ -30,6 +41,11 @@ class KVDag_SelectorOverzichtTableHelper extends KVDag_PagedOverzichtTableHelper
         $this->idField .= '[]';
         
     }
+
+    /**
+     * @param KVDdom_DomainObjectCollection $collection
+     * @param boolean $generateActions
+     */
     public function genRowsForCollection( $collection , $generateActions = false )
     {
         $rows = array( );
@@ -51,9 +67,13 @@ class KVDag_SelectorOverzichtTableHelper extends KVDag_PagedOverzichtTableHelper
         }
     }
 
+    /**
+     * @param array
+     * @return string
+     */
     public function toHtml( $cssClasses = null ) 
     {
-        $html = "<form method=\"POST\" action=\"{$this->formAction}\">\n";
+        $html = "<form method=\"post\" action=\"{$this->formAction}\">\n";
         $html .= parent::toHtml( $cssClasses );
         $submit = new KVDhtml_FormFieldSubmit ( array ( 'name' =>   'relictSelecteren',
                                                         'value' =>  'Selecteren'
