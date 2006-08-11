@@ -1,7 +1,5 @@
 SET NAMES 'LATIN1';
 
-DROP SCHEMA kvd_adr CASCADE;
-
 BEGIN TRANSACTION;
 
 CREATE SCHEMA kvd_adr;
@@ -36,5 +34,20 @@ CREATE TABLE kvd_adr.gemeente (
 
 CREATE INDEX gemeente_crab_id_idx ON kvd_adr.gemeente (crab_id);
 CREATE INDEX gemeente_provincie_id_idx ON kvd_adr.gemeente (provincie_id);
+
+COMMIT TRANSACTION;
+
+BEGIN TRANSACTION;
+
+-- Deelgemeente (Te gebruiken als keuzelijst)
+CREATE TABLE kvd_adr.deelgemeente(
+	id integer NOT NULL,
+	deelgemeente_naam varchar(50) NOT NULL,
+	gemeente_id integer NOT NULL REFERENCES kvd_adr.gemeente (id),
+	CONSTRAINT deelgemeente_pkey PRIMARY KEY (id)
+);
+
+CREATE INDEX deelgemeente_deelgemeenten_naam_idx ON kvd_adr.deelgemeente (deelgemeente_naam);
+CREATE INDEX deelgemeente_gemeente_id ON kvd_adr.deelgemeente (gemeente_id);
 
 COMMIT TRANSACTION;
