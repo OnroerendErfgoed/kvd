@@ -20,6 +20,7 @@ require_once ( KVD_CLASSES_DIR . 'util/Gateway/KVDutil_GatewayRegistry.class.php
 require_once ( KVD_CLASSES_DIR . 'gis/crab/KVDgis_Crab1Gateway.class.php');
 require_once ( KVD_CLASSES_DIR . 'gis/crab/KVDgis_CrabCache.class.php');
 require_once ( KVD_CLASSES_DIR . 'gis/crab/KVDgis_NullCrabCache.class.php');
+require_once ( KVD_CLASSES_DIR . 'util/KVDutil_HuisnummerLabelSplitter.class.php');
 
 
 //require_once ( 'util/KVDutil_DimensieConvertor.test.php');
@@ -31,6 +32,7 @@ $test->addTestFile( KVD_TESTS_DIR . 'util/KVDutil_DimensieNaamAfkorting.test.php
 $test->addTestFile( KVD_TESTS_DIR . 'util/KVDutil_Dimensies.test.php');
 $test->addTestFile( KVD_TESTS_DIR . 'util/KVDutil_GatewayFactory.test.php');
 $test->addTestFile( KVD_TESTS_DIR . 'util/KVDutil_GatewayRegistry.test.php');
+$test->addTestFile( KVD_TESTS_DIR . 'util/KVDutil_HuisnummerLabelSplitter.test.php');
 $test->run(new TextReporter());
 
 ?>
