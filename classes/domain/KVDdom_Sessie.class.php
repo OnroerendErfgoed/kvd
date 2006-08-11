@@ -69,6 +69,11 @@ class KVDdom_Sessie {
     private $_gatewayRegistry;
 
     /**
+     * @var KVDdom_SqlLogger
+     */
+    private $sqlLogger;
+
+    /**
      * Maak een nieuwe KVDdom_Sessie aan.
      *
      * De parameter $config is vrij uitgebreid, maar is nodig voor een aantal zaken.
@@ -98,16 +103,19 @@ class KVDdom_Sessie {
      *                                              'KVDgis_Crab2Gateway' => array ( 'wsdl' => 'http://test.gisvlaanderen.be/wsdl',
      *                                                                               'username' => 'testUser',
      *                                                                               'password' => 'testPassword')
-     *                                              )
+     *                                              ),
+     *              'logSql'                    => true
      *                 );
-     *      $dbm = new DatabaseManager ();                    
-     *      $sessie = new KVDdom_Sessie ( 25 , $dbm, $config);                    
+     *      $dbm = new DatabaseManager ();
+     *      $sqlLogger = new KVDdom_SqlLogger();
+     *      $sessie = new KVDdom_Sessie ( 25 , $dbm, $config, $sqlLogger);                     
      * </code>
      * @param integer $gebruikerId
      * @param DatabaseManager $databaseManager Object uit het Agavi/Mojavi Framework. Een ander object met dezelfde interface kan ook werken.
      * @param array $config Array van configuratie-opties.
+     * @param KVDdom_SqlLogger Een class om sql statementes te loggen ter controle.
      */
-    public function __construct( $gebruikerId , $databaseManager, $config )
+    public function __construct( $gebruikerId , $databaseManager, $config , $sqlLogger = null)
     {
         $this->_gebruiker = null;
         $this->gebruikerId = $gebruikerId;
@@ -139,6 +147,12 @@ class KVDdom_Sessie {
         }
         $this->initializeCommitVolgorde( $config['commitVolgorde'] );
         $this->initializeDataMappersConnections ( $config['dataMappersConnections']);
+
+        if ( $sqlLogger != null && array_key_exists( 'logSql' , $config) && $config['logSql'] == true ) {
+            $this->sqlLogger = $sqlLogger;
+        } else {
+            $this->sqlLogger = new KVDdom_SqlLogger( );
+        }
     }
 
     /**
@@ -442,6 +456,14 @@ class KVDdom_Sessie {
             throw new LogicException ( 'Er is geen gatewayRegistry beschikbaar, dus kan deze actie niet uitgevoerd worden. Controleer de configuratie.');
         }
         return $this->_gatewayRegistry->getGateway( $gateway );
+    }
+
+    /**
+     * @return KVDdom_SqlLogger
+     */
+    public function getSqlLogger ()
+    {
+        return $this->sqlLogger;
     }
 }
 ?>

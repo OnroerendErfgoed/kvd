@@ -128,7 +128,7 @@ abstract class KVDdom_DataMapper {
     }
     /**
      * Voor een query uit en geef de resultaten terug als een luie collectie van domainobjects.
-     * @param $stmt Statement
+     * @param Statement $stmt Het uit te voeren sql Statement.
      * @return KVDdom_LazyDomainObjectCollection
      */
     protected function executeLazyFindMany ( $stmt )

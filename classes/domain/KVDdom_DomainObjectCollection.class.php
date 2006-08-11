@@ -64,9 +64,6 @@ class KVDdom_DomainObjectCollection implements SeekableIterator, Countable
         return key ( $this->collection );   
     }
 
-    /**
-     * @return KVddom_DomainObject
-     */
     public function next()
     {
         next ( $this->collection );

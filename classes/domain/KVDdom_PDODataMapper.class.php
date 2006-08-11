@@ -75,7 +75,9 @@ abstract class KVDdom_PDODataMapper {
         if ($domainObject != null) {
             return $domainObject;
         }
-        $stmt = $this->_conn->prepare($this->getFindByIdStatement());
+        $sql = $this->getFindByIdStatement( );
+        $this->_sessie->getSqlLogger( )->log( $sql );
+        $stmt = $this->_conn->prepare($sql);
         $stmt->bindParam(1, $id);
         $stmt->execute();
         if (!$row = $stmt->fetch( PDO::FETCH_OBJ )) {
@@ -97,7 +99,9 @@ abstract class KVDdom_PDODataMapper {
      */
     protected function abstractFindAll ()
     {
-        $stmt = $this->_conn->prepare ( $this->getFindAllStatement() );
+        $sql = $this->getFindAllStatement( );
+        $this->_sessie->getSqlLogger( )->log( $sql );
+        $stmt = $this->_conn->prepare ( $sql );
         return $this->executeFindMany( $stmt );
     }
 
@@ -129,11 +133,13 @@ abstract class KVDdom_PDODataMapper {
     /**
      * Voor een query uit en geef de resultaten terug als een luie collectie van domainobjects.
      * @param string $sql
+     * @param string $idField
      * @return KVDdom_LazyDomainObjectCollection
      */
-    protected function executeLazyFindMany ( $sql )
+    protected function executeLazyFindMany ( $sql , $idField = 'id' )
     {
-        return new KVDdom_LazyDomainObjectCollection ( new KVDdom_PDOChunkyQuery( $this->_conn , $this , $sql) );
+        $this->_sessie->getSqlLogger( )->log ( $sql );
+        return new KVDdom_LazyDomainObjectCollection ( new KVDdom_PDOChunkyQuery( $this->_conn , $this , $sql, $idField) );
     }
     
 }

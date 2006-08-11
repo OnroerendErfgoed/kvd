@@ -6,14 +6,14 @@
  */
 
 /**
- * KVDdom_ChangeableDataMapper
+ * KVDdom_PDOChangeableDataMapper
  *
  * Een basis class die de mapping-functies voor alle DataMappers die werken met aanpasbare DomainObjects bevat.
  * @package KVD.dom
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @since 1.0.0
+ * @since 24 jul 2006
  */
-abstract class KVDdom_ChangeableDataMapper extends KVDdom_DataMapper {
+abstract class KVDdom_PDOChangeableDataMapper extends KVDdom_PDODataMapper {
 
     /**
      * @return string SQL statement
@@ -37,10 +37,10 @@ abstract class KVDdom_ChangeableDataMapper extends KVDdom_DataMapper {
     public function insert ($domainObject)
     {
         try {
-            $stmt = $this->_conn->prepareStatement($this->getInsertStatement());
+            $stmt = $this->_conn->prepare ($this->getInsertStatement() );
             $this->doInsert ( $stmt , $domainObject );    
-            return $stmt->executeUpdate();
-        } catch (SQLException $e) {
+            return $stmt->execute();
+        } catch (PDOException $e) {
             throw new Exception ( 'Het object kon niet aan de databank worden toegevoegd omwille van een SQL probleem: ' . $e->getMessage() );
         } catch (Exception $e) {
             throw new Exception ( 'Het object kon niet aan de databank worden toegevoegd omwille van een onbekend probleem.' );
@@ -57,12 +57,23 @@ abstract class KVDdom_ChangeableDataMapper extends KVDdom_DataMapper {
     public function delete ( $domainObject )
     {
         try {
-            $stmt = $this->_conn->prepareStatement($this->getDeleteStatement());
-            $stmt->setInt (1, $domainObject->getId());
-            $stmt->executeUpdate();
+            $stmt = $this->_conn->prepare ($this->getDeleteStatement() );
+            $id = $domainObject->getId( );
+            $stmt->bindParam ( 1, $id , PDO::PARAM_INT );
+            $stmt->execute();
         } catch (Exception $e) {
             throw $e;
         }
+    }
+
+    /**
+     * @param string $sequenceName
+     * @return integer $id
+     */
+    protected function getIdFromSequence( $sequenceName )
+    {
+        $stmt = $this->_conn->query( "SELECT nextval ( '$sequenceName' )" );
+        return $stmt->fetchColumn( );
     }
     
     /**

@@ -29,12 +29,6 @@ abstract class KVDdom_ValueDomainObject implements KVDdom_DomainObject
     protected $id;
 
     /**
-     * Sessie object om aan mappers te kunnen.
-     * @var KVDdom_Sessie
-     */
-    protected $_sessie;
-
-    /**
      * @param integer $id Id nummer van het object.
      */
     public function __construct ( $id )

@@ -13,7 +13,7 @@
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
  * @since 1.0.0
  */
-abstract class KVDdom_ChangeableDomainObject implements KVDdom_DomainObject {
+abstract class KVDdom_ChangeableDomainObject implements KVDdom_DomainObject, KVDdom_Nullable {
 
     /**
      * Een constante om aan te geven dat een bepaald veld nog geladen moet worden.
@@ -117,6 +117,14 @@ abstract class KVDdom_ChangeableDomainObject implements KVDdom_DomainObject {
      * Verwijdert dit object uit het domein
      */
     abstract function remove();
+
+    /**
+     * @return boolean
+     */
+    public function isNull( )
+    {
+        return false;
+    }
 
 }
 ?>
