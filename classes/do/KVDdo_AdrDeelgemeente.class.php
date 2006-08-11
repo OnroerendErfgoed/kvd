@@ -1,12 +1,14 @@
 <?php
 /**
- * @package KVD.do.adr
+ * @package KVD.do
+ * @subpackage Adr
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
  * @version $Id$
  */
 
 /**
- * @package KVD.do.adr
+ * @package KVD.do
+ * @subpackage Adr
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
  * @since 21 jun 2006
  */
@@ -15,12 +17,12 @@ class KVDdo_AdrDeelgemeente extends KVDdom_ReadonlyDomainObject {
     /**
      * @var string
      */
-    private $naam;
+    protected $naam;
 
     /**
      * @var KVDdo_AdrGemeente
      */
-    private $_gemeente;
+    protected $gemeente;
 
     /**
      * @param integer $id
@@ -28,11 +30,11 @@ class KVDdo_AdrDeelgemeente extends KVDdom_ReadonlyDomainObject {
      * @param string $naam
      * @param KVddo_AdrGemeente $gemeente
      */
-    public function __construct ( $id , $sessie , $naam = 'Onbepaald', $gemeente = null )
+    public function __construct ( $id , $sessie , $naam , $gemeente )
     {
         parent::__construct ( $id , $sessie);
         $this->naam = $naam;
-        $this->_gemeente = ( $gemeente === null ) ? new KVDdo_AdrGemeente( 0 , $sessie) : $gemeente;
+        $this->gemeente = $gemeente;
     }
 
     /**
@@ -48,7 +50,7 @@ class KVDdo_AdrDeelgemeente extends KVDdom_ReadonlyDomainObject {
      */
     public function getGemeente( )
     {
-        return $this->_gemeente;
+        return $this->gemeente;
     }
 
     /**
@@ -57,6 +59,46 @@ class KVDdo_AdrDeelgemeente extends KVDdom_ReadonlyDomainObject {
     public function getOmschrijving( )
     {
         return $this->naam;
+    }
+
+    /**
+     * @return KVDdo_NullAdrDeelgemeente
+     */
+    public static function newNull( )
+    {
+        return new KVDdo_NullAdrDeelgemeente( );
+    }
+}
+
+/**
+ * @package KVD.do
+ * @subpackage Adr
+ * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
+ * @since 21 jun 2006
+ */
+class KVDdo_NullAdrDeelgemeente extends KVDdo_AdrDeelgemeente
+{
+    public function __construct( )
+    {
+        $this->gemeente = KVDdo_AdrGemeente::newNull( );
+        $this->naam = 'Onbepaald';
+        $this->id = 0;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isNull( )
+    {
+        return true;
+    }
+
+    /**
+     * @return string
+     */
+    public function getClass( )
+    {
+        return 'KVDdo_AdrDeelgemeente';
     }
 }
 ?>

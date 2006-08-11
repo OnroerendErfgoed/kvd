@@ -1,14 +1,16 @@
 <?php
 /**
- * @package KVD.do.adr
+ * @package KVD.do
+ * @subpackage Adr
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
  * @version $Id$
  */
 
 /**
- * @package KVD.do.adr
+ * @package KVD.do
+ * @subpackage Adr
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @since 1.0.0
+ * @since maart 2006
  */
 class KVDdo_AdrGemeente extends KVDdom_ReadonlyDomainObject {
     
@@ -16,29 +18,29 @@ class KVDdo_AdrGemeente extends KVDdom_ReadonlyDomainObject {
      * Het id dat voor de crab-webservice gebruikt wordt.
      * @var integer
      */
-    private $crabId;
+    protected $crabId;
 
     /**
      * @var string
      */
-    private $naam;
+    protected $naam;
 
     /**
      * @var KVDdo_AdrProvincie
      */
-    private $_provincie;
+    protected $provincie;
 
     /**
      * Collectie van alle straten in deze gemeente.
      * @var KVDdom_DomainObjectCollection
      */
-    private $_straten;
+    protected $straten;
 
     /**
      * Collectie van alle deelgemeenten in deze gemeente.
      * @var KVDdom_DomainObjectCollection
      */
-    private $_deelgemeenten;
+    protected $deelgemeenten;
 
     /**
      * @param integer $id
@@ -54,9 +56,9 @@ class KVDdo_AdrGemeente extends KVDdom_ReadonlyDomainObject {
         parent::__construct ( $id , $sessie);
         $this->naam = $naam;
         $this->crabId = $crabId;
-        $this->_provincie = ( $provincie === null ) ? new KVDdo_AdrProvincie( 0 , $sessie) : $provincie;
-        $this->_straten = ( $straten === null ) ? self::PLACEHOLDER : $straten;
-        $this->_deelgemeenten = ( $deelgemeenten === null ) ? self::PLACEHOLDER : $deelgemeenten;
+        $this->provincie = ( $provincie === null ) ? new KVDdo_AdrProvincie( 0 , $sessie) : $provincie;
+        $this->straten = ( $straten === null ) ? self::PLACEHOLDER : $straten;
+        $this->deelgemeenten = ( $deelgemeenten === null ) ? self::PLACEHOLDER : $deelgemeenten;
     }
 
     /**
@@ -80,7 +82,7 @@ class KVDdo_AdrGemeente extends KVDdom_ReadonlyDomainObject {
      */
     public function getProvincie( )
     {
-        return $this->_provincie;
+        return $this->provincie;
     }
 
     /**
@@ -89,12 +91,12 @@ class KVDdo_AdrGemeente extends KVDdom_ReadonlyDomainObject {
      */
     public function getStraten( )
     {
-        if ( $this->_straten === self::PLACEHOLDER ) {
+        if ( $this->straten === self::PLACEHOLDER ) {
             $stratenMapper = $this->_sessie->getMapper( 'KVDdo_AdrStraat');
-            $this->_straten = $stratenMapper->findByGemeente( $this );
+            $this->straten = $stratenMapper->findByGemeente( $this );
             
         }
-        return $this->_straten;    
+        return $this->straten;    
     }
 
     /**
@@ -103,11 +105,11 @@ class KVDdo_AdrGemeente extends KVDdom_ReadonlyDomainObject {
      */
     public function getDeelgemeenten( )
     {
-        if ( $this->_deelgemeenten === self::PLACEHOLDER ) {
+        if ( $this->deelgemeenten === self::PLACEHOLDER ) {
             $mapper = $this->_sessie->getMapper( 'KVDdo_AdrDeelgemeente' );
-            $this->_deelgemeenten = $mapper->findByGemeente( $this , 'deelgemeenteNaam');
+            $this->deelgemeenten = $mapper->findByGemeente( $this , 'deelgemeenteNaam');
         }
-        return $this->_deelgemeenten;
+        return $this->deelgemeenten;
     }
 
     /**
@@ -116,6 +118,52 @@ class KVDdo_AdrGemeente extends KVDdom_ReadonlyDomainObject {
     public function getOmschrijving( )
     {
         return $this->naam;
+    }
+
+    /**
+     * @return KVDdo_NullAdrGemeente
+     */
+    public static function newNull( )
+    {
+        return new KVDdo_NullAdrGemeente( );
+    }
+}
+
+/**
+ * @package KVD.do
+ * @subpackage Adr
+ * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
+ * @since 25 jul 2006
+ */
+class KVDdo_NullAdrGemeente extends KVDdo_AdrGemeente
+{
+    /**
+     * @param KVDdo_AdrProvincie
+     */
+    public function __construct ( $provincie = null ) 
+    {
+        $this->provincie = ( $provincie === null ) ? KVDdo_AdrProvincie::newNull() : $provincie;
+        $this->naam = 'Onbepaald';
+        $this->crabId = 0;
+        $this->id = 0;
+        $this->straten = new KVDdom_DomainObjectCollection( array( ) );
+        $this->deelgemeenten = new KVDdom_DomainObjectCollection( array( ) );
+    }
+    
+    /**
+     * @return boolean
+     */
+    public function isNull( )
+    {
+        return true;
+    }
+
+    /**
+     * @return string
+     */
+    public function getClass( )
+    {
+        return 'KVDdo_AdrGemeente';
     }
 }
 ?>

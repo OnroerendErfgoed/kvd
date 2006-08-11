@@ -1,26 +1,28 @@
 <?php
 /**
- * @package KVD.do.adr
+ * @package KVD.do
+ * @subpackage Adr
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
  * @version $Id$
  */
 
 /**
- * @package KVD.do.adr
+ * @package KVD.do
+ * @subpackage Adr
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @since 1.0.0
+ * @since maart 2006
  */
 class KVDdo_AdrProvincie extends KVDdom_ReadonlyDomainObject{
 
     /**
      * @var string
      */
-    private $naam;
+    protected $naam;
 
     /**
      * @var KVDdom_DomainObjectCollection
      */
-    private $_gemeenten;
+    protected $gemeenten;
 
     /**
      * @param integer $id
@@ -28,31 +30,79 @@ class KVDdo_AdrProvincie extends KVDdom_ReadonlyDomainObject{
      * @param string $naam
      * @param KVDdom_DomainObjectCollection $gemeenten
      */
-    public function __construct ( $id , $sessie , $naam = 'Onbepaald', $gemeenten = null )
+    public function __construct ( $id , $sessie , $naam, $gemeenten = null )
     {
         parent::__construct ( $id , $sessie);
         $this->naam = $naam;
-        $this->_gemeenten = ( $gemeenten === null ) ? self::PLACEHOLDER : $gemeenten;
+        $this->gemeenten = ( $gemeenten === null ) ? self::PLACEHOLDER : $gemeenten;
     }
-
+    
+    /**
+     * @return string
+     */
     public function getProvincieNaam( )
     {
         return $this->naam;
     }
 
+    /**
+     * @return KVDdom_DomainObjectCollection
+     */
     public function getGemeenten( )
     {
-        if ( $this->_gemeenten === self::PLACEHOLDER ) {
+        if ( $this->gemeenten === self::PLACEHOLDER ) {
             $gemeentenMapper = $this->_sessie->getMapper( 'KVDdo_AdrGemeente');
-            $this->_gemeenten = $gemeentenMapper->findByProvincie( $this->getId( ) );
+            $this->gemeenten = $gemeentenMapper->findByProvincie( $this->getId( ) );
             
         }
-        return $this->_gemeenten;    
+        return $this->gemeenten;    
     }
 
+    /**
+     * @return string
+     */
     public function getOmschrijving( )
     {
         return $this->naam;
+    }
+
+    /**
+     * @return KVDdo_NullAdrProvincie( )
+     */
+    static public function newNull( )
+    {
+        return new KVDdo_NullAdrProvincie( );
+    }
+}
+
+/**
+ * @package KVD.do
+ * @subpackage Adr
+ * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
+ * @since 25 jul 2006
+ */
+class KVDdo_NullAdrProvincie extends KVDdo_AdrProvincie
+{
+    public function __construct ( )
+    {
+        $this->id = 0;
+        $this->naam = 'Onbepaald';
+        $this->gemeenten = new KVDdom_DomainObjectCollection( array( ) );
+    }
+    /**
+     * @return boolean
+     */
+    public function isNull( )
+    {
+        return true;
+    }
+
+    /**
+     * @return string
+     */
+    public function getClass( )
+    {
+        return 'KVDdo_AdrProvincie';
     }
 }
 ?>

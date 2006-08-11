@@ -1,37 +1,39 @@
 <?php
 /**
- * @package KVD.do.adr
+ * @package KVD.do
+ * @subpackage Adr
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
  * @version $Id$
  */
 
 /**
- * @package KVD.do.adr
+ * @package KVD.do
+ * @subpackage Adr
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @since 1.0.0
+ * @since maart 2006
  */
 class KVDdo_AdrHuisnummer extends KVDdom_ReadonlyDomainObject {
     
     /**
      * @var string
      */
-    private $huisnummer;
+    protected $huisnummer;
 
     /**
      * @var KVDdo_AdrStraat
      */
-    private $_straat;
+    protected $straat;
 
     /**
      * @var integer
      */
-    private $postcode;
+    protected $postcode;
 
     /**
      * Collectie van alle terreinobjecten die onder dit huisnummer vallen.
      * @var KVDdom_DomainObjectCollection
      */
-    private $_percelen;
+    protected $terreinobjecten;
 
     /**
      * @param integer $id
@@ -41,13 +43,13 @@ class KVDdo_AdrHuisnummer extends KVDdom_ReadonlyDomainObject {
      * @param integer $postcode
      * @param KVDdom_DomainObjectCollection $percelen
      */
-    public function __construct ( $id , $sessie , $straat , $huisnummer = 'Onbepaald', $postcode = null, $percelen = null )
+    public function __construct ( $id , $sessie , $straat , $huisnummer, $postcode = null, $percelen = null )
     {
         parent::__construct ( $id , $sessie);
         $this->huisnummer = $huisnummer;
-        $this->_straat= $straat;
+        $this->straat= $straat;
         $this->postcode = ( is_null( $postcode ) ) ? self::PLACEHOLDER : $postcode;
-        $this->_percelen = ( is_null( $postcode ) ) ? self::PLACEHOLDER : $percelen;
+        $this->terreinobjecten = ( is_null( $postcode ) ) ? self::PLACEHOLDER : $percelen;
     }
 
     /**
@@ -63,7 +65,7 @@ class KVDdo_AdrHuisnummer extends KVDdom_ReadonlyDomainObject {
      */
     public function getStraat( )
     {
-        return $this->_straat;
+        return $this->straat;
     }
 
     /**
@@ -84,12 +86,12 @@ class KVDdo_AdrHuisnummer extends KVDdom_ReadonlyDomainObject {
      */
     public function getPercelen( )
     {
-        if ( $this->_terreinobjecten === self::PLACEHOLDER ) {
+        if ( $this->terreinobjecten === self::PLACEHOLDER ) {
             $percelenMapper = $this->_sessie->getMapper( 'KVDdo_AdrTerreinobject');
-            $this->_terreinobjecten = $percelenMapper->findByHuisnummer( $this );
+            $this->terreinobjecten = $percelenMapper->findByHuisnummer( $this );
             
         }
-        return $this->_huisnummers;    
+        return $this->terreinobjecten;    
     }
 
     /**
@@ -97,7 +99,49 @@ class KVDdo_AdrHuisnummer extends KVDdom_ReadonlyDomainObject {
      */
     public function getOmschrijving( )
     {
-        return  $this->_straat->getStraatLabel( ) . " " . $this->huisnummer ;
+        return  $this->straat->getStraatLabel( ) . " " . $this->huisnummer ;
+    }
+
+    /**
+     * @return KVDdo_NullAdrHuisnummer
+     */
+    public static function newNull( )
+    {
+        return new KVDdo_NullAdrHuisnummer( );
+    }
+}
+
+/**
+ * @package KVD.do
+ * @subpackage Adr
+ * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
+ * @since maart 2006
+ */
+class KVDdo_NullAdrHuisnummer extends KVDdo_AdrHuisnummer
+{
+    public function __construct ( )
+    {
+        $this->id = 0;
+        $this->huisnummer = 'Onbepaald';
+        $this->straat = KVDdo_AdrStraat::newNull( );
+        $this->postcode = null;
+        $this->terreinobjecten = new KVDdom_DomainObjectCollection( );        
+    }
+    
+    /**
+     * @return boolean
+     */
+    public function isNull( )
+    {
+        return true;
+    }
+
+    /**
+     * @return string
+     */
+    public function getClass( )
+    {
+        return 'KVDdo_AdrHuisnummer';
     }
 }
 ?>
