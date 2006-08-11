@@ -29,7 +29,8 @@
 	</target>
 
 	<target name="clearCrabCache" description="Leeg de crab Cache.">
-		<echo msg="Alle bestanden met de extense crbcache in de map /tmp worden gewist." />
+		<echo msg="Alle bestanden in de crabcache worden gewist." />
+		<echo msg="Mogelijk mislukt dit omdat u geen schrijfrechten heb op de map." />
 		<delete verbose="true" >
 			<fileset dir="/tmp/crabcache">
 				<include name="*.crbcache" />
