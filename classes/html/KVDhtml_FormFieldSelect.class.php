@@ -73,7 +73,7 @@ class KVDhtml_FormFieldSelect extends KVDhtml_FormField
         
         $select = sprintf($this->fieldFormat,$this->name,$this->id, $this->class, $this->multiple, $this->disabled,$this->size);
         foreach ($this->options as $value => $text) {
-            $selected = ($value == $this->value) ? ' selected' : '';
+            $selected = ($value == $this->value) ? ' selected="selected"' : '';
             $select .= sprintf($this->optionFormat, $value, $selected, $text);
         }
         $select .= "</select>\n";

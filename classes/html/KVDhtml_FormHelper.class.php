@@ -46,7 +46,7 @@ class KVDhtml_FormHelper {
      * @param string $formAction Url naar waar de form moet gepost worden.
      * @param string $formMethod Methode die de form moet gebruiken.
      */
-    public function __construct ($formAction,$formMethod='POST')
+    public function __construct ($formAction,$formMethod='post')
     {
         $this->_tableHelper = New KVDhtml_TableHelper();
         
@@ -56,11 +56,11 @@ class KVDhtml_FormHelper {
 
         $this->formAction = $formAction;
 
-        if  ( !( $formMethod == 'POST' OR $formMethod == 'GET')) {
-            throw new IllegalArgumentException ( __CLASS__ . ':formMethod moet GET of POST zijn.');
+        if  ( !( strtolower( $formMethod ) == ( 'post' OR 'get') ) ) {
+            throw new InvalidArgumentException ( __CLASS__ . ':formMethod moet get of post zijn.');
         }
 
-        $this->formMethod = $formMethod;
+        $this->formMethod = strtolower( $formMethod );
     }
 
     /**

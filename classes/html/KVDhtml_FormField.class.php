@@ -115,7 +115,7 @@ abstract class KVDhtml_FormField
     protected function toHtmlAttribChecked( )
     {
         if ( $this->checked == TRUE ) {
-            $this->checked = " checked";
+            $this->checked = " checked=\"checked\"";
         }
     }
 
