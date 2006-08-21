@@ -10,7 +10,6 @@
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
  * @since 9 aug 2006
  */
-
 class KVDutil_HuisnummerLabelSplitter
 {
     /**
@@ -22,6 +21,7 @@ class KVDutil_HuisnummerLabelSplitter
         $huisnummerArray = explode( ',' , $huisnummerLabel);
         $newArray = array( );
         foreach ( $huisnummerArray as $huisnummerBereik ) {
+            $huisnummerBereik = trim ( $huisnummerBereik );
             if ( $this->isBusNummer( $huisnummerBereik ) ) {
                 $newArray = array_merge ( $newArray, $this->extractBusBereik( $huisnummerBereik ) );
             } else if ( $this->isBisNummerBereikLetter ( $huisnummerBereik ) ) {
@@ -46,8 +46,8 @@ class KVDutil_HuisnummerLabelSplitter
        if ( !$pos = strpos( $huisnummerBereik, '-' ) ) {
            return array ( $huisnummerBereik );
        }
-       $start = substr ( $huisnummerBereik, 0, $pos );
-       $end = substr ( $huisnummerBereik, $pos+1);
+       $start = trim ( substr ( $huisnummerBereik, 0, $pos ) );
+       $end = trim ( substr ( $huisnummerBereik, $pos+1) );
        return $this->calculateHuisnummerBereik( $start, $end );
     }
 
@@ -177,7 +177,7 @@ class KVDutil_HuisnummerLabelSplitter
      */
     private function isHuisnummerBereik ( $label ) 
     {
-        return ( preg_match( '/^[0-9][0-9]*[-]{1}[0-9]*/'  , $label ) ) ? true : false;
+        return ( preg_match( '/^[\d][\d\s]*[-]{1}[\d\s]*/'  , $label ) ) ? true : false;
     }
 
 }
