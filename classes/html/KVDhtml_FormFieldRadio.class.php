@@ -9,7 +9,7 @@
 /**
  * @package KVD.html
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @since 1.0.0
+ * @since maart 2006
  */
 class KVDhtml_FormFieldRadio extends KVDhtml_FormField
 {
@@ -40,7 +40,7 @@ class KVDhtml_FormFieldRadio extends KVDhtml_FormField
         $this->toHtmlAttribChecked( );
         $this->toHtmlAttribSize( );
      
-        return sprintf($this->fieldFormat, $this->name, $this->value, $this->id, $this->class, $this->disabled, $this->checked, $this->size,$this->legend);
+        return sprintf($this->fieldFormat, $this->name, $this->id, $this->value, $this->class, $this->disabled, $this->checked, $this->size,$this->legend);
     }
 }
 ?>

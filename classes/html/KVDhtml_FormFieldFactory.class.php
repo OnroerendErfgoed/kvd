@@ -8,16 +8,16 @@
 /**
  * @package KVD.html
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @since 1.0.0
+ * @since maart 2006
  */
 class KVDhtml_FormFieldFactory
 {
     /**
-     * @param array $fieldOptions
+     * @param array $fieldOptions Elk item in de array moet overeenkomen met de config-string voor een bepaald type. Zie de types zelf voor meer info.
      * @return KVDhtml_FormField
      * @throws <b>InvalidArgumentException</b> - Indien er om een ongeldig type gevraagd wordt.
      */
-    public function getFormField( &$fieldOptions )
+    public function getFormField( $fieldOptions )
     {
         if (!isset($fieldOptions['type'])) {
             $fieldOptions['type'] = 'text';
@@ -51,7 +51,7 @@ class KVDhtml_FormFieldFactory
             case 'radio':
                 $field = new KVDhtml_FormFieldRadio( $fieldOptions );
                 break;
-            case 'file':
+            case 'file':;
                 $field = new KVDhtml_FormFieldFile( $fieldOptions );
                 break;
             default:

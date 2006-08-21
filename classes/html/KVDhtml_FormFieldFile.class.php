@@ -8,7 +8,7 @@
 /**
  * @package KVD.html
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @since 1.0.0
+ * @since juni 2006
  */
 class KVDhtml_FormFieldFile extends KVDhtml_FormField
 {

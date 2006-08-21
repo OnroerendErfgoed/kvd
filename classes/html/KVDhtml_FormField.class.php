@@ -8,7 +8,7 @@
 /**
  * @package KVD.html
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @since 1.0.0
+ * @since maart 2006
  */
 abstract class KVDhtml_FormField
 {
@@ -101,14 +101,14 @@ abstract class KVDhtml_FormField
     protected function toHtmlAttribReadonly()
     {
         if ($this->readonly == TRUE) {
-            $this->readonly = " readonly";
+            $this->readonly = " readonly=\"readonly\"";
         } 
     }
 
     protected function toHtmlAttribDisabled()
     {
         if ($this->disabled == TRUE) {
-            $this->disabled = " disabled";
+            $this->disabled = " disabled=\"disabled\"";
         } 
     }
 
