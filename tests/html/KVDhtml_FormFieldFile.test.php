@@ -33,7 +33,7 @@ class TestOfFormFieldFile extends UnitTestCase
         $this->assertWantedPattern( '/type="file"/' ,$html);
         $this->assertWantedPattern( '/name="testField"/', $html);
         $this->assertWantedPattern( '/class="testClass"/', $html);
-        $this->assertWantedPattern( '/ readonly/', $html);
+        $this->assertWantedPattern( '/ readonly="readonly"/', $html);
     }
 
     function testFormFieldFileDisabled( )
@@ -44,7 +44,7 @@ class TestOfFormFieldFile extends UnitTestCase
         $this->assertWantedPattern( '/type="file"/' ,$html);
         $this->assertWantedPattern( '/name="testField"/', $html);
         $this->assertWantedPattern( '/class="testClass"/', $html);
-        $this->assertWantedPattern( '/ disabled/', $html);
+        $this->assertWantedPattern( '/ disabled="disabled"/', $html);
     }
 
 }

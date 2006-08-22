@@ -11,15 +11,42 @@ require_once('simpletest/mock_objects.php');
 
 require_once( KVD_CLASSES_DIR . 'html/KVDhtml_FormField.class.php');
 require_once( KVD_CLASSES_DIR . 'html/KVDhtml_FormFieldFile.class.php');
+require_once( KVD_CLASSES_DIR . 'html/KVDhtml_FormFieldCheckbox.class.php');
+require_once( KVD_CLASSES_DIR . 'html/KVDhtml_FormFieldHidden.class.php');
+require_once( KVD_CLASSES_DIR . 'html/KVDhtml_FormFieldPassword.class.php');
+require_once( KVD_CLASSES_DIR . 'html/KVDhtml_FormFieldText.class.php');
+require_once( KVD_CLASSES_DIR . 'html/KVDhtml_FormFieldRadio.class.php');
+require_once( KVD_CLASSES_DIR . 'html/KVDhtml_FormFieldReset.class.php');
+require_once( KVD_CLASSES_DIR . 'html/KVDhtml_FormFieldSubmit.class.php');
+require_once( KVD_CLASSES_DIR . 'html/KVDhtml_FormFieldTextarea.class.php');
+require_once( KVD_CLASSES_DIR . 'html/KVDhtml_FormFieldSelect.class.php');
+require_once( KVD_CLASSES_DIR . 'html/KVDhtml_FormFieldFactory.class.php');
 
 require_once('html/KVDhtml_FormFieldFile.test.php');
+require_once('html/KVDhtml_FormFieldCheckbox.test.php');
+require_once('html/KVDhtml_FormFieldHidden.test.php');
+require_once('html/KVDhtml_FormFieldPassword.test.php');
+require_once('html/KVDhtml_FormFieldText.test.php');
+require_once('html/KVDhtml_FormFieldRadio.test.php');
+require_once('html/KVDhtml_FormFieldReset.test.php');
+require_once('html/KVDhtml_FormFieldSubmit.test.php');
+require_once('html/KVDhtml_FormFieldTextarea.test.php');
+require_once('html/KVDhtml_FormFieldSelect.test.php');
+require_once('html/KVDhtml_FormFieldFactory.test.php');
+
 
 $test = new GroupTest('KVDhtml_AllTests');
 $test->addTestCase( new TestOfFormFieldFile());
-//$test->addTestCase( new TestOfMapperRegistry());
-//$test->addTestCase( new TestOfGenericIdentityMap());
-//$test->addTestCase( new TestOfDomainObjectCollection( ));
-//$test->addTestCase( new TestOfSessie());
+$test->addTestCase( new TestOfFormFieldCheckbox());
+$test->addTestCase( new TestOfFormFieldHidden());
+$test->addTestCase( new TestOfFormFieldPassword());
+$test->addTestCase( new TestOfFormFieldText());
+$test->addTestCase( new TestOfFormFieldRadio());
+$test->addTestCase( new TestOfFormFieldReset());
+$test->addTestCase( new TestOfFormFieldSubmit());
+$test->addTestCase( new TestOfFormFieldTextarea());
+$test->addTestCase( new TestOfFormFieldSelect());
+$test->addTestCase( new TestOfFormFieldFactory());
 $test->run(new TextReporter());
 
 ?>
