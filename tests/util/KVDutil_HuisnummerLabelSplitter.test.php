@@ -216,6 +216,18 @@ class TestOfHuisnummerLabelSplitter extends UnitTestCase
         $this->assertIdentical ( $huisnummers[1], '1/3' );
         $this->assertIdentical ( $huisnummers[2], '?' );
     }
+
+    public function testInputWithSpaces( )
+    {
+        $label = ' A , 1/3 , 5 - 7 ';
+        $huisnummers = $this->splitter->split( $label );
+        $this->assertIsA( $huisnummers, 'array' );
+        $this->assertEqual( count( $huisnummers ) , 4 );
+        $this->assertIdentical ( $huisnummers[0], 'A' );
+        $this->assertIdentical ( $huisnummers[1], '1/3' );
+        $this->assertIdentical ( $huisnummers[2], '5' );
+        $this->assertIdentical ( $huisnummers[3], '7' );
+    }
 }
 
 ?>
