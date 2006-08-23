@@ -1,4 +1,4 @@
-<?php;
+<?php
 /**
  * @package KVD.agavi
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
