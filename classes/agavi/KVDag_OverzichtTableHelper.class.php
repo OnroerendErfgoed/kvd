@@ -189,6 +189,7 @@ class KVDag_OverzichtTableHelper extends KVDag_AbstractHelper
                 }
                 $parameters = $this->actionOverzicht;
                 $parameters['orderField'] = $header['orderFieldName'];
+                $parameters['orderDirection'] = ( isset ( $parameters['orderDirection'] ) && $parameters['orderDirection'] == 'omhoog' ) ? 'omlaag' : 'omhoog';
                 if ( $pageParameterName !== null ) {
                     $parameters[$pageParameterName] = 1;
                 }
