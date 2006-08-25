@@ -4,7 +4,7 @@ class TestOfCriterion extends UnitTestCase
 {
     public function testCriterionExists( )
     {
-        $criterion = new KVDdb_Criterion( ' = ' , 'provincie' , 'West-Vlaanderen' );
+        $criterion = KVDdb_Criterion::equals( 'provincie' , 'West-Vlaanderen' );
         $this->assertNoErrors( );
     }
 
