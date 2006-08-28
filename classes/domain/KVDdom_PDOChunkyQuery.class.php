@@ -57,6 +57,7 @@ class KVDdom_PDOChunkyQuery
      * @param PDO $conn Een PDO connectie.
      * @param KVDdom_PDODataMapper $dataMapper Een DataMapper waarmee de sql kan omgezet worden naar DomainObjects.
      * @param string $sql De uit te voeren query. Opgelet, er moeten wat vervangingen doorgevoerd worden om het aantal records te kunnen ophalen. Waarschijnlijk zullen hier nog fouten inzitten.
+     *                      Voorlopig blijkt alles te werken zolang het om eenvoudige select queries gaat, een distinct op het id-veld kan ook.
      * @param string $idField Naam van het veld dat dienst doet als id-field ( om het totale aantal records te kunnen tellen).
      * @param integer $chunk Het initieel gevraagde data-blok.
      * @param integer $rowsPerChunk Aantal rijen in een chunk.
@@ -79,6 +80,9 @@ class KVDdom_PDOChunkyQuery
      */
     private function getTotalRecordCountSql ( $sql , $idField='id' )
     {
+        if ( strpos( $sql, 'DISTINCT') !== FALSE ) {
+            $idField = 'DISTINCT ' . $idField;
+        } 
         $sql = preg_replace( '/SELECT.*FROM/' , 'SELECT COUNT('.$idField.') FROM' , $sql );
         $sql = preg_replace ( '/ ORDER.*/','',$sql);
         return $sql;
