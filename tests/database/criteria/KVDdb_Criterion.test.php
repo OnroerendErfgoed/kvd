@@ -1,4 +1,5 @@
 <?php
+Mock::generate( 'KVDdb_SimpleQuery' );
 
 class TestOfCriterion extends UnitTestCase
 {
@@ -66,4 +67,33 @@ class TestOfCriterion extends UnitTestCase
         $criterion->addOr( $criterion2 );
         $this->assertEqual( $criterion->generateSql( ) , "( provincie = 'West-Vlaanderen' OR ( provincie = 'Oost-Vlaanderen' AND ( gemeente = 'Maldegem' ) ) )" );
     }
+
+    public function testEqualBoolean( )
+    {
+        $criterion = KVDdb_Criterion::equals( 'gevonden', true );
+        $this->assertIsA ( $criterion , 'KVDdb_Criterion' );
+        $this->assertEqual( $criterion->generateSql( ), "( gevonden = true )");
+    }
+
+    public function testIn( )
+    {
+        $criterion = KVDdb_Criterion::in( 'gemeente_id' , array( 40000, 40001, 40002 ) );
+        $this->assertIsA ( $criterion , 'KVDdb_Criterion' );
+        $this->assertEqual( $criterion->generateSql( ), "( gemeente_id IN ( 40000, 40001, 40002 ) )");
+
+        $criterion = KVDdb_Criterion::in( 'gemeente' , array( 'Knokke-Heist', 'Brugge', 'Dudzele' ) );
+        $this->assertEqual( $criterion->generateSql( ), "( gemeente IN ( 'Knokke-Heist', 'Brugge', 'Dudzele' ) )");
+    }
+
+    public function testInSubselect( )
+    {
+        $subselect = new MockKVDdb_SimpleQuery( );
+        $subselect->setReturnValue( 'generateSql' , 'SELECT gemeente_id FROM gemeente WHERE provincie_id = 20001' );
+        $subselect->expectOnce( 'generateSql' );
+        $criterion = KVDdb_Criterion::inSubselect( 'gemeente_id' , $subselect );
+        $this->assertIsA ( $criterion , 'KVDdb_Criterion' );
+        $this->assertEqual( $criterion->generateSql( ), "( gemeente_id IN ( SELECT gemeente_id FROM gemeente WHERE provincie_id = 20001 ) )");
+        $subselect->tally( );
+    }
+
 }
