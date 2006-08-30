@@ -42,11 +42,6 @@ class KVDdb_Criterion
     /**
      * @var string
      */
-    const LIKE = 'LIKE';
-    
-    /**
-     * @var string
-     */
     protected $sqlOperator;
 
     /**
@@ -98,10 +93,20 @@ class KVDdb_Criterion
     public function generateSql( )
     {
         $sql = "( " . $this->field . ' ' . $this->sqlOperator . ' ' . $this->sanitize( $this->value );
+        $sql .= $this->generateSqlChildren( );
+        return $sql .= ' )';
+    }
+
+    /**
+     * @return string
+     */
+    protected function generateSqlChildren( )
+    {
+        $sql = '';
         foreach ( $this->children as $child) {
             $sql .= $child['combinatie'] . $child['criterion']->generateSql( );
         }
-        return $sql .= ' )';
+        return $sql;
     }
 
     /**
@@ -179,6 +184,24 @@ class KVDdb_Criterion
     {
         return new KVDdb_InSubselectCriterion ( $field , $value );
     }
+
+    /**
+     * @param string $field
+     * @return KVDdb_IsNullCriterion
+     */
+    public static function isNull ( $field )
+    {
+        return new KVDdb_IsNullCriterion( $field );
+    }
+
+    /**
+     * @param string $field
+     * @return KVDdb_IsNotNullCriterion
+     */
+    public static function isNotNull ( $field )
+    {
+        return new KVDdb_IsNotNullCriterion( $field );
+    }
 }
 
 
@@ -198,9 +221,7 @@ class KVDdb_MatchCriterion extends KVDdb_Criterion
     public function generateSql( )
     {
         $sql = "( UPPER( " . $this->field . ' ) LIKE UPPER( ' . $this->sanitize( $this->value ) . ' )';
-        foreach ( $this->children as $child) {
-            $sql .= $child['combinatie'] . $child['criterion']->generateSql( );
-        }
+        $sql .= $this->generateSqlChildren( );
         return $sql .= ' )';
     }
 }
@@ -233,9 +254,7 @@ class KVDdb_InCriterion extends KVDdb_Criterion
         }
         $values = implode ( $values , ', ' );
         $sql = "( " . $this->field . " IN ( ". $values . " )";
-        foreach ( $this->children as $child) {
-            $sql .= $child['combinatie'] . $child['criterion']->generateSql( );
-        }
+        $sql .= $this->generateSqlChildren( );
         return $sql .= ' )';
     }
 }
@@ -265,9 +284,64 @@ class KVDdb_InSubselectCriterion extends KVDdb_Criterion
     public function generateSql( )
     {
         $sql = "( " . $this->field . " IN ( " . $this->value->generateSql( ) . " )";
-        foreach ( $this->children as $child) {
-            $sql .= $child['combinatie'] . $child['criterion']->generateSql( );
-        }
+        $sql .= $this->generateSqlChildren( );
+        return $sql .= ' )';
+    }
+}
+
+/**
+ * @package KVD.database
+ * @subpackage criteria
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
+ * @since 30 aug 2006
+ */
+class KVDdb_IsNullCriterion extends KVDdb_Criterion
+{
+    
+    /**
+     * @param string $field
+     */
+    public function __construct ( $field )
+    {
+        parent::__construct( null , $field , null );
+    }
+
+    /**
+     * @return string
+     */
+    public function generateSql( )
+    {
+        $sql = "( " . $this->field . " IS NULL";
+        $sql .= $this->generateSqlChildren( );
+        return $sql .= ' )';
+    }
+}
+
+
+/**
+ * @package KVD.database
+ * @subpackage criteria
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
+ * @since 30 aug 2006
+ */
+class KVDdb_IsNotNullCriterion extends KVDdb_Criterion
+{
+    
+    /**
+     * @param string $field
+     */
+    public function __construct ( $field )
+    {
+        parent::__construct( null , $field , null );
+    }
+
+    /**
+     * @return string
+     */
+    public function generateSql( )
+    {
+        $sql = "( " . $this->field . " IS NOT NULL";
+        $sql .= $this->generateSqlChildren( );
         return $sql .= ' )';
     }
 }
