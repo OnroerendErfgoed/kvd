@@ -54,6 +54,11 @@ class KVDdom_PDOChunkyQuery
     private $totalRecordCount;
 
     /**
+     * @var KVDdom_SqlLogger
+     */
+    private $logger;
+
+    /**
      * @param PDO $conn Een PDO connectie.
      * @param KVDdom_PDODataMapper $dataMapper Een DataMapper waarmee de sql kan omgezet worden naar DomainObjects.
      * @param string $sql De uit te voeren query. Opgelet, er moeten wat vervangingen doorgevoerd worden om het aantal records te kunnen ophalen. Waarschijnlijk zullen hier nog fouten inzitten.
@@ -62,7 +67,7 @@ class KVDdom_PDOChunkyQuery
      * @param integer $chunk Het initieel gevraagde data-blok.
      * @param integer $rowsPerChunk Aantal rijen in een chunk.
      */
-    public function __construct ( $conn , $dataMapper , $sql , $idField = 'id', $chunk = 1 , $rowsPerChunk=25)
+    public function __construct ( $conn , $dataMapper , $sql , $idField = 'id', $chunk = 1 , $rowsPerChunk=25, $logger = null)
     {
         $this->_conn = $conn;
         $this->_dataMapper = $dataMapper;
@@ -70,6 +75,11 @@ class KVDdom_PDOChunkyQuery
         $this->idField = $idField;
         $this->setChunk ( $chunk );
         $this->setRowsPerChunk ( $rowsPerChunk );
+        if ( $logger === null ) {
+            $this->logger = new KVDdom_SqlLogger( );
+        } else {
+            $this->logger = $logger;
+        }
         $this->initializeTotalRecordCount();
     }
 
@@ -80,11 +90,13 @@ class KVDdom_PDOChunkyQuery
      */
     private function getTotalRecordCountSql ( $sql , $idField='id' )
     {
-        if ( strpos( $sql, 'DISTINCT') !== FALSE ) {
+        if ( stripos( $sql, 'DISTINCT') !== FALSE ) {
             $idField = 'DISTINCT ' . $idField;
-        } 
-        $sql = preg_replace( '/SELECT.*FROM/' , 'SELECT COUNT('.$idField.') FROM' , $sql );
-        $sql = preg_replace ( '/ ORDER.*/','',$sql);
+        }
+        $sql = preg_replace( '/(SELECT).*?(FROM)/i' , 'SELECT COUNT('.$idField.') FROM' , $sql , 1);
+        //$sql = preg_replace( '/(SELECT)[^(FROM)]*(FROM)/i' , 'SELECT COUNT('.$idField.') FROM' , $sql , 1);
+        $sql = preg_replace ( '/ ORDER.*/i','',$sql);
+        $this->logger->log ( $sql );
         return $sql;
     }
 
