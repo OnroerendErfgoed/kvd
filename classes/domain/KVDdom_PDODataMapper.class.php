@@ -139,7 +139,8 @@ abstract class KVDdom_PDODataMapper {
     protected function executeLazyFindMany ( $sql , $idField = 'id' )
     {
         $this->_sessie->getSqlLogger( )->log ( $sql );
-        return new KVDdom_LazyDomainObjectCollection ( new KVDdom_PDOChunkyQuery( $this->_conn , $this , $sql, $idField) );
+        $query = new KVDdom_PDOChunkyQuery( $this->_conn, $this, $sql, $idField , 1,25,$this->_sessie->getSqlLogger( ));
+        return new KVDdom_LazyDomainObjectCollection ( $query );
     }
     
 }
