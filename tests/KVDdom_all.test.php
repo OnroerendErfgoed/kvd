@@ -18,12 +18,16 @@ require_once( KVD_CLASSES_DIR . 'domain/KVDdom_LogableDataMapper.class.php');
 require_once( KVD_CLASSES_DIR . 'domain/KVDdom_Sessie.class.php');
 require_once( KVD_CLASSES_DIR . 'domain/KVDdom_SystemFields.class.php');
 require_once( KVD_CLASSES_DIR . 'domain/KVDdom_DomainObjectCollection.class.php');
+require_once( KVD_CLASSES_DIR . 'domain/KVDdom_PDODataMapper.class.php' );
+require_once( KVD_CLASSES_DIR . 'domain/KVDdom_PDOChunkyQuery.class.php');
+require_once( KVD_CLASSES_DIR . 'domain/KVDdom_SqlLogger.class.php' );
 
 
 require_once('domain/KVDdom_MapperFactory.test.php');
 require_once('domain/KVDdom_MapperRegistry.test.php');
 require_once('domain/KVDdom_IdentityMap.test.php');
 require_once( 'domain/KVDdom_DomainObjectCollection.test.php');
+require_once( 'domain/KVDdom_PDOChunkyQuery.test.php');
 //require_once('CAI_Sessie.test.php');
 
 $test = new GroupTest('KVDdom_AllTests');
@@ -32,6 +36,7 @@ $test->addTestCase( new TestOfMapperFactory());
 $test->addTestCase( new TestOfGenericIdentityMap());
 //$test->addTestCase( new TestOfDomainObjectCollection( ));
 //$test->addTestCase( new TestOfSessie());
+$test->addTestCase( new TestOfPDOChunkyQuery());
 $test->run(new TextReporter());
 
 ?>
