@@ -67,7 +67,7 @@ class KVDdom_PDOChunkyQuery
      * @param integer $chunk Het initieel gevraagde data-blok.
      * @param integer $rowsPerChunk Aantal rijen in een chunk.
      */
-    public function __construct ( $conn , $dataMapper , $sql , $idField = 'id', $chunk = 1 , $rowsPerChunk=25, $logger = null)
+    public function __construct ( $conn , $dataMapper , $sql , $idField = 'id', $chunk = 1 , $rowsPerChunk=100, $logger = null)
     {
         $this->_conn = $conn;
         $this->_dataMapper = $dataMapper;
@@ -118,6 +118,7 @@ class KVDdom_PDOChunkyQuery
     public function getDomainObjects()
     {
         $sql = $this->sql . " LIMIT {$this->max} OFFSET {$this->start}";
+        $this->logger->log ( $sql );
         $stmt = $this->_conn->prepare( $sql );
         $stmt->execute();
         $domainObjects = array();
