@@ -96,4 +96,19 @@ class TestOfCriterion extends UnitTestCase
         $subselect->tally( );
     }
 
+    public function testIsNull( )
+    {
+        $criterion = KVDdb_Criterion::isNull( 'gevonden' );
+        $this->assertIsA( $criterion , 'KVDdb_Criterion' );
+        $this->assertEqual( $criterion->generateSql( ) , '( gevonden IS NULL )' );
+    }
+
+    public function testIsNotNull( )
+    {
+        $criterion = KVDdb_Criterion::isNotNull( 'gevonden' );
+        $this->assertIsA( $criterion , 'KVDdb_Criterion' );
+        $this->assertEqual( $criterion->generateSql( ) , '( gevonden IS NOT NULL )' );
+    }
+    
+
 }
