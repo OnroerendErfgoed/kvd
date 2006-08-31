@@ -38,6 +38,16 @@ class KVDdb_Criterion
      * @var string
      */
     const LESS_THAN = '<';
+
+    /**
+     * @var string
+     */
+    const IN = 'IN';
+
+    /**
+     * @var string
+     */
+    const NOT_IN = 'NOT IN';
     
     /**
      * @var string
@@ -172,7 +182,17 @@ class KVDdb_Criterion
      */
     public static function in ( $field, $value )
     {
-        return new KVDdb_InCriterion( $field, $value );
+        return new KVDdb_InCriterion( self::IN , $field, $value );
+    }
+
+    /**
+     * @param string $field
+     * @param array $value
+     * @return KVDdb_InCriterion
+     */
+    public static function notIn ( $field, $value )
+    {
+        return new KVDdb_InCriterion( self::NOT_IN , $field, $value );
     }
 
     /**
@@ -182,7 +202,17 @@ class KVDdb_Criterion
      */
     public static function inSubselect ( $field , $value )
     {
-        return new KVDdb_InSubselectCriterion ( $field , $value );
+        return new KVDdb_InSubselectCriterion ( self::IN , $field , $value );
+    }
+
+    /**
+     * @param string $field
+     * @param KVDdb_SimpleQuery $value
+     * @return KVDdb_InSubselectCriterion
+     */
+    public static function notInSubselect ( $field , $value )
+    {
+        return new KVDdb_InSubselectCriterion ( self::NOT_IN , $field , $value );
     }
 
     /**
@@ -234,14 +264,6 @@ class KVDdb_MatchCriterion extends KVDdb_Criterion
  */
 class KVDdb_InCriterion extends KVDdb_Criterion
 {
-    /**
-     * @param string $field
-     * @param array $value
-     */
-    public function __construct ( $field , $value )
-    {
-        parent::__construct( null, $field, $value );
-    }
 
     /**
      * @return string
@@ -253,7 +275,7 @@ class KVDdb_InCriterion extends KVDdb_Criterion
             $value = $this->sanitize( $value );
         }
         $values = implode ( $values , ', ' );
-        $sql = "( " . $this->field . " IN ( ". $values . " )";
+        $sql = "( " . $this->field . " " . $this->sqlOperator . " ( ". $values . " )";
         $sql .= $this->generateSqlChildren( );
         return $sql .= ' )';
     }
@@ -267,23 +289,12 @@ class KVDdb_InCriterion extends KVDdb_Criterion
  */
 class KVDdb_InSubselectCriterion extends KVDdb_Criterion
 {
-    
-    /**
-     * @param string $sqlOperator
-     * @param string $field
-     * @param mixed $value
-     */
-    public function __construct ( $field , $value )
-    {
-        parent::__construct( null , $field , $value );
-    }
-
     /**
      * @return string
      */
     public function generateSql( )
     {
-        $sql = "( " . $this->field . " IN ( " . $this->value->generateSql( ) . " )";
+        $sql = "( " . $this->field . " " . $this->sqlOperator . " ( " . $this->value->generateSql( ) . " )";
         $sql .= $this->generateSqlChildren( );
         return $sql .= ' )';
     }
