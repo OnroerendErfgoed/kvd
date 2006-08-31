@@ -85,6 +85,16 @@ class TestOfCriterion extends UnitTestCase
         $this->assertEqual( $criterion->generateSql( ), "( gemeente IN ( 'Knokke-Heist', 'Brugge', 'Dudzele' ) )");
     }
 
+    public function testNotIn( )
+    {
+        $criterion = KVDdb_Criterion::notIn( 'gemeente_id' , array( 40000, 40001, 40002 ) );
+        $this->assertIsA ( $criterion , 'KVDdb_Criterion' );
+        $this->assertEqual( $criterion->generateSql( ), "( gemeente_id NOT IN ( 40000, 40001, 40002 ) )");
+
+        $criterion = KVDdb_Criterion::notIn( 'gemeente' , array( 'Knokke-Heist', 'Brugge', 'Dudzele' ) );
+        $this->assertEqual( $criterion->generateSql( ), "( gemeente NOT IN ( 'Knokke-Heist', 'Brugge', 'Dudzele' ) )");
+    }
+
     public function testInSubselect( )
     {
         $subselect = new MockKVDdb_SimpleQuery( );
@@ -93,6 +103,17 @@ class TestOfCriterion extends UnitTestCase
         $criterion = KVDdb_Criterion::inSubselect( 'gemeente_id' , $subselect );
         $this->assertIsA ( $criterion , 'KVDdb_Criterion' );
         $this->assertEqual( $criterion->generateSql( ), "( gemeente_id IN ( SELECT gemeente_id FROM gemeente WHERE provincie_id = 20001 ) )");
+        $subselect->tally( );
+    }
+
+    public function testNotInSubselect( )
+    {
+        $subselect = new MockKVDdb_SimpleQuery( );
+        $subselect->setReturnValue( 'generateSql' , 'SELECT gemeente_id FROM gemeente WHERE provincie_id = 20001' );
+        $subselect->expectOnce( 'generateSql' );
+        $criterion = KVDdb_Criterion::notInSubselect( 'gemeente_id' , $subselect );
+        $this->assertIsA ( $criterion , 'KVDdb_Criterion' );
+        $this->assertEqual( $criterion->generateSql( ), "( gemeente_id NOT IN ( SELECT gemeente_id FROM gemeente WHERE provincie_id = 20001 ) )");
         $subselect->tally( );
     }
 
