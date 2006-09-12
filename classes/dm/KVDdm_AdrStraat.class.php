@@ -90,5 +90,26 @@ class KVDdm_AdrStraat {
         return new KVDdom_DomainObjectCollection ( $domainObjects );
     }
 
+    /**
+     * Zoek een straat op basis van zijn naam en de gemeente waarin de straat ligt.
+     * @param KVDdo_AdrGemeente $gemeente
+     * @return KVDdo_AdrStraat
+     * @throws <b>KVDdom_DomainObjectNotFoundException</b> - Indien het object niet geladen kon worden.
+     */
+    public function findByNaam ( $gemeente, $naam )
+    {
+        try {
+            $straatArray = $this->_gateway->getStraatnaamByStraatnaam( $naam , $gemeente->getCrabId( ) );
+        } catch ( RuntimeException $e ) {
+            $message = 'Kon een straat niet laden. Waarschijnlijk is de straatnaam ongeldig.';
+            $message .= "\nDe Crab-Gateway gaf de volgende foutmelding: " . $e->getMessage( );
+            throw new KVDdom_DomainObjectNotFoundException ( $message , 'KVDdo_AdrStraat' , $id );
+        } catch ( SoapFault $e ) {
+            $message = "Kon een straat niet laden omdat de crab service een fout gaf:\n" . $e->getMessage( );
+            throw new KVDdom_DomainObjectNotFoundException ( $message , 'KVDdo_AdrStraat' , $id );
+        }
+        return $this->doLoad( $straatArray['straatnaamId'] , $straatArray, $gemeente );
+    }
+
 }
 ?>
