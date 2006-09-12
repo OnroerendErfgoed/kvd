@@ -110,7 +110,7 @@ class KVDdm_AdrDeelgemeente extends KVDdom_PDODataMapper {
     /**
      * @param KVDdo_AdrGemeente $gemeente Een gemeente object
      * @param string $naam Naam van de deelgemeente
-     * @return KVDdom_AdrDeelgemeente
+     * @return KVDdo_AdrDeelgemeente
      */
     public function findByNaam ( $gemeente , $naam )
     {
