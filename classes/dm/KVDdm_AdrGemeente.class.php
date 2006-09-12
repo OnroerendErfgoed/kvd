@@ -8,7 +8,7 @@
 /**
  * @package KVD.dm.adr
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @since 1.0.0
+ * @since maart 2006
  */
 class KVDdm_AdrGemeente extends KVDdom_PDODataMapper {
 
@@ -46,6 +46,11 @@ class KVDdm_AdrGemeente extends KVDdom_PDODataMapper {
     {
         return  $this->getSelectStatement( ) .
                 " WHERE provincie_id = ?";
+    }
+
+    private function getFindByNaamStatement( )
+    {
+        return $this->getSelectStatement( ) . " WHERE gemeente_naam = ?";
     }
 
     /**
@@ -121,6 +126,27 @@ class KVDdm_AdrGemeente extends KVDdom_PDODataMapper {
        return $this->executeFindMany( $stmt );
     }
 
+    /**
+     * Zoek een gemeente op basis van zijn naam. Deze moet natuurlijk correct geschreven zijn.
+     * @param string $naam
+     * @return KVDdo_AdrGemeente
+     */
+    public function findByNaam( $naam )
+    {
+         $stmt = $this->_conn->prepare( $this->getFindByNaamStatement( ));
+         $stmt->bindParam( 1, $naam,PDO::PARAM_STR);
+         $stmt->execute( );
+         if ( !$row = $stmt->fetch( PDO::FETCH_OBJ )) {
+            $msg = "KVDdo_AdrGemeente met naam $naam kon niet gevonden worden";
+            throw new KVDdom_DomainObjectNotFoundException (  $msg , 'KVDdo_AdrGemeente' , $naam );
+         }
+         return $this->doLoad( $row->id, $row);
+    }
+
+    /**
+     * @param string orderField Veld waarop gesorteerd moet worden.
+     * @return string
+     */
     private function getOrderClause ( $orderField = 'id' )
     {
         switch ( $orderField ) {

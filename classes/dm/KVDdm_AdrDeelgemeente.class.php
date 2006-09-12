@@ -46,6 +46,12 @@ class KVDdm_AdrDeelgemeente extends KVDdom_PDODataMapper {
                 " WHERE gemeente_id = ?";
     }
 
+    private function getFindByNaamStatement( )
+    {
+        return  $this->getSelectStatement( ) .
+                " WHERE gemeente_id = ? AND deelgemeente_naam = ?";
+    }
+
     /**
      * Zoek een gemeente op basis van zijn id.
      * @param integer $id Komt overeen met het nisnummer.
@@ -89,7 +95,7 @@ class KVDdm_AdrDeelgemeente extends KVDdom_PDODataMapper {
     }
     
     /**
-     * @param KVDdo_AdrGemeente
+     * @param KVDdo_AdrGemeente $gemeente
      * @param string $orderField, Veld om op te sorteren. Kan id, deelgemeenteNaam, gemeenteNaam of provincieNaam zijn.
      * @return KVDdom_DomainObjectCollection Een collecte van KVDdo_AdrDeelgemeente objecten.
      */
@@ -97,8 +103,26 @@ class KVDdm_AdrDeelgemeente extends KVDdom_PDODataMapper {
     {
        $stmt = $this->_conn->prepare ( $this->getFindByGemeenteStatement( ) . $this->getOrderClause( $orderField) );
        $id = $gemeente->getId( );
-       $stmt->bindParam( 1, $id );
+       $stmt->bindParam( 1, $id , PDO::PARAM_INT );
        return $this->executeFindMany( $stmt );
+    }
+
+    /**
+     * @param KVDdo_AdrGemeente $gemeente Een gemeente object
+     * @param string $naam Naam van de deelgemeente
+     * @return KVDdom_AdrDeelgemeente
+     */
+    public function findByNaam ( $gemeente , $naam )
+    {
+        $stmt = $this->_conn->prepare( $this->getFindByNaamStatement( ) );
+        $stmt->bindParam( 1, $gemeente->getId( ), PDO::PARAM_INT );
+        $stmt->bindParam( 2, $naam, PDO::PARAM_STR );
+        $stmt->execute( );
+        if ( !$row = $stmt->fetch( PDO::FETCH_OBJ )) {
+           $msg = "KVDdo_AdrDeelgemeente met naam $naam kon niet gevonden worden";
+           throw new KVDdom_DomainObjectNotFoundException (  $msg , 'KVDdo_AdrDeelgemeente' , $naam );
+        }
+        return $this->doLoad( $row->id, $row);
     }
 
     private function getOrderClause ( $orderField = 'id' )
