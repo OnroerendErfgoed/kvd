@@ -102,6 +102,17 @@ class KVDdom_DomainObjectCollection implements SeekableIterator, Countable
             return true;
         }
     }
+
+    /**
+     * Verwijder alle objecten uit de collectie.
+     */
+    public function clear( )
+    {
+       foreach ( $this->collection as $object ) {
+           $object->remove( );
+       }
+       $this->colletion = array( );
+    }
     
 }
 ?>
