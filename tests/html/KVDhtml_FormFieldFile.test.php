@@ -46,6 +46,17 @@ class TestOfFormFieldFile extends UnitTestCase
         $this->assertWantedPattern( '/class="testClass"/', $html);
         $this->assertWantedPattern( '/ disabled="disabled"/', $html);
     }
+    
+    function testFormFieldFileSize( )
+    {
+        $this->fieldOptions['size'] = 40;
+        $formField = new KVDhtml_FormFieldFile( $this->fieldOptions );
+        $html = $formField->toHtml( );
+        $this->assertWantedPattern( '/type="file"/' ,$html);
+        $this->assertWantedPattern( '/name="testField"/', $html);
+        $this->assertWantedPattern( '/class="testClass"/', $html);
+        $this->assertWantedPattern( '/ size="40"/', $html);
+    }
 
 }
 ?>
