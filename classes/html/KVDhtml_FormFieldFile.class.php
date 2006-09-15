@@ -20,6 +20,7 @@ class KVDhtml_FormFieldFile extends KVDhtml_FormField
      *  <li><b>value</b>: een eventuele startwaarde, dit moet dus een bestandsnaam zijn.</li>
      *  <li><b>disabled</b>: Boolean die bepaalt of het input element al dan niet moet ingeschakeld zijn.</li>
      *  <li><b>readonly</b>: Boolean die bepaalt of het input element al dan niet readonly is.</li>
+     *  <li><b>size</b>: Het aantal tekens dat het invoer vak breed moet zijn.</li>
      * </ul> 
      * @param array $fieldOptions
      */
