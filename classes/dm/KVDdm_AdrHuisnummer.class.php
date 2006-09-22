@@ -1,16 +1,21 @@
 <?php
 /**
- * @package KVD.dm.adr
+ * @package KVD.dm
+ * @subpackage Adr
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
  * @version $Id$
  */
 
 /**
- * @package KVD.dm.adr
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @since 1.0.0
+ * @package KVD.dm
+ * @subpackage Adr
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
+ * @since maart 2006
  */
 class KVDdm_AdrHuisnummer {
+    
+    const RETURNTYPE = "KVDdo_AdrHuisnummer";
+    
     /**
      * @var KVDdom_Sessie;
      */
@@ -39,6 +44,11 @@ class KVDdm_AdrHuisnummer {
      */
     public function doLoad( $id , $crabData , $straat = null)
     {
+        $domainObject = $this->_sessie->getIdentityMap( )->getDomainObject( self::RETURNTYPE, $id);
+        if ( $domainObject !== null ) {
+            return $domainObject;
+        }
+        
         if ( is_null( $straat ) ) {
             $straatMapper = $this->_sessie->getMapper( 'KVDdo_AdrStraat');
             $straat = $straatMapper->findById( $crabData['straatnaamId']);
@@ -58,6 +68,11 @@ class KVDdm_AdrHuisnummer {
      */ 
     public function findById ( $id )
     {
+        $domainObject = $this->_sessie->getIdentityMap( )->getDomainObject( self::RETURNTYPE, $id);
+        if ( $domainObject !== null ) {
+            return $domainObject;
+        }
+
         try {
             $huisnummerArray = $this->_gateway->getHuisnummerByHuisnummerId( $id );
         } catch ( RuntimeException $e ) {

@@ -1,13 +1,15 @@
 <?php
 /**
- * @package KVD.dm.adr
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
+ * @package KVD.dm
+ * @subpackage Adr
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  * @version $Id$
  */
 
 /**
- * @package KVD.dm.adr
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
+ * @package KVD.dm
+ * @subpackage Adr
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  * @since maart 2006
  */
 class KVDdm_AdrGemeente extends KVDdom_PDODataMapper {
@@ -20,6 +22,11 @@ class KVDdm_AdrGemeente extends KVDdom_PDODataMapper {
 
     const VELDEN = "gemeente_naam, crab_id , provincie_id";
 
+    /**
+     * getSelectStatement 
+     * 
+     * @return string
+     */
     private function getSelectStatement( )
     {
         return  "SELECT " . self::ID . ", " . self::VELDEN . " , " . KVDdm_AdrProvincie::VELDEN .
@@ -27,27 +34,52 @@ class KVDdm_AdrGemeente extends KVDdom_PDODataMapper {
                 " ON (" . self::TABEL . ".provincie_id = " . KVDdm_AdrProvincie::TABEL . ".id)";
     }
 
+    /**
+     * getFindByIdStatement 
+     * 
+     * @return string
+     */
     protected function getFindByIdStatement( )
     {
         return $this->getSelectStatement( ) . " WHERE " . self::ID . " = ?";
     }
 
+    /**
+     * getFindByCrabIdStatement 
+     * 
+     * @return string
+     */
     protected function getFindByCrabIdStatement( )
     {
         return $this->getSelectStatement( ) . " WHERE crab_id = ?";
     }
 
+    /**
+     * getFindAllStatement 
+     * 
+     * @return string
+     */
     protected function getFindAllStatement( )
     {
         return $this->getSelectStatement( );
     }
 
+    /**
+     * getFindByProvincieStatement 
+     * 
+     * @return string
+     */
     private function getFindByProvincieStatement()
     {
         return  $this->getSelectStatement( ) .
                 " WHERE provincie_id = ?";
     }
 
+    /**
+     * getFindByNaamStatement 
+     * 
+     * @return string
+     */
     private function getFindByNaamStatement( )
     {
         return $this->getSelectStatement( ) . " WHERE gemeente_naam = ?";
@@ -147,7 +179,7 @@ class KVDdm_AdrGemeente extends KVDdom_PDODataMapper {
      * @param string orderField Veld waarop gesorteerd moet worden.
      * @return string
      */
-    private function getOrderClause ( $orderField = 'id' )
+    private function getOrderClause ( $orderField = 'gemeenteNaam' )
     {
         switch ( $orderField ) {
             case "id":
@@ -160,7 +192,7 @@ class KVDdm_AdrGemeente extends KVDdom_PDODataMapper {
                 $orderFieldName = 'provincie.provincie_naam';
                 break;
             default:
-                $orderFieldName = 'gemeente.id';
+                $orderFieldName = 'gemeente.gemeente_naam';
         }
         return " ORDER BY $orderFieldName ASC";
     }

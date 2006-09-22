@@ -1,13 +1,15 @@
 <?php
 /**
- * @package KVD.dm.adr
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
+ * @package KVD.dm
+ * @subpackage Adr
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  * @version $Id$
  */
 
 /**
- * @package KVD.dm.adr
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
+ * @package KVD.dm
+ * @subpackage Adr
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  * @since 1.0.0
  */
 class KVDdm_AdrProvincie extends KVDdom_PDODataMapper {
@@ -20,16 +22,31 @@ class KVDdm_AdrProvincie extends KVDdom_PDODataMapper {
 
     const VELDEN = "provincie_naam";
 
+    /**
+     * getSelectStatement 
+     * 
+     * @return string
+     */
     private function getSelectStatement( )
     {
         return "SELECT " . self::ID . ", " . self::VELDEN ." FROM " . self::TABEL;
     }
 
+    /**
+     * getFindByIdStatement 
+     * 
+     * @return string
+     */
     protected function getFindByIdStatement( )
     {
         return $this->getSelectStatement( ) . " WHERE " . self::ID . " = ?";
     }
 
+    /**
+     * getFindAllStatement 
+     * 
+     * @return string
+     */
     protected function getFindAllStatement( )
     {
         return $this->getSelectStatement( );

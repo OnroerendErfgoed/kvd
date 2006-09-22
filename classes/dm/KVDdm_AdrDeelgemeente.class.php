@@ -1,12 +1,14 @@
 <?php
 /**
- * @package KVD.dm.adr
+ * @package KVD.dm
+ * @subpackage Adr
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
  * @version $Id$
  */
 
 /**
- * @package KVD.dm.adr
+ * @package KVD.dm
+ * @subpackage Adr
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
  * @since 21 jun 2006
  */
@@ -20,6 +22,11 @@ class KVDdm_AdrDeelgemeente extends KVDdom_PDODataMapper {
 
     const VELDEN = "deelgemeente_naam, gemeente_id";
 
+    /**
+     * getSelectStatement 
+     * 
+     * @return string
+     */
     private function getSelectStatement( )
     {
         return  "SELECT " . self::ID . ", " . self::VELDEN . " , " . KVDdm_AdrGemeente::VELDEN . " , " . KVDdm_AdrProvincie::VELDEN .
@@ -30,22 +37,42 @@ class KVDdm_AdrDeelgemeente extends KVDdom_PDODataMapper {
                 " ON (" . KVDdm_AdrGemeente::TABEL . ".provincie_id = " . KVDdm_AdrProvincie::TABEL . ".id)";
     }
 
+    /**
+     * getFindByIdStatement 
+     * 
+     * @return string
+     */
     protected function getFindByIdStatement( )
     {
         return $this->getSelectStatement( ) . " WHERE " . self::ID . " = ?";
     }
 
+    /**
+     * getFindAllStatement 
+     * 
+     * @return string
+     */
     protected function getFindAllStatement( )
     {
         return $this->getSelectStatement( );
     }
 
+    /**
+     * getFindByGemeenteStatement 
+     * 
+     * @return string
+     */
     private function getFindByGemeenteStatement()
     {
         return  $this->getSelectStatement( ) .
                 " WHERE gemeente_id = ?";
     }
 
+    /**
+     * getFindByNaamStatement 
+     * 
+     * @return string
+     */
     private function getFindByNaamStatement( )
     {
         return  $this->getSelectStatement( ) .
@@ -115,7 +142,8 @@ class KVDdm_AdrDeelgemeente extends KVDdom_PDODataMapper {
     public function findByNaam ( $gemeente , $naam )
     {
         $stmt = $this->_conn->prepare( $this->getFindByNaamStatement( ) );
-        $stmt->bindParam( 1, $gemeente->getId( ), PDO::PARAM_INT );
+        $id = $gemeente->getId( );
+        $stmt->bindParam( 1, $id, PDO::PARAM_INT );
         $stmt->bindParam( 2, $naam, PDO::PARAM_STR );
         $stmt->execute( );
         if ( !$row = $stmt->fetch( PDO::FETCH_OBJ )) {

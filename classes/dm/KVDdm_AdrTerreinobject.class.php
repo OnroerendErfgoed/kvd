@@ -1,14 +1,16 @@
 <?php
 /**
- * @package KVD.dm.adr
+ * @package KVD.dm
+ * @subpackage Adr
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
  * @version $Id$
  */
 
 /**
- * @package KVD.dm.adr
+ * @package KVD.dm
+ * @subpackage Adr
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @since 1.0.0
+ * @since maart 2006
  */
 class KVDdm_AdrTerreinobject {
     
@@ -17,6 +19,11 @@ class KVDdm_AdrTerreinobject {
      * @var integer
      */
     const ESPG_CODE = 31370;
+
+    /**
+     * @var string 
+     */
+    const RETURNTYPE = "KVDdo_AdrTerreinObject";
     
     /**
      * @var KVDdom_Sessie;
@@ -44,6 +51,10 @@ class KVDdm_AdrTerreinobject {
      */
     public function doLoad( $id , $crabData , $huisnummer)
     {
+        $domainObject = $this->_sessie->getIdentityMap( )->getDomainObject( self::RETURNTYPE, $id);
+        if ( $domainObject !== null ) {
+            return $domainObject;
+        }
         try {
             $center = new KVDgis_GeomPoint ( self::ESPG_CODE , $crabData['centerX'], $crabData['centerY']);
         } catch ( InvalidArgumentException $e ) {

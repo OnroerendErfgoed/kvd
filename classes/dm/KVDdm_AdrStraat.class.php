@@ -1,16 +1,21 @@
 <?php
 /**
- * @package KVD.dm.adr
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
+ * @package KVD.dm
+ * @subpackage Adr
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  * @version $Id$
  */
 
 /**
- * @package KVD.dm.adr
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @since 1.0.0
+ * @package KVD.dm
+ * @subpackage Adr
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
+ * @since maart 2006
  */
 class KVDdm_AdrStraat {
+    
+    const RETURNTYPE = "KVDdo_AdrStraat";
+    
     /**
      * @var KVDdom_Sessie;
      */
@@ -40,6 +45,11 @@ class KVDdm_AdrStraat {
      */
     public function doLoad( $id , $crabData , $gemeente = null)
     {
+        $domainObject = $this->_sessie->getIdentityMap( )->getDomainObject( self::RETURNTYPE, $id);
+        if ( $domainObject !== null ) {
+            return $domainObject;
+        }
+        
         if ( is_null( $gemeente ) ) {
             $gemeenteMapper = $this->_sessie->getMapper( 'KVDdo_AdrGemeente');
             $gemeente = $gemeenteMapper->findByCrabId( $crabData['gemeenteId']);
@@ -61,6 +71,10 @@ class KVDdm_AdrStraat {
      */ 
     public function findById ( $id )
     {
+        $domainObject = $this->_sessie->getIdentityMap()->getDomainObject( self::RETURNTYPE , $id);
+        if ($domainObject != null) {
+            return $domainObject;
+        }
         try {
             $straatArray = $this->_gateway->getStraatnaamByStraatnaamId( $id );
         } catch ( RuntimeException $e ) {
@@ -103,7 +117,7 @@ class KVDdm_AdrStraat {
         } catch ( RuntimeException $e ) {
             $message = 'Kon een straat niet laden. Waarschijnlijk is de straatnaam ongeldig.';
             $message .= "\nDe Crab-Gateway gaf de volgende foutmelding: " . $e->getMessage( );
-            throw new KVDdom_DomainObjectNotFoundException ( $message , 'KVDdo_AdrStraat' , $id );
+            throw new KVDdom_DomainObjectNotFoundException ( $message , 'KVDdo_AdrStraat' , $naam );
         } catch ( SoapFault $e ) {
             $message = "Kon een straat niet laden omdat de crab service een fout gaf:\n" . $e->getMessage( );
             throw new KVDdom_DomainObjectNotFoundException ( $message , 'KVDdo_AdrStraat' , $id );
