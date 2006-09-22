@@ -1,21 +1,27 @@
 <?php
 /**
  * @package KVD.gis.geometry
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
+ * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license GNU General Public License {@link http://www.gnu.org/copyleft/gpl.html}
  * @version $Id$
  */
 
 /**
- * @package KVD.gis.geometry
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
+ * KVDgis_GeomMultiPoint 
+ * 
+ * @package KVD.gis.geometry 
  * @since 23 jun 2006
+ * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license GNU General Public License {@link http://www.gnu.org/copyleft/gpl.html}
  */
 class KVDgis_GeomMultiPoint extends KVDgis_GeomGeometry
 {
     /**
      * @var array
      */
-    private $points
+    private $points = array( );
 
     /**
      * @param integer $srid
@@ -24,41 +30,64 @@ class KVDgis_GeomMultiPoint extends KVDgis_GeomGeometry
     public function __construct ( $srid = -1, $points = null)
     {
         $this->setSrid($srid);
-        if ( is_null( $points ) ) {
-            $points = array( );
+        if ( $points != null && is_array( $points ) ) {
+            $this->setPoints( $points );
         }
-        $this->setPoints( $points );
     }
 
+    /**
+     * addPoint 
+     * 
+     * @param KVDgis_GeomPoint $point 
+     * @return void
+     */
     public function addPoint( $point )
     {
+        if ( !is_object( $point ) ) {
+            throw new InvalidArgumentException ( 'U probeert een punt toe te voegen dat geen object is.' );
+        }
         $this->points[] = $point;
-        
     }
 
-    public function removePoint ( $point )
-    {
-        
-    }
-
+    /**
+     * clearPoints 
+     * 
+     * @return void
+     */
     public function clearPoints( )
     {
-        
+        $this->points = array( );    
     }
 
+    /**
+     * setPoints 
+     * 
+     * @param array $points Een verzameling KVDgis_GeomPoint objecten.
+     * @return void
+     */
     public function setPoints( $points )
     {
-        
+        if ( !is_array( $points ) ) {
+            throw new InvalidArgumentException( 'U probeert een collectie van punten toe te voegen die niet bestaat.' );
+        }
+        foreach ( $points as $point ) {
+            $this->addPoint( $point );
+        }
     }
 
-    public function getPoint( $index )
+    /**
+     * getPoints 
+     * 
+     * @return array $points Een verzameling KVDgis_GeomPoint objecten.
+     */
+    public function getPoints( )
     {
-        
+        return $this->points;
     }
-    
+
     /**
      * @see KVDgis_GeomGeometry::setGeometryFromText()
-     * @param string $wkt vb. MULTIPOINT(1 2, 4 5, 8 9). Opgelet! Dit is eigenlijk ongeldig! Volgende versies van postgis zullen een andere syntax gebruiken.
+     * @param string $wkt vb. MULTIPOINT((1 2), (4 5), (8 9)).
      * @throws <b>InvalidArgumentException</b> - Indien de wkt-string ongeldig is.
      */
     public function setGeometryFromText ( $wkt )
@@ -68,14 +97,14 @@ class KVDgis_GeomMultiPoint extends KVDgis_GeomGeometry
         }
         $this->clearPoints( );
         
-        $stringiMultiPoint = $this->getStringBetweenBraces($wkt);
+        $stringMultiPoint = $this->getStringBetweenBraces($wkt);
         $points = explode(", " , $stringMultiPoint);
         foreach ( $points as $point ) {
             $stringPoint = $this->getStringBetweenBraces( $point );
-            $points = explode( " ", $stringPoint );
-            $pointObj = new KVDgis_GeomMultiPoint( $this->getSrid( ) );
-            $pointObj->setX($points['0']);
-            $pointObj->setY($points['1']);
+            $punten = explode( " ", $stringPoint );
+            $pointObj = new KVDgis_GeomPoint( $this->getSrid( ) );
+            $pointObj->setX($punten['0']);
+            $pointObj->setY($punten['1']);
             $this->addPoint( $pointObj );
         }
     }
@@ -87,9 +116,11 @@ class KVDgis_GeomMultiPoint extends KVDgis_GeomGeometry
     public function getAsText()
     {
         $buffer = "MULTIPOINT(";
+        $pointArray = array( );
         foreach ( $this->points as $point ) {
-            $buffer .= substr( $point->getAsText( ) , 5 );
+            $pointArray[] = substr( $point->getAsText( ) , 5 );
         }
+        $buffer .= implode ( ', ' , $pointArray);
         $buffer .= ")";
         return $buffer;
     }
