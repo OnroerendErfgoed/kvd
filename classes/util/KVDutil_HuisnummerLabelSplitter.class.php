@@ -14,6 +14,7 @@ class KVDutil_HuisnummerLabelSplitter
 {
     /**
      * @param string $huisnummerLabel
+     * @return array Een array met alle huisnummer bekomen uit de splitsing van de string.
      */
     public function split( $huisnummerLabel )
     {
