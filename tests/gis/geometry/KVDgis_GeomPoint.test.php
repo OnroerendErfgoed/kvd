@@ -1,7 +1,5 @@
 <?php
 
-require_once ( GISMAP . '/geometry/KVDgis_GeomGeometry.class.php');
-require_once ( GISMAP . '/geometry/KVDgis_GeomPoint.class.php');
 
 class TestOfGeomPoint extends UnitTestCase
 {
