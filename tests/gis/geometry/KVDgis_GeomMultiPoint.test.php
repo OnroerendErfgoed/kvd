@@ -57,6 +57,16 @@ class TestOfGeomMultiPoint extends UnitTestCase
     }
 
     
+    function testGeometryToString()
+    {
+        $this->testMultiPoint->setGeometryFromText('MULTIPOINT((178000 212000), (100000 150000))');
+        ob_start( );
+        echo $this->testMultiPoint;
+        $buffer = ob_get_contents( );
+        ob_end_clean( );
+        $this->assertEqual( $buffer , 'MULTIPOINT((178000 212000), (100000 150000))');
+    }
+    
     /**
      * testSetGeometryFromInvalidText 
      * 

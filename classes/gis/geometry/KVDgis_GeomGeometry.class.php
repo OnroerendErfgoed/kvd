@@ -71,5 +71,16 @@ abstract class KVDgis_GeomGeometry
      */
     abstract public function getAsText();
 
+    /**
+     * __toString 
+     * 
+     * De WKT voorstelling van de geometry.
+     * @return string
+     */
+    public function __toString( )
+    {
+        return $this->getAsText( );
+    }
+
 }
 ?>
