@@ -39,9 +39,9 @@ class TestOfPDOChunkyQuery extends UnitTestCase
         $query = new KVDdom_PDOChunkyQuery( $this->pdo, $this->mapper, 'SELECT * FROM gemeenten' );
         $this->assertIsA( $query, 'KVDdom_PDOChunkyQuery' );
         $this->assertEqual ( $query->getTotalRecordCount( ) , 255 );
-        $this->assertEqual ( $query->getTotalChunksCount( ) , 11);
+        $this->assertEqual ( $query->getTotalChunksCount( ) , 3);
         $this->assertEqual ( $query->getChunk( ) , 1);
-        $this->assertEqual ( $query->getRowsPerChunk( ) , 25);
+        $this->assertEqual ( $query->getRowsPerChunk( ) , 100);
     }
 
     public function testSetChunks( )
