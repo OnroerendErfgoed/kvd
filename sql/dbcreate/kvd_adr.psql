@@ -41,7 +41,7 @@ BEGIN TRANSACTION;
 
 -- Deelgemeente (Te gebruiken als keuzelijst)
 CREATE TABLE kvd_adr.deelgemeente(
-	id integer NOT NULL,
+	id varchar(6) NOT NULL,
 	deelgemeente_naam varchar(50) NOT NULL,
 	gemeente_id integer NOT NULL REFERENCES kvd_adr.gemeente (id),
 	CONSTRAINT deelgemeente_pkey PRIMARY KEY (id)
