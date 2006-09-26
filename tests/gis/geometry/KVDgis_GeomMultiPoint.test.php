@@ -56,6 +56,42 @@ class TestOfGeomMultiPoint extends UnitTestCase
         $this->assertEqual( $points[1]->getAsText( ) , 'POINT(100000 150000)');
     }
 
+    
+    /**
+     * testSetGeometryFromInvalidText 
+     * 
+     * Nodig omdat postgis < 1.2 een verkeerde WKT teruggeven
+     * @access public
+     * @return void
+     */
+    function testSetGeometryFromInvalidText()
+    {
+        $this->testMultiPoint->setGeometryFromText('MULTIPOINT(178000 212000, 100000 150000)');
+        $points = $this->testMultiPoint->getPoints( );
+        $this->assertEqual( $points[0]->getAsText( ) , 'POINT(178000 212000)');
+        $this->assertEqual( $points[1]->getAsText( ) , 'POINT(100000 150000)');
+    }
+
+    function testSetGeometryFromSpacyData( )
+    {
+        $this->testMultiPoint->setGeometryFromText('MULTIPOINT( ( 178000 212000 ) , (100000 150000) )');
+        $points = $this->testMultiPoint->getPoints( );
+        $this->assertEqual( $points[0]->getAsText( ) , 'POINT(178000 212000)');
+        $this->assertEqual( $points[1]->getAsText( ) , 'POINT(100000 150000)');
+    }
+
+    function testSetGeometryFromBogusData( )
+    {
+        try {
+            $this->testMultiPoint->setGeometryFromText('MULTIPOINT( ( coorda coordb ) , (testa testb) )');
+            $this->fail( 'Er had een Exception moeten zijn.');
+        } catch ( InvalidArgumentException $e ) {
+            $this->pass( );
+        } catch ( Exception $e ) {
+            $this->fail ( 'Er is wel een Exception maar van een verkeerd type.' );
+        }
+    }
+
     function testSetIllegalGeometryFromText()
     {
         try {
