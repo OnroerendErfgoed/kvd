@@ -50,14 +50,14 @@ abstract class KVDgis_GeomGeometry
     {
         $firstBrace = strpos($string,'(');
         if ($firstBrace === FALSE) {
-            throw new InvlaidArgumentException ('Ongeldige parameter. ' . $string . ' bevat geen openingshaakje!');    
+            throw new InvalidArgumentException ('Ongeldige parameter. ' . $string . ' bevat geen openingshaakje!');    
         }
         $lastBrace = strrpos($string,')');
         if ($lastBrace === FALSE) {
             throw new InvalidArgumentException ('Ongeldige parameter. ' . $string . ' bevat geen sluitshaakje!');
         }
         $length = ( $lastBrace ) - ( $firstBrace + 1);
-        return substr($string,$firstBrace+1,$length);
+        return trim( substr($string,$firstBrace+1,$length) );
     }
 
     /**

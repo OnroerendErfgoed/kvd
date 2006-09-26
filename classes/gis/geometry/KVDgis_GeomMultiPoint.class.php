@@ -86,8 +86,9 @@ class KVDgis_GeomMultiPoint extends KVDgis_GeomGeometry
     }
 
     /**
+     * 
      * @see KVDgis_GeomGeometry::setGeometryFromText()
-     * @param string $wkt vb. MULTIPOINT((1 2), (4 5), (8 9)).
+     * @param string $wkt vb. MULTIPOINT((1 2), (4 5), (8 9)). Het ongeldige type dat postgis en de meeste andere paketten aanmaken kan ook gelezen worden.
      * @throws <b>InvalidArgumentException</b> - Indien de wkt-string ongeldig is.
      */
     public function setGeometryFromText ( $wkt )
@@ -98,9 +99,13 @@ class KVDgis_GeomMultiPoint extends KVDgis_GeomGeometry
         $this->clearPoints( );
         
         $stringMultiPoint = $this->getStringBetweenBraces($wkt);
-        $points = explode(", " , $stringMultiPoint);
+        $points = explode("," , $stringMultiPoint);
         foreach ( $points as $point ) {
-            $stringPoint = $this->getStringBetweenBraces( $point );
+            if ( strpos( $point , '(' ) === false ) {
+                $stringPoint = trim( $point );
+            } else {
+                $stringPoint = $this->getStringBetweenBraces( $point );
+            }
             $punten = explode( " ", $stringPoint );
             $pointObj = new KVDgis_GeomPoint( $this->getSrid( ) );
             $pointObj->setX($punten['0']);
