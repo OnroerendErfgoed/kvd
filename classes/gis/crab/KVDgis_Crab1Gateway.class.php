@@ -556,13 +556,15 @@ class KVDgis_Crab1Gateway implements KVDutil_Gateway
 
         $xmlObject = @simplexml_load_string ( $result->CRABgethuisnummerpositieResult->any );
         $terreinobjecten = array( );
-        foreach ( $xmlObject->CRAB_huisnummerpositie->huisnummerpositie as $terreinobject ) {
-            $terreinobjectArray = array( );
-            $terreinobjectArray['identificatorTerreinobject'] = utf8_decode( $terreinobject->identificatorTerreinObject );
-            $terreinobjectArray['aardTerreinobjectCode'] = utf8_decode ( $terreinobject->naam );
-            $terreinobjectArray['centerX'] = ( float ) $terreinobject->x_coordinaat;
-            $terreinobjectArray['centerY'] = ( float ) $terreinobject->y_coordinaat;
-            $terreinobjecten[] = $terreinobjectArray;
+        if ( isset( $xmlObject->CRAB_huisnummerpositie ) ) {
+            foreach ( $xmlObject->CRAB_huisnummerpositie->huisnummerpositie as $terreinobject ) {
+                $terreinobjectArray = array( );
+                $terreinobjectArray['identificatorTerreinobject'] = utf8_decode( $terreinobject->identificatorTerreinObject );
+                $terreinobjectArray['aardTerreinobjectCode'] = utf8_decode ( $terreinobject->naam );
+                $terreinobjectArray['centerX'] = ( float ) $terreinobject->x_coordinaat;
+                $terreinobjectArray['centerY'] = ( float ) $terreinobject->y_coordinaat;
+                $terreinobjecten[] = $terreinobjectArray;
+            }
         }
         $this->_cache->cachePut ( __FUNCTION__ , $functionParameters , serialize( $terreinobjecten ) );
         return $terreinobjecten;
