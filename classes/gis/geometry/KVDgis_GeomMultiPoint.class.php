@@ -46,6 +46,9 @@ class KVDgis_GeomMultiPoint extends KVDgis_GeomGeometry
         if ( !is_object( $point ) ) {
             throw new InvalidArgumentException ( 'U probeert een punt toe te voegen dat geen object is.' );
         }
+        if ( $point->getX( ) == 0 && $point->getY( ) == 0 ) {
+            return;
+        }
         $this->points[] = $point;
     }
 
@@ -120,6 +123,9 @@ class KVDgis_GeomMultiPoint extends KVDgis_GeomGeometry
      */
     public function getAsText()
     {
+        if ( count( $this->points ) <= 0 ) {
+            return null;
+        }
         $buffer = "MULTIPOINT(";
         $pointArray = array( );
         foreach ( $this->points as $point ) {
