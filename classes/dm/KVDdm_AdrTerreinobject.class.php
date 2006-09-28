@@ -88,7 +88,7 @@ class KVDdm_AdrTerreinobject {
     public function findByHuisnummer ( $huisnummer )
     {
         $terreinobjectenArray = $this->_gateway->listTerreinobjectenByHuisnummerId( $huisnummer->getId( ) , 1);
-        $domainObject = array( );
+        $domainObjects = array( );
         foreach ( $terreinobjectenArray as $terreinobjectArray ) {
             $terreinobject = $this->doLoad ( $terreinobjectArray['identificatorTerreinobject'] , $terreinobjectArray , $huisnummer);
             $domainObjects[] = $terreinobject;
