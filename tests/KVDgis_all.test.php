@@ -17,13 +17,16 @@ define ('UTILMAP' , '/data/projects/kvd/kvd/classes/util/');
 //require_once(GISTESTMAP.'KVDgis_MsMapAjaxHandler.test.php');
 //require_once(GISTESTMAP.'exception/KVDgis_MsMapActionBestaatNietException.test.php');
 require_once ( UTILMAP . 'Gateway/KVDutil_Gateway.interface.php' );
-require_once ( GISMAP . '/geometry/KVDgis_GeomGeometry.class.php');
-require_once ( GISMAP . '/geometry/KVDgis_GeomPoint.class.php');
-require_once ( GISMAP . '/geometry/KVDgis_GeomMultiPoint.class.php');
+require_once ( GISMAP . 'crab/KVDgis_Crab1Gateway.class.php');
+require_once ( GISMAP . 'crab/KVDgis_Crab2Gateway.class.php');
+require_once ( GISMAP . 'geometry/KVDgis_GeomGeometry.class.php');
+require_once ( GISMAP . 'geometry/KVDgis_GeomPoint.class.php');
+require_once ( GISMAP . 'geometry/KVDgis_GeomMultiPoint.class.php');
 
 require_once ( GISTESTMAP.'geometry/KVDgis_GeomPoint.test.php');
 require_once ( GISTESTMAP.'geometry/KVDgis_GeomMultiPoint.test.php');
 require_once ( GISTESTMAP.'crab/KVDgis_Crab1Gateway.test.php');
+require_once ( GISTESTMAP.'crab/KVDgis_Crab2Gateway.test.php');
 require_once ( GISTESTMAP.'crab/KVDgis_CrabCache.test.php');
 require_once ( GISTESTMAP.'crab/KVDgis_NullCrabCache.test.php');
 
@@ -34,6 +37,7 @@ $test = new GroupTest('KVDgis_AllTests');
 $test->addTestCase( new TestOfGeomPoint());
 $test->addTestCase( new TestOfGeomMultiPoint());
 $test->addTestCase( new TestOfCrab1Gateway( ) );
+$test->addTestCase( new TestOfCrab2Gateway( ) );
 $test->addTestCase( new TestofCrabCache( ) );
 $test->addTestCase( new TestofNullCrabCache( ) );
 //$test->addTestCase( new TestOfMsMapActionZoomIn());

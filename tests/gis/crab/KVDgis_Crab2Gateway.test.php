@@ -1,17 +1,17 @@
 <?php
 
-class TestOfCrab1Gateway extends UnitTestCase
+class TestOfCrab2Gateway extends UnitTestCase
 {
 
     private $_testGateway;
     
     function setUp()
     {
-        $parameters = array (   'wsdl' => 'http://webservices.gisvlaanderen.be/crab/wscrab.asmx?WSDL',
+        $parameters = array (   'wsdl' => 'http://webservices.gisvlaanderen.be/crab_1_0/ws_crab_NDS.asmx?WSDL',
                                 'username' => 'VIOE',
                                 'password' => 'GISTLIBE'
                             );
-        $this->_testGateway = new KVDgis_Crab1Gateway( $parameters );
+        $this->_testGateway = new KVDgis_Crab2Gateway( $parameters );
     }
 
     function tearDown()
@@ -21,15 +21,17 @@ class TestOfCrab1Gateway extends UnitTestCase
 
     function testListGemeentenByGewestId( )
     {
-        $gemeenten = $this->_testGateway->listGemeentenByGewestId( 2, 2);
+        $gemeenten = $this->_testGateway->listGemeentenByGewestId( KVDgis_Crab2Gateway::GEWEST_VLAANDEREN, KVDgis_Crab2Gateway::GEM_SORT_NAAM );
         $this->assertIsA( $gemeenten, 'array');
         $this->assertIsA ( $gemeenten[20] , 'array');
         $this->assertNotNull ( $gemeenten[20]['gemeenteId']);
         $this->assertNotNull ( $gemeenten[20]['gemeenteNaam']);
-        $this->assertNotNull ( $gemeenten[20]['nisGemeenteCode']);
+        $this->assertNotNull ( $gemeenten[20]['taalCode']);
+        $this->assertNotNull ( $gemeenten[20]['taalCodeGemeenteNaam']);
+        $this->assertNull ( $gemeenten[20]['nisGemeenteCode']);
     }
 
-    private function testKnokke( $gemeente ) 
+    private function assertIsKnokke( $gemeente ) 
     {
         $this->assertIsA( $gemeente , 'array' );
         $this->assertEqual( $gemeente['gemeenteId'], 191);
@@ -42,19 +44,19 @@ class TestOfCrab1Gateway extends UnitTestCase
     public function testGetGemeenteByGemeenteId( )
     {
         $gemeente = $this->_testGateway->getGemeenteByGemeenteId( 191 );
-        $this->testKnokke( $gemeente );
+        $this->assertIsKnokke( $gemeente );
     }
 
     public function testGetGemeenteByGemeenteNaam( )
     {
-        $gemeente = $this->_testGateway->getGemeenteByGemeenteNaam( 'Knokke-Heist');
-        $this->testKnokke( $gemeente );
+        $gemeente = $this->_testGateway->getGemeenteByGemeenteNaam( 'Knokke-Heist' );
+        $this->assertIsKnokke( $gemeente );
     }
 
     public function testGetGemeenteByNisGemeenteCode( )
     {
         $gemeente = $this->_testGateway->getGemeenteByNISGemeenteCode( 31043 );
-        $this->testKnokke( $gemeente );
+        $this->assertIsKnokke( $gemeente );
     }
 
     public function testIllegalGetGemeenteByGemeenteId( )
@@ -70,15 +72,15 @@ class TestOfCrab1Gateway extends UnitTestCase
 
     public function testListStraatnamenByGemeenteId( )
     {
-        $straatnamen = $this->_testGateway->listStraatnamenByGemeenteId( 191, 2);
+        $straatnamen = $this->_testGateway->listStraatnamenByGemeenteId( 191, KVDgis_Crab2Gateway::STRAAT_SORT_NAAM);
         $this->assertIsA( $straatnamen, 'array');
         $this->assertIsA( $straatnamen[20],'array');
         $this->assertNotNull ( $straatnamen[20]['straatnaam']);
         $this->assertNotNull ( $straatnamen[20]['straatnaamId']);
         $this->assertNotNull ( $straatnamen[20]['straatnaamLabel']);
     }
-
-    private function testNieuwstraat ( $straatnaam )
+    
+    private function assertIsNieuwstraat ( $straatnaam )
     {
         $this->assertIsA( $straatnaam , 'array' );
         $this->assertEqual( $straatnaam['straatnaamId'], 48086);
@@ -86,18 +88,18 @@ class TestOfCrab1Gateway extends UnitTestCase
         $this->assertEqual( $straatnaam['straatnaamLabel'], 'Nieuwstraat' );
         $this->assertEqual( $straatnaam['taalCode'], 'nl');
         $this->assertEqual( $straatnaam['gemeenteId'], 191 );
-    }
+    }    
 
     public function testGetStraatnaamByStraatnaamId( )
     {
         $straatnaam = $this->_testGateway->getStraatnaamByStraatnaamId( 48086 );
-        $this->testNieuwstraat ( $straatnaam );
+        $this->assertIsNieuwstraat ( $straatnaam );
     }
 
     public function testGetStraatnaamByStraatnaam( )
     {
         $straatnaam = $this->_testGateway->getStraatnaamByStraatnaam( 'Nieuwstraat', 191 );
-        $this->testNieuwstraat ( $straatnaam );
+        $this->assertIsNieuwstraat ( $straatnaam );
     }
 
     public function testListHuisnummersByStraatnaamId ()
@@ -109,7 +111,7 @@ class TestOfCrab1Gateway extends UnitTestCase
         $this->assertNotNull ( $huisnummers[20]['huisnummer']);
     }
 
-    private function testNieuwstraat68 ( $huisnummer )
+    private function assertIsNieuwstraat68 ( $huisnummer )
     {
         $this->assertIsA( $huisnummer , 'array' );
         $this->assertEqual ( $huisnummer['huisnummerId'] , 887821);
@@ -119,18 +121,24 @@ class TestOfCrab1Gateway extends UnitTestCase
     public function testGetHuisnummerByHuisnummerId ()
     {
         $huisnummer = $this->_testGateway->getHuisnummerByHuisnummerId( 887821 );
-        $this->testNieuwstraat68( $huisnummer );
+        $this->assertIsNieuwstraat68( $huisnummer );
     }
 
     public function testGetHuisnummerByHuisnummer( )
     {
         $huisnummer = $this->_testGateway->getHuisnummerByHuisnummer( '68' , 48086 );
-        $this->testNieuwstraat68( $huisnummer );
+        $this->assertIsNieuwstraat68( $huisnummer );
+    }
+
+    public function testGetPostkantonByHuisnummerId( )
+    {
+        $postkanton = $this->_testGateway->getPostkantonByHuisnummerId( 887821 );
+        $this->assertEqual ( $postkanton['postkantonCode'] , 8300 );
     }
         
     public function testListWegobjectenByStraatnaamId( )
     {
-        $wegobjecten = $this->_testGateway->listWegobjectenByStraatnaamId( 48086 , 1);
+        $wegobjecten = $this->_testGateway->listWegobjectenByStraatnaamId( 48086 , KVDgis_Crab2Gateway::WEG_SORT_ID );
         $this->assertIsA( $wegobjecten, 'array' );
         $this->assertIsA( $wegobjecten[1], 'array' );
         $this->assertNotNull ( $wegobjecten[1]['identificatorWegobject'] );
@@ -143,8 +151,10 @@ class TestOfCrab1Gateway extends UnitTestCase
         $this->assertIsA( $terreinobjecten[0] , 'array');
         $this->assertNotNull( $terreinobjecten[0]['identificatorTerreinobject']);
         $this->assertNotNull( $terreinobjecten[0]['aardTerreinobjectCode']);
+        /*
         $this->assertNotNull( $terreinobjecten[0]['centerX']);
         $this->assertNotNull( $terreinobjecten[0]['centerY']);
+        */
     }
 
 }
