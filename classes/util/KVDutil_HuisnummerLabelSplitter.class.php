@@ -1,14 +1,29 @@
 <?php
 /**
  * @package KVD.util
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
  * @version $Id$
+ * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
+ * KVDutil_HuisnummerLabelSplitter 
+ * 
+ * Deze class dient om huisnummerlabels uit te splitsen naar de indivduele labels. bv.:
+ * <code>
+ *  $splitter = new KVDutil_HuisnummerLabelSplitter( );
+ *  $huisnummers = $splitter->split( '15-21' );
+ *  echo $huisnummers[0]; // 15
+ *  echo $huisnummers[1]; // 17
+ *  echo $huisnummers[2]; // 19
+ *  echo $huisnummers[3]; // 21
+ * </code>
  * @package KVD.util
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
  * @since 9 aug 2006
+ * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDutil_HuisnummerLabelSplitter
 {
