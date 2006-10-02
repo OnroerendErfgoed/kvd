@@ -1,6 +1,6 @@
 PHPCRAB
 =======
-Versie: $Id$
+Versie: $Id: README.TXT 210 2006-10-02 14:07:14Z vandaeko $
 Auteur: Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
 Revisie: $Rev$
 
