@@ -1,14 +1,21 @@
 <?php
 /**
  * @package KVD.gis.crab
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
  * @version $Id$
+ * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
+ * KVDgis_NullCrabCache 
+ * 
+ * Een implementatie van het Special Case pattern, zorgt er voor dat er niets gecached wordt.
  * @package KVD.gis.crab
- * @since 1.0.0
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
+ * @since jan 2006
+ * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDgis_NullCrabCache extends KVDgis_CrabCache
 {

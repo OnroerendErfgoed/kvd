@@ -1,19 +1,26 @@
 <?php
 /**
  * @package KVD.gis.crab
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
  * @version $Id$
+ * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
- * class KVDgis_Crab1Gateway
+ * KVDgis_Crab1Gateway
  *
  * @package KVD.gis.crab
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @since 1.0.0
+ * @since jan 2006
+ * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDgis_Crab1Gateway implements KVDutil_Gateway
 {
+    /**
+     * Namespace die Crab gebruikt. 
+     */
     const CRAB_NAMESPACE = "http://www.gisvlaanderen.be/webservices/";
 
     /**
@@ -52,7 +59,9 @@ class KVDgis_Crab1Gateway implements KVDutil_Gateway
      * </code>
      * @param array $parameters
      * @return boolean true indien succesvol geinitializeerd
-     * @throws <b>IllegalArgumentException</b> - Indien er foute of ontbrekende parameters zijn.
+     * @throws <b>IllegalArgumentException</b> Indien er foute of ontbrekende parameters zijn.
+     * @uses KVDgis_CrabCache
+     * @uses KVDgis_NullCrabCache
      */
     public function __construct ( $parameters )
     {

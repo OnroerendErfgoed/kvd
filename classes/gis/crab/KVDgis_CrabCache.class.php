@@ -1,32 +1,36 @@
 <?php
 /**
  * @package KVD.gis.crab
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
  * @version $Id$
+ * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
+ * KVDgis_CrabCache
+ *
+ * Class om calls van KVDgis_Crab1Gateway en KVDgis_Crab2Gateway te cachen.
  * @package KVD.gis.crab
- * @since 1.0.0
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
+ * @since jan 2006
+ * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDgis_CrabCache
 {
 
     /**
-     * @access private
      * @var string
      */
     private $cacheDir;
 
     /**
-     * @access private
      * @var array
      */
     private $expirationTimes;
 
     /**
-     * @access private
      * @var array
      */
     private $loadedCaches;
