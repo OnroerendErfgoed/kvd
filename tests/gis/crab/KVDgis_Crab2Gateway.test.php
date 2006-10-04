@@ -28,7 +28,6 @@ class TestOfCrab2Gateway extends UnitTestCase
         $this->assertNotNull ( $gemeenten[20]['gemeenteNaam']);
         $this->assertNotNull ( $gemeenten[20]['taalCode']);
         $this->assertNotNull ( $gemeenten[20]['taalCodeGemeenteNaam']);
-        $this->assertNull ( $gemeenten[20]['nisGemeenteCode']);
     }
 
     private function assertIsKnokke( $gemeente ) 
@@ -146,15 +145,22 @@ class TestOfCrab2Gateway extends UnitTestCase
 
     public function testListTerreinObjectenByHuisnummerId( )
     {
-        $terreinobjecten = $this->_testGateway->listTerreinobjectenByHuisnummerId( 887821, 1 );
+        $terreinobjecten = $this->_testGateway->listTerreinobjectenByHuisnummerId( 887821, KVDgis_Crab2Gateway::TERREIN_SORT_ID );
         $this->assertIsA( $terreinobjecten , 'array' );
         $this->assertIsA( $terreinobjecten[0] , 'array');
         $this->assertNotNull( $terreinobjecten[0]['identificatorTerreinobject']);
         $this->assertNotNull( $terreinobjecten[0]['aardTerreinobjectCode']);
-        /*
-        $this->assertNotNull( $terreinobjecten[0]['centerX']);
-        $this->assertNotNull( $terreinobjecten[0]['centerY']);
-        */
+    }
+
+    public function testGetTerreinobjectByIdentificatorTerreinobject()
+    {
+        $terreinobjecten = $this->_testGateway->listTerreinobjectenByHuisnummerId( 887821 );
+        $terreinobject = $this->_testGateway->getTerreinobjectByIdentificatorTerreinobject( $terreinobjecten[0]['identificatorTerreinobject'] );
+        $this->assertIsA( $terreinobject, 'array' );
+        $this->assertEqual( $terreinobject['identificatorTerreinobject'] , $terreinobjecten[0]['identificatorTerreinobject'] );
+        $this->assertNotNull( $terreinobject['centerX']);
+        $this->assertNotNull( $terreinobject['centerY']);
+        $this->assertNotNull( $terreinobject['aardTerreinobjectCode']);
     }
 
 }
