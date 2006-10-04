@@ -11,6 +11,7 @@
 		<echo msg="U kunt volgende taken uitvoeren:" />
 		<echo msg=" createSchema:	Maak de db-schema's van KVD_adr aan." />
 		<echo msg=" clearCrabCache: Maak de crab cache leeg." />
+		<echo msg=" createCrabPackage: Genereer een pakket met de crab classes." />
 	</target>
 
 	<target name="createSchema" description="Maak de schema's van deze applicatie aan.">
@@ -36,5 +37,50 @@
 				<include name="*.crbcache" />
 			</fileset>
 		</delete>
+	</target>
+
+	<target name="createCrabPackage" description="Genereer een pakket met de crab classes.">
+		<property name="builddir"  value="${user.home}/phpCrab" />
+		<mkdir dir="${builddir}" />
+		<mkdir dir="${builddir}/docs" />
+		<copy todir="${builddir}/classes/gis">
+			<fileset dir="classes/gis" >
+				<include name="crab/*.class.php" />
+				<include name="geometry/*.class.php" />
+				<exclude name="geometry/KVDgis_GeomPolygon.class.php" />
+				<exclude name="geometry/KVDgis_GeomLine.class.php" />
+			</fileset>
+		</copy>
+		<copy todir="${builddir}/classes/util">
+			<fileset dir="classes/util" >
+				<include name="KVDutil_CacheFile.class.php" />
+				<include name="KVDutil_HuisnummerLabelSplitter.class.php" />
+				<include name="Gateway/*.class.php" />
+			</fileset>
+		</copy>
+		<copy todir="${builddir}/tests">
+			<fileset dir="tests">
+				<include name="KVDgis_all.test.php" />
+			</fileset>
+		</copy>
+		<copy todir="${builddir}/tests/gis">
+			<fileset dir="tests/gis">
+				<include name="crab/*.test.php" />
+				<include name="geometry/*.test.php" />
+			</fileset>
+		</copy>
+		<copy todir="${builddir}/tests/util">
+			<fileset dir="tests/util">
+				<include name="KVDutil_GatewayFactory.test.php" />
+				<include name="KVDutil_GatewayRegistry.test.php" />
+				<include name="KVDutil_HuisnummerLabelSplitter.test.php" />
+			</fileset>
+		</copy>
+		<copy file="doc/phpCrab/README.TXT" toFile="${builddir}/README.TXT" />
+		<echo msg="De html documentatie wordt nu aangemaakt." />
+		<phpdoc title="phpCrab documentatie" destdir="${builddir}/docs" sourcepath="${builddir}/classes" output="HTML:frames:earthli" />
+		<echo msg="Er wordt een archief aangemaakt." />
+		<tar destfile="${user.home}/phpCrab.tar.gz" basedir="${builddir}" compression="gzip" />
+		<delete dir="${builddir}" />
 	</target>
 </project>
