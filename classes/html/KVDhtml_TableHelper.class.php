@@ -1,7 +1,7 @@
 <?php
 /**
  * @package KVD.html
- * @version $Id: KVDhtml_TableHelper.class.php,v 1.3 2006/01/12 12:31:12 Koen Exp $
+ * @version $Id$
  * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License

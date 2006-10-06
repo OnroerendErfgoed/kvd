@@ -2,7 +2,7 @@
 /**
  * @package KVD.html
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @version $Id: KVDhtml_FormFieldFactory.class.php,v 1.1 2006/01/12 12:30:14 Koen Exp $
+ * @version $Id$
  */
 
 /**
