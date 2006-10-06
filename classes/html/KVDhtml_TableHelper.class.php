@@ -1,17 +1,22 @@
 <?php
 /**
  * @package KVD.html
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
  * @version $Id: KVDhtml_TableHelper.class.php,v 1.3 2006/01/12 12:31:12 Koen Exp $
+ * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
+ * KVDhtml_TableHelper 
+ * 
  * Maak een HTML tabel aan op basis van enkele parameters.
- *
  * Vooral bedoeld voor datatabellen die een eenvoudige layout hebben, momenteel kunnen er bijvoorbeeld geen cellen samengevoegd worden.
+ * @since 2005
  * @package KVD.html
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @since 1.0.0
+ * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDhtml_TableHelper {
     /**
@@ -226,11 +231,11 @@ class KVDhtml_TableHelper {
     /**
      * Voegt rijen toe aan de reeds bestaande rijen in de tabel.
      * @param array $rows Array van arrays.
-     * @throws Exception - Indien $rows geen array is.
+     * @throws InvalidArgumentException - Indien $rows geen array is.
      */
     public function addRows(&$rows) {
         if (!is_array($rows)) {
-            throw new Exception ( "Ongeldige parameter! $rows is geen array!" );    
+            throw new InvalidArgumentException ( "Ongeldige parameter! $rows is geen array!" );    
         }
         foreach ($rows as &$row) {
             $this->addRow($row);
@@ -246,7 +251,7 @@ class KVDhtml_TableHelper {
      */
     public function setCssClasses(&$classes) {
         foreach ($classes as $location => $classname) {
-            $this->cssClasses[$location] = "class=\"$classname\"";
+            $this->cssClasses[$location] = " class=\"$classname\"";
         }
     }
 
@@ -260,7 +265,7 @@ class KVDhtml_TableHelper {
     /**
      * Controleer de afmetingen (aantal rijen en kolommen) van de rows array. Nodig om het aantal td elementen te berekenen.
      */
-    private function setDimensions()
+    private function initDimensions()
     {
         $this->numRows = count($this->rows);
 
@@ -277,6 +282,7 @@ class KVDhtml_TableHelper {
      * Controleer of er voor elke rij of kolom ook effectief een header aanwezig is.
      *
      * Indien er minder headers dan rijen of kolommen zijn, worden er legen headers toegevoegd om een geldige html-tabel te bekomen.
+     * @return integer
      */
     private function headersTeKort()
     {
@@ -300,20 +306,20 @@ class KVDhtml_TableHelper {
         } else {
             $summary = "";
         }
-        $header = "<table border=\"0\" cellspacing=\"0\" cellpadding=\"0\" {$this->cssClasses['Table']} $summary>\n";
+        $header = "<table border=\"0\" cellspacing=\"0\" cellpadding=\"0\"{$this->cssClasses['Table']} $summary>\n";
         if (isset($this->caption)) {
             $header .= " <caption>{$this->caption}</caption>\n";
         }
         if (isset( $this->title ) || ( isset($this->headers) && $this->lijst)) {
-            $header .= " <thead {$this->cssClasses['THead']}>\n";
+            $header .= " <thead{$this->cssClasses['THead']}>\n";
             if ( isset( $this->title ) ) {
                 $colspan = $this->lijst ? $this->numCols : $this->numCols + 1;
-                $header .="  <tr>\n   <th {$this->cssClasses['TTitel']} colspan=\"$colspan\">{$this->title}</th>\n  </tr>";
+                $header .="  <tr>\n   <th{$this->cssClasses['TTitel']} colspan=\"$colspan\">{$this->title}</th>\n  </tr>";
             }
             $header .= "  <tr>\n";
             if ( $this->lijst ) {
                 foreach ($this->headers as $colheader) {
-                    $header .= "   <th {$this->cssClasses['TH']} scope=\"col\">$colheader</th>\n";
+                    $header .= "   <th{$this->cssClasses['TH']} scope=\"col\">$colheader</th>\n";
                 }
             }
             $header .= "  </tr>\n </thead>\n";
@@ -331,7 +337,7 @@ class KVDhtml_TableHelper {
         if (!isset($this->rows)) {
             return '';
         }
-        $body = " <tbody {$this->cssClasses['TBody']}>\n";
+        $body = " <tbody{$this->cssClasses['TBody']}>\n";
         $rowCounter = 1;
         foreach ($this->rows as &$row) {
             if ($this->alternateRow) {
@@ -343,15 +349,15 @@ class KVDhtml_TableHelper {
             } 
             $body .= "  <tr $rowclass>\n";
             if (!$this->lijst) {
-                $body .= "   <th {$this->cssClasses['TH']}>{$this->headers[$rowCounter-1]}</th>\n";
+                $body .= "   <th{$this->cssClasses['TH']}>{$this->headers[$rowCounter-1]}</th>\n";
             }
             foreach ($row as $cell) {
-                $body .= "   <td {$this->cssClasses['TD']}>$cell</td>\n";
+                $body .= "   <td{$this->cssClasses['TD']}>$cell</td>\n";
             }
             if (count($row) != $this->numCols) {
                 $teKort = $this->numCols - count($row);
                 for ($i=0; $i < $teKort; $i++) {
-                    $body .= "   <td {$this->cssClasses['TD']}>{$this->emptyCell}</td>\n";
+                    $body .= "   <td{$this->cssClasses['TD']}>{$this->emptyCell}</td>\n";
                 }
             }
             $body .= "  </tr>\n";
@@ -370,7 +376,7 @@ class KVDhtml_TableHelper {
         $footer = '';
         if ( $this->footer !== null ) {
             $numCols = $this->lijst ? $this->numCols : $this->numCols +1;
-            $footer = " <tfoot {$this->cssClasses['TFoot']}>\n  <tr>\n";
+            $footer = " <tfoot{$this->cssClasses['TFoot']}>\n  <tr>\n";
             $footer .= "   <td colspan=\"{$numCols}\">{$this->footer}</td>\n";
             $footer .= "  </tr>\n </tfoot>\n";    
         }
@@ -384,7 +390,7 @@ class KVDhtml_TableHelper {
      * @return string
      */
     public function toHtml() {
-        $this->setDimensions();
+        $this->initDimensions();
         $this->headersTeKort();
         $html = $this->toHtmlHeader();
         $html .= $this->toHtmlBody();
