@@ -6,12 +6,14 @@
 
 	<property name="kvdLibDir" value="${projectsDir}/kvd" />
 	<property name="kvdSqlDir" value="${projectsDir}/kvd/sql" />
+	<property name="docsDir" value="/data/docs/kvd/kvd" />
 
 	<target name="main" description="Overzicht van de mogelijke taken">
 		<echo msg="U kunt volgende taken uitvoeren:" />
 		<echo msg=" createSchema:	Maak de db-schema's van KVD_adr aan." />
 		<echo msg=" clearCrabCache: Maak de crab cache leeg." />
 		<echo msg=" createCrabPackage: Genereer een pakket met de crab classes." />
+		<echo msg=" docs: Maak de API-documentatie aan." />
 	</target>
 
 	<target name="createSchema" description="Maak de schema's van deze applicatie aan.">
@@ -82,5 +84,10 @@
 		<echo msg="Er wordt een archief aangemaakt." />
 		<tar destfile="${user.home}/phpCrab.tar.gz" basedir="${builddir}" compression="gzip" />
 		<delete dir="${builddir}" />
+	</target>
+
+	<target name="docs" description="Maak de API-documentatie voor de KVDlib aan.">
+		<echo msg="De API-documentatie voor de KVDlib wort aangemaakt. Dit kan even duren." />
+		<phpdoc title="KVDlib API documentatie" destdir="${docsDir}" output="HTML:frames:earthli" sourcepath="${kvdLibDir}/classes/" />
 	</target>
 </project>
