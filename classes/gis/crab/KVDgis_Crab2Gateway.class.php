@@ -574,7 +574,7 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
         }
 
         $huisnummers = array( );
-        if ( isset( $result->ListHuisnummersByStraatnaamIdResult->HuisnummerItem ) ) {
+        if ( isset( $result->ListHuisnummersByStraatnaamIdResult ) ) {
             foreach ( $result->ListHuisnummersByStraatnaamIdResult->HuisnummerItem as $huisnummer ) {
                 $huisnummerArray = array( );
                 $huisnummerArray['huisnummer'] = $huisnummer->Huisnummer;
@@ -706,7 +706,7 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
         }
 
         $wegobjecten = array( );
-        if ( isset( $result->ListWegobjectenByStraatnaamIdResult->WegobjectItem ) ) {
+        if ( isset( $result->ListWegobjectenByStraatnaamIdResult ) ) {
             foreach ( $result->ListWegobjectenByStraatnaamIdResult->WegobjectItem as $wegobject ) {
                 $wegobjectArray = array( );
                 $wegobjectArray['identificatorWegobject'] = $wegobject->IdentificatorWegobject;
