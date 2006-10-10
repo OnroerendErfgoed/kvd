@@ -2,18 +2,27 @@
 /**
  * @package KVD.dm
  * @subpackage Adr
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
+ * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @version $Id$
  */
 
 /**
+ * KVDdm_AdrStraat 
+ * 
  * @package KVD.dm
  * @subpackage Adr
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  * @since maart 2006
+ * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDdm_AdrStraat {
     
+    /**
+     * Het soort domain-object dat deze mapper teruggeeft. 
+     */
     const RETURNTYPE = "KVDdo_AdrStraat";
     
     /**
@@ -22,7 +31,7 @@ class KVDdm_AdrStraat {
     private $_sessie;
 
     /**
-     * @var KVDgis_Crab1Gateway;
+     * @var KVDgis_Crab2Gateway;
      */
     private $_gateway;
     
@@ -32,7 +41,7 @@ class KVDdm_AdrStraat {
     public function __construct ( $sessie )
     {
         $this->_sessie = $sessie;
-        $this->_gateway = $sessie->getGateway( 'KVDgis_Crab1Gateway');
+        $this->_gateway = $sessie->getGateway( 'KVDgis_Crab2Gateway');
     }
 
     /**
@@ -67,7 +76,7 @@ class KVDdm_AdrStraat {
      * Zoek een straat op basis van zijn id.
      * @param integer $id Id van de straat, dit is een nummer dat toegewezen werd door crab.
      * @return KVDdo_AdrStraat
-     * @throws <b>KVDdom_DomainObjectNotFoundException</b> - Indien het object niet geladen kon worden.
+     * @throws <b>KVDdom_DomainObjectNotFoundException</b> Indien het object niet geladen kon worden.
      */ 
     public function findById ( $id )
     {
@@ -91,11 +100,11 @@ class KVDdm_AdrStraat {
     /**
      * Zoek alle straten in een bepaalde gemeente.
      * @param KVDdo_AdrGemeente $gemeente
-     * @return KVDdom_DomainObjectCollection Een verzameling van KVDdo_AdrStraat objecten
+     * @return KVDdom_DomainObjectCollection Een verzameling van {@link KVDdo_AdrStraat} objecten
      */
     public function findByGemeente ( $gemeente )
     {
-        $stratenArray = $this->_gateway->listStraatnamenByGemeenteId( $gemeente->getCrabId( ) , 2);
+        $stratenArray = $this->_gateway->listStraatnamenByGemeenteId( $gemeente->getCrabId( ) );
         $domainObject = array( );
         foreach ( $stratenArray as $straatArray ) {
             $straat = $this->doLoad ( $straatArray['straatnaamId'] , $straatArray , $gemeente);
@@ -108,7 +117,7 @@ class KVDdm_AdrStraat {
      * Zoek een straat op basis van zijn naam en de gemeente waarin de straat ligt.
      * @param KVDdo_AdrGemeente $gemeente
      * @return KVDdo_AdrStraat
-     * @throws <b>KVDdom_DomainObjectNotFoundException</b> - Indien het object niet geladen kon worden.
+     * @throws <b>KVDdom_DomainObjectNotFoundException</b> Indien het object niet geladen kon worden.
      */
     public function findByNaam ( $gemeente, $naam )
     {

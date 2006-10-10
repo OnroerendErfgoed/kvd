@@ -2,15 +2,21 @@
 /**
  * @package KVD.dm
  * @subpackage Adr
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
+ * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @version $Id$
  */
 
 /**
+ * KVDdm_AdrTerreinobject 
+ * 
  * @package KVD.dm
  * @subpackage Adr
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
  * @since maart 2006
+ * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDdm_AdrTerreinobject {
     
@@ -21,6 +27,7 @@ class KVDdm_AdrTerreinobject {
     const ESPG_CODE = 31370;
 
     /**
+     * Het soort domain-object dat wordt teruggegeven door deze mapper.
      * @var string 
      */
     const RETURNTYPE = "KVDdo_AdrTerreinObject";
@@ -31,7 +38,7 @@ class KVDdm_AdrTerreinobject {
     private $_sessie;
 
     /**
-     * @var KVDgis_Crab1Gateway;
+     * @var KVDgis_Crab2Gateway;
      */
     private $_gateway;
     
@@ -41,7 +48,7 @@ class KVDdm_AdrTerreinobject {
     public function __construct ( $sessie )
     {
         $this->_sessie = $sessie;
-        $this->_gateway = $sessie->getGateway( 'KVDgis_Crab1Gateway');
+        $this->_gateway = $sessie->getGateway( 'KVDgis_Crab2Gateway');
     }
 
     /**
@@ -72,25 +79,39 @@ class KVDdm_AdrTerreinobject {
      * Zoek een terreinobject op basis van zijn id ( identificatorTerreinobject in Crab ).
      * @param string $id IdentificatorTerreinobject uit Crab.
      * @return KVDdo_AdrTerreinobjet
-     * @throws <b>KVDdom_DomainObjectNotFoundException</b> - Indien het object niet geladen kon worden.
-     * @throws <b>BadMethodCallException</b> - Indien deze functie opgeroepen wordt met een Crab1 Gateway aangezien deze dit niet ondersteund.
+     * @totdo herbekijken hoe het zit met het huisnummer
+     * @throws <b>KVDdom_DomainObjectNotFoundException</b> Indien het object niet geladen kon worden.
      */ 
     public function findById ( $id )
     {
-        throw new BadMethodCallException ( 'Deze methode wordt enkel ondersteund door Crab2 en is dus momenteel niet beschikbaar!');
+        $domainObject = $this->_sessie->getIdentityMap( )->getDomainObject( self::RETURNTYPE, $id);
+        if ( $domainObject !== null ) {
+            return $domainObject;
+        }
+        try {
+            $terreinArray = $this->_gateway->getTerreinobjectByIdentificatorTerreinobject( $id );
+        } catch ( RuntimeException $e ) {
+            $message = "Kon het terreinobject niet laden omdat de crab service een fout gaf:\n " . $e->getMessage( );
+            throw new KVDdom_DomainObjectNotFoundException ( $message , 'KVDdo_AdrTerreinobject' , $id  );
+        }
+        
+        $huisnummer = KVDdo_AdrHuisnummer::newNull( );
+        
+        return $this->doLoad( $id, $terreinArray, $huisnummer );
     }
 
     /**
      * Zoek alle terreinobjecten van een bepaald huisnummer.
      * @param KVDdo_AdrHuisnummer $huisnummer
-     * @return KVDdom_DomainObjectCollection Een verzameling van KVDdo_AdrTerreinobject objecten
+     * @return KVDdom_DomainObjectCollection Een verzameling van {@link KVDdo_AdrTerreinobject} objecten
      */
     public function findByHuisnummer ( $huisnummer )
     {
-        $terreinobjectenArray = $this->_gateway->listTerreinobjectenByHuisnummerId( $huisnummer->getId( ) , 1);
+        $terreinobjectenArray = $this->_gateway->listTerreinobjectenByHuisnummerId( $huisnummer->getId( ) );
         $domainObjects = array( );
         foreach ( $terreinobjectenArray as $terreinobjectArray ) {
-            $terreinobject = $this->doLoad ( $terreinobjectArray['identificatorTerreinobject'] , $terreinobjectArray , $huisnummer);
+            $terreinArray = $this->_gateway->getTerreinobjectByIdentificatorTerreinobject( $terreinobjectArray['identificatorTerreinobject'] );
+            $terreinobject = $this->doLoad ( $terreinobjectArray['identificatorTerreinobject'] , $terreinArray , $huisnummer);
             $domainObjects[] = $terreinobject;
         }
         return new KVDdom_DomainObjectCollection ( $domainObjects );

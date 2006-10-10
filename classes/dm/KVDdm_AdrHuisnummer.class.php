@@ -2,18 +2,27 @@
 /**
  * @package KVD.dm
  * @subpackage Adr
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
+ * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @version $Id$
  */
 
 /**
+ * KVDdm_AdrHuisnummer 
+ * 
  * @package KVD.dm
  * @subpackage Adr
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  * @since maart 2006
+ * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDdm_AdrHuisnummer {
     
+    /**
+     * Het soort domain-objects dat deze mapper teruggeeft. 
+     */
     const RETURNTYPE = "KVDdo_AdrHuisnummer";
     
     /**
@@ -22,7 +31,7 @@ class KVDdm_AdrHuisnummer {
     private $_sessie;
 
     /**
-     * @var KVDgis_Crab1Gateway;
+     * @var KVDgis_Crab2Gateway;
      */
     private $_gateway;
     
@@ -32,7 +41,7 @@ class KVDdm_AdrHuisnummer {
     public function __construct ( $sessie )
     {
         $this->_sessie = $sessie;
-        $this->_gateway = $sessie->getGateway( 'KVDgis_Crab1Gateway');
+        $this->_gateway = $sessie->getGateway( 'KVDgis_Crab2Gateway');
     }
 
     /**
@@ -64,7 +73,7 @@ class KVDdm_AdrHuisnummer {
      * Zoek een huisnummer op basis van zijn id.
      * @param integer $id Id van het huisnummer, dit is een nummer dat toegewezen werd door crab.
      * @return KVDdo_AdrHuisnummer
-     * @throws <b>KVDdom_DomainObjectNotFoundException</b> - Indien het object niet geladen kon worden.
+     * @throws <b>KVDdom_DomainObjectNotFoundException</b> Indien het object niet geladen kon worden.
      */ 
     public function findById ( $id )
     {
@@ -91,7 +100,7 @@ class KVDdm_AdrHuisnummer {
      * @param string $huisnummer Het huisnummer volgens Crab.
      * @param integer $straatId Het crabId van de straat.
      * @return KVDdo_AdrHuisnummer
-     * @throws <b>KVDdom_DomainObjectNotFoundException</b> - Indien het object niet geladen kon worden.
+     * @throws <b>KVDdom_DomainObjectNotFoundException</b> Indien het object niet geladen kon worden.
      */ 
     public function findByHuisnummer ( $huisnummer , $straatId )
     {
@@ -111,11 +120,11 @@ class KVDdm_AdrHuisnummer {
     /**
      * Zoek alle huisnummers in een bepaalde straat.
      * @param KVDdo_AdrStraat $straat
-     * @return KVDdom_DomainObjectCollection Een verzameling van KVDdo_AdrHuisnummer objecten
+     * @return KVDdom_DomainObjectCollection Een verzameling van {@link KVDdo_AdrHuisnummer} objecten.
      */
     public function findByStraat ( $straat )
     {
-        $huisnummerArray = $this->_gateway->listHuisnummersByStraatnaamId( $straat->getId( ) , 2);
+        $huisnummerArray = $this->_gateway->listHuisnummersByStraatnaamId( $straat->getId( ) );
         $domainObjects = array( );
         foreach ( $huisnummerArray as $huisnummerArray ) {
             $huisnummer = $this->doLoad ( $huisnummerArray['huisnummerId'] , $huisnummerArray , $straat);
@@ -124,6 +133,12 @@ class KVDdm_AdrHuisnummer {
         return new KVDdom_DomainObjectCollection ( $domainObjects );
     }
 
+    /**
+     * findPostCodeByHuisnummer 
+     * 
+     * @param KVDdo_AdrHuisnummer $huisnummer 
+     * @return integer De postkantonCode van het huisnummer.
+     */
     public function findPostCodeByHuisnummer( $huisnummer )
     {
         try {
