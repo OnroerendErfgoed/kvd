@@ -93,7 +93,7 @@ abstract class KVDhtml_FormField
 
     protected function toHtmlAttribValue()
     {
-        if ($this->value != '') {
+        if ($this->value !== '') {
             $this->value = " value=\"{$this->value}\"";
         }
     }

@@ -46,5 +46,13 @@ class TestOfFormFieldText extends UnitTestCase
         $this->assertWantedPattern( '/ disabled="disabled"/', $html);
     }
 
+    function testFormFieldValue0( )
+    {
+        $this->fieldOptions['value'] = 0;
+        $formField = new KVDhtml_FormFieldText( $this->fieldOptions );
+        $html = $formField->toHtml( );
+        $this->assertWantedPattern( '/ value="0"/', $html);
+    }
+
 }
 ?>
