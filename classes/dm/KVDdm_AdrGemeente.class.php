@@ -97,11 +97,12 @@ class KVDdm_AdrGemeente extends KVDdom_PDODataMapper {
 
     /**
      * @param string $orderField Kan id, gemeenteNaam of provincieNaam zijn.
+     * @param string $orderDirection Kan omlaag of omhoog zijn.
      * @return KVDdom_DomainObjectCollection
      */
-    public function findAll( $orderField = null )
+    public function findAll( $orderField = null , $orderDirection = null )
     {
-        $stmt = $this->_conn->prepare( $this->getFindAllStatement( ) . $this->getOrderClause( $orderField ));
+        $stmt = $this->_conn->prepare( $this->getFindAllStatement( ) . $this->getOrderClause( $orderField , $orderDirection ) );
         return $this->executeFindMany( $stmt );
     }
 
@@ -147,12 +148,13 @@ class KVDdm_AdrGemeente extends KVDdom_PDODataMapper {
     
     /**
      * @param KVDdo_AdrProvincie
-     * @param string $orderField, Veld om op te sorteren. Kan id, gemeenteNaam of provincieNaam zijn.
+     * @param string $orderField Veld om op te sorteren. Kan id, gemeenteNaam of provincieNaam zijn.
+     * @param string $orderDirection Kan omlaag of omhoog zijn.
      * @return KVDdom_DomainObjectCollection Een collecte van KVDdo_AdrGemeente objecten.
      */
-    public function findByProvincie ( $provincie , $orderField = null)
+    public function findByProvincie ( $provincie , $orderField = null , $orderDirection = null )
     {
-       $stmt = $this->_conn->prepare ( $this->getFindByProvincieStatement( ) . $this->getOrderClause( $orderField) );
+       $stmt = $this->_conn->prepare ( $this->getFindByProvincieStatement( ) . $this->getOrderClause( $orderField , $orderDirection ) );
        $id = $provincie->getId( );
        $stmt->bindParam( 1, $id );
        return $this->executeFindMany( $stmt );
@@ -179,7 +181,7 @@ class KVDdm_AdrGemeente extends KVDdom_PDODataMapper {
      * @param string orderField Veld waarop gesorteerd moet worden.
      * @return string
      */
-    private function getOrderClause ( $orderField = 'gemeenteNaam' )
+    private function getOrderClause ( $orderField = 'gemeenteNaam' , $orderDirection = 'omlaag' )
     {
         switch ( $orderField ) {
             case "id":
@@ -194,7 +196,8 @@ class KVDdm_AdrGemeente extends KVDdom_PDODataMapper {
             default:
                 $orderFieldName = 'gemeente.gemeente_naam';
         }
-        return " ORDER BY $orderFieldName ASC";
+        $orderDirection = ( $orderDirection == 'omlaag' ) ? 'DESC' : 'ASC';
+        return " ORDER BY $orderFieldName $orderDirection";
     }
 }
 ?>
