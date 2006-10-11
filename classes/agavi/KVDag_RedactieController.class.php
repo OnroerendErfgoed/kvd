@@ -57,24 +57,30 @@ class KVDag_RedactieController
      */
     public function execute( $req, $domainObject)
     {
-         if ( $req->getParameter( 'redactie' ) == 'goedkeuren' ) {
-            $domainObject->approve( );
-            $this->forwardAction = $this->subAction . '.Tonen';
-         } else if (  $req->getParameter(  'redactie' ) == 'versieTerugzetten' ) {
-            //Zet een versie terug.
-            $versie = $this->mapper->findByLogId(  $domainObject->getId( ) , ( int) $req->getParameter(  'versie') );
-            $domainObject->updateToPreviousVersion (  $versie );
-            $this->forwardAction = $this->subAction . '.Tonen';
-         } else if (  $req->getParameter(  'redactie' ) == 'verwijderenGeschiedenis' ) {
-            $domainObject->verwijderGeschiedenis(  );
-            if ( $domainObject->isNull(  ) ) {
-                $this->forwardAction = 'RedactieOverzicht';
-            } else {
-                $this->forwardAction = $this->subaction . '.Tonen';
-            }
-         } else {
-             throw new InvalidArgumentException ( 'De redactie die u probeert uit te voeren bestaat niet.');
-         }
+        if ( !$req->hasParameter( 'redactie') ) {
+            throw new InvalidArgumentException ( 'Er is geen redactie gespecifieerd' );
+        }
+        switch ( $req->getParameter( 'redactie' ) ) {
+            case 'goedkeuren':
+                $domainObject->approve( );
+                $this->forwardAction = $this->subAction . '.Tonen';
+                break;
+            case 'versieTerugzetten':
+                $versie = $this->mapper->findByLogId(  $domainObject->getId( ) , ( int) $req->getParameter(  'versie') );
+                $domainObject->updateToPreviousVersion (  $versie );
+                $this->forwardAction = $this->subAction . '.Tonen';
+                break;
+            case 'verwijderenGeschiedenis':
+                $domainObject->verwijderGeschiedenis(  );
+                if ( $domainObject->isNull(  ) ) {
+                    $this->forwardAction = 'RedactieOverzicht';
+                } else {
+                    $this->forwardAction = $this->subaction . '.Tonen';
+                }
+                break;
+            default:
+                throw new InvalidArgumentException ( 'U probeert een redactie actie ' . $req->getParameter( 'redactie') . ' uit te voeren die niet bestaat.' );
+        }
     }
 
     /**
