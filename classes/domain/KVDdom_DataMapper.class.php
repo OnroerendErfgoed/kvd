@@ -52,6 +52,7 @@ abstract class KVDdom_DataMapper {
         $this->_sessie = $sessie;
         $this->_conn = $sessie->getDatabaseConnection( get_class($this) );
         $this->_conn->executeQuery( 'SET CLIENT_ENCODING TO LATIN1' );
+        $this->_conn->executeQuery( "SET DATESTYLE TO 'EUROPEAN,GERMAN'" );
     }
 
     /**
