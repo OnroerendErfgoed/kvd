@@ -62,11 +62,12 @@ class KVDdo_AdrDeelgemeente extends KVDdom_ReadonlyDomainObject {
     }
 
     /**
+     * @param mixed $gemeente Een NullDeelgemeente kan behoren aan een geldige gemeente.
      * @return KVDdo_NullAdrDeelgemeente
      */
-    public static function newNull( )
+    public static function newNull( $gemeente = null )
     {
-        return new KVDdo_NullAdrDeelgemeente( );
+        return new KVDdo_NullAdrDeelgemeente( $gemeente );
     }
 }
 
@@ -78,9 +79,12 @@ class KVDdo_AdrDeelgemeente extends KVDdom_ReadonlyDomainObject {
  */
 class KVDdo_NullAdrDeelgemeente extends KVDdo_AdrDeelgemeente
 {
-    public function __construct( )
+    /**
+     * @param mixed $gemeente Ofwel de gemeente waartoe de NullDeelgemeente behoort ofwel null
+     */
+    public function __construct( $gemeente = null )
     {
-        $this->gemeente = KVDdo_AdrGemeente::newNull( );
+        $this->gemeente = ( is_null( $gemeente ) || !( $gemeente instanceof KVDdo_AdrGemeente ) ) ? KVDdo_AdrGemeente::newNull( ) : $gemeente; 
         $this->naam = 'Onbepaald';
         $this->id = 0;
     }
