@@ -41,9 +41,9 @@ abstract class KVDdom_PDOChangeableDataMapper extends KVDdom_PDODataMapper {
             $this->doInsert ( $stmt , $domainObject );    
             return $stmt->execute();
         } catch (PDOException $e) {
-            throw new Exception ( 'Het object kon niet aan de databank worden toegevoegd omwille van een SQL probleem: ' . $e->getMessage() );
+            throw new Exception ( 'Het object kon niet aan de databank worden toegevoegd omwille van een databank probleem: ' . $e->getMessage() );
         } catch (Exception $e) {
-            throw new Exception ( 'Het object kon niet aan de databank worden toegevoegd omwille van een onbekend probleem.' );
+            throw new Exception ( 'Het object kon niet aan de databank worden toegevoegd omwille van een onbekend probleem: ' . $e->getMessage() );
         }
     }
 

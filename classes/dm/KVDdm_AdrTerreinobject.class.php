@@ -110,7 +110,11 @@ class KVDdm_AdrTerreinobject {
         $terreinobjectenArray = $this->_gateway->listTerreinobjectenByHuisnummerId( $huisnummer->getId( ) );
         $domainObjects = array( );
         foreach ( $terreinobjectenArray as $terreinobjectArray ) {
-            $terreinArray = $this->_gateway->getTerreinobjectByIdentificatorTerreinobject( $terreinobjectArray['identificatorTerreinobject'] );
+            try {
+                $terreinArray = $this->_gateway->getTerreinobjectByIdentificatorTerreinobject( $terreinobjectArray['identificatorTerreinobject'] );
+            } catch ( Exception $e ) {
+                continue;    
+            }
             $terreinobject = $this->doLoad ( $terreinobjectArray['identificatorTerreinobject'] , $terreinArray , $huisnummer);
             $domainObjects[] = $terreinobject;
         }

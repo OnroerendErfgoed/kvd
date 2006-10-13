@@ -86,7 +86,7 @@ class KVDdo_NullAdrDeelgemeente extends KVDdo_AdrDeelgemeente
     {
         $this->gemeente = ( is_null( $gemeente ) || !( $gemeente instanceof KVDdo_AdrGemeente ) ) ? KVDdo_AdrGemeente::newNull( ) : $gemeente; 
         $this->naam = 'Onbepaald';
-        $this->id = 0;
+        $this->id = null;
     }
 
     /**

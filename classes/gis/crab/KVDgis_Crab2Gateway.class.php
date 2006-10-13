@@ -185,6 +185,7 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
         }
         $this->_client = new SoapClient ( $parameters['wsdl'] , array ( 'exceptions'    => 1,
                                                                         'encoding'      => 'ISO-8859-1',
+                                                                        'features'      => SOAP_SINGLE_ELEMENT_ARRAYS,
                                                                         'trace'         => 1
                                                                         ));
         
@@ -574,7 +575,7 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
         }
 
         $huisnummers = array( );
-        if ( isset( $result->ListHuisnummersByStraatnaamIdResult ) ) {
+        if ( isset( $result->ListHuisnummersByStraatnaamIdResult->HuisnummerItem ) ) {
             foreach ( $result->ListHuisnummersByStraatnaamIdResult->HuisnummerItem as $huisnummer ) {
                 $huisnummerArray = array( );
                 $huisnummerArray['huisnummer'] = $huisnummer->Huisnummer;
@@ -706,7 +707,7 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
         }
 
         $wegobjecten = array( );
-        if ( isset( $result->ListWegobjectenByStraatnaamIdResult ) ) {
+        if ( isset( $result->ListWegobjectenByStraatnaamIdResult->WegobjectItem ) ) {
             foreach ( $result->ListWegobjectenByStraatnaamIdResult->WegobjectItem as $wegobject ) {
                 $wegobjectArray = array( );
                 $wegobjectArray['identificatorWegobject'] = $wegobject->IdentificatorWegobject;
@@ -765,8 +766,8 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
         }
         
         $terreinobjecten = array( );
-        if ( isset( $result->ListTerreinobjectenByHuisnummerIdResult ) ) {
-            foreach ( $result->ListTerreinobjectenByHuisnummerIdResult as $terreinobject ) {
+        if ( isset( $result->ListTerreinobjectenByHuisnummerIdResult->TerreinobjectItem ) ) {
+           foreach ( $result->ListTerreinobjectenByHuisnummerIdResult->TerreinobjectItem as $terreinobject ) {
                 $terreinobjectArray = array( );
                 $terreinobjectArray['identificatorTerreinobject'] = $terreinobject->IdentificatorTerreinobject;
                 $terreinobjectArray['aardTerreinobjectCode'] = ( int ) $terreinobject->AardTerreinobject;
@@ -778,7 +779,7 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
     } 
 
     /**
-     * @param string $identificatorTerreinobject Dit komt overeen met het kadastraal perveel.
+     * @param string $identificatorTerreinobject Dit komt overeen met het kadastraal perceel.
      * @return array Een associatieve array met de volgende sleutels:
      * <ul>
      *  <li>identificatorTerreinobject: De identificator van het terreinobject.</li>
@@ -788,9 +789,13 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
      * </ul>
      * @since 02 okt 2006
      * @throws RuntimeException Indien het terreinobject niet geladen kan worden.
+     * @throws InvalidArgumentException Indien er een ongeldige identificatorTerreinobject wordt opgegeven ( bv. null).
      */
     public function getTerreinobjectByIdentificatorTerreinobject( $identificatorTerreinobject )
     {
+        if ( is_null( $identificatorTerreinobject ) ) {
+            throw new InvalidArgumentException ( 'De identificatorTerreinobject mag niet null zijn.' );
+        }
         $params = new stdClass( );
         $params->IdentificatorTerreinobject = ( string ) $identificatorTerreinobject;
         $paramsWrapper = new SoapParam ( $params , "GetTerreinobjectByIdentificatorTerreinobject" );
