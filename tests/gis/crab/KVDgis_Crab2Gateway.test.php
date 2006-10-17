@@ -3,19 +3,22 @@
 class TestOfCrab2Gateway extends UnitTestCase
 {
 
+    private $parameters;
+    
     private $_testGateway;
     
     function setUp()
     {
-        $parameters = array (   'wsdl' => 'http://webservices.gisvlaanderen.be/crab_1_0/ws_crab_NDS.asmx?WSDL',
+        $this->parameters = array (   'wsdl' => 'http://webservices.gisvlaanderen.be/crab_1_0/ws_crab_NDS.asmx?WSDL',
                                 'username' => 'VIOE',
                                 'password' => 'GISTLIBE'
                             );
-        $this->_testGateway = new KVDgis_Crab2Gateway( $parameters );
+        $this->_testGateway = new KVDgis_Crab2Gateway( $this->parameters );
     }
 
     function tearDown()
     {
+        $this->parameters = null;
         $this->_testGateway = null;
     }
 

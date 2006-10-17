@@ -183,11 +183,12 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
         if ( !isset( $parameters['wsdl'] ) ) {
             throw new InvalidArgumentException ( 'De array parameters moet een sleutel wsdl bevatten!' );
         }
+        
         $this->_client = new SoapClient ( $parameters['wsdl'] , array ( 'exceptions'    => 1,
                                                                         'encoding'      => 'ISO-8859-1',
                                                                         'features'      => SOAP_SINGLE_ELEMENT_ARRAYS,
-                                                                        'trace'         => 1
-                                                                        ));
+                                                                        'trace'         => 0
+                                                                       ));
         
         if ( !isset( $parameters['username']) || !isset( $parameters['password'])) {
             throw new InvalidArgumentException ( 'De array parameters moet de sleutels username en password bevatten!');
@@ -832,5 +833,5 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
         return $terrein;
     }
 
-} // end of KVDgis_Crab1Gateway
+}
 ?>
