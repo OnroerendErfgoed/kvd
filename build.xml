@@ -7,6 +7,7 @@
 	<property name="kvdLibDir" value="${projectsDir}/kvd" />
 	<property name="kvdSqlDir" value="${projectsDir}/kvd/sql" />
 	<property name="docsDir" value="/data/docs/kvd/kvd" />
+	<property name="agaviDir" value="/opt/csw/php5/lib/php/agavi/" />
 
 	<target name="main" description="Overzicht van de mogelijke taken">
 		<echo msg="U kunt volgende taken uitvoeren:" />
@@ -86,8 +87,8 @@
 		<delete dir="${builddir}" />
 	</target>
 
-	<target name="docs" description="Maak de API-documentatie voor de KVDlib aan.">
+	<target name="docs" description="Maak de API-documentatie voor de KVDlib en Agavi aan.">
 		<echo msg="De API-documentatie voor de KVDlib wort aangemaakt. Dit kan even duren." />
-		<phpdoc title="KVDlib API documentatie" destdir="${docsDir}" output="HTML:frames:earthli" sourcepath="${kvdLibDir}/classes/" />
+		<phpdoc title="KVDlib API documentatie" destdir="${docsDir}" output="HTML:frames:earthli" sourcepath="${kvdLibDir}/classes/,${agaviDir}" />
 	</target>
 </project>

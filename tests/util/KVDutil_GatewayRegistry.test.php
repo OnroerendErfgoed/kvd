@@ -1,6 +1,5 @@
 <?php
 
-Mock::generate('KVDutil_GatewayFactory');
 
 class TestOfGatewayRegistry extends UnitTestCase
 {
@@ -12,6 +11,7 @@ class TestOfGatewayRegistry extends UnitTestCase
 
     function setUp( )
     {
+        Mock::generate('KVDutil_GatewayFactory');
         $this->_factory = new MockKVDutil_GatewayFactory( $this );
         $parameters = array (  'wsdl' => 'http://webservices.gisvlaanderen.be/crab/wscrab.asmx?WSDL',
                                'username' => 'test',
