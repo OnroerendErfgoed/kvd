@@ -15,6 +15,18 @@
 interface KVDdom_DomainObject 
 {
     /**
+     * Een constante waar alle domainObjects mee werken zodat ze hetzelfde datum/tijd formaat gebruiken. Deze geeft enkel de datum weer.
+     * @var string
+     */
+    const DATE_FORMAT = 'd-m-Y';
+
+    /**
+     * Een constante waar alle domainObjects mee werken zodat ze hetzelfde datum/tijd formaat gebruiken. Deze geeft de datum en de tijd weer.
+     * @var string
+     */
+    const DATETIME_FORMAT = 'd-m-Y H:i';
+
+    /**
      * Geeft het Id nummer van dit object terug.
      * @return integer
      */
