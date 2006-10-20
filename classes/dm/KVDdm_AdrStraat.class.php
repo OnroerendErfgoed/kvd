@@ -105,7 +105,7 @@ class KVDdm_AdrStraat {
     public function findByGemeente ( $gemeente )
     {
         $stratenArray = $this->_gateway->listStraatnamenByGemeenteId( $gemeente->getCrabId( ) );
-        $domainObject = array( );
+        $domainObjects = array( );
         foreach ( $stratenArray as $straatArray ) {
             $straat = $this->doLoad ( $straatArray['straatnaamId'] , $straatArray , $gemeente);
             $domainObjects[] = $straat;

@@ -17,6 +17,7 @@ require_once ( KVD_CLASSES_DIR . 'util/KVDutil_VoorwerpGewicht.class.php');
 require_once ( KVD_CLASSES_DIR . 'util/Gateway/KVDutil_Gateway.interface.php');
 require_once ( KVD_CLASSES_DIR . 'util/Gateway/KVDutil_GatewayFactory.class.php');
 require_once ( KVD_CLASSES_DIR . 'util/Gateway/KVDutil_GatewayRegistry.class.php');
+require_once ( KVD_CLASSES_DIR . 'util/Gateway/KVDutil_GatewayUnavailableException.class.php');
 require_once ( KVD_CLASSES_DIR . 'gis/crab/KVDgis_Crab1Gateway.class.php');
 require_once ( KVD_CLASSES_DIR . 'gis/crab/KVDgis_CrabCache.class.php');
 require_once ( KVD_CLASSES_DIR . 'gis/crab/KVDgis_NullCrabCache.class.php');

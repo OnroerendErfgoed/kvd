@@ -11,7 +11,11 @@ class TestOfCrab1Gateway extends UnitTestCase
                                 'username' => 'VIOE',
                                 'password' => 'GISTLIBE'
                             );
-        $this->_testGateway = new KVDgis_Crab1Gateway( $parameters );
+        try {
+            $this->_testGateway = new KVDgis_Crab1Gateway( $parameters );
+        } catch ( KVDutil_GatewayUnavailableException $e ) {
+            $this->fail( 'De Crab1 webservice is niet beschikbaar.');
+        }
     }
 
     function tearDown()

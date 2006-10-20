@@ -60,6 +60,7 @@ class KVDgis_Crab1Gateway implements KVDutil_Gateway
      * @param array $parameters
      * @return boolean true indien succesvol geinitializeerd
      * @throws <b>IllegalArgumentException</b> Indien er foute of ontbrekende parameters zijn.
+     * @throws <b>KVDutil_GatewayUnavailableException</b> Indien de Crab webservice niet bereikt kan worden.
      * @uses KVDgis_CrabCache
      * @uses KVDgis_NullCrabCache
      */
@@ -68,7 +69,13 @@ class KVDgis_Crab1Gateway implements KVDutil_Gateway
         if ( !isset( $parameters['wsdl'] ) ) {
             throw new InvalidArgumentException ( 'De array parameters moet een sleutel wsdl bevatten!' );
         }
-        $this->_client = new SoapClient ( $parameters['wsdl'] );
+        try {
+            $this->_client = new SoapClient ( $parameters['wsdl'] , array ( 'exceptions' => 1 ,
+                                                                            'trace' => 0 ) );
+        } catch ( SoapFault $e ) {
+            throw new KVDutil_GatewayUnavailableException ( 'De Crab1Gateway kan geen verbinding maken met de Crab webservice.', __CLASS__ , $e );
+        }
+        
         
         if ( !isset( $parameters['username']) || !isset( $parameters['password'])) {
             throw new InvalidArgumentException ( 'De array parameters moet de sleutels username en password bevatten!');

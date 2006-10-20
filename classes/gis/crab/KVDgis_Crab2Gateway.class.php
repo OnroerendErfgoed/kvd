@@ -24,7 +24,7 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
     /**
      * @var string 
      */
-    const CRAB_NAMESPACE = "http://ws.agiv.be/crab_1_0";
+    const CRAB_NAMESPACE = "http://ws.agiv.be/crabws";
 
     /**
      * Code die CRAB gebruikt voor het Brussels Hoofdstedelijk Gewest
@@ -177,18 +177,23 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
      * </code>
      * @param array $parameters
      * @throws <b>IllegalArgumentException</b> Indien er foute of ontbrekende parameters zijn.
+     * @throws <b>KVDutil_GatewayUnavailableException</b> Indien de externe bron niet beschikbaar is.
      */
     public function __construct ( $parameters )
     {
         if ( !isset( $parameters['wsdl'] ) ) {
             throw new InvalidArgumentException ( 'De array parameters moet een sleutel wsdl bevatten!' );
         }
-        
-        $this->_client = new SoapClient ( $parameters['wsdl'] , array ( 'exceptions'    => 1,
-                                                                        'encoding'      => 'ISO-8859-1',
-                                                                        'features'      => SOAP_SINGLE_ELEMENT_ARRAYS,
-                                                                        'trace'         => 0
-                                                                       ));
+    
+        try {
+            $this->_client = @new SoapClient ( $parameters['wsdl'] , array ( 'exceptions'    => 1,
+                                                                            'encoding'      => 'ISO-8859-1',
+                                                                            'features'      => SOAP_SINGLE_ELEMENT_ARRAYS,
+                                                                            'trace'         => 0
+                                                                           ));
+        } catch ( SoapFault $e ) {
+            throw new KVDutil_GatewayUnavailableException ( 'De Crab2Gateway kan geen verbinding maken met de Crab webservice.' , __CLASS__ , $e );
+        }
         
         if ( !isset( $parameters['username']) || !isset( $parameters['password'])) {
             throw new InvalidArgumentException ( 'De array parameters moet de sleutels username en password bevatten!');

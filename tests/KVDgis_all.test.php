@@ -17,6 +17,7 @@ define ('UTILMAP' , '/data/projects/kvd/kvd/classes/util/');
 //require_once(GISTESTMAP.'KVDgis_MsMapAjaxHandler.test.php');
 //require_once(GISTESTMAP.'exception/KVDgis_MsMapActionBestaatNietException.test.php');
 require_once ( UTILMAP . 'Gateway/KVDutil_Gateway.interface.php' );
+require_once ( UTILMAP . 'Gateway/KVDutil_GatewayUnavailableException.class.php' );
 require_once ( GISMAP . 'crab/KVDgis_Crab1Gateway.class.php');
 require_once ( GISMAP . 'crab/KVDgis_Crab2Gateway.class.php');
 require_once ( GISMAP . 'geometry/KVDgis_GeomGeometry.class.php');
