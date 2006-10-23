@@ -71,4 +71,5 @@ class KVDdom_IncompleteSessieCommitException extends Exception
         $this->message .= " [Sessie Error: {$identityMap} werd niet volledig verwerkt en bevat nog {$mapCount} objecten.]";
     }
 }
+
 ?>
