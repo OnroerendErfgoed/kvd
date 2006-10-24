@@ -172,7 +172,8 @@ class KVDdom_Sessie {
     /**
      * @param mixed $domainObject Ofwel een class-naam van een KVDdom_DomainObject, ofwel een KVDdom_DomainObject.
      * @return KVDdom_Datamapper Een datamapper voor het desbetreffende DomainObject.
-     * @throws <b>Exception</b> - Indien de parameter $domainObject geen string of DomainObject is.
+     * @throws <b>InvalidArgumentException</b> - Indien de parameter $domainObject geen string of DomainObject is.
+	 * @throws <b>KVDdom_DatabaseUnavailableException</b> - Indien de voor de dataMapper gespecifieerde connectie niet bestaat.
      */
     public function getMapper( $domainObject )
     {
@@ -181,7 +182,7 @@ class KVDdom_Sessie {
         } else if ( $domainObject instanceof  KVDdom_DomainObject ) {
             $teMappenClass = $domainObject->getClass();
         } else {
-            throw new Exception ( 'Geen DomainObject of geen naam van een DomainObject.' );
+            throw new InvalidArgumentException ( 'De parameter domainObject is geen DomainObject of geen naam van een DomainObject.' );
         }
         return $this->_mapperRegistry->getMapper( $teMappenClass );
     }
@@ -407,14 +408,15 @@ class KVDdom_Sessie {
      * 
      * @param string $dataMapper De naam van een dataMapper.
 	 * @return Database Een database connectie.
-	 * @throws <b>DatabaseException</b> - Indien de voor de dataMapper gespecifieerde connectie niet bestaat.
+	 * @throws <b>KVDdom_DatabaseUnavailableException</b> - Indien de voor de dataMapper gespecifieerde connectie niet bestaat.
 	 */
 	public function getDatabaseConnection ( $dataMapper )
 	{
-        if (array_key_exists($dataMapper,$this->dataMappersConnections)) {
-            return $this->_databaseManager->getDatabase($this->dataMappersConnections[$dataMapper])->getConnection();        
-        } else {
-            return $this->_databaseManager->getDatabase('default')->getConnection();            
+        try {
+            $databaseName = ( array_key_exists( $dataMapper , $this->dataMappersConnections ) ) ? $this->dataMappersConnections[$dataMapper] : 'default';
+            return $this->_databaseManager->getDatabase($databaseName)->getConnection();            
+        } catch ( DatabaseException $e ) {
+            throw new KVDdom_DatabaseUnavailableException ( 'De gevraagde databank is niet beschikbaar.' , $databaseName , $e);
         }
 	}
 
