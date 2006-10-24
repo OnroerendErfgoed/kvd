@@ -10,6 +10,7 @@
  * @package KVD.dom
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
  * @since 1.0.0
+ * @deprecated Gebruik de PDO variant.
  */
 abstract class KVDdom_LogableDataMapper extends KVDdom_ChangeableDataMapper
 {

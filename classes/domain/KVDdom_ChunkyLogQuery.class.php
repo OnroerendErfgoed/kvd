@@ -12,6 +12,7 @@
  * @package KVD.dom
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
  * @since 1.0.0
+ * @deprecated Gebruik de PDO variant.
  */
 class KVDdom_ChunkyLogQuery extends KVDdom_ChunkyQuery
 {
