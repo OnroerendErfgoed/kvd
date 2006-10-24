@@ -141,10 +141,10 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDOChangeableDataMappe
     public function doSetSystemFields($stmt, $domainObject, $startIndex )
     {
         $systemFields = $domainObject->getSystemFields();
-        $stmt->bindValues( $startIndex++ , $systemFields->getGebruikersNaam( ) , PDO::PARAM_STR );
-        $stmt->bindValues( $startIndex++ , $systemFields->getBewerktOp( ) , PDO::PARAM_STR );
-        $stmt->bindValues( $startIndex++ , $systemFields->getVersie( ) , PDO::PARAM_INT );
-        $stmt->bindValues( $startIndex++ , $systemFields->getGecontroleerd( ) , PDO::PARAM_BOOL );
+        $stmt->bindValue( $startIndex++ , $systemFields->getGebruikersNaam( ) , PDO::PARAM_STR );
+        $stmt->bindValue( $startIndex++ , $systemFields->getBewerktOp( ) , PDO::PARAM_STR );
+        $stmt->bindValue( $startIndex++ , $systemFields->getVersie( ) , PDO::PARAM_INT );
+        $stmt->bindValue( $startIndex++ , $systemFields->getGecontroleerd( ) , PDO::PARAM_BOOL );
     }
 
     /**
@@ -156,8 +156,8 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDOChangeableDataMappe
      */
     public function doSetUpdateWhere($stmt, $id, $versie, $startIndex)
     {
-        $stmt->setInt($startIndex++, $id);
-        $stmt->setInt($startIndex++, $versie);
+        $stmt->bindValue($startIndex++, $id , PDO::PARAM_INT );
+        $stmt->bindValue($startIndex++, $versie , PDO::PARAM_INT );
     }
 
     /**
@@ -171,14 +171,21 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDOChangeableDataMappe
     {
         try {
             $currentVersie = $domainObject->getSystemFields()->getVersie();
+            $this->_conn->beginTransaction( );
             $this->LogInsert( $domainObject->getId() );
             $stmt = $this->_conn->prepare($this->getDeleteStatement());
-            $stmt->bindValues (1, $domainObject->getId() , PDO::PARAM_INT );
-            if ( $stmt->execute  == false ) {
+            $stmt->bindValue (1, $domainObject->getId() , PDO::PARAM_INT );
+            $stmt->execute( );
+            if ( $stmt->rowCount( )  === 0 ) {
                 $message = 'Het object dat u probeert te verwijderen is gewijzigd sinds u het geopend hebt.';
                 throw new KVDdom_ConcurrencyException ($message,$domainObject);
             }
-        } catch (PDOException $e) {
+            $this->_conn->commit( );
+        } catch ( KVDdom_ConcurrencyException $e ) {
+            $this->_conn->rollBack( );
+            throw $e;
+        } catch ( PDOException $e) {
+            $this->_conn->rollBack( );
             throw $e;
         }
     }
@@ -224,12 +231,12 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDOChangeableDataMappe
     {
         if ( $versie == self::MAXVERSIE ) {
             $stmt = $this->_conn->prepare ( $this->getFindByLogIdMaxVersieStatement() );
-            $stmt->bindValues ( 2 , $id , PDO::PARAM_INT );
+            $stmt->bindValue ( 2 , $id , PDO::PARAM_INT );
         } else {
             $stmt = $this->_conn->prepare ( $this->getFindByLogIdStatement() );
-            $stmt->bindValues ( 2 , $versie , PDO::PARAM_INT );
+            $stmt->bindValue ( 2 , $versie , PDO::PARAM_INT );
         }
-        $stmt->bindValues (1 , $id , PDO::PARAM_INT );
+        $stmt->bindValue (1 , $id , PDO::PARAM_INT );
         $stmt->execute( );
         if ( !$row = $stmt->fetch( PDO::FETCH_OBJ ) ) {
             throw new KVDdom_LogDomainObjectNotFoundException ( '', $returnType, $id, $versie);
@@ -386,7 +393,7 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDOChangeableDataMappe
         $stmt->execute( );
         $domainObjects = array ( );
         while ( $row = $stmt->fetch( PDO::FETCH_OBJ ) ) {
-            $logObject = $this->doLogLoad( $rs->getInt( 'id' ), $row );
+            $logObject = $this->doLogLoad( $row->id, $row );
             $domainObjects[] = $logObject;
         }
         return new KVDdom_DomainObjectCollection ( $domainObjects );
