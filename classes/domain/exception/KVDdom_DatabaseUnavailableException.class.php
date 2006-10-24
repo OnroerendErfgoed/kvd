@@ -41,7 +41,7 @@ class KVDdom_DatabaseUnavailableException extends Exception
      */
     public function __construct ( $message , $databaseName , $databaseException = null )
     {
-        parent::_construct ( $message );
+        parent::__construct ( $message );
         $this->databaseName = $databaseName;
         $this->databaseException = null;
     }
@@ -61,7 +61,7 @@ class KVDdom_DatabaseUnavailableException extends Exception
      * 
      * @return DatabaseException
      */
-    public function getDatabaseException( )
+    public function getException( )
     {
         return $this->databaseException;
     }
