@@ -1,15 +1,21 @@
 <?php
 /**
  * @package KVD.dom
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
+ * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @version $Id$
  */
 
 /**
+ * KVDdom_PDOChunkyQuery 
+ * 
  * Een andere class kan bepalen welk stuk van de resultaten moet teruggeven worden doormiddel van setChunk. Bv. setChunk(2) zal er voor zorgen dat de tweede blok records wordt geladen.
  * @package KVD.dom
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
  * @since 24 jul 2006
+ * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDdom_PDOChunkyQuery
 {
@@ -66,11 +72,15 @@ class KVDdom_PDOChunkyQuery
      * @param string $idField Naam van het veld dat dienst doet als id-field ( om het totale aantal records te kunnen tellen).
      * @param integer $chunk Het initieel gevraagde data-blok.
      * @param integer $rowsPerChunk Aantal rijen in een chunk.
+     * @throws <b>InvalidArgumentException</b> Indien er een ongeldige parameter wordt doorgegeven.
      */
     public function __construct ( $conn , $dataMapper , $sql , $idField = 'id', $chunk = 1 , $rowsPerChunk=100, $logger = null)
     {
         $this->_conn = $conn;
         $this->_dataMapper = $dataMapper;
+        if ( !is_string( $sql ) ) {
+            throw new InvalidArgumentException ( 'De parameter sql moet een string zijn!' );
+        }
         $this->sql = $sql;
         $this->idField = $idField;
         $this->setChunk ( $chunk );
@@ -94,7 +104,6 @@ class KVDdom_PDOChunkyQuery
             $idField = 'DISTINCT ' . $idField;
         }
         $sql = preg_replace( '/(SELECT).*?(FROM)/i' , 'SELECT COUNT('.$idField.') FROM' , $sql , 1);
-        //$sql = preg_replace( '/(SELECT)[^(FROM)]*(FROM)/i' , 'SELECT COUNT('.$idField.') FROM' , $sql , 1);
         $sql = preg_replace ( '/ ORDER.*/i','',$sql);
         $this->logger->log ( $sql );
         return $sql;
