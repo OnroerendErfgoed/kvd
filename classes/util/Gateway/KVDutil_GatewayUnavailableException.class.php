@@ -52,7 +52,7 @@ class KVDutil_GatewayUnavailableException extends Exception
      * De SoapFault die door de SoapClient aangemaakt werd.
      * @return SoapFault
      */
-    public function getSoapFault( )
+    public function getException( )
     {
         return $this->soapFault;
     }
