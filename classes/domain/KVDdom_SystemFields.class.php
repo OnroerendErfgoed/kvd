@@ -49,13 +49,13 @@ class KVDdom_SystemFields {
      * @param string $gebruikersNaam Naam van de gebruiker.
      * @param boolean $currentRecord Gaat het om de meest recente versie van een record of niet?
      * @param integer $versie Huidige versie van het record.
-     * @param date $bewerktOp Wanneer werd deze versie van het record aangemaakt?
+     * @param integer $bewerktOp Wanneer werd deze versie van het record aangemaakt ( een timestamp dus) ?
      * @param boolean $gecontroleerd Werd het record al gecontroleerd?
      */ 
     public function __construct ( $gebruikersNaam, $currentRecord = true, $versie = 0, $bewerktOp = null, $gecontroleerd = false)
     {
         if ($bewerktOp == null) {
-            $bewerktOp = date('Y-m-d H:i:s', time());
+            $bewerktOp = date(KVDdom_DomainObject::DATETIME_FORMAT , time());
         }
         $this->gebruikersNaam = $gebruikersNaam;
         $this->currentRecord = $currentRecord;
@@ -78,7 +78,7 @@ class KVDdom_SystemFields {
             $this->gebruikersNaam = $gebruikersNaam;
         }
         $this->versie++;
-        $this->bewerktOp = date('Y-m-d H:i:s', time());
+        $this->bewerktOp = date(KVDdom_DomainObject::DATETIME_FORMAT , time());
         $this->gecontroleerd = false;
         $this->currentRecord=true;
     }
