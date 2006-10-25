@@ -40,7 +40,7 @@ abstract class KVDdom_PDOChangeableDataMapper extends KVDdom_PDODataMapper {
             $stmt = $this->_conn->prepare ($this->getInsertStatement() );
             $this->doInsert( $stmt , $domainObject );
             $stmt->execute();
-            return $persoon;
+            return $domainObject;
         } catch (PDOException $e) {
             throw $e;
         }
