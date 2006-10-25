@@ -36,50 +36,100 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDOChangeableDataMappe
     const SFVELDEN = "gebruiker, bewerkt_op, versie, gecontroleerd";
 
     /**
+     * logtabel 
+     * 
+     * @var string
+     */
+    protected $logtabel;
+
+    /**
      * Zoek een object in de log-tabellen op basis van een Id.
      * @return string Een SQL statement om een bepaalde versie van een object te vinden. De parameters id en versie moeten ingevuld worden.
      */
-    abstract protected function getFindByLogIdStatement();
+    protected function getFindByLogIdStatement()
+    {
+        return  $this->getLogSelectStatement( ) . 
+                " WHERE log_" . $this->id . " = ? AND versie = ?";
+    }
 
     /**
      * @return string Een SQL statement om het meest recent gelogde object te vinden. De parameter id moet ingevuld worden.
      */
-    abstract protected function getFindByLogIdMaxVersieStatement(); 
+    protected function getFindByLogIdMaxVersieStatement()
+    {
+        return  $this->getLogSelectStatement( ) . 
+                " WHERE log_" . $this->id . " = ? AND versie = ( SELECT MAX( versie ) FROM " . $this->logtabel . " WHERE id = ? )";
+    }
 
     /**
      * @return string Een SQL statement om een object te loggen. Zou normaal enkel nog een id nodig hebben.
      */
-    abstract protected function getLogInsertStatement();
+    protected function getLogInsertStatement()
+    {
+        return  "INSERT INTO " . $this->logtabel .
+                " ( id, " . $this->velden . ", " . self::SFVELDEN . ")" .
+                " SELECT id , " . $this->velden . ", " . self::SFVELDEN .
+                " FROM " . $this->tabel . " WHERE " . $this->id . " = ?";
+    }
 
     /**
      * @return string Een SQL statement om alle gelogde versies van een object uit de log-tabellen te halen. De parameter id moet nog ingevuld worden.
      */
-    abstract protected function getLogFindAllStatement();
+    protected function getLogFindAllStatement()
+    {
+        return  $this->getLogSelectStatement( ) .
+                " WHERE log_" . $this->id . " = ?" .
+                $this->getLogOrderStatement( );
+    }
 
     /**
      * @return string Een SQL statement om een record goed te keuren. De parameter id moet nog ingevuld worden.
      */
-    abstract protected function getApproveRecordStatement( );
+    protected function getApproveRecordStatement( )
+    {
+        return  "UPDATE " . $this->tabel . 
+                " SET gecontroleerd = true" .
+                " WHERE " . $this->id . " = ?";
+    }
 
     /**
      * @return string Een SQL statement om alle gelogde versies van een record goed te keuren. Enkel de parameter id moet nog worden ingevuld.
      */
-    abstract protected function getApproveLogRecordsStatement( );
+    protected function getApproveLogRecordsStatement( )
+    {
+        return  "UPDATE " . $this->logtabel . 
+                " SET gecontroleerd = true" .
+                " WHERE log_" . $this->id . " = ?";
+    }
 
     /**
      * @return string Een SQL statement om alle te redacteren records te vinden. Heeft geen parameters meer nodig.
      */
-    abstract protected function getFindTeRedacterenStatement( );
+    protected function getFindTeRedacterenStatement( )
+    {
+        return  $this->getSelectStatement( ) .
+                " WHERE " . $this->tabel . ".gecontroleerd = false " . 
+                $this->getOrderStatement( );
+    }
 
     /**
      * @return string Een SQL statement om alle records te zoeken die wel nog in de log-tabellen zitten maar niet meer in de gewone tabellen. Heeft geen parameters nodig.
      */
-    abstract protected function getFindVerwijderdeStatement( );
+    protected function getFindVerwijderdeStatement( )
+    {
+        return  $this->getLogSelectStatement( ) . 
+                " WHERE log_" . $this->tabel . " NOT IN ( SELECT id FROM " . $this->tabel . ")" .
+                " ORDER BY " . $this->id . ", versie DESC";
+    }
 
     /**
      * @return string Een SQL statement om alle gelogde versies van een record te verwijderen. Heeft de parameter id nodig.
      */
-    abstract protected function getClearLogStatement( );
+    protected function getClearLogStatement( )
+    {
+        return  "DELETE FROM " . $this->logtabel . 
+                " WHERE " . self::ID . " = ? ";
+    }
     
 
     /**
@@ -100,6 +150,24 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDOChangeableDataMappe
         $fields = explode ( ', ' , $velden );
         foreach ( $fields as &$field ) {
             $field = "$logtabel.$field AS $field";
+        }
+        return implode ( ', ', $fields );
+    }
+
+    /**
+     * getLogSystemFields 
+     * 
+     * @param string $tabelNaam Naam van de tabel waarvoor geprefixt moet worden.
+     * @param boolean $logTabel Wordt de data geladen uit de gelogde tabel of niet?
+     * @param string $systemFields String met alle systeemvelden
+     * @return string Lijst van de systeemVelden, maar met een prefix en 
+     */
+    protected function getSystemFieldsString ( $tabelNaam , $logTabel = false , $systemFields = self::SFVELDEN )
+    {
+        $fields = explode ( ', ' , $systemFields );
+        $tabel = ( $logTabel == false ) ? $tabelNaam : 'log_' . $tabelNaam;
+        foreach ( $fields as &$field ) {
+            $field = "$tabel.$field AS " . $tabelNaam . "_" . $field;
         }
         return implode ( ', ', $fields );
     }
@@ -219,6 +287,7 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDOChangeableDataMappe
      */
     protected function abstractFindById ( $returnType , $id )
     {
+        $id = ( int ) $id;
         try {
             $domainObject = parent::abstractFindById( $returnType, $id );
         } catch ( KVDdom_DomainObjectNotFoundException $e ) {
@@ -245,6 +314,7 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDOChangeableDataMappe
      * */
     protected function abstractFindByLogId ( $returnType , $id , $versie )
     {
+        $id = ( int ) $id;
         if ( $versie == self::MAXVERSIE ) {
             $stmt = $this->_conn->prepare ( $this->getFindByLogIdMaxVersieStatement() );
             $stmt->bindValue ( 2 , $id , PDO::PARAM_INT );
@@ -298,17 +368,26 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDOChangeableDataMappe
      * @param integer $id
      * @return KVDdom_DomainObjectCollection
      */
-    abstract public function findLogAll( $id );
+    public function findLogAll( $id )
+    {
+        return $this->abstractFindLogAll( $id );
+    }
 
     /**
      * @param KVDdom_DomainObjectCollection
      */
-    abstract public function findTeRedacteren( );
+    public function findTeRedacteren( )
+    {
+        return $this->abstractFindTeRedacteren( );
+    }
 
     /**
      * @param KVDdom_DomainObjectCollection
      */
-    abstract public function findVerwijderde( );
+    public function findVerwijderde( )
+    {
+        return $this->abstractFindVerwijderde( );    
+    }
 
     /**
      * Zoek alle records van deze datamapper die nog niet gecontroleerd zijn.

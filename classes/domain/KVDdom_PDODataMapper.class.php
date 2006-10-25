@@ -45,14 +45,39 @@ abstract class KVDdom_PDODataMapper {
     const RETURNTYPE = "";
 
     /**
+     * tabel 
+     * 
+     * @var string
+     */
+    protected $tabel;
+    /**
+     * velden 
+     * 
+     * @var string
+     */
+    protected $velden;
+    /**
+     * id 
+     * 
+     * @var string
+     */
+    protected $id;
+
+    /**
      * Maak de mapper aan en stel een connectie in
      */
     public function __construct( $sessie )
     {
         $this->_sessie = $sessie;
         $this->_conn = $sessie->getDatabaseConnection( get_class($this) );
+        $this->initialize( );
+    }
+
+    protected function initialize( )
+    {
         $this->_conn->exec( 'SET CLIENT_ENCODING TO LATIN1' );
         $this->_conn->exec( "SET DATESTYLE TO 'EUROPEAN,GERMAN'" );
+        $this->id = 'id';
     }
 
     /**
@@ -72,6 +97,7 @@ abstract class KVDdom_PDODataMapper {
      */
     protected function abstractFindById ( $returnType , $id )
     {
+        $id = ( int ) $id;
         $domainObject = $this->_sessie->getIdentityMap()->getDomainObject( $returnType , $id);
         if ($domainObject != null) {
             return $domainObject;
@@ -79,7 +105,7 @@ abstract class KVDdom_PDODataMapper {
         $sql = $this->getFindByIdStatement( );
         $this->_sessie->getSqlLogger( )->log( $sql );
         $stmt = $this->_conn->prepare($sql);
-        $stmt->bindParam(1, $id);
+        $stmt->bindValue(1, $id , PDO::PARAM_INT );
         $stmt->execute();
         if (!$row = $stmt->fetch( PDO::FETCH_OBJ )) {
             $msg = "$returnType met id $id kon niet gevonden worden";
