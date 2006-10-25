@@ -193,7 +193,7 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDOChangeableDataMappe
         return new KVDdom_SystemFields (    $row->$gebruiker,
                                             $currentRecord,
                                             $row->$versie ,
-                                            $row->$bewerktOp ,
+                                            strtotime( $row->$bewerktOp ),
                                             $row->$gecontroleerd
                                         );
     }

@@ -60,7 +60,7 @@ class KVDdom_SystemFields {
         $this->gebruikersNaam = $gebruikersNaam;
         $this->currentRecord = $currentRecord;
         $this->versie = $versie;
-        $this->bewerktOp = date(KVDdom_DomainObject::DATETIME_FORMAT , $bewerktOptime );
+        $this->bewerktOp = date(KVDdom_DomainObject::DATETIME_FORMAT , $bewerktOp );
         $this->gecontroleerd = $gecontroleerd;
     }
 
