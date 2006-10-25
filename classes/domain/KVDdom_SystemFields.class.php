@@ -55,12 +55,12 @@ class KVDdom_SystemFields {
     public function __construct ( $gebruikersNaam, $currentRecord = true, $versie = 0, $bewerktOp = null, $gecontroleerd = false)
     {
         if ($bewerktOp == null) {
-            $bewerktOp = date(KVDdom_DomainObject::DATETIME_FORMAT , time());
+            $bewerktOp = time( );
         }
         $this->gebruikersNaam = $gebruikersNaam;
         $this->currentRecord = $currentRecord;
         $this->versie = $versie;
-        $this->bewerktOp = $bewerktOp;
+        $this->bewerktOp = date(KVDdom_DomainObject::DATETIME_FORMAT , $bewerktOptime );
         $this->gecontroleerd = $gecontroleerd;
     }
 
