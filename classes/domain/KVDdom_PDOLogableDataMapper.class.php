@@ -136,7 +136,7 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDOChangeableDataMappe
      * @param PDOStatement $stmt
      * @param KVDdom_DomainObject $domainObject
      * @param integer $startIndex De numerieke index in de PDO Statement van de eerste parameter ( de gebruikersnaam ).
-     * @todo Geen idee hoe het zit met de timestamp ( bewerktOp )
+     * @return integer Nummer van de volgende te gebruiken index in het sql statement.
      */
     public function doSetSystemFields($stmt, $domainObject, $startIndex )
     {
@@ -145,6 +145,7 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDOChangeableDataMappe
         $stmt->bindValue( $startIndex++ , $systemFields->getBewerktOp( ) , PDO::PARAM_STR );
         $stmt->bindValue( $startIndex++ , $systemFields->getVersie( ) , PDO::PARAM_INT );
         $stmt->bindValue( $startIndex++ , $systemFields->getGecontroleerd( ) , PDO::PARAM_BOOL );
+        return $startIndex;
     }
 
     /**
@@ -158,6 +159,21 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDOChangeableDataMappe
     {
         $stmt->bindValue($startIndex++, $id , PDO::PARAM_INT );
         $stmt->bindValue($startIndex++, $versie , PDO::PARAM_INT );
+    }
+
+    /**
+     * doInsert 
+     * 
+     * Stub methode die standaard handelingen uitvoert maar makkelijk kan overschreven worden.
+     * @since 25 okt 2006
+     * @param PDOStatement $stmt 
+     * @param KVDdom_LogableDomainObject $domainObject 
+     * @return integer Nummer van de volgende te gebruiken index in het sql statement.
+     */
+    protected function doInsert( $stmt , $domainObject )
+    {
+        $lastIndex = parent::doInsert( $stmt , $domainObject );
+        return $this->doSetSystemFields( $stmt , $domainObject , $lastIndex );
     }
 
     /**

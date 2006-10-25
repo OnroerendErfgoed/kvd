@@ -32,19 +32,33 @@ abstract class KVDdom_PDOChangeableDataMapper extends KVDdom_PDODataMapper {
      * Voeg een nieuw DomainObject toe aan de databank
      *
      * @param KVDdom_DomainObject $domainObject Het DomainObject dat moet toegevoegd worden aan de databank.
-     * @throws Exception - Indien er een databank probleem optreed.
+     * @throws PDOException Indien er een databank probleem optreed.
      */
     public function insert ($domainObject)
     {
         try {
             $stmt = $this->_conn->prepare ($this->getInsertStatement() );
-            $this->doInsert ( $stmt , $domainObject );    
-            return $stmt->execute();
+            $this->doInsert( $stmt , $domainObject );
+            $stmt->execute();
+            return $persoon;
         } catch (PDOException $e) {
-            throw new Exception ( 'Het object kon niet aan de databank worden toegevoegd omwille van een databank probleem: ' . $e->getMessage() );
-        } catch (Exception $e) {
-            throw new Exception ( 'Het object kon niet aan de databank worden toegevoegd omwille van een onbekend probleem: ' . $e->getMessage() );
+            throw $e;
         }
+    }
+
+    /**
+     * doInsert 
+     *
+     * Dit is een stub methode die de standaard handelingen uitvoert maar verder kan overschreven worden.
+     * @since 25 okt 2006
+     * @param PDOStatement $stmt 
+     * @param KVDdom_ChangeableDomainObject $domainObject 
+     * @return integer Nummer van de volgende te gebruiken index in het sql statement.
+     */
+    protected function doInsert( $stmt , $domainObject )
+    {
+            $stmt->bindValue ( 1 , $domainObject->getId( ) , PDO::PARAM_INT );
+            return $this->bindValues ( $stmt , 2 , $domainObject );    
     }
 
     /**
@@ -52,16 +66,15 @@ abstract class KVDdom_PDOChangeableDataMapper extends KVDdom_PDODataMapper {
      *
      * Deze versie kent geen concurrency control. Voor Optimistic Offline Concurrency moeten we bij CAI_LogableDataMapper zijn.
      * @param KVDdom_DomainObject $domainObject Het DomainObject dat moet verwijderd worden.
-     * @throws Exception
+     * @throws PDOException Indien er een databank probleem optreed.
      */
     public function delete ( $domainObject )
     {
         try {
             $stmt = $this->_conn->prepare ($this->getDeleteStatement() );
-            $id = $domainObject->getId( );
-            $stmt->bindParam ( 1, $id , PDO::PARAM_INT );
+            $stmt->bindValue ( 1, $domainObject->getId( ) , PDO::PARAM_INT );
             $stmt->execute();
-        } catch (Exception $e) {
+        } catch (PDOException $e) {
             throw $e;
         }
     }
@@ -82,10 +95,16 @@ abstract class KVDdom_PDOChangeableDataMapper extends KVDdom_PDODataMapper {
     abstract public function update ($domainObject);
     
     /**
-     * @param Statement $stmt
-     * @param KVDdom_ChangeableDomainObject
+     * bindValues 
+     *
+     * Methode waarin alle inhouds-velden in het sql-statement een waarde moeten toegewezen krijgen. Dus niet de id of systeemvelden, maar wel de echte data.
+     * @since 25 okt 2006
+     * @param PDOStatement $stmt 
+     * @param integer $startIndex 
+     * @param KVDdom_ChangeableDomainObject $domainObject 
+     * @return integer Volgende te gebruiken index in het statement.
      */
-    abstract protected function doInsert ( $stmt , $domainObject );
+    abstract protected function bindValues ( $stmt , $startIndex , $domainObject );
     
     /**
      * @param mixed $id
