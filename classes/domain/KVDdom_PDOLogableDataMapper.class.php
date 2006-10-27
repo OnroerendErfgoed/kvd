@@ -118,8 +118,9 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDOChangeableDataMappe
     protected function getFindVerwijderdeStatement( )
     {
         return  $this->getLogSelectStatement( ) . 
-                " WHERE log_" . $this->tabel . " NOT IN ( SELECT id FROM " . $this->tabel . ")" .
-                " ORDER BY " . $this->id . ", versie DESC";
+                " WHERE NOT EXISTS ( SELECT 1 FROM " . $this->tabel . " WHERE id = log_" . $this->id . ") " .
+                " AND versie = ( SELECT max( versie ) FROM " . $this->logtabel . " AS log WHERE log.id = log_" . $this->id . ")" .
+                " ORDER BY log_" . $this->id . " ASC";
     }
 
     /**
@@ -363,6 +364,16 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDOChangeableDataMappe
      * @return KVDdom_DomainObject
      */
     abstract public function doLogLoad ( $id , $row );
+
+    /**
+     * findByLogId 
+     * 
+     * @param integer $id 
+     * @param integer $versie 
+     * @return KVDdom_DomainObject
+     * @throws KVDdom_LogDomainObjectNotFoundException
+     */
+    abstract public function findByLogId( $id , $versie = self::MAXVERSIE );
 
     /**
      * @param integer $id
