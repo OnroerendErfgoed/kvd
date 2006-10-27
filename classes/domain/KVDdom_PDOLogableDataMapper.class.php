@@ -385,27 +385,12 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDOChangeableDataMappe
     }
 
     /**
+     * Zoek alle records van deze datamapper die nog niet gecontroleerd zijn.
      * @param KVDdom_DomainObjectCollection
      */
     public function findTeRedacteren( )
     {
         return $this->abstractFindTeRedacteren( );
-    }
-
-    /**
-     * @param KVDdom_DomainObjectCollection
-     */
-    public function findVerwijderde( )
-    {
-        return $this->abstractFindVerwijderde( );    
-    }
-
-    /**
-     * Zoek alle records van deze datamapper die nog niet gecontroleerd zijn.
-     * @return KVDdom_DomainObjectCollection
-     */
-    protected function abstractFindTeRedacteren ( )
-    {
         $stmt = $this->_conn->prepare ( $this->getFindTeRedacterenStatement() );
         return $this->executeFindMany ( $stmt );
     }
@@ -416,7 +401,7 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDOChangeableDataMappe
      * Zoek alle verwijderde records in de log tabellen.
      * @return KVDdom_DomainObjectCollection
      */
-    protected function abstractFindVerwijderde( )
+    public function findVerwijderde( )
     {
         $stmt = $this->_conn->prepare ( $this->getFindVerwijderdeStatement( ) );
         return $this->executeLogFindMany( $stmt );
