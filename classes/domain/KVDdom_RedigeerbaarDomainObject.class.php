@@ -79,6 +79,15 @@ abstract class KVDdom_LogableDomainObject extends KVDdom_ChangeableDomainObject 
     }
 
     /**
+     * Keur het domeinobject goed.
+     */
+    public function approve( )
+    {
+        $this->markApproved( );
+        $this->_systemFields->setApproved( );
+    }
+
+    /**
      * @return boolean
      */
     public function isNull( )
@@ -92,6 +101,15 @@ abstract class KVDdom_LogableDomainObject extends KVDdom_ChangeableDomainObject 
     public function isVerwijderd( )
     {
         return false;
+    }
+
+    /**
+     * Verwijder de geschiedenis van het object
+     */
+    public function verwijderGeschiedenis( )
+    {
+        $this->_geschiedenis = new KVDdom_DomainObjectCollection( array( ) );
+        $this->markHistoryCleared( );
     }
 
     /**
