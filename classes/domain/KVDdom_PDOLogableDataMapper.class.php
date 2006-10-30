@@ -33,7 +33,7 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDODataMapper
     /**
      * De velden die nodig zijn voor het SystemFields object.
      */
-    const SFVELDEN = "gebruiker, bewerkt_op, versie, gecontroleerd";
+    const SFVELDEN = "versie";
 
     /**
      * logtabel 
@@ -101,47 +101,6 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDODataMapper
         return  $this->getLogSelectStatement( ) .
                 " WHERE log_" . $this->id . " = ?" .
                 $this->getLogOrderStatement( );
-    }
-
-    /**
-     * @return string Een SQL statement om een record goed te keuren. De parameter id moet nog ingevuld worden.
-     */
-    protected function getApproveRecordStatement( )
-    {
-        return  "UPDATE " . $this->tabel . 
-                " SET gecontroleerd = true" .
-                " WHERE " . $this->id . " = ?";
-    }
-
-    /**
-     * @return string Een SQL statement om alle gelogde versies van een record goed te keuren. Enkel de parameter id moet nog worden ingevuld.
-     */
-    protected function getApproveLogRecordsStatement( )
-    {
-        return  "UPDATE " . $this->logtabel . 
-                " SET gecontroleerd = true" .
-                " WHERE log_" . $this->id . " = ?";
-    }
-
-    /**
-     * @return string Een SQL statement om alle te redacteren records te vinden. Heeft geen parameters meer nodig.
-     */
-    protected function getFindTeRedacterenStatement( )
-    {
-        return  $this->getSelectStatement( ) .
-                " WHERE " . $this->tabel . ".gecontroleerd = false " . 
-                $this->getOrderStatement( );
-    }
-
-    /**
-     * @return string Een SQL statement om alle records te zoeken die wel nog in de log-tabellen zitten maar niet meer in de gewone tabellen. Heeft geen parameters nodig.
-     */
-    protected function getFindVerwijderdeStatement( )
-    {
-        return  $this->getLogSelectStatement( ) . 
-                " WHERE NOT EXISTS ( SELECT 1 FROM " . $this->tabel . " WHERE id = log_" . $this->id . ") " .
-                " AND versie = ( SELECT max( versie ) FROM " . $this->logtabel . " AS log WHERE log.id = log_" . $this->id . ")" .
-                " ORDER BY log_" . $this->id . " ASC";
     }
 
     /**
@@ -229,31 +188,6 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDODataMapper
     }
     
     /**
-     * Laad een SystemFields object op basis van een ResultSet
-     *
-     * @param StdClass $row Een StdClass object dat door PDO wordt afgeleverd via fetchRow. Dit object moet de nodige velden bevatten om een Systemfields object mee samen te kunnen stellen.
-     * @param boolean $currentRecord Moet het object geladen worden alsof het de meest recente versie van het record is?
-     * @param string $prefix Moet er voor zorgen dat bij een join van 2+ tabellen er 2+ systemfields objecten geladen kunnen worden. Standaard wordt er van uitgegaan dat er geen prefix nodig is.
-     * @return KVDdom_SystemFields
-     */
-    public function doLoadSystemFields( $row , $currentRecord = true , $prefix = null)
-    {
-        if ($prefix !== null) {
-            $prefix = $prefix . '_';
-        }
-        $gebruiker = $prefix . 'gebruiker';
-        $versie = $prefix . 'versie';
-        $bewerktOp = $prefix . 'bewerkt_op';
-        $gecontroleerd = $prefix . 'gecontroleerd';
-        return new KVDdom_SystemFields (    $row->$gebruiker,
-                                            $currentRecord,
-                                            $row->$versie ,
-                                            strtotime( $row->$bewerktOp ),
-                                            $row->$gecontroleerd
-                                        );
-    }
-     
-    /**
      * Stel de waarden van het SystemFields object in in de SQL statement
      *
      * @param PDOStatement $stmt
@@ -264,10 +198,7 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDODataMapper
     public function doSetSystemFields($stmt, $domainObject, $startIndex )
     {
         $systemFields = $domainObject->getSystemFields();
-        $stmt->bindValue( $startIndex++ , $systemFields->getGebruikersNaam( ) , PDO::PARAM_STR );
-        $stmt->bindValue( $startIndex++ , $systemFields->getBewerktOp( ) , PDO::PARAM_STR );
         $stmt->bindValue( $startIndex++ , $systemFields->getVersie( ) , PDO::PARAM_INT );
-        $stmt->bindValue( $startIndex++ , $systemFields->getGecontroleerd( ) , PDO::PARAM_BOOL );
         return $startIndex;
     }
 
@@ -444,29 +375,6 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDODataMapper
     }
 
     /**
-     * Zoek alle records van deze datamapper die nog niet gecontroleerd zijn.
-     * @param KVDdom_DomainObjectCollection
-     */
-    public function findTeRedacteren( )
-    {
-        return $this->abstractFindTeRedacteren( );
-        $stmt = $this->_conn->prepare ( $this->getFindTeRedacterenStatement() );
-        return $this->executeFindMany ( $stmt );
-    }
-
-    /**
-     * abstractFindVerwijderde 
-     * 
-     * Zoek alle verwijderde records in de log tabellen.
-     * @return KVDdom_DomainObjectCollection
-     */
-    public function findVerwijderde( )
-    {
-        $stmt = $this->_conn->prepare ( $this->getFindVerwijderdeStatement( ) );
-        return $this->executeLogFindMany( $stmt );
-    }
-
-    /**
      * restoreDeleted
      *
      * Een oudere versie van een DomainObject wordt terug geplaatst als het actuele record.
@@ -490,28 +398,6 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDODataMapper
      * @param KVDdom_SystemFields $systemFields
      */
     abstract protected function createDeleted( $id, $systemFields );
-
-    /**
-     * @param KVDdom_DomainObject $domainObject
-     * @throws <b>Exception</b> Indien een record niet goedgekeurd kan worden.
-     */
-    public function approve ( $domainObject )
-    {
-        $stmt = $this->_conn->prepare ( $this->getApproveRecordStatement( ) );
-        $stmt->bindValue (1 , $domainObject->getId( ) , PDO::PARAM_INT );
-        try {
-            $stmt->execute( );
-        } catch (PDOException $e) {
-            throw new Exception ( 'Het record kan niet goedgekeurd worden omwille van een SQL probleem: ' . $e->getMessage( ) );
-        }
-        $stmt = $this->_conn->prepare (  $this->getApproveLogRecordsStatement( ) );
-        $stmt->bindValue( 1, $domainObject->getId( ) , PDO::PARAM_INT );
-        try {
-            $stmt->execute( );
-        } catch (PDOException $e) {
-            throw new Exception ( 'Het record kan niet goedgekeurd worden omwille van een SQL probleem: ' . $e->getMessage( ) );
-        }
-    }
 
     /**
      * clearHistory
