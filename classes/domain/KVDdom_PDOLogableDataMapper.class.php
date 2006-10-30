@@ -17,7 +17,7 @@
  * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
-abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDOChangeableDataMapper
+abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDODataMapper
 {
 
     /**
@@ -41,6 +41,27 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDOChangeableDataMappe
      * @var string
      */
     protected $logtabel;
+
+    /**
+     * getInsertStatement 
+     * 
+     * @return string SQL Statement
+     */
+    abstract protected function getInsertStatement( );
+
+    /**
+     * getDeleteStatement 
+     * 
+     * @return string SQL Statement
+     */
+    abstract protected function getDeleteStatement( );
+
+    /**
+     * getUpdateStatement 
+     * 
+     * @return string SQL Statement
+     */
+    abstract protected function getUpdateStatement( );
 
     /**
      * Zoek een object in de log-tabellen op basis van een Id.
@@ -173,7 +194,40 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDOChangeableDataMappe
         return implode ( ', ', $fields );
     }
 
+    /**
+     * Voeg een nieuw DomainObject toe aan de databank
+     *
+     * @param KVDdom_LogableDomainObject $domainObject Het DomainObject dat moet toegevoegd worden aan de databank.
+     * @throws PDOException Indien er een databank probleem optreed.
+     */
+    public function insert ($domainObject)
+    {
+        try {
+            $stmt = $this->_conn->prepare ($this->getInsertStatement() );
+            $this->doInsert( $stmt , $domainObject );
+            $stmt->execute();
+            return $domainObject;
+        } catch (PDOException $e) {
+            throw $e;
+        }
+    }
 
+    /**
+     * doInsert 
+     *
+     * Dit is een stub methode die de standaard handelingen uitvoert maar verder kan overschreven worden.
+     * @since 30 okt 2006
+     * @param PDOStatement $stmt 
+     * @param KVDdom_LogableDomainObject $domainObject 
+     * @return integer Nummer van de volgende te gebruiken index in het sql statement.
+     */
+    protected function doInsert( $stmt , $domainObject )
+    {
+            $stmt->bindValue ( 1 , $domainObject->getId( ) , PDO::PARAM_INT );
+            $lastIndex = $this->bindValues ( $stmt , 2 , $domainObject );    
+            return $this->doSetSystemFields( $stmt , $domainObject , $lastIndex );
+    }
+    
     /**
      * Laad een SystemFields object op basis van een ResultSet
      *
@@ -231,21 +285,6 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDOChangeableDataMappe
     }
 
     /**
-     * doInsert 
-     * 
-     * Stub methode die standaard handelingen uitvoert maar makkelijk kan overschreven worden.
-     * @since 25 okt 2006
-     * @param PDOStatement $stmt 
-     * @param KVDdom_LogableDomainObject $domainObject 
-     * @return integer Nummer van de volgende te gebruiken index in het sql statement.
-     */
-    protected function doInsert( $stmt , $domainObject )
-    {
-        $lastIndex = parent::doInsert( $stmt , $domainObject );
-        return $this->doSetSystemFields( $stmt , $domainObject , $lastIndex );
-    }
-
-    /**
      * Verwijder een bepaald DomainObject uit de databank.
      *
      * Implementeert Optimist Offline Locking, indien het object gewijzigd is door iemand anders sinds het geladen werd wordt er een Exception gegenereerd.
@@ -275,6 +314,26 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDOChangeableDataMappe
         }
     }
 
+    /**
+     * update 
+     * 
+     * @since 30 okt 2006
+     * @param KVDdom_LogableDomainObject $domainObject 
+     * @return KVDdom_LogableDomainObject Het object dat werd geupdate, maar met aangepaste systeemvelden.
+     */
+    abstract protected function update( $domainObject );
+
+    /**
+     * bindValues 
+     *
+     * Methode waarin alle inhouds-velden in het sql-statement een waarde moeten toegewezen krijgen. Dus niet de id of systeemvelden, maar wel de echte data.
+     * @since 30 okt 2006
+     * @param PDOStatement $stmt 
+     * @param integer $startIndex 
+     * @param KVDdom_LogableDomainObject $domainObject 
+     * @return integer Volgende te gebruiken index in het statement.
+     */
+    abstract protected function bindValues ( $stmt , $startIndex , $domainObject );
 
     /**
      * Een abstract functie die het grootste deel van het opzoekwerk naar een DomainObject met een specifieke Id uitvoert
@@ -489,5 +548,23 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDOChangeableDataMappe
         }
         return new KVDdom_DomainObjectCollection ( $domainObjects );
     }
+
+    /**
+     * getIdFromSequence 
+     * 
+     * @since 30 okt 2006
+     * @param string $sequenceName Naam van de sequentie waarvoor een nummer moet opgehaald worden.
+     * @return integer Een id waarde
+     */
+    protected function getIdFromSequence( $sequenceName )
+    {
+        $stmt = $this->_conn->query( "SELECT nextval ( '$sequenceName' )" );
+        return $stmt->fetchColumn( );
+    }
+
+    /**
+     * @since 30 okt 2006
+     */
+    abstract public function create ();
 }
 ?>
