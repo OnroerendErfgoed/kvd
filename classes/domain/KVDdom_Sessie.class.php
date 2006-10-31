@@ -233,7 +233,7 @@ class KVDdom_Sessie {
             throw new Exception ('Een object moet een id hebben');
         }
         if ($this->_removedObjects->getDomainObject($type, $id) != null) {
-            throw new Exception ('Een reeds verwijderd object kan niet als nieuw geregistreerd worden.');
+            throw new Exception ('Een reeds verwijderd object kan niet als dirty geregistreerd worden.');
         }
         if ($this->_identityMap->getDomainObject($type, $id) == null) {
             throw new Exception ('Een object dat niet in de IdentityMap zit kan niet als dirty gemarkeerd worden.');
