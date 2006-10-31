@@ -32,8 +32,10 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDODataMapper
 
     /**
      * De velden die nodig zijn voor het SystemFields object.
+     * 
+     * @var string
      */
-    const SFVELDEN = "versie";
+    protected $sfvelden = "versie";
 
     /**
      * logtabel 
@@ -64,6 +66,13 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDODataMapper
     abstract protected function getUpdateStatement( );
 
     /**
+     * getLogSelectStatement 
+     * 
+     * @return string SQL Statement
+     */
+    abstract protected function getLogSelectStatement( );
+
+    /**
      * Zoek een object in de log-tabellen op basis van een Id.
      * @return string Een SQL statement om een bepaalde versie van een object te vinden. De parameters id en versie moeten ingevuld worden.
      */
@@ -88,8 +97,8 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDODataMapper
     protected function getLogInsertStatement()
     {
         return  "INSERT INTO " . $this->logtabel .
-                " ( id, " . $this->velden . ", " . self::SFVELDEN . ")" .
-                " SELECT id , " . $this->velden . ", " . self::SFVELDEN .
+                " ( id, " . $this->velden . ", " . $this->sfvelden . ")" .
+                " SELECT id , " . $this->velden . ", " . $this->sfvelden .
                 " FROM " . $this->tabel . " WHERE " . $this->id . " = ?";
     }
 
@@ -143,10 +152,11 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDODataMapper
      * @param string $systemFields String met alle systeemvelden
      * @return string Lijst van de systeemVelden, maar met een prefix en 
      */
-    protected function getSystemFieldsString ( $tabelNaam , $logTabel = false , $systemFields = self::SFVELDEN )
+    protected function getSystemFieldsString ( $tabelNaam , $logTabel = false , $systemFields = null )
     {
+        $systemFields = ( $systemFields === null ) ? $this->sfvelden : $systemFields;
         $fields = explode ( ', ' , $systemFields );
-        $tabel = ( $logTabel == false ) ? $tabelNaam : 'log_' . $tabelNaam;
+        $tabel = ( $logTabel === false ) ? $tabelNaam : 'log_' . $tabelNaam;
         foreach ( $fields as &$field ) {
             $field = "$tabel.$field AS " . $tabelNaam . "_" . $field;
         }
@@ -195,10 +205,10 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDODataMapper
      * @param integer $startIndex De numerieke index in de PDO Statement van de eerste parameter ( de gebruikersnaam ).
      * @return integer Nummer van de volgende te gebruiken index in het sql statement.
      */
-    public function doSetSystemFields($stmt, $domainObject, $startIndex )
+    protected function doSetSystemFields($stmt, $domainObject, $startIndex )
     {
         $systemFields = $domainObject->getSystemFields();
-        $stmt->bindValue( $startIndex++ , $systemFields->getVersie( ) , PDO::PARAM_INT );
+        $stmt->bindValue( $startIndex++ , $systemFields->getTargetVersie( ) , PDO::PARAM_INT );
         return $startIndex;
     }
 
@@ -229,7 +239,7 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDODataMapper
             $this->_conn->beginTransaction( );
             $this->LogInsert( $domainObject->getId() );
             $stmt = $this->_conn->prepare($this->getDeleteStatement());
-            $stmt->bindValue (1, $domainObject->getId() , PDO::PARAM_INT );
+            $this->doSetUpdateWhere( $stmt , $domainObject->getId( ) , $currentVersie , 1 );
             $stmt->execute( );
             if ( $stmt->rowCount( )  === 0 ) {
                 $message = 'Het object dat u probeert te verwijderen is gewijzigd sinds u het geopend hebt.';
@@ -380,13 +390,9 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDODataMapper
      * Een oudere versie van een DomainObject wordt terug geplaatst als het actuele record.
      * @param KVDdom_LogableDomainObject Een oudere versie van een record.
      * @return KVDdom_LogableDomainObject De nieuwe, recente versie van het record met aangepaste {@link KVDdom_SystemFields}.
-     * @throws <b>InvalidArgumentException</b> Indien het domainObject geen oude versie van een record is maar al de meest recente versie is.
      */
     protected function restoreDeleted( $domainObject )
     {
-        if ( $domainObject->getSystemFields( )->isCurrentRecord( ) ) {
-            throw new InvalidArgumentException ( 'Enkel een oude versie van een record kan hersteld worden tot meest recente versie.' );
-        }
         $domainObject->getSystemFields( )->updateSystemFields( $this->_sessie->getGebruiker( )->getGebruikersNaam( ) );
         $this->insert( $domainObject );
         return $domainObject;
@@ -397,7 +403,7 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDODataMapper
      * @param integer $id
      * @param KVDdom_SystemFields $systemFields
      */
-    abstract protected function createDeleted( $id, $systemFields );
+    abstract protected function createDeleted( $id , $systemFields = null );
 
     /**
      * clearHistory
@@ -452,5 +458,27 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDODataMapper
      * @since 30 okt 2006
      */
     abstract public function create ();
+
+    /**
+     * isVerwijderd 
+     *
+     * Gaat na of een bepaald object nog voorkomt in de hoofdtabellen of niet.
+     * @since 31 okt 2006
+     * @param KVDdom_LogableDomainObject $domainObject 
+     * @return boolean True indien het object enkel voorkomt in de logtabellen, false indien het object nog een bestaande hoofdversie heeft.
+     */
+    protected function isVerwijderd( $domainObject )
+    {
+        try {
+            $obj = $this->findById( $domainObject->getId( ) );
+            if ( $obj->isVerwijderd( ) ) {
+                return true;
+            }
+            return false;
+        } catch ( KVDdom_LogDomainObjectNotFoundException $e ) {
+            return true;
+        }
+    }
+
 }
 ?>

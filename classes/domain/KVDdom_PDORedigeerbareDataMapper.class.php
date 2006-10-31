@@ -22,8 +22,10 @@ abstract class KVDdom_PDORedigeerbareDataMapper extends KVDdom_PDOLogableDataMap
 
     /**
      * De velden die nodig zijn voor het SystemFields object.
+     * 
+     * @var string
      */
-    const SFVELDEN = "gebruiker, bewerkt_op, versie, gecontroleerd";
+    protected $sfvelden = "gebruiker, bewerkt_op, versie, gecontroleerd";
 
     /**
      * @return string Een SQL statement om een record goed te keuren. De parameter id moet nog ingevuld worden.
@@ -67,24 +69,6 @@ abstract class KVDdom_PDORedigeerbareDataMapper extends KVDdom_PDOLogableDataMap
     }
 
     /**
-     * getLogSystemFields 
-     * 
-     * @param string $tabelNaam Naam van de tabel waarvoor geprefixt moet worden.
-     * @param boolean $logTabel Wordt de data geladen uit de gelogde tabel of niet?
-     * @param string $systemFields String met alle systeemvelden
-     * @return string Lijst van de systeemVelden, maar met een prefix en 
-     */
-    protected function getSystemFieldsString ( $tabelNaam , $logTabel = false , $systemFields = self::SFVELDEN )
-    {
-        $fields = explode ( ', ' , $systemFields );
-        $tabel = ( $logTabel == false ) ? $tabelNaam : 'log_' . $tabelNaam;
-        foreach ( $fields as &$field ) {
-            $field = "$tabel.$field AS " . $tabelNaam . "_" . $field;
-        }
-        return implode ( ', ', $fields );
-    }
-
-    /**
      * Laad een SystemFields object op basis van een ResultSet
      *
      * @param StdClass $row Een StdClass object dat door PDO wordt afgeleverd via fetchRow. Dit object moet de nodige velden bevatten om een Systemfields object mee samen te kunnen stellen.
@@ -117,12 +101,12 @@ abstract class KVDdom_PDORedigeerbareDataMapper extends KVDdom_PDOLogableDataMap
      * @param integer $startIndex De numerieke index in de PDO Statement van de eerste parameter ( de gebruikersnaam ).
      * @return integer Nummer van de volgende te gebruiken index in het sql statement.
      */
-    public function doSetSystemFields($stmt, $domainObject, $startIndex )
+    protected function doSetSystemFields($stmt, $domainObject, $startIndex )
     {
         $systemFields = $domainObject->getSystemFields();
         $stmt->bindValue( $startIndex++ , $systemFields->getGebruikersNaam( ) , PDO::PARAM_STR );
         $stmt->bindValue( $startIndex++ , $systemFields->getBewerktOp( ) , PDO::PARAM_STR );
-        $stmt->bindValue( $startIndex++ , $systemFields->getVersie( ) , PDO::PARAM_INT );
+        $stmt->bindValue( $startIndex++ , $systemFields->getTargetVersie( ) , PDO::PARAM_INT );
         $stmt->bindValue( $startIndex++ , $systemFields->getGecontroleerd( ) , PDO::PARAM_BOOL );
         return $startIndex;
     }
