@@ -3,7 +3,7 @@
 Mock::generate( 'KVDdom_Sessie');
 
 class genericConnection{
-    public function executeQuery( $sql )
+    public function exec( $sql )
     {
         return true;
     }

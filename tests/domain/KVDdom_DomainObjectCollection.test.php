@@ -94,5 +94,34 @@ class TestOfDomainObjectCollection extends UnitTestCase
         $limitIT->next( );
         $this->assertEqual ($limitIT->current() , $domObject3 );
     }
+
+    function testHasDomainObject( )
+    {
+        $domObject3 = new MockGenericDomainObject( $this );
+        $domObject3->setReturnValue('getId', '123456789');
+        $domObject3->setReturnValue('getClass', 'GenericDomainObject');
+        $collection = array (  $this->_domObject , $this->_domObject2 , $domObject3 );
+        $this->_domainObjectCollection = new KVDdom_DomainObjectCollection( $collection );
+        $this->assertTrue( $this->_domainObjectCollection->hasDomainObject( $domObject3) );
+        $this->assertTrue( $this->_domainObjectCollection->hasDomainObject( $this->_domObject ) );
+    }
+
+    function testHasDomainObjectKeepsPosition( )
+    {
+        $domObject3 = new MockGenericDomainObject( $this );
+        $domObject3->setReturnValue('getId', '123456789');
+        $domObject3->setReturnValue('getClass', 'GenericDomainObject');
+        $collection = array (  $this->_domObject , $this->_domObject2 , $domObject3 );
+        $this->_domainObjectCollection = new KVDdom_DomainObjectCollection( $collection );
+        $this->_domainObjectCollection->next( );
+        $this->assertTrue( $this->_domainObjectCollection->hasDomainObject( $domObject3) );
+        $this->assertEqual ( $this->_domainObjectCollection->key( ) , 1 );
+        $this->_domainObjectCollection->next( );
+        $this->assertTrue( $this->_domainObjectCollection->hasDomainObject( $this->_domObject ) );
+        $this->assertEqual ( $this->_domainObjectCollection->key( ) , 2 );
+    }
+
+    
+
 }
 ?>

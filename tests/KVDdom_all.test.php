@@ -15,13 +15,14 @@ require_once( AGAVI_DIR . 'database/DatabaseManager.class.php' );
 require_once( KVD_CLASSES_DIR . 'domain/KVDdom_IdentityMap.class.php');
 require_once( KVD_CLASSES_DIR . 'domain/KVDdom_MapperFactory.class.php');
 require_once( KVD_CLASSES_DIR . 'domain/KVDdom_MapperRegistry.class.php');
-require_once( KVD_CLASSES_DIR . 'domain/KVDdom_DataMapper.class.php');
-require_once( KVD_CLASSES_DIR . 'domain/KVDdom_ChangeableDataMapper.class.php');
-require_once( KVD_CLASSES_DIR . 'domain/KVDdom_LogableDataMapper.class.php');
+//require_once( KVD_CLASSES_DIR . 'domain/KVDdom_DataMapper.class.php');
+require_once( KVD_CLASSES_DIR . 'domain/KVDdom_PDODataMapper.class.php' );
+require_once( KVD_CLASSES_DIR . 'domain/KVDdom_PDOChangeableDataMapper.class.php');
+require_once( KVD_CLASSES_DIR . 'domain/KVDdom_PDOLogableDataMapper.class.php');
+require_once( KVD_CLASSES_DIR . 'domain/KVDdom_PDORedigeerbareDataMapper.class.php');
 require_once( KVD_CLASSES_DIR . 'domain/KVDdom_Sessie.class.php');
 require_once( KVD_CLASSES_DIR . 'domain/KVDdom_SystemFields.class.php');
 require_once( KVD_CLASSES_DIR . 'domain/KVDdom_DomainObjectCollection.class.php');
-require_once( KVD_CLASSES_DIR . 'domain/KVDdom_PDODataMapper.class.php' );
 require_once( KVD_CLASSES_DIR . 'domain/KVDdom_PDOChunkyQuery.class.php');
 require_once( KVD_CLASSES_DIR . 'domain/KVDdom_SqlLogger.class.php' );
 
