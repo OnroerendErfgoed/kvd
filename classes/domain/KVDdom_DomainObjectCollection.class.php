@@ -1,17 +1,21 @@
 <?php
 /**
  * @package KVD.dom
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
+ * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @version $Id$
  */
 
 /**
- * Object om collecties van DomainObjects te beheren.
- *
- * Vooral van tel voor het partieel laden van data ipv het steeds volledig laden van alle objecten (limit e.d.)
+ * KVDdom_DomainObjectCollection 
+ * 
  * @package KVD.dom
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @since 1.0.0
+ * @subpackage 
+ * @since 2005
+ * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDdom_DomainObjectCollection implements SeekableIterator, Countable
 {
@@ -33,6 +37,7 @@ class KVDdom_DomainObjectCollection implements SeekableIterator, Countable
     }
 
     /**
+     * @deprecated Gebruik gewoon count
      * @return integer
      */
     public function getTotalRecordCount()
@@ -64,11 +69,21 @@ class KVDdom_DomainObjectCollection implements SeekableIterator, Countable
         return key ( $this->collection );   
     }
 
+    /**
+     * next 
+     * 
+     * @return void
+     */
     public function next()
     {
         next ( $this->collection );
     }
 
+    /**
+     * rewind 
+     * 
+     * @return void
+     */
     public function rewind()
     {
         reset ( $this->collection );
@@ -112,6 +127,29 @@ class KVDdom_DomainObjectCollection implements SeekableIterator, Countable
            $object->remove( );
        }
        $this->colletion = array( );
+    }
+
+    /**
+     * hasDomainObject 
+     * 
+     * @since 31 okt 2006
+     * @param KVDdom_DomainObject $domainObject 
+     * @return boolean True indien het object gevonden werd.
+     */
+    public function hasDomainObject( $domainObject )
+    {
+        $currentIndex = $this->key( );
+        $this->rewind( );
+        $found = false;
+        while ( $this->valid( ) ) {
+            if ( $domainObject->getId( ) === $this->current( )->getId( ) ) {
+                $found = true;
+                break;
+            }
+            $this->next( );
+        }
+        $this->seek( $currentIndex );
+        return $found;
     }
     
 }
