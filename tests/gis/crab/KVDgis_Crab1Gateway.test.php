@@ -8,8 +8,8 @@ class TestOfCrab1Gateway extends UnitTestCase
     function setUp()
     {
         $parameters = array (   'wsdl' => 'http://webservices.gisvlaanderen.be/crab/wscrab.asmx?WSDL',
-                                'username' => 'VIOE',
-                                'password' => 'GISTLIBE'
+                                'username' => CRABUSER ,
+                                'password' => CRABPWD
                             );
         try {
             $this->_testGateway = new KVDgis_Crab1Gateway( $parameters );

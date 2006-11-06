@@ -8,6 +8,9 @@ require_once('simpletest/mock_objects.php');
 define ('GISMAP' , '/data/projects/kvd/kvd/classes/gis/');
 define ('GISTESTMAP' , '/data/projects/kvd/kvd/tests/gis/');
 define ('UTILMAP' , '/data/projects/kvd/kvd/classes/util/');
+
+define ( 'CRABUSER' , 'VIOE' );
+define ( 'CRABPWD' , 'GISTLIBE' );
 //define ('KVDGISMAPFILE' , 'c:/opt/kvd/tests/gis/KVDgis.map');
 //define ('KVDGISTEMPDIR' , 'c:/opt/tmp/');
 

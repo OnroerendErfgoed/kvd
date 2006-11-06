@@ -8,8 +8,8 @@ class TestOfCrab2Gateway extends UnitTestCase
     function setUp()
     {
         $this->parameters = array ( 'wsdl' => 'http://ws.agiv.be/crabws/nodataset.asmx?WSDL',
-                                    'username' => 'VIOE',
-                                    'password' => 'GISTLIBE'
+                                    'username' => CRABUSER,
+                                    'password' => CRABPWD
                             );
     }
 
