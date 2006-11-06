@@ -21,10 +21,10 @@
 class KVDdm_AdrTerreinobject {
     
     /**
-     * Code volgens de ESPG voor de Belge Lambert projectie.
+     * Code volgens de EPSG voor de Belge Lambert projectie.
      * @var integer
      */
-    const ESPG_CODE = 31370;
+    const EPSG_CODE = 31300;
 
     /**
      * Het soort domain-object dat wordt teruggegeven door deze mapper.
@@ -63,7 +63,7 @@ class KVDdm_AdrTerreinobject {
             return $domainObject;
         }
         try {
-            $center = new KVDgis_GeomPoint ( self::ESPG_CODE , $crabData['centerX'], $crabData['centerY']);
+            $center = new KVDgis_GeomPoint ( self::EPSG_CODE , $crabData['centerX'], $crabData['centerY']);
         } catch ( InvalidArgumentException $e ) {
             $center = new KVDgis_GeomPoint ( );
         }
