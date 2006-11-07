@@ -110,7 +110,7 @@ abstract class KVDag_AbstractHelper
         if ( !$domainObject instanceof KVDdom_LogableDomainObject ) {
             throw new InvalidArgumentException ( 'Ongeldige configuratie. Het te controleren object is geen logbaar domainObject en heeft dus geen isCurrentRecord status.');
         }
-        return $action['currentRecord'] == $domainObject->getSystemFields( )->isCurrentRecord( );
+        return $action['currentRecord'] == $domainObject->isCurrentRecord( );
     }
 }
 ?>

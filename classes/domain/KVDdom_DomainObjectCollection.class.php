@@ -151,6 +151,31 @@ class KVDdom_DomainObjectCollection implements SeekableIterator, Countable
         $this->seek( $currentIndex );
         return $found;
     }
+
+    /**
+     * getDomainObjectWithId 
+     * 
+     * @since 06 nov 2006
+     * @param integer $id Zal normaal een integer zijn, eventueel een string.
+     * @return mixed Het domainObject of null indien het niet gevonden werd.
+     */
+    public function getDomainObjectWithId ( $id )
+    {
+        $return = null;
+        $currentIndex = $this->key( );
+        $this->rewind( );
+        while ( $this->valid( ) ) {
+            if ( $this->current( )->getId( ) === $id ) {
+               $return = $this->current( ); 
+               break;
+            }
+            $this->next( );
+        }
+        $this->seek ( $currentIndex );
+        return $return;
+    }
+
+    
     
 }
 ?>

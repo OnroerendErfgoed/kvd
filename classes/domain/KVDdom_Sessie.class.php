@@ -235,8 +235,8 @@ class KVDdom_Sessie {
         if ($this->_removedObjects->getDomainObject($type, $id) != null) {
             throw new Exception ('Een reeds verwijderd object kan niet als dirty geregistreerd worden.');
         }
-        if ($this->_identityMap->getDomainObject($type, $id) == null) {
-            throw new Exception ('Een object dat niet in de IdentityMap zit kan niet als dirty gemarkeerd worden.');
+        if ($this->_identityMap->getDomainObject($type, $id) == null && $domainObject->isCurrentRecord( ) ) {
+            throw new Exception ('Een object dat niet in de IdentityMap zit kan niet als dirty gemarkeerd worden tenzij het om een verwijderd object zou gaan dat terug geplaatst moet worden.');
         }
         if ( ($this->_newObjects->getDomainObject($type, $id) == null) && ($this->_dirtyObjects->getDomainObject($type, $id) == null) ) {
             $this->_dirtyObjects->addDomainObject ( $domainObject );

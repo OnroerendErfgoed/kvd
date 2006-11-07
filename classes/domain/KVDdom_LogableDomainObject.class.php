@@ -29,13 +29,20 @@ abstract class KVDdom_LogableDomainObject extends KVDdom_ChangeableDomainObject 
     protected $_geschiedenis;
 
     /**
+     * currentRecord 
+     * 
+     * True indien het record uit de hoofdtabellen komt, false indien het geladen werd uit de log tabellen.
+     * @var boolean
+     */
+    protected $currentRecord;
+
+    /**
      * @param KVDdom_Sessie $sessie 
      * @param integer $id
      * @param KVDdom_SystemFields $systemFields
      */
-    public function __construct ( $id , $sessie , $systemFields = null)
+    public function __construct ( $id , $sessie , $systemFields = null, $currentRecord = true )
     {
-        parent::__construct ($id , $sessie );
         $this->id = $id;
         $this->_sessie = $sessie;
         if ($systemFields === null) {
@@ -43,7 +50,8 @@ abstract class KVDdom_LogableDomainObject extends KVDdom_ChangeableDomainObject 
         } else {
             $this->_systemFields = $systemFields;
         }
-        if ( $this->_systemFields->isCurrentRecord( ) ) {
+        $this->currentRecord = $currentRecord;
+        if ( $this->isCurrentRecord( ) ) {
             $this->markClean( );
         }
         $this->_geschiedenis = self::PLACEHOLDER;
@@ -95,6 +103,17 @@ abstract class KVDdom_LogableDomainObject extends KVDdom_ChangeableDomainObject 
     }
 
     /**
+     * isCurrentRecord 
+     * 
+     * True indien het record uit de hoofdtabellen komt, false indien het geladen werd uit de log tabellen.
+     * @return boolean
+     */
+    public function isCurrentRecord( )
+    {
+        return $this->currentRecord;
+    }
+
+    /**
      * @return KVDdom_DomainObjectCollection
      */
     public function getGeschiedenis( )
@@ -120,10 +139,10 @@ abstract class KVDdom_LogableDomainObject extends KVDdom_ChangeableDomainObject 
         if ( !$previous->getClass( ) === $this->getClass( ) ) {
             throw new LogicException ( 'Kan enkel update naar een vorige versie van mezelf!' );
         }
-        if ( !$this->getSystemFields( )->isCurrentRecord( ) && !$this->isNull( ) ) {
+        if ( !$this->isCurrentRecord( ) && !$this->isNull( ) ) {
             throw new LogicException ( 'Dit object is niet de huidige versie of een verwijderde versie en kan dus niet geupdate worden!');
         }
-        if ( $previous->getSystemFields( )->isCurrentRecord( ) ) {
+        if ( $previous->isCurrentRecord( ) ) {
             throw new LogicException ( 'Er kan enkel geupate worden naar oude versies! ');
         }
     }

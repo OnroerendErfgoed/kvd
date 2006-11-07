@@ -53,12 +53,6 @@ class KVDdom_SystemFields {
     private $gecontroleerd;
 
     /**
-     * Is dit de meest recente versie van die object?
-     * @var boolean
-     */
-    private $currentRecord;
-
-    /**
      * locked 
      * 
      * @since 31 okt 2006
@@ -69,18 +63,16 @@ class KVDdom_SystemFields {
     /**
      * Maak het object aan. Enkel het gebruikersobject is verreist. De andere velden kunnen worden opgevuld met standaardwaarden.
      * @param string $gebruikersNaam Naam van de gebruiker.
-     * @param boolean $currentRecord Gaat het om de meest recente versie van een record of niet?
      * @param integer $versie Huidige versie van het record.
      * @param integer $bewerktOp Wanneer werd deze versie van het record aangemaakt ( een timestamp dus) ?
      * @param boolean $gecontroleerd Werd het record al gecontroleerd?
      */ 
-    public function __construct ( $gebruikersNaam, $currentRecord = true, $versie = 0, $bewerktOp = null, $gecontroleerd = false)
+    public function __construct ( $gebruikersNaam, $versie = 0, $bewerktOp = null, $gecontroleerd = false)
     {
         if ($bewerktOp == null) {
             $bewerktOp = time( );
         }
         $this->gebruikersNaam = $gebruikersNaam;
-        $this->currentRecord = $currentRecord;
         $this->versie = $this->targetVersie = $versie;
         $this->bewerktOp = date(KVDdom_DomainObject::DATETIME_FORMAT , $bewerktOp );
         $this->gecontroleerd = $gecontroleerd;
@@ -152,14 +144,6 @@ class KVDdom_SystemFields {
     public function getGecontroleerd()
     {
         return $this->gecontroleerd;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isCurrentRecord()
-    {
-        return $this->currentRecord; 
     }
 
     /**

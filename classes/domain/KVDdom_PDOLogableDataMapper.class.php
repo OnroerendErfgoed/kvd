@@ -298,7 +298,7 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDODataMapper
                 // Er is helemaal niets van dit type met deze id in de databank.
                 throw $e;
             }
-            $systemFields = new KVDdom_SystemFields( 'ongekend', false, $laatsteVersie->getSystemFields( )->getVersie( ) );
+            $systemFields = new KVDdom_SystemFields( 'ongekend', $laatsteVersie->getSystemFields( )->getVersie( ) );
             $domainObject = $this->createDeleted( $id, $systemFields );
         }
         return $domainObject;

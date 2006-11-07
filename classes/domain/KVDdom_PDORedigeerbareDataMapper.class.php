@@ -72,11 +72,10 @@ abstract class KVDdom_PDORedigeerbareDataMapper extends KVDdom_PDOLogableDataMap
      * Laad een SystemFields object op basis van een ResultSet
      *
      * @param StdClass $row Een StdClass object dat door PDO wordt afgeleverd via fetchRow. Dit object moet de nodige velden bevatten om een Systemfields object mee samen te kunnen stellen.
-     * @param boolean $currentRecord Moet het object geladen worden alsof het de meest recente versie van het record is?
      * @param string $prefix Moet er voor zorgen dat bij een join van 2+ tabellen er 2+ systemfields objecten geladen kunnen worden. Standaard wordt er van uitgegaan dat er geen prefix nodig is.
      * @return KVDdom_SystemFields
      */
-    public function doLoadSystemFields( $row , $currentRecord = true , $prefix = null)
+    public function doLoadSystemFields( $row , $prefix = null)
     {
         if ($prefix !== null) {
             $prefix = $prefix . '_';
@@ -86,7 +85,6 @@ abstract class KVDdom_PDORedigeerbareDataMapper extends KVDdom_PDOLogableDataMap
         $bewerktOp = $prefix . 'bewerkt_op';
         $gecontroleerd = $prefix . 'gecontroleerd';
         return new KVDdom_SystemFields (    $row->$gebruiker,
-                                            $currentRecord,
                                             $row->$versie ,
                                             strtotime( $row->$bewerktOp ),
                                             $row->$gecontroleerd
