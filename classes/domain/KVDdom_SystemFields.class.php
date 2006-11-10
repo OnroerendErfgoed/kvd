@@ -155,5 +155,10 @@ class KVDdom_SystemFields {
     {
         $this->gecontroleerd = true;
     }
+
+    public static function newNull( )
+    {
+        return new KVDdom_SystemFields( 'anoniem' );
+    }
 }
 ?>

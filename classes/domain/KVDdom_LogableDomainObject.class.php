@@ -126,11 +126,6 @@ abstract class KVDdom_LogableDomainObject extends KVDdom_ChangeableDomainObject 
     }
 
     /**
-     * @param KVDdom_LogableDomainObject
-     */
-    abstract public function updateToPreviousVersion ( $previous );
-
-    /**
      * Controleer of het mogelijk is het huidige DomainObject te updaten naar de vorige versie.
      * @param KVDdom_LogableDomainObject
      */

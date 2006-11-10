@@ -28,5 +28,14 @@ interface KVDdom_Redigeerbaar
      */
     public function verwijderGeschiedenis( );
 
+    /**
+     * updateToPreviousVersion 
+     * 
+     * Stel het huidige object opnieuw in met de waarden van een vorig object
+     * @since 09 nov 2006 Zat vroeger op het LogableDomainObject
+     * @return void
+     */
+    public function updateToPreviousVersion( $previous );
+
 }
 ?>
