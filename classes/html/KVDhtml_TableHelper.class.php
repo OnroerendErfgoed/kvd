@@ -310,19 +310,19 @@ class KVDhtml_TableHelper {
         if (isset($this->caption)) {
             $header .= " <caption>{$this->caption}</caption>\n";
         }
-        if (isset( $this->title ) || ( isset($this->headers) && $this->lijst)) {
+        if (isset( $this->title ) || ( $this->lijst && count( $this->headers ) > 0 ) ) {
             $header .= " <thead{$this->cssClasses['THead']}>\n";
             if ( isset( $this->title ) ) {
                 $colspan = $this->lijst ? $this->numCols : $this->numCols + 1;
                 $header .="  <tr>\n   <th{$this->cssClasses['TTitel']} colspan=\"$colspan\">{$this->title}</th>\n  </tr>";
             }
-            $header .= "  <tr>\n";
-            if ( $this->lijst ) {
+            if ( $this->lijst && count( $this->headers ) > 0 ) {
+                $header .= "  <tr>\n";
                 foreach ($this->headers as $colheader) {
                     $header .= "   <th{$this->cssClasses['TH']} scope=\"col\">$colheader</th>\n";
                 }
+                $header .= "  </tr>\n </thead>\n";
             }
-            $header .= "  </tr>\n </thead>\n";
         }
         return $header;
     }
@@ -334,7 +334,7 @@ class KVDhtml_TableHelper {
      * @return string 
      */
     protected function toHtmlBody() {
-        if (!isset($this->rows)) {
+        if (!isset($this->rows) || count( $this->rows) == 0 ) {
             return '';
         }
         $body = " <tbody{$this->cssClasses['TBody']}>\n";
@@ -387,6 +387,7 @@ class KVDhtml_TableHelper {
     /**
      * Genereer een Html voorstelling van de tabel.
      * 
+     * Indien er geen data werd toegevoegd zal een lege string worden teruggegeven.
      * @return string
      */
     public function toHtml() {
