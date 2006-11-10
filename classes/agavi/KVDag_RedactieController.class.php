@@ -29,54 +29,43 @@ class KVDag_RedactieController
     private $forwardAction;
 
     /**
-     * @var KVDdom_LogableDataMapper
+     * @var KVDdom_PDOLogableDataMapper
      */
     private $mapper;
 
     /**
      * @param string $subAction
-     * @param KVDdom_LogableDataMapper
-     * @throws <b>InvalidArgumentException</b> Indien de mapper geen object is.
+     * @param KVDdom_PDOLogableDataMapper
      */
-    public function __construct ( $subAction , $mapper)
+    public function __construct ( $subAction , KVDdom_PDOLogableDataMapper $mapper)
     {
         $this->subAction = $subAction;
         
-        if ( !is_object( $mapper ) ) {
-            throw new InvalidArgumentException ( 'De mapper moet een object zijn.' );
-        }
-    
         $this->mapper = $mapper;
 
     }
 
     /**
-     * @var Request Het Request object in Agavi.
-     * @var KVDdom_LogableDomainObject Het object dat geredigeerd wordt.
+     * @param Request Het Request object in Agavi.
+     * @param KVDdom_Redigeerbaar Het object dat geredigeerd wordt.
      * @throws <b>InvalidArgumentException</b> Indien er om een niet bestaande redactie gevraagd wordt.
+     * @throws <b>KVDag_RedactieException</b> Indien de redactie niet kan doorgevoerd worden.
      */
     public function execute( $req, $domainObject)
     {
         if ( !$req->hasParameter( 'redactie') ) {
             throw new InvalidArgumentException ( 'Er is geen redactie gespecifieerd' );
         }
+        $this->forwardAction = $this->subAction . '.Tonen';
         switch ( $req->getParameter( 'redactie' ) ) {
             case 'goedkeuren':
-                $domainObject->approve( );
-                $this->forwardAction = $this->subAction . '.Tonen';
+                $this->approve( $domainObject );
                 break;
             case 'versieTerugzetten':
-                $versie = $this->mapper->findByLogId(  $domainObject->getId( ) , ( int) $req->getParameter(  'versie') );
-                $domainObject->updateToPreviousVersion (  $versie );
-                $this->forwardAction = $this->subAction . '.Tonen';
+                $this->versieTerugzetten( $domainObject , ( int ) $req->getParameter( 'versie' ) );
                 break;
             case 'verwijderenGeschiedenis':
-                $domainObject->verwijderGeschiedenis(  );
-                if ( $domainObject->isNull(  ) ) {
-                    $this->forwardAction = 'RedactieOverzicht';
-                } else {
-                    $this->forwardAction = $this->subaction . '.Tonen';
-                }
+                $this->verwijderGeschiedenis( $domainObject );
                 break;
             default:
                 throw new InvalidArgumentException ( 'U probeert een redactie actie ' . $req->getParameter( 'redactie') . ' uit te voeren die niet bestaat.' );
@@ -84,11 +73,71 @@ class KVDag_RedactieController
     }
 
     /**
-     * @return array De naam van de actie die uitgevoerd moeten worden.
+     * approve 
+     * 
+     * @param KVDdom_Redigeerbaar $domainObject 
+     * @return void
+     */
+    protected function approve( $domainObject )
+    {
+        $domainObject->approve( );
+    }
+
+    /**
+     * versieTerugzetten 
+     * 
+     * @param KVDdom_Redigeerbaar $domainObject 
+     * @param integer $versie 
+     * @return void
+     */
+    protected function versieTerugzetten( $domainObject , $versie )
+    {
+        try {
+            $versie = $this->mapper->findByLogId(  $domainObject->getId( ) , $versie );
+        } catch ( KVDdom_DomainObjectNotFoundException $e ) {
+            throw new KVDag_RedactieException ( 'U probeert een niet bestaande versie(' . $versie . ') terug te zetten.');    
+        }
+        try {
+            $domainObject->updateToPreviousVersion (  $versie );
+        } catch ( Exception $e ) {
+            throw new KVDag_RedactieException ( 'Onmogelijk om een domainObject te updaten naar de vorige versie (' . $versie . ').');    
+        }
+    }
+
+    /**
+     * verwijderGeschiedenis 
+     * 
+     * @param KVDdom_Redigeerbaar $domainObject 
+     * @return void
+     */
+    protected function verwijderGeschiedenis( $domainObject )
+    {
+        $domainObject->verwijderGeschiedenis( );
+        if ( $domainObject->isNull(  ) ) {
+            $this->forwardAction = 'RedactieOverzicht';
+        }
+    }
+
+    /**
+     * @return string De naam van de actie die uitgevoerd moeten worden.
      */
     public function getActionNaam( )
     {
         return $this->forwardAction;
     }
+}
+
+/**
+ * KVDag_RedactieException 
+ * 
+ * @package KVD.Ag
+ * @since 10 nov 2006
+ * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
+class KVDag_RedactieException extends Exception
+{
+    
 }
 ?>
