@@ -23,6 +23,7 @@ require_once ( KVD_CLASSES_DIR . 'gis/crab/KVDgis_CrabCache.class.php');
 require_once ( KVD_CLASSES_DIR . 'gis/crab/KVDgis_NullCrabCache.class.php');
 require_once ( KVD_CLASSES_DIR . 'util/KVDutil_HuisnummerLabelSplitter.class.php');
 require_once ( KVD_CLASSES_DIR . 'util/KVDutil_WachtwoordGenerator.class.php');
+require_once ( KVD_CLASSES_DIR . 'util/KVDutil_PDOTransaction.class.php');
 
 
 //require_once ( 'util/KVDutil_DimensieConvertor.test.php');
@@ -36,6 +37,7 @@ $test->addTestFile( KVD_TESTS_DIR . 'util/KVDutil_GatewayFactory.test.php');
 $test->addTestFile( KVD_TESTS_DIR . 'util/KVDutil_GatewayRegistry.test.php');
 $test->addTestFile( KVD_TESTS_DIR . 'util/KVDutil_HuisnummerLabelSplitter.test.php');
 $test->addTestFile( KVD_TESTS_DIR . 'util/KVDutil_WachtwoordGenerator.test.php');
+$test->addTestFile( KVD_TESTS_DIR . 'util/KVDutil_PDOTransaction.test.php' );
 $test->run(new TextReporter());
 
 ?>
