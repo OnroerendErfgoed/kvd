@@ -97,7 +97,6 @@ abstract class KVDdom_PDODataMapper {
      */
     protected function abstractFindById ( $returnType , $id )
     {
-        $id = ( int ) $id;
         $domainObject = $this->_sessie->getIdentityMap()->getDomainObject( $returnType , $id);
         if ($domainObject != null) {
             return $domainObject;
