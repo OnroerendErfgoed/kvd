@@ -93,12 +93,12 @@ class KVDag_RedactieController
     protected function versieTerugzetten( $domainObject , $versie )
     {
         try {
-            $versie = $this->mapper->findByLogId(  $domainObject->getId( ) , $versie );
+            $previous = $this->mapper->findByLogId(  $domainObject->getId( ) , $versie );
         } catch ( KVDdom_DomainObjectNotFoundException $e ) {
             throw new KVDag_RedactieException ( 'U probeert een niet bestaande versie(' . $versie . ') terug te zetten.');    
         }
         try {
-            $domainObject->updateToPreviousVersion (  $versie );
+            $domainObject->updateToPreviousVersion (  $previous );
         } catch ( Exception $e ) {
             throw new KVDag_RedactieException ( 'Onmogelijk om een domainObject te updaten naar de vorige versie (' . $versie . ').');    
         }
