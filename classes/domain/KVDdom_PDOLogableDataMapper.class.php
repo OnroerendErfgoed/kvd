@@ -246,7 +246,7 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDODataMapper
             $this->doSetUpdateWhere( $stmt , $domainObject->getId( ) , $currentVersie , 1 );
             $stmt->execute( );
             if ( $stmt->rowCount( )  === 0 ) {
-                $message = 'Het object dat u probeert te verwijderen is gewijzigd sinds u het geopend hebt.';
+                $message = 'Het object dat u probeert te verwijderen is gewijzigd sinds u het geopend hebt. U hebt geprobeerd om versie ' . $currentVersie . ' te verwijderen.';
                 throw new KVDdom_ConcurrencyException ($message,$domainObject);
             }
             $this->_conn->commit( );

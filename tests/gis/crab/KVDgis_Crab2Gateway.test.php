@@ -186,5 +186,13 @@ class TestOfCrab2Gateway extends UnitTestCase
         $this->assertNotNull( $terreinobject['aardTerreinobjectCode']);
     }
 
+    public function getHuisnummerWithSubAdresByHuisnummer( )
+    {
+       $huisnummer = $this->getGateway( )->getHuisnummerByHuisnummer( '111_1' , 1568 );
+       $this->assertIsA( $huisnummer[''] , 'array' );
+       $this->assertEqual( $huisnummer['huisnummer'] , '111_1' );
+       $this->assertEqual( $huisnummer['straatnaamId'] , 1568 );
+    }
+
 }
 ?>

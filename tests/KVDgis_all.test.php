@@ -40,7 +40,7 @@ $test = new GroupTest('KVDgis_AllTests');
 //$test->addTestCase( new TestOfMsMapAjaxHandler());
 $test->addTestCase( new TestOfGeomPoint());
 $test->addTestCase( new TestOfGeomMultiPoint());
-$test->addTestCase( new TestOfCrab1Gateway( ) );
+//$test->addTestCase( new TestOfCrab1Gateway( ) );
 $test->addTestCase( new TestOfCrab2Gateway( ) );
 $test->addTestCase( new TestofCrabCache( ) );
 $test->addTestCase( new TestofNullCrabCache( ) );

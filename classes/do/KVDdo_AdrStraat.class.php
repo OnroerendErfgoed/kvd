@@ -95,7 +95,7 @@ class KVDdo_AdrStraat extends KVDdom_ReadonlyDomainObject {
      */
     public function getOmschrijving( )
     {
-        return $this->label;
+        return $this->naam;
     }
 
     /**

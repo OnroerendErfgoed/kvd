@@ -13,12 +13,13 @@ class TestOfGatewayRegistry extends UnitTestCase
     {
         Mock::generate('KVDutil_GatewayFactory');
         $this->_factory = new MockKVDutil_GatewayFactory( $this );
-        $parameters = array (  'wsdl' => 'http://webservices.gisvlaanderen.be/crab/wscrab.asmx?WSDL',
-                               'username' => 'test',
-                               'password' => 'test');
-        $this->_gateway = new KVDgis_Crab1Gateway ( $parameters );
-        $this->_factory->setReturnReference( 'createGateway' , $this->_gateway , array ( 'KVDgis_Crab1Gateway' ) );
-        $this->_factory->expectOnce( 'createGateway' , array( 'KVDgis_Crab1Gateway' ) );
+
+        $parameters = array (   'wsdl' => 'http://ws.agiv.be/crabws/nodataset.asmx?WSDL',
+                                'username' => 'test',
+                                'password' => 'test');
+        $this->_gateway = new KVDgis_Crab2Gateway ( $parameters );
+        $this->_factory->setReturnReference( 'createGateway' , $this->_gateway , array ( 'KVDgis_Crab2Gateway' ) );
+        $this->_factory->expectOnce( 'createGateway' , array( 'KVDgis_Crab2Gateway' ) );
         $this->_registry = new KVDutil_GatewayRegistry ( $this->_factory );
         
     }
@@ -33,8 +34,8 @@ class TestOfGatewayRegistry extends UnitTestCase
     }
     function testGetGateway()
     {
-        $this->assertReference ($this->_registry->getGateway( 'KVDgis_Crab1Gateway') , $this->_gateway );
-        $this->assertReference ($this->_registry->getGateway( 'KVDgis_Crab1Gateway') , $this->_gateway );
+        $this->assertReference ($this->_registry->getGateway( 'KVDgis_Crab2Gateway') , $this->_gateway );
+        $this->assertReference ($this->_registry->getGateway( 'KVDgis_Crab2Gateway') , $this->_gateway );
     }
 
 }

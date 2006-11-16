@@ -8,6 +8,9 @@ require_once('simpletest/mock_objects.php');
 define ( 'KVD_CLASSES_DIR' , '/data/projects/kvd/kvd/classes/');
 define ( 'KVD_TESTS_DIR' , '/data/projects/kvd/kvd/tests/');
 
+define ( 'CRABUSER' , 'VIOE' );
+define ( 'CRABPWD' , 'GISTLIBE' );
+
 require_once ( KVD_CLASSES_DIR . 'util/KVDutil_DimensieConvertor.class.php');
 require_once ( KVD_CLASSES_DIR . 'util/KVDutil_Dimensie.class.php');
 require_once ( KVD_CLASSES_DIR . 'util/KVDutil_DimensieNaamAfkorting.class.php');
@@ -18,7 +21,7 @@ require_once ( KVD_CLASSES_DIR . 'util/Gateway/KVDutil_Gateway.interface.php');
 require_once ( KVD_CLASSES_DIR . 'util/Gateway/KVDutil_GatewayFactory.class.php');
 require_once ( KVD_CLASSES_DIR . 'util/Gateway/KVDutil_GatewayRegistry.class.php');
 require_once ( KVD_CLASSES_DIR . 'util/Gateway/KVDutil_GatewayUnavailableException.class.php');
-require_once ( KVD_CLASSES_DIR . 'gis/crab/KVDgis_Crab1Gateway.class.php');
+require_once ( KVD_CLASSES_DIR . 'gis/crab/KVDgis_Crab2Gateway.class.php');
 require_once ( KVD_CLASSES_DIR . 'gis/crab/KVDgis_CrabCache.class.php');
 require_once ( KVD_CLASSES_DIR . 'gis/crab/KVDgis_NullCrabCache.class.php');
 require_once ( KVD_CLASSES_DIR . 'util/KVDutil_HuisnummerLabelSplitter.class.php');

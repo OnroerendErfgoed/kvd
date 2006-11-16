@@ -123,13 +123,7 @@ class KVDdom_Sessie {
         $this->gebruikerClass = $config['gebruikerClass'];
         $this->_mapperRegistry = new KVDdom_MapperRegistry( new KVDdom_MapperFactory( $this , $config['dataMapperDirs'] ) );
         
-        $this->_newObjects = new KVDdom_GenericIdentityMap();
-        $this->_dirtyObjects = new KVDdom_GenericIdentityMap();
-        $this->_removedObjects = new KVDdom_GenericIdentityMap();
-        $this->_approvedObjects = new KVDdom_GenericIdentityMap();
-        $this->_historyClearedObjects = new KVDdom_GenericIdentityMap();
-        
-        $this->_identityMap = new KVDdom_GenericIdentityMap();
+        $this->initIdentityMaps( );
 
         $this->_databaseManager = $databaseManager;
 
@@ -401,6 +395,24 @@ class KVDdom_Sessie {
             throw new KVDdom_IncompleteSessieCommitException ( 'Het verwerken van de sessie is niet compleet.', $mapperFunction, count( $identityMap ) );
         }
         return $count;
+    }
+
+    /**
+     * initIdentityMaps 
+     * 
+     * Stel de verschillende Identity Maps in.
+     * @since 16 nov 2006
+     * @return void
+     */
+    private function initIdentityMaps( )
+    {
+        $this->_identityMap = new KVDdom_GenericIdentityMap();
+        
+        $this->_newObjects = new KVDdom_GenericIdentityMap();
+        $this->_dirtyObjects = new KVDdom_GenericIdentityMap();
+        $this->_removedObjects = new KVDdom_GenericIdentityMap();
+        $this->_approvedObjects = new KVDdom_GenericIdentityMap();
+        $this->_historyClearedObjects = new KVDdom_GenericIdentityMap();
     }
 
     /**

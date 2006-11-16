@@ -44,6 +44,15 @@ class TestOfHuisnummerLabelSplitter extends UnitTestCase
         $this->assertIdentical ( $huisnummers[0], '25/1' );
     }
 
+    public function testSplitHuisnummerMetCijferBisnummerGescheidenDoorUnderscore( )
+    {
+        $label = '111_1';
+        $huisnummers = $this->splitter->split( $label );
+        $this->assertIsA( $huisnummers, 'array' );
+        $this->assertEqual ( count( $huisnummers ) , 1);
+        $this->assertIdentical ( $huisnummers[0], '111_1' );
+    }
+
     public function testSplitNummerMetBusnummer( )
     {
         $label = '25 bus 3';
@@ -228,6 +237,7 @@ class TestOfHuisnummerLabelSplitter extends UnitTestCase
         $this->assertIdentical ( $huisnummers[2], '5' );
         $this->assertIdentical ( $huisnummers[3], '7' );
     }
+
 }
 
 ?>

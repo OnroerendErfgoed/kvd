@@ -6,9 +6,10 @@ class TestOfMapperFactory extends UnitTestCase
 
     function setUp( )
     {
-        $config = array ( 'KVDgis_Crab1Gateway' =>  array ( 'wsdl' => 'http://webservices.gisvlaanderen.be/crab/wscrab.asmx?WSDL',
-                                                            'username' => 'VIOE',
-                                                            'password' => 'GISTLIBE'
+
+        $config = array ( 'KVDgis_Crab2Gateway' => array (  'wsdl' => 'http://ws.agiv.be/crabws/nodataset.asmx?WSDL',
+                                                            'username' => CRABUSER,
+                                                            'password' => CRABPWD
                                                             )
                         );
         $this->_gatewayFactory = new KVDutil_GatewayFactory ( $config );
@@ -32,7 +33,7 @@ class TestOfMapperFactory extends UnitTestCase
 
     function testExisting()
     {
-        $gateway = $this->_gatewayFactory->createGateway ( 'KVDgis_Crab1Gateway' );
+        $gateway = $this->_gatewayFactory->createGateway ( 'KVDgis_Crab2Gateway' );
         $this->assertNotNull ( $gateway );
         $this->assertIsA ( $gateway, 'KVDutil_Gateway');
     }
