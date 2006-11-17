@@ -10,7 +10,10 @@
 /**
  * KVDgis_Crab2Gateway
  *
- * Een Gateway om te connecteren met crab2. Heeft bijna identiek dezelfde API als {@link KVDgis_Crab1Gateway}.
+ * Een Gateway om te connecteren met crab2. Heeft bijna identiek dezelfde API als {@link KVDgis_Crab1Gateway}. De Crab1 gateway wordt echter niet meer onderhouden.
+ * Gelieve er rekening mee te houden dat alle strings die door Crab2 worden teruggegeven in UTF-8 zijn. 
+ * Zorg er dus voor dat html pagina's die deze data weergeven ook in UTF-8 zijn of converteer de strings eerst naar latin1 via utf8_decode. 
+ * Alles weergeven in UTF-8 geniet de voorkeur omdat er ander onaangename neveneffecten kunnen ontstaan bij het heen-en-weer encoderen/decoderen.
  * @package KVD.gis.crab
  * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  * @since 29 sep 2006
@@ -187,7 +190,6 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
     
         try {
             $this->_client = @new SoapClient ( $parameters['wsdl'] , array ( 'exceptions'    => 1,
-                                                                            'encoding'      => 'ISO-8859-1',
                                                                             'features'      => SOAP_SINGLE_ELEMENT_ARRAYS,
                                                                             'trace'         => 0
                                                                            ));
