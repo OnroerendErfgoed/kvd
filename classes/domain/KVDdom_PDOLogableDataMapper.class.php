@@ -196,6 +196,7 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDODataMapper
      */
     protected function doInsert( $stmt , $domainObject )
     {
+            $domainObject->getSystemFields( )->updateSystemFields( $this->_sessie->getGebruiker( )->getGebruikersNaam( ) );
             $stmt->bindValue ( 1 , $domainObject->getId( ) , PDO::PARAM_INT );
             $lastIndex = $this->bindValues ( $stmt , 2 , $domainObject );    
             return $this->doSetSystemFields( $stmt , $domainObject , $lastIndex );
