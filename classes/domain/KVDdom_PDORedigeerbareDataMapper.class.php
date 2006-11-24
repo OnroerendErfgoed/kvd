@@ -25,7 +25,7 @@ abstract class KVDdom_PDORedigeerbareDataMapper extends KVDdom_PDOLogableDataMap
      * 
      * @var string
      */
-    protected $sfvelden = "gebruiker, bewerkt_op, versie, gecontroleerd";
+    protected $sfvelden = "gebruiker, bewerkt_op, versie, gecontroleerd, gecontroleerd_door, gecontroleerd_op";
 
     /**
      * @return string Een SQL statement om een record goed te keuren. De parameter id moet nog ingevuld worden.
@@ -33,7 +33,7 @@ abstract class KVDdom_PDORedigeerbareDataMapper extends KVDdom_PDOLogableDataMap
     protected function getApproveRecordStatement( )
     {
         return  "UPDATE " . $this->tabel . 
-                " SET gecontroleerd = true" .
+                " SET gecontroleerd = true, gecontroleerd_door = ?, gecontroleerd_op = ?" .
                 " WHERE " . $this->id . " = ?";
     }
 
@@ -43,7 +43,7 @@ abstract class KVDdom_PDORedigeerbareDataMapper extends KVDdom_PDOLogableDataMap
     protected function getApproveLogRecordsStatement( )
     {
         return  "UPDATE " . $this->logtabel . 
-                " SET gecontroleerd = true" .
+                " SET gecontroleerd = true, gecontroleerd_door = ?, gecontroleerd_op = ?" .
                 " WHERE log_" . $this->id . " = ?";
     }
 
@@ -84,10 +84,14 @@ abstract class KVDdom_PDORedigeerbareDataMapper extends KVDdom_PDOLogableDataMap
         $versie = $prefix . 'versie';
         $bewerktOp = $prefix . 'bewerkt_op';
         $gecontroleerd = $prefix . 'gecontroleerd';
+        $gecontroleerdDoor = $prefix . 'gecontroleerd_door';
+        $gecontroleerdOp = $prefix . 'gecontroleerd_op';
         return new KVDdom_SystemFields (    $row->$gebruiker,
                                             $row->$versie ,
                                             strtotime( $row->$bewerktOp ),
-                                            $row->$gecontroleerd
+                                            $row->$gecontroleerd,
+                                            $row->$gecontroleerdDoor,
+                                            strtotime( $row->$gecontroleerdOp )
                                         );
     }
      
@@ -106,6 +110,8 @@ abstract class KVDdom_PDORedigeerbareDataMapper extends KVDdom_PDOLogableDataMap
         $stmt->bindValue( $startIndex++ , $systemFields->getBewerktOp( ) , PDO::PARAM_STR );
         $stmt->bindValue( $startIndex++ , $systemFields->getTargetVersie( ) , PDO::PARAM_INT );
         $stmt->bindValue( $startIndex++ , $systemFields->getGecontroleerd( ) , PDO::PARAM_BOOL );
+        $stmt->bindValue( $startIndex++ , $systemFields->getGecontroleerdDoor( ) , PDO::PARAM_STR );
+        $stmt->bindValue( $startIndex++ , $systemFields->getGecontroleerdOp( ) , PDO::PARAM_STR );
         return $startIndex;
     }
         
@@ -138,14 +144,18 @@ abstract class KVDdom_PDORedigeerbareDataMapper extends KVDdom_PDOLogableDataMap
     public function approve ( $domainObject )
     {
         $stmt = $this->_conn->prepare ( $this->getApproveRecordStatement( ) );
-        $stmt->bindValue(1, $domainObject->getId( ) , PDO::PARAM_INT );
+        $stmt->bindValue(1, $domainObject->getSystemFields( )->getGecontroleerdDoor( ) , PDO::PARAM_STR );
+        $stmt->bindValue(2, $domainObject->getSystemFields( )->getGecontroleerdOp( ) , PDO::PARAM_STR );
+        $stmt->bindValue(3, $domainObject->getId( ) , PDO::PARAM_INT );
         try {
             $stmt->execute( );
         } catch ( PDOException $e) {
             throw new Exception ( 'Het record kan niet goedgekeurd worden omwille van een SQL probleem: ' . $e->getMessage( ) );
         }
         $stmt = $this->_conn->prepare (  $this->getApproveLogRecordsStatement( ) );
-        $stmt->bindValue( 1, $domainObject->getId( ), PDO::PARAM_INT );
+        $stmt->bindValue( 1, $domainObject->getSystemFields( )->getGecontroleerdDoor( ) , PDO::PARAM_STR );
+        $stmt->bindValue( 2, $domainObject->getSystemFields( )->getGecontroleerdOp( ) , PDO::PARAM_STR );
+        $stmt->bindValue( 3, $domainObject->getId( ), PDO::PARAM_INT );
         try {
             $stmt->execute( );
         } catch (PDOException $e) {

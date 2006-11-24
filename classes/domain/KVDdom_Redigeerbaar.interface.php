@@ -20,8 +20,9 @@ interface KVDdom_Redigeerbaar
 {
    /**
      * Keur het domeinobject goed.
+     * @param string $approver Naam van de redacteur die zijn goedkeuring geeft.
      */
-    public function approve( );
+    public function approve( $approver );
 
     /**
      * Verwijder de geschiedenis van het object

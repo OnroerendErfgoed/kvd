@@ -141,7 +141,7 @@ class KVDag_SingleRecordToHtml {
         $recordUpdater = $systemFields->getGebruikersNaam( );
         $recordUpdateDatum = $systemFields->getBewerktOp();
         $recordVersie = $systemFields->getVersie();
-        $recordGecontroleerd = $systemFields->getGecontroleerd() ? 'Goedgekeurd' : 'Nog niet gecontroleerd';
+        $recordGecontroleerd = $systemFields->getGecontroleerd() ? 'Goedgekeurd door ' . $systemFields->getGecontroleerdDoor( ) : 'Nog niet gecontroleerd';
         $recordSystemFields = "Laatste wijziging door $recordUpdater op $recordUpdateDatum.<br />Versie $recordVersie. $recordGecontroleerd.";
         $this->_htmlTableHelper->setFooter ( $recordSystemFields );
     }

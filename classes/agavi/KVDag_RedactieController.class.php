@@ -34,14 +34,23 @@ class KVDag_RedactieController
     private $mapper;
 
     /**
+     * redacteur 
+     * 
+     * @var string
+     */
+    private $redacteur;
+
+    /**
      * @param string $subAction
      * @param KVDdom_PDOLogableDataMapper
      */
-    public function __construct ( $subAction , KVDdom_PDOLogableDataMapper $mapper)
+    public function __construct ( $subAction , KVDdom_PDOLogableDataMapper $mapper, $redacteur )
     {
         $this->subAction = $subAction;
         
         $this->mapper = $mapper;
+
+        $this->redacteur = $redacteur;
 
     }
 
@@ -80,7 +89,7 @@ class KVDag_RedactieController
      */
     protected function approve( $domainObject )
     {
-        $domainObject->approve( );
+        $domainObject->approve( $this->redacteur );
     }
 
     /**

@@ -301,16 +301,30 @@ class KVDag_DomainObjectToHtml {
             $recordSystemFields = '<span class="verwijderd">Verwijderd record</span>';
         } else {
             $systemFields = $domainObject->getSystemFields( );
-            $recordUpdater = $this->getUpdaterLink( $systemFields->getGebruikersNaam( ) );
+            $recordUpdater = $this->getToonGebruikerLink( $systemFields->getGebruikersNaam( ) );
             $recordUpdateDatum = $systemFields->getBewerktOp();
             $recordVersie = $systemFields->getVersie();
-            $recordGecontroleerd = $systemFields->getGecontroleerd() ? 'Gecontroleerd' : 'Nog niet gecontroleerd';
+            $recordGecontroleerd = $this->getGecontroleerdString( $systemFields );
             $recordSystemFields = "Laatste wijziging door $recordUpdater op $recordUpdateDatum<br />Versie $recordVersie - $recordGecontroleerd";
         }
         $this->_htmlTableHelper->setFooter ( $recordSystemFields );
     }
 
-    private function getUpdaterLink( $gebruikersNaam )
+    /**
+     * getGecontroleerdString 
+     * 
+     * @param KVDdom_SystemFields $sytemFields 
+     * @return string
+     */
+    private function getGecontroleerdString( $systemFields )
+    {
+        if ( !$systemFields->getGecontroleerd( ) ) {
+            return 'Nog niet gecontroleerd';
+        }
+        return sprintf( 'Gecontroleerd door %s op %s', $this->getToonGebruikerLink( $systemFields->getGecontroleerdDoor( ) ) , $systemFields->getGecontroleerdOp( ) );
+    }
+
+    private function getToonGebruikerLink( $gebruikersNaam )
     {
         $parameters = array (   AG_MODULE_ACCESSOR =>   'Gebruiker',
                                 AG_ACTION_ACCESSOR =>   'Gebruiker.TonenByGebruikersNaam',

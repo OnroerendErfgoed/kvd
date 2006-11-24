@@ -42,7 +42,7 @@ class KVDdom_SystemFields {
 
     /**
      * Datum waarop de aanpassing werd gedaan.
-     * @var date
+     * @var string
      */
     private $bewerktOp;
     
@@ -51,6 +51,21 @@ class KVDdom_SystemFields {
      * @var boolean
      */
     private $gecontroleerd;
+
+    /**
+     * gecontroleerdDoor 
+     * 
+     * @var string Een gebruikersnaam zoals ze voorkomt in de databank.
+     */
+    private $gecontroleerdDoor;
+
+    /**
+     * gecontroleerdOp 
+     * 
+     * Datum waarop het record gecontroleerd werd.
+     * @var string
+     */
+    private $gecontroleerdOp;
 
     /**
      * locked 
@@ -66,8 +81,10 @@ class KVDdom_SystemFields {
      * @param integer $versie Huidige versie van het record.
      * @param integer $bewerktOp Wanneer werd deze versie van het record aangemaakt ( een timestamp dus) ?
      * @param boolean $gecontroleerd Werd het record al gecontroleerd?
+     * @param string $gecontroleerdDoor Door wie werd het record gecontroleerd?
+     * @param string $gecontroleerdOp Wanneer werd het record gecontroleerd?
      */ 
-    public function __construct ( $gebruikersNaam, $versie = 0, $bewerktOp = null, $gecontroleerd = false)
+    public function __construct ( $gebruikersNaam, $versie = 0, $bewerktOp = null, $gecontroleerd = false, $gecontroleerdDoor = null, $gecontroleerdOp = null)
     {
         if ($bewerktOp == null) {
             $bewerktOp = time( );
@@ -76,6 +93,8 @@ class KVDdom_SystemFields {
         $this->versie = $this->targetVersie = $versie;
         $this->bewerktOp = date(KVDdom_DomainObject::DATETIME_FORMAT , $bewerktOp );
         $this->gecontroleerd = $gecontroleerd;
+        $this->gecontroleerdDoor = $gecontroleerdDoor;
+        $this->gecontroleerdOp = is_null( $gecontroleerdOp ) ? null : date( KVDdom_DomainObject::DATETIME_FORMAT , $gecontroleerdOp );
         $this->locked = false;
     }
 
@@ -97,6 +116,8 @@ class KVDdom_SystemFields {
             $this->targetVersie++;
             $this->bewerktOp = date(KVDdom_DomainObject::DATETIME_FORMAT , time());
             $this->gecontroleerd = false;
+            $this->gecontroleerdDoor = null;
+            $this->gecontroleerdOp = null;
             $this->locked = true;
         }
     }
@@ -147,13 +168,39 @@ class KVDdom_SystemFields {
     }
 
     /**
+     * getGecontroleerdDoor 
+     * 
+     * @return string
+     */
+    public function getGecontroleerdDoor( )
+    {
+        return $this->gecontroleerdDoor;
+    }
+
+    /**
+     * getGecontroleerdOp 
+     * 
+     * @return string Een datum string
+     */
+    public function getGecontroleerdOp( )
+    {
+        return $this->gecontroleerdOp;
+    }
+
+    /**
      * setApproved 
      * 
+     * @param string $gebruikersNaam Naam van de gebruiker die de controle uitvoerde
      * @return void
      */
-    public function setApproved( )
+    public function setApproved( $gebruikersNaam )
     {
+        if ( $this->gecontroleerd || !is_null( $this->gecontroleerdDoor ) ) {
+            throw new LogicException ( 'U probeert een record goed te keuren dat al goedgekeurd is!');
+        }
         $this->gecontroleerd = true;
+        $this->gecontroleerdDoor = $gebruikersNaam;
+        $this->gecontroleerdOp = date(KVDdom_DomainObject::DATETIME_FORMAT , time());
     }
 
     public static function newNull( )
