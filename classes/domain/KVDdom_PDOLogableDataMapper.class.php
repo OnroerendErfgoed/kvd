@@ -239,24 +239,14 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDODataMapper
      */
     public function delete ( $domainObject )
     {
-        try {
-            $currentVersie = $domainObject->getSystemFields()->getVersie();
-            $this->_conn->beginTransaction( );
-            $this->LogInsert( $domainObject->getId() );
-            $stmt = $this->_conn->prepare($this->getDeleteStatement());
-            $this->doSetUpdateWhere( $stmt , $domainObject->getId( ) , $currentVersie , 1 );
-            $stmt->execute( );
-            if ( $stmt->rowCount( )  === 0 ) {
-                $message = 'Het object dat u probeert te verwijderen is gewijzigd sinds u het geopend hebt. U hebt geprobeerd om versie ' . $currentVersie . ' te verwijderen.';
-                throw new KVDdom_ConcurrencyException ($message,$domainObject);
-            }
-            $this->_conn->commit( );
-        } catch ( KVDdom_ConcurrencyException $e ) {
-            $this->_conn->rollBack( );
-            throw $e;
-        } catch ( PDOException $e) {
-            $this->_conn->rollBack( );
-            throw $e;
+        $currentVersie = $domainObject->getSystemFields()->getVersie();
+        $this->LogInsert( $domainObject->getId() );
+        $stmt = $this->_conn->prepare($this->getDeleteStatement());
+        $this->doSetUpdateWhere( $stmt , $domainObject->getId( ) , $currentVersie , 1 );
+        $stmt->execute( );
+        if ( $stmt->rowCount( )  === 0 ) {
+            $message = 'Het object dat u probeert te verwijderen is gewijzigd sinds u het geopend hebt. U hebt geprobeerd om versie ' . $currentVersie . ' te verwijderen.';
+            throw new KVDdom_ConcurrencyException ($message,$domainObject);
         }
     }
 
@@ -476,10 +466,7 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDODataMapper
     {
         try {
             $obj = $this->findById( $domainObject->getId( ) );
-            if ( $obj->isVerwijderd( ) ) {
-                return true;
-            }
-            return false;
+            return $obj->isVerwijderd( );
         } catch ( KVDdom_LogDomainObjectNotFoundException $e ) {
             return true;
         }

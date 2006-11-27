@@ -12,7 +12,6 @@
  * @package KVD.dom
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
  * @since 2005
- * @todo Uitzoeken of deze class nog nood heeft aan een ref naar de gebruiker aangezien deze info wschl in het User object zal zitten.
  */
 class KVDdom_Sessie {
 
@@ -20,6 +19,14 @@ class KVDdom_Sessie {
      * @var array
      */
     private $dataMappersConnections;
+
+    /**
+     * transactionConnections 
+     * 
+     * @since 27 nov 2006
+     * @var array
+     */
+    private $transactionConnections;
     
     /**
      * @var array
@@ -81,6 +88,7 @@ class KVDdom_Sessie {
      *      - 'dataMapperDirs' Een array van directories waar de datamappers kunnen gevonden worden.
      *      - 'commitVolgorde' Een array waaruit kan afgeleid worden in welke volgorde DomainObjects naar de databank geschreven moeten worden.
      *      - 'dataMappersConnections' Een array met namen van DataMappers als key en de naam van een connectie als value. Alle DataMappers die niet in deze array voorkomen zullen met de default connectie werken.
+     *      - 'transactionConnections' Een array met de namen van connections die binnen een transactie moeten gecommit worden. Indien afwezig, zal alles in autocommit doorgaan. Opgelet, alle transaction connections moeten met PDO werken.
      *      - 'gebruikerClass' Naam van de class die gebruikt moet worden voor gebruiker-objecten.
      *      - 'gatewayFactoryConfig'    Configuratie-instellingen voor de gatewayFactory. Zie {@link KVDutil_GatewayFactory} voor meer info. 
      *                                  Indien dit weggelaten wordt dan wordt er geen gatewayRegistry aangelegd.
@@ -94,7 +102,8 @@ class KVDdom_Sessie {
      *                                              3 => 'Organisatie',
      *                                              4 => 'PersoonNaarOrganisatie',
      *                                              5 => 'Vondstmelding'),
-     *              'dataMappersConnections'    => array (  'Vondstmelding' => 'CAI'),
+     *              'dataMappersConnections'    => array ( 'Vondstmelding' => 'CAI'),
+     *              'transactionConnections'    => array ( 'default' , 'CAI' ),
      *              'gebruikerClass'            => 'OEIdo_GebGebruiker',
      *              'logSql'                    => true
      *                 );
@@ -132,6 +141,8 @@ class KVDdom_Sessie {
         $this->commitVolgorde = array_key_exists( 'commitVolgorde' , $config ) ? $config['commitVolgorde'] : array( );
 
         $this->dataMappersConnections = array_key_exists( 'dataMappersConnections' , $config ) ? $config['dataMappersConnections'] : array( );
+
+        $this->transactionConnections = array_key_exists( 'transactionConnections' , $config ) ? $config['transactionConnections'] : array( );
 
         if ( $sqlLogger != null && array_key_exists( 'logSql' , $config) && $config['logSql'] == true ) {
             $this->sqlLogger = $sqlLogger;
@@ -316,11 +327,29 @@ class KVDdom_Sessie {
     public function commit()
     {
         $affected = array();
-        $affected['insert'] = $this->insertNew();
-        $affected['update'] = $this->updateDirty();
-        $affected['delete'] = $this->deleteRemoved();
-        $affected['approved'] = $this->updateApproved( );
-        $affected['historyCleared'] = $this->deleteHistoryCleared( );
+        try {
+            foreach ( $this->transactionConnections as $databaseName ) {
+                $this->_databaseManager->getDatabase($databaseName)->getConnection()->beginTransaction( );            
+            }
+            $affected['insert'] = $this->insertNew();
+            $affected['update'] = $this->updateDirty();
+            $affected['delete'] = $this->deleteRemoved();
+            $affected['approved'] = $this->updateApproved( );
+            $affected['historyCleared'] = $this->deleteHistoryCleared( );
+            foreach ( $this->transactionConnections as $databaseName ) {
+                $this->_databaseManager->getDatabase($databaseName)->getConnection()->commit( );            
+            }
+        } catch ( KVDdom_ConcurrencyException $e ) {
+            foreach ( $this->transactionConnections as $databaseName ) {
+                $this->_databaseManager->getDatabase($databaseName)->getConnection()->rollBack( );            
+            }
+            throw $e;
+        } catch ( Exception $e ) {
+            foreach ( $this->transactionConnections as $databaseName ) {
+                $this->_databaseManager->getDatabase($databaseName)->getConnection()->rollBack( );            
+            }
+            throw $e;
+        }
         return $affected;
     }
 
