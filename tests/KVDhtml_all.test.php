@@ -22,6 +22,8 @@ require_once( KVD_CLASSES_DIR . 'html/KVDhtml_FormFieldTextarea.class.php');
 require_once( KVD_CLASSES_DIR . 'html/KVDhtml_FormFieldSelect.class.php');
 require_once( KVD_CLASSES_DIR . 'html/KVDhtml_FormFieldFactory.class.php');
 
+//require_once( KVD_CLASSES_DIR . 'html/KVDhtml_OptionsHelper.class.php');
+
 require_once('html/KVDhtml_FormFieldFile.test.php');
 require_once('html/KVDhtml_FormFieldCheckbox.test.php');
 require_once('html/KVDhtml_FormFieldHidden.test.php');
@@ -33,6 +35,8 @@ require_once('html/KVDhtml_FormFieldSubmit.test.php');
 require_once('html/KVDhtml_FormFieldTextarea.test.php');
 require_once('html/KVDhtml_FormFieldSelect.test.php');
 require_once('html/KVDhtml_FormFieldFactory.test.php');
+
+//require_once('html/KVDhtml_OptionsHelper.test.php');
 
 
 $test = new GroupTest('KVDhtml_AllTests');
@@ -47,6 +51,8 @@ $test->addTestCase( new TestOfFormFieldSubmit());
 $test->addTestCase( new TestOfFormFieldTextarea());
 $test->addTestCase( new TestOfFormFieldSelect());
 $test->addTestCase( new TestOfFormFieldFactory());
+
+//$test->addTestCase( new TestOfOptionsHelper( ));
 $test->run(new TextReporter());
 
 ?>

@@ -96,27 +96,64 @@ class KVDdb_Criterion
         }
         return $value;
     }
+
+    /**
+     * generateValue 
+     * 
+     * @param integer $mode 
+     * @return string
+     */
+    protected function generateValue( $mode = KVDdb_Criteria::MODE_FILLED , $value)
+    {
+        return $mode == KVDdb_Criteria::MODE_FILLED ? $this->sanitize( $value ) : '?';
+    }
     
     /**
      * @return string
      */
-    public function generateSql( )
+    public function generateSql( $mode = KVDdb_Criteria::MODE_FILLED )
     {
-        $sql = "( " . $this->field . ' ' . $this->sqlOperator . ' ' . $this->sanitize( $this->value );
-        $sql .= $this->generateSqlChildren( );
+        $sql = "( " . $this->field . ' ' . $this->sqlOperator . ' ' . $this->generateValue( $mode , $this->value );
+        $sql .= $this->generateSqlChildren( $mode );
         return $sql .= ' )';
     }
 
     /**
      * @return string
      */
-    protected function generateSqlChildren( )
+    protected function generateSqlChildren( $mode )
     {
         $sql = '';
         foreach ( $this->children as $child) {
-            $sql .= $child['combinatie'] . $child['criterion']->generateSql( );
+            $sql .= $child['combinatie'] . $child['criterion']->generateSql( $mode );
         }
         return $sql;
+    }
+
+    /**
+     * getValues 
+     * 
+     * @return array
+     */
+    public function getValues( )
+    {
+        $ret = array ( $this->value );
+        return array_merge( $ret , $this->getValuesChildren( ) );
+    }
+
+    /**
+     * getValuesChildren 
+     * 
+     * @return array
+     */
+    protected function getValuesChildren( )
+    {
+        $ret = array( );
+        foreach ( $this->children as $child ){
+            $ret = array_merge( $ret , $child['criterion']->getValues( ) );
+        }
+        return $ret;
+        
     }
 
     /**
@@ -248,10 +285,10 @@ class KVDdb_MatchCriterion extends KVDdb_Criterion
         parent::__construct( null, $field, $value );
     }
     
-    public function generateSql( )
+    public function generateSql( $mode=KVDdb_Criteria::MODE_FILLED )
     {
-        $sql = "( UPPER( " . $this->field . ' ) LIKE UPPER( ' . $this->sanitize( $this->value ) . ' )';
-        $sql .= $this->generateSqlChildren( );
+        $sql = "( UPPER( " . $this->field . ' ) LIKE UPPER( ' . $this->generateValue( $mode , $this->value ) . ' )';
+        $sql .= $this->generateSqlChildren( $mode );
         return $sql .= ' )';
     }
 }
@@ -268,17 +305,18 @@ class KVDdb_InCriterion extends KVDdb_Criterion
     /**
      * @return string
      */
-    public function generateSql( )
+    public function generateSql( $mode = KVDdb_Criteria::MODE_FILLED )
     {
         $values = $this->value;
         foreach ( $values as &$value) {
-            $value = $this->sanitize( $value );
+            $value = $this->generateValue( $mode , $value);
         }
         $values = implode ( $values , ', ' );
         $sql = "( " . $this->field . " " . $this->sqlOperator . " ( ". $values . " )";
-        $sql .= $this->generateSqlChildren( );
+        $sql .= $this->generateSqlChildren( $mode );
         return $sql .= ' )';
     }
+
 }
 
 /**
@@ -292,10 +330,10 @@ class KVDdb_InSubselectCriterion extends KVDdb_Criterion
     /**
      * @return string
      */
-    public function generateSql( )
+    public function generateSql( $mode = KVDdb_Criteria::MODE_FILLED )
     {
         $sql = "( " . $this->field . " " . $this->sqlOperator . " ( " . $this->value->generateSql( ) . " )";
-        $sql .= $this->generateSqlChildren( );
+        $sql .= $this->generateSqlChildren( $mode );
         return $sql .= ' )';
     }
 }
@@ -320,10 +358,10 @@ class KVDdb_IsNullCriterion extends KVDdb_Criterion
     /**
      * @return string
      */
-    public function generateSql( )
+    public function generateSql( $mode = KVDdb_Criteria::MODE_FILLED )
     {
         $sql = "( " . $this->field . " IS NULL";
-        $sql .= $this->generateSqlChildren( );
+        $sql .= $this->generateSqlChildren( $mode );
         return $sql .= ' )';
     }
 }
@@ -349,10 +387,10 @@ class KVDdb_IsNotNullCriterion extends KVDdb_Criterion
     /**
      * @return string
      */
-    public function generateSql( )
+    public function generateSql( $mode = KVDdb_Criteria::MODE_FILLED )
     {
         $sql = "( " . $this->field . " IS NOT NULL";
-        $sql .= $this->generateSqlChildren( );
+        $sql .= $this->generateSqlChildren( $mode );
         return $sql .= ' )';
     }
 }

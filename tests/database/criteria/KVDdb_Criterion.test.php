@@ -130,6 +130,25 @@ class TestOfCriterion extends UnitTestCase
         $this->assertIsA( $criterion , 'KVDdb_Criterion' );
         $this->assertEqual( $criterion->generateSql( ) , '( gevonden IS NOT NULL )' );
     }
+
+    public function testGetValues( )
+    {
+        $criterion = KVDdb_Criterion::equals( 'provincie' , 'West-Vlaanderen' );
+        $this->assertEqual( $criterion->getValues( ) , array ( 'West-Vlaanderen' ) );
+
+        $criterion->addOr( KVDdb_Criterion::equals ( 'provincie' , 'Oost-Vlaanderen' ) );
+        $this->assertEqual ( $criterion->getValues( ) , array ( 'West-Vlaanderen', 'Oost-Vlaanderen' ) );
+    }
+
+    public function testGetPreparedStatement( )
+    {
+        $criterion = KVDdb_Criterion::equals( 'provincie' , 'West-Vlaanderen' );
+        $this->assertEqual( $criterion->generateSql(KVDdb_Criteria::MODE_PARAMETERIZED ), "( provincie = ? )");
+
+
+        $criterion->addOr( KVDdb_Criterion::equals ( 'provincie' , 'Oost-Vlaanderen' ) );
+        $this->assertEqual( $criterion->generateSql(KVDdb_Criteria::MODE_PARAMETERIZED ) , "( provincie = ? OR ( provincie = ? ) )" );
+    }
     
 
 }

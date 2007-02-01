@@ -23,6 +23,16 @@ class KVDdb_Criteria implements Countable
      * @var string
      */
     const DESC = 'DESC';
+
+    /**
+     * @var integer 
+     */
+    const MODE_FILLED = 1;
+
+    /**
+     * @var integer 
+     */
+    const MODE_PARAMETERIZED = 2;
     
     /**
      * @var array
@@ -67,11 +77,11 @@ class KVDdb_Criteria implements Countable
     /**
      * @return string Een geldig sql WHERE statement ( geen spatie aan het begin )
      */
-    public function generateSql()
+    public function generateSql( $mode = self::MODE_FILLED )
     {
         $tmp = array( );
         if ( $this->count( ) > 0 ) {
-            $tmp[] = $this->generateWhereClause( );
+            $tmp[] = $this->generateWhereClause( $mode );
         }
         if ( count( $this->orderFields ) > 0 ) {
             $tmp[] = $this->generateOrderClause( );
@@ -79,14 +89,14 @@ class KVDdb_Criteria implements Countable
         return implode ( $tmp , " " );
     }
 
-    private function generateWhereClause( )
+    private function generateWhereClause( $mode )
     {
         if ( $this->count( ) == 0 ) {
             return '';
         }
         $tmp = array( );
         foreach ( $this->criteria as $criteria ) {
-            $tmp[] = $criteria->generateSql( );
+            $tmp[] = $criteria->generateSql( $mode );
         }
         return 'WHERE ' . implode ( $tmp , ' AND ' );
     }
@@ -114,6 +124,20 @@ class KVDdb_Criteria implements Countable
     public function count( )
     {
         return count( $this->criteria );
+    }
+
+    /**
+     * getValues 
+     * 
+     * @return array
+     */
+    public function getValues( )
+    {
+        $ret = array( );
+        foreach ( $this->criteria as $criterion ) {
+            $ret = array_merge( $ret , $criterion->getValues( ) );
+        }
+        return $ret;
     }
     
 }

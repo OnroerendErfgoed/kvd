@@ -120,5 +120,13 @@ class TestOfCriteriaWithCriterion extends UnitTestCase
         $this->criteria->add( KVDdb_Criterion::matches ( 'naam' , '%berg%' ) );
         $this->assertEqual( $this->criteria->generateSql( ) , "WHERE ( provincie = 'West-Vlaanderen' OR ( provincie = 'Oost-Vlaanderen' AND ( gemeente = 'Maldegem' ) ) ) AND ( UPPER( naam ) LIKE UPPER( '%berg%' ) )");
     }
+    
+    public function testParameterized( )
+    {
+        $this->criteria->add( KVDdb_Criterion::equals ( 'provincie' , 'West-Vlaanderen' ) );
+        $this->criteria->add( KVDdb_Criterion::equals ( 'gemeente' , 'Knokke-Heist' ) );
+        $this->assertEqual( $this->criteria->generateSql( KVDdb_Criteria::MODE_PARAMETERIZED ) , "WHERE ( provincie = ? ) AND ( gemeente = ? )");
+        $this->assertEqual( $this->criteria->getValues( ) , array ( 'West-Vlaanderen' , 'Knokke-Heist' ) );
+    }
 }
 ?>
