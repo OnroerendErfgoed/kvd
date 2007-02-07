@@ -12,6 +12,8 @@
 /**
  * KVDhtml_OptionsHelper 
  * 
+ * Helper class die een collectie van {@link KVDdom_DomainObject} neemt en er een html options list 
+ * ( voor een select veld in een form) van maakt.
  * @package KVD.html
  * @since 9 jan 2007
  * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
@@ -56,6 +58,20 @@ class KVDhtml_OptionsHelper
     private $selectedValue;
 
     /**
+     * emptyId 
+     * 
+     * @var mixed Zal meestal integer of string zijn.
+     */
+    private $emptyId = null;
+
+    /**
+     * emptyValue 
+     * 
+     * @var string
+     */
+    private $emptyValue = '';
+
+    /**
      * @var string 
      */
     private static $optionFormat = "<option value=\"%s\"%s>%s</option>\n";
@@ -79,6 +95,21 @@ class KVDhtml_OptionsHelper
     }
 
     /**
+     * setEmptyValues 
+     * 
+     * Stel de waarden in voor de lege regel.
+     * @since 7 feb 2007
+     * @param string $id 
+     * @param string $value 
+     * @return void
+     */
+    public function setEmptyValues( $id = '' , $value = '' )
+    {
+        $this->emptyId = $id;
+        $this->emptyValue = $value;
+    }
+
+    /**
      * toHtml 
      * 
      * @return string Html-weergave van de option-list
@@ -87,7 +118,7 @@ class KVDhtml_OptionsHelper
     {
         $buffer = '';
         if ( $this->addEmptyLine ) {
-            $buffer .= $this->generateOption( "" , "");
+            $buffer .= $this->generateOption($this->emptyId , $this->emptyValue );
         }
         foreach ( $this->collection as $item ) {
             $buffer .= $this->generateOption( $this->getValue( $item ) , $this->getOmschrijving( $item ) , $this->selectedValue == $this->getValue( $item ) );
