@@ -117,16 +117,6 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDODataMapper
     }
 
     /**
-     * @return string Een SQL statement om alle gelogde versies van een record te verwijderen. Heeft de parameter id nodig.
-     */
-    protected function getClearLogStatement( )
-    {
-        return  "DELETE FROM " . $this->logtabel . 
-                " WHERE " . self::ID . " = ? ";
-    }
-    
-
-    /**
      * @return string Een ORDER BY SQL statement dat de sorteervolgorde voor gelogde records aangeeft.
      */
     protected function getLogOrderStatement()
@@ -272,34 +262,6 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDODataMapper
     abstract protected function bindValues ( $stmt , $startIndex , $domainObject );
 
     /**
-     * Een abstract functie die het grootste deel van het opzoekwerk naar een DomainObject met een specifieke Id uitvoert
-     *
-     * @param string $returnType Het soort DomainObject dat gevraagd wordt, nodig om de IdentityMap te controleren.
-     * @param integer $id Het id nummer van het gevraagd DomainObject.
-     * @return KVDdom_DomainObject Een DomainObject van het type dat gevraagd werd met de parameter $returnType.
-     *          Indien het DomainObject zelf niet gevonden werd, maar er is wel een gelogde versie van beschikbaar dan wordt er een Special Case object geretourneerd.
-     *          Dit deleted object bevat geen data maar kan wel bewerkt worden en zo terug naar de vorige versie gezet worden.
-     * @throws <b>KVDdom_DomainObjectNotFoundException</b> Indien het gevraagde DomainObject niet werd gevonden en er ook geen gelogde versie van bestaat.
-     */
-    protected function abstractFindById ( $returnType , $id )
-    {
-        $id = ( int ) $id;
-        try {
-            $domainObject = parent::abstractFindById( $returnType, $id );
-        } catch ( KVDdom_DomainObjectNotFoundException $e ) {
-            try {
-                $laatsteVersie = $this->findByLogId( $id );
-            } catch ( KVDdom_LogDomainObjectNotFoundException $le ) {
-                // Er is helemaal niets van dit type met deze id in de databank.
-                throw $e;
-            }
-            $systemFields = new KVDdom_SystemFields( 'ongekend', $laatsteVersie->getSystemFields( )->getVersie( ) );
-            $domainObject = $this->createDeleted( $id, $systemFields );
-        }
-        return $domainObject;
-    }
-
-    /**
      * Een abstracte methode om een gelogde versie van een domainObject aan te maken.
      *
      * Grote verschil is dat deze versie niet meer gewijzigd kan worden door een gebruiker. Ze moet ook niet worden opgenomen door de UOW.
@@ -380,45 +342,6 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDODataMapper
     }
 
     /**
-     * restoreDeleted
-     *
-     * Een oudere versie van een DomainObject wordt terug geplaatst als het actuele record.
-     * @param KVDdom_LogableDomainObject Een oudere versie van een record.
-     * @return KVDdom_LogableDomainObject De nieuwe, recente versie van het record met aangepaste {@link KVDdom_SystemFields}.
-     */
-    protected function restoreDeleted( $domainObject )
-    {
-        $domainObject->getSystemFields( )->updateSystemFields( $this->_sessie->getGebruiker( )->getGebruikersNaam( ) );
-        $this->insert( $domainObject );
-        return $domainObject;
-    }
-
-    /**
-     * Maak een Special Case aan van een domainObject dat null is maar wel kan geupdate worden.
-     * @param integer $id
-     * @param KVDdom_SystemFields $systemFields
-     */
-    abstract protected function createDeleted( $id , $systemFields = null );
-
-    /**
-     * clearHistory
-     *
-     * Verwijder de geschiedenis van een object uit de databank ( komt neer op het wissen van alle data in de log-tabellen voor een bepaald object).
-     * @param KVDdom_DomainObject $domainObject
-     * @throws <b>Exception</b> Indien een record zijn geschiedenis niet gewist kan worden.
-     */
-    public function clearHistory( $domainObject )
-    {
-        $stmt = $this->_conn->prepare( $this->getClearLogStatement( ) );
-        $stmt->bindValue( 1 , $domainObject->getId( ) , PDO::PARAM_INT );
-        try {
-            $stmt->execute( );
-        } catch ( SQLException $e ) {
-            throw new Exception ( 'De geschiedenis van het record kan niet verwijderd worden omwille van een SQL probleem: ' . $e->getMessage( ) );
-        }
-    }
-    
-    /**
      * executeLogFindMany
      *
      * Voer een zoekacties op meerdere records uit in de log-tabellen.
@@ -461,6 +384,7 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDODataMapper
      * @since 31 okt 2006
      * @param KVDdom_LogableDomainObject $domainObject 
      * @return boolean True indien het object enkel voorkomt in de logtabellen, false indien het object nog een bestaande hoofdversie heeft.
+     * @deprecated Nagaan of dit nog zin heeft.
      */
     protected function isVerwijderd( $domainObject )
     {

@@ -24,21 +24,17 @@
 interface KVDdom_ILogSessie extends KVDdom_IWriteSessie {
 
     /**
+     * getGebruiker
+     * 
      * De eigenaar van de sessie.
-     *
      * Is belangrijk omdat de DataMappers dit nodig hebben om vast te stellen wie de wijzigingen doorvoert zodat ze kunnen gelogd worden.
      * @return KVDdom_Gebruiker
      */
-    public function getGebruiker()
-    {
-        if ( $this->_gebruiker === null ) {
-            $gebruikerMapper = $this->getGebruikerMapper();
-            $this->_gebruiker = $gebruikerMapper->findById ( $this->gebruikerId );
-        }
-        return $this->_gebruiker;
-    }
+    public function getGebruiker();
 
     /**
+     * registerApproved
+     * 
      * @param KVDdom_DomainObject $domainObject
      * @throws <b>Exception</b> - Indien er een probleem bij het registreren is.
      * @throws <b>LogicException</b> - Indien er geprobeerd wordt een object goed te keuren dat niet goedgekeurd mag worden.
@@ -46,16 +42,22 @@ interface KVDdom_ILogSessie extends KVDdom_IWriteSessie {
     public function registerApproved ( $domainObject );
 
     /**
+     * registerConfirmDelete
+     * 
      * @param KVDdom_DomainObject $domainObject
      * @throws <b>Exception</b> - Indien er een probleem bij het registreren is.
-     * @throws <b>LogicException</b> - Indien er geprobeerd wordt een object goed te keuren dat niet goedgekeurd mag worden.
+     * @throws <b>LogicException</b> - Indien er geprobeerd wordt het verwijderen van een ongeldig domainObject goed te keuren.
      */
-    public function registerHistoryCleared( $domainObject );
-    
+    public function registerConfirmDelete( $domainObject );
+
     /**
-     * @return array Een array met 5 keys ( 'insert' , 'update' , 'delete' , 'approved', 'historyCleared' ) die het aantal affected records bevatten.
-     * @throws <b>ConcurrencyException</b> - Indien er een versieconflict is bij het verwerken van de sessie.
+     * registerUndoDelete 
+     * 
+     * @param KVDdom_DomainObject $domainObject 
+     * @throws <b>Exception</b> - Indien er een probleem bij het registreren is.
+     * @throws <b>LogicException</b> - Indien er geprobeerd wordt het verwijderen van een ongeldig domainObject ongedaan te maken.
      */
-    public function commit();
+    public function registerUndoDelete( $domainObject );
+    
   }
 ?>

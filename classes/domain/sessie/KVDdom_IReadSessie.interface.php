@@ -59,7 +59,7 @@ interface KVDdom_IReadSessie {
     public function getSqlLogger ();
 
     /**
-     * @return KVDdom_ISessieLogger
+     * @return KVDdom_SessieLogger
      */
     public function getLogger ();
 }

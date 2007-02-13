@@ -42,7 +42,7 @@ interface KVDdom_IWriteSessie extends KVDdom_IReadSessie{
     public function registerRemoved ( $domainObject );
     
     /**
-     * @return array Een array met 3 keys ( 'insert' , 'update' , 'delete' ) die het aantal affected records bevatten.
+     * @return array Een array met keys ( bv. 'insert' , 'update' , 'delete' ) die het aantal affected records bevatten.
      */
     public function commit();
      

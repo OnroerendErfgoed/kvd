@@ -69,6 +69,29 @@ abstract class KVDdom_PDORedigeerbareDataMapper extends KVDdom_PDOLogableDataMap
     }
 
     /**
+     * getRevertDeleteStatement 
+     * 
+     * @return string Een SQL statement om de laatste gelogde versie van een object dat verwijderd werd terug te plaatsen.
+     */
+    protected function getRevertDeleteStatement( )
+    {
+        return  "INSERT INTO " . $this->tabel . 
+                " SELECT * FROM " . $this->logtabel . 
+                " WHERE " . self::ID " = ? AND" .
+                " versie = ( SELECT MAX( versie ) FROM " . $this->logtabel . " WHERE id = ? )";
+    }
+
+    /**
+     * @return string Een SQL statement om alle gelogde versies van een record te verwijderen. Heeft de parameter id nodig.
+     */
+    protected function getClearLogStatement( )
+    {
+        return  "DELETE FROM " . $this->logtabel . 
+                " WHERE " . self::ID . " = ? ";
+    }
+    
+
+    /**
      * Laad een SystemFields object op basis van een ResultSet
      *
      * @param StdClass $row Een StdClass object dat door PDO wordt afgeleverd via fetchRow. Dit object moet de nodige velden bevatten om een Systemfields object mee samen te kunnen stellen.
@@ -161,6 +184,99 @@ abstract class KVDdom_PDORedigeerbareDataMapper extends KVDdom_PDOLogableDataMap
         } catch (PDOException $e) {
             throw new Exception ( 'Het record kan niet goedgekeurd worden omwille van een SQL probleem: ' . $e->getMessage( ) );
         }
+    }
+
+    /**
+     * undoDelete 
+     * 
+     * Skelet-methode die voldoende is voor simpele objecten maar moet geoverriden worden voor objecten die een tros objecten controleren.
+     * @param KVDdom_DomainObject $domainObject 
+     */
+    public function undoDelete( $domainObject )
+    {
+        $this->revertDelete( $domainObject );
+    }
+
+    /**
+     * confirmDelete 
+     * 
+     * Skelet-methode die voldoende is voor simpele objecten maar moet geoverriden worden voor objecten die een tros objecten controleren.
+     * @param KVDdom_DomainObject $domainObject 
+     */
+    public function confirmDelete( $domainObject )
+    {
+        $this->clearHistory( $domainObject );
+    }
+
+    /**
+     * revertDelete 
+     * 
+     * @param KVDdom_DomainObject $domainObject 
+     * @throw <b>Exception</b> Indien het verwijderde record niet kon teruggeplaatst worden.
+     */
+    public function revertDelete( $domainObject )
+    {
+        $stmt = $this->_conn->prepare( $this->getRevertDeleteStatement( ) );
+        $stmt->bindValue( 1 , $domainObject->getId( ) , PDO::PARAM_INT );
+        $stmt->bindValue( 2 , $domainObject->getId( ) , PDO::PARAM_INT );
+        try {
+            $stmt->execute( );
+        } catch ( PDOException) {
+            throw new Exception ( 'Het verwijderde record kan niet teruggeplaatst worden omwille van een SQL probleem: ' . $e->getMessage( ) );
+        }
+    }
+
+    /**
+     * Maak een Special Case aan van een domainObject dat null is maar wel kan geupdate worden.
+     * @param integer $id
+     * @param KVDdom_SystemFields $systemFields
+     */
+    abstract protected function createDeleted( $id , $systemFields = null );
+
+    /**
+     * clearHistory
+     *
+     * Verwijder de geschiedenis van een object uit de databank ( komt neer op het wissen van alle data in de log-tabellen voor een bepaald object).
+     * @param KVDdom_DomainObject $domainObject
+     * @throws <b>Exception</b> Indien een record zijn geschiedenis niet gewist kan worden.
+     */
+    public function clearHistory( $domainObject )
+    {
+        $stmt = $this->_conn->prepare( $this->getClearLogStatement( ) );
+        $stmt->bindValue( 1 , $domainObject->getId( ) , PDO::PARAM_INT );
+        try {
+            $stmt->execute( );
+        } catch ( PDOException $e ) {
+            throw new Exception ( 'De geschiedenis van het record kan niet verwijderd worden omwille van een SQL probleem: ' . $e->getMessage( ) );
+        }
+    }
+
+    /**
+     * Een abstract functie die het grootste deel van het opzoekwerk naar een DomainObject met een specifieke Id uitvoert
+     *
+     * @param string $returnType Het soort DomainObject dat gevraagd wordt, nodig om de IdentityMap te controleren.
+     * @param integer $id Het id nummer van het gevraagd DomainObject.
+     * @return KVDdom_DomainObject Een DomainObject van het type dat gevraagd werd met de parameter $returnType.
+     *          Indien het DomainObject zelf niet gevonden werd, maar er is wel een gelogde versie van beschikbaar dan wordt er een Special Case object geretourneerd.
+     *          Dit deleted object bevat geen data maar kan wel bewerkt worden en zo terug naar de vorige versie gezet worden.
+     * @throws <b>KVDdom_DomainObjectNotFoundException</b> Indien het gevraagde DomainObject niet werd gevonden en er ook geen gelogde versie van bestaat.
+     */
+    protected function abstractFindById ( $returnType , $id )
+    {
+        $id = ( int ) $id;
+        try {
+            $domainObject = parent::abstractFindById( $returnType, $id );
+        } catch ( KVDdom_DomainObjectNotFoundException $e ) {
+            try {
+                $laatsteVersie = $this->findByLogId( $id );
+            } catch ( KVDdom_LogDomainObjectNotFoundException $le ) {
+                // Er is helemaal niets van dit type met deze id in de databank.
+                throw $e;
+            }
+            $systemFields = new KVDdom_SystemFields( 'ongekend', $laatsteVersie->getSystemFields( )->getVersie( ) );
+            $domainObject = $this->createDeleted( $id, $systemFields );
+        }
+        return $domainObject;
     }
 
 }

@@ -8,13 +8,13 @@
 /**
  * DomainObjects die gelogd kunnen worden.
  *
- * Het loggen houdt in dat er voor elk record een gebruiker, wijziginsdatum en versie wordt bijgehouden. Van elke wijziging wordt dan ook nog bijgehouden of ze al dan niet is goedgekeurd door de redactie.
+ * Het loggen houdt in dat er voor elk record een gebruiker, wijziginsdatum en versie wordt bijgehouden. 
+ * Van elke wijziging wordt dan ook nog bijgehouden of ze al dan niet is goedgekeurd door de redactie.
  * @package KVD.dom
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @since 1.0.0
+ * @since 2005
  */
-
-abstract class KVDdom_LogableDomainObject extends KVDdom_ChangeableDomainObject implements KVDdom_Nullable, KVDdom_Verwijderbaar
+abstract class KVDdom_LogableDomainObject extends KVDdom_ChangeableDomainObject implements KVDdom_Nullable
 {
 
     /**
@@ -70,12 +70,23 @@ abstract class KVDdom_LogableDomainObject extends KVDdom_ChangeableDomainObject 
     /**
      * Markeert dit object als HistoryCleared
      *
-     * Dit geschiedenis van dit record zal door KVDdom_Sessie worden doorgevoerdb in de databank bij het verwerken van de UnitOfWork.
+     * Dit geschiedenis van dit record zal door KVDdom_Sessie worden doorgevoerd in de databank bij het verwerken van de UnitOfWork.
      */
-    protected function markHistoryCleared(  )
+    protected function markConfirmDelete(  )
     {
-        $this->_sessie->registerHistoryCleared( $this );
+        $this->_sessie->registerConfirmDelete( $this );
     }
+
+    /**
+     * markUndoDelete 
+     * 
+     * Markeert dit object als UndoDelete.
+     */
+    protected function markUndoDelete( )
+    {
+        $this->_sessie->registerUndoDelete( $this );
+    }
+    
     
     
     /**
@@ -90,14 +101,6 @@ abstract class KVDdom_LogableDomainObject extends KVDdom_ChangeableDomainObject 
      * @return boolean
      */
     public function isNull( )
-    {
-        return false;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isVerwijderd( )
     {
         return false;
     }
@@ -134,8 +137,8 @@ abstract class KVDdom_LogableDomainObject extends KVDdom_ChangeableDomainObject 
         if ( !$previous->getClass( ) === $this->getClass( ) ) {
             throw new LogicException ( 'Kan enkel update naar een vorige versie van mezelf!' );
         }
-        if ( !$this->isCurrentRecord( ) && !$this->isNull( ) ) {
-            throw new LogicException ( 'Dit object is niet de huidige versie of een verwijderde versie en kan dus niet geupdate worden!');
+        if ( !$this->isCurrentRecord( ) ) {
+            throw new LogicException ( 'Dit object is niet de huidige versie en kan dus niet geupdate worden!');
         }
         if ( $previous->isCurrentRecord( ) ) {
             throw new LogicException ( 'Er kan enkel geupate worden naar oude versies! ');

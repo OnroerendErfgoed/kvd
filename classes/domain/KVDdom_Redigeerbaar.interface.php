@@ -25,9 +25,13 @@ interface KVDdom_Redigeerbaar
     public function approve( $approver );
 
     /**
-     * Verwijder de geschiedenis van het object
+     * confirmDelete
+     * 
+     * Verwijder de geschiedenis van het object.
+     * Heette vroeger verwijderGeschiedenis.
+     * @since 13 feb 2007
      */
-    public function verwijderGeschiedenis( );
+    public function confirmDelete( );
 
     /**
      * updateToPreviousVersion 
@@ -37,6 +41,25 @@ interface KVDdom_Redigeerbaar
      * @return void
      */
     public function updateToPreviousVersion( $previous );
+
+    /**
+     * isVerwijderd 
+     * 
+     * Is het object een placeholder voor een object dat enkel nog in de logtabellen zit maar
+     * kan teruggeroepen worden?
+     * Vervangt de oude KVDdom_Verwijderbaar interface
+     * @return boolean
+     */
+    public function isVerwijderd( );
+
+    /**
+     * undoDelete 
+     * 
+     * Maak het verwijderen van een object ongedaan. Dit is eigenlijk het tegenovergestelde van 
+     * {@link KVDdom_Redigeerbaar.confirmDelete} aangezien die methode leidt tot de total vernietiging van een object.
+     * @since 13 feb 2007
+     */
+    public function undoDelete( );
 
 }
 ?>
