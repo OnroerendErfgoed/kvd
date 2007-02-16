@@ -16,7 +16,6 @@
  */
 abstract class KVDdom_LogableDomainObject extends KVDdom_ChangeableDomainObject implements KVDdom_Nullable
 {
-
     /**
      * Systemfields object dat eigenaar, versie, e.d. bijhoudt.
      * @var KVDdom_SystemFields
@@ -57,36 +56,6 @@ abstract class KVDdom_LogableDomainObject extends KVDdom_ChangeableDomainObject 
         $this->_geschiedenis = self::PLACEHOLDER;
     }
 
-    /**
-     * Markeert dit object als Approved
-     *
-     * Dit record zal door KVDdom_Sessie worden goedgeurd in de databank bij het verwerken van de UnitOfWork.
-     */
-    protected function markApproved(  )
-    {
-        $this->_sessie->registerApproved( $this );
-    }
-
-    /**
-     * Markeert dit object als HistoryCleared
-     *
-     * Dit geschiedenis van dit record zal door KVDdom_Sessie worden doorgevoerd in de databank bij het verwerken van de UnitOfWork.
-     */
-    protected function markConfirmDelete(  )
-    {
-        $this->_sessie->registerConfirmDelete( $this );
-    }
-
-    /**
-     * markUndoDelete 
-     * 
-     * Markeert dit object als UndoDelete.
-     */
-    protected function markUndoDelete( )
-    {
-        $this->_sessie->registerUndoDelete( $this );
-    }
-    
     
     
     /**
@@ -128,22 +97,6 @@ abstract class KVDdom_LogableDomainObject extends KVDdom_ChangeableDomainObject 
         return $this->_geschiedenis;
     }
 
-    /**
-     * Controleer of het mogelijk is het huidige DomainObject te updaten naar de vorige versie.
-     * @param KVDdom_LogableDomainObject
-     */
-    protected function checkPreviousVersion( $previous )
-    {
-        if ( !$previous->getClass( ) === $this->getClass( ) ) {
-            throw new LogicException ( 'Kan enkel update naar een vorige versie van mezelf!' );
-        }
-        if ( !$this->isCurrentRecord( ) ) {
-            throw new LogicException ( 'Dit object is niet de huidige versie en kan dus niet geupdate worden!');
-        }
-        if ( $previous->isCurrentRecord( ) ) {
-            throw new LogicException ( 'Er kan enkel geupate worden naar oude versies! ');
-        }
-    }
     
 
 }

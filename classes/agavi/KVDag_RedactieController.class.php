@@ -26,10 +26,10 @@ class KVDag_RedactieController
     /**
      * @var string
      */
-    private $forwardAction;
+    protected $forwardAction;
 
     /**
-     * @var KVDdom_PDOLogableDataMapper
+     * @var KVDdom_PDORedigeerbareDataMapper
      */
     private $mapper;
 
@@ -41,10 +41,18 @@ class KVDag_RedactieController
     private $redacteur;
 
     /**
-     * @param string $subAction
-     * @param KVDdom_PDOLogableDataMapper
+     * redirectParameters 
+     * 
+     * @var array
      */
-    public function __construct ( $subAction , KVDdom_PDOLogableDataMapper $mapper, $redacteur )
+    protected $redirectParameters = array( );
+
+    /**
+     * @param string $subAction
+     * @param KVDdom_PDOLogableDataMapper $mapper
+     * @param string $redacteur 
+     */
+    public function __construct ( $subAction , KVDdom_PDORedigeerbareDataMapper $mapper, $redacteur )
     {
         $this->subAction = $subAction;
         
@@ -56,7 +64,7 @@ class KVDag_RedactieController
 
     /**
      * @param Request Het Request object in Agavi.
-     * @param KVDdom_Redigeerbaar Het object dat geredigeerd wordt.
+     * @param KVDdom_RedigeerbaarDomainObject Het object dat geredigeerd wordt.
      * @throws <b>InvalidArgumentException</b> Indien er om een niet bestaande redactie gevraagd wordt.
      * @throws <b>KVDag_RedactieException</b> Indien de redactie niet kan doorgevoerd worden.
      */
@@ -67,14 +75,17 @@ class KVDag_RedactieController
         }
         $this->forwardAction = $this->subAction . '.Tonen';
         switch ( $req->getParameter( 'redactie' ) ) {
-            case 'goedkeuren':
+            case 'approve':
                 $this->approve( $domainObject );
                 break;
-            case 'versieTerugzetten':
-                $this->versieTerugzetten( $domainObject , ( int ) $req->getParameter( 'versie' ) );
+            case 'updateToPrevious':
+                $this->updateToPrevious( $domainObject , ( int ) $req->getParameter( 'versie' ) );
                 break;
-            case 'verwijderenGeschiedenis':
-                $this->verwijderGeschiedenis( $domainObject );
+            case 'confirmDelete':
+                $this->confirmDelete( $domainObject );
+                break;
+            case 'undoDelete':
+                $this->undoDelete( $domainObject );
                 break;
             default:
                 throw new InvalidArgumentException ( 'U probeert een redactie actie ' . $req->getParameter( 'redactie') . ' uit te voeren die niet bestaat.' );
@@ -84,47 +95,55 @@ class KVDag_RedactieController
     /**
      * approve 
      * 
-     * @param KVDdom_Redigeerbaar $domainObject 
+     * @param KVDdom_RedigeerbaarDomainObject $domainObject 
      * @return void
      */
     protected function approve( $domainObject )
     {
         $domainObject->approve( $this->redacteur );
+        $this->redirectParameters = array( 'id' => $domainObject->getId( ) );
     }
 
     /**
      * versieTerugzetten 
      * 
-     * @param KVDdom_Redigeerbaar $domainObject 
+     * @param KVDdom_RedigeerbaarDomainObject $domainObject 
      * @param integer $versie 
      * @return void
      */
-    protected function versieTerugzetten( $domainObject , $versie )
+    protected function updateToPrevious( $domainObject , $versie )
     {
         try {
             $previous = $this->mapper->findByLogId(  $domainObject->getId( ) , $versie );
         } catch ( KVDdom_DomainObjectNotFoundException $e ) {
-            throw new KVDag_RedactieException ( 'U probeert een niet bestaande versie(' . $versie . ') terug te zetten.');    
+            throw new KVDdom_RedactieException ( 'U probeert een niet bestaande versie(' . $versie . ') terug te zetten.');    
         }
-        try {
-            $domainObject->updateToPreviousVersion (  $previous );
-        } catch ( Exception $e ) {
-            throw new KVDag_RedactieException ( 'Onmogelijk om een domainObject te updaten naar de vorige versie (' . $versie . ').');    
-        }
+        $domainObject->updateToPreviousVersion (  $previous );
+        $this->redirectParameters = array( 'id' => $domainObject->getId( ) );
     }
 
     /**
      * verwijderGeschiedenis 
      * 
-     * @param KVDdom_Redigeerbaar $domainObject 
+     * @param KVDdom_RedigeerbaarDomainObject $domainObject 
      * @return void
      */
-    protected function verwijderGeschiedenis( $domainObject )
+    protected function confirmDelete( $domainObject )
     {
-        $domainObject->verwijderGeschiedenis( );
-        if ( $domainObject->isNull(  ) ) {
-            $this->forwardAction = 'RedactieOverzicht';
-        }
+        $domainObject->confirmDelete( );
+        $this->forwardAction = 'RedactieOverzicht';
+    }
+
+    /**
+     * undoDelete 
+     * 
+     * @param KVDdom_RedigeerbaarDomainObject $domainObject 
+     * @return void
+     */
+    protected function undoDelete ( $domainObject )
+    {
+        $domainObject->undoDelete( );
+        $this->redirectParameters = array( 'id' => $domainObject->getId( ) );
     }
 
     /**
@@ -134,19 +153,16 @@ class KVDag_RedactieController
     {
         return $this->forwardAction;
     }
+
+    /**
+     * getRedirectParameters 
+     * 
+     * @return array
+     */
+    public function getRedirectParameters( )
+    {
+        return $this->redirectParameters;
+    }
 }
 
-/**
- * KVDag_RedactieException 
- * 
- * @package KVD.Ag
- * @since 10 nov 2006
- * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
- */
-class KVDag_RedactieException extends Exception
-{
-    
-}
 ?>

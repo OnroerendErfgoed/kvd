@@ -102,7 +102,7 @@ abstract class KVDag_AbstractHelper
      * @param KVDdom_DomainObject $domainObject
      * @return boolean Geeft aan of de actie moet getoond worden.
      */
-    protected function checkForCurrentRecord( &$action, $domainObject )
+    protected function checkForCurrentRecord( $action, $domainObject )
     {
         if ( !isset( $action['currentRecord'] ) ) {
             return true;

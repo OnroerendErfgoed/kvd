@@ -76,9 +76,20 @@ abstract class KVDdom_PDORedigeerbareDataMapper extends KVDdom_PDOLogableDataMap
     protected function getRevertDeleteStatement( )
     {
         return  "INSERT INTO " . $this->tabel . 
-                " SELECT * FROM " . $this->logtabel . 
-                " WHERE " . self::ID " = ? AND" .
-                " versie = ( SELECT MAX( versie ) FROM " . $this->logtabel . " WHERE id = ? )";
+                " ( SELECT * FROM " . $this->logtabel . 
+                " WHERE log_" . $this->id . " = ? AND" .
+                " versie = ( SELECT MAX( versie ) FROM " . $this->logtabel . " WHERE id = ? ) )";
+    }
+
+    /**
+     * getDeleteLastLogged 
+     * 
+     * @return string SQL Statement dat de laaste gelogde versie verwijdert.
+     */
+    protected function getDeleteLastLoggedStatement( )
+    {
+        return  "DELETE FROM " . $this->logtabel . 
+                " WHERE id = ? AND versie = ( SELECT MAX( versie ) FROM " . $this->logtabel . " WHERE id = ? )";
     }
 
     /**
@@ -216,12 +227,16 @@ abstract class KVDdom_PDORedigeerbareDataMapper extends KVDdom_PDOLogableDataMap
      */
     public function revertDelete( $domainObject )
     {
-        $stmt = $this->_conn->prepare( $this->getRevertDeleteStatement( ) );
-        $stmt->bindValue( 1 , $domainObject->getId( ) , PDO::PARAM_INT );
-        $stmt->bindValue( 2 , $domainObject->getId( ) , PDO::PARAM_INT );
         try {
+            $stmt = $this->_conn->prepare( $this->getRevertDeleteStatement( ) );
+            $stmt->bindValue( 1 , $domainObject->getId( ) , PDO::PARAM_INT );
+            $stmt->bindValue( 2 , $domainObject->getId( ) , PDO::PARAM_INT );
             $stmt->execute( );
-        } catch ( PDOException) {
+            $stmt2 = $this->_conn->prepare( $this->getDeleteLastLoggedStatement( ) );
+            $stmt2->bindValue( 1 , $domainObject->getId( ) , PDO::PARAM_INT );
+            $stmt2->bindValue( 2 , $domainObject->getId( ) , PDO::PARAM_INT );
+            $stmt2->execute( );
+        } catch ( PDOException $e ) {
             throw new Exception ( 'Het verwijderde record kan niet teruggeplaatst worden omwille van een SQL probleem: ' . $e->getMessage( ) );
         }
     }

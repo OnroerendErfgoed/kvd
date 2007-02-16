@@ -191,12 +191,13 @@ class KVDdom_SystemFields {
      * setApproved 
      * 
      * @param string $gebruikersNaam Naam van de gebruiker die de controle uitvoerde
+     * @throws <b>KVDdom_RedactieException</b> Indien u probeert een record goed te keuren dat al goedgekeurd is.
      * @return void
      */
     public function setApproved( $gebruikersNaam )
     {
         if ( $this->gecontroleerd || !is_null( $this->gecontroleerdDoor ) ) {
-            throw new LogicException ( 'U probeert een record goed te keuren dat al goedgekeurd is!');
+            throw new KVDdom_RedactieException ( 'U probeert een record goed te keuren dat al goedgekeurd is!');
         }
         $this->gecontroleerd = true;
         $this->gecontroleerdDoor = $gebruikersNaam;

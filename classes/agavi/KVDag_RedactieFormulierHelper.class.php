@@ -1,13 +1,19 @@
 <?php
 /**
  * @package KVD.agavi
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
+ * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @version $Id$
  */
 
 /**
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @since 1.0.0
+ * KVDag_RedactieFormulierHelper 
+ * 
+ * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @since 2006
  */
 class KVDag_RedactieFormulierHelper
 {
@@ -136,18 +142,21 @@ class KVDag_RedactieFormulierHelper
     private function initializeConfig ( $config )
     {
         $config['Id']['value'] = $this->_domainObject->getId(  );
-        if (  $this->_domainObject->isNull(  ) ) {
-            unset(  $config['Dit record Goedkeuren'] );
-        } else {
-            unset (  $config['De geschiedenis van dit record verwijderen'] );
+        if ( $this->_domainObject->isVerwijderd(  ) ) {
+            unset( $config['Goedkeuren'] );
+            unset( $config['Versie'] );
+            unset( $config['Een versie terugzetten'] );
+            return $config;
         }
+        unset ( $config['Verwijderen Bevestigen'] );
+        unset ( $config['Verwijderen Ongedaan Maken'] );
         $this->_loggedDomainObjects->rewind( );
         if ( $this->_loggedDomainObjects->valid(  ) ) {
             $config['Versie']['value'] = $this->_loggedDomainObjects->current(  )->getSystemFields(  )->getVersie(  );
         } else {
             //Er zijn geen vorige versies;
-            unset (  $config['Versie'] );
-            unset (  $config['Een versie terugzetten'] );
+            unset ( $config['Versie'] );
+            unset ( $config['Een versie terugzetten'] );
         }
         return $config;
     }
