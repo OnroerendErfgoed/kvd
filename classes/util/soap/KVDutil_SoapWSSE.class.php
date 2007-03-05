@@ -135,7 +135,7 @@ class KVDutil_SoapWSSE {
         $token->appendChild($username);
         
         /* Generate nonce - create a 256 bit session key to be used */
-        $objKey = new XMLSecurityKey(XMLSecurityKey::AES256_CBC);
+        $objKey = new KVDutil_XMLSecurityKey(KVDutil_XMLSecurityKey::AES256_CBC);
         $nonce = $objKey->generateSessionKey();
         unset($objKey);
         $createdate = gmdate("Y-m-d\TH:i:s").'Z';
@@ -158,102 +158,6 @@ class KVDutil_SoapWSSE {
         $token->appendChild($created);
     }
 
-    /**
-     * addBinaryToken 
-     * 
-     * @param mixed $cert 
-     * @param boolean $isPEMFormat 
-     * @param boolean $isDSig 
-     * @return DOMElement
-     */
-    public function addBinaryToken($cert, $isPEMFormat=TRUE, $isDSig=TRUE) {
-        $security = $this->locateSecurityHeader();
-        $data = XMLSecurityDSig::get509XCert($cert, $isPEMFormat);
-
-        $token = $this->soapDoc->createElementNS(self::WSSENS, self::WSSEPFX.':BinarySecurityToken', $data);
-        $security->insertBefore($token, $security->firstChild);
-
-        $token->setAttribute('EncodingType', 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary');
-        $token->setAttributeNS(self::WSUNS, self::WSUPFX.':Id', XMLSecurityDSig::generate_GUID());
-        $token->setAttribute('ValueType', 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3');
-        
-        return $token;
-    }
-    
-    /**
-     * attachTokentoSig 
-     * 
-     * @param DOMElement $token 
-     * @return void
-     */
-    public function attachTokentoSig($token) {
-        if (! ($token instanceof DOMElement)) {
-            throw new InvalidArgumentException('Invalid parameter: BinarySecurityToken element expected');
-        }
-        $objXMLSecDSig = new XMLSecurityDSig();
-        if ($objDSig = $objXMLSecDSig->locateSignature($this->soapDoc)) {
-            $tokenURI = '#'.$token->getAttributeNS(self::WSUNS, "Id");
-            $this->SOAPXPath->registerNamespace('secdsig', XMLSecurityDSig::XMLDSIGNS);
-            $query = "./secdsig:KeyInfo";
-            $nodeset = $this->SOAPXPath->query($query, $objDSig);
-            $keyInfo = $nodeset->item(0);
-            if (! $keyInfo) {
-                $keyInfo = $objXMLSecDSig->createNewSignNode('KeyInfo');
-                $objDSig->appendChild($keyInfo);
-            }
-            
-            $tokenRef = $this->soapDoc->createElementNS(self::WSSENS, self::WSSEPFX.':SecurityTokenReference');
-            $keyInfo->appendChild($tokenRef);
-            $reference = $this->soapDoc->createElementNS(self::WSSENS, self::WSSEPFX.':Reference');
-            $reference->setAttribute("URI", $tokenURI);
-            $tokenRef->appendChild($reference);
-        } else {
-            throw new Exception('Unable to locate digital signature');
-        }
-    }
-
-    /**
-     * signSoapDoc 
-     * 
-     * @param mixed $objKey 
-     * @return void
-     */
-    public function signSoapDoc($objKey) {
-        $objDSig = new XMLSecurityDSig();
-
-        $objDSig->setCanonicalMethod(XMLSecurityDSig::EXC_C14N);
-
-        $arNodes = array();
-        foreach ($this->secNode->childNodes AS $node) {
-            if ($node->nodeType == XML_ELEMENT_NODE) {
-                $arNodes[] = $node;
-            }
-        }
-
-        if ($this->signAllHeaders) {
-            foreach ($this->secNode->parentNode->childNodes AS $node) {
-                if (($node->nodeType == XML_ELEMENT_NODE) && 
-                ($node->namespaceURI != self::WSSENS)) {
-                    $arNodes[] = $node;
-                }
-            }
-        }
-    
-        foreach ($this->envelope->childNodes AS $node) {
-            if ($node->namespaceURI == $this->soapNS && $node->localName == 'Body') {
-                $arNodes[] = $node;
-                break;
-            }
-        }
-        
-        $arOptions = array('prefix' => self::WSUPFX, 'prefix_ns' => self::WSUNS);
-        $objDSig->addReferenceList($arNodes, XMLSecurityDSig::SHA1, NULL, $arOptions);
-
-        $objDSig->sign($objKey);
-
-        $objDSig->appendSignature($this->secNode, TRUE);
-    }
-    
     /**
      * saveXML 
      * 

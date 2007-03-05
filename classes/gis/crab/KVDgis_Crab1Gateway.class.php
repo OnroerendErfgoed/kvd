@@ -1,6 +1,7 @@
 <?php
 /**
- * @package KVD.gis.crab
+ * @package KVD.gis
+ * @subpackage crab
  * @version $Id$
  * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
@@ -10,8 +11,10 @@
 /**
  * KVDgis_Crab1Gateway
  *
- * @package KVD.gis.crab
+ * @package KVD.gis
+ * @subpackage crab
  * @since jan 2006
+ * @deprecated
  * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License

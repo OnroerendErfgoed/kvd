@@ -1,6 +1,7 @@
 <?php
 /**
- * @package KVD.gis.crab
+ * @package KVD.gis
+ * @subpackage crab
  * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  * @version $Id$
  * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
@@ -14,7 +15,8 @@
  * Gelieve er rekening mee te houden dat alle strings die door Crab2 worden teruggegeven in UTF-8 zijn. 
  * Zorg er dus voor dat html pagina's die deze data weergeven ook in UTF-8 zijn of converteer de strings eerst naar latin1 via utf8_decode. 
  * Alles weergeven in UTF-8 geniet de voorkeur omdat er ander onaangename neveneffecten kunnen ontstaan bij het heen-en-weer encoderen/decoderen.
- * @package KVD.gis.crab
+ * @package KVD.gis
+ * @subpackage crab
  * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  * @since 29 sep 2006
  * @uses KVDgis_CrabCache
@@ -189,10 +191,10 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
         }
     
         try {
-            $this->_client = @new SoapClient ( $parameters['wsdl'] , array ( 'exceptions'    => 1,
-                                                                            'features'      => SOAP_SINGLE_ELEMENT_ARRAYS,
-                                                                            'trace'         => 0
-                                                                           ));
+            $this->_client = @new KVDgis_Crab2SoapClient ( $parameters['wsdl'] , array (    'exceptions'    => 1,
+                                                                                            'features'      => SOAP_SINGLE_ELEMENT_ARRAYS,
+                                                                                            'trace'         => 0
+                                                                                        ));
         } catch ( SoapFault $e ) {
             throw new KVDutil_GatewayUnavailableException ( 'De Crab2Gateway kan geen verbinding maken met de Crab webservice.' , __CLASS__ , $e );
         }
@@ -200,7 +202,7 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
         if ( !isset( $parameters['username']) || !isset( $parameters['password'])) {
             throw new InvalidArgumentException ( 'De array parameters moet de sleutels username en password bevatten!');
         }
-        $this->authenticate( $parameters['username'], $parameters['password']);
+        $this->_client->setAuthentication( $parameters['username'], $parameters['password']);
 
         if ( !isset( $parameters['cache'] ) ) {
             $this->_cache = new KVDgis_NullCrabCache( );
@@ -840,5 +842,77 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
         return $terrein;
     }
 
+}
+
+/**
+ * KVDgis_Crab2SoapClient 
+ * 
+ * @package KVD.gis
+ * @subpackage crab
+ * @since 5 maart 2007
+ * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
+class KVDgis_Crab2SoapClient extends SoapClient
+{
+    /**
+     * user 
+     * 
+     * @var string
+     */
+    private $user = null;
+    
+    /**
+     * password 
+     * 
+     * @var string
+     */
+    private $password = null;
+
+    /**
+     * setAuthentication
+     *  
+     * @param string $user 
+     * @param string $password 
+     */
+    public function setAuthentication ( $user , $password )
+    {
+        $this->user = $user;
+        $this->password = $password;
+    }
+
+    /**
+     * __doRequest 
+     * 
+     * @param string $request 
+     * @param string $location 
+     * @param string $saction 
+     * @param integer $version 
+     * @return string
+     */
+    public function __doRequest( $request , $location , $saction , $version )
+    {
+        if ( is_null( $this->user ) || is_null( $this->password ) ) {
+            throw new SoapFault ( 'U hebt geen authenticatie credentials opgegeven.' );
+        }
+        $dom = new DOMDocument( '1.0' );
+        $dom->loadXML( $request );
+
+        $wsa = new KVDutil_SoapWSA( $dom );
+        $wsa->addAction( $saction );
+        $wsa->addTo( $location );
+        $wsa->addMessageID( );
+        $wsa->addReplyTo( );
+
+        $dom = $wsa->getDoc( );
+
+        $wsse = new KVDutil_SoapWSSE( $dom );
+
+        $wsse->addUserToken( $this->user , $this->password , true );
+
+        return parent::__doRequest( $wsse->saveXML( ) , $location , $saction , $version );
+
+    }
 }
 ?>

@@ -66,7 +66,7 @@ class KVDag_RedactieController
      * @param Request Het Request object in Agavi.
      * @param KVDdom_RedigeerbaarDomainObject Het object dat geredigeerd wordt.
      * @throws <b>InvalidArgumentException</b> Indien er om een niet bestaande redactie gevraagd wordt.
-     * @throws <b>KVDag_RedactieException</b> Indien de redactie niet kan doorgevoerd worden.
+     * @throws <b>KVDdom_RedactieException</b> Indien de redactie niet kan doorgevoerd worden.
      */
     public function execute( $req, $domainObject)
     {
@@ -110,9 +110,13 @@ class KVDag_RedactieController
      * @param KVDdom_RedigeerbaarDomainObject $domainObject 
      * @param integer $versie 
      * @return void
+     * @throws <b>KVDdom_RedactieException</b> Indien de redactie niet kan uitgevoerd worden.
      */
     protected function updateToPrevious( $domainObject , $versie )
     {
+        if ( $domainObject->isVerwijderd( ) ) {
+            throw new KVDdom_RedactieException( 'Het is niet toegestaan een tijdelijk verwijderd object te updaten. Maak het verwijderen eerst ongedaan.' );
+        }
         try {
             $previous = $this->mapper->findByLogId(  $domainObject->getId( ) , $versie );
         } catch ( KVDdom_DomainObjectNotFoundException $e ) {

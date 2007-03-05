@@ -1,6 +1,7 @@
 <?php
 /**
- * @package KVD.gis.crab
+ * @package KVD.gis
+ * @subpackage crab
  * @version $Id$
  * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
@@ -11,7 +12,8 @@
  * KVDgis_CrabCache
  *
  * Class om calls van KVDgis_Crab1Gateway en KVDgis_Crab2Gateway te cachen.
- * @package KVD.gis.crab
+ * @package KVD.gis
+ * @subpackage crab
  * @since jan 2006
  * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 

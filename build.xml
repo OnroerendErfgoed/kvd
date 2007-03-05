@@ -58,7 +58,9 @@
 			<fileset dir="classes/util" >
 				<include name="KVDutil_CacheFile.class.php" />
 				<include name="KVDutil_HuisnummerLabelSplitter.class.php" />
+				<include name="KVDutil_XMLSecurityKey.class.php" />
 				<include name="Gateway/*.class.php" />
+				<include name="soap/*.class.php" />
 			</fileset>
 		</copy>
 		<copy todir="${builddir}/tests">
