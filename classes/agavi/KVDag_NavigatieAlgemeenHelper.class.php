@@ -83,10 +83,10 @@ class KVDag_NavigatieAlgemeenHelper
     public function genHtmlLinks()
     {
         foreach ($this->actions as &$action) {
-            if ( $this->checkCredential( $action ) ) {
+            if ( $this->checkCredential( $action ) && $this->checkIdSet( $action )) {
                 $parameters = $this->checkAction ( $action );
                 $this->checkReferer ( $action, $parameters);
-                $this->checkIdSet ( $action, $parameters);
+                $parameters = $this->transformId ( $action, $parameters);
                 $attribute = $this->checkAttribute ( $action );
                 $target = $this->checkTarget( $action );
                 if (!isset($action['noHtml'])) {
@@ -141,7 +141,18 @@ class KVDag_NavigatieAlgemeenHelper
         }
     }
 
-    private function checkIdSet ( &$action , &$parameters )
+    private function checkIdSet ( $action )
+    {
+        if ( !isset( $action['needsId']) || $action['needsId'] == false ) {
+            return true;
+        }
+        if ( isset( $action['needsId'] ) && $action['needsId'] == true && $this->id != null ) {
+            return true;
+        }
+        return false;
+    }
+
+    private function transformId( $action , $parameters )
     {
         if (isset($action['needsId']) && $action['needsId'] == true && $this->id != null) {
             $parameters['id'] = $this->id;
@@ -150,6 +161,7 @@ class KVDag_NavigatieAlgemeenHelper
                 unset ($parameters['id']);
             }
         }
+        return $parameters;
     }
 
     private function checkCredential(  &$action )
