@@ -294,7 +294,7 @@ class KVDag_DomainObjectToHtml {
      */
     public function setSystemFields ( $domainObject )
     {
-        if ( !$domainObject instanceof KVDdom_LogableDomainObject ) {
+        if ( !$domainObject instanceof KVDdom_RedigeerbaarDomainObject ) {
             return;
         }
         if ( $domainObject->isVerwijderd( )) {

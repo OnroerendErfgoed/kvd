@@ -74,10 +74,10 @@ class KVDag_OverzichtTableHelper extends KVDag_AbstractHelper
      * @param WebController $ctrl
      * @param array $moduleConfig
      */
-    public function __construct ( $ctrl , $moduleConfig )
+    public function __construct ( $ctrl , array $moduleConfig , $tableHelper = null )
     {
         // Een TableHelper aanmaken
-        $this->_htmlTableHelper = New KVDhtml_TableHelper();
+        $this->_htmlTableHelper = $tableHelper == null ? New KVDhtml_TableHelper() : $tableHelper;
         
         // Een Linkhelper aanmaken
         $this->_htmlLinkHelper = New KVDhtml_LinkHelper();
@@ -159,7 +159,7 @@ class KVDag_OverzichtTableHelper extends KVDag_AbstractHelper
      * @param array $action
      * @return boolean True indien de actie getoond mag worden, anders false.
      */
-    private function checkCredential(  &$action )
+    protected function checkCredential(  &$action )
     {
         if (  !array_key_exists(  'credential', $action) ) {
             return true;
@@ -178,7 +178,7 @@ class KVDag_OverzichtTableHelper extends KVDag_AbstractHelper
     /**
      *@param array $headerConfig
      */
-    protected function genHeaders (  $headerConfig , $pageParameterName = null)
+    protected function genHeaders (  array $headerConfig , $pageParameterName = null)
     {
         $this->headers = array(  );
         
@@ -223,7 +223,15 @@ class KVDag_OverzichtTableHelper extends KVDag_AbstractHelper
         }
     }
 
-    private function getLinks ( $domainObject )
+    /**
+     * getLinks 
+     * 
+     * Kan nu ook gebruikt worden buiten de class. 
+     * @todo Zou beter eens opgesplitst worden tot een aparte class.
+     * @param KVDdom_Domainobject $domainObject 
+     * @return array Tot html geformatteerde links
+     */
+    public function getLinks ( $domainObject )
     {
          $links = array(  );
          foreach( $this->actionsPerRow as &$action ) {
