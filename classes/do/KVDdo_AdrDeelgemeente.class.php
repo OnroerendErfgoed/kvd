@@ -62,6 +62,17 @@ class KVDdo_AdrDeelgemeente extends KVDdom_ReadonlyDomainObject {
     }
 
     /**
+     * getVolledigeOmschrijving 
+     * 
+     * @since 14 maart 2007
+     * @return string
+     */
+    public function getVolledigeOmschrijving( )
+    {
+        return $this->gemeente->getVolledigeOmschrijving( ) . ' > ' . $this->naam;
+    }
+
+    /**
      * @param mixed $gemeente Een NullDeelgemeente kan behoren aan een geldige gemeente.
      * @return KVDdo_NullAdrDeelgemeente
      */

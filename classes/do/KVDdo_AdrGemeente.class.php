@@ -121,6 +121,17 @@ class KVDdo_AdrGemeente extends KVDdom_ReadonlyDomainObject {
     }
 
     /**
+     * getVolledigeOmschrijving 
+     * 
+     * @since 14 maart 2007
+     * @return string
+     */
+    public function getVolledigeOmschrijving( )
+    {
+        return $this->provincie->getOmschrijving( ) . ' > ' . $this->naam;
+    }
+
+    /**
      * @return KVDdo_NullAdrGemeente
      */
     public static function newNull( )
