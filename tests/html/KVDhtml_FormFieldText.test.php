@@ -54,5 +54,13 @@ class TestOfFormFieldText extends UnitTestCase
         $this->assertWantedPattern( '/ value="0"/', $html);
     }
 
+    public function testFormFieldValueHtlmEntities( )
+    {
+        $this->fieldOptions['value'] = 'Lena > Mira';
+        $formField = new KVDhtml_FormFieldText( $this->fieldOptions );
+        $html = $formField->toHtml( );
+        $this->assertWantedPattern( '/ value="Lena &gt; Mira"/', $html);
+    }
+
 }
 ?>
