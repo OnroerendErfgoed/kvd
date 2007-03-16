@@ -54,7 +54,7 @@ abstract class KVDdom_PDORedigeerbareDataMapper extends KVDdom_PDOLogableDataMap
     {
         return  $this->getSelectStatement( ) .
                 " WHERE " . $this->tabel . ".gecontroleerd = false " . 
-                $this->getOrderStatement( );
+                $this->getRedactieOrderStatement( );
     }
 
     /**
@@ -99,6 +99,16 @@ abstract class KVDdom_PDORedigeerbareDataMapper extends KVDdom_PDOLogableDataMap
     {
         return  "DELETE FROM " . $this->logtabel . 
                 " WHERE " . self::ID . " = ? ";
+    }
+
+    /**
+     * getRedactieOrderStatement 
+     * 
+     * @return string SQL statement dat de redactie kan sorteren.
+     */
+    protected function getRedactieOrderStatement( )
+    {
+        return " ORDER BY bewerkt_op DESC";    
     }
     
 
