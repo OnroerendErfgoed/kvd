@@ -8,7 +8,7 @@ class KVDutil_DownloadModel implements IteratorAggregate
      */
     private $map;
 
-    private $bestanden;
+    private $bestanden = array( );
     
     public function __construct ( $map )
     {
