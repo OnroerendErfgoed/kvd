@@ -53,8 +53,7 @@ abstract class KVDdom_PDORedigeerbareDataMapper extends KVDdom_PDOLogableDataMap
     protected function getFindTeRedacterenStatement( )
     {
         return  $this->getSelectStatement( ) .
-                " WHERE " . $this->tabel . ".gecontroleerd = false " . 
-                $this->getRedactieOrderStatement( );
+                " WHERE " . $this->tabel . ".gecontroleerd = false ";
     }
 
     /**
@@ -64,8 +63,7 @@ abstract class KVDdom_PDORedigeerbareDataMapper extends KVDdom_PDOLogableDataMap
     {
         return  $this->getLogSelectStatement( ) . 
                 " WHERE NOT EXISTS ( SELECT 1 FROM " . $this->tabel . " WHERE id = log_" . $this->id . ") " .
-                " AND versie = ( SELECT max( versie ) FROM " . $this->logtabel . " AS log WHERE log.id = log_" . $this->id . ")" .
-                " ORDER BY log_" . $this->id . " ASC";
+                " AND versie = ( SELECT max( versie ) FROM " . $this->logtabel . " AS log WHERE log.id = log_" . $this->id . ")";
     }
 
     /**
@@ -161,11 +159,14 @@ abstract class KVDdom_PDORedigeerbareDataMapper extends KVDdom_PDOLogableDataMap
         
     /**
      * Zoek alle records van deze datamapper die nog niet gecontroleerd zijn.
-     * @param KVDdom_DomainObjectCollection
+     * @param string $orderField
+     * @param string $orderDirection 
+     * @return KVDdom_DomainObjectCollection
      */
-    public function findTeRedacteren( )
+    public function findTeRedacteren( $orderField = null , $orderDirection = null )
     {
-        $stmt = $this->_conn->prepare ( $this->getFindTeRedacterenStatement() );
+        $orderStmt = is_null( $orderField ) ? '' : $this->getOrderClause( $orderField , $orderDirection );
+        $stmt = $this->_conn->prepare ( $this->getFindTeRedacterenStatement() . $orderStmt );
         return $this->executeFindMany ( $stmt );
     }
 
@@ -175,7 +176,7 @@ abstract class KVDdom_PDORedigeerbareDataMapper extends KVDdom_PDOLogableDataMap
      * Zoek alle verwijderde records in de log tabellen.
      * @return KVDdom_DomainObjectCollection
      */
-    public function findVerwijderde( )
+    public function findVerwijderde()
     {
         $stmt = $this->_conn->prepare ( $this->getFindVerwijderdeStatement( ) );
         return $this->executeLogFindMany( $stmt );
