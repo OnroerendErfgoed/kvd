@@ -29,5 +29,18 @@ class KVDhtml_Tools
     {
         return htmlentities( $value , ENT_QUOTES , 'UTF-8' );
     }
+
+    /**
+     * outImplode 
+     * 
+     * @param array $value 
+     * @param string $delimiter 
+     * @return void
+     */
+    public static function outImplode( array $value , $delimiter )
+    {
+        array_walk( $value , array ( 'KVDhtml_Tools' , 'out' ) );
+        return implode( $delimiter , $value );
+    }
 }
 ?>
