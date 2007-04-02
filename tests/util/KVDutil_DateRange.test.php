@@ -1,6 +1,8 @@
 <?php
 class TestOfDateRange extends UnitTestCase
 {
+    const DATE_FORMAT = 'd-m-Y';
+    
     private $now;
 
     private $oneWeek;
@@ -16,15 +18,15 @@ class TestOfDateRange extends UnitTestCase
     
     public function testGetters( )
     {
-        $this->assertEqual( $this->now , $this->dr->getStart( ) );
-        $this->assertEqual( $this->oneWeek , $this->dr->getEinde( ) );
+        $this->assertEqual( date( self::DATE_FORMAT , $this->now ) , $this->dr->getStart( ) );
+        $this->assertEqual( date( self::DATE_FORMAT , $this->oneWeek) , $this->dr->getEinde( ) );
     }
 
     public function testGetOmschrijving( )
     {
-        $this->assertEqual(    date( KVDutil_DateRange::DATE_FORMAT , $this->now ) . 
+        $this->assertEqual(    date( self::DATE_FORMAT , $this->now ) . 
                                 ' tot ' . 
-                                date( KVDutil_DateRange::DATE_FORMAT , $this->oneWeek ) ,
+                                date( self::DATE_FORMAT , $this->oneWeek ) ,
                                 $this->dr->getOmschrijving( ) );
     }
 }

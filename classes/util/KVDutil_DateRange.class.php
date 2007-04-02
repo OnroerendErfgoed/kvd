@@ -55,7 +55,7 @@ class KVDutil_DateRange
      */
     public function getStart( )
     {
-        return $this->start;
+        return date ( self::DATE_FORMAT , $this->start);
     }
 
     /**
@@ -65,7 +65,7 @@ class KVDutil_DateRange
      */
     public function getEinde( )
     {
-        return $this->einde;
+        return date ( self::DATE_FORMAT , $this->einde );
     }
 
     /**
@@ -75,7 +75,7 @@ class KVDutil_DateRange
      */
     public function getOmschrijving( )
     {
-        return date( self::DATE_FORMAT , $this->start ) . ' tot ' . date( self::DATE_FORMAT , $this->einde );
+        return $this->getStart( ) . ' tot ' . $this->getEinde( );
     }
 }
 ?>
