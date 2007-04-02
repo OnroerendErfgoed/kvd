@@ -29,6 +29,7 @@ require_once ( KVD_CLASSES_DIR . 'util/KVDutil_WachtwoordGenerator.class.php');
 require_once ( KVD_CLASSES_DIR . 'util/KVDutil_PDOTransaction.class.php');
 require_once ( KVD_CLASSES_DIR . 'util/KVDutil_DownloadModel.class.php');
 require_once ( KVD_CLASSES_DIR . 'util/KVDutil_BestandenToolkit.class.php');
+require_once ( KVD_CLASSES_DIR . 'util/KVDutil_DateRange.class.php');
 
 
 //require_once ( 'util/KVDutil_DimensieConvertor.test.php');
@@ -45,6 +46,7 @@ $test->addTestFile( KVD_TESTS_DIR . 'util/KVDutil_WachtwoordGenerator.test.php')
 $test->addTestFile( KVD_TESTS_DIR . 'util/KVDutil_PDOTransaction.test.php' );
 $test->addTestFile( KVD_TESTS_DIR . 'util/KVDutil_DownloadModel.test.php' );
 $test->addTestFile( KVD_TESTS_DIR . 'util/KVDutil_BestandenToolkit.test.php' );
+$test->addTestFile( KVD_TESTS_DIR . 'util/KVDutil_DateRange.test.php' );
 $test->run(new TextReporter());
 
 ?>
