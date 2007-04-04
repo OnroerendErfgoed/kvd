@@ -22,7 +22,11 @@ abstract class KVDdom_PDOChangeableDataMapper extends KVDdom_PDODataMapper {
     /**
      * @return string SQL statement
      */
-    abstract protected function getDeleteStatement();
+    protected function getDeleteStatement()
+    {
+        return  "DELETE FROM " . $this->tabel .
+                " WHERE id = ?";
+    }
     /**
      * @return string SQL statement
      */

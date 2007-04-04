@@ -81,11 +81,38 @@ abstract class KVDdom_PDODataMapper {
     }
 
     /**
-     * Het SQL statement dat nodig is om een DomainObject aan de hand van zijn Id terug te vinden in de databank
+     * getSelectStatement 
+     * 
+     * @return string SQL Statement
      */
-    abstract protected function getFindByIdStatement();
+    protected function getSelectStatement( )
+    {
+        return  "SELECT " . $this->id . " AS id, " . $this->velden . 
+                " FROM " . $this->tabel;
+    }
 
-    abstract protected function getFindAllStatement();
+    /**
+     * getFindByIdStatement 
+     * Het SQL statement dat nodig is om een DomainObject aan de hand van zijn Id terug te vinden in de databank
+     * @return string SQL Statement
+     */
+    protected function getFindByIdStatement()
+    {
+        return  $this->getSelectStatement( ) . 
+                " WHERE " . $this->id . " = ?";
+    }
+
+    /**
+     * getFindAllStatement 
+     * 
+     * De sql om alle DomainObjects van dit type te zoeken
+     * @return string SQL Statement
+     */
+    protected function getFindAllStatement()
+    {
+        return  $this->getSelectStatement( ) . 
+                " ORDER BY " . $this->id . " ASC";
+    }
    
     /**
      * Een abstract functie die het grootste deel van het opzoekwerk naar een DomainObject met een specifieke Id uitvoert
