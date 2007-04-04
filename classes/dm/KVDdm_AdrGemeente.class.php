@@ -27,7 +27,7 @@ class KVDdm_AdrGemeente extends KVDdom_PDODataMapper {
      * 
      * @return string
      */
-    private function getSelectStatement( )
+    protected function getSelectStatement( )
     {
         return  "SELECT " . self::ID . ", " . self::VELDEN . " , " . KVDdm_AdrProvincie::VELDEN .
                 " FROM " . self::TABEL . " LEFT JOIN " . KVDdm_AdrProvincie::TABEL . 
