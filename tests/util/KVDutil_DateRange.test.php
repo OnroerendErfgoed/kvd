@@ -29,5 +29,12 @@ class TestOfDateRange extends UnitTestCase
                                 date( self::DATE_FORMAT , $this->oneWeek ) ,
                                 $this->dr->getOmschrijving( ) );
     }
+
+    public function testStringInput( )
+    {
+        $dr = new KVDutil_DateRange( '01-01-2004' , '01-12-2004' );
+        $this->assertEqual( date( self::DATE_FORMAT , strtotime( '01-01-2004' ) ) , $dr->getStart( ) );
+        $this->assertEqual( date( self::DATE_FORMAT , strtotime ( '01-12-2004' ) ) , $dr->getEinde( ) );
+    }
 }
 ?>

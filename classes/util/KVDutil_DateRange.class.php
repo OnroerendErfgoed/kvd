@@ -44,8 +44,8 @@ class KVDutil_DateRange
      */
     public function __construct( $start , $einde )
     {
-        $this->start = $start;
-        $this->einde = $einde;
+        $this->start = ( !is_numeric ( $start ) ) ? strtotime( $start ) : $start ;
+        $this->einde = ( !is_numeric ( $einde ) ) ? strtotime( $einde ) : $einde ;
     }
 
     /**
