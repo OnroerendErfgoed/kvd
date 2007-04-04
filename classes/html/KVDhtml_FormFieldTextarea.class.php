@@ -28,7 +28,7 @@ class KVDhtml_FormFieldTextarea extends KVDhtml_FormField
     private $cols;
     
     /**
-     * @param array $fieldOptions
+     * @param array $fieldOptions Naast de standaardopties zijn ook rows en cols beschikbaar.
      */
     protected function setField(&$fieldOptions)
     {

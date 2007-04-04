@@ -20,6 +20,7 @@ require_once( KVD_CLASSES_DIR . 'html/KVDhtml_FormFieldReset.class.php');
 require_once( KVD_CLASSES_DIR . 'html/KVDhtml_FormFieldSubmit.class.php');
 require_once( KVD_CLASSES_DIR . 'html/KVDhtml_FormFieldTextarea.class.php');
 require_once( KVD_CLASSES_DIR . 'html/KVDhtml_FormFieldSelect.class.php');
+require_once( KVD_CLASSES_DIR . 'html/KVDhtml_FormFieldDate.class.php');
 require_once( KVD_CLASSES_DIR . 'html/KVDhtml_FormFieldFactory.class.php');
 require_once( KVD_CLASSES_DIR . 'html/KVDhtml_Tools.class.php');
 
@@ -35,6 +36,7 @@ require_once('html/KVDhtml_FormFieldReset.test.php');
 require_once('html/KVDhtml_FormFieldSubmit.test.php');
 require_once('html/KVDhtml_FormFieldTextarea.test.php');
 require_once('html/KVDhtml_FormFieldSelect.test.php');
+require_once('html/KVDhtml_FormFieldDate.test.php');
 require_once('html/KVDhtml_FormFieldFactory.test.php');
 require_once('html/KVDhtml_Tools.test.php');
 
@@ -52,6 +54,7 @@ $test->addTestCase( new TestOfFormFieldReset());
 $test->addTestCase( new TestOfFormFieldSubmit());
 $test->addTestCase( new TestOfFormFieldTextarea());
 $test->addTestCase( new TestOfFormFieldSelect());
+$test->addTestCase( new TestOfFormFieldDate());
 $test->addTestCase( new TestOfFormFieldFactory());
 $test->addTestCase( new TestOfTools());
 

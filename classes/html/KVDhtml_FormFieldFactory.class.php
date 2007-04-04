@@ -54,6 +54,9 @@ class KVDhtml_FormFieldFactory
             case 'file':;
                 $field = new KVDhtml_FormFieldFile( $fieldOptions );
                 break;
+            case 'date':;
+                $field = new KVDhtml_FormFieldDate( $fieldOptions );
+                break;
             default:
                 throw new InvalidArgumentException ( "U hebt een ongeldig veldtype opgegeven: {$fieldOptions['type']}");
         }
