@@ -77,7 +77,6 @@ abstract class KVDdom_ChangeableDomainObject implements KVDdom_DomainObject, KVD
      *
      * Dit record zal door KVDdom_Sessie worden opgeslaan bij het verwerken van de UnitOfWork. Dit komt neer op het uitvoeren van een SQL INSERT statement.
      */
-    
     protected function markNew()
     {
         $this->_sessie->registerNew($this);
@@ -88,7 +87,6 @@ abstract class KVDdom_ChangeableDomainObject implements KVDdom_DomainObject, KVD
      *
      * Dit record zal door KVDdom_Sessie worden opgeslaan bij het verwerken van de UnitOfWork. Dit komt neer op het uitvoeren van een SQL UPDATE statement.
      */
-    
     protected function markDirty()
     {
         $this->_sessie->registerDirty($this);
@@ -99,7 +97,6 @@ abstract class KVDdom_ChangeableDomainObject implements KVDdom_DomainObject, KVD
      *
      * Dit record zal door KVDdom_Sessie worden verwijderd uit de databank bij het verwerken van de UnitOfWork. Dit komt neer op het uitvoeren van een SQL DELETE statement.
      */
-    
     protected function markRemoved()
     {
         $this->_sessie->registerRemoved($this);

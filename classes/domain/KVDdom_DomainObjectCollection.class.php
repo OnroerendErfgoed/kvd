@@ -126,7 +126,7 @@ class KVDdom_DomainObjectCollection implements SeekableIterator, Countable
        foreach ( $this->collection as $object ) {
            $object->remove( );
        }
-       $this->colletion = array( );
+       $this->collection = array( );
     }
 
     /**

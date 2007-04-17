@@ -92,6 +92,19 @@ abstract class KVDdom_PDOChangeableDataMapper extends KVDdom_PDODataMapper {
         $stmt = $this->_conn->query( "SELECT nextval ( '$sequenceName' )" );
         return $stmt->fetchColumn( );
     }
+
+    /**
+     * getIdFromMysqlSequence 
+     * 
+     * @param string $sequenceName 
+     * @return integer id
+     */
+    protected function getIdFromMysqlSequence( $sequenceName )
+    {
+        $this->_conn->exec( "UPDATE $sequenceName SET id = LAST_INSERT_ID(id+1)" );
+        $stmt = $this->_conn->query( "SELECT LAST_INSERT_ID( )" );
+        return $stmt->fetchColumn( );
+    }
     
     /**
      * @param KVDdom_ChangeableDomainObject
