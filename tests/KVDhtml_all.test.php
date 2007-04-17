@@ -21,6 +21,7 @@ require_once( KVD_CLASSES_DIR . 'html/KVDhtml_FormFieldSubmit.class.php');
 require_once( KVD_CLASSES_DIR . 'html/KVDhtml_FormFieldTextarea.class.php');
 require_once( KVD_CLASSES_DIR . 'html/KVDhtml_FormFieldSelect.class.php');
 require_once( KVD_CLASSES_DIR . 'html/KVDhtml_FormFieldDate.class.php');
+require_once( KVD_CLASSES_DIR . 'html/KVDhtml_FormFieldComboBox.class.php');
 require_once( KVD_CLASSES_DIR . 'html/KVDhtml_FormFieldFactory.class.php');
 require_once( KVD_CLASSES_DIR . 'html/KVDhtml_Tools.class.php');
 
@@ -37,6 +38,7 @@ require_once('html/KVDhtml_FormFieldSubmit.test.php');
 require_once('html/KVDhtml_FormFieldTextarea.test.php');
 require_once('html/KVDhtml_FormFieldSelect.test.php');
 require_once('html/KVDhtml_FormFieldDate.test.php');
+require_once('html/KVDhtml_FormFieldComboBox.test.php');
 require_once('html/KVDhtml_FormFieldFactory.test.php');
 require_once('html/KVDhtml_Tools.test.php');
 

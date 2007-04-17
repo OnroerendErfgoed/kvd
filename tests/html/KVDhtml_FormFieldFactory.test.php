@@ -17,6 +17,8 @@ class TestOfFormFieldFactory extends UnitTestCase
                                         array ( 'type' => 'file' ),
                                         array ( 'type' => 'reset' ),
                                         array ( 'type' => 'submit' ),
+                                        array ( 'type' => 'date'),
+                                        array ( 'type' => 'combobox' , 'dataUrl' => 'persoon.php' ),
                                         array ( )
                                         );
         $this->factory = new KVDhtml_FormFieldFactory();

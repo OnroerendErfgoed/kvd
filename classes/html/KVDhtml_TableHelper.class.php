@@ -220,7 +220,7 @@ class KVDhtml_TableHelper {
      * Indien $row geen array is wordt er van uitgegaan dat er maar 1 veld in de rij aanwezig is.
      * @param array $row
      */
-    public function addRow(&$row)
+    public function addRow($row)
     {
         if (!is_array($row)) {
             $row = array ($row);
@@ -233,11 +233,8 @@ class KVDhtml_TableHelper {
      * @param array $rows Array van arrays.
      * @throws InvalidArgumentException - Indien $rows geen array is.
      */
-    public function addRows(&$rows) {
-        if (!is_array($rows)) {
-            throw new InvalidArgumentException ( "Ongeldige parameter! $rows is geen array!" );    
-        }
-        foreach ($rows as &$row) {
+    public function addRows(array $rows) {
+        foreach ($rows as $row) {
             $this->addRow($row);
         }
     }
@@ -249,7 +246,7 @@ class KVDhtml_TableHelper {
      * Toegestane waarden zijn Table, THead, TBody, TFoot, TH, TD, TTitel.
      * @param array $classes
      */
-    public function setCssClasses(&$classes) {
+    public function setCssClasses($classes) {
         foreach ($classes as $location => $classname) {
             $this->cssClasses[$location] = " class=\"$classname\"";
         }

@@ -57,6 +57,9 @@ class KVDhtml_FormFieldFactory
             case 'date':;
                 $field = new KVDhtml_FormFieldDate( $fieldOptions );
                 break;
+            case 'combobox':;
+                $field = new KVDhtml_FormFieldComboBox( $fieldOptions );
+                break;
             default:
                 throw new InvalidArgumentException ( "U hebt een ongeldig veldtype opgegeven: {$fieldOptions['type']}");
         }
