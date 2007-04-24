@@ -33,6 +33,13 @@ class KVDhtml_FormHelper {
     private $formAction;
 
     /**
+     * id 
+     * 
+     * @var string
+     */
+    private $id = null;
+
+    /**
      * @var string
      */
     private $formEncType = 'application/x-www-form-urlencoded';
@@ -40,13 +47,15 @@ class KVDhtml_FormHelper {
     /**
      * @var string
      */
-    private $formHeader = '<form method="%s" action="%s" enctype="%s">';
+    private $formHeader = '<form method="%s" action="%s" enctype="%s" %s>';
 
     /**
      * @param string $formAction Url naar waar de form moet gepost worden.
      * @param string $formMethod Methode die de form moet gebruiken.
+     * @param string $id
+     * @param boolean $alternateRow Moeten de rijen op het formulier alternerende css classes krijgen?
      */
-    public function __construct ($formAction,$formMethod='post')
+    public function __construct ($formAction,$formMethod='post',$id=null, $alternateRow=true)
     {
         $this->_tableHelper = New KVDhtml_TableHelper();
         
@@ -61,6 +70,10 @@ class KVDhtml_FormHelper {
         }
 
         $this->formMethod = strtolower( $formMethod );
+
+        $this->id = ( $id == null ) ? '' : " id=\"$id\"";
+
+        $this->_tableHelper->setAlternateRow( $alternateRow );
     }
 
     /**
@@ -114,7 +127,7 @@ class KVDhtml_FormHelper {
 
     private function toHtmlFormHeader( )
     {
-        return sprintf( $this->formHeader, $this->formMethod, $this->formAction, $this->formEncType);
+        return sprintf( $this->formHeader, $this->formMethod, $this->formAction, $this->formEncType, $this->id );
     }
 
     private function toHtmlFormFooter( )

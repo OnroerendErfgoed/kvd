@@ -343,7 +343,9 @@ class KVDhtml_TableHelper {
                 } else {
                     $rowclass='class="oneven"';
                 }
-            } 
+            } else {
+                $rowclass='';
+            }
             $body .= "  <tr $rowclass>\n";
             if (!$this->lijst) {
                 $body .= "   <th{$this->cssClasses['TH']}>{$this->headers[$rowCounter-1]}</th>\n";
