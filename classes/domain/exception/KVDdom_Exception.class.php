@@ -72,4 +72,39 @@ class KVDdom_IncompleteSessieCommitException extends Exception
     }
 }
 
+/**
+ * KVDdom_ReferenceViolationException 
+ * 
+ * @package KVD.dom.exception
+ * @since 27 april 2007
+ * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
+class KVDdom_ReferenceViolationException extends Exception
+{
+    protected $domainObject;
+    
+    /**
+     * __construct 
+     * 
+     * @param KVDdom_DomainObject $domainObject
+     * @return void
+     */
+    public function __construct( $domainObject )
+    {
+        $this->domainObject = $domainObject;
+        $this->message = 'U hebt geprobeerd een ' . $domainObject->getClass() . ' met id ' . $domainObject->getId( ) .' te bewerken of verwijderen maar dit is niet mogelijk omdat uw bewerking tot ongeldige referenties met andere objecten zou leiden.';
+    }
+
+    /**
+     * Krijg het DomainObject waarbij de Concurrency Exception zich voordeed.
+     * @return KVDdom_DomainObject
+     */
+    public function getDomainObject ()
+    {
+        return $this->domainObject;
+    }
+}
+
 ?>

@@ -229,11 +229,15 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDODataMapper
      */
     public function delete ( $domainObject )
     {
-        $currentVersie = $domainObject->getSystemFields()->getVersie();
-        $this->LogInsert( $domainObject->getId() );
-        $stmt = $this->_conn->prepare($this->getDeleteStatement());
-        $this->doSetUpdateWhere( $stmt , $domainObject->getId( ) , $currentVersie , 1 );
-        $stmt->execute( );
+        try {
+            $currentVersie = $domainObject->getSystemFields()->getVersie();
+            $this->LogInsert( $domainObject->getId() );
+            $stmt = $this->_conn->prepare($this->getDeleteStatement());
+            $this->doSetUpdateWhere( $stmt , $domainObject->getId( ) , $currentVersie , 1 );
+            $stmt->execute( );
+        } catch ( PDOException $e ) {
+            throw KVDdom_ExceptionConvertor::convert( $e , $domainObject );
+        }
         if ( $stmt->rowCount( )  === 0 ) {
             $message = 'Het object dat u probeert te verwijderen is gewijzigd sinds u het geopend hebt. U hebt geprobeerd om versie ' . $currentVersie . ' te verwijderen.';
             throw new KVDdom_ConcurrencyException ($message,$domainObject);

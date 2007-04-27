@@ -79,7 +79,7 @@ abstract class KVDdom_PDOChangeableDataMapper extends KVDdom_PDODataMapper {
             $stmt->bindValue ( 1, $domainObject->getId( ) , PDO::PARAM_INT );
             $stmt->execute();
         } catch (PDOException $e) {
-            throw $e;
+            throw KVDdom_ExceptionConvertor::convert( $e , $domainObject );
         }
     }
 
