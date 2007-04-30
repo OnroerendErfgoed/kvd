@@ -111,11 +111,7 @@ class KVDdom_DomainObjectCollection implements SeekableIterator, Countable
      */
     public function valid()
     {
-        if ( is_null( key( $this->collection)) ) {
-            return false;
-        } else {
-            return true;
-        }
+        return !is_null( key( $this->collection ) );
     }
 
     /**
