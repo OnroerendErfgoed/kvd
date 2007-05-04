@@ -30,7 +30,7 @@ class KVDhtml_FormFieldDate extends KVDhtml_FormField
     /**
      * @var string 
      */
-    protected $fieldFormat = "<input dojoType=\"%s\" name=\"%s\" id=\"%s\"%s%s%s%s%s%s/>\n";
+    protected $fieldFormat = "<input dojoType=\"%s\" name=\"%s\" id=\"%s\"%s%s%s%s%s%s widgetId=\"%s\" />\n";
 
     /**
      * setField 
@@ -59,7 +59,7 @@ class KVDhtml_FormFieldDate extends KVDhtml_FormField
         $startDate = ( $this->startDate === null ) ? '' : " startDate=\"$this->startDate\"";
         $endDate = ( $this->endDate === null ) ? '' : " endDate=\"$this->endDate\"";
      
-        return sprintf($this->fieldFormat, 'dropdowndatepicker', $this->name, $this->id, $this->value, $this->class, $this->readonly, $this->disabled,$startDate,$endDate);
+        return sprintf($this->fieldFormat, 'dropdowndatepicker', $this->name, $this->id, $this->value, $this->class, $this->readonly, $this->disabled,$startDate,$endDate,$this->id);
     }
 
     /**
