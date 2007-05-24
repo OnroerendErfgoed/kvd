@@ -14,6 +14,12 @@
  * @since 1.0.0
  */
 abstract class KVDdom_PDODataMapper {
+    /**
+     * config 
+     * 
+     * @var array
+     */
+    protected $parameters;
 
     /**
      * Een KVDdom_Sessie object, nodig voor de Unit Of Work en de Identity Map
@@ -65,11 +71,16 @@ abstract class KVDdom_PDODataMapper {
 
     /**
      * Maak de mapper aan en stel een connectie in
+     * 
+     * @param KVDdom_Sessie $sessie 
+     * @param array $parameters 
+     * @return void
      */
-    public function __construct( $sessie )
+    public function __construct( $sessie , $parameters = array( ) )
     {
         $this->_sessie = $sessie;
         $this->_conn = $sessie->getDatabaseConnection( get_class($this) );
+        $this->parameters = $parameters;
         $this->initialize( );
     }
 

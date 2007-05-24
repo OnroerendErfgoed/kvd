@@ -23,15 +23,26 @@ class KVDdom_MapperFactory
      * @var array
      */
     private $mapperDirs;
+
+    /**
+     * parameters 
+     * 
+     * @var array
+     */
+    private $parameters;
     
     /**
      * @param KVDdom_Sessie $sessie Wordt doorgegeven aan de mapper omwille van de Uow en de connection.
      * @param array $mapperDirs Directories waar de mappers gevonden kunnen worden.
+     * @param array $parameters Parameters die moeten doorgegeven worden aan een mapper wanneer die wordt aangemaakt. 
+     *                          Associatieve array met als key de naam van de mapper en als value het parameter array 
+     *                          (dat zelf ook een associatieve array is).
      */
-    public function __construct ( $sessie , $mapperDirs )
+    public function __construct ( $sessie , $mapperDirs , $parameters = array( ) )
     {
         $this->_sessie = $sessie;
         $this->mapperDirs = $mapperDirs;
+        $this->parameters = $parameters;
     }
     
     /**
@@ -52,7 +63,8 @@ class KVDdom_MapperFactory
             $message .= implode( $this->mapperDirs , ",\n" );
             throw new RuntimeException ( $message  );
         }
-        return new $classMapper ($this->_sessie);
+        $parameters = array_key_exists( $classMapper , $this->parameters ) ? $this->parameters[$classMapper] : array( );
+        return new $classMapper ($this->_sessie , $parameters );
     }
 
     /**
