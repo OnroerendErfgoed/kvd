@@ -39,8 +39,8 @@ class KVDutil_DateRange
     /**
      * __construct 
      * 
-     * @param integer $start 
-     * @param integer $einde 
+     * @param mixed $start Integer of string. 
+     * @param mixed $einde Integer of string.
      */
     public function __construct( $start , $einde )
     {
