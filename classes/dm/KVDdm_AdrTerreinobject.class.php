@@ -45,7 +45,7 @@ class KVDdm_AdrTerreinobject {
     /**
      * @param KVDdom_Sessie $sessie
      */
-    public function __construct ( $sessie )
+    public function __construct ( $sessie , $parameters = array( ) )
     {
         $this->_sessie = $sessie;
         $this->_gateway = $sessie->getGateway( 'KVDgis_Crab2Gateway');
