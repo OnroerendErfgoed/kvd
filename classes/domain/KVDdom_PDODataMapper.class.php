@@ -86,8 +86,6 @@ abstract class KVDdom_PDODataMapper {
 
     protected function initialize( )
     {
-        $this->_conn->exec( 'SET CLIENT_ENCODING TO LATIN1' );
-        $this->_conn->exec( "SET DATESTYLE TO 'EUROPEAN,GERMAN'" );
         $this->id = 'id';
     }
 
