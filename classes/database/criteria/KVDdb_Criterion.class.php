@@ -30,6 +30,11 @@ class KVDdb_Criterion
     const EQUAL = '=';
 
     /**
+     * @var string 
+     */
+    const NOT_EQUAL = '<>';
+
+    /**
      * @var string
      */
     const GREATER_THAN = '>';
@@ -180,6 +185,18 @@ class KVDdb_Criterion
     public static function equals ( $field, $value )
     {
         return new KVDdb_Criterion ( self::EQUAL, $field, $value );
+    }
+
+    /**
+     * notEquals 
+     * 
+     * @param string $field 
+     * @param mixed $value 
+     * @return KVDdb_Criterion
+     */
+    public static function notEquals( $field , $value )
+    {
+        return new KVDdb_Criterion( self::NOT_EQUAL , $field, $value );
     }
 
     /**
