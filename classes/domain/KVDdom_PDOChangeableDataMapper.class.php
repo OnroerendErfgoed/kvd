@@ -108,8 +108,16 @@ abstract class KVDdom_PDOChangeableDataMapper extends KVDdom_PDODataMapper {
     
     /**
      * @param KVDdom_ChangeableDomainObject
+     * @return KVDdom_ChangeableDomainObject
      */
-    abstract public function update ($domainObject);
+    public function update ($domainObject)
+    {
+        $stmt = $this->_conn->prepare(  $this->getUpdateStatement(  ));
+        $nextIndex = $this->bindValues(  $stmt , 1 , $domainObject );
+        $stmt->bindValue(  $nextIndex , $domainObject->getId(  ) , PDO::PARAM_INT );
+        $stmt->execute(  );
+        return $domainObject;
+    }
     
     /**
      * bindValues 
