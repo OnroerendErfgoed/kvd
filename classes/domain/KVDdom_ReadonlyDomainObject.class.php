@@ -80,5 +80,15 @@ abstract class KVDdom_ReadonlyDomainObject implements KVDdom_DomainObject , KVDd
        $this->_sessie->registerClean($this);
     }
 
+    /**
+     * __toString 
+     * 
+     * @return string
+     */
+    public function __toString( )
+    {
+        return $this->getOmschrijving( );
+    }
+
 }
 ?>

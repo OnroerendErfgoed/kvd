@@ -53,6 +53,16 @@ abstract class KVDdom_ValueDomainObject implements KVDdom_DomainObject
     {
         return get_class( $this );
     }
+
+    /**
+     * __toString 
+     * 
+     * @return string
+     */
+    public function __toString( )
+    {
+        return $this->getOmschrijving( );
+    }
     
 }
 ?>
