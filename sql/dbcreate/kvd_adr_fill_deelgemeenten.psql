@@ -549,7 +549,7 @@ INSERT INTO kvd_adr.deelgemeente VALUES ( '24107F' , 'Sint-Margriete-Houtem' , 2
 INSERT INTO kvd_adr.deelgemeente VALUES ( '24107D' , 'Kumtich' , 24107 );
 INSERT INTO kvd_adr.deelgemeente VALUES ( '24086D' , 'Haasrode' , 24086 );
 INSERT INTO kvd_adr.deelgemeente VALUES ( '38014A' , 'Koksijde' , 38014 );
-INSERT INTO kvd_adr.deelgemeente VALUES ( '38008A' , 'De panne' , 38008 );
+INSERT INTO kvd_adr.deelgemeente VALUES ( '38008A' , 'De Panne' , 38008 );
 INSERT INTO kvd_adr.deelgemeente VALUES ( '32003B' , 'Beerst' , 32003 );
 INSERT INTO kvd_adr.deelgemeente VALUES ( '36011A' , 'Lichtervelde' , 36011 );
 INSERT INTO kvd_adr.deelgemeente VALUES ( '38002A' , 'Alveringem' , 38002 );
