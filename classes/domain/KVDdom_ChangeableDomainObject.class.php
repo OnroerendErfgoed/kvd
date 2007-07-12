@@ -153,7 +153,7 @@ abstract class KVDdom_ChangeableDomainObject implements KVDdom_DomainObject, KVD
      */
     public function getSystemFields( )
     {
-        return $this->systemFields
+        return $this->systemFields;
     }
 
 }

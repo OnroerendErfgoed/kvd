@@ -93,7 +93,7 @@ class KVDdom_ChangeableSystemFields {
         $this->versie = $this->targetVersie = $versie;
         $this->aangemaaktOp = date(KVDdom_DomainObject::DATETIME_FORMAT , $aangemaaktOp );
         $this->bewerktDoor = $bewerktDoor;
-        $this->bewerktOp = is_null( $gbewerktOp ) ? null : date( KVDdom_DomainObject::DATETIME_FORMAT , $bewerktOp );
+        $this->bewerktOp = is_null( $bewerktOp ) ? null : date( KVDdom_DomainObject::DATETIME_FORMAT , $bewerktOp );
         $this->locked = false;
     }
 
@@ -182,7 +182,7 @@ class KVDdom_ChangeableSystemFields {
      */
     public function isBewerkt( )
     {
-        return !( $this->aangemaaktOp == $this->bewerktOp)
+        return !( $this->aangemaaktOp == $this->bewerktOp);
     }
 
     /**

@@ -16,7 +16,7 @@
  */
 abstract class KVDdom_PDODataMapper {
     /**
-     * config 
+     * parameters 
      * 
      * @var array
      */
@@ -39,7 +39,7 @@ abstract class KVDdom_PDODataMapper {
      * 
      * @var KVDdom_AbstractSystemFieldsMapper
      */
-    protected $systemFieldsMapper
+    protected $systemFieldsMapper;
 
     /**
      * Velden uit de databank waarin het DomainObject wordt opgeslagen.

@@ -18,7 +18,7 @@
  * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
-class KVDdom_AbstractSystemFieldsMapper
+abstract class KVDdom_AbstractSystemFieldsMapper
 {
     /**
      * systemFields 
@@ -50,6 +50,9 @@ class KVDdom_AbstractSystemFieldsMapper
     public function getSystemFieldsString ( $tabelNaam , $logTabel = false , $systemFields = null )
     {
         $systemFields = ( $systemFields === null ) ? $this->systemFields : $systemFields;
+        if ( $systemFields == '' ) {
+            return '';
+        }
         $fields = explode ( ', ' , $systemFields );
         $tabel = ( $logTabel === false ) ? $tabelNaam : 'log_' . $tabelNaam;
         foreach ( $fields as &$field ) {
@@ -149,6 +152,6 @@ class KVDdom_AbstractSystemFieldsMapper
      * @param string $gebruiker 
      * @return void
      */
-    abstract public function updateSystemFields( KVdom_DomainObject $domainObject , $gebruiker=null);
+    abstract public function updateSystemFields( KVDdom_DomainObject $domainObject , $gebruiker=null);
 }
 ?>

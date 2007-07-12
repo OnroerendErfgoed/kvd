@@ -19,6 +19,7 @@ abstract class KVDdom_PDOChangeableDataMapper extends KVDdom_PDODataMapper {
      * @return string SQL statement
      */
     abstract protected function getInsertStatement();
+    
     /**
      * @return string SQL statement
      */

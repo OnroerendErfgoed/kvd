@@ -86,12 +86,12 @@ class KVDdom_ChangeableSystemFieldsMapper extends KVDdom_AbstractSystemFieldsMap
     /**
      * updateSystemFields 
      * 
-     * @param KVdom_DomainObject $domainObject 
+     * @param KVDdom_DomainObject $domainObject 
      * @param string $gebruiker 
      * @throws LogicException   Indien het domainObject geen systemFields heeft.
      * @return void
      */
-    public function updateSystemFields( KVdom_DomainObject $domainObject , $gebruiker=null)
+    public function updateSystemFields( KVDdom_DomainObject $domainObject , $gebruiker=null)
     {
         if ( !$domainObject->hasSystemFields( ) ) {
             throw new LogicException ( 'Kan de systemFields van een object dat geen systemFields heeft niet updaten.');

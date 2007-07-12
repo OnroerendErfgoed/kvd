@@ -38,7 +38,7 @@ class KVDdom_NullSystemFieldsMapper extends KVDdom_AbstractSystemFieldsMapper
      * @param integer $versie 
      * @return KVDdom_NullSystemFields
      */
-    public static function newNull( $versie )
+    public function newNull( $versie = 0)
     {
         return KVDdom_ChangeableSystemFields::newNull( );
     }
@@ -50,7 +50,7 @@ class KVDdom_NullSystemFieldsMapper extends KVDdom_AbstractSystemFieldsMapper
      * @param string $gebruiker 
      * @return void
      */
-    public function updateSystemFields( KVdom_DomainObject $domainObject , $gebruiker=null)
+    public function updateSystemFields( KVDdom_DomainObject $domainObject , $gebruiker=null)
     {
         return;
     }
