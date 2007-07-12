@@ -45,6 +45,13 @@ interface KVDdom_IWriteSessie extends KVDdom_IReadSessie{
      * @return array Een array met keys ( bv. 'insert' , 'update' , 'delete' ) die het aantal affected records bevatten.
      */
     public function commit();
+
+    /**
+     * getGebruiker 
+     * 
+     * @return KVDdom_Gebruiker
+     */
+    public function getGebruiker( );
      
 }
 ?>
