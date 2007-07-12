@@ -31,16 +31,25 @@ abstract class KVDdom_ChangeableDomainObject implements KVDdom_DomainObject, KVD
      * @var KVDdom_Sessie
      */
     protected $_sessie;
+
+    /**
+     * systemFields 
+     * 
+     * @var KVDdom_ChangeableSystemFields
+     */
+    protected $systemFields;
     
     /**
      * Maak het KVDdom_DomainObject
-     * @param KVDdom_Sessie $sessie 
      * @param integer $id Id dat aan het nieuwe KVDdom_DomainObject moet gegeven worden.
+     * @param KVDdom_Sessie $sessie 
+     * @param KVDdom_ChangeableSystemFields $systemFields
      */
-    public function __construct ( $id , $sessie ) 
+    public function __construct ( $id , $sessie , $systemFields = null) 
     {
         $this->_sessie = $sessie;
         $this->id = $id;
+        $this->systemFields = $systemFields;
         $this->markClean();
     }
 
@@ -124,6 +133,27 @@ abstract class KVDdom_ChangeableDomainObject implements KVDdom_DomainObject, KVD
     public function isNull( )
     {
         return false;
+    }
+
+    /**
+     * hasSystemFields 
+     * 
+     * @return boolean
+     */
+    public function hasSystemFields( )
+    {
+        return !is_null( $this->systemFields );
+    }
+
+    /**
+     * getSystemFields 
+     * 
+     * Geeft het systemFields object terug of null indien er geen is.
+     * @return KVDdom_ChangeableSystemFields
+     */
+    public function getSystemFields( )
+    {
+        return $this->systemFields
     }
 
 }

@@ -61,8 +61,10 @@ abstract class KVDdom_PDOChangeableDataMapper extends KVDdom_PDODataMapper {
      */
     protected function doInsert( $stmt , $domainObject )
     {
-            $stmt->bindValue ( 1 , $domainObject->getId( ) , PDO::PARAM_INT );
-            return $this->bindValues ( $stmt , 2 , $domainObject );    
+        $this->systemFieldsMapper->updateSystemFields( $domainObject , $this->_sessie->getGebruiker( )->getGebruikersNaam( ) );
+        $stmt->bindValue ( 1 , $domainObject->getId( ) , PDO::PARAM_INT );
+        $next = $this->bindValues ( $stmt , 2 , $domainObject );
+        return $this->systemFieldsMapper->doSetSystemFields( $stmt , $domainObject, $next );
     }
 
     /**
@@ -112,8 +114,10 @@ abstract class KVDdom_PDOChangeableDataMapper extends KVDdom_PDODataMapper {
      */
     public function update ($domainObject)
     {
+        $this->systemFieldsMapper->updateSystemFields( $domainObject , $this->_sessie->getGebruiker( )->getGebruikersNaam( ) );
         $stmt = $this->_conn->prepare(  $this->getUpdateStatement(  ));
         $nextIndex = $this->bindValues(  $stmt , 1 , $domainObject );
+        $nextIndex =  $this->systemFieldsMapper->doSetSystemFields( $stmt , $domainObject, $nextIndex );
         $stmt->bindValue(  $nextIndex , $domainObject->getId(  ) , PDO::PARAM_INT );
         $stmt->execute(  );
         return $domainObject;

@@ -109,54 +109,6 @@ abstract class KVDdom_PDORedigeerbareDataMapper extends KVDdom_PDOLogableDataMap
         return " ORDER BY bewerkt_op DESC";    
     }
     
-
-    /**
-     * Laad een SystemFields object op basis van een ResultSet
-     *
-     * @param StdClass $row Een StdClass object dat door PDO wordt afgeleverd via fetchRow. Dit object moet de nodige velden bevatten om een Systemfields object mee samen te kunnen stellen.
-     * @param string $prefix Moet er voor zorgen dat bij een join van 2+ tabellen er 2+ systemfields objecten geladen kunnen worden. Standaard wordt er van uitgegaan dat er geen prefix nodig is.
-     * @return KVDdom_SystemFields
-     */
-    public function doLoadSystemFields( $row , $prefix = null)
-    {
-        if ($prefix !== null) {
-            $prefix = $prefix . '_';
-        }
-        $gebruiker = $prefix . 'gebruiker';
-        $versie = $prefix . 'versie';
-        $bewerktOp = $prefix . 'bewerkt_op';
-        $gecontroleerd = $prefix . 'gecontroleerd';
-        $gecontroleerdDoor = $prefix . 'gecontroleerd_door';
-        $gecontroleerdOp = $prefix . 'gecontroleerd_op';
-        return new KVDdom_SystemFields (    $row->$gebruiker,
-                                            $row->$versie ,
-                                            strtotime( $row->$bewerktOp ),
-                                            $row->$gecontroleerd,
-                                            $row->$gecontroleerdDoor,
-                                            strtotime( $row->$gecontroleerdOp )
-                                        );
-    }
-     
-    /**
-     * Stel de waarden van het SystemFields object in in de SQL statement
-     *
-     * @param PDOStatement $stmt
-     * @param KVDdom_DomainObject $domainObject
-     * @param integer $startIndex De numerieke index in de PDO Statement van de eerste parameter ( de gebruikersnaam ).
-     * @return integer Nummer van de volgende te gebruiken index in het sql statement.
-     */
-    protected function doSetSystemFields($stmt, $domainObject, $startIndex )
-    {
-        $systemFields = $domainObject->getSystemFields();
-        $stmt->bindValue( $startIndex++ , $systemFields->getGebruikersNaam( ) , PDO::PARAM_STR );
-        $stmt->bindValue( $startIndex++ , $systemFields->getBewerktOp( ) , PDO::PARAM_STR );
-        $stmt->bindValue( $startIndex++ , $systemFields->getTargetVersie( ) , PDO::PARAM_INT );
-        $stmt->bindValue( $startIndex++ , $systemFields->getGecontroleerd( ) , PDO::PARAM_BOOL );
-        $stmt->bindValue( $startIndex++ , $systemFields->getGecontroleerdDoor( ) , PDO::PARAM_STR );
-        $stmt->bindValue( $startIndex++ , $systemFields->getGecontroleerdOp( ) , PDO::PARAM_STR );
-        return $startIndex;
-    }
-        
     /**
      * Zoek alle records van deze datamapper die nog niet gecontroleerd zijn.
      * @param string $orderField
@@ -299,7 +251,7 @@ abstract class KVDdom_PDORedigeerbareDataMapper extends KVDdom_PDOLogableDataMap
                 // Er is helemaal niets van dit type met deze id in de databank.
                 throw $e;
             }
-            $systemFields = new KVDdom_SystemFields( 'ongekend', $laatsteVersie->getSystemFields( )->getVersie( ) );
+            $systemFields = $this->systemFieldsMapper->newNull( $laatsteVersie->getSystemFields( )->getVersie( ) );
             $domainObject = $this->createDeleted( $id, $systemFields );
         }
         return $domainObject;

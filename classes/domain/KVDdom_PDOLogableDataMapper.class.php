@@ -139,25 +139,6 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDODataMapper
     }
 
     /**
-     * getLogSystemFields 
-     * 
-     * @param string $tabelNaam Naam van de tabel waarvoor geprefixt moet worden.
-     * @param boolean $logTabel Wordt de data geladen uit de gelogde tabel of niet?
-     * @param string $systemFields String met alle systeemvelden
-     * @return string Lijst van de systeemVelden, maar met een prefix en 
-     */
-    protected function getSystemFieldsString ( $tabelNaam , $logTabel = false , $systemFields = null )
-    {
-        $systemFields = ( $systemFields === null ) ? $this->sfvelden : $systemFields;
-        $fields = explode ( ', ' , $systemFields );
-        $tabel = ( $logTabel === false ) ? $tabelNaam : 'log_' . $tabelNaam;
-        foreach ( $fields as &$field ) {
-            $field = "$tabel.$field AS " . $tabelNaam . "_" . $field;
-        }
-        return implode ( ', ', $fields );
-    }
-
-    /**
      * Voeg een nieuw DomainObject toe aan de databank
      *
      * @param KVDdom_LogableDomainObject $domainObject Het DomainObject dat moet toegevoegd worden aan de databank.
@@ -173,38 +154,6 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDODataMapper
         } catch (PDOException $e) {
             throw $e;
         }
-    }
-
-    /**
-     * doInsert 
-     *
-     * Dit is een stub methode die de standaard handelingen uitvoert maar verder kan overschreven worden.
-     * @since 30 okt 2006
-     * @param PDOStatement $stmt 
-     * @param KVDdom_LogableDomainObject $domainObject 
-     * @return integer Nummer van de volgende te gebruiken index in het sql statement.
-     */
-    protected function doInsert( $stmt , $domainObject )
-    {
-            $domainObject->getSystemFields( )->updateSystemFields( $this->_sessie->getGebruiker( )->getGebruikersNaam( ) );
-            $stmt->bindValue ( 1 , $domainObject->getId( ) , PDO::PARAM_INT );
-            $lastIndex = $this->bindValues ( $stmt , 2 , $domainObject );    
-            return $this->doSetSystemFields( $stmt , $domainObject , $lastIndex );
-    }
-    
-    /**
-     * Stel de waarden van het SystemFields object in in de SQL statement
-     *
-     * @param PDOStatement $stmt
-     * @param KVDdom_DomainObject $domainObject
-     * @param integer $startIndex De numerieke index in de PDO Statement van de eerste parameter ( de gebruikersnaam ).
-     * @return integer Nummer van de volgende te gebruiken index in het sql statement.
-     */
-    protected function doSetSystemFields($stmt, $domainObject, $startIndex )
-    {
-        $systemFields = $domainObject->getSystemFields();
-        $stmt->bindValue( $startIndex++ , $systemFields->getTargetVersie( ) , PDO::PARAM_INT );
-        return $startIndex;
     }
 
     /**
@@ -400,5 +349,44 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDODataMapper
         }
     }
 
+    /**
+     * getSystemFieldsString 
+     * 
+     * @deprecated              Beter om rechtstreeks naar de systemFieldsMapper te gaan.
+     * @param string $tabelNaam 
+     * @param boolean $logTabel 
+     * @param string $systemFields 
+     * @return string
+     */
+    protected function getSystemFieldsString (  $tabelNaam , $logTabel = false , $systemFields = null )
+    {
+        return $this->systemFieldsMapper->getSystemFieldsString( $tabelNaam, $logTabel , $systemFields );
+    }
+
+    /*
+     * Stel de waarden van het SystemFields object in in de SQL statement
+     *
+     * @deprecated              Beter om rechtstreeks naar de systemFieldsMapper te gaan.
+     * @param PDOStatement $stmt
+     * @param KVDdom_DomainObject $domainObject
+     * @param integer $startIndex De numerieke index in de PDO Statement van de eerste parameter (  de gebruikersnaam ).
+     * @return integer Nummer van de volgende te gebruiken index in het sql statement.
+     */
+    protected function doSetSystemFields( $stmt, $domainObject, $startIndex )
+    {
+        return $this->systemFieldsMapper->doSetSystemFields( $stmt, $domainObject, $startIndex );
+    }
+
+    /**
+     * doLoadSystemFields 
+     * 
+     * @deprecated              Beter om rechtstreeks naar de systemFieldsMapper te gaan.
+     * @param stdClass $row 
+     * @param string $prefix 
+     * @return KVDdom_LegacySystemFields
+     */
+    protected function doLoadSystemFields( $row , $prefix = null)
+    {
+        return $this->systemFieldsMapper->doLoadSystemFields( $row , $prefix );
+    }
 }
-?>

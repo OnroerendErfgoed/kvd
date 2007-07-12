@@ -1,24 +1,23 @@
 <?php
 /**
  * @package KVD.dom
- * @version $Id$
+ * @version $Id: KVDdom_SystemFields.class.php 278 2007-02-16 15:17:52Z vandaeko $
  * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
     
 /**
- * KVDdom_SystemFields 
+ * KVDdom_LegacySystemFields 
  * 
  * Een class die de status van DomainObjects bijhoudt. Heeft geen eigen DataMapper, deze taak wordt afgehandeld door de Abstracte DataMappers.
- * @deprecated  Gebruik het KVDdom_LegacySystemFields object dat identiek is aan dit.
  * @package KVD.dom
  * @since 2005
  * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
-class KVDdom_SystemFields {
+class KVDdom_LegacySystemFields {
     /**
      * De gebruiker die iets met het record gedaan heeft. Meestal is dit de invoerder.
      * @var string Een gebruikersnaam zoals ze voorkomt in de databank.

@@ -1,7 +1,8 @@
 <?php
 /**
+ * @version $Id$
  * @package KVD.dom
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  * @version $Id$
  */
 
@@ -10,8 +11,8 @@
  *
  * Een basis class die de mapping-functies die alle DataMappers gebruiken groepeert. Dit komt neer op een DataMapper voor Read-Only objecten
  * @package KVD.dom
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @since 1.0.0
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
+ * @since 2005
  */
 abstract class KVDdom_PDODataMapper {
     /**
@@ -32,6 +33,13 @@ abstract class KVDdom_PDODataMapper {
      * @var Connection
      */
     protected $_conn;
+
+    /**
+     * systemFieldsMapper 
+     * 
+     * @var KVDdom_AbstractSystemFieldsMapper
+     */
+    protected $systemFieldsMapper
 
     /**
      * Velden uit de databank waarin het DomainObject wordt opgeslagen.
@@ -84,9 +92,29 @@ abstract class KVDdom_PDODataMapper {
         $this->initialize( );
     }
 
+    /**
+     * initialize 
+     * 
+     * @return void
+     */
     protected function initialize( )
     {
+        $this->determineSystemFieldsMapper( );
         $this->id = 'id';
+        
+    }
+
+    /**
+     * determineSystemFieldsMapper 
+     * 
+     * @return void
+     */
+    protected function determineSystemFieldsMapper( )
+    {
+        if ( !isset( $this->parameters['systemFieldsMapper'] ) ) {
+            $this->parameters['systemFieldsMapper'] = 'geen';
+        }
+        $this->systemFieldsMapper = KVDdom_AbstractSystemFieldsMapper::create( $this->parameters['systemFieldsMapper'] );
     }
 
     /**
@@ -205,5 +233,4 @@ abstract class KVDdom_PDODataMapper {
     }
     
 }
-
 ?>
