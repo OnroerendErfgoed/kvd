@@ -48,7 +48,7 @@ class KVDutil_CacheFile
     }
 
     /**
-     * @var string buffer
+     * @param string $buffer
      * @return boolean True indien de data werd weggeschreven, false indien dit niet mogelijk was.
      */
     public function put ( $buffer )
