@@ -46,12 +46,12 @@ class KVDdom_RedigeerbareSystemFieldsMapper extends KVDdom_AbstractSystemFieldsM
         $gecontroleerdDoor = $prefix . 'gecontroleerd_door';
         $gecontroleerdOp = $prefix . 'gecontroleerd_op';
         return new KVDdom_RedigeerbareSystemFields( $row->$aangemaaktDoor,
-                                                    strtotime( $row->$aangemaaktOp),
+                                                    new DateTime( $row->$aangemaaktOp),
                                                     $row->$versie,
                                                     $row->$bewerktDoor,
-                                                    strtotime( $row->$bewerktOp),
+                                                    new DateTime( $row->$bewerktOp),
                                                     $row->$gecontroleerdDoor,
-                                                    strtotime( $row->$gecontroleerdOp) );
+                                                    new DateTime( $row->$gecontroleerdOp) );
     }
      
     /**
@@ -71,10 +71,10 @@ class KVDdom_RedigeerbareSystemFieldsMapper extends KVDdom_AbstractSystemFieldsM
         $stmt->bindValue( $startIndex++ , $systemFields->getAangemaaktDoor( ) , PDO::PARAM_STR );
         $stmt->bindValue( $startIndex++ , $systemFields->getAangemaaktOp( ) , PDO::PARAM_STR );
         $stmt->bindValue( $startIndex++ , $systemFields->getBewerktDoor( ) , PDO::PARAM_STR );
-        $stmt->bindValue( $startIndex++ , $systemFields->getBewerktOp( ) , PDO::PARAM_STR );
+        $stmt->bindValue( $startIndex++ , $systemFields->isBewerkt( ) ? $systemFields->getBewerktOp( ) : null , PDO::PARAM_STR );
         $stmt->bindValue( $startIndex++ , $systemFields->getTargetVersie( ) , PDO::PARAM_INT );
         $stmt->bindValue( $startIndex++ , $systemFields->getGecontroleerdDoor( ) , PDO::PARAM_STR );
-        $stmt->bindValue( $startIndex++ , $systemFields->getGecontroleerdOp( ) , PDO::PARAM_STR );
+        $stmt->bindValue( $startIndex++ , $systemFields->isGecontroleerd( ) ? $systemFields->getGecontroleerdOp( ) : null , PDO::PARAM_STR );
         return $startIndex;
     }
         

@@ -41,19 +41,19 @@ class KVDdom_RedigeerbareSystemFields extends KVDdom_ChangeableSystemFieldsMappe
     /**
      * Maak het object aan. Enkel het gebruikersobject is verreist. De andere velden kunnen worden opgevuld met standaardwaarden.
      * @param string $aangemaaktDoor Naam van de gebruiker.
-     * @param integer $aangemaaktOp Wanneer werd het record aangemaakt?
+     * @param DateTime $aangemaaktOp Wanneer werd het record aangemaakt?
      * @param integer $versie Huidige versie van het record.
      * @param string $bewerktDoor Wie heeft het record bewerkt, null indien het nog niet bewerkt werd.
-     * @param integer $bewerktOp Wanneer werd dit record het laatst bewerkt, null indien het nog nooit bewerkt werd.
+     * @param DateTime $bewerktOp Wanneer werd dit record het laatst bewerkt, null indien het nog nooit bewerkt werd.
      * @param string $gecontroleerdDoor Wie heeft het record bewerkt, null indien het nog niet gecontroleerd werd.
-     * @param integer $gecontroleerdOp Wanneer werd dit record het laatst bewerkt, null indien het nog nooit gecontroleerd werd.
+     * @param DateTime $gecontroleerdOp Wanneer werd dit record het laatst bewerkt, null indien het nog nooit gecontroleerd werd.
      */ 
-    public function __construct ( $aangemaaktDoor, $aangemaaktOp = null, $versie = 0, $bewerktDoor = null, $bewerktOp = null, $gecontroleerdDoor = null, $gecontroleerdOp = null)
+    public function __construct ( $aangemaaktDoor, DateTime $aangemaaktOp = null, $versie = 0, $bewerktDoor = null, DateTime $bewerktOp = null, $gecontroleerdDoor = null, DateTime $gecontroleerdOp = null)
     {
         parent::__construct( $aangemaaktDoor , $aangemaaktOp, $versie, $bewerktDoor, $bewerktOp, $gecontroleerdDoor, $gecontroleerdOp );
 
         $this->gecontroleerdDoor = $gecontroleerdDoor;
-        $this->gecontroleerdOp = is_null( $gecontroleerdOp ) ? null : date( KVDdom_DomainObject::DATETIME_FORMAT , $gecontroleerdOp );
+        $this->gecontroleerdOp = $gecontroleerdOp;
     }
 
     /**
@@ -70,7 +70,7 @@ class KVDdom_RedigeerbareSystemFields extends KVDdom_ChangeableSystemFieldsMappe
         if ( !$this->locked ) {
             $this->bewerktDoor = ( $gebruikersNaam == null ) ? $this->aangemaaktDoor : $gebruikersNaam;
             $this->targetVersie++;
-            $this->bewerktOp = date(KVDdom_DomainObject::DATETIME_FORMAT , time());
+            $this->bewerktOp = new DateTime( );
             //Zeker zijn dat aangemaaktOp en bewerktOp gelijk zijn in het geval van een nieuw object.
             if ( $this->versie == 0 ) {
                 $this->aangemaaktOp = $this->bewerktOp;
@@ -91,7 +91,7 @@ class KVDdom_RedigeerbareSystemFields extends KVDdom_ChangeableSystemFieldsMappe
     }
 
     /**
-     * @return string Een datum string.
+     * @return DateTime
      */
     public function getGecontroleerdOp()
     {

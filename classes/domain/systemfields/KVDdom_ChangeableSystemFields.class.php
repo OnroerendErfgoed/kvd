@@ -84,16 +84,16 @@ class KVDdom_ChangeableSystemFields {
      * @param string $bewerktDoor Wie heeft het record bewerkt, null indien het nog niet bewerkt werd.
      * @param integer $bewerktOp Wanneer werd dit record het laatst bewerkt, null indien het nog nooit bewerkt werd.
      */ 
-    public function __construct ( $aangemaaktDoor, $aangemaaktOp = null, $versie = 0, $bewerktDoor = null, $bewerktOp = null)
+    public function __construct ( $aangemaaktDoor, DateTime $aangemaaktOp = null, $versie = 0, $bewerktDoor = null, DateTime $bewerktOp = null)
     {
         if ($aangemaaktOp == null) {
-            $aangemaaktOp = time( );
+            $aangemaaktOp = new DateTime( );
         }
         $this->aangemaaktDoor = $aangemaaktDoor;
         $this->versie = $this->targetVersie = $versie;
-        $this->aangemaaktOp = date(KVDdom_DomainObject::DATETIME_FORMAT , $aangemaaktOp );
+        $this->aangemaaktOp = $aangemaaktOp;
         $this->bewerktDoor = $bewerktDoor;
-        $this->bewerktOp = is_null( $bewerktOp ) ? null : date( KVDdom_DomainObject::DATETIME_FORMAT , $bewerktOp );
+        $this->bewerktOp = $bewerktOp;
         $this->locked = false;
     }
 
@@ -111,7 +111,7 @@ class KVDdom_ChangeableSystemFields {
         if ( !$this->locked ) {
             $this->bewerktDoor = ( $gebruikersNaam == null ) ? $this->aangemaaktDoor : $gebruikersNaam;
             $this->targetVersie++;
-            $this->bewerktOp = date(KVDdom_DomainObject::DATETIME_FORMAT , time());
+            $this->bewerktOp = new DateTime( );
             //Zeker zijn dat aangemaaktOp en bewerktOp gelijk zijn in het geval van een nieuw object.
             if ( $this->versie == 0 ) {
                 $this->aangemaaktOp = $this->bewerktOp;
@@ -130,7 +130,7 @@ class KVDdom_ChangeableSystemFields {
     }
 
     /**
-     * @return string Een datum string.
+     * @return DateTime
      */
     public function getAangemaaktOp()
     {
@@ -158,7 +158,7 @@ class KVDdom_ChangeableSystemFields {
     }
 
     /**
-     * @return string Een datum string.
+     * @return string DateTime
      */
     public function getBewerktOp()
     {
@@ -182,7 +182,7 @@ class KVDdom_ChangeableSystemFields {
      */
     public function isBewerkt( )
     {
-        return !( $this->aangemaaktOp == $this->bewerktOp);
+        return $this->aangemaaktOp->format( 'U' ) != $this->bewerktOp->format( 'U' );
     }
 
     /**

@@ -90,6 +90,7 @@ abstract class KVDdom_PDODataMapper {
         $this->_conn = $sessie->getDatabaseConnection( get_class($this) );
         $this->parameters = $parameters;
         $this->initialize( );
+        $this->determineSystemFieldsMapper( );
     }
 
     /**
@@ -99,9 +100,7 @@ abstract class KVDdom_PDODataMapper {
      */
     protected function initialize( )
     {
-        $this->determineSystemFieldsMapper( );
         $this->id = 'id';
-        
     }
 
     /**
@@ -124,7 +123,11 @@ abstract class KVDdom_PDODataMapper {
      */
     protected function getSelectStatement( )
     {
-        return  "SELECT " . $this->id . " AS id, " . $this->velden . 
+        $sf = $this->systemFieldsMapper->getSystemFields();
+        if ( $sf <> '' ) {
+            $sf = ', ' . $sf;
+        }
+        return  "SELECT " . $this->id . " AS id, " . $this->velden . $sf .
                 " FROM " . $this->tabel;
     }
 

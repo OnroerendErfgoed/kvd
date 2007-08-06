@@ -45,10 +45,10 @@ class KVDdom_ChangeableSystemFieldsMapper extends KVDdom_AbstractSystemFieldsMap
         $bewerktDoor = $prefix . 'bewerkt_door';
         $versie = $prefix . 'versie';
         return new KVDdom_ChangeableSystemFields(   $row->$aangemaaktDoor,
-                                                    strtotime( $row->$aangemaaktOp),
+                                                    new DateTime( $row->$aangemaaktOp),
                                                     $row->$versie,
                                                     $row->$bewerktDoor,
-                                                    strtotime( $row->$bewerktOp ) );
+                                                    new DateTime( $row->$bewerktOp ) );
     }
 
     /**
@@ -65,10 +65,10 @@ class KVDdom_ChangeableSystemFieldsMapper extends KVDdom_AbstractSystemFieldsMap
             throw new LogicException ( 'Kan de systemFields van een object dat geen systemFields heeft niet instellen op een statement.');
         }
         $stmt->bindValue( $startIndex++, $domainObject->getSystemFields( )->getAangemaaktDoor( ), PDO::PARAM_STR);
-        $stmt->bindValue( $startIndex++, $domainObject->getsystemFields( )->getAangemaaktOp( ), PDO::PARAM_STR);
+        $stmt->bindValue( $startIndex++, $domainObject->getsystemFields( )->getAangemaaktOp( )->format( DATE_ISO8601), PDO::PARAM_STR);
         $stmt->bindValue( $startIndex++, $domainObject->getSystemFields( )->getTargetVersie( ), PDO::PARAM_INT);
         $stmt->bindValue( $startIndex++, $domainObject->getSystemFields( )->getBewerktDoor( ), PDO::PARAM_STR);
-        $stmt->bindValue( $startIndex++, $domainObject->getsystemFields( )->getBewerktOp( ), PDO::PARAM_STR);
+        $stmt->bindValue( $startIndex++, $domainObject->getSystemFields( )->getBewerktOp( )->format( DATE_ISO8601), PDO::PARAM_STR);
         return $startIndex;
     }
 
