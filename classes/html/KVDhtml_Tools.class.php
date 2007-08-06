@@ -42,5 +42,33 @@ class KVDhtml_Tools
         array_walk( $value , array ( 'KVDhtml_Tools' , 'out' ) );
         return implode( $delimiter , $value );
     }
+
+    /**
+     * dateOut 
+     * 
+     * @param DateTime $value 
+     * @return string
+     */
+    public static function dateOut( DateTime $value )
+    {
+        if ( $value === null ) {
+            return '';
+        }
+        return $value->format( KVDdom_DomainObject::DATE_FORMAT );
+    }
+
+    /**
+     * dateTimeOut 
+     * 
+     * @param DateTime $value 
+     * @return string
+     */
+    public static function dateTimeOut( DateTime $value )
+    {
+        if ( $value === null ) {
+            return '';
+        }
+        return $value->format( KVDdom_DomainObject::DATETIME_FORMAT );
+    }
 }
 ?>
