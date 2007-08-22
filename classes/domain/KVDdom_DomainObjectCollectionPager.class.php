@@ -115,7 +115,7 @@ class KVDdom_DomainObjectCollectionPager
     public function getPrevLinks( $range = 5 )
     {
 		$start = $this->getPage() - 1;
-		$end = $this->getPage() - $range;
+		$end = $start - $range;
 		$links = array();
 		for ( $i=$start ; $i>$end ; $i-- ) {
 			if ( $i < $this->getFirstPage() ) {
@@ -133,7 +133,7 @@ class KVDdom_DomainObjectCollectionPager
     public function getNextLinks( $range=5 )
     {
 		$start = $this->getPage() + 1;
-		$end = $this->getPage() + $range;
+		$end = $start + $range;
 		$links = array();
 		for ( $i=$start ; $i<$end ; $i++ ) {
 			if ( $i > $this->getLastPage() ) {
