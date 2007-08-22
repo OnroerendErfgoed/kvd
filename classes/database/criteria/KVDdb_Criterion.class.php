@@ -53,7 +53,7 @@ class KVDdb_Criterion
      * @var string
      */
     const NOT_IN = 'NOT IN';
-    
+
     /**
      * @var string
      */
@@ -116,21 +116,21 @@ class KVDdb_Criterion
     /**
      * @return string
      */
-    public function generateSql( $mode = KVDdb_Criteria::MODE_FILLED )
+    public function generateSql( $mode = KVDdb_Criteria::MODE_FILLED , $dbType = KVDdb_Criteria::DB_MYSQL )
     {
         $sql = "( " . $this->field . ' ' . $this->sqlOperator . ' ' . $this->generateValue( $mode , $this->value );
-        $sql .= $this->generateSqlChildren( $mode );
+        $sql .= $this->generateSqlChildren( $mode , $dbType );
         return $sql .= ' )';
     }
 
     /**
      * @return string
      */
-    protected function generateSqlChildren( $mode )
+    protected function generateSqlChildren( $mode , $dbType )
     {
         $sql = '';
         foreach ( $this->children as $child) {
-            $sql .= $child['combinatie'] . $child['criterion']->generateSql( $mode );
+            $sql .= $child['combinatie'] . $child['criterion']->generateSql( $mode , $dbType);
         }
         return $sql;
     }
@@ -286,6 +286,18 @@ class KVDdb_Criterion
     {
         return new KVDdb_IsNotNullCriterion( $field );
     }
+
+    /**
+     * year 
+     * 
+     * @param string $field 
+     * @param integer $value 
+     * @return KVDdb_YearEqualsCriterion 
+     */
+    public static function year( $field, $value )
+    {
+        return new KVDdb_YearEqualsCriterion( $field, $value);
+    }
 }
 
 
@@ -302,10 +314,10 @@ class KVDdb_MatchCriterion extends KVDdb_Criterion
         parent::__construct( null, $field, $value );
     }
     
-    public function generateSql( $mode=KVDdb_Criteria::MODE_FILLED )
+    public function generateSql( $mode = KVDdb_Criteria::MODE_FILLED , $dbType = KVDdb_Criteria::DB_MYSQL )
     {
         $sql = "( UPPER( " . $this->field . ' ) LIKE UPPER( ' . $this->generateValue( $mode , $this->value ) . ' )';
-        $sql .= $this->generateSqlChildren( $mode );
+        $sql .= $this->generateSqlChildren( $mode , $dbType );
         return $sql .= ' )';
     }
 }
@@ -322,7 +334,7 @@ class KVDdb_InCriterion extends KVDdb_Criterion
     /**
      * @return string
      */
-    public function generateSql( $mode = KVDdb_Criteria::MODE_FILLED )
+    public function generateSql( $mode = KVDdb_Criteria::MODE_FILLED , $dbType = KVDdb_Criteria::DB_MYSQL )
     {
         $values = $this->value;
         foreach ( $values as &$value) {
@@ -330,7 +342,7 @@ class KVDdb_InCriterion extends KVDdb_Criterion
         }
         $values = implode ( $values , ', ' );
         $sql = "( " . $this->field . " " . $this->sqlOperator . " ( ". $values . " )";
-        $sql .= $this->generateSqlChildren( $mode );
+        $sql .= $this->generateSqlChildren( $mode , $dbtype);
         return $sql .= ' )';
     }
 
@@ -347,10 +359,10 @@ class KVDdb_InSubselectCriterion extends KVDdb_Criterion
     /**
      * @return string
      */
-    public function generateSql( $mode = KVDdb_Criteria::MODE_FILLED )
+    public function generateSql( $mode = KVDdb_Criteria::MODE_FILLED, $dbType = KVDdb_Criteria::DB_MYSQL )
     {
         $sql = "( " . $this->field . " " . $this->sqlOperator . " ( " . $this->value->generateSql( ) . " )";
-        $sql .= $this->generateSqlChildren( $mode );
+        $sql .= $this->generateSqlChildren( $mode , $dbType);
         return $sql .= ' )';
     }
 }
@@ -373,12 +385,16 @@ class KVDdb_IsNullCriterion extends KVDdb_Criterion
     }
 
     /**
+     * generateSql 
+     * 
+     * @param integer $mode 
+     * @param integer $dbType 
      * @return string
      */
-    public function generateSql( $mode = KVDdb_Criteria::MODE_FILLED )
+    public function generateSql( $mode = KVDdb_Criteria::MODE_FILLED , $dbType = KVDdb_Criteria::DB_MYSQL )
     {
         $sql = "( " . $this->field . " IS NULL";
-        $sql .= $this->generateSqlChildren( $mode );
+        $sql .= $this->generateSqlChildren( $mode , $dbType);
         return $sql .= ' )';
     }
 }
@@ -404,11 +420,53 @@ class KVDdb_IsNotNullCriterion extends KVDdb_Criterion
     /**
      * @return string
      */
-    public function generateSql( $mode = KVDdb_Criteria::MODE_FILLED )
+    public function generateSql( $mode = KVDdb_Criteria::MODE_FILLED , $dbType = KVDdb_Criteria::DB_MYSQL )
     {
         $sql = "( " . $this->field . " IS NOT NULL";
-        $sql .= $this->generateSqlChildren( $mode );
+        $sql .= $this->generateSqlChildren( $mode , $dbType );
         return $sql .= ' )';
+    }
+}
+
+/**
+ * KVDdb_YearEqualsCriterion 
+ * 
+ * @package KVD.database
+ * @subpackage criteria
+ * @since 22 aug 2007
+ * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
+class KVDdb_YearEqualsCriterion extends KVDdb_Criterion
+{
+    /**
+     * __construct 
+     * 
+     * @param string $field 
+     * @param integer $value 
+     * @return void
+     */
+    public function __construct( $field, $value)
+    {
+        parent::__construct( null, $field, $value);
+    }
+
+    /**
+     * generateSql 
+     * 
+     * @param integer $mode 
+     * @return string
+     */
+    public function generateSql( $mode = KVDdb_Criteria::MODE_FILLED , $dbType = KVDdb_Criteria::DB_MYSQL )
+    {
+        if ( $dbType == KVDdb_Criteria::DB_MYSQL ) {
+            $sql = '( YEAR(' . $this->field . ') = ' . $this->generateValue( $mode, $this->value );
+        } else {
+            throw new Exception ( 'This Criterion is only supported for MySQL.' );
+        }
+        $sql .= $this->generateSqlChildren( $mode , $dbType );
+        return $sql .= ')';
     }
 }
 ?>

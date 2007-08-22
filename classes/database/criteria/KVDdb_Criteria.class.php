@@ -33,6 +33,17 @@ class KVDdb_Criteria implements Countable
      * @var integer 
      */
     const MODE_PARAMETERIZED = 2;
+
+    /**
+     * @var integer 
+     */
+    const DB_MYSQL = 1;
+
+    /**
+     * @var integer 
+     */
+    const DB_PGSQL = 2;
+    
     
     /**
      * @var array
@@ -77,11 +88,11 @@ class KVDdb_Criteria implements Countable
     /**
      * @return string Een geldig sql WHERE statement ( geen spatie aan het begin )
      */
-    public function generateSql( $mode = self::MODE_FILLED )
+    public function generateSql( $mode = self::MODE_FILLED , $dbType = self::DB_MYSQL )
     {
         $tmp = array( );
         if ( $this->count( ) > 0 ) {
-            $tmp[] = $this->generateWhereClause( $mode );
+            $tmp[] = $this->generateWhereClause( $mode , $dbType );
         }
         if ( count( $this->orderFields ) > 0 ) {
             $tmp[] = $this->generateOrderClause( );
@@ -89,14 +100,14 @@ class KVDdb_Criteria implements Countable
         return implode ( $tmp , " " );
     }
 
-    private function generateWhereClause( $mode )
+    private function generateWhereClause( $mode , $dbType )
     {
         if ( $this->count( ) == 0 ) {
             return '';
         }
         $tmp = array( );
         foreach ( $this->criteria as $criteria ) {
-            $tmp[] = $criteria->generateSql( $mode );
+            $tmp[] = $criteria->generateSql( $mode , $dbType );
         }
         return 'WHERE ' . implode ( $tmp , ' AND ' );
     }
