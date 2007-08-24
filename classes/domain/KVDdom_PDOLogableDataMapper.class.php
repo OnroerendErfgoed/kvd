@@ -17,7 +17,7 @@
  * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
-abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDODataMapper
+abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDOChangeableDataMapper
 {
 
     /**
@@ -45,13 +45,6 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDODataMapper
     protected $logtabel;
 
     /**
-     * getInsertStatement 
-     * 
-     * @return string SQL Statement
-     */
-    abstract protected function getInsertStatement( );
-
-    /**
      * getDeleteStatement 
      * 
      * @return string SQL Statement
@@ -61,13 +54,6 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDODataMapper
         return  "DELETE FROM " . $this->tabel . 
                 " WHERE id = ? AND versie = ?";   
     }
-
-    /**
-     * getUpdateStatement 
-     * 
-     * @return string SQL Statement
-     */
-    abstract protected function getUpdateStatement( );
 
     /**
      * getLogSelectStatement 
@@ -194,27 +180,6 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDODataMapper
     }
 
     /**
-     * update 
-     * 
-     * @since 30 okt 2006
-     * @param KVDdom_LogableDomainObject $domainObject 
-     * @return KVDdom_LogableDomainObject Het object dat werd geupdate, maar met aangepaste systeemvelden.
-     */
-    abstract protected function update( $domainObject );
-
-    /**
-     * bindValues 
-     *
-     * Methode waarin alle inhouds-velden in het sql-statement een waarde moeten toegewezen krijgen. Dus niet de id of systeemvelden, maar wel de echte data.
-     * @since 30 okt 2006
-     * @param PDOStatement $stmt 
-     * @param integer $startIndex 
-     * @param KVDdom_LogableDomainObject $domainObject 
-     * @return integer Volgende te gebruiken index in het statement.
-     */
-    abstract protected function bindValues ( $stmt , $startIndex , $domainObject );
-
-    /**
      * Een abstracte methode om een gelogde versie van een domainObject aan te maken.
      *
      * Grote verschil is dat deze versie niet meer gewijzigd kan worden door een gebruiker. Ze moet ook niet worden opgenomen door de UOW.
@@ -324,11 +289,6 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDODataMapper
         $stmt = $this->_conn->query( "SELECT nextval ( '$sequenceName' )" );
         return $stmt->fetchColumn( );
     }
-
-    /**
-     * @since 30 okt 2006
-     */
-    abstract public function create ();
 
     /**
      * isVerwijderd 

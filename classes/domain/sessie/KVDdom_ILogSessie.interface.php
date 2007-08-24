@@ -24,15 +24,6 @@
 interface KVDdom_ILogSessie extends KVDdom_IWriteSessie {
 
     /**
-     * getGebruiker
-     * 
-     * De eigenaar van de sessie.
-     * Is belangrijk omdat de DataMappers dit nodig hebben om vast te stellen wie de wijzigingen doorvoert zodat ze kunnen gelogd worden.
-     * @return KVDdom_Gebruiker
-     */
-    public function getGebruiker();
-
-    /**
      * registerApproved
      * 
      * @param KVDdom_DomainObject $domainObject

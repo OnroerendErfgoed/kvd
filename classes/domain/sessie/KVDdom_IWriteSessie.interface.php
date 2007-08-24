@@ -47,8 +47,10 @@ interface KVDdom_IWriteSessie extends KVDdom_IReadSessie{
     public function commit();
 
     /**
-     * getGebruiker 
+     * getGebruiker
      * 
+     * De eigenaar van de sessie.
+     * Is belangrijk omdat de DataMappers dit nodig hebben om vast te stellen wie de wijzigingen doorvoert zodat ze kunnen gelogd worden.
      * @return KVDdom_Gebruiker
      */
     public function getGebruiker( );
