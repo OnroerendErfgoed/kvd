@@ -1,0 +1,17 @@
+SET NAMES 'LATIN1';
+
+BEGIN TRANSACTION;
+
+-- Kadastrale Afdelingen (Te gebruiken als keuzelijst)
+CREATE TABLE kvd_adr.kadastergemeente(
+	id integer NOT NULL,
+	afdeling integer NOT NULL,
+	naam varchar(50) NOT NULL,
+	gemeente_id integer NOT NULL REFERENCES kvd_adr.gemeente (id),
+	CONSTRAINT kadastergemeente_pkey PRIMARY KEY (id)
+);
+
+CREATE INDEX kadastergemeente_afdeling_idx ON kvd_adr.kadastergemeente (afdeling);
+CREATE INDEX kadastergemeente_gemeente_id_idx ON kvd_adr.kadastergemeente (gemeente_id);
+
+COMMIT TRANSACTION;
