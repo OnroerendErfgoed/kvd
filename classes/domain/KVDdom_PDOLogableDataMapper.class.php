@@ -52,7 +52,14 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDOChangeableDataMappe
     protected function getDeleteStatement( )
     {
         return  "DELETE FROM " . $this->tabel . 
-                " WHERE id = ? AND versie = ?";   
+                " WHERE " . $this->id . " = ? AND versie = ?";   
+    }
+
+    protected function getUpdateStatement()
+    {
+        return  "UPDATE " . $this->tabel . " SET " .
+                $this->getUpdateFieldsStatement( ) . ( $this->systemFieldsMapper->getUpdateSystemFieldsString() <> "" ? ', ' . $this->systemFieldsMapper->getUpdateSystemFieldsString( ) : ''). 
+                " WHERE " . $this->id . " = ? AND versie = ?";
     }
 
     /**
@@ -153,6 +160,34 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDOChangeableDataMappe
     {
         $stmt->bindValue($startIndex++, $id , PDO::PARAM_INT );
         $stmt->bindValue($startIndex++, $versie , PDO::PARAM_INT );
+    }
+
+    /**
+     * update 
+     * 
+     * @param KVDdom_DomainObject $domainObject 
+     * @return KVDdom_DomainObject
+     */
+    public function update ( $domainObject )
+    {
+        $currentVersie = $domainObject->getSystemFields( )->getVersie( );
+
+        $this->systemFieldsMapper->updateSystemFields( $domainObject , $this->_sessie->getGebruiker( )->getGebruikersNaam( ) );
+
+        $this->logInsert( $domainObject->getId( ) );
+        
+        $stmt = $this->_conn->prepare( $this->getUpdateStatement( ));
+        $lastIndex = $this->bindValues( $stmt , 1 , $domainObject );
+        $lastIndex = $this->doSetSystemFields( $stmt , $domainObject , $lastIndex );
+        $this->doSetUpdateWhere ( $stmt , $domainObject->getId( ) , $currentVersie , $lastIndex );
+        
+        $stmt->execute( );
+
+        if ( $stmt->rowCount( ) == 0 ) {
+            $msg = 'Het record werd gewijzigd sinds u het geopend hebt.';
+            throw new KVDdom_ConcurrencyException ( $msg , $domainObject );
+        }
+        return $domainObject;
     }
 
     /**

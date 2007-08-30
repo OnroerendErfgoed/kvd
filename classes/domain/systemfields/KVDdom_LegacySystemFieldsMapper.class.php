@@ -44,12 +44,12 @@ class KVDdom_LegacySystemFieldsMapper extends KVDdom_AbstractSystemFieldsMapper
         $gecontroleerd = $prefix . 'gecontroleerd';
         $gecontroleerdDoor = $prefix . 'gecontroleerd_door';
         $gecontroleerdOp = $prefix . 'gecontroleerd_op';
-        return new KVDdom_SystemFields( $row->$gebruiker,
-                                        $row->$versie,
-                                        strtotime( $row->$bewerktOp ),
-                                        $row->$gecontroleerd,
-                                        $row->$gecontroleerdDoor,
-                                        strtotime( $row->$gecontroleerdOp ) );
+        return new KVDdom_LegacySystemFields(   $row->$gebruiker,
+                                                $row->$versie,
+                                                strtotime( $row->$bewerktOp ),
+                                                $row->$gecontroleerd,
+                                                $row->$gecontroleerdDoor,
+                                                strtotime( $row->$gecontroleerdOp ) );
     }
      
     /**
@@ -60,7 +60,7 @@ class KVDdom_LegacySystemFieldsMapper extends KVDdom_AbstractSystemFieldsMapper
      * @param integer $startIndex De numerieke index in de PDO Statement van de eerste parameter ( de gebruikersnaam ).
      * @return integer Nummer van de volgende te gebruiken index in het sql statement.
      */
-    protected function doSetSystemFields($stmt, $domainObject, $startIndex )
+    public function doSetSystemFields($stmt, $domainObject, $startIndex )
     {
         if ( !$domainObject->hasSystemFields( ) ) {
             throw new LogicException ( 'Kan de systemFields van een object dat geen systemFields heeft niet instellen op een statement.');
@@ -79,7 +79,7 @@ class KVDdom_LegacySystemFieldsMapper extends KVDdom_AbstractSystemFieldsMapper
      * newNull 
      * 
      * @param integer $versie 
-     * @return KVDdom_RedigeerbareSystemFields
+     * @return KVDdom_LegacySystemFields
      */
     public function newNull( $versie = 0 )
     {

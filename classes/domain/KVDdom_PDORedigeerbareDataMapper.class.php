@@ -52,8 +52,10 @@ abstract class KVDdom_PDORedigeerbareDataMapper extends KVDdom_PDOLogableDataMap
      */
     protected function getFindTeRedacterenStatement( )
     {
-        return  $this->getSelectStatement( ) .
+        $sql =  $this->getSelectStatement( ) .
                 " WHERE " . $this->tabel . ".gecontroleerd = false ";
+        $this->_sessie->getSqlLogger( )->log( $sql );
+        return $sql;
     }
 
     /**

@@ -84,7 +84,7 @@ class KVDdom_LegacySystemFields {
      * @param string $gecontroleerdDoor Door wie werd het record gecontroleerd?
      * @param string $gecontroleerdOp Wanneer werd het record gecontroleerd?
      */ 
-    public function __construct ( $gebruikersNaam, $versie = 0, $bewerktOp = null, $gecontroleerd = false, $gecontroleerdDoor = null, $gecontroleerdOp = null)
+    public function __construct ( $gebruikersNaam='anoniem', $versie = 0, $bewerktOp = null, $gecontroleerd = false, $gecontroleerdDoor = null, $gecontroleerdOp = null)
     {
         if ($bewerktOp == null) {
             $bewerktOp = time( );
@@ -206,7 +206,7 @@ class KVDdom_LegacySystemFields {
 
     public static function newNull( )
     {
-        return new KVDdom_SystemFields( 'anoniem' );
+        return new KVDdom_LegacySystemFields( 'anoniem' );
     }
 }
 ?>

@@ -14,11 +14,32 @@
  * @since 24 jul 2006
  */
 abstract class KVDdom_PDOChangeableDataMapper extends KVDdom_PDODataMapper {
+    
+    /**
+     * getUpdateFieldsStatement 
+     * 
+     * @return string String om te gebruiken in update statement ( bv. naam = ?, beschrijving = ?)
+     */
+    protected function getUpdateFieldsStatement( )
+    {
+        $fields = explode ( ', ' , $this->velden );
+        foreach ( $fields as &$field ) {
+            $field = "$field = ?";
+        }
+        return implode ( ', ' , $fields);
+    }
 
     /**
      * @return string SQL statement
      */
-    abstract protected function getInsertStatement();
+    protected function getInsertStatement( )
+    {
+        $fields = 'id, ' . $this->velden . ( $this->systemFieldsMapper->getSystemFields( ) <> "" ? ', ' . $this->systemFieldsMapper->getSystemFields( ) : '');
+        $parameters = '?, ' . $this->getVeldenAsParameters( ) . ( $this->systemFieldsMapper->getInsertSystemFieldsString( ) <> "" ? ', ' . $this->systemFieldsMapper->getInsertSystemFieldsString( ) : '');
+        $sql = sprintf( "INSERT INTO %s ( %s )VALUES ( %s)" , $this->tabel, $fields, $parameters );
+        $this->_sessie->getSqlLogger( )->log( $sql );
+        return $sql;
+    }
     
     /**
      * @return string SQL statement
@@ -28,10 +49,16 @@ abstract class KVDdom_PDOChangeableDataMapper extends KVDdom_PDODataMapper {
         return  "DELETE FROM " . $this->tabel .
                 " WHERE " . $this->id . " = ?";
     }
+    
     /**
      * @return string SQL statement
      */
-    abstract protected function getUpdateStatement();
+    protected function getUpdateStatement()
+    {
+        return  "UPDATE " . $this->tabel . " SET " .
+                $this->getUpdateFieldsStatement( ) . ( $this->systemFieldsMapper->getUpdateSystemFieldsString() <> "" ? ', ' . $this->systemFieldsMapper->getUpdateSystemFieldsString( ) : ''). 
+                " WHERE " . $this->id . " = ?";
+    }
 
     /**
      * Voeg een nieuw DomainObject toe aan de databank

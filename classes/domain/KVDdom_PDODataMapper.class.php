@@ -234,6 +234,18 @@ abstract class KVDdom_PDODataMapper {
         $query = new KVDdom_PDOChunkyQuery( $this->_conn, $this, $sql, $idField , 1, 50, $this->_sessie->getSqlLogger( ));
         return new KVDdom_LazyDomainObjectCollection ( $query );
     }
+
+    /**
+     * getVeldenAsParameters 
+     * 
+     * Geef een parameter string terug met een aantal vraagtekens gelijk aan het aantal velden.
+     * @return string
+     */
+    protected function getVeldenAsParameters( )
+    {
+        $fields = explode ( ', ' , $this->velden );
+        return implode ( ', ' , array_fill( 0 , count( $fields ) , '?' ) );
+    }
     
 }
 ?>
