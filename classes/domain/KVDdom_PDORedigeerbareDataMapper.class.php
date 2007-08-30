@@ -120,8 +120,8 @@ abstract class KVDdom_PDORedigeerbareDataMapper extends KVDdom_PDOLogableDataMap
     public function findTeRedacteren( $orderField = null , $orderDirection = null )
     {
         $orderStmt = is_null( $orderField ) ? '' : $this->getOrderClause( $orderField , $orderDirection );
-        $stmt = $this->_conn->prepare ( $this->getFindTeRedacterenStatement() . $orderStmt );
-        return $this->executeFindMany ( $stmt );
+        $sql = $this->getFindTeRedacterenStatement() . $orderStmt;
+        return $this->executeLazyFindMany ( $sql , $this->id );
     }
 
     /**
@@ -133,6 +133,7 @@ abstract class KVDdom_PDORedigeerbareDataMapper extends KVDdom_PDOLogableDataMap
     public function findVerwijderde()
     {
         $stmt = $this->_conn->prepare ( $this->getFindVerwijderdeStatement( ) );
+        
         return $this->executeLogFindMany( $stmt );
     }
 
