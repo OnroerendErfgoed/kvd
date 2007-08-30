@@ -19,17 +19,17 @@
 
 	<target name="createSchema" description="Maak de schema's van deze applicatie aan.">
 		<echo msg="Bestaande schema's worden verwijderd." />
-		<sql url="pgsql://vandaeko:leko!0414@localhost/oei" autocommit="on" onerror="continue">
+		<sql url="pgsql://oeibeheerder:jawwmefe@localhost/oei" autocommit="on" onerror="continue">
 			DROP SCHEMA kvd_adr CASCADE;
 		</sql>
 		<echo msg="Bezig met aanmaken van schema kvd_adr." />
-		<sql url="pgsql://vandaeko:leko!0414@localhost/oei" src="${kvdSqlDir}/dbcreate/kvd_adr.psql" autocommit="off" onerror="abort"/>
+		<sql url="pgsql://oeibeheerder:jawwmefe@localhost/oei" src="${kvdSqlDir}/dbcreate/kvd_adr.psql" autocommit="off" onerror="abort"/>
 		<echo msg="Bezig met toekennen van rechten op schema kvd_adr." />
-		<sql url="pgsql://vandaeko:leko!0414@localhost/oei" src="${kvdSqlDir}/usergrant/kvd_adr.psql" autocommit="off" onerror="abort"/>
+		<sql url="pgsql://oeibeheerder:jawwmefe@localhost/oei" src="${kvdSqlDir}/usergrant/kvd_adr.psql" autocommit="off" onerror="abort"/>
 		<echo msg="Bezig met vullen van de gemeentelijst." />
-		<sql url="pgsql://vandaeko:leko!0414@localhost/oei" src="${kvdSqlDir}/dbcreate/kvd_adr_fill_gemeenten.psql" autocommit="off" onerror="abort"/>
+		<sql url="pgsql://oeibeheerder:jawwmefe@localhost/oei" src="${kvdSqlDir}/dbcreate/kvd_adr_fill_gemeenten.psql" autocommit="off" onerror="abort"/>
 		<echo msg="Bezig met vullen van de deelgemeentelijst." />
-		<sql url="pgsql://vandaeko:leko!0414@localhost/oei" src="${kvdSqlDir}/dbcreate/kvd_adr_fill_deelgemeenten.psql" autocommit="off" onerror="abort"/>
+		<sql url="pgsql://oeibeheerder:jawwmefe@localhost/oei" src="${kvdSqlDir}/dbcreate/kvd_adr_fill_deelgemeenten.psql" autocommit="off" onerror="abort"/>
 	</target>
 
 	<target name="clearCrabCache" description="Leeg de crab Cache.">
