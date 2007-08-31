@@ -9,7 +9,7 @@
  */
 
 /**
- * KVDdo_AdrDeelgemeente 
+ * KVDdo_AdrKadastergemeente 
  * 
  * @package KVD.do
  * @subpackage Adr
@@ -18,7 +18,7 @@
  * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
-class KVDdo_AdrDeelgemeente extends KVDdom_ReadonlyDomainObject {
+class KVDdo_AdrKadastergemeente extends KVDdom_ReadonlyDomainObject {
     
     /**
      * @var string
@@ -65,7 +65,7 @@ class KVDdo_AdrDeelgemeente extends KVDdom_ReadonlyDomainObject {
     /**
      * @return string
      */
-    public function getNaam( )
+    public function getKadastergemeenteNaam( )
     {
         return $this->naam;
     }
@@ -116,7 +116,7 @@ class KVDdo_AdrDeelgemeente extends KVDdom_ReadonlyDomainObject {
  * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
-class KVDdo_NullAdrKadastergemeente extends KVDdo_AdrDeelgemeente
+class KVDdo_NullAdrKadastergemeente extends KVDdo_AdrKadastergemeente
 {
     /**
      * @param mixed $gemeente Ofwel de gemeente waartoe de NullKadastergemeente behoort ofwel null

@@ -47,7 +47,7 @@ class KVDdo_AdrGemeente extends KVDdom_ReadonlyDomainObject {
      * 
      * @var KVDdom_DomainObjectCollection
      */
-    protected $kadastergemeenten
+    protected $kadastergemeenten;
 
     /**
      * @param integer $id
@@ -130,13 +130,11 @@ class KVDdo_AdrGemeente extends KVDdom_ReadonlyDomainObject {
     {
         if ( $this->kadastergemeenten === self::PLACEHOLDER ) {
             $mapper = $this->_sessie->getMapper( 'KVDdo_AdrKadastergemeente' );
-            $this->kadastergemeenten = $mapper->findByGemeente( $this , 'kadastergemeenteNaam');
+            $this->kadastergemeenten = $mapper->findByGemeente( $this , 'afdeling' );
         }
         return $this->kadastergemeenten;
     }
 
-    
-
     /**
      * @return string
      */
@@ -184,6 +182,7 @@ class KVDdo_NullAdrGemeente extends KVDdo_AdrGemeente
         $this->id = 0;
         $this->straten = new KVDdom_DomainObjectCollection( array( ) );
         $this->deelgemeenten = new KVDdom_DomainObjectCollection( array( ) );
+        $this->kadastergemeente = new KVDdom_DomainObjectCollection( array( ) );
     }
     
     /**
@@ -201,8 +200,6 @@ class KVDdo_NullAdrGemeente extends KVDdo_AdrGemeente
     {
         return 'KVDdo_AdrGemeente';
     }
-}
-?>
 
     /**
      * @return string
@@ -229,44 +226,6 @@ class KVDdo_NullAdrGemeente extends KVDdo_AdrGemeente
     public static function newNull( )
     {
         return new KVDdo_NullAdrGemeente( );
-    }
-}
-
-/**
- * @package KVD.do
- * @subpackage Adr
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @since 25 jul 2006
- */
-class KVDdo_NullAdrGemeente extends KVDdo_AdrGemeente
-{
-    /**
-     * @param KVDdo_AdrProvincie
-     */
-    public function __construct ( $provincie = null ) 
-    {
-        $this->provincie = ( $provincie === null ) ? KVDdo_AdrProvincie::newNull() : $provincie;
-        $this->naam = 'Onbepaald';
-        $this->crabId = 0;
-        $this->id = 0;
-        $this->straten = new KVDdom_DomainObjectCollection( array( ) );
-        $this->deelgemeenten = new KVDdom_DomainObjectCollection( array( ) );
-    }
-    
-    /**
-     * @return boolean
-     */
-    public function isNull( )
-    {
-        return true;
-    }
-
-    /**
-     * @return string
-     */
-    public function getClass( )
-    {
-        return 'KVDdo_AdrGemeente';
     }
 }
 ?>

@@ -172,6 +172,9 @@ class KVDdm_AdrKadastergemeente extends KVDdom_PDODataMapper {
             case "id":
                 $orderFieldName = 'kadastergemeente.id';
                 break;
+            case "afdeling":
+                $orderFieldName = 'kadastergemeente.afdeling';
+                break;
             case "kadastergemeenteNaam":
                 $orderFieldName = 'kadastergemeente.kadastergemeente_naam';
                 break;
