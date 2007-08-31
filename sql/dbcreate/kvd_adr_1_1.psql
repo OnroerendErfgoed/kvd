@@ -6,7 +6,7 @@ BEGIN TRANSACTION;
 CREATE TABLE kvd_adr.kadastergemeente(
 	id integer NOT NULL,
 	afdeling integer NOT NULL,
-	naam varchar(50) NOT NULL,
+	kadastergemeente_naam varchar(50) NOT NULL,
 	gemeente_id integer NOT NULL REFERENCES kvd_adr.gemeente (id),
 	CONSTRAINT kadastergemeente_pkey PRIMARY KEY (id)
 );
