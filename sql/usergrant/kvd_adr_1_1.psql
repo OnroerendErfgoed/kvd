@@ -1,0 +1,5 @@
+SET NAMES 'LATIN1';
+
+-- Gebruikers-permissies
+GRANT SELECT ON kvd_adr.gemeente TO PUBLIC;
+GRANT SELECT, UPDATE, DELETE, INSERT ON kvd_adr.kadastergemeente TO vandaeko, developer;

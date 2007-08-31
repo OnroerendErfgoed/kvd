@@ -12,6 +12,7 @@
 	<target name="main" description="Overzicht van de mogelijke taken">
 		<echo msg="U kunt volgende taken uitvoeren:" />
 		<echo msg=" createSchema:	Maak de db-schema's van KVD_adr aan." />
+		<echo msg=" createSchema_1_1:	Update de db-schema's van KVD_adr naar versie 1.1." />
 		<echo msg=" clearCrabCache: Maak de crab cache leeg." />
 		<echo msg=" createCrabPackage: Genereer een pakket met de crab classes." />
 		<echo msg=" docs: Maak de API-documentatie aan." />
@@ -30,6 +31,15 @@
 		<sql url="pgsql://oeibeheerder:jawwmefe@localhost/oei" src="${kvdSqlDir}/dbcreate/kvd_adr_fill_gemeenten.psql" autocommit="off" onerror="abort"/>
 		<echo msg="Bezig met vullen van de deelgemeentelijst." />
 		<sql url="pgsql://oeibeheerder:jawwmefe@localhost/oei" src="${kvdSqlDir}/dbcreate/kvd_adr_fill_deelgemeenten.psql" autocommit="off" onerror="abort"/>
+	</target>
+
+	<target name="createSchema_1_1" description="Update de schemas naar versie 1.1">
+		<echo msg="Bezig met wijzigen van schema kvd_adr." />
+		<sql url="pgsql://oeibeheerder:jawwmefe@localhost/oei" src="${kvdSqlDir}/dbcreate/kvd_adr_1_1.psql" autocommit="off" onerror="continue"/>
+		<echo msg="Bezig met toekennen van rechten op schema kvd_adr." />
+		<sql url="pgsql://oeibeheerder:jawwmefe@localhost/oei" src="${kvdSqlDir}/usergrant/kvd_adr_1_1.psql" autocommit="off" onerror="abort"/>
+		<echo msg="Bezig met vullen van de kadastergemeentelijst." />
+		<sql url="pgsql://oeibeheerder:jawwmefe@localhost/oei" src="${kvdSqlDir}/dbcreate/kvd_adr_fill_kadastergemeenten.psql" autocommit="off" onerror="abort"/>
 	</target>
 
 	<target name="clearCrabCache" description="Leeg de crab Cache.">
