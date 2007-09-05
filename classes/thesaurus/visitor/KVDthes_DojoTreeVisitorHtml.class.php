@@ -9,16 +9,16 @@
  */
 
 /**
- * KVDthes_AgaviTreeVisitorHtml 
+ * KVDthes_DojoTreeVisitorHtml 
  * 
  * @package KVD.thes
  * @subpackage Visitor
- * @since 19 maart 2007
+ * @since 5 sep 2007
  * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
-class KVDthes_AgaviTreeVisitorHtml extends KVDthes_AbstractTreeVisitor
+class KVDthes_DojoTreeVisitorHtml extends KVDthes_AbstractTreeVisitor
 {
     /**
      * depth 
@@ -33,34 +33,6 @@ class KVDthes_AgaviTreeVisitorHtml extends KVDthes_AbstractTreeVisitor
      * @var string
      */
     private $result = "<ul>\n";
-
-    /**
-     * ro 
-     * 
-     * @var AgaviRouting
-     */
-    private $ro;
-
-    /**
-     * termRoute 
-     * 
-     * @var string
-     */
-    private $termRoute;
-
-    /**
-     * termIdParameter 
-     * 
-     * @var string
-     */
-    private $termIdParameter;
-
-    public function __construct( $ro , $termRoute, $termIdParameter = 'id' )
-    {
-        $this->ro = $ro;
-        $this->termRoute = $termRoute;
-        $this->termIdParameter = $termIdParameter;
-    }
 
     /**
      * pad 
@@ -86,7 +58,7 @@ class KVDthes_AgaviTreeVisitorHtml extends KVDthes_AbstractTreeVisitor
 	{
 		$this->result .= $this->pad() ."<li>\n";
         $this->depth++;
-        $this->result .= $this->pad( ) . '<p><a href="' . $this->ro->gen( $this->termRoute , array ( $this->termIdParameter => $node->getId( ) ) ) .'">'. $node->getTerm() . "</a></p>\n";
+        $this->result .= $this->pad( ) . '<p><a href="javascript:loadDetail(' . $node->getId( )  . ');">'. $node->getTerm() . "</a></p>\n";
         $this->depth--;
         return true;
     }

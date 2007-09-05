@@ -82,6 +82,14 @@ abstract class KVDthes_Term implements KVDdom_DomainObject
      */
     protected $scopeNote;
 
+
+    /**
+     * scopeNote 
+     * 
+     * @var string
+     */
+    protected $sourceNote;
+
     /**
      * loadState 
      * 
@@ -100,7 +108,7 @@ abstract class KVDthes_Term implements KVDdom_DomainObject
      * @param string $sourceNote
      * @return void
      */
-	public function __construct ( KVDthes_ISessie $sessie , $id , $term , $language = 'Nederlands', $scopeNote = null, $sourceNote = null)
+	public function __construct ( KVDdom_IReadSessie $sessie , $id , $term , $language = 'Nederlands', $scopeNote = null, $sourceNote = null)
 	{
         $this->sessie = $sessie;
         $this->id = $id;

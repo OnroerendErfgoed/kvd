@@ -116,7 +116,7 @@ class KVDthes_Relation
      */
     public function equals( KVDthes_Relation $relation )
     {
-        return ( $relation->getTerm( ) == $this->getTerm( ) && $relation->getType( ) == $this->getType( ) );
+        return ( $relation->getTerm( ) === $this->getTerm( ) && $relation->getType( ) === $this->getType( ) );
     }
 
     /**

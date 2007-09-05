@@ -117,7 +117,7 @@ abstract class KVDthes_XmlMapper
         foreach (  $this->dom->getElementsByTagName( 'term' ) as $term ) {
             $id = $term->getElementsByTagName( 'termId' )->item( 0 )->nodeValue;
             if ( $id == $termObj->getId( ) ) {
-                $this->loadNote( $term, 'Scope' );
+                $this->loadNote( $term, 'Scope' , $termObj);
                 break;
             }
         }
@@ -135,7 +135,7 @@ abstract class KVDthes_XmlMapper
         foreach (  $this->dom->getElementsByTagName( 'term' ) as $term ) {
             $id = $term->getElementsByTagName( 'termId' )->item( 0 )->nodeValue;
             if ( $id == $termObj->getId( ) ) {
-                $this->loadNote( $term, 'Source' );
+                $this->loadNote( $term, 'Source' , $termObj);
                 break;
             }
         }
@@ -146,22 +146,27 @@ abstract class KVDthes_XmlMapper
      * loadNote 
      * 
      * @param DOMElement $term 
-     * @param sring $type 
+     * @param string $type 
+     * @param KVDthes_Term $termObj
      * @return boolean Was the note loaded?
      */
-    private function loadNote( $term, $type = 'Scope' )
+    private function loadNote( $term, $type, $termObj)
     {
         foreach ( $term->getElementsByTagName( 'termNote' ) as $note ) {
-            if ( !$note->hasAttribute( 'label' ) || ( $note->getAttribute( 'label' ) == 'Scope' ) ) {
-                $termObj->addScopeNote ( $note->nodeValue );
-                $termObj->setLoadState( KVDthes_Term::LS_SCOPENOTE );
-                return true;
-            }
-            if ( $note->hasAttribute( 'label' ) && ( $note->getAttribute( 'label' ) == $type ) ) {
+            if ( $note->hasAttribute( 'label' ) && $note->getAttribute( 'label' ) == $type ) {
                 if ( $type == 'Source' ) {
                     $termObj->addSourceNote ( $note->nodeValue );
                     $termObj->setLoadState( KVDthes_Term::LS_SOURCENOTE );
                 }
+                if ( $type == 'Scope' ) {
+                    $termObj->addScopeNote ( $note->nodeValue );
+                    $termObj->setLoadState( KVDthes_Term::LS_SCOPENOTE );
+                }
+                return true;
+            }
+            if ( !( $note->hasAttribute( 'label' ) ) ) {
+                $termObj->addScopeNote ( $note->nodeValue );
+                $termObj->setLoadState( KVDthes_Term::LS_SCOPENOTE );
                 return true;
             }
         }
