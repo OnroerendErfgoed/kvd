@@ -41,11 +41,7 @@ class KVDthes_TreeVisitorHtml extends KVDthes_AbstractTreeVisitor
      */
 	private function pad()
 	{
-		$buf = '';
-		for ($i=1;$i<=$this->depth;++$i) {
-			$buf .= "\t";
-		}
-		return $buf;
+        return str_repeat( "\t" , $this->depth );
 	}
 
     /**
