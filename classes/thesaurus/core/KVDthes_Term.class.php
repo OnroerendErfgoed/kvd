@@ -307,6 +307,14 @@ abstract class KVDthes_Term implements KVDdom_DomainObject
     {
         $this->checkRelations( );
         $visitor->visit( $this );
+        if ( $visitor->enterRelations( $this ) ) {
+            $iterator = $visitor->getIterator( $this->relations );
+            foreach ($iterator as $relation) {
+                if( !$visitor->visitRelation( $relation ) ) {
+                    break;
+                }
+            }
+        }
 		if ( $visitor->enterComposite( $this ) ) {
             $iterator = $visitor->getIterator( $this->relations );
             foreach ($iterator as $relation) {

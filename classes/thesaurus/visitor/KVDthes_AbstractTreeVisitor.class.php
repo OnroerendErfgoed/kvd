@@ -36,6 +36,11 @@ abstract class KVDthes_AbstractTreeVisitor
         return true;
     }
 
+    public function enterRelations( KVDthes_Term $node )
+    {
+        return false;
+    }
+
     /**
      * enterComposite 
      * 
