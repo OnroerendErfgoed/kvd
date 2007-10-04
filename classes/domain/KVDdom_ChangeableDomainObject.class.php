@@ -156,5 +156,16 @@ abstract class KVDdom_ChangeableDomainObject implements KVDdom_DomainObject, KVD
         return $this->systemFields;
     }
 
+
+    /**
+     * __toString 
+     * 
+     * @return string
+     */
+    public function __toString( )
+    {
+        return $this->getOmschrijving( );
+    }
+
 }
 ?>

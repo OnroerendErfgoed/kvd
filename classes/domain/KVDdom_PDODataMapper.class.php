@@ -219,7 +219,7 @@ abstract class KVDdom_PDODataMapper {
         $stmt->execute( );
         $domainObjects = array ( );
         while ( $row = $stmt->fetch( PDO::FETCH_OBJ ) ) {
-            $domainObjects[] = $this->doLoad ( $row->id , $row );
+            $domainObjects[$row->id] = $this->doLoad ( $row->id , $row );
         }
         return new KVDdom_DomainObjectCollection ( $domainObjects );
     }
@@ -239,6 +239,7 @@ abstract class KVDdom_PDODataMapper {
      * getVeldenAsParameters 
      * 
      * Geef een parameter string terug met een aantal vraagtekens gelijk aan het aantal velden.
+     * @todo Nagaan of dit nog nuttig is.
      * @return string
      */
     protected function getVeldenAsParameters( )
