@@ -68,7 +68,7 @@ class KVDdom_IncompleteSessieCommitException extends Exception
     public function __construct ( $msg, $identityMap, $mapCount)
     {
         parent::__construct( $msg );
-        $this->message .= " [Sessie Error: {$identityMap} werd niet volledig verwerkt en bevat nog {$mapCount} objecten.]";
+        $this->message .= " [Sessie Error: {$identityMap} werd niet volledig verwerkt en bevat nog {$mapCount} objecten. Controleer of de commitVolgorde correct is ingesteld.]";
     }
 }
 
