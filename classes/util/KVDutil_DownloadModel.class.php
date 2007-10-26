@@ -1,4 +1,22 @@
 <?php
+/**
+ * @package KVD.util
+ * @version $Id
+ * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
+
+/**
+ * KVDutil_DownloadModel 
+ * 
+ * Class die alle bestanden in een bepaalde map weergeeft.
+ * @package KVD.util
+ * @since 2007
+ * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
 class KVDutil_DownloadModel implements IteratorAggregate
 {
     /**
@@ -8,8 +26,19 @@ class KVDutil_DownloadModel implements IteratorAggregate
      */
     private $map;
 
+    /**
+     * bestanden 
+     * 
+     * @var array
+     */
     private $bestanden = array( );
     
+    /**
+     * __construct 
+     * 
+     * @param string $map 
+     * @return void
+     */
     public function __construct ( $map )
     {
         if ( !file_exists( $map ) || !is_dir ( $map ) ) {
@@ -18,6 +47,12 @@ class KVDutil_DownloadModel implements IteratorAggregate
         $this->genBestanden( $map );
     }
 
+    /**
+     * genBestanden 
+     * 
+     * @param string $map 
+     * @return void
+     */
     private function genBestanden( $map )
     {
         $it = new DirectoryIterator( $map );
@@ -28,6 +63,11 @@ class KVDutil_DownloadModel implements IteratorAggregate
         }
     }
 
+    /**
+     * getIterator 
+     * 
+     * @return ArrayIterator
+     */
     public function getIterator( )
     {
         return new ArrayIterator( $this->bestanden );
