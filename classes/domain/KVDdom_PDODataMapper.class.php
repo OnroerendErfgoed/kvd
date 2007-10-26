@@ -225,13 +225,15 @@ abstract class KVDdom_PDODataMapper {
     }
     /**
      * Voor een query uit en geef de resultaten terug als een luie collectie van domainobjects.
-     * @param string $sql
-     * @param string $idField
-     * @return KVDdom_LazyDomainObjectCollection
+     * @param   string    $sql
+     * @param   string    $idField
+     * @param   array     $values   Array met waarden die moeten gebonden worden op de statement.
+     * @return  KVDdom_LazyDomainObjectCollection
      */
-    protected function executeLazyFindMany ( $sql , $idField = 'id' )
+    protected function executeLazyFindMany ( $sql , $idField = 'id', $values = null )
     {
-        $query = new KVDdom_PDOChunkyQuery( $this->_conn, $this, $sql, $idField , 1, 50, $this->_sessie->getSqlLogger( ));
+        $mode = is_null($values) ? KVDdom_PDOChunkyQuery::MODE_FILLED : KVDdom_PDOChunkyQuery::MODE_PARAMETERIZED;
+        $query = new KVDdom_PDOChunkyQuery( $this->_conn, $this, $sql, $idField , 1, 50, $mode, $values, $this->_sessie->getSqlLogger( ));
         return new KVDdom_LazyDomainObjectCollection ( $query );
     }
 

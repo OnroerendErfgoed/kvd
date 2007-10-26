@@ -10,7 +10,10 @@
 /**
  * KVDdom_PDOChunkyQuery 
  * 
- * Een andere class kan bepalen welk stuk van de resultaten moet teruggeven worden doormiddel van setChunk. Bv. setChunk(2) zal er voor zorgen dat de tweede blok records wordt geladen.
+ * Een andere class kan bepalen welk stuk van de resultaten moet teruggeven 
+ * worden door middel van setChunk.
+ * Bv. setChunk(2) zal er voor zorgen dat de tweede blok records wordt geladen.
+ *
  * @package KVD.dom
  * @since 24 jul 2006
  * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
@@ -20,14 +23,30 @@
 class KVDdom_PDOChunkyQuery
 {
     /**
+     * Geeft aan in welke mode de query moet werken. 
+     * Deze mode geeft aan dat er wordt verondersteld dat de sql string die wordt doorgegeven
+     * al compleet is en gewoon kan uitgevoerd worden.
+     * @var integer 
+     */
+    const MODE_FILLED = 1;
+
+    /**
+     * Geeft aan in welke mode de query moet werken. 
+     * Deze mode geeft aan dat de class een geparemeteriseerde statement ontvagen waarin
+     * de parameters nog moeten ingepast worden dmv. bindValue.
+     * @var integer 
+     */
+    const MODE_PARAMETERIZED = 2;
+
+    /**
      * @var PDO
      */
-    protected $_conn;
+    protected $conn;
     
     /**
      * @var KVDdom_DataMapper
      */
-    protected $_dataMapper;
+    protected $dataMapper;
 
     /**
      * @var string
@@ -65,31 +84,67 @@ class KVDdom_PDOChunkyQuery
     private $logger;
 
     /**
-     * @param PDO $conn Een PDO connectie.
-     * @param KVDdom_PDODataMapper $dataMapper Een DataMapper waarmee de sql kan omgezet worden naar DomainObjects.
-     * @param string $sql De uit te voeren query. Opgelet, er moeten wat vervangingen doorgevoerd worden om het aantal records te kunnen ophalen. Waarschijnlijk zullen hier nog fouten inzitten.
-     *                      Voorlopig blijkt alles te werken zolang het om eenvoudige select queries gaat, een distinct op het id-veld kan ook.
-     * @param string $idField Naam van het veld dat dienst doet als id-field ( om het totale aantal records te kunnen tellen).
-     * @param integer $chunk Het initieel gevraagde data-blok.
-     * @param integer $rowsPerChunk Aantal rijen in een chunk.
+     * mode 
+     * 
+     * @var integer
+     */
+    private $mode;
+
+    /**
+     * values 
+     * 
+     * @var array
+     */
+    private $values;
+
+    /**
+     * stmt 
+     * 
+     * @var PDOStatement
+     */
+    private $stmt;
+
+    /**
+     * index 
+     * 
+     * Array dat de indexen bevat waarop bepaalde parameters zoals max en offset gebonden moeten worden.
+     * @var array
+     */
+    private $index = array( );
+
+    /**
+     * @param PDO                   $conn           Een PDO connectie.
+     * @param KVDdom_PDODataMapper  $dataMapper     Een DataMapper waarmee de sql kan omgezet worden naar DomainObjects.
+     * @param string                $sql            De uit te voeren query. Opgelet, er moeten wat vervangingen doorgevoerd worden om het aantal records te kunnen ophalen. Waarschijnlijk zullen hier nog fouten inzitten.
+     *                                              Voorlopig blijkt alles te werken zolang het om eenvoudige select queries gaat, een distinct op het id-veld kan ook.
+     * @param string                $idField    Naam van het veld dat dienst doet als id-field ( om het totale aantal records te kunnen tellen).
+     * @param integer               $mode       Gevuld of geparameteriseerd.
+     * @param array                 $values     Waarden om te gebruiken in de placeholders van de prepared statements.
+     * @param KVDdom_SqlLogger      $logger     Een logger waarop sql statements gelogd kunnen worden.
      * @throws <b>InvalidArgumentException</b> Indien er een ongeldige parameter wordt doorgegeven.
      */
-    public function __construct ( $conn , $dataMapper , $sql , $idField = 'id', $chunk = 1 , $rowsPerChunk=100, $logger = null)
+    public function __construct (   PDO $conn , 
+                                    KVDdom_PDODataMapper $dataMapper , 
+                                    $sql , 
+                                    $idField = 'id', 
+                                    $mode = self::MODE_FILLED, 
+                                    array $values = null, 
+                                    $logger = null)
     {
-        $this->_conn = $conn;
-        $this->_dataMapper = $dataMapper;
+        $this->conn = $conn;
+        $this->dataMapper = $dataMapper;
         if ( !is_string( $sql ) ) {
             throw new InvalidArgumentException ( 'De parameter sql moet een string zijn!' );
         }
         $this->sql = $sql;
         $this->idField = $idField;
-        $this->setChunk ( $chunk );
-        $this->setRowsPerChunk ( $rowsPerChunk );
-        if ( $logger === null ) {
-            $this->logger = new KVDdom_SqlLogger( );
-        } else {
-            $this->logger = $logger;
+        $this->setChunk ( 1 );
+        $this->setRowsPerChunk ( 100 );
+        if ( $mode == self::MODE_PARAMETERIZED && is_null( $values ) ) {
+            throw new InvalidArgumentException ( 'Als u met geparameterizeerde queries wilt werken moet u ook de veldwaarden opgeven.' );
         }
+        $this->mode = $mode;
+        $this->logger = ( is_null( $logger ) ) ? new KVDdom_SqlLogger( ) : $logger;
         $this->initializeTotalRecordCount();
     }
 
@@ -114,27 +169,62 @@ class KVDdom_PDOChunkyQuery
      */
     private function initializeTotalRecordCount()
     {
-        $row = $this->_conn->query( $this->getTotalRecordCountSql( $this->sql , $this->idField ) );
-        $this->totalRecordCount = $row->fetchColumn(0);        
+        if ( $this->mode == self::MODE_FILLED ) {
+            $stmt = $this->conn->query( $this->getTotalRecordCountSql( $this->sql , $this->idField ) );
+        }
+        if ( $this->mode == self::MODE_PARAMETERIZED ) {
+            $stmt = $this->conn->prepare( $this->getTotalRecordCountSql( $this->sql, $this->idField ) );
+            for ( $i = 1; $i<count( $this->values); $i++) {
+                $stmt->bindValue( $i, $this->values[$i] );
+            }
+            $stmt->execute( );
+        }
+        $this->totalRecordCount = $stmt->fetchColumn(0);        
     }
 
     /**
      * Deze functie geeft de DomainObjects terug die tot een bepaalde chunk horen.
      *
-     * Op voorhand met setChunk() aangeroepen worden om te bepalen wat er wordt teruggeven.
+     * Op voorhand moet setChunk() aangeroepen worden om te bepalen wat er wordt teruggeven.
      * @return array Array van KVDdom_DomainObjects
      */
     public function getDomainObjects()
     {
-        $sql = $this->sql . " LIMIT {$this->max} OFFSET {$this->start}";
-        $this->logger->log ( $sql );
-        $stmt = $this->_conn->prepare( $sql );
+        $this->initializeStatement( );
+        $stmt->bindValue( $this->index['max'], $this->max, PDO::PARAM_INT );
+        $stmt->bindValue( $this->index['start'], $this->start, PDO::PARAM_INT );
         $stmt->execute();
         $domainObjects = array();
         while ($row = $stmt->fetch(PDO::FETCH_OBJ) ) {
-            $domainObjects[] = $this->_dataMapper->doLoad ( $row->id , $row );
+            $domainObjects[] = $this->dataMapper->doLoad ( $row->id , $row );
         }
         return $domainObjects;
+    }
+
+    /**
+     * initializeStatement 
+     * 
+     * Initialiseer de statement en berekent de index waarop parameters zoals max en start gebonden moeten worden.
+     * @since   23 okt 2007
+     * @param   boolean     $clear  Afdwingen dat de statement opnieuw wordt aangemaakt.  
+     * @return  void
+     */
+    private function initializeStatement( $clear = false )
+    {
+        if ( isset( $this->stmt ) && $this->stmt instanceof PDOStatement && !$clear ) {
+            return;
+        }
+        $sql = $this->sql . " LIMIT ? OFFSET ?";
+        $this->logger->log ( $sql );
+        $this->stmt = $this->conn->prepare( $sql );
+        $nextIndex = 1;
+        if ( $this->mode == self::MODE_PARAMETERIZED ) {
+            for ( ; $nextIndex<count( $this->values); $nextIndex++) {
+                $stmt->bindValue( $nextIndex, $this->values[$nextIndex] );
+            }
+        }
+        $this->index['max'] = $nextIndex++;
+        $this->index['start'] = $nextIndex++;
     }
 
     /**
