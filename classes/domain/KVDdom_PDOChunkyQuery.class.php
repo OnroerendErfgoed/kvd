@@ -143,6 +143,7 @@ class KVDdom_PDOChunkyQuery
         if ( $mode == self::MODE_PARAMETERIZED && is_null( $values ) ) {
             throw new InvalidArgumentException ( 'Als u met geparameterizeerde queries wilt werken moet u ook de veldwaarden opgeven.' );
         }
+        $this->values = $values;
         $this->mode = $mode;
         $this->logger = ( is_null( $logger ) ) ? new KVDdom_SqlLogger( ) : $logger;
         $this->initializeTotalRecordCount();
@@ -174,8 +175,8 @@ class KVDdom_PDOChunkyQuery
         }
         if ( $this->mode == self::MODE_PARAMETERIZED ) {
             $stmt = $this->conn->prepare( $this->getTotalRecordCountSql( $this->sql, $this->idField ) );
-            for ( $i = 1; $i<count( $this->values); $i++) {
-                $stmt->bindValue( $i, $this->values[$i] );
+            for ( $i = 0; $i<count( $this->values); $i++) {
+                $stmt->bindValue( $i+1, $this->values[$i] );
             }
             $stmt->execute( );
         }
@@ -191,11 +192,11 @@ class KVDdom_PDOChunkyQuery
     public function getDomainObjects()
     {
         $this->initializeStatement( );
-        $stmt->bindValue( $this->index['max'], $this->max, PDO::PARAM_INT );
-        $stmt->bindValue( $this->index['start'], $this->start, PDO::PARAM_INT );
-        $stmt->execute();
+        $this->stmt->bindValue( $this->index['max'], $this->max, PDO::PARAM_INT );
+        $this->stmt->bindValue( $this->index['start'], $this->start, PDO::PARAM_INT );
+        $this->stmt->execute();
         $domainObjects = array();
-        while ($row = $stmt->fetch(PDO::FETCH_OBJ) ) {
+        while ($row = $this->stmt->fetch(PDO::FETCH_OBJ) ) {
             $domainObjects[] = $this->dataMapper->doLoad ( $row->id , $row );
         }
         return $domainObjects;
@@ -219,9 +220,10 @@ class KVDdom_PDOChunkyQuery
         $this->stmt = $this->conn->prepare( $sql );
         $nextIndex = 1;
         if ( $this->mode == self::MODE_PARAMETERIZED ) {
-            for ( ; $nextIndex<count( $this->values); $nextIndex++) {
-                $stmt->bindValue( $nextIndex, $this->values[$nextIndex] );
+            for ( $i = 0; $i < count( $this->values); $i++) {
+                $this->stmt->bindValue( $i+1, $this->values[$i] );
             }
+            $nextIndex = ++$i;
         }
         $this->index['max'] = $nextIndex++;
         $this->index['start'] = $nextIndex++;
