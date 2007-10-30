@@ -178,6 +178,24 @@ class KVDdm_AdrGemeente extends KVDdom_PDODataMapper {
     }
 
     /**
+     * findByCriteria 
+     *
+     * @since 30 okt 2007
+     * @param KVDdb_Criteria $criteria 
+     * @return void
+     */
+    public function findByCriteria ( KVDdb_Criteria $criteria )
+    {
+        $sql = $this->getSelectStatement( ) . ' ' . $criteria->generateSql( KVDdb_Criteria::MODE_PARAMETERIZED );
+        $stmt = $this->_conn->prepare( $sql );
+        $values = $criteria->getValues( );
+        for ( $i=0 ; $i<count( $values ) ; $i++ ) {
+            $stmt->bindValue( $i+1 , $values[$i] );
+        }
+        return $this->executeFindMany( $stmt );
+    }
+
+    /**
      * @param string orderField Veld waarop gesorteerd moet worden.
      * @return string
      */
