@@ -94,8 +94,8 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDOChangeableDataMappe
     protected function getLogInsertStatement()
     {
         return  "INSERT INTO " . $this->logtabel .
-                " ( id, " . $this->velden . ", " . $this->sfvelden . ")" .
-                " SELECT id , " . $this->velden . ", " . $this->sfvelden .
+                " ( id, " . $this->velden . ", " . $this->systemFieldsMapper->getSystemFields( ) . ")" .
+                " SELECT id , " . $this->velden . ", " . $this->systemFieldsMapper->getSystemFields( ) .
                 " FROM " . $this->tabel . " WHERE " . $this->id . " = ?";
     }
 
@@ -261,11 +261,7 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDOChangeableDataMappe
     {
         $stmt = $this->_conn->prepare ( $this->getLogInsertStatement() );
         $stmt->bindValue ( 1 , $id , PDO::PARAM_INT );
-        try {
-            $stmt->execute();
-        } catch (PDOException $e) {
-            throw new Exception ( 'Het record kon niet gelogd worden omwille van een SQL probleem: ' . $e->getMessage() );
-        }
+        $stmt->execute();
     }
 
     /**

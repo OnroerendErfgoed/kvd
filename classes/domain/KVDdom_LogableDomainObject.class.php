@@ -40,7 +40,7 @@ abstract class KVDdom_LogableDomainObject extends KVDdom_ChangeableDomainObject 
      * @param integer $id
      * @param KVDdom_LegacySystemFields $systemFields
      */
-    public function __construct ( $id , $sessie , KVDdom_LegacySystemFields $systemFields = null, $currentRecord = true )
+    public function __construct ( $id , $sessie , $systemFields = null, $currentRecord = true )
     {
         $this->id = $id;
         $this->_sessie = $sessie;
