@@ -20,7 +20,7 @@
  * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
-class KVDdom_RedigeerbareSystemFields extends KVDdom_ChangeableSystemFieldsMapper {
+class KVDdom_RedigeerbareSystemFields extends KVDdom_ChangeableSystemFields {
 
     /**
      * gecontroleerdDoor

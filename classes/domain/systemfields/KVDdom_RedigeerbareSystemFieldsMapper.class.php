@@ -62,19 +62,19 @@ class KVDdom_RedigeerbareSystemFieldsMapper extends KVDdom_AbstractSystemFieldsM
      * @param integer $startIndex De numerieke index in de PDO Statement van de eerste parameter ( de gebruikersnaam ).
      * @return integer Nummer van de volgende te gebruiken index in het sql statement.
      */
-    protected function doSetSystemFields($stmt, $domainObject, $startIndex )
+    public function doSetSystemFields($stmt, $domainObject, $startIndex )
     {
         if ( !$domainObject->hasSystemFields( ) ) {
             throw new LogicException ( 'Kan de systemFields van een object dat geen systemFields heeft niet instellen op een statement.');
         }
-        $systemFields = $domainObject->getSystemFields();
-        $stmt->bindValue( $startIndex++ , $systemFields->getAangemaaktDoor( ) , PDO::PARAM_STR );
-        $stmt->bindValue( $startIndex++ , $systemFields->getAangemaaktOp( ) , PDO::PARAM_STR );
-        $stmt->bindValue( $startIndex++ , $systemFields->getBewerktDoor( ) , PDO::PARAM_STR );
-        $stmt->bindValue( $startIndex++ , $systemFields->isBewerkt( ) ? $systemFields->getBewerktOp( ) : null , PDO::PARAM_STR );
-        $stmt->bindValue( $startIndex++ , $systemFields->getTargetVersie( ) , PDO::PARAM_INT );
-        $stmt->bindValue( $startIndex++ , $systemFields->getGecontroleerdDoor( ) , PDO::PARAM_STR );
-        $stmt->bindValue( $startIndex++ , $systemFields->isGecontroleerd( ) ? $systemFields->getGecontroleerdOp( ) : null , PDO::PARAM_STR );
+        $sf = $domainObject->getSystemFields();
+        $stmt->bindValue( $startIndex++ , $sf->getAangemaaktDoor( ) , PDO::PARAM_STR );
+        $stmt->bindValue( $startIndex++,  $sf->getAangemaaktOp( )->format( DATE_ISO8601), PDO::PARAM_STR);
+        $stmt->bindValue( $startIndex++ , $sf->getTargetVersie( ) , PDO::PARAM_INT );
+        $stmt->bindValue( $startIndex++ , $sf->getBewerktDoor( ) , PDO::PARAM_STR );
+        $stmt->bindValue( $startIndex++ , $sf->getBewerktOp( )->format( DATE_ISO8601), PDO::PARAM_STR);
+        $stmt->bindValue( $startIndex++ , $sf->getGecontroleerdDoor( ) , PDO::PARAM_STR );
+        $stmt->bindValue( $startIndex++ , $sf->isGecontroleerd( ) ? $systemFields->getGecontroleerdDoor( )->format( DATE_ISO8601 ) : null, PDO::PARAM_STR);
         return $startIndex;
     }
         
