@@ -416,6 +416,18 @@ abstract class KVDthes_Term implements KVDdom_DomainObject
         return count( $this->relations->getNTIterator( ) ) > 0;
     }
 
+    
+    /**
+     * hasBTRelations 
+     * 
+     * @return boolean
+     */
+    public function hasBTRelations( )
+    {
+        $this->checkRelations( );
+        return count( $this->relations->getBTIterator( ) ) > 0;
+    }
+
     /**
      * getClass 
      * 
