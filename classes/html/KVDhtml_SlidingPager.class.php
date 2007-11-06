@@ -48,16 +48,25 @@ class KVDhtml_SlidingPager {
     protected $lh;
 
     /**
-     * @param KVDdom_DomainObjectCollectionPager $pager 
-     * @param AgaviRouting $ro 
-     * @param String $route   Naam van de route die de overzichten genereert.
+     * parameters 
+     * 
+     * @var array
+     */
+    protected $parameters = array( 'pagina_naam' => 'pagina' );
+
+    /**
+     * @param KVDdom_DomainObjectCollectionPager    $pager 
+     * @param AgaviRouting                          $ro 
+     * @param String                                $route      Naam van de route die de overzichten genereert.
+     * @param array                                 $parameters Mogelijke parameters zijn 'pagina_naam'.
      * @return void
      */
-    public function __construct( KVDdom_DomainObjectCollectionPager $pager, AgaviRouting $ro, $route)
+    public function __construct( KVDdom_DomainObjectCollectionPager $pager, AgaviRouting $ro, $route, $parameters = array( ) )
     {
         $this->pager = $pager;
         $this->ro = $ro;
         $this->route = $route;
+        $this->parameters = array_merge ( $this->parameters, $parameters);
         $this->lh = new KVDhtml_LinkHelper( );
     }
 
@@ -71,9 +80,9 @@ class KVDhtml_SlidingPager {
     {
         $html = '';
         if ( $this->pager->getPage( ) > $this->pager->getFirstPage( ) ) {
-            $html .= $this->lh->genHtmlLink( $this->ro->gen( $this->route , array ( 'pagina' => $this->pager->getPrev( ) ) ) , 'Vorige');
+            $html .= $this->lh->genHtmlLink( $this->ro->gen( $this->route , array ( $this->parameters['pagina_naam'] => $this->pager->getPrev( ) ) ) , 'Vorige');
             $html .= ' [ ';
-            $html .= $this->lh->genHtmlLink( $this->ro->gen( $this->route , array ( 'pagina' => $this->pager->getFirstPage( ) ) ) , $this->pager->getFirstPage( ) ) . ' ';
+            $html .= $this->lh->genHtmlLink( $this->ro->gen( $this->route , array ( $this->parameters['pagina_naam'] => $this->pager->getFirstPage( ) ) ) , $this->pager->getFirstPage( ) ) . ' ';
         } else {
             $html .= 'Vorige [ ';
         }
@@ -82,7 +91,7 @@ class KVDhtml_SlidingPager {
         
 		foreach ($this->pager->getPrevLinks($range) as $page) {
 			if ($page != $this->pager->getFirstPage( )) {
-                $html .= $this->lh->genHtmlLink( $this->ro->gen( $this->route , array ('pagina' => $page ) ),$page) . ' ';
+                $html .= $this->lh->genHtmlLink( $this->ro->gen( $this->route , array ($this->parameters['pagina_naam'] => $page ) ),$page) . ' ';
 			}
 		}
 
@@ -90,16 +99,16 @@ class KVDhtml_SlidingPager {
 			
         foreach ($this->pager->getNextLinks($range ) as $page) {
 			if ($page != $this->pager->getLastPage()) {
-                $html .= $this->lh->genHtmlLink( $this->ro->gen( $this->route , array ('pagina' => $page ) ),$page) . ' ';
+                $html .= $this->lh->genHtmlLink( $this->ro->gen( $this->route , array ($this->parameters['pagina_naam'] => $page ) ),$page) . ' ';
 			}
 		}	
 
         $html .= ($this->pager->getPage() < $this->pager->getLastPage( ) - $range ) ? '.. ' : '';
 			 
    		if ( $this->pager->getPage( ) < $this->pager->getLastPage( ) ) {
-            $html .= $this->lh->genHtmlLink( $this->ro->gen( $this->route , array ( 'pagina' => $this->pager->getLastPage( ) ) ) , $this->pager->getLastPage( ) );
+            $html .= $this->lh->genHtmlLink( $this->ro->gen( $this->route , array ( $this->parameters['pagina_naam'] => $this->pager->getLastPage( ) ) ) , $this->pager->getLastPage( ) );
             $html .= ' ] ';
-            $html .= $this->lh->genHtmlLink( $this->ro->gen( $this->route , array ( 'pagina' => $this->pager->getNext( ) ) ) , 'Volgende' );
+            $html .= $this->lh->genHtmlLink( $this->ro->gen( $this->route , array ( $this->parameters['pagina_naam'] => $this->pager->getNext( ) ) ) , 'Volgende' );
   		} else {
             $html .= ' ] Volgende';
         }
