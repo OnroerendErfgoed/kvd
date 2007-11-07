@@ -44,8 +44,8 @@ class KVDutil_DateRange
      */
     public function __construct( $start , $einde )
     {
-        $this->start = ( !is_numeric ( $start ) ) ? strtotime( $start ) : $start ;
-        $this->einde = ( !is_numeric ( $einde ) ) ? strtotime( $einde ) : $einde ;
+        $this->start = ( !is_numeric ( $start )&& !is_null ( $start )) ? strtotime( $start ) : $start ;
+        $this->einde = ( !is_numeric ( $einde )&& !is_null ( $einde ) ) ? strtotime( $einde ) : $einde ;
     }
 
     /**
@@ -55,7 +55,7 @@ class KVDutil_DateRange
      */
     public function getStart( )
     {
-        return date ( self::DATE_FORMAT , $this->start);
+        return ( !is_null($this->start)?date ( self::DATE_FORMAT , $this->start):null);
     }
 
     /**
@@ -65,7 +65,7 @@ class KVDutil_DateRange
      */
     public function getEinde( )
     {
-        return date ( self::DATE_FORMAT , $this->einde );
+        return ( !is_null($this->einde)?date ( self::DATE_FORMAT , $this->einde ):null);
     }
 
     /**
@@ -75,7 +75,9 @@ class KVDutil_DateRange
      */
     public function getOmschrijving( )
     {
-        return $this->getStart( ) . ' tot ' . $this->getEinde( );
+        if( $this->getStart() != null && $this->getEinde( )!=null){
+            return $this->getStart( ) . ' tot ' . $this->getEinde( );
+        }
     }
 }
 ?>
