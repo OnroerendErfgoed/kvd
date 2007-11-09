@@ -1,26 +1,31 @@
 <?php
 /**
  * @package KVD.dom
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @version $Id: KVDdom_Gebruiker.interface.php,v 1.1 2006/01/12 14:46:58 Koen Exp $
+ * @version $Id$
+ * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
- * Alle gebruikers-objecten voor een applicatie moeten aan deze interface voldoen.
+ * KVDdom_Gebruiker 
+ * 
+ * Alle gebruikers-objecten voor een applicatie moeten aan deze interface voldoen zodat de datamappers kunnen 
+ * nagaan wie de gebruiker is die een update uitvoert.
  * @package KVD.dom
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @since 1.0.0
+ * @since 2005
+ * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
-
 interface KVDdom_Gebruiker extends KVDdom_DomainObject {
 
+    /**
+     * getGebruikersNaam 
+     * 
+     * @return string
+     */
     public function getGebruikersNaam();
 
-    public function getWachtwoord();
-
-    public function setGebruikersNaam ( $gebruikersNaam );
-
-    public function setWachtwoord ( $wachtwoord);
-    
-    }
+}
 ?>
