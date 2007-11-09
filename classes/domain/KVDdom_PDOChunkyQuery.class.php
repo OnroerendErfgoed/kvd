@@ -1,7 +1,7 @@
 <?php
 /**
  * @package KVD.dom
- * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @copyright 2004-20067 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @version $Id$
@@ -10,13 +10,14 @@
 /**
  * KVDdom_PDOChunkyQuery 
  * 
+ * Deze class voert een query in stukjes uit zodat er aan lazy loading gedaan kan worden.
  * Een andere class kan bepalen welk stuk van de resultaten moet teruggeven 
  * worden door middel van setChunk.
  * Bv. setChunk(2) zal er voor zorgen dat de tweede blok records wordt geladen.
  *
  * @package KVD.dom
  * @since 24 jul 2006
- * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
@@ -117,11 +118,11 @@ class KVDdom_PDOChunkyQuery
      * @param KVDdom_PDODataMapper  $dataMapper     Een DataMapper waarmee de sql kan omgezet worden naar DomainObjects.
      * @param string                $sql            De uit te voeren query. Opgelet, er moeten wat vervangingen doorgevoerd worden om het aantal records te kunnen ophalen. Waarschijnlijk zullen hier nog fouten inzitten.
      *                                              Voorlopig blijkt alles te werken zolang het om eenvoudige select queries gaat, een distinct op het id-veld kan ook.
-     * @param string                $idField    Naam van het veld dat dienst doet als id-field ( om het totale aantal records te kunnen tellen).
-     * @param integer               $mode       Gevuld of geparameteriseerd.
-     * @param array                 $values     Waarden om te gebruiken in de placeholders van de prepared statements.
-     * @param KVDdom_SqlLogger      $logger     Een logger waarop sql statements gelogd kunnen worden.
-     * @throws <b>InvalidArgumentException</b> Indien er een ongeldige parameter wordt doorgegeven.
+     * @param string                $idField        Naam van het veld dat dienst doet als id-field ( om het totale aantal records te kunnen tellen).
+     * @param integer               $mode           Gevuld of geparameteriseerd.
+     * @param array                 $values         Waarden om te gebruiken in de placeholders van de prepared statements.
+     * @param KVDdom_SqlLogger      $logger         Een logger waarop sql statements gelogd kunnen worden.
+     * @throws <b>InvalidArgumentException</b>      Indien er een ongeldige parameter wordt doorgegeven.
      */
     public function __construct (   PDO $conn , 
                                     KVDdom_PDODataMapper $dataMapper , 
