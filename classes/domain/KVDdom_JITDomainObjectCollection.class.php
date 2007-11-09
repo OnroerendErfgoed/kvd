@@ -8,6 +8,7 @@
 /**
  * Object om collecties van DomainObjects te beheren waarbij de objecten pas geladen worden als ze effectief opgevraagd worden.
  *
+ * @deprecated  Heeft nooit echt dienst gedaan.
  * @package KVD.dom
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
  * @since 24 jul 2006
