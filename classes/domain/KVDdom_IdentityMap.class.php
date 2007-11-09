@@ -1,15 +1,21 @@
 <?php
 /**
  * @package KVD.dom
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
  * @version $Id$
+ * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
+ * KVDdom_GenericIdentityMap 
+ * 
  * Een generieke Identity Map (geen identity map per class, maar één voor alle classes)
  * @package KVD.dom
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @since 1.0.0
+ * @since 2005
+ * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDdom_GenericIdentityMap implements Iterator, Countable {
     
@@ -61,6 +67,7 @@ class KVDdom_GenericIdentityMap implements Iterator, Countable {
     {
         $type = $domainObject->getClass();
         $id = $domainObject->getId();
+        /*
         if (!array_key_exists($type, $this->maps)) {
             $this->maps[$type] = array($id => $domainObject );
         } else {
@@ -68,6 +75,10 @@ class KVDdom_GenericIdentityMap implements Iterator, Countable {
                 $this->maps[$type][$id] = $domainObject;
             }
         }
+        
+        Werkt dit niet evengoed?
+        */
+        $this->maps[$type][$id] = $domainObject;
     }
 
     /**
@@ -77,12 +88,16 @@ class KVDdom_GenericIdentityMap implements Iterator, Countable {
      */
     public function getDomainObject( $type, $id )
     {
+        /*
         if (array_key_exists($type, $this->maps)) {
             if (array_key_exists($id, $this->maps[$type])) {
                 return $this->maps[$type][$id];
             }
         }
         return null;
+        */
+        Werkt dit niet evengoed?
+        return $this->maps[$type][$id];
     }
 
     /**
@@ -91,10 +106,14 @@ class KVDdom_GenericIdentityMap implements Iterator, Countable {
      */
     public function getDomainObjects ( $type )
     {
+        /*
         if (array_key_exists($type, $this->maps)) {
             return $this->maps[$type];            
         }
         return null;
+        Werkt dit niet evengoed?
+        */
+        return $this->maps[$type];
     }
 
     /**
