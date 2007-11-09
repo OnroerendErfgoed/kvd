@@ -20,7 +20,7 @@ abstract class KVDdom_PDODataMapper {
      * 
      * @var array
      */
-    protected $parameters;
+    protected $parameters = array( );
 
     /**
      * Een KVDdom_Sessie object, nodig voor de Unit Of Work en de Identity Map
@@ -88,7 +88,7 @@ abstract class KVDdom_PDODataMapper {
     {
         $this->_sessie = $sessie;
         $this->_conn = $sessie->getDatabaseConnection( get_class($this) );
-        $this->parameters = $parameters;
+        $this->parameters = array_merge( $this->parameters, $parameters);
         $this->initialize( );
         $this->determineSystemFieldsMapper( );
     }
