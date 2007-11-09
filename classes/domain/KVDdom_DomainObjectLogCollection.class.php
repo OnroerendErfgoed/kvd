@@ -1,24 +1,23 @@
 <?php
 /**
  * @package KVD.dom
- * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @version $Id$
  */
 
 /**
- * KVDdom_DomainObjectCollection 
+ * KVDdom_DomainObjectLogCollection 
  * 
  * @package KVD.dom
  * @subpackage 
- * @since 2005
- * @todo    Nagaan of dit kan herwerkt worden naar een collection met een hash index zodat het opzoeken sneller zou gaan.
- * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @since 8 nov 2007
+ * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
-class KVDdom_DomainObjectCollection implements SeekableIterator, Countable
+class KVDdom_DomainObjectLogCollection extends KVDdom_DomainObjectCollection
 {
     /**
      * @var array De KVDdom_DomainObjects
@@ -134,7 +133,19 @@ class KVDdom_DomainObjectCollection implements SeekableIterator, Countable
      */
     public function hasDomainObject( $domainObject )
     {
-        return array_key_exists( $domainObject->getId( ), $this->collection( ) );
+        $currentIndex = $this->key( );
+        $this->rewind( );
+        $found = false;
+        while ( $this->valid( ) ) {
+            if ( $domainObject->getId( ) === $this->current( )->getId( ) && 
+                $domainObject->getSystemFields( )->getVersie( ) === $this->current( )->getSystemFields( )->getVersie( ) ) {
+                $found = true;
+                break;
+            }
+            $this->next( );
+        }
+        $this->seek( $currentIndex );
+        return $found;
     }
 
     /**
@@ -142,11 +153,11 @@ class KVDdom_DomainObjectCollection implements SeekableIterator, Countable
      * 
      * @since 06 nov 2006
      * @param integer $id Zal normaal een integer zijn, eventueel een string.
-     * @return mixed Het domainObject of null indien het niet gevonden werd.
+     * @throws LogicException   Operatie is zinloos op deze collectie.
      */
     public function getDomainObjectWithId ( $id )
     {
-        return $this->collection[$id];
+        throw new LogicException( 'Dit is een zinloze operatie aangezien alle objecten in deze collectie dezelfde id hebben.' );
     }
 
     /**

@@ -89,11 +89,7 @@ class KVDdom_LazyDomainObjectCollection extends KVDdom_DomainObjectCollection
      */
     public function valid()
     {
-        if ( $this->currentIndex >= $this->getTotalRecordCount() ) {
-            return false;    
-        } else {
-            return true;    
-        }
+        return !( $this->currentIndex >= $this->getTotalRecordCount( ) );
     }
 
     /**
@@ -101,10 +97,7 @@ class KVDdom_LazyDomainObjectCollection extends KVDdom_DomainObjectCollection
      */
     public function seek ($index)
     {
-        if ( $index < 0 || $index >= $this->getTotalRecordCount()) {
-            $index = 0;
-        }
-        $this->currentIndex = $index;
+        $this->currentIndex = ( $index < 0 || $index >= $this->getTotalRecordCount()) ? 0 : $index;
         return $this->current();
     }
 
@@ -119,6 +112,55 @@ class KVDdom_LazyDomainObjectCollection extends KVDdom_DomainObjectCollection
             $this->collection[$i] = $DomainObject;
             $i++;
         }
+    }
+
+
+    /**
+     * hasDomainObject 
+     * 
+     * Methode werd overgenomen van de KVDdom_DomainObjectCollection zodat die daar efficienter gemaakt kan worden.
+     * @since 8 nov 2007
+     * @param KVDdom_DomainObject $domainObject 
+     * @return boolean
+     */
+    public function hasDomainObject( KVDdom_DomainObject $domainObject )
+    {
+        $currentIndex = $this->key( );
+        $this->rewind( );
+        $found = false;
+        while ( $this->valid( ) ) {
+            if ( $domainObject->getId( ) === $this->current( )->getId( ) ) {
+                $found = true;
+                break;
+            }
+            $this->next( );
+        }
+        $this->seek( $currentIndex );
+        return $found;
+    }
+
+    /**
+     * getDomainObjectWithId 
+     * 
+     * Methode werd overgenomen van de KVDdom_DomainObjectCollection zodat die daar efficienter gemaakt kan worden.
+     * @since 8 nov 2007
+     * @param mixed $id Meestal een integer, soms een string.
+     * @return void
+     */
+    public function getDomainObjectWithId ( $id )
+    {
+        $return = null;
+        $currentIndex = $this->key( );
+        $this->rewind( );
+        while ( $this->valid( ) ) {
+            if ( $this->current( )->getId( ) === $id ) {
+               $return = $this->current( ); 
+               break;
+            }
+            $this->next( );
+        }
+        $this->seek ( $currentIndex );
+        return $return;
     }
 }
 ?>

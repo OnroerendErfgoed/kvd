@@ -98,7 +98,7 @@ abstract class KVDdom_PDOChangeableDataMapper extends KVDdom_PDODataMapper {
     /**
      * Verwijder een bepaald DomainObject uit de databank.
      *
-     * Deze versie kent geen concurrency control. Voor Optimistic Offline Concurrency moeten we bij CAI_LogableDataMapper zijn.
+     * Deze versie kent geen concurrency control. Voor Optimistic Offline Concurrency moeten we bij KVDdom_PDOLogableDataMapper zijn.
      * @param KVDdom_DomainObject $domainObject Het DomainObject dat moet verwijderd worden.
      * @throws PDOException Indien er een databank probleem optreed.
      */

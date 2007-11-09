@@ -295,7 +295,7 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDOChangeableDataMappe
      *
      * Voer een zoekacties op meerdere records uit in de log-tabellen.
      * @param Statement $stmt
-     * @return KVDdom_DomainObjectCollection
+     * @return KVDdom_DomainObjectLogCollection
      */
     protected function executeLogFindMany( $stmt )
     {
@@ -305,20 +305,7 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDOChangeableDataMappe
             $logObject = $this->doLogLoad( $row->id, $row );
             $domainObjects[] = $logObject;
         }
-        return new KVDdom_DomainObjectCollection ( $domainObjects );
-    }
-
-    /**
-     * getIdFromSequence 
-     * 
-     * @since 30 okt 2006
-     * @param string $sequenceName Naam van de sequentie waarvoor een nummer moet opgehaald worden.
-     * @return integer Een id waarde
-     */
-    protected function getIdFromSequence( $sequenceName )
-    {
-        $stmt = $this->_conn->query( "SELECT nextval ( '$sequenceName' )" );
-        return $stmt->fetchColumn( );
+        return new KVDdom_DomainObjectLogCollection ( $domainObjects );
     }
 
     /**
