@@ -91,6 +91,10 @@ class KVDdm_AdrProvincie extends KVDdom_PDODataMapper {
             return $domainObject;
         }
 
+        if( $id == null && $rs->provincie_naam == null ) {
+            return KVDdo_AdrProvincie::newNull( );
+        }
+
         return new KVDdo_AdrProvincie ( $id , 
                                         $this->_sessie,
                                         $rs->provincie_naam 

@@ -113,6 +113,10 @@ class KVDdm_AdrDeelgemeente extends KVDdom_PDODataMapper {
 
         $gemeenteMapper = $this->_sessie->getMapper( 'KVDdo_AdrGemeente' ); 
         $gemeente = $gemeenteMapper->doLoad( $rs->gemeente_id , $rs );
+
+        if ( $id == null && $rs->deelgemeente_naam == null ) {
+            return new KVDdo_NullAdrDeelgemeente( $gemeente );
+        }
         
         return new KVDdo_AdrDeelgemeente (  $id , 
                                             $this->_sessie,
