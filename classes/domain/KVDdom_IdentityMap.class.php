@@ -88,16 +88,12 @@ class KVDdom_GenericIdentityMap implements Iterator, Countable {
      */
     public function getDomainObject( $type, $id )
     {
-        /*
         if (array_key_exists($type, $this->maps)) {
             if (array_key_exists($id, $this->maps[$type])) {
                 return $this->maps[$type][$id];
             }
         }
         return null;
-        */
-        Werkt dit niet evengoed?
-        return $this->maps[$type][$id];
     }
 
     /**

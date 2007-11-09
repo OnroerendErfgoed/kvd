@@ -13,7 +13,6 @@
  * @package KVD.dom
  * @subpackage 
  * @since 2005
- * @todo    Nagaan of dit kan herwerkt worden naar een collection met een hash index zodat het opzoeken sneller zou gaan.
  * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
