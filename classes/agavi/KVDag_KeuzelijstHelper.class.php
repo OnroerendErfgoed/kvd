@@ -9,6 +9,7 @@
  * @package KVD.agavi
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
  * @since 31 jul 2006
+ * @deprecated  Mag waarschijnlijk gewoon weg, denk niet dat het nog ergens gebruikt wordt.
  */
 class KVDag_KeuzelijstHelper
 {
