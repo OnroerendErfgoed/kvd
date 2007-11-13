@@ -17,7 +17,7 @@ class KVDdom_MapperFactory
     /**
      * @var KVDdom_Sessie
      */
-    protected $_sessie;
+    protected $sessie;
 
     /**
      * @var array
@@ -50,9 +50,9 @@ class KVDdom_MapperFactory
      * @return KVDdom_AbstractMapper Een concrete implementatie van een KVDdom_AbstractMapper.
      * @throws <b>RuntimeException</b> - Indien er geen mapper gevonden werd
      */
-    public function createMapper ( $teMappenClass )
+    public function createMapper ( $teMappenClass , $type = null )
     {
-        $classMapper = $this->getClassMapper (  $teMappenClass );
+        $classMapper = $this->getClassMapper (  $teMappenClass , $type );
             
         if ( !class_exists( $classMapper) ) {
             $this->loadClassMapperFile (  $classMapper );
@@ -90,7 +90,7 @@ class KVDdom_MapperFactory
      * @return string Naam van de datamapper voor de te mappen class.
      * @throws <b>InvalidArgumentException</b> - Indien de naam van de te mappen class ongeldig is.
      */
-    private function getClassMapper ( $teMappenClass )
+    private function getClassMapper ( $teMappenClass , $type = null )
     {
         $underscorePos = strpos( $teMappenClass , '_');
         if ( $underscorePos === false ) {
@@ -101,6 +101,10 @@ class KVDdom_MapperFactory
         $prefix = str_replace ( 'do', 'dm', $prefix);
 
         $classMapper = $prefix . $suffix;
+
+        if ( $type !== null ) {
+            $classMapper .= ucfirst( $type );
+        }
 
         return $classMapper;
     }
