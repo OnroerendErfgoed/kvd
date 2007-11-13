@@ -138,7 +138,7 @@ class KVDdm_AdrGemeente extends KVDdom_PDODataMapper {
         $provincieMapper = $this->_sessie->getMapper( 'KVDdo_AdrProvincie' ); 
         $provincie = $provincieMapper->doLoad( $rs->provincie_id , $rs );
 
-        if ( $id = null && $rs->gemeente_naam == null ) {
+        if ( $id == null && $rs->gemeente_naam == null ) {
             return new KVDdo_NullAdrGemeente( $provincie );
         }
         
