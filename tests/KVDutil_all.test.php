@@ -43,11 +43,11 @@ $test->addTestFile( KVD_TESTS_DIR . 'util/KVDutil_GatewayFactory.test.php');
 $test->addTestFile( KVD_TESTS_DIR . 'util/KVDutil_GatewayRegistry.test.php');
 $test->addTestFile( KVD_TESTS_DIR . 'util/KVDutil_HuisnummerLabelSplitter.test.php');
 $test->addTestFile( KVD_TESTS_DIR . 'util/KVDutil_WachtwoordGenerator.test.php');
-$test->addTestFile( KVD_TESTS_DIR . 'util/KVDutil_PDOTransaction.test.php' );
+//$test->addTestFile( KVD_TESTS_DIR . 'util/KVDutil_PDOTransaction.test.php' );
 $test->addTestFile( KVD_TESTS_DIR . 'util/KVDutil_DownloadModel.test.php' );
 $test->addTestFile( KVD_TESTS_DIR . 'util/KVDutil_BestandenToolkit.test.php' );
 $test->addTestFile( KVD_TESTS_DIR . 'util/KVDutil_DateRange.test.php' );
-$test->addTestFile( KVD_TESTS_DIR . 'util/KVDutil_HuisnummerFacade.test.php');
+$test->addTestFile( KVD_TESTS_DIR . 'util/KVDutil_HuisnummerFacade2.test.php');
 $test->run(new TextReporter());
 
 ?>
