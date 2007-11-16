@@ -65,7 +65,7 @@ class TestOfHuisnummerFacade extends UnitTestCase
         $this->assertIdentical ( $string, '25, 35, 35' );
     }
 
-    public function testToStringUglyInput
+    public function testToStringUglyInput( )
     {
         $array = array( ' 25 ', '   35', '45   ' );
         $string = $this->facade->toString( $array );
@@ -302,7 +302,7 @@ class TestOfHuisnummerFacade extends UnitTestCase
         $this->assertEqual( $label, '25' );
     }
 
-    public function testMergeHuisnummerMetBisnummerLetter
+    public function testMergeHuisnummerMetBisnummerLetter( )
     {
         $array = array ( '25A' );
         $label = $this->facade->merge( $array );
@@ -327,7 +327,7 @@ class TestOfHuisnummerFacade extends UnitTestCase
     }
 
 
-    public function testSplitNummerMetBusnummer( )
+    public function testMergeNummerMetBusnummer( )
     {
         $array = array( '25 bus 3' );
         $label = $this->facade->merge( $array );
@@ -350,6 +350,7 @@ class TestOfHuisnummerFacade extends UnitTestCase
         $label = $this->facade->merge( $array );
         $this->assertIsA( $label, 'string' );
         $this->assertEqual( $label, '25-31' );
+    }
 
 }
 
