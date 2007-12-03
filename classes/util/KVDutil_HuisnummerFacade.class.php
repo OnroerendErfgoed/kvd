@@ -123,7 +123,7 @@ class KVDUtil_HnrBisletter extends KVDUtil_HnrEnkelElement{
 		return $this->getNummer();
 	}
 	public function getBisletter(){
-		return $bis;
+		return $this->bis;
 	}
 	public function accept($visitor){
 		return $visitor->visitBisletter($this);
@@ -311,7 +311,7 @@ class KVDUtil_HnrBisletterReeks extends KVDUtil_HnrReeksElement{
 	}
 
 	public function __toString(){
-		return $this->huis."/".$this->begin."-".$this->einde;
+		return $this->huis.$this->begin."-".$this->einde;
 	}	
 	public function getHuisnummer(){
 		return $this->huis;
@@ -336,8 +336,11 @@ class KVDUtil_HnrBisletterReeks extends KVDUtil_HnrReeksElement{
 			public function add($nummer){
 		$this->setEinde($nummer->getBisletter());
 	}
-	public function split(){
+		public function split(){
 		$r = array();
+		for($i = $this->begin; $i<= $this->einde; $i++){
+			$r[] = new KVDUtil_HnrBisletter($this->getHuisnummer(), $i);
+		}
 		return $r;
 	}
 }
@@ -583,8 +586,6 @@ class KVDUtil_HnrCompareHuisnummers extends KVDUtil_HnrVisitor{
 	}
 }
 
-?>
-<?php
 
 
 class HuisnummerReader{
@@ -606,7 +607,9 @@ class HuisnummerReader{
 	private $size = 0;
 	
 	public function setInput($input){
-		$this->input = preg_split("/[\s]+|(,)|(-)|(\/)|((?i:bus))/", $input, -1, PREG_SPLIT_DELIM_CAPTURE+PREG_SPLIT_NO_EMPTY);
+		$result = array();
+		preg_match_all("/(\d+)|(\/)|(,)|((?i:bus))|(\w+)/", $input, $result);
+		$this->input = $result[0];
 		$this->size = count($this->input);
 		$this->pos = -1;
 	}
@@ -753,11 +756,6 @@ class HuisnummerParser{
 	}
 }
 
-?>
-<?php
-
-
-
 class SequenceReader{
 	
 
@@ -813,7 +811,13 @@ class SequenceReader{
 	}
 	
 	private function readBisletterReeks($bisletter){
-		return $bisletter;	
+	
+		$reeks = new KVDUtil_HnrBisletterReeks($bisletter->getHuisnummer(), $bisletter->getBisletter(), $bisletter->getBisletter());
+		$einde = $reeks->getEinde();
+		while(($this->next() == "KVDUtil_HnrBisletter")&&($this->content()->getBisletter() == (++$einde)))
+			$reeks->setEinde($einde);
+		if($reeks->getBegin() == $reeks->getEinde()) return $bisletter;
+		else return $reeks;
 	}
 	
 	public function readReeks(){
@@ -831,7 +835,10 @@ class SequenceReader{
 		$this->input = $in;
 		$this->pos = 0;
 		$this->result = array();
-		while($this->current() != "") $this->store($this->readReeks());
+		while($this->current() != "") {
+		 $r = $this->readReeks();
+			$this->store($r);
+		}
 		return $this->result;
 	}
 	
@@ -930,19 +937,11 @@ public function swap(&$input, $p1, $p2){
 	public function merge($inputs){
 		$this->sort($inputs);
 		$merges = $this->mergeArray($inputs);
-		$r = "";
+/*		$r = "";
 		foreach($merges as $element) $r.= ", $element";
-		return substr($r, 2);
+*/		return $merges;
 	}
 }
-
-
-
-
-
-
-
-
 
 
 ?>
