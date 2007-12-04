@@ -63,7 +63,11 @@ class KVDdm_AdrTerreinobject {
             return $domainObject;
         }
         try {
-            $center = new KVDgis_GeomPoint ( self::EPSG_CODE , $crabData['centerX'], $crabData['centerY']);
+            if ( $crabData['centerX'] == 0 || $crabData['centerY'] == 0 ) {
+                $center = new KVDgis_GeomPoint( );
+            } else {
+                $center = new KVDgis_GeomPoint ( self::EPSG_CODE , $crabData['centerX'], $crabData['centerY']);
+            }
         } catch ( InvalidArgumentException $e ) {
             $center = new KVDgis_GeomPoint ( );
         }
