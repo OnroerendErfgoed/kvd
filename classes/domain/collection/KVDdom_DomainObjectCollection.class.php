@@ -133,7 +133,7 @@ class KVDdom_DomainObjectCollection implements SeekableIterator, Countable
      */
     public function hasDomainObject( $domainObject )
     {
-        return array_key_exists( $domainObject->getId( ), $this->collection );
+        return array_key_exists( $domainObject->getId( ), $this->collection( ) );
     }
 
     /**

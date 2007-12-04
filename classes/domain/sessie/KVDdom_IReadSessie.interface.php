@@ -30,12 +30,14 @@ interface KVDdom_IReadSessie {
     public function getIdentityMap();
 
     /**
-     * @param mixed $domainObject Ofwel een class-naam van een KVDdom_DomainObject, ofwel een KVDdom_DomainObject.
+     * @param mixed     $domainObject   Ofwel een class-naam van een KVDdom_DomainObject, ofwel een KVDdom_DomainObject.
+     * @param string    $type           Een optioneel subtype zodat het gebruik van een bepaalde mapper voor een DomainObject
+     *                                  dat meerdere mappers heeft wordt afgedwongen.
      * @return KVDdom_Datamapper Een datamapper voor het desbetreffende DomainObject.
      * @throws <b>InvalidArgumentException</b> - Indien de parameter $domainObject geen string of DomainObject is.
 	 * @throws <b>KVDdom_DatabaseUnavailableException</b> - Indien de voor de dataMapper gespecifieerde connectie niet bestaat.
      */
-    public function getMapper( $domainObject );
+    public function getMapper( $domainObject , $type = null);
 
     /**
      * @param KVDdom_DomainObject $domainObject
