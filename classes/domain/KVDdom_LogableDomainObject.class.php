@@ -18,7 +18,7 @@ abstract class KVDdom_LogableDomainObject extends KVDdom_ChangeableDomainObject 
 {
     /**
      * Systemfields object dat eigenaar, versie, e.d. bijhoudt.
-     * @var KVDdom_LegacySystemFields
+     * @var KVDdom_RedigeerbareSystemFields
      */
     protected $_systemFields;
 
@@ -38,14 +38,14 @@ abstract class KVDdom_LogableDomainObject extends KVDdom_ChangeableDomainObject 
     /**
      * @param KVDdom_Sessie $sessie 
      * @param integer $id
-     * @param KVDdom_LegacySystemFields $systemFields
+     * @param KVDdom_RedigeerbareSystemFields $systemFields
      */
     public function __construct ( $id , $sessie , $systemFields = null, $currentRecord = true )
     {
         $this->id = $id;
         $this->_sessie = $sessie;
         if ($systemFields === null) {
-            $this->_systemFields = new KVDdom_LegacySystemFields($this->_sessie->getGebruiker()->getGebruikersNaam());
+            $this->_systemFields = new KVDdom_RedigeerbareSystemFields($this->_sessie->getGebruiker()->getGebruikersNaam());
         } else {
             $this->_systemFields = $systemFields;
         }
@@ -60,7 +60,7 @@ abstract class KVDdom_LogableDomainObject extends KVDdom_ChangeableDomainObject 
     
     /**
      * Geef het SystemFields object van dit DomainObject terug
-     * @return KVDdom_LegacySystemFields
+     * @return KVDdom_RedigeerbareSystemFields
      */
     public function getSystemFields()
     {
