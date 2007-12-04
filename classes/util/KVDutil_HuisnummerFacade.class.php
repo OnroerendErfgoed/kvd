@@ -107,6 +107,32 @@ class KVDUtil_HnrBusnummer extends KVDUtil_HnrEnkelElement{
 		return $nummer->accept(new KVDUtil_HnrCompareToBusnummer($this));
 	}
 }
+
+class KVDUtil_HnrBusletter extends KVDUtil_HnrEnkelElement{
+	private $bus;
+
+	public function __construct($huis, $bus){
+		parent::__construct($huis);
+		$this->bus = $bus;
+	}
+	public function __toString(){
+		return $this->getHuisnummer()." bus ".$this->bus;
+	}
+	public function getHuisnummer(){
+		return $this->getNummer();
+	}
+	public function getBusletter(){
+		return $this->bus;
+	}	
+	public function accept($visitor){
+		return $visitor->visitBusnummer($this);
+	}
+	public function compareTo($nummer){
+		return $nummer->accept(new KVDUtil_HnrCompareToBusletter($this));
+	}
+}
+
+
 class KVDUtil_HnrBisletter extends KVDUtil_HnrEnkelElement{
 
 	private $bis;
@@ -179,7 +205,10 @@ class KVDUtil_HnrHuisnummerReeks extends KVDUtil_HnrReeksElement{
 		
 	}
 	public function __toString(){
-		return ($this->spring)?$this->begin.'-'.$this->einde : $this->begin.", ".$this->begin+1 ."-".$this->einde;
+		$diff = ($this->einde - $this->begin);
+		if (($diff/2 == floor($diff/2)) && (!$this->spring))
+			return $this->begin.", ".($this->begin+1)."-".$this->einde;
+		return $this->begin.'-'.$this->einde;
 	}
 	
 
@@ -302,6 +331,47 @@ class KVDUtil_HnrBusnummerReeks extends KVDUtil_HnrReeksElement{
 	}
 }
 
+class KVDUtil_HnrBusletterReeks extends KVDUtil_HnrReeksElement{
+	private $huis;
+	
+	public function __construct($huis, $begin, $einde){
+		parent::__construct($begin,$einde);
+		$this->huis = $huis;
+	}
+	public function __toString(){
+		return $this->huis." bus ".$this->begin."-".$this->einde;
+	}	
+		public function getHuisnummer(){
+		return $this->huis;
+	}
+	
+	public function setHuisnummer($huis){
+		$this->huis = $huis;
+	}
+		public function accept($visitor){
+		return $visitor->visitBusletterReeks($this);
+	}
+		public function compareTo($nummer){
+		return $nummer->accept(new KVDUtil_HnrCompareToBusletterReeks($this));
+	}
+		public function precedes($nummer){
+		return $nummer->accept(new KVDUtil_HnrPrecedesToBusletterReeks($this));
+	}
+		public function compatibleTo($nummer){
+		return $nummer->accept(new KVDUtil_HnrCompatibleToBusletterReeks($this));
+	}
+			public function add($nummer){
+		$this->setEinde($nummer->getBusletter());
+	}
+		public function split(){
+		$r = array();
+		for($i = $this->begin; $i<= $this->einde; $i++){
+			$r[] = new KVDUtil_HnrBusletter($this->getHuisnummer(), $i);
+		}
+		return $r;
+	}
+}
+
 class KVDUtil_HnrBisletterReeks extends KVDUtil_HnrReeksElement{
 	private $huis;
 
@@ -353,11 +423,13 @@ abstract class  KVDUtil_HnrVisitor{
 	abstract function visitHuisnummer($huis);
 	abstract function visitBisnummer($bis);
 	abstract function visitBusnummer($bus);
+	abstract function visitBusletter($bus);
 	abstract function visitBisletter($bis);
 	
 	abstract function visitHuisnummerReeks($huis);
 	abstract function visitBisnummerReeks($bis);
 	abstract function visitBusnummerReeks($bus);
+	abstract function visitBusletterReeks($bus);
 	abstract function visitBisletterReeks($bis);
 }
 abstract class KVDUtil_HnrCompare extends KVDUtil_HnrVisitor{
@@ -398,6 +470,12 @@ class KVDUtil_HnrCompareToHuisnummer extends KVDUtil_HnrCompare{
 		if($c == 0) return -1;
 		else return $c;
 	}
+	public function visitBusletter($bus){
+		$c = $this->compareOne($this->huis->getNummer(),$bus->getNummer());
+		if($c == 0) return -1;
+		else return $c;
+	}
+
 	public function visitBisletter($bis){
 		$c = $this->compareOne($this->huis->getNummer(),$bis->getNummer());
 		if($c == 0) return -1;
@@ -410,6 +488,9 @@ class KVDUtil_HnrCompareToHuisnummer extends KVDUtil_HnrCompare{
 		return $this->compareOne($this->huis->getNummer(),$reeks->getHuisnummer());
 	}
 	public function visitBusnummerReeks($reeks){
+		return $this->compareOne($this->huis->getNummer(),$reeks->getHuisnummer());
+	}
+	public function visitBusletterReeks($reeks){
 		return $this->compareOne($this->huis->getNummer(),$reeks->getHuisnummer());
 	}
 	public function visitBisletterReeks($reeks){
@@ -442,6 +523,17 @@ class KVDUtil_HnrCompareToBusnummer extends KVDUtil_HnrCompareToHuisnummer{
 															$reeks->getHuisnummer(),	$bis->getBegin());
 	}
 }
+
+class KVDUtil_HnrCompareToBusletter extends KVDUtil_HnrCompareToHuisnummer{
+	public function visitBusletter($bus){ 
+		return $this->compareTwo($this->huis->getNummer(),$this->huis->getBusletter(),	
+															$bis->getNummer(),	$bis->getBusletter());
+	}
+	public function visitBusletterReeks($reeks){
+		return $this->compareTwo($this->huis->getNummer(),$this->huis->getBusletter(),	
+															$reeks->getHuisnummer(),	$bis->getBegin());
+	}
+}
 class KVDUtil_HnrCompareToBisletter extends KVDUtil_HnrCompareToHuisnummer{
 	public function visitBisletter($bis){ 
 		return $this->compareTwo($this->huis->getNummer(),$this->huis->getBisletter(),	
@@ -453,8 +545,10 @@ class KVDUtil_HnrCompareToBisletter extends KVDUtil_HnrCompareToHuisnummer{
 	}
 }
 
+
+
 class KVDUtil_HnrCompareToHuisnummerReeks extends KVDUtil_HnrCompare{
-	private $huis;
+	protected $huis;
 	public function __construct($huis){
 		$this->huis = $huis;
 	}
@@ -465,6 +559,9 @@ class KVDUtil_HnrCompareToHuisnummerReeks extends KVDUtil_HnrCompare{
 		return $this->compareOne($this->huis->getBegin(), $bis->getNummer());
 	}
 	public function visitBusnummer($bus){
+		return $this->compareOne($this->huis->getBegin(), $bus->getNummer());
+	}
+	public function visitBusletter($bus){
 		return $this->compareOne($this->huis->getBegin(), $bus->getNummer());
 	}
 	public function visitBisletter($bis){
@@ -480,12 +577,16 @@ class KVDUtil_HnrCompareToHuisnummerReeks extends KVDUtil_HnrCompare{
 	public function visitBusnummerReeks($bus){
 		return $this->compareOne($this->huis->getBegin(), $bus->getHuisnummer());
 	}
+	public function visitBusletterReeks($bus){
+		return $this->compareOne($this->huis->getBegin(), $bus->getHuisnummer());
+	}
 	public function visitBisletterReeks($bis){
 		return $this->compareOne($this->huis->getBegin(), $bis->getHuisnummer());
 	}
 }
+
 class KVDUtil_HnrCompareToBisnummerReeks extends KVDUtil_HnrCompare{
-	private $huis;
+	protected $huis;
 	public function __construct($huis){
 		$this->huis = $huis;
 	}
@@ -496,6 +597,9 @@ class KVDUtil_HnrCompareToBisnummerReeks extends KVDUtil_HnrCompare{
 		return $this->compareOne($this->huis->getHuisnummer(), $huis->getNummer());
 	}
 	public function visitBusnummer($bus){
+		return $this->compareOne($this->huis->getHuisnummer(), $huis->getNummer());
+	}
+	public function visitBusletter($bus){
 		return $this->compareOne($this->huis->getHuisnummer(), $huis->getNummer());
 	}
 	public function visitBisletter($bis){
@@ -516,41 +620,60 @@ class KVDUtil_HnrCompareToBisnummerReeks extends KVDUtil_HnrCompare{
 						);
 	}
 	public function visitBusnummerReeks($bus){
-		return $this->compareOne($this->huis->getHuisnummer(), $huis->getHuisnummer());
+		return $this->compareOne($this->huis->getHuisnummer(), $bus->getHuisnummer());
+	}
+	public function visitBusletterReeks($bus){
+		return $this->compareOne($this->huis->getHuisnummer(), $bus->getHuisnummer());
 	}
 	public function visitBisletterReeks($bis){
-		return $this->compareOne($this->huis->getHuisnummer(), $huis->getHuisnummer());
+		return $this->compareOne($this->huis->getHuisnummer(), $bis->getHuisnummer());
 	}
 
 }
 class KVDUtil_HnrCompareToBusnummerReeks extends KVDUtil_HnrCompareToBisnummerReeks{
 	public function visitBisnummerReeks($bus){
-		return $this->compareOne($this->huis->getHuisnummer(), $huis->getHuisnummer());
+		return $this->compareOne($this->huis->getHuisnummer(), $bus->getHuisnummer());
 	}
 	public function visitBusnummerReeks($bis){
 		return $this->compareThree(
 						$this->huis->getHuisnummer(), 
 						$this->huis->getBegin(), 
 						$this->huis->getEinde(), 
-						$huis->getHuisnummer(), 
-						$huis->getBegin(), 
-						$huis->getEinde() 
+						$bis->getHuisnummer(), 
+						$bis->getBegin(), 
+						$bis->getEinde() 
+						);
+	}
+}
+
+class KVDUtil_HnrCompareToBusletterReeks extends KVDUtil_HnrCompareToBisnummerReeks{
+	public function visitBisnummerReeks($bus){
+		return $this->compareOne($this->huis->getHuisnummer(), $huis->getHuisnummer());
+	}
+	public function visitBusletterReeks($bus){
+		return $this->compareThree(
+						$this->huis->getHuisnummer(), 
+						$this->huis->getBegin(), 
+						$this->huis->getEinde(), 
+						$bus->getHuisnummer(), 
+						$bus->getBegin(), 
+						$bus->getEinde() 
 						);
 	}
 }
 
 class KVDUtil_HnrCompareToBisletterReeks extends KVDUtil_HnrCompareToBisnummerReeks{
 	public function visitBisnummerReeks($bus){
-		return $this->compareOne($this->huis->getHuisnummer(), $huis->getHuisnummer());
+		return $this->compareOne($this->huis->getHuisnummer(), $bus->getHuisnummer());
 	}
 	public function visitBisletterReeks($bis){
 		return $this->compareThree(
 						$this->huis->getHuisnummer(), 
 						$this->huis->getBegin(), 
 						$this->huis->getEinde(), 
-						$huis->getHuisnummer(), 
-						$huis->getBegin(), 
-						$huis->getEinde() 
+						$bis->getHuisnummer(), 
+						$bis->getBegin(), 
+						$bis->getEinde() 
 						);
 	}
 }
@@ -569,6 +692,9 @@ class KVDUtil_HnrCompareHuisnummers extends KVDUtil_HnrVisitor{
 	public function visitBusnummer($bus){
 		return $this->nummer->accept(new KVDUtil_HnrCompareToBusnummer($bus));
 	}
+	public function visitBusletter($bus){
+		return $this->nummer->accept(new KVDUtil_HnrCompareToBusletter($bus));
+	}
 	public function visitBisletter($bis){
 		return $this->nummer->accept(new KVDUtil_HnrCompareToBisletter($bis));
 	}
@@ -581,12 +707,15 @@ class KVDUtil_HnrCompareHuisnummers extends KVDUtil_HnrVisitor{
 	public function visitBusnummerReeks($bus){
 		return $this->nummer->accept(new KVDUtil_HnrCompareToBusnummerReeks($bus));
 	}
+	public function visitBusletterReeks($bus){
+		return $this->nummer->accept(new KVDUtil_HnrCompareToBusletterReeks($bus));
+	}
 	public function visitBisletterReeks($bis){
 		return $this->nummer->accept(new KVDUtil_HnrCompareToBisletterReeks($bis));
 	}
 }
 
-
+/**************************************************************/
 
 class HuisnummerReader{
 	const nummer = 0;
@@ -596,6 +725,20 @@ class HuisnummerReader{
 	const eof = 4;
 	const word = 5;
 	const comma = 6;
+	
+	public function typeText($type){
+		switch($type) {
+			case 0: return "Nummer";
+			case 1: return "Reeks"; 
+			case 2: return "Bisnummer";
+			case 3: return "Busnummer";
+			case 4: return "Einde";
+			case 5: return "Woord";
+			case 6: return "Comma";
+			default: break;
+		}
+		return "";
+	}
 
 	public function __construct(){
 		
@@ -608,7 +751,7 @@ class HuisnummerReader{
 	
 	public function setInput($input){
 		$result = array();
-		preg_match_all("/(\d+)|(\/)|(,)|((?i:bus))|(\w+)/", $input, $result);
+		preg_match_all("/(\d+)|(\/)|(,)|(-)|((?i:bus))|(\w+)/", $input, $result);
 		$this->input = $result[0];
 		$this->size = count($this->input);
 		$this->pos = -1;
@@ -664,13 +807,14 @@ class HuisnummerParser{
 
 	private function readElement($type){
 		if($this->reader->next() == $type) return $this->reader->getContent();
-		else return $this->error($type." expected, given ".$this->reader->getType());
+		else return $this->errorCode($this->reader->getType(),$type);
 	}
 
 	private function readHuisnummerReeks($begin){
 		$einde = $this->readElement(HuisnummerReader::nummer);
 		$this->reader->next();
-		return new KVDUtil_HnrHuisnummerReeks($begin, $einde);	
+		$spring = ((($begin - $einde)/2) == floor(($begin - $einde)/2));
+		return new KVDUtil_HnrHuisnummerReeks($begin, $einde, $spring );	
 	}
 	
 	private function readBisnummerReeks($huis, $begin){
@@ -692,6 +836,11 @@ class HuisnummerParser{
 		return new KVDUtil_HnrBusnummerReeks($huis, $begin, $einde);
 	
 	}
+	private function readBusletterReeks($huis, $begin){
+		$einde = $this->readElement(HuisnummerReader::word);
+		$this->reader->next();
+		return new KVDUtil_HnrBusnummerReeks($huis, $begin, $einde);
+	}
 	
 	private function readBisnummer($huisnr){
 		$bisnr = $this->readElement(HuisnummerReader::nummer);
@@ -706,12 +855,25 @@ class HuisnummerParser{
 		else return new KVDUtil_HnrBisletter($huis, $bis);	
 	
 	}
-		
-	private function readBusnummer($huis){
-		$bisnr = $this->readElement(HuisnummerReader::nummer);
+	private function readBusnummer($huis, $nummer){
 		if($this->reader->next() == HuisnummerReader::min)
-			return $this->readBusnummerReeks($huis, $bisnr);
-		else return new KVDUtil_HnrBusnummer($huis, $bisnr);	
+			return $this->readBusnummerReeks($huis, $nummer);
+		else return new KVDUtil_HnrBusnummer($huis, $nummer);
+	}
+	private function readBusletter($huis, $letter){
+		if($this->reader->next() == HuisnummerReader::min)
+			return $this->readBusletterReeks($huis, $letter);
+		else return new KVDUtil_HnrBusnummer($huis, $letter);
+	}
+	
+	private function readBus($huis){
+		$type = $this->reader->next();
+		$bus = $this->reader->getContent();
+		switch($type) {
+			case HuisnummerReader::nummer: return $this->readBusnummer($huis, $bus);
+			case HuisnummerReader::word: return $this->readBusletter($huis, $bus);
+			default: return $this->error("Word or Number Expected, given ".$this->reader->typeText($type));
+		}
 	}
 	
 	private function readHuisnummerLijst($exp){
@@ -729,7 +891,7 @@ class HuisnummerParser{
 		switch($this->reader->next()) {
 			case HuisnummerReader::min: return $this->readHuisnummerReeks($exp);
 			case HuisnummerReader::slash: return $this->readBisnummer($exp);
-			case HuisnummerReader::bus: return $this->readBusnummer($exp);
+			case HuisnummerReader::bus: return $this->readBus($exp);
 			case HuisnummerReader::word: return $this->readBisletter($exp, $this->reader->getContent());
 			default: return new KVDUtil_HnrHuisnummer($exp);
 		}
@@ -740,7 +902,7 @@ class HuisnummerParser{
 		$huisnummer = $this->readHuisnummer($nummer);
 		switch($this->reader->getType()) {
 			case HuisnummerReader::comma: return $this->readHuisnummerLijst($huisnummer);break;
-			case HuisnummerReader::eof: return $huisnummer;break;
+			case HuisnummerReader::eof: return array($huisnummer);break;
 			default: $this->error("Separator expected");
 		}
 	}
@@ -750,6 +912,9 @@ class HuisnummerParser{
 		 return $this->readHuisnummerExpressie();
 	}
 	
+	private function errorCode($given, $expected){
+		$this->error($this->reader->typeText($given)."($given) given, ".$this->reader->typeText($expected)."($expected) expected.");
+	}
 	private function error($msg){
 		$m = "Parse error:".$msg.", at ".$this->reader->getContent()."(".$this->reader->getPos().")";
 		throw new Exception($m);
@@ -796,7 +961,7 @@ class SequenceReader{
 	
 	private function readBisnummerReeks($bisnummer){
 		$reeks = new KVDUtil_HnrBisnummerReeks($bisnummer->getHuisnummer(), $bisnummer->getBisnummer(), $bisnummer->getBisnummer());
-		while(($this->next() == "KVDUtil_HnrBisnummer")&&($this->content->getBisnummer() == ($reeks->getEinde() +1)))
+		while(($this->next() == "KVDUtil_HnrBisnummer")&&($this->content()->getBisnummer() == ($reeks->getEinde() +1)))
 			$reeks->setEinde($reeks->getEinde() +1);
 		if($reeks->getBegin() == $reeks->getEinde()) return $bisnummer;
 		else return $reeks;
@@ -807,6 +972,14 @@ class SequenceReader{
 		while(($this->next() == "KVDUtil_HnrBusnummer")&&($this->content()->getBusnummer() == ($reeks->getEinde() +1)))
 			$reeks->setEinde($reeks->getEinde() +1);
 		if($reeks->getBegin() == $reeks->getEinde()) return $busnummer;
+		else return $reeks;
+	}
+		private function readBusletterReeks($busletter){;
+		$reeks = new KVDUtil_HnrBusletterReeks($busletter->getHuisletter(), $busletter->getBusletter(), $busletter->getBusletter());
+		$einde = $reeks->getEinde();
+		while(($this->next() == "KVDUtil_HnrBusletter")&&($this->content()->getBusletter() == ++$einde))
+			$reeks->setEinde($einde);
+		if($reeks->getBegin() == $reeks->getEinde()) return $busletter;
 		else return $reeks;
 	}
 	
@@ -825,6 +998,7 @@ class SequenceReader{
 			case "KVDUtil_HnrHuisnummer": return $this->readHuisnummerReeks($this->content());
 			case "KVDUtil_HnrBisnummer": return $this->readBisnummerReeks($this->content());
 			case "KVDUtil_HnrBusnummer": return $this->readBusnummerReeks($this->content());
+			case "KVDUtil_HnrBusletter": return $this->readBusletterReeks($this->content());
 			case "KVDUtil_HnrBisletter": return $this->readBisletterReeks($this->content());
 			case "": return null;
 			default: throw new Exception("Invalid type");
@@ -862,8 +1036,9 @@ class SequenceReader{
 }
 
 
+/***********************************************/
 
-class HuisnummerFacade {
+class KVDutil_HuisnummerFacade {
 
 
 	public $compares;
@@ -918,28 +1093,38 @@ public function swap(&$input, $p1, $p2){
 	} 
 	
 	public function mergeArray($inputs){
-		$this->sort($intputs);
+		$this->sort($inputs);
 		return $this->sequencer->read($inputs);
 	}
 	
 	public function splitArray($inputs){
-		$r = array();
-		foreach($inputs as $input) $r = array_merge($r, $input->split());
-		return $r;
+		$result = array();
+		foreach($inputs as $input) 
+			foreach($input->split() as $element)
+				$result[] = $element;
+		return $result;
+	}
+	
+	public function toArray($input){
+		return $this->read($input);
+	}
+	public function toString($inputs){
+		$result = "";
+		foreach($inputs as $input) $result.=", $input";
+		return substr($result, 2);
 	}
 	
 	public function split($input){
 		$result = $this->read($input);
-		$this->sort($result);
-		return $this->splitArray($result);
+		$r = $this->splitArray($result);
+		$this->sort($r);
+		return $r;
 	}
 	
 	public function merge($inputs){
-		$this->sort($inputs);
-		$merges = $this->mergeArray($inputs);
-/*		$r = "";
-		foreach($merges as $element) $r.= ", $element";
-*/		return $merges;
+		$result = $this->split($inputs);
+		$merges = $this->mergeArray($result);
+		return $merges;
 	}
 }
 
