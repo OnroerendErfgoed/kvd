@@ -342,7 +342,7 @@ class KVDdb_InCriterion extends KVDdb_Criterion
         }
         $values = implode ( $values , ', ' );
         $sql = "( " . $this->field . " " . $this->sqlOperator . " ( ". $values . " )";
-        $sql .= $this->generateSqlChildren( $mode , $dbtype);
+        $sql .= $this->generateSqlChildren( $mode , $dbType);
         return $sql .= ' )';
     }
 

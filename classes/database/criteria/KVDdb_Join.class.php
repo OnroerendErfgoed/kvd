@@ -70,9 +70,11 @@ class KVDdb_Join
                 throw new InvalidArgumentException( 'Elk veldpaar kan maar uit 2 velden bestaan.' );
             }
         }
+        $this->fields = $fields;
         if ( !in_array( $type , self::$joinTypes ) ) {
             throw new InvalidArgumentException ( 'Het jointype ' . $type . ' wordt niet ondersteund.' );
         }
+        $this->type = $type;
     }
 
     /**
