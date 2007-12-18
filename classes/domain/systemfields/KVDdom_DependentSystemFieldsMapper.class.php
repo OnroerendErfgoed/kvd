@@ -46,13 +46,13 @@ class KVDdom_DependentSystemFieldsMapper extends KVDdom_AbstractSystemFieldsMapp
      * doSetSystemFields 
      * 
      * @param PDOStatement                  $stmt 
-     * @param KVDdom_ChangeableSystemFields $systemFields 
+     * @param KVDdom_DomainObject           $domainObject
      * @param integer                       $startIndex 
      * @return integer      Volgende te gebruiken index.
      */
-    public function doSetSystemFields( $stmt , $systemFields , $startIndex )
+    public function doSetSystemFields( $stmt , $domainObject , $startIndex )
     {
-        $stmt->bindValue( $startIndex++, $systemFields->getTargetVersie( ), PDO::PARAM_INT);
+        $stmt->bindValue( $startIndex++, $domainObject->getSystemFields( )->getTargetVersie( ), PDO::PARAM_INT);
         return $startIndex;
     }
 
