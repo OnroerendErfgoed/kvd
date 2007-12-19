@@ -124,4 +124,26 @@ class KVDdom_MapperConfigurationException extends Exception
     }
 }
 
+/**
+ * KVDdom_OngeldigeTypeException 
+ * 
+ * @package KVD.dom.exception
+ * @since 19 dec 2007
+ * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
+class KVDdom_OngeldigeTypeException
+{
+    public function __construct( $gekregenType, $gevraagdType )
+    {
+        $this->message .= " [Ongeldig Type: U probeert een bewerking uit te voeren met een object 
+        dat een ander type heeft dat de collection waarop u de bewerking uitvoert. U probeert een $gekregenType 
+        toe te voegen aan een collectie van het type $gevraagdType]";
+            
+        }
+    }
+    
+}
+
 ?>

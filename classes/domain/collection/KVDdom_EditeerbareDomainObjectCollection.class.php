@@ -36,7 +36,7 @@ class KVDdom_EditeerbareDomainObjectCollection extends KVDdom_DomainObjectCollec
     {
         parent::__construct( $collection );
         if ( $this->type === null && $type == null ) {
-            throw new Exception ( 'Collection is niet correct geinitialiseerd. Er moet een type worden opgegeven.')
+            throw new Exception ( 'Collection is niet correct geinitialiseerd. Er moet een type worden opgegeven.');
         }
     }
 
@@ -49,10 +49,7 @@ class KVDdom_EditeerbareDomainObjectCollection extends KVDdom_DomainObjectCollec
     protected function checkType( KVDdom_DomainObject $object )
     {
         if ( !$object instanceof $this->type ) {
-            throw new KVDdom_OngeldigTypeException( 'U probeert een bewerking uit te voeren met een object dat een 
-                                                    ander type heeft dat de collection waarop u de bewerking uitvoert.',
-                                                    $object->getClass( );
-                                                    $this->type);
+            throw new KVDdom_OngeldigTypeException($object->getClass( ), $this->type);
         }
     }
 
