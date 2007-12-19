@@ -168,6 +168,50 @@ abstract class KVDdom_PDOChangeableDataMapper extends KVDdom_PDODataMapper {
      * @param KVDdom_Sessie $sessie
      */
     abstract public function create ();
+
+
+    /**
+     * insertDependentCollection 
+     * 
+     * @param KVDdom_DomainObject           $owner 
+     * @param KVDdom_DomainObjectCollection $coll 
+     * @param string                        $sql            Een sql statement dat de koppeltabel kan vullen. Er wordt verwacht dat er in 
+     *                                                      dit statement 3 parameters beschikbaar zijn. De eerste bevat het id van de eigenaar,
+     *                                                      de tweede het id van een element in de collection en het derde het huidige versienummer.
+     * @param Integer                       $ownerIdType    Een PDO constante
+     * @param Integer                       $collIdType     Een PDO constante
+     * @return void
+     */
+    protected function insertDependentCollection( KVDdom_DomainObject $owner, KVDdom_DomainObjectCollection $coll , $sql, $ownerIdType = PDO::PARAM_INT, $collIdType = PDO::PARAM_INT )
+    {
+        if ( count( $coll ) > 0 ) {
+                $stmt = $this->_conn->prepare( $sql );
+                $stmt->bindValue( 1 , $owner->getId( ) , $ownerIdType);
+                $stmt->bindValue( 3 , $owner->getSystemFields( )->getTargetVersie( ) , PDO::PARAM_INT );
+                foreach ( $coll as $item ) {
+                    $stmt->bindValue( 2 , $item->getId( ) , $collIdType);
+                    $stmt->execute( );
+                }
+        }
+    }
+
+    /**
+     * deleteDependentCollection 
+     * 
+     * @param KVDdom_DomainObject   $owner 
+     * @param string                $sql            Een sql statement dat de afhankelijke collectie verwijderd. Er wordt verwacht dat 
+     *                                              er twee parameters beschikbaar zijn, de eerste bevat het id van de eigenaar,
+     *                                              de tweede het huidige versienummer.
+     * @param integer               $owerIdType     Een PDO constante
+     * @return void
+     */
+    protected function deleteDependentCollection( KVDdom_DomainObject $owner, $sql, $owerIdType = PDO::PARAM_INT )
+    {
+        $stmt = $this->_conn->prepare ($sql );
+        $stmt->bindValue ( 1, $owner->getId( ) , PDO::PARAM_INT );
+        $stmt->bindValue ( 2, $owner->getSystemFields( )->getVersie( ) , PDO::PARAM_INT );
+        $stmt->execute();
+    }
     
 }
 
