@@ -3,7 +3,7 @@
  * KVDutil_SoapWSA 
  * 
  * @package KVD.util
- * @subpackage Soap
+ * @subpackage soap
  * @version $Id$
  * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author Rob Richards <cdatazone.org>
@@ -15,7 +15,7 @@
  * KVDutil_SoapWSA 
  * 
  * @package KVD.util
- * @subpackage Soap
+ * @subpackage soap
  * @since 5 maart 2007
  * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author Rob Richards <cdatazone.org>

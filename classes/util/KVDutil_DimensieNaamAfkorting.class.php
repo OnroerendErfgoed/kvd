@@ -1,6 +1,7 @@
 <?php
 /**
- * @package KVD.util.dimensies
+ * @package KVD.util
+ * @subpackage dimensies
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
  * @version $Id$
  */
@@ -8,7 +9,8 @@
 /**
  * Utlity die namen en afkortingen van dimensies bevat.
  *
- * @package KVD.util.dimensies
+ * @package KVD.util
+ * @subpackage dimensies
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
  * @since 1.0.0
  */

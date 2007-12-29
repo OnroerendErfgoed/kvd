@@ -1,6 +1,7 @@
 <?php
 /**
- * @package KVD.util.dimensies
+ * @package KVD.util
+ * @subpackage dimensies
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
  * @version $Id$
  */
@@ -8,7 +9,8 @@
 /**
  * Class die alle dimensies van een object (voorwerp, vindplaats, monument, spoor, ...) groepeert.
  *
- * @package KVD.util.dimensies
+ * @package KVD.util
+ * @subpackage dimensies
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
  * @since 1.0.0
  */

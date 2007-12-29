@@ -1,6 +1,7 @@
 <?php
 /**
  * @package KVD.util
+ * @subpackage gateway
  * @version $Id$
  * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
@@ -11,6 +12,7 @@
  * KVDutil_GatewayFactory 
  * 
  * @package KVD.util
+ * @subpackage gateway
  * @since jan 2006
  * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
