@@ -1,31 +1,90 @@
-
-
 <?php
+/**
+ * @package KVD.util
+ * @subpackage Huisnummer
+ * @version $Id: KVDutil_HuisnummerFacade.class.php 1 2007-10-05 13:16:16Z standadi $
+ * @copyright 2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
 
+/**
+ * KVDutil_HuisnummerFacade 
+ *	Abstracte superklasse voor alle huisnummer notaties.
+ * @package KVD.util
+ * @subpackage Huisnummer
+ * @since september 2007
+ * @copyright 2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
 
 abstract class KVDUtil_HnrHuisnummerElement{
-
+	/**
+	 * accept
+	 * Visitor Pattern: alle huisnummers dienen deze methode te implementeren.
+	 * @param KVDUtil_HnrVisitor een visitor
+	 * @return Object De return waarde van de visitor.
+	 */
 	abstract function accept($visitor);
+	/**
+	 * compareTo
+	 * Functie om een huisnummer te vergelijken met een ander nummer.
+	 * @param KVDUtil_HnrHuisnummerElement een huisnummer
+	 * @return integer 
+	 *    -1 als dit nummer kleiner is, 
+	 *     0 indien de nummers gelijk zijn,
+	 *     1 indien dit nummer groteris
+	 */
 	abstract function compareTo($nummer);
-
 }
+
+/**
+ * KVDUtil_HnrEnkelElement 
+ *	Abstracte klasse voor huisnummers
+ * @package KVD.util
+ * @subpackage Huisnummer
+ * @since september 2007
+ * @copyright 2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
 
 abstract class KVDUtil_HnrEnkelElement extends KVDUtil_HnrHuisnummerElement{
 	
+	/**
+	 * @var integer huisnummer
+	 */
 	protected $nummer;
 	
+	/**
+	 * __construct
+	 * @param integer het huisnummer
+	 */
 	public function __construct($nummer){
 		$this->nummer= $nummer;
 	}
 	
+	/**
+	 * getNummer
+	 * 
+	 * @return integer het huisnummer van dit element
+	 */
 	public function getNummer(){
 		return $this->nummer;
 	}
-
+	/**
+	 * setNummer
+	 * @param integer het nieuwe huisnummer van dit element
+	 */
 	public function setNummer($nummer){
 		$this->nummer = $nummer;
 	}
-	
+	/**
+	 * split
+	 * Deelt een huisnummerreeks (indien van toepassing) op in de individuele huisnummers.
+	 * @return array - een array met dit element. 
+	 */
 	public function split(){
 		return array($this);
 	}
@@ -33,127 +92,334 @@ abstract class KVDUtil_HnrEnkelElement extends KVDUtil_HnrHuisnummerElement{
 }
 
 
+/**
+ * KVDUtil_HnrHuisnummer 
+ *	Een eenvoudig huisnummer, bijv: 13 of 15.
+ * @package KVD.util
+ * @subpackage Huisnummer
+ * @since september 2007
+ * @copyright 2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
 
 
 class KVDUtil_HnrHuisnummer extends KVDUtil_HnrEnkelElement{
-
+	/**
+	 * __construct
+	 * @param integer het huisnummer
+	 */
 	public function __construct($nummer){
 		parent::__construct($nummer);
 	}
 
+	/**
+	 * __toString
+	 * @return string representatie van het huisnummer, bijv "3" of "21"
+	 */
 	public function __toString(){
 		return "$this->nummer";
 	}
+	
+	/**
+	 * accept
+	 * Visitor Pattern
+	 * @param KVDUtil_HnrVisitor een visitor
+	 * @return Object De return waarde van de visitor.
+	 */
 	public function accept($visitor){
 		return $visitor->visitHuisnummer($this);
 	}
-	
+	/**
+	 * compareTo
+	 * Functie om een huisnummer te vergelijken met een ander nummer.
+	 * @param KVDUtil_HnrHuisnummerElement een huisnummer
+	 * @return integer 
+	 *    -1 als dit nummer kleiner is, 
+	 *     0 indien de nummers gelijk zijn,
+	 *     1 indien dit nummer groteris
+	 */
 	public function compareTo($nummer){
 		return $nummer->accept(new KVDUtil_HnrCompareToHuisnummer($this));
 	}
 	
 }
 
+
+/**
+ * KVDUtil_HnrBisnummer 
+ *	Klasse dat een enkel huisnummer met bisnummer voorstelt, bijv "3/1" of "21/5"
+ * @package KVD.util
+ * @subpackage Huisnummer
+ * @since september 2007
+ * @copyright 2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
+
 class KVDUtil_HnrBisnummer extends KVDUtil_HnrEnkelElement{
-
+	/**
+	 * @param integer het bisbnummer
+	 */
 	private $bis;
-
+	/**
+	 * __construct
+	 * @param integer huisnummer
+	 * @param integer bisnummer
+	 */
 	public function __construct($huis, $bis){
 		parent::__construct($huis);
 		$this->bis = $bis;
 	}
+	/**
+	 * __toString
+	 * @return string representatie van het nummer
+	 */
 	public function __toString(){
 		return $this->getHuisnummer()."/".$this->bis;
 	}
-	
+	/**
+	 * getHuisnummer
+	 * @return integer
+	 */
 	public function getHuisnummer(){
 		return $this->getNummer();
 	}
+	/**
+	 * getBisnummer
+	 * @return integer
+	 */
 	public function getBisnummer(){
 		return $this->bis;
 	}
-	
+	/**
+	 * accept
+	 * Visitor Pattern
+	 * @param KVDUtil_HnrVisitor een visitor
+	 * @return Object De return waarde van de visitor.
+	 */
 	public function accept($visitor){
 		return $visitor->visitBisnummer($this);
 	}
-	
+	/**
+	 * compareTo
+	 * Functie om een huisnummer te vergelijken met een ander nummer.
+	 * @param KVDUtil_HnrHuisnummerElement een huisnummer
+	 * @return integer 
+	 *    -1 als dit nummer kleiner is, 
+	 *     0 indien de nummers gelijk zijn,
+	 *     1 indien dit nummer groteris
+	 */
 	public function compareTo($nummer){
 		return $nummer->accept(new KVDUtil_HnrCompareToBisnummer($this));
 	}
 
 }
 
-
+ 
+/**
+ * KVDUtil_HnrBisnummer 
+ *  Klasse dat een enkel huisnummer met busnummer voorstelt, bijv "3 bus 1" of "53 bus 5"
+ * @package KVD.util
+ * @subpackage Huisnummer
+ * @since september 2007
+ * @copyright 2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
 class KVDUtil_HnrBusnummer extends KVDUtil_HnrEnkelElement{
+	/**
+	 * @param integer het busnummer
+	 */
 	private $bus;
 
+	/**
+	 * __construct
+	 * @param integer huisnummer
+	 * @param integer busnummer
+	 */
 	public function __construct($huis, $bus){
 		parent::__construct($huis);
 		$this->bus = $bus;
 	}
+	/**
+	 * @return string representatie van het nummer
+	 */
 	public function __toString(){
 		return $this->getHuisnummer()." bus ".$this->bus;
 	}
+	/**
+	 * getHuisnummer
+	 * @return integer
+	 */
 	public function getHuisnummer(){
 		return $this->getNummer();
 	}
+	/**
+	 * getBusnummer
+	 * @return integer
+	 */
 	public function getBusnummer(){
 		return $this->bus;
-	}	
+	}
+	
+
+	/**
+	 * accept
+	 * Visitor Pattern
+	 * @param KVDUtil_HnrVisitor een visitor
+	 * @return Object De return waarde van de visitor.
+	 */
 	public function accept($visitor){
 		return $visitor->visitBusnummer($this);
 	}
+	/**
+	 * compareTo
+	 * Functie om een huisnummer te vergelijken met een ander nummer.
+	 * @param KVDUtil_HnrHuisnummerElement een huisnummer
+	 * @return integer 
+	 *    -1 als dit nummer kleiner is, 
+	 *     0 indien de nummers gelijk zijn,
+	 *     1 indien dit nummer groteris
+	 */
 	public function compareTo($nummer){
 		return $nummer->accept(new KVDUtil_HnrCompareToBusnummer($this));
 	}
 }
 
+/**
+ * KVDUtil_HnrBusletter 
+ *	Klasse dat een enkel huisnummer met busletter voorstelt, bijv "3 bus A" of "53 bus D"
+ * @package KVD.util
+ * @subpackage Huisnummer
+ * @since september 2007
+ * @copyright 2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
 class KVDUtil_HnrBusletter extends KVDUtil_HnrEnkelElement{
+	/**
+	 * @var string
+	 */
 	private $bus;
-
+	/**
+	 * __construct
+	 * @param integer huisnummer
+	 * @param string busletter
+	 */
 	public function __construct($huis, $bus){
 		parent::__construct($huis);
 		$this->bus = $bus;
 	}
+	/**
+	 * __toString
+	 * @return string representatie van het nummer
+	 */
 	public function __toString(){
 		return $this->getHuisnummer()." bus ".$this->bus;
 	}
+
+	/**
+	 * getHuisnummer
+	 * @return integer
+	 */
 	public function getHuisnummer(){
 		return $this->getNummer();
 	}
+	/**
+	 * getBusletter
+	 * @return string
+	 */
 	public function getBusletter(){
 		return $this->bus;
-	}	
+	}
+	
+	/**
+	 * accept
+	 * Visitor Pattern
+	 * @param KVDUtil_HnrVisitor een visitor
+	 * @return Object De return waarde van de visitor.
+	 */
 	public function accept($visitor){
 		return $visitor->visitBusnummer($this);
 	}
+	/**
+	 * compareTo
+	 * Functie om een huisnummer te vergelijken met een ander nummer.
+	 * @param KVDUtil_HnrHuisnummerElement een huisnummer
+	 * @return integer 
+	 *    -1 als dit nummer kleiner is, 
+	 *     0 indien de nummers gelijk zijn,
+	 *     1 indien dit nummer groteris
+	 */
 	public function compareTo($nummer){
 		return $nummer->accept(new KVDUtil_HnrCompareToBusletter($this));
 	}
 }
 
-
+/**
+ * KVDUtil_HnrBisletter 
+ *	Klasse dat een enkel huisnummer met bisletter voorstelt, bijv "3A" of "53D"
+ * @package KVD.util
+ * @subpackage Huisnummer
+ * @since september 2007
+ * @copyright 2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
 class KVDUtil_HnrBisletter extends KVDUtil_HnrEnkelElement{
-
+	/**
+	 * @var string
+	 */
 	private $bis;
-
+	/**
+	 * __construct
+	 * @param integer huisnummer
+	 * @param string bisletter
+	 */
 	public function __construct($huis, $bis){
 		parent::__construct($huis);
 		$this->bis = $bis;
 	}
+	/**
+	 * __toString
+	 * @return string representatie van het nummer
+	 */
 	public function __toString(){
 		return $this->getHuisnummer().$this->bis;
 	}
-		
+	/**
+	 * getHuisnummer
+	 * @return integer
+	 */		
 	public function getHuisnummer(){
 		return $this->getNummer();
 	}
+	/**
+	 * getBisletter
+	 * @return string
+	 */
 	public function getBisletter(){
 		return $this->bis;
 	}
+	/**
+	 * accept
+	 * Visitor Pattern
+	 * @param KVDUtil_HnrVisitor een visitor
+	 * @return Object De return waarde van de visitor.
+	 */	
 	public function accept($visitor){
 		return $visitor->visitBisletter($this);
 	}
+	/**
+	 * compareTo
+	 * Functie om een huisnummer te vergelijken met een ander nummer.
+	 * @param KVDUtil_HnrHuisnummerElement een huisnummer
+	 * @return integer 
+	 *    -1 als dit nummer kleiner is, 
+	 *     0 indien de nummers gelijk zijn,
+	 *     1 indien dit nummer groteris
+	 */
 	public function compareTo($nummer){
 		return $nummer->accept(new KVDUtil_HnrCompareToBisletter($this));
 	}
@@ -161,49 +427,113 @@ class KVDUtil_HnrBisletter extends KVDUtil_HnrEnkelElement{
 }
 
 
+/**
+ * KVDUtil_HnrReeksElement 
+ *	Abstracte klasse voor alle reeksen (compacte notatie van een reeks) huisnummers
+ * @package KVD.util
+ * @subpackage Huisnummer
+ * @since september 2007
+ * @copyright 2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
 
-
-
-
-/**********************************************/
 
 abstract class KVDUtil_HnrReeksElement extends KVDUtil_HnrHuisnummerElement{
+
+	/**
+	 * @var integer
+	 */
 	protected $begin;
+	
+	/**
+	 * @var integer
+	 */
 	protected $einde;
 	
 	
+	/**
+	 * __construct
+	 * @param integer
+	 * @param integer
+	 */
 	public function __construct($begin, $einde){
 		$this->begin = $begin;
 		$this->einde = $einde;
 	}
 	
-
+	/**
+	 * getBegin
+	 * @return integer het begin nummer van deze reeks
+	 */
 	public function getBegin(){
 		return $this->begin;
 	}
-
+	/**
+	 * setBegin
+	 * @param integer het begin nummer van deze reeks
+	 */
 	public function setBegin($begin){
 		$this->begin = $begin;
 	}
-	
+	/**
+	 * getEinde
+	 * @return integer het laatste nummer van deze reeks
+	 */	
 	public function getEinde(){
 		return $this->einde;
 	}
+	/**
+	 * setEinde
+	 * @param integer het laatste nummer van deze reeks
+	 */	
 	public function setEinde($einde){
 		return $this->einde = $einde;
 	}
 	
 }
 
+/**
+ * KVDUtil_HnrHuisnummerReeks 
+ *  Een reeks van huisnummers.
+ *  bijv "33, 35, 37" -> "33-37"
+ *  bijv "33, 34, 35, 36" -> "33-36"
+ *  bijv "32, 33, 34, 35, 36"-> "32, 33-36"
+ * @package KVD.util
+ * @subpackage Huisnummer
+ * @since september 2007
+ * @copyright 2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
 
 class KVDUtil_HnrHuisnummerReeks extends KVDUtil_HnrReeksElement{
+	/**
+	 * @var boolean geeft weer of de huisnummers in deze reeks elke opvolgen
+	 *  bijvoorbeeld:  35-38
+	 * 	of telkens 1 nummer overslaan, zoals bij 35-37.
+	 */
 	private $spring;
 
+	/**
+	 * __construct
+	 * @param int begin eerste huisnummer van de reeks
+	 * @param int einde laatste huisnummer van de reeks
+	 * @param boolean spring geeft weer of de reeks telkens een huisnummer overslaat.
+	 */
 	public function __construct($begin, $einde, $spring = true){
 		parent::__construct($begin,$einde);
 		$this->spring = $spring;
 		
 	}
+	/**
+	 * __toString
+	 * Geeft een string representatie van de reeks weer.
+	 * bijv "33, 35, 37" -> "33-37"
+	 * bijv "33, 34, 35, 36" -> "33-36"
+	 * bijv "32, 33, 34, 35, 36"-> "32, 33-36"
+	 * @return string representatie van deze reeks
+	 */
 	public function __toString(){
 		$diff = ($this->einde - $this->begin);
 		if (($diff/2 == floor($diff/2)) && (!$this->spring))
@@ -211,33 +541,84 @@ class KVDUtil_HnrHuisnummerReeks extends KVDUtil_HnrReeksElement{
 		return $this->begin.'-'.$this->einde;
 	}
 	
+	/**
+	 * isVolgReeks
+	 * Geeft weer of de nummers in deze reeks elkaar opvolgend of telkens een
+	 *  nummer overslaan
+	 *  bijv "33, 35, 37" -> false
+	 *  bijv "33, 34, 35, 36" -> true
+	 *  bijv "32, 33, 34, 35, 36"-> true
+	 * @return boolean of de nummers elkaar opvolgen
+	 */
 
 	public function isVolgReeks(){
 		return !($this->spring);
 	}
+	/**
+	 * isSpringReeks
+	 * Geeft weer of de nummers in deze reeks elkaar opvolgend of telkens een
+	 *  nummer overslaan
+	 *  bijv "33, 35, 37" -> true
+	 *  bijv "33, 34, 35, 36" -> false
+	 *  bijv "32, 33, 34, 35, 36"-> false
+	 * @return boolean of de nummers in de rij telkens 1 nummer overslaan
+	 */	
 	public function isSpringReeks(){
 		return ($this->spring);
 	}
+	
+	/**
+	 * setSprong
+	 * @param boolean of de rij telkens een nummer overslaat (true) of niet (false).
+	 */
 	public function setSprong($val){
 		$this->spring = $val;
 	}
+	
+	/**
+	 * accept
+	 * Visitor Pattern
+	 * @param KVDUtil_HnrVisitor een visitor
+	 * @return Object De return waarde van de visitor.
+	 */	
 	public function accept($visitor){
 		return $visitor->visitHuisnummerReeks($this);
 	}
+	/**
+	 * compareTo
+	 * Functie om een huisnummer te vergelijken met een ander nummer.
+	 * @param KVDUtil_HnrHuisnummerElement een huisnummer
+	 * @return integer 
+	 *    -1 als dit nummer kleiner is, 
+	 *     0 indien de nummers gelijk zijn,
+	 *     1 indien dit nummer groteris
+	 */
 	public function compareTo($nummer){
 		return $nummer->accept(new KVDUtil_HnrCompareToHuisnummerReeks($this));
 	}
+	/**
+	 *
+	 * @todo is deze nog nodig?
+	 */
 	public function precedes($nummer){
 		return $nummer->accept(new KVDUtil_HnrPrecedesToHuisnummerReeks($this));
 	}
+	/**
+	 *
+	 * @todo is deze nog nodig?
+	 */
 	public function compatibleTo($nummer){
 		return $nummer->accept(new KVDUtil_HnrCompatibleToHuisnummerReeks($this));
 	}
-	
+	/**
+	 * @todo is deze nog nodig?
+	 */	
 	public function add($nummer){
 		$this->setEinde($nummer->getNummer());
 	}
-	
+	/**
+	 * @return array een array met de individuele huisnummers van deze reeks
+	 */
 	public function split(){
 		$r = array();
 		$jump = ($this->isSpringReeks()) ? 2 : 1;
@@ -248,39 +629,98 @@ class KVDUtil_HnrHuisnummerReeks extends KVDUtil_HnrReeksElement{
 	}
 }
 
+
+/**
+ * KVDUtil_HnrBisnummerReeks 
+ *  Een reeks van bisnummers.
+ *  bijv "33/1, 32/2, 33/3" -> "33/1-3"
+ * @package KVD.util
+ * @subpackage Huisnummer
+ * @since september 2007
+ * @copyright 2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
 class KVDUtil_HnrBisnummerReeks extends KVDUtil_HnrReeksElement{
+	/**
+	 * @var integer
+	 */
 	private $huis;
 	
+	/**
+	 * @param integer huis het huisnummer
+	 * @param integer begin het eerste bisnummer van de reeks
+	 * @param integer einde het laatste bisnummer van de reeks
+	 */
 	public function __construct($huis, $begin, $einde){
 		parent::__construct($begin,$einde);
 		$this->huis = $huis;
 	}
+	/**
+	 * __toString
+	 * @return string de string representatie van de reeks
+	 */ 
 	public function __toString(){
 		return $this->huis."/".$this->begin."-".$this->einde;
 	}	
-	
+	/**
+	 * getHuisnummer
+	 * @return integer
+	 */
 	public function getHuisnummer(){
 		return $this->huis;
 	}
-	
+	/**
+	 * setHuisnummer
+	 * @param integer
+	 */
 	public function setHuisnummer($huis){
 		$this->huis = $huis;
 	}
-		public function accept($visitor){
+	/**
+	 * accept
+	 * Visitor Pattern
+	 * @param KVDUtil_HnrVisitor een visitor
+	 * @return Object De return waarde van de visitor.
+	 */	
+	public function accept($visitor){
 		return $visitor->visitBisnummerReeks($this);
 	}
-		public function compareTo($nummer){
+	/**
+	 * compareTo
+	 * Functie om een huisnummer te vergelijken met een ander nummer.
+	 * @param KVDUtil_HnrHuisnummerElement een huisnummer
+	 * @return integer 
+	 *    -1 als dit nummer kleiner is, 
+	 *     0 indien de nummers gelijk zijn,
+	 *     1 indien dit nummer groteris
+	 */
+	public function compareTo($nummer){
 		return $nummer->accept(new KVDUtil_HnrCompareToBisnummerReeks($this));
 	}
-		public function precedes($nummer){
+	/**
+	 * @todo is deze nog nodig?
+	 */	
+	public function precedes($nummer){
 		return $nummer->accept(new KVDUtil_HnrPrecedesToBisnummerReeks($this));
 	}
-		public function compatibleTo($nummer){
+	/**
+	 * @todo is deze nog nodig?
+	 */	
+	public function compatibleTo($nummer){
 		return $nummer->accept(new KVDUtil_HnrCompatibleToBisnummerReeks($this));
 	}
-		public function add($nummer){
+	/**
+	 * @todo is deze nog nodig?
+	 */	
+	public function add($nummer){
 		$this->setEinde($nummer->getBisnummer());
 	}
+
+	/**
+	 * split
+	 * @return array een array met de individuele bisnummers van deze reeks
+	 */
 	public function split(){
 		$r = array();
 		for($i = $this->begin; $i<= $this->einde; $i++){
@@ -290,39 +730,98 @@ class KVDUtil_HnrBisnummerReeks extends KVDUtil_HnrReeksElement{
 	}
 }
 
+/**
+ * KVDUtil_HnrBusnummerReeks 
+ *  Een reeks van busnummers.
+ *  bijv "33 bus 1, 32 bus 2, 33 bus 3" -> "33 bus 1-3"
+ * @package KVD.util
+ * @subpackage Huisnummer
+ * @since september 2007
+ * @copyright 2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
 class KVDUtil_HnrBusnummerReeks extends KVDUtil_HnrReeksElement{
+	/**
+	 * @var integer
+	 */
 	private $huis;
-	
+	/**
+	 * __construct
+	 * @param integer huisnummer
+	 * @param integer het eerste nummer van de reeks
+	 * @param integer het laatste nummer van de reeks
+	 */	
 	public function __construct($huis, $begin, $einde){
 		parent::__construct($begin,$einde);
 		$this->huis = $huis;
 	}
+	
+	/**
+	 * __toString
+	 * @return Een string representatie van de busnummer reeks, bijv: 13 bus 1-3.
+	 */
 	public function __toString(){
 		return $this->huis." bus ".$this->begin."-".$this->einde;
 	}	
-		public function getHuisnummer(){
+	/**
+	 * getHuisnummer
+	 * @return het huisnummer
+	 */
+	public function getHuisnummer(){
 		return $this->huis;
 	}
-	
+	/**
+	 * setHuisnummer
+	 * @param het huisnummer
+	 */
 	public function setHuisnummer($huis){
 		$this->huis = $huis;
 	}
-		public function accept($visitor){
+	/**
+	 * accept
+	 * Visitor Pattern
+	 * @param KVDUtil_HnrVisitor een visitor
+	 * @return Object De return waarde van de visitor.
+	 */	
+	public function accept($visitor){
 		return $visitor->visitBusnummerReeks($this);
 	}
-		public function compareTo($nummer){
+	/**
+	 * compareTo
+	 * Functie om een huisnummer te vergelijken met een ander nummer.
+	 * @param KVDUtil_HnrHuisnummerElement een huisnummer
+	 * @return integer 
+	 *    -1 als dit nummer kleiner is, 
+	 *     0 indien de nummers gelijk zijn,
+	 *     1 indien dit nummer groteris
+	 */
+	public function compareTo($nummer){
 		return $nummer->accept(new KVDUtil_HnrCompareToBusnummerReeks($this));
 	}
-		public function precedes($nummer){
+	/**
+	 * @todo is deze nog nodig?
+	 */	
+	public function precedes($nummer){
 		return $nummer->accept(new KVDUtil_HnrPrecedesToBusnummerReeks($this));
 	}
-		public function compatibleTo($nummer){
+	/**
+	 * @todo is deze nog nodig?
+	 */	
+	public function compatibleTo($nummer){
 		return $nummer->accept(new KVDUtil_HnrCompatibleToBusnummerReeks($this));
 	}
-			public function add($nummer){
+	/**
+	 * @todo is deze nog nodig?
+	 */	
+	public function add($nummer){
 		$this->setEinde($nummer->getBusnummer());
 	}
-		public function split(){
+	/**
+	 * split
+	 * @return array een array met de individuele bisnummers van deze reeks
+	 */	
+	public function split(){
 		$r = array();
 		for($i = $this->begin; $i<= $this->einde; $i++){
 			$r[] = new KVDUtil_HnrBusnummer($this->getHuisnummer(), $i);
@@ -331,6 +830,17 @@ class KVDUtil_HnrBusnummerReeks extends KVDUtil_HnrReeksElement{
 	}
 }
 
+/**
+ * KVDUtil_HnrBusletterReeks 
+ *  Een reeks van busletters.
+ *  bijv "33 bus A, 32 bus B, 33 bus C" -> "33 bus A-C"
+ * @package KVD.util
+ * @subpackage Huisnummer
+ * @since september 2007
+ * @copyright 2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
 class KVDUtil_HnrBusletterReeks extends KVDUtil_HnrReeksElement{
 	private $huis;
 	
@@ -341,29 +851,57 @@ class KVDUtil_HnrBusletterReeks extends KVDUtil_HnrReeksElement{
 	public function __toString(){
 		return $this->huis." bus ".$this->begin."-".$this->einde;
 	}	
-		public function getHuisnummer(){
+	public function getHuisnummer(){
 		return $this->huis;
 	}
 	
 	public function setHuisnummer($huis){
 		$this->huis = $huis;
 	}
-		public function accept($visitor){
+	/**
+	 * accept
+	 * Visitor Pattern
+	 * @param KVDUtil_HnrVisitor een visitor
+	 * @return Object De return waarde van de visitor.
+	 */	
+	public function accept($visitor){
 		return $visitor->visitBusletterReeks($this);
 	}
-		public function compareTo($nummer){
+	/**
+	 * compareTo
+	 * Functie om een huisnummer te vergelijken met een ander nummer.
+	 * @param KVDUtil_HnrHuisnummerElement een huisnummer
+	 * @return integer 
+	 *    -1 als dit nummer kleiner is, 
+	 *     0 indien de nummers gelijk zijn,
+	 *     1 indien dit nummer groteris
+	 */
+	public function compareTo($nummer){
 		return $nummer->accept(new KVDUtil_HnrCompareToBusletterReeks($this));
 	}
-		public function precedes($nummer){
+	/**
+	 * @todo is deze nog nodig?
+	 */
+	public function precedes($nummer){
 		return $nummer->accept(new KVDUtil_HnrPrecedesToBusletterReeks($this));
 	}
-		public function compatibleTo($nummer){
+	/**
+	 * @todo is deze nog nodig?
+	 */
+	public function compatibleTo($nummer){
 		return $nummer->accept(new KVDUtil_HnrCompatibleToBusletterReeks($this));
 	}
-			public function add($nummer){
+	/**
+	 * @todo is deze nog nodig?
+	 */
+	public function add($nummer){
 		$this->setEinde($nummer->getBusletter());
 	}
-		public function split(){
+	/**
+	 * split
+	 * @return array een array met de individuele bisnummers van deze reeks
+	 */	
+	public function split(){
 		$r = array();
 		for($i = $this->begin; $i<= $this->einde; $i++){
 			$r[] = new KVDUtil_HnrBusletter($this->getHuisnummer(), $i);
@@ -372,6 +910,17 @@ class KVDUtil_HnrBusletterReeks extends KVDUtil_HnrReeksElement{
 	}
 }
 
+/**
+ * KVDUtil_HnrBisletterReeks 
+ *  Een reeks van bisletters.
+ *  bijv "33A, 32B, 33C" -> "33A-C"
+ * @package KVD.util
+ * @subpackage Huisnummer
+ * @since september 2007
+ * @copyright 2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
 class KVDUtil_HnrBisletterReeks extends KVDUtil_HnrReeksElement{
 	private $huis;
 
@@ -390,23 +939,50 @@ class KVDUtil_HnrBisletterReeks extends KVDUtil_HnrReeksElement{
 	public function setHuisnummer($huis){
 		$this->huis = $huis;
 	}
-		public function accept($visitor){
+	/**
+	 * accept
+	 * Visitor Pattern
+	 * @param KVDUtil_HnrVisitor een visitor
+	 * @return Object De return waarde van de visitor.
+	 */	
+	public function accept($visitor){
 		return $visitor->visitBisletterReeks($this);
 	}
-		public function compareTo($nummer){
+	/**
+	 * compareTo
+	 * Functie om een huisnummer te vergelijken met een ander nummer.
+	 * @param KVDUtil_HnrHuisnummerElement een huisnummer
+	 * @return integer 
+	 *    -1 als dit nummer kleiner is, 
+	 *     0 indien de nummers gelijk zijn,
+	 *     1 indien dit nummer groteris
+	 */
+	public function compareTo($nummer){
 		return $nummer->accept(new KVDUtil_HnrCompareToBisletterReeks($this));
 	}
-	
+	/**
+	 * @todo is deze nog nodig?
+	 */	
 	public function precedes($nummer){
 		return $nummer->accept(new KVDUtil_HnrPrecedesToBisletterReeks($this));
 	}
-		public function compatibleTo($nummer){
+	/**
+	 * @todo is deze nog nodig?
+	 */
+	public function compatibleTo($nummer){
 		return $nummer->accept(new KVDUtil_HnrCompatibleToBisletterReeks($this));
 	}
-			public function add($nummer){
+	/**
+	 * @todo is deze nog nodig?
+	 */
+	public function add($nummer){
 		$this->setEinde($nummer->getBisletter());
 	}
-		public function split(){
+	/**
+	 * split
+	 * @return array een array met de individuele bisnummers van deze reeks
+	 */	
+	public function split(){
 		$r = array();
 		for($i = $this->begin; $i<= $this->einde; $i++){
 			$r[] = new KVDUtil_HnrBisletter($this->getHuisnummer(), $i);
@@ -418,7 +994,16 @@ class KVDUtil_HnrBisletterReeks extends KVDUtil_HnrReeksElement{
 /********************************************************************************/
 
 
-
+/**
+ * KVDUtil_HnrVisitor 
+ *  Abstracte klasse voor alle huisnummer visitors. Dit volgt de visitor pattern.
+ * @package KVD.util
+ * @subpackage Huisnummer
+ * @since september 2007
+ * @copyright 2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
 abstract class  KVDUtil_HnrVisitor{
 	abstract function visitHuisnummer($huis);
 	abstract function visitBisnummer($bis);
@@ -432,6 +1017,18 @@ abstract class  KVDUtil_HnrVisitor{
 	abstract function visitBusletterReeks($bus);
 	abstract function visitBisletterReeks($bis);
 }
+
+/**
+ * KVDUtil_HnrCompare 
+ *  Abstracte klasse voor een Visitor om twee huisnummers te vergelijken.
+ *  Dit is nodig voor een search.
+ * @package KVD.util
+ * @subpackage Huisnummer
+ * @since september 2007
+ * @copyright 2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
 abstract class KVDUtil_HnrCompare extends KVDUtil_HnrVisitor{
 	public function compareOne($a,$b){
 		if($a == $b) {return 0;}
@@ -450,7 +1047,16 @@ abstract class KVDUtil_HnrCompare extends KVDUtil_HnrVisitor{
 	}
 }
 
-
+/**
+ * KVDUtil_HnrCompareToHuisnummer 
+ *  Vergelijkt een huisnummer element met een simpel huisnummer.
+ * @package KVD.util
+ * @subpackage Huisnummer
+ * @since september 2007
+ * @copyright 2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
 class KVDUtil_HnrCompareToHuisnummer extends KVDUtil_HnrCompare{
 	protected $huis;
 	public function __construct($huis){
@@ -483,7 +1089,7 @@ class KVDUtil_HnrCompareToHuisnummer extends KVDUtil_HnrCompare{
 	}
 	public function visitHuisnummerReeks($reeks){
 		return $this->compareOne($this->huis->getNummer(),$reeks->getBegin());
-	}
+	} 
 	public function visitBisnummerReeks($reeks){
 		return $this->compareOne($this->huis->getNummer(),$reeks->getHuisnummer());
 	}
@@ -497,7 +1103,16 @@ class KVDUtil_HnrCompareToHuisnummer extends KVDUtil_HnrCompare{
 		return $this->compareOne($this->huis->getNummer(),$reeks->getHuisnummer());
 	}
 }
-
+/**
+ * KVDUtil_HnrCompareToBisnummer 
+ *  Vergelijkt een huisnummer element met een bisnummer.
+ * @package KVD.util
+ * @subpackage Huisnummer
+ * @since september 2007
+ * @copyright 2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
 class KVDUtil_HnrCompareToBisnummer extends KVDUtil_HnrCompareToHuisnummer{
 	public function visitHuisnummer($huis) {
 		$c = $this->compareOne($this->huis->getNummer(),$huis->getNummer());
@@ -513,6 +1128,17 @@ class KVDUtil_HnrCompareToBisnummer extends KVDUtil_HnrCompareToHuisnummer{
 															$reeks->getHuisnummer(),	$bis->getBegin());
 	}
 }
+
+/**
+ * KVDUtil_HnrCompareToBusnummer 
+ *  Vergelijkt een huisnummer element met een busnummer.
+ * @package KVD.util
+ * @subpackage Huisnummer
+ * @since september 2007
+ * @copyright 2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
 class KVDUtil_HnrCompareToBusnummer extends KVDUtil_HnrCompareToHuisnummer{
 	public function visitBusnummer($bis){ 
 		return $this->compareTwo($this->huis->getNummer(),$this->huis->getBusnummer(),	
@@ -524,6 +1150,17 @@ class KVDUtil_HnrCompareToBusnummer extends KVDUtil_HnrCompareToHuisnummer{
 	}
 }
 
+
+/**
+ * KVDUtil_HnrCompareToBusletter 
+ *  Vergelijkt een huisnummer element met een busletter.
+ * @package KVD.util
+ * @subpackage Huisnummer
+ * @since september 2007
+ * @copyright 2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
 class KVDUtil_HnrCompareToBusletter extends KVDUtil_HnrCompareToHuisnummer{
 	public function visitBusletter($bus){ 
 		return $this->compareTwo($this->huis->getNummer(),$this->huis->getBusletter(),	
@@ -534,6 +1171,18 @@ class KVDUtil_HnrCompareToBusletter extends KVDUtil_HnrCompareToHuisnummer{
 															$reeks->getHuisnummer(),	$bis->getBegin());
 	}
 }
+
+
+/**
+ * KVDUtil_HnrCompareToBisletter 
+ *  Vergelijkt een huisnummer element met een bisletter.
+ * @package KVD.util
+ * @subpackage Huisnummer
+ * @since september 2007
+ * @copyright 2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
 class KVDUtil_HnrCompareToBisletter extends KVDUtil_HnrCompareToHuisnummer{
 	public function visitBisletter($bis){ 
 		return $this->compareTwo($this->huis->getNummer(),$this->huis->getBisletter(),	
@@ -545,8 +1194,16 @@ class KVDUtil_HnrCompareToBisletter extends KVDUtil_HnrCompareToHuisnummer{
 	}
 }
 
-
-
+/**
+ * KVDUtil_HnrCompareToHuisnummerReeks 
+ *  Vergelijkt een huisnummer element met een huisnummerreeks.
+ * @package KVD.util
+ * @subpackage Huisnummer
+ * @since september 2007
+ * @copyright 2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
 class KVDUtil_HnrCompareToHuisnummerReeks extends KVDUtil_HnrCompare{
 	protected $huis;
 	public function __construct($huis){
@@ -585,6 +1242,17 @@ class KVDUtil_HnrCompareToHuisnummerReeks extends KVDUtil_HnrCompare{
 	}
 }
 
+
+/**
+ * KVDUtil_HnrCompareToBisnummerReeks 
+ *  Vergelijkt een huisnummer element met een bisnummerreeks.
+ * @package KVD.util
+ * @subpackage Huisnummer
+ * @since september 2007
+ * @copyright 2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
 class KVDUtil_HnrCompareToBisnummerReeks extends KVDUtil_HnrCompare{
 	protected $huis;
 	public function __construct($huis){
@@ -630,6 +1298,19 @@ class KVDUtil_HnrCompareToBisnummerReeks extends KVDUtil_HnrCompare{
 	}
 
 }
+
+
+
+/**
+ * KVDUtil_HnrCompareToBusnummerReeks 
+ *  Vergelijkt een huisnummer element met een busnummerreeks.
+ * @package KVD.util
+ * @subpackage Huisnummer
+ * @since september 2007
+ * @copyright 2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
 class KVDUtil_HnrCompareToBusnummerReeks extends KVDUtil_HnrCompareToBisnummerReeks{
 	public function visitBisnummerReeks($bus){
 		return $this->compareOne($this->huis->getHuisnummer(), $bus->getHuisnummer());
@@ -645,7 +1326,16 @@ class KVDUtil_HnrCompareToBusnummerReeks extends KVDUtil_HnrCompareToBisnummerRe
 						);
 	}
 }
-
+/**
+ * KVDUtil_HnrCompareToBusletterReeks 
+ *  Vergelijkt een huisnummer element met een busletterreeks.
+ * @package KVD.util
+ * @subpackage Huisnummer
+ * @since september 2007
+ * @copyright 2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
 class KVDUtil_HnrCompareToBusletterReeks extends KVDUtil_HnrCompareToBisnummerReeks{
 	public function visitBisnummerReeks($bus){
 		return $this->compareOne($this->huis->getHuisnummer(), $huis->getHuisnummer());
@@ -661,7 +1351,16 @@ class KVDUtil_HnrCompareToBusletterReeks extends KVDUtil_HnrCompareToBisnummerRe
 						);
 	}
 }
-
+/**
+ * KVDUtil_HnrCompareToBisletterReeks 
+ *  Vergelijkt een huisnummer element met een bisletterreeks.
+ * @package KVD.util
+ * @subpackage Huisnummer
+ * @since september 2007
+ * @copyright 2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
 class KVDUtil_HnrCompareToBisletterReeks extends KVDUtil_HnrCompareToBisnummerReeks{
 	public function visitBisnummerReeks($bus){
 		return $this->compareOne($this->huis->getHuisnummer(), $bus->getHuisnummer());
@@ -678,6 +1377,17 @@ class KVDUtil_HnrCompareToBisletterReeks extends KVDUtil_HnrCompareToBisnummerRe
 	}
 }
 
+
+/**
+ * KVDUtil_HnrCompareHuisnummers 
+ *  Algemene visitor die de vergelijking van 2 huisnummer elementen start.
+ * @package KVD.util
+ * @subpackage Huisnummer
+ * @since september 2007
+ * @copyright 2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
 class KVDUtil_HnrCompareHuisnummers extends KVDUtil_HnrVisitor{
 	private $nummer;
 	public function __construct($nummer){
@@ -715,9 +1425,22 @@ class KVDUtil_HnrCompareHuisnummers extends KVDUtil_HnrVisitor{
 	}
 }
 
-/**************************************************************/
-
-class HuisnummerReader{
+/**
+ * KVDutil_HuisnummerReader 
+ *  Klasse die uit een string, de informatie kan halen die relevant is voor huisnummers.
+ *  Bijvoorbeeld: '23 bus 5 blabla' zal resulteren in 
+ *		"23"->nummer, 
+ *		"bus"->bus, 
+ *		"5"->nummer, 
+ *		"blabla"->woord
+ * @package KVD.util
+ * @subpackage Huisnummer
+ * @since september 2007
+ * @copyright 2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
+class KVDutil_HuisnummerReader{
 	const nummer = 0;
 	const min = 1;
 	const slash = 2;
@@ -760,19 +1483,19 @@ class HuisnummerReader{
 
 	private function readBus(){
 		if(strcasecmp("bus",$this->getContent()) == 0)
-			$this->type = HuisnummerReader::bus;
-		else $this->type = HuisnummerReader::word;
+			$this->type = KVDutil_HuisnummerReader::bus;
+		else $this->type = KVDutil_HuisnummerReader::word;
 		return $this->type;
 	}
 	
 	public function next(){
 		$this->pos++;
-		if($this->pos >= $this->size) $this->type = HuisnummerReader::eof;
-		else if(preg_match('/[\D]+/', $this->getContent()) == 0) $this->type = HuisnummerReader::nummer;
+		if($this->pos >= $this->size) $this->type = KVDutil_HuisnummerReader::eof;
+		else if(preg_match('/[\D]+/', $this->getContent()) == 0) $this->type = KVDutil_HuisnummerReader::nummer;
 		else if(preg_match('/[\W]+/', $this->getContent()) == 0) $this->readBus();
-		else if($this->getContent() == "/") $this->type = HuisnummerReader::slash;
-		else if($this->getContent() == ",") $this->type = HuisnummerReader::comma;
-		else if($this->getContent() == "-") $this->type = HuisnummerReader::min;
+		else if($this->getContent() == "/") $this->type = KVDutil_HuisnummerReader::slash;
+		else if($this->getContent() == ",") $this->type = KVDutil_HuisnummerReader::comma;
+		else if($this->getContent() == "-") $this->type = KVDutil_HuisnummerReader::min;
 		else $this->error("Syntax error: ".$this->getContent());
 		return $this->type;
 	}
@@ -797,12 +1520,25 @@ class HuisnummerReader{
 
 }
 
-
-class HuisnummerParser{
+/**
+ * KVDutil_HuisnummerParser 
+ *  Klasse die uit een reeks van huisnummer data, de huisnummer- 
+ *	of huisnummerreeksobjecten bouwt. Bijvoorbeeld:
+ *		"23", "bus", "5" -> Busnummer
+ *		"blabla" -> error
+ *		"25-27" -> Huisnummerreeks
+ * @package KVD.util
+ * @subpackage Huisnummer
+ * @since september 2007
+ * @copyright 2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
+class KVDutil_HuisnummerParser{
 	private $reader;
 	
 	public function __construct(){
-		$this->reader = new HuisnummerReader();
+		$this->reader = new KVDutil_HuisnummerReader();
 	}
 
 	private function readElement($type){
@@ -811,57 +1547,57 @@ class HuisnummerParser{
 	}
 
 	private function readHuisnummerReeks($begin){
-		$einde = $this->readElement(HuisnummerReader::nummer);
+		$einde = $this->readElement(KVDutil_HuisnummerReader::nummer);
 		$this->reader->next();
 		$spring = ((($begin - $einde)/2) == floor(($begin - $einde)/2));
 		return new KVDUtil_HnrHuisnummerReeks($begin, $einde, $spring );	
 	}
 	
 	private function readBisnummerReeks($huis, $begin){
-		$einde = $this->readElement(HuisnummerReader::nummer);
+		$einde = $this->readElement(KVDutil_HuisnummerReader::nummer);
 		$this->reader->next();
 		return new KVDUtil_HnrBisnummerReeks($huis, $begin, $einde);
 	}
 	
 	private function readBisletterReeks($huis, $begin){
-		$einde = $this->readElement(HuisnummerReader::word);
+		$einde = $this->readElement(KVDutil_HuisnummerReader::word);
 		$this->reader->next();
 		return new KVDUtil_HnrBisletterReeks($huis, $begin, $einde);
 	
 	}
 	
 	private function readBusnummerReeks($huis, $begin){
-		$einde = $this->readElement(HuisnummerReader::nummer);
+		$einde = $this->readElement(KVDutil_HuisnummerReader::nummer);
 		$this->reader->next();
 		return new KVDUtil_HnrBusnummerReeks($huis, $begin, $einde);
 	
 	}
 	private function readBusletterReeks($huis, $begin){
-		$einde = $this->readElement(HuisnummerReader::word);
+		$einde = $this->readElement(KVDutil_HuisnummerReader::word);
 		$this->reader->next();
 		return new KVDUtil_HnrBusnummerReeks($huis, $begin, $einde);
 	}
 	
 	private function readBisnummer($huisnr){
-		$bisnr = $this->readElement(HuisnummerReader::nummer);
-		if($this->reader->next() == HuisnummerReader::min)
+		$bisnr = $this->readElement(KVDutil_HuisnummerReader::nummer);
+		if($this->reader->next() == KVDutil_HuisnummerReader::min)
 			return $this->readBisnummerReeks($huisnr, $bisnr);
 		else return new KVDUtil_HnrBisnummer($huisnr, $bisnr);	
 	
 	}
 	private function readBisletter($huis, $bis){
-		if($this->reader->next() == HuisnummerReader::min) 
+		if($this->reader->next() == KVDutil_HuisnummerReader::min) 
 			return $this->readBisletterReeks($huis, $bis);
 		else return new KVDUtil_HnrBisletter($huis, $bis);	
 	
 	}
 	private function readBusnummer($huis, $nummer){
-		if($this->reader->next() == HuisnummerReader::min)
+		if($this->reader->next() == KVDutil_HuisnummerReader::min)
 			return $this->readBusnummerReeks($huis, $nummer);
 		else return new KVDUtil_HnrBusnummer($huis, $nummer);
 	}
 	private function readBusletter($huis, $letter){
-		if($this->reader->next() == HuisnummerReader::min)
+		if($this->reader->next() == KVDutil_HuisnummerReader::min)
 			return $this->readBusletterReeks($huis, $letter);
 		else return new KVDUtil_HnrBusnummer($huis, $letter);
 	}
@@ -870,8 +1606,8 @@ class HuisnummerParser{
 		$type = $this->reader->next();
 		$bus = $this->reader->getContent();
 		switch($type) {
-			case HuisnummerReader::nummer: return $this->readBusnummer($huis, $bus);
-			case HuisnummerReader::word: return $this->readBusletter($huis, $bus);
+			case KVDutil_HuisnummerReader::nummer: return $this->readBusnummer($huis, $bus);
+			case KVDutil_HuisnummerReader::word: return $this->readBusletter($huis, $bus);
 			default: return $this->error("Word or Number Expected, given ".$this->reader->typeText($type));
 		}
 	}
@@ -879,30 +1615,30 @@ class HuisnummerParser{
 	private function readHuisnummerLijst($exp){
 		$lijst = array();
 		$lijst[] = $exp;
-		while($this->reader->getType() == HuisnummerReader::comma) {
-			$nummer = $this->readElement(HuisnummerReader::nummer);
+		while($this->reader->getType() == KVDutil_HuisnummerReader::comma) {
+			$nummer = $this->readElement(KVDutil_HuisnummerReader::nummer);
 			$lijst[] = $this->readHuisnummer($nummer);
 		}
-		if($this->reader->getType() == HuisnummerReader::eof) return $lijst;
+		if($this->reader->getType() == KVDutil_HuisnummerReader::eof) return $lijst;
 		else return $this->error("Invalid separator, comma expected");
 	}
 
 	private function readHuisnummer($exp){
 		switch($this->reader->next()) {
-			case HuisnummerReader::min: return $this->readHuisnummerReeks($exp);
-			case HuisnummerReader::slash: return $this->readBisnummer($exp);
-			case HuisnummerReader::bus: return $this->readBus($exp);
-			case HuisnummerReader::word: return $this->readBisletter($exp, $this->reader->getContent());
+			case KVDutil_HuisnummerReader::min: return $this->readHuisnummerReeks($exp);
+			case KVDutil_HuisnummerReader::slash: return $this->readBisnummer($exp);
+			case KVDutil_HuisnummerReader::bus: return $this->readBus($exp);
+			case KVDutil_HuisnummerReader::word: return $this->readBisletter($exp, $this->reader->getContent());
 			default: return new KVDUtil_HnrHuisnummer($exp);
 		}
 	}
 	
 	private function readHuisnummerExpressie(){
-		$nummer = $this->readElement(HuisnummerReader::nummer);
+		$nummer = $this->readElement(KVDutil_HuisnummerReader::nummer);
 		$huisnummer = $this->readHuisnummer($nummer);
 		switch($this->reader->getType()) {
-			case HuisnummerReader::comma: return $this->readHuisnummerLijst($huisnummer);break;
-			case HuisnummerReader::eof: return array($huisnummer);break;
+			case KVDutil_HuisnummerReader::comma: return $this->readHuisnummerLijst($huisnummer);break;
+			case KVDutil_HuisnummerReader::eof: return array($huisnummer);break;
 			default: $this->error("Separator expected");
 		}
 	}
@@ -921,7 +1657,21 @@ class HuisnummerParser{
 	}
 }
 
-class SequenceReader{
+/**
+ * KVDutil_SequenceReader 
+ *  Klasse die een reeks van huisnummers kan interpreteren en deze rij kan
+ *	samenvatten. Bijvoorbeeld:
+ *		"23 bus 5, 23 bus 6" -> Busnummerreeks "23 bus 5-6"
+ *		"23", "24 bus 2" -> Huisnummer "23", Busnummer "24 bus 2"
+ *		"25", "26", "27" -> Huisnummerreeks "25, 26-27"
+ * @package KVD.util
+ * @subpackage Huisnummer
+ * @since september 2007
+ * @copyright 2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
+class KVDutil_SequenceReader{
 	
 
 	private $input;
@@ -1035,8 +1785,29 @@ class SequenceReader{
 	}
 }
 
+/**
+ * KVDutil_HuisnummerFacade 
+ * 
+ * Deze class dient om huisnummerlabels uit te splitsen naar de indivduele labels of van
+ * individuele labels terug samen te voegen naar een compactere notatie bv.:
+ * <code>
+ *  $facade = new KVDutil_HuisnummerFacade( );
+ *  $huisnummers = $facade->split( '15-21' );
+ *  echo $huisnummers[0]; // 15
+ *  echo $huisnummers[1]; // 17
+ *  echo $huisnummers[2]; // 19
+ *  echo $huisnummers[3]; // 21
+ *  $reeksen = $facade->merge($huisnummers);
+ *  echo $reeksen[0]; // 15-21
+ * </code>
+ * @package KVD.util
+ * @subpackage Huisnummer
+ * @since 5 dec 2007
+ * @copyright 2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
 
-/***********************************************/
 
 class KVDutil_HuisnummerFacade {
 
@@ -1047,8 +1818,8 @@ class KVDutil_HuisnummerFacade {
 	private $sequencer;
 	
 	public function __construct(){
-		$this->parser = new HuisnummerParser();
-		$this->sequencer = new SequenceReader();
+		$this->parser = new KVDutil_HuisnummerParser();
+		$this->sequencer = new KVDutil_SequenceReader();
 		$this->compares = array();
 	}
 	

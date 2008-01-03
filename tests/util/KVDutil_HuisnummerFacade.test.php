@@ -9,7 +9,7 @@ class TestOfHuisnummerFacade extends UnitTestCase
     
     public function setUp( )
     {
-       $this->facade = new KVDutil_HuisnummerFacade( ); 
+     $this->facade = new KVDutil_HuisnummerFacade( ); 
     }
 
     public function tearDown( )
