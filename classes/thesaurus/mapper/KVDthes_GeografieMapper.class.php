@@ -10,7 +10,8 @@
 
 /**
  * KVDthes_XmlMapper 
- * 
+ *
+ * @todo Afwerken. Is momenteel niet functioneel.
  * @package KVD.thes
  * @subpackage mapper
  * @since 3 apil 2007
