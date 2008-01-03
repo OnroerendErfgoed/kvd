@@ -26,19 +26,29 @@ abstract class KVDthes_Term implements KVDdom_DomainObject
     CONST LS_TERM = 1;
 
     /**
+     * Geeft aan dat de BT relaties voor deze term geladen werden. 
+     */
+    CONST LS_RELBT = 2;
+
+    /**
+     * Geeft aan dat de NT relaties voor deze term geladen werden. 
+     */
+    CONST LS_RELNT = 4;
+
+    /**
      * Geeft aan dat de relaties van deze term werden geladen. 
      */
-    CONST LS_REL = 2;
+    CONST LS_REL = 8;
 
     /**
      * Geeft aan dat de Scope Note voor de term werd geladen. 
      */
-    CONST LS_SCOPENOTE = 4;
+    CONST LS_SCOPENOTE = 16;
 
     /**
      * Geeft aan de Source Note voor de term werd geladen. 
      */
-    CONST LS_SOURCENOTE = 8;
+    CONST LS_SOURCENOTE = 32;
 
     /**
      * sessie 
