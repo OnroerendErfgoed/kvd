@@ -1,6 +1,6 @@
 <?php
 /**
- * @package KVD.thesaurus
+ * @package KVD.thes
  * @subpackage visitor
  * @version $Id$
  * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
