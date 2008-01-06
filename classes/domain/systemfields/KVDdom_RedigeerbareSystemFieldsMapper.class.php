@@ -1,7 +1,8 @@
 <?php    
 /**
  * @package KVD.dom
- * @version $Id: KVDdom_PDORedigeerbareDataMapper.class.php 288 2007-03-19 10:44:22Z vandaeko $
+ * @package systemfields
+ * @version $Id$
  * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
@@ -11,6 +12,7 @@
  * KVDdom_RedigeerbareSystemFieldsMapper 
  * 
  * @package KVD.dom
+ * @package systemfields
  * @since 9 jul 2007
  * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 

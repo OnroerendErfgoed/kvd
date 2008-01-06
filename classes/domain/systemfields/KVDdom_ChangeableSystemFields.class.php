@@ -1,8 +1,8 @@
 <?php
 /**
  * @package KVD.dom
- * @subpackage Systemfields
- * @version $Id: KVDdom_SystemFields.class.php 278 2007-02-16 15:17:52Z vandaeko $
+ * @subpackage systemfields
+ * @version $Id$
  * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
@@ -14,7 +14,7 @@
  * Een class die de status van DomainObjects bijhoudt. De datamapping wordt verzorgd door de datamapper van het object waar het toe hoort.
  * Hiervoor beschikt dit object over een KVDdom_ChangeableSystemFieldsMapper.
  * @package KVD.dom
- * @subpackage Systemfields
+ * @subpackage systemfields
  * @since 12 jul 2007
  * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
