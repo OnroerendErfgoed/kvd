@@ -1,6 +1,7 @@
 <?php
 /**
  * @package KVD.dom
+ * @subpackage collection
  * @version $Id$
  * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
@@ -8,9 +9,10 @@
  */
 
 /**
- * DIBEdo_GebeurtenisUitvoerdersCollection 
+ * KVDdom_EditeerbareDomainObjectCollection 
  * 
- * @package DIBE.do
+ * @package KVD.dom
+ * @subpackage collection
  * @since 13 april 2007
  * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
