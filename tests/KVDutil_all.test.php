@@ -5,8 +5,8 @@ require_once('simpletest/unit_tester.php');
 require_once('simpletest/reporter.php');
 require_once('simpletest/mock_objects.php');
 
-define ( 'KVD_CLASSES_DIR' , '/data/projects/kvd/oeps/libs/kvd/classes/');
-define ( 'KVD_TESTS_DIR' , '/data/projects/kvd/oeps/libs/kvd/tests/');
+define ( 'KVD_CLASSES_DIR' , '/data/projects/ds/oeps/libs/kvd/classes/');
+define ( 'KVD_TESTS_DIR' , '/data/projects/ds/oeps/libs/kvd/tests/');
 
 define ( 'CRABUSER' , 'VIOE' );
 define ( 'CRABPWD' , 'GISTLIBE' );
