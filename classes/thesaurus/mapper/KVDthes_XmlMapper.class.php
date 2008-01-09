@@ -18,21 +18,29 @@
  * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
-abstract class KVDthes_XmlMapper
+abstract class KVDthes_XmlMapper implements KVDthes_IDataMapper
 {
     /**
      * sessie 
      * 
      * @var KVDthes_ISessie
      */
-    private $sessie;
+    protected $sessie;
 
     /**
      * dom 
      * 
      * @var DOMDocument
      */
-    private $dom;
+    protected $dom;
+
+    /**
+     * root 
+     * 
+     * De root node van deze thesaurus.
+     * @var KVDthes_Term
+     */
+    protected $root = null;
 
     /**
      * __construct 
@@ -70,6 +78,29 @@ abstract class KVDthes_XmlMapper
     }
 
     /**
+     * findAll 
+     * 
+     * @todo error handling
+     * @return KVDdom_DomainObjectCollection
+     */
+    public function findAll( )
+    {
+        $all = $this->sessie->getIdentityMap( )->getDomainObjects( $this->getReturnType( ) );
+        return new KVDdom_DomainObjectCollection( $all );
+    }
+
+    /**
+     * findRoot 
+     * 
+     * @todo error handling indien de root niet gevonden werd.
+     * @return KVDthes_Term
+     */
+    public function findRoot( )
+    {
+        return $this->root;
+    }
+
+    /**
      * Een two-pass loading systeem. Eerst worden de termen allemaal geladen en dan worden de relaties gelegd. 
      */
     private function loadIdentityMap( )
@@ -80,6 +111,9 @@ abstract class KVDthes_XmlMapper
             $language = $term->getElementsByTagName( 'termLanguage' )->item( 0 )->nodeValue;
             $termType = $this->getReturnType( );
             $termObj = new $termType( $this->sessie , $id , $name , $language );
+            if ( $this->root == null ) {
+                $this->root = $termObj;
+            }
         }
     }
 
@@ -155,17 +189,17 @@ abstract class KVDthes_XmlMapper
         foreach ( $term->getElementsByTagName( 'termNote' ) as $note ) {
             if ( $note->hasAttribute( 'label' ) && $note->getAttribute( 'label' ) == $type ) {
                 if ( $type == 'Source' ) {
-                    $termObj->addSourceNote ( $note->nodeValue );
+                    $termObj->addSourceNote ( trim( $note->nodeValue ) );
                     $termObj->setLoadState( KVDthes_Term::LS_SOURCENOTE );
                 }
                 if ( $type == 'Scope' ) {
-                    $termObj->addScopeNote ( $note->nodeValue );
+                    $termObj->addScopeNote ( trim( $note->nodeValue ) );
                     $termObj->setLoadState( KVDthes_Term::LS_SCOPENOTE );
                 }
                 return true;
             }
             if ( !( $note->hasAttribute( 'label' ) ) ) {
-                $termObj->addScopeNote ( $note->nodeValue );
+                $termObj->addScopeNote ( trim( $note->nodeValue ) );
                 $termObj->setLoadState( KVDthes_Term::LS_SCOPENOTE );
                 return true;
             }

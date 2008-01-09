@@ -18,7 +18,7 @@
  * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
-abstract class KVDthes_DbMapper
+abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
 {
     /**
      * sessie 

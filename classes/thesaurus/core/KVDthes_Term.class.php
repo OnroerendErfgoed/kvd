@@ -90,7 +90,7 @@ abstract class KVDthes_Term implements KVDdom_DomainObject
      * 
      * @var string
      */
-    protected $scopeNote;
+    protected $scopeNote = null;
 
 
     /**
@@ -98,7 +98,7 @@ abstract class KVDthes_Term implements KVDdom_DomainObject
      * 
      * @var string
      */
-    protected $sourceNote;
+    protected $sourceNote = null;
 
     /**
      * loadState 
