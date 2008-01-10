@@ -23,9 +23,16 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
     /**
      * sessie 
      * 
-     * @var KVDthes_ISessie
+     * @var KVDdom_IReadSessie
      */
-    private $sessie;
+    protected $sessie;
+
+    /**
+     * conn 
+     * 
+     * @var PDO
+     */
+    protected $conn;
 
     /**
      * __construct 
@@ -36,6 +43,7 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
     public function __construct ( $sessie , $parameters )
     {
         $this->sessie = $sessie;
+        $this->conn = $sessie->getDatabaseConnection( get_class($this) );
         $this->parameters = array ( 'thesaurus_id' => 0 );
         if ( !isset ( $parameters['schema'] ) ) {
             throw new KVDdom_MapperConfigurationException( 'Er is geen schema gespecifieerd voor deze thesaurus.', $this);
@@ -50,7 +58,34 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
      */
     protected function getFindByIdStatement( )
     {
-        return sprintf( 'SELECT id, term FROM term WHERE id = ? AND thesaurus_id = %d' , $this->parameters['thesaurus_id'] );
+        return sprintf( 'SELECT id, term FROM %s.term WHERE id = ? AND thesaurus_id = %d' , $this->parameters['schema'], $this->parameters['thesaurus_id'] );
+    }
+
+    /**
+     * getFindAllStatement 
+     * 
+     * @return string
+     */
+    protected function getFindAllStatement( )
+    {
+        return sprintf( 'SELECT id, term FROM %s.term WHERE thesaurus_id = %d' , $this->parameters['schema'], $this->parameters['thesaurus_id'] );
+    }
+
+    /**
+     * getFindRootStatement 
+     * 
+     * @return string
+     */
+    protected function getFindRootStatement( )
+    {
+        return sprintf( 'SELECT t.id AS id, term 
+                         FROM %s.visitation v LEFT JOIN %s.term t ON ( v.term_id = t.id )
+                         WHERE 
+                            t.thesaurus_id = %d
+                            AND v.depth = 1',
+                         $this->parameters['schema'],
+                         $this->parameters['schema'],
+                         $this->parameters['thesaurus_id'] );
     }
 
     /**
@@ -61,12 +96,16 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
     protected function getLoadRelationsStatement( )
     {
         return sprintf( 'SELECT r.relation_type, t2.id AS to_id, t2.term AS to 
-                        FROM term t1, relation r, term t2 
+                        FROM %s.term t1, %s.relation r, %s.term t2 
                         WHERE 
                             r.id_from = t1.id 
                             AND r.id_to = t2.id 
                             AND t1.id = ?
-                            AND t1.thesaurus_id = %d', $this->parameters['thesaurus_id']);
+                            AND t1.thesaurus_id = %d',
+                        $this->parameters['schema'],
+                        $this->parameters['schema'],
+                        $this->parameters['schema'],
+                        $this->parameters['thesaurus_id']);
     }
 
     /**
@@ -76,13 +115,18 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
      */
     protected function getFindSubTreeStatement( )
     {
-         return sprintf( 'SELECT visitation.id, lft, rght, depth, term_id, term 
-                         FROM visitation LEFT JOIN term ON ( visitation.term_id = term.id )
+         return sprintf( 'SELECT v.id, lft, rght, depth, term_id, term 
+                         FROM %s.visitation v LEFT JOIN %s.term t ON ( v.term_id = t.id )
                          WHERE 
-                            term.thesaurus_id = %d
-                            AND ( lft BETWEEN ( SELECT lft FROM visitation WHERE term_id = ? LIMIT 1) 
-                                AND ( SELECT rght FROM visitation WHERE term_id = ? LIMIT 1) )
-                            ORDER BY lft', $this->parameters['thesarus_id']);
+                            t.thesaurus_id = %d
+                            AND ( lft BETWEEN ( SELECT lft FROM %s.visitation WHERE term_id = ? LIMIT 1) 
+                                AND ( SELECT rght FROM %s.visitation WHERE term_id = ? LIMIT 1) )
+                            ORDER BY lft',
+                         $this->parameters['schema'],
+                         $this->parameters['schema'],
+                         $this->parameters['schema'],
+                         $this->parameters['schema'],
+                         $this->parameters['thesarus_id']);
     }
 
     /**
@@ -92,7 +136,9 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
      */
     protected function getLoadScopeNoteStatement( )
     {
-        return sprintf( 'SELECT scope_note FROM scope_note WHERE term_id = ? AND thesaurus_id = %d', $this->parameters['thesaurus_id']);
+        return sprintf( 'SELECT scope_note FROM %s.scope_note WHERE term_id = ? AND thesaurus_id = %d', 
+                        $this->parameters['schema'],
+                        $this->parameters['thesaurus_id']);
     }
 
     /**
@@ -104,13 +150,13 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
      */
     public function findById( $id )
     {
-        $domainObject = $this->_sessie->getIdentityMap()->getDomainObject( $this->getReturnType( ), $id);
+        $domainObject = $this->sessie->getIdentityMap()->getDomainObject( $this->getReturnType( ), $id);
         if ($domainObject != null) {
             return $domainObject;
         }
         $sql = $this->getFindByIdStatement( );
-        $this->_sessie->getSqlLogger( )->log( $sql );
-        $stmt = $this->_conn->prepare($sql);
+        $this->sessie->getSqlLogger( )->log( $sql );
+        $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(1, $id , PDO::PARAM_INT );
         $stmt->execute();
         if (!$row = $stmt->fetch( PDO::FETCH_OBJ )) {
@@ -118,6 +164,39 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
             throw new KVDdom_DomainObjectNotFoundException ( $msg , $this->getReturnType( ) , $id );
         }
         return $this->doLoadRow( $id, $row);
+    }
+
+    /**
+     * findRoot 
+     * 
+     * @return KVDthes_Term
+     */
+    public function findRoot( )
+    {
+        $this->sessie->getSqlLogger( )->log( $this->getFindRootStatement( ) );
+        $stmt = $this->conn->prepare($this->getFindRootStatement( ));
+        $stmt->execute();
+        if (!$row = $stmt->fetch( PDO::FETCH_OBJ )) {
+            $msg = "De root van " . $this->getReturnType( ) . " kon niet gevonden worden";
+            throw new KVDdom_DomainObjectNotFoundException ( $msg , $this->getReturnType( ), null );
+        }
+        return $this->doLoadRow( $row->id, $row);
+    }
+
+    /**
+     * findAll 
+     * 
+     * @return KVDdom_DomainObjectCollection
+     */
+    public function findAll( )
+    {
+        $stmt = $this->conn->prepare( $this->getFindAllStatement( ) );
+        $stmt->execute( );
+        $termen = array( );
+        while ( $row = $stmt->fetch( PDO::FETCH_OBJ ) ) {
+            $termen[$row->id] = $this->doLoadRow( $row->id, $row );
+        }
+        return new KVDdom_DomainObjectCollection( $termen );
     }
 
     /**
@@ -129,7 +208,7 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
      */
     private function doLoadRow( $id , $row )
     {
-        $domainObject = $this->_sessie->getIdentityMap()->getDomainObject( $this->getReturnType( ), $id);
+        $domainObject = $this->sessie->getIdentityMap()->getDomainObject( $this->getReturnType( ), $id);
         if ($domainObject != null) {
             return $domainObject;
         }
@@ -164,7 +243,7 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
     public function loadScopeNote( KVDthes_Term $termObj )
     {
         $stmt = $this->conn->prepare( $this->getLoadScopeNoteStatement( ) );
-        $stmt->bindValue( 1, $id, PDO::PARAM_INT )
+        $stmt->bindValue( 1, $id, PDO::PARAM_INT );
         $stmt->execute( );
         if (!$row = $stmt->fetch( PDO::FETCH_OBJ )) {
             $termObj->setLoadState( KVDthes_Term::LS_SCOPENOTE );
