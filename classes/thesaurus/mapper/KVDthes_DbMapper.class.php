@@ -95,10 +95,10 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
      */
     protected function getLoadRelationsStatement( )
     {
-        return sprintf( 'SELECT r.relation_type, t2.id AS to_id, t2.term AS to 
+        return sprintf( 'SELECT r.relation_type, t2.id AS id_to, t2.term as term 
                         FROM %s.term t1, %s.relation r, %s.term t2 
                         WHERE 
-                            r.id_from = t1.id 
+                            t1.id = r.id_from 
                             AND r.id_to = t2.id 
                             AND t1.id = ?
                             AND t1.thesaurus_id = %d',
@@ -136,9 +136,8 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
      */
     protected function getLoadScopeNoteStatement( )
     {
-        return sprintf( 'SELECT scope_note FROM %s.scope_note WHERE term_id = ? AND thesaurus_id = %d', 
-                        $this->parameters['schema'],
-                        $this->parameters['thesaurus_id']);
+        return sprintf( 'SELECT scope_note FROM %s.notes WHERE term_id = ?', 
+                        $this->parameters['schema']);
     }
 
     /**
@@ -228,7 +227,7 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
         $stmt->bindValue( 1, $termObj->getId( ), PDO::PARAM_INT );
         $stmt->execute( );
         while ( $row = $stmt->fetch( PDO::FETCH_OBJ ) ) {
-            $termObj->addRelation( new KVDthes_Relation( $row->relation_type, $this->findById( $row->id_to ) ) );
+            $termObj->addRelation( new KVDthes_Relation( $row->relation_type, $this->doLoadRow( $row->id_to, $row ) ) );
         }
         $termObj->setLoadState( KVDthes_Term::LS_REL);
         return $termObj;
@@ -243,13 +242,13 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
     public function loadScopeNote( KVDthes_Term $termObj )
     {
         $stmt = $this->conn->prepare( $this->getLoadScopeNoteStatement( ) );
-        $stmt->bindValue( 1, $id, PDO::PARAM_INT );
+        $stmt->bindValue( 1, $termObj->getId( ), PDO::PARAM_INT );
         $stmt->execute( );
         if (!$row = $stmt->fetch( PDO::FETCH_OBJ )) {
             $termObj->setLoadState( KVDthes_Term::LS_SCOPENOTE );
             return $termObj;
         }
-        $termObj->addScopeNote ( $row->scope_notes );
+        $termObj->addScopeNote ( $row->scope_note );
         $termObj->setLoadState( KVDthes_Term::LS_SCOPENOTE );
         return $termObj;
     }

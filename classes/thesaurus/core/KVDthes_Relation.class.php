@@ -128,5 +128,10 @@ class KVDthes_Relation
     {
         return self::$inverse[$this->type];
     }
+
+    public function __toString( )
+    {
+        return 'Relation ' . $this->type . ' ' . $this->term;
+    }
 }
 ?>
