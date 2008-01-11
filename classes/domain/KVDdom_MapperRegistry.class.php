@@ -130,6 +130,9 @@ class KVDdom_MapperRegistry
      */
     private function defaultMapper( $teMappenClass )
     {
+        if ( !isset( $this->domainObjectMappers[$teMappenClass] ) ) {
+            return null;
+        }
         if ( isset($this->domainObjectMappers[$teMappenClass]['mappers']['default'] ) ) {
             return $this->domainObjectMappers[$teMappenClass]['mappers']['default'];
         } else {
@@ -166,7 +169,7 @@ class KVDdom_MapperRegistry
     {
         if ( !$this->hasSubTypes( $teMappenClass ) ) {
             throw new LogicException( sprintf( 'U probeert een default type in te stellen voor de te mappen class %s. 
-                                        Deze heeft echter geen geen gekende subtypes.', $teMappenClass );
+                                        Deze heeft echter geen geen gekende subtypes.', $teMappenClass ) );
         }
         if ( !$this->subTypeExists( $teMappenClass, $type ) ) {
             throw new LogicException ( sprintf( 'U probeert een standaard type in te stellen voor de te mappen class %s.
