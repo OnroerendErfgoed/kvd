@@ -136,7 +136,7 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
      */
     protected function getLoadNotesStatement( )
     {
-        return sprintf( 'SELECT scope_note, source_note FROM %s.scope_note WHERE term_id = ? AND thesaurus_id = %d', 
+        return sprintf( 'SELECT scope_note, source_note FROM %s.notes WHERE term_id = ? AND thesaurus_id = %d', 
                         $this->parameters['schema'],
                         $this->parameters['thesaurus_id']);
     }
