@@ -79,9 +79,9 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
     protected function getFindRootStatement( )
     {
         return sprintf( 'SELECT t.id AS id, term 
-                         FROM %s.visitation v LEFT JOIN %s.term t ON ( v.term_id = t.id )
+                         FROM %s.visitation v LEFT JOIN %s.term t ON ( v.term_id = t.id and v.thesaurus_id = t.thesaurus_id )
                          WHERE 
-                            t.thesaurus_id = %d
+                            v.thesaurus_id = %d
                             AND v.depth = 1',
                          $this->parameters['schema'],
                          $this->parameters['schema'],
@@ -96,11 +96,11 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
     protected function getLoadRelationsStatement( )
     {
         return sprintf( 'SELECT r.relation_type, t2.id AS id_to, t2.term as term 
-                        FROM %s.term t1, %s.relation r, %s.term t2 
+                        FROM %s.term t1 
+                            LEFT JOIN %s.relation r ON ( t1.id = r.id_from AND t1.thesaurus_id = r.thesaurus_id ) 
+                            LEFT JOIN %s.term t2 ON ( r.id_to=t2.id AND r.thesaurus_id=t2.thesaurus_id)
                         WHERE 
-                            t1.id = r.id_from 
-                            AND r.id_to = t2.id 
-                            AND t1.id = ?
+                            t1.id = ?
                             AND t1.thesaurus_id = %d',
                         $this->parameters['schema'],
                         $this->parameters['schema'],
@@ -116,11 +116,11 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
     protected function getFindSubTreeStatement( )
     {
          return sprintf( 'SELECT v.id, lft, rght, depth, term_id, term 
-                         FROM %s.visitation v LEFT JOIN %s.term t ON ( v.term_id = t.id )
+                         FROM %s.visitation v LEFT JOIN %s.term t ON ( v.term_id = t.id AND v.thesaurus_id = t.thesaurus_id )
                          WHERE 
                             t.thesaurus_id = %d
-                            AND ( lft BETWEEN ( SELECT lft FROM %s.visitation WHERE term_id = ? LIMIT 1) 
-                                AND ( SELECT rght FROM %s.visitation WHERE term_id = ? LIMIT 1) )
+                            AND ( lft BETWEEN ( SELECT lft FROM %s.visitation WHERE thesaurus_id = v.thesaurus_id AND term_id = ? LIMIT 1) 
+                                AND ( SELECT rght FROM %s.visitation WHERE thesaurus_id = v.thesaurus_id AND term_id = ? LIMIT 1) )
                             ORDER BY lft',
                          $this->parameters['schema'],
                          $this->parameters['schema'],
@@ -134,10 +134,11 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
      * 
      * @return string
      */
-    protected function getLoadScopeNoteStatement( )
+    protected function getLoadNotesStatement( )
     {
-        return sprintf( 'SELECT scope_note FROM %s.notes WHERE term_id = ?', 
-                        $this->parameters['schema']);
+        return sprintf( 'SELECT scope_note, source_note FROM %s.scope_note WHERE term_id = ? AND thesaurus_id = %d', 
+                        $this->parameters['schema'],
+                        $this->parameters['thesaurus_id']);
     }
 
     /**
@@ -241,7 +242,19 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
     */
     public function loadScopeNote( KVDthes_Term $termObj )
     {
-        $stmt = $this->conn->prepare( $this->getLoadScopeNoteStatement( ) );
+        return $this->loadNotes( $termObj);
+    }
+
+    /**
+     * loadNotes 
+     * 
+     * Deze methode zal alle notes ( zowel scope als source) van een term laden.
+     * @param KVDthes_Term $termObj 
+     * @return KVDthes_Term
+     */
+    private function loadNotes( KVDthes_Term $termObj )
+    {
+        $stmt = $this->conn->prepare( $this->getLoadNotesStatement( ) );
         $stmt->bindValue( 1, $termObj->getId( ), PDO::PARAM_INT );
         $stmt->execute( );
         if (!$row = $stmt->fetch( PDO::FETCH_OBJ )) {
@@ -250,19 +263,20 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
         }
         $termObj->addScopeNote ( $row->scope_note );
         $termObj->setLoadState( KVDthes_Term::LS_SCOPENOTE );
+        $termObj->addSourceNote ( $row->source_note );
+        $termObj->setLoadState( KVDthes_Term::LS_SOURCENOTE );
         return $termObj;
     }
 
     /**
      * loadSourceNote 
      * 
-     * @todo Implementeren
      * @param KVDthes_Term $termObj 
      * @return KVDthes_Term
      */
     public function loadSourceNote( KVDthes_Term $termObj )
     {
-        return $termObj;
+        return $this->loadNotes( $termObj);
     }
 
     /**
