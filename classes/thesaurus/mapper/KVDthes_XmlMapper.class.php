@@ -84,7 +84,7 @@ abstract class KVDthes_XmlMapper implements KVDthes_IDataMapper
      */
     public function findAll( )
     {
-        if ( $all = $this->sessie->getIdentityMap( )->getDomainObjects( $this->getReturnType ) === null ) {
+        if ( ( $all = $this->sessie->getIdentityMap( )->getDomainObjects( $this->getReturnType( ) ) ) === null ) {
             $all = array( );
         }
         return new KVDdom_DomainObjectCollection( $all );
