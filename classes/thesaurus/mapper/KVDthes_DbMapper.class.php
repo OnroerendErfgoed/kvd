@@ -213,7 +213,7 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
             return $domainObject;
         }
         $termType = $this->getReturnType( );
-        return new $termType( $this->sessie , $id , $row->term , 'Nederlands' );
+        return new $termType( $this->sessie , $id , $row->term , $row->language );
     }
 
     /**
