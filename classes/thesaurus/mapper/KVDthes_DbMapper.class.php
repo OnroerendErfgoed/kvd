@@ -95,7 +95,7 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
      */
     protected function getLoadRelationsStatement( )
     {
-        return sprintf( 'SELECT r.relation_type, t2.id AS id_to, t2.term as term 
+        return sprintf( 'SELECT r.relation_type, t2.id AS id_to, t2.term as term, t2.language as language 
                         FROM %s.term t1 
                             LEFT JOIN %s.relation r ON ( t1.id = r.id_from AND t1.thesaurus_id = r.thesaurus_id ) 
                             LEFT JOIN %s.term t2 ON ( r.id_to=t2.id AND r.thesaurus_id=t2.thesaurus_id)
