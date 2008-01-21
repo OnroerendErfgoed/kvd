@@ -58,7 +58,7 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
      */
     protected function getFindByIdStatement( )
     {
-        return sprintf( 'SELECT id, term FROM %s.term WHERE id = ? AND thesaurus_id = %d' , $this->parameters['schema'], $this->parameters['thesaurus_id'] );
+        return sprintf( 'SELECT id, term, language FROM %s.term WHERE id = ? AND thesaurus_id = %d' , $this->parameters['schema'], $this->parameters['thesaurus_id'] );
     }
 
     /**
@@ -68,7 +68,7 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
      */
     protected function getFindAllStatement( )
     {
-        return sprintf( 'SELECT id, term FROM %s.term WHERE thesaurus_id = %d' , $this->parameters['schema'], $this->parameters['thesaurus_id'] );
+        return sprintf( 'SELECT id, term, language FROM %s.term WHERE thesaurus_id = %d' , $this->parameters['schema'], $this->parameters['thesaurus_id'] );
     }
 
     /**
@@ -78,7 +78,7 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
      */
     protected function getFindRootStatement( )
     {
-        return sprintf( 'SELECT t.id AS id, term 
+        return sprintf( 'SELECT t.id AS id, term, language 
                          FROM %s.visitation v LEFT JOIN %s.term t ON ( v.term_id = t.id and v.thesaurus_id = t.thesaurus_id )
                          WHERE 
                             v.thesaurus_id = %d
@@ -115,7 +115,7 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
      */
     protected function getFindSubTreeStatement( )
     {
-         return sprintf( 'SELECT v.id, lft, rght, depth, term_id, term 
+         return sprintf( 'SELECT v.id, lft, rght, depth, term_id, term, language 
                          FROM %s.visitation v LEFT JOIN %s.term t ON ( v.term_id = t.id AND v.thesaurus_id = t.thesaurus_id )
                          WHERE 
                             t.thesaurus_id = %d
