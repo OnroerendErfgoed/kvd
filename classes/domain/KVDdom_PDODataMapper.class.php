@@ -211,18 +211,23 @@ abstract class KVDdom_PDODataMapper {
 
     /**
      * Voor een query uit en geef de resultaten terug als een collectie van domainobjects.
+     * Het type van deze collectie kan meegegeven worden als parameter maar moet een subklasse
+     * zijn van de KVDdom_DomainObjectCollection.
      * @param PDOStatement $stmt
+     * @param string	$collectiontype het type van de collectie van domainobjects.
      * @return KVDdom_DomainObjectCollection
      */
-    protected function executeFindMany ( $stmt )
-    {
-        $stmt->execute( );
-        $domainObjects = array ( );
-        while ( $row = $stmt->fetch( PDO::FETCH_OBJ ) ) {
-            $domainObjects[$row->id] = $this->doLoad ( $row->id , $row );
-        }
-        return new KVDdom_DomainObjectCollection ( $domainObjects );
-    }
+		protected function executeFindMany ( $stmt , $collectiontype = "KVDdom_DomainObjectCollection" )
+		{
+			if(! is_subclass_of($collectiontype, "KVDdom_DomainObjectCollection")) throw
+				new InvalidArgumentException("type moet een subtype zijn van KVDdom_DomainObjectCollection. Gegeven: $collectiontype");
+			$stmt->execute( );
+			$domainObjects = array ( );
+			while ( $row = $stmt->fetch( PDO::FETCH_OBJ ) ) {
+				$domainObjects[$row->id] = $this->doLoad ( $row->id , $row );
+			}
+			return new $collectiontype( $domainObjects );
+		}
     /**
      * Voor een query uit en geef de resultaten terug als een luie collectie van domainobjects.
      * @param   string    $sql
