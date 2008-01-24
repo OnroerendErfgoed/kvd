@@ -219,7 +219,8 @@ abstract class KVDdom_PDODataMapper {
      */
 		protected function executeFindMany ( $stmt , $collectiontype = "KVDdom_DomainObjectCollection" )
 		{
-			if(! is_subclass_of($collectiontype, "KVDdom_DomainObjectCollection")) throw
+			if(($collectiontype != "KVDdom_DomainObjectCollection")
+					&& (!is_subclass_of($collectiontype, "KVDdom_DomainObjectCollection"))) throw
 				new InvalidArgumentException("type moet een subtype zijn van KVDdom_DomainObjectCollection. Gegeven: $collectiontype");
 			$stmt->execute( );
 			$domainObjects = array ( );
