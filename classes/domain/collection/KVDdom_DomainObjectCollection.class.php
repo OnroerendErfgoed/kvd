@@ -116,6 +116,8 @@ class KVDdom_DomainObjectCollection implements SeekableIterator, Countable
      * Verwijder alle objecten uit de collectie.
      * Opgelet, deze functie zal ook de opdracht geven aan de sessie om alle objecten te wissen. 
      * Gebruik ze dus niet als je alleen maar objecten wilt loskoppelen.
+     * @deprecated Functie hoort hier niet thuis en is zelfs sterker dan de clear
+     * methode van een @link KVDdom_EditeerbareDomainObjectCollection.
      */
     public function clear( )
     {

@@ -117,7 +117,7 @@ abstract class KVDdom_ChangeableDomainObject implements KVDdom_DomainObject, KVD
      * @param KVDdom_Sessie $sessie Het sessie object. Of een ander object dat de Unit Of Work implementeert
      * @return KVDdom_ChangeableDomainObject
      */
-    static function create( $id , $sessie )
+	static function create( $id , $sessie )
     {
         throw new Exception ( 'This method should only be called on a concrete implementation.' );
     }
