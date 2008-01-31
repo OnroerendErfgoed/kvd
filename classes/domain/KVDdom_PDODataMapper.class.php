@@ -127,7 +127,7 @@ abstract class KVDdom_PDODataMapper {
         if ( $sf <> '' ) {
             $sf = ', ' . $sf;
         }
-        return  "SELECT " . $this->id . " AS id, " . $this->velden . $sf .
+        return  "SELECT " . $this->id . " AS id" . ( ( $this->velden === null ) ? '' : ', ' . $this->velden ) . $sf .
                 " FROM " . $this->tabel;
     }
 
