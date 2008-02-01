@@ -22,6 +22,9 @@ abstract class KVDdom_PDOChangeableDataMapper extends KVDdom_PDODataMapper {
      */
     protected function getUpdateFieldsStatement( )
     {
+        if ( $this->velden == null ) {
+            return '';
+        }
         $fields = explode ( ', ' , $this->velden );
         foreach ( $fields as &$field ) {
             $field = "$field = ?";
@@ -34,8 +37,12 @@ abstract class KVDdom_PDOChangeableDataMapper extends KVDdom_PDODataMapper {
      */
     protected function getInsertStatement( )
     {
-        $fields = 'id, ' . $this->velden . ( $this->systemFieldsMapper->getSystemFields( ) <> "" ? ', ' . $this->systemFieldsMapper->getSystemFields( ) : '');
-        $parameters = '?, ' . $this->getVeldenAsParameters( ) . ( $this->systemFieldsMapper->getInsertSystemFieldsString( ) <> "" ? ', ' . $this->systemFieldsMapper->getInsertSystemFieldsString( ) : '');
+        $fields = 'id' . 
+            ( $this->velden != null ? ',' . $this->velden : '') . 
+            ( $this->systemFieldsMapper->getSystemFields( ) <> "" ? ', ' . $this->systemFieldsMapper->getSystemFields( ) : '');
+        $parameters = '?' . 
+            ( $this->getVeldenAsParameters( ) <> "" ? ', ' . $this->getVeldenAsParameters( ) : '') . 
+            ( $this->systemFieldsMapper->getInsertSystemFieldsString( ) <> "" ? ', ' . $this->systemFieldsMapper->getInsertSystemFieldsString( ) : '');
         $sql = sprintf( "INSERT INTO %s ( %s )VALUES ( %s)" , $this->tabel, $fields, $parameters );
         $this->_sessie->getSqlLogger( )->log( $sql );
         return $sql;
@@ -56,7 +63,7 @@ abstract class KVDdom_PDOChangeableDataMapper extends KVDdom_PDODataMapper {
     protected function getUpdateStatement()
     {
         return  "UPDATE " . $this->tabel . " SET " .
-                $this->getUpdateFieldsStatement( ) . ( $this->systemFieldsMapper->getUpdateSystemFieldsString() <> "" ? ', ' . $this->systemFieldsMapper->getUpdateSystemFieldsString( ) : ''). 
+                $this->getUpdateFieldsStatement( ) . ( $this->velden == null ? '' : ', ') . $this->systemFieldsMapper->getUpdateSystemFieldsString() . 
                 " WHERE " . $this->id . " = ?";
     }
 

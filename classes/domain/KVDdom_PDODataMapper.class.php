@@ -252,6 +252,9 @@ abstract class KVDdom_PDODataMapper {
      */
     protected function getVeldenAsParameters( )
     {
+        if ( $this->velden == null ) {
+            return '';   
+        }
         $fields = explode ( ', ' , $this->velden );
         return implode ( ', ' , array_fill( 0 , count( $fields ) , '?' ) );
     }
