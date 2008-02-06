@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 
 
-<project name="kvd" default="main" basedir="/data/projects/kvd/kvd/">
+<project name="kvd" default="main" basedir=".">
 
 	<property name="projectsDir" value="/data/projects/kvd" />
 
@@ -9,6 +9,8 @@
 	<property name="kvdSqlDir" value="${projectsDir}/kvd/sql" />
 	<property name="docsDir" value="/data/docs/kvd/kvd" />
 	<property name="agaviDir" value="/opt/csw/php5/lib/php/agavi/" />
+
+	<taskdef name="generateautoloader" classname="phing.tasks.AutoloadGenerationTask" />
 
 	<target name="main" description="Overzicht van de mogelijke taken">
 		<echo msg="U kunt volgende taken uitvoeren:" />
@@ -19,28 +21,37 @@
 		<echo msg=" docs: Maak de API-documentatie aan." />
 	</target>
 
+	<target name="generateAutoloader" description="Maak de autoloader aan.">
+		<generateautoloader destfile="classes/KVD_autoload.php" outputtype="Function" outputname="KVD_Autoload">
+			<fileset dir="classes">
+				<include name="**/*.class.php" />
+				<include name="**/*.interface.php" />
+			</fileset>
+		</generateautoloader>
+	</target>
+
 	<target name="createSchema" description="Maak de schema's van deze applicatie aan.">
 		<echo msg="Bestaande schema's worden verwijderd." />
-		<sql url="pgsql://oeibeheerder:jawwmefe@localhost/oei" autocommit="on" onerror="continue">
+		<pdo url="pgsql://oeibeheerder:jawwmefe@localhost/oei" autocommit="on" onerror="continue">
 			DROP SCHEMA kvd_adr CASCADE;
-		</sql>
+		</pdo>
 		<echo msg="Bezig met aanmaken van schema kvd_adr." />
-		<sql url="pgsql://oeibeheerder:jawwmefe@localhost/oei" src="${kvdSqlDir}/dbcreate/kvd_adr.psql" autocommit="off" onerror="abort"/>
+		<pdo url="pgsql://oeibeheerder:jawwmefe@localhost/oei" src="${kvdSqlDir}/dbcreate/kvd_adr.psql" autocommit="off" onerror="abort"/>
 		<echo msg="Bezig met toekennen van rechten op schema kvd_adr." />
-		<sql url="pgsql://oeibeheerder:jawwmefe@localhost/oei" src="${kvdSqlDir}/usergrant/kvd_adr.psql" autocommit="off" onerror="abort"/>
+		<pdo url="pgsql://oeibeheerder:jawwmefe@localhost/oei" src="${kvdSqlDir}/usergrant/kvd_adr.psql" autocommit="off" onerror="abort"/>
 		<echo msg="Bezig met vullen van de gemeentelijst." />
-		<sql url="pgsql://oeibeheerder:jawwmefe@localhost/oei" src="${kvdSqlDir}/dbcreate/kvd_adr_fill_gemeenten.psql" autocommit="off" onerror="abort"/>
+		<pdo url="pgsql://oeibeheerder:jawwmefe@localhost/oei" src="${kvdSqlDir}/dbcreate/kvd_adr_fill_gemeenten.psql" autocommit="off" onerror="abort"/>
 		<echo msg="Bezig met vullen van de deelgemeentelijst." />
-		<sql url="pgsql://oeibeheerder:jawwmefe@localhost/oei" src="${kvdSqlDir}/dbcreate/kvd_adr_fill_deelgemeenten.psql" autocommit="off" onerror="abort"/>
+		<pdo url="pgsql://oeibeheerder:jawwmefe@localhost/oei" src="${kvdSqlDir}/dbcreate/kvd_adr_fill_deelgemeenten.psql" autocommit="off" onerror="abort"/>
 	</target>
 
 	<target name="createSchema_1_1" description="Update de schemas naar versie 1.1">
 		<echo msg="Bezig met wijzigen van schema kvd_adr." />
-		<sql url="pgsql://oeibeheerder:jawwmefe@localhost/oei" src="${kvdSqlDir}/dbcreate/kvd_adr_1_1.psql" autocommit="off" onerror="continue"/>
+		<pdo url="pgsql://oeibeheerder:jawwmefe@localhost/oei" src="${kvdSqlDir}/dbcreate/kvd_adr_1_1.psql" autocommit="off" onerror="continue"/>
 		<echo msg="Bezig met toekennen van rechten op schema kvd_adr." />
-		<sql url="pgsql://oeibeheerder:jawwmefe@localhost/oei" src="${kvdSqlDir}/usergrant/kvd_adr_1_1.psql" autocommit="off" onerror="abort"/>
+		<pdo url="pgsql://oeibeheerder:jawwmefe@localhost/oei" src="${kvdSqlDir}/usergrant/kvd_adr_1_1.psql" autocommit="off" onerror="abort"/>
 		<echo msg="Bezig met vullen van de kadastergemeentelijst." />
-		<sql url="pgsql://oeibeheerder:jawwmefe@localhost/oei" src="${kvdSqlDir}/dbcreate/kvd_adr_fill_kadastergemeenten.psql" autocommit="off" onerror="abort"/>
+		<pdo url="pgsql://oeibeheerder:jawwmefe@localhost/oei" src="${kvdSqlDir}/dbcreate/kvd_adr_fill_kadastergemeenten.psql" autocommit="off" onerror="abort"/>
 	</target>
 
 	<target name="clearCrabCache" description="Leeg de crab Cache.">
