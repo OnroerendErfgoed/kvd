@@ -44,6 +44,18 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
     {
         $this->sessie = $sessie;
         $this->conn = $sessie->getDatabaseConnection( get_class($this) );
+        $this->initialize( $parameters );
+    }
+
+    /**
+     * initialize 
+     * 
+     * @param array $parameters 
+     * @throws KVDdom_MapperConfigurationException Indien er een parameter niet gespecifieerd werd.
+     * @return void
+     */
+    protected function initialize( array $parameters )
+    {
         $this->parameters = array ( 'thesaurus_id' => 0 );
         if ( !isset ( $parameters['schema'] ) ) {
             throw new KVDdom_MapperConfigurationException( 'Er is geen schema gespecifieerd voor deze thesaurus.', $this);
@@ -206,7 +218,7 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
      * @param StdClass  $row 
      * @return KVDthes_Term
      */
-    private function doLoadRow( $id , $row )
+    protected function doLoadRow( $id , $row )
     {
         $domainObject = $this->sessie->getIdentityMap()->getDomainObject( $this->getReturnType( ), $id);
         if ($domainObject != null) {
@@ -311,6 +323,28 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
          $termObj->setLoadState( KVDthes_Term::LS_NT );
          return $termObj;
     }
+
+
+    /**
+     * Voor een query uit en geef de resultaten terug als een collectie van domainobjects.
+     * Het type van deze collectie kan meegegeven worden als parameter maar moet een subklasse
+     * zijn van de KVDdom_DomainObjectCollection.
+     * @param PDOStatement      $stmt
+     * @param string	        $collectiontype het type van de collectie van domainobjects.
+     * @return KVDdom_DomainObjectCollection
+     */
+    protected function executeFindMany ( $stmt , $collectiontype = "KVDdom_DomainObjectCollection" )
+    {
+        if(($collectiontype != "KVDdom_DomainObjectCollection") && (!is_subclass_of($collectiontype, "KVDdom_DomainObjectCollection"))) {
+            throw new InvalidArgumentException("type moet een subtype zijn van KVDdom_DomainObjectCollection. Gegeven: $collectiontype");
+        }
+		$stmt->execute( );
+		$domainObjects = array ( );
+		while ( $row = $stmt->fetch( PDO::FETCH_OBJ ) ) {
+			$domainObjects[$row->id] = $this->doLoadRow ( $row->id , $row );
+		}
+		return new $collectiontype( $domainObjects );
+	}
 
     /**
      * getReturnType 
