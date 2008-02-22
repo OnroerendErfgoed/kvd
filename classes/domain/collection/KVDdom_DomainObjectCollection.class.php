@@ -148,7 +148,7 @@ class KVDdom_DomainObjectCollection implements SeekableIterator, Countable
      */
     public function getDomainObjectWithId ( $id )
     {
-        return $this->collection[$id];
+        return isset( $this->collection[$id] ) ? $this->collection[$id] : null;
     }
 
     /**
