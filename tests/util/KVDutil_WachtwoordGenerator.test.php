@@ -1,5 +1,8 @@
 <?php
-class TestOfWachtwoordGenerator extends UnitTestCase
+//require_once ( '../../classes/util/KVDutil_WachtwoordGenerator.class.php');
+require_once ( '../../classes/KVD_autoload.php');
+spl_autoload_register( 'KVD_autoload');
+class TestOfWachtwoordGenerator extends PHPUnit_Framework_TestCase
 {
     private $generator;
     
@@ -17,10 +20,10 @@ class TestOfWachtwoordGenerator extends UnitTestCase
     {
         $generator = new KVDutil_WachtwoordGenerator( );
         $wachtwoord = $generator->generate( );
-        $this->assertEqual( strlen( $wachtwoord ) , 8 );
-        $this->assertWantedPattern( '/[0-9]+/' , $wachtwoord );
-        $this->assertWantedPattern( '/[a-z]+/', $wachtwoord );
-        $this->assertNoUnwantedPattern( '/[A-Z]/' , $wachtwoord );
+        $this->assertEquals( strlen( $wachtwoord ) , 8 );
+        $this->assertRegExp( '/[0-9]+/' , $wachtwoord );
+        $this->assertRegExp( '/[a-z]+/', $wachtwoord );
+        $this->assertNotRegExp( '/[A-Z]/' , $wachtwoord );
     }
 
     public function testLengte( )
@@ -29,7 +32,7 @@ class TestOfWachtwoordGenerator extends UnitTestCase
         foreach ( $lengtes as $lengte ) {
             $generator = new KVDutil_WachtwoordGenerator( $lengte );
             $wachtwoord = $generator->generate( );
-            $this->assertEqual( strlen( $wachtwoord ) , $lengte );
+            $this->assertEquals( strlen( $wachtwoord ) , $lengte );
         }
     }
 
@@ -37,20 +40,18 @@ class TestOfWachtwoordGenerator extends UnitTestCase
     {
         try {
             $generator = new KVDutil_WachtwoordGenerator( 3 );
-            $this->fail( 'Wachtwoorden genereren met een te korte lengte moet een exception geven.' );
-        } catch ( InvalidArgumentException $e ){
-            $this->pass( );
-        } catch ( Exception $e ) {
-            $this->fail ( 'Ik had een InvalidArgumentException verwacht.' );
+        } catch ( InvalidArgumentException $e ) {
+            return;
         }
+        $this->fail( 'InvalidArgumentException', 'Wacthwoorden genereren met een te korte lengte moet een exception geven.');
     }
     public function testWithHoofdletters( )
     {
         $generator = new KVDutil_WachtwoordGenerator( 8 , true );
         $wachtwoord = $generator->generate( );
-        $this->assertWantedPattern( '/[A-Z]+/' , $wachtwoord );
-        $this->assertWantedPattern( '/[0-9]+/' , $wachtwoord );
-        $this->assertWantedPattern( '/[a-z]+/' , $wachtwoord );
+        $this->assertRegExp( '/[A-Z]+/' , $wachtwoord );
+        $this->assertRegExp( '/[0-9]+/' , $wachtwoord );
+        $this->assertRegExp( '/[a-z]+/' , $wachtwoord );
     }
 
     public function testMultipleAreDifferent( )
@@ -60,7 +61,7 @@ class TestOfWachtwoordGenerator extends UnitTestCase
         for ( $i = 0 ; $i<5; $i++) {
             $wachtwoorden[$i] = $generator->generate( );
             if ( $i > 0 ) {
-                $this->assertNotEqual( $wachtwoorden[$i] , $wachtwoorden[$i-1] );
+                $this->assertNotEquals( $wachtwoorden[$i] , $wachtwoorden[$i-1] );
             }
         }
     }

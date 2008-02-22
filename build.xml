@@ -22,10 +22,25 @@
 	</target>
 
 	<target name="generateAutoloader" description="Maak de autoloader aan.">
-		<generateautoloader destfile="classes/KVD_autoload.php" outputtype="Function" outputname="KVD_Autoload">
+		<generateautoloader destfile="classes/KVD_Autoload.php" outputtype="Function" outputname="KVD_Autoload">
 			<fileset dir="classes">
 				<include name="**/*.class.php" />
 				<include name="**/*.interface.php" />
+			</fileset>
+			
+		</generateautoloader>
+	</target>
+
+	<target name="generateTestAutoloader" description="Maak de autoloader voor de unit tests aan.">
+		<generateautoloader destfile="tests/KVD_Autoload.php" outputtype="Function" outputname="KVD_Autoload">
+			<fileset dir="classes">
+				<include name="**/*.class.php" />
+				<include name="**/*.interface.php" />
+			</fileset>
+
+			<fileset dir="tests">
+				<include name="thesaurus/KVDthes_TestTerm.class.php" />
+				<include name="thesaurus/KVDthes_Sessie.class.php" />
 			</fileset>
 		</generateautoloader>
 	</target>

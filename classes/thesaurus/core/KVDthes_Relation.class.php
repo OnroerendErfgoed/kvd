@@ -131,7 +131,7 @@ class KVDthes_Relation
 
     public function __toString( )
     {
-        return 'Relation ' . $this->type . ' ' . $this->term;
+        return 'Relation ' . $this->type . ' ' . $this->term->getOmschrijving( );
     }
 }
 ?>
