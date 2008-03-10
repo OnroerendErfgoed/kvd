@@ -145,7 +145,7 @@ abstract class KVDthes_Term implements KVDdom_DomainObject
      */
     public function isLoadState( $state )
     {
-        return $state & $this->loadState;
+        return ( bool ) ( $state & $this->loadState );
     }
 
     /**
@@ -214,17 +214,6 @@ abstract class KVDthes_Term implements KVDdom_DomainObject
 	}
 
     /**
-     * setTerm 
-     * 
-     * @param string $term 
-     * @return void
-     */
-	public function setTerm ($term)
-	{
-		$this->term = $term;
-	}
-
-    /**
      * getId 
      * 
      * @return integer
@@ -232,17 +221,6 @@ abstract class KVDthes_Term implements KVDdom_DomainObject
     public function getId( )
     {
         return $this->id;
-    }
-
-    /**
-     * setId 
-     * 
-     * @param integer $id 
-     * @return void
-     */
-    public function setId( $id )
-    {
-        $this->id = $id;
     }
 
     /**

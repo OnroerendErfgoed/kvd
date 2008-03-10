@@ -137,6 +137,7 @@ class KVDthes_RelationTypeIterator extends KVDthes_RelationsIterator
     {   
         parent::__construct( $relations );
         $this->type = $type;
+        $this->rewind( );
     }
 
     /**

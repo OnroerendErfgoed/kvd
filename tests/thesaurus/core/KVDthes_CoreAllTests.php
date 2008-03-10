@@ -9,6 +9,7 @@ require_once 'PHPUnit/TextUI/TestRunner.php';
 require_once 'KVDthes_RelationTest.php';
 require_once 'KVDthes_RelationsTest.php';
 require_once 'KVDthes_RelationsIteratorTest.php';
+require_once 'KVDthes_RelationTypeIteratorTest.php';
 
 class KVDthes_CoreAllTests
 {
@@ -24,6 +25,7 @@ class KVDthes_CoreAllTests
         $suite->addTestSuite( 'KVDthes_RelationTest');
         $suite->addTestSuite( 'KVDthes_RelationsTest');
         $suite->addTestSuite( 'KVDthes_RelationsIteratorTest');
+        $suite->addTestSuite( 'KVDthes_RelationTypeIteratorTest');
         
         return $suite;
     }

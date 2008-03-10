@@ -6,8 +6,10 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
 
 require_once 'PHPUnit/Framework.php';
 
-//require_once '../../../classes/thesaurus/core/KVDthes_RelationsIterator.class.php';
-require_once '../../KVD_Autoload.php';
+if ( !defined( 'KVD_AUTOLOAD')) {
+    define( 'KVD_AUTOLOAD', '../../KVD_Autoload.php' );
+}
+require_once( KVD_AUTOLOAD );
 spl_autoload_register( 'KVD_Autoload');
 
 
@@ -93,34 +95,27 @@ class KVDthes_RelationsIteratorTest extends PHPUnit_Framework_TestCase
         $this->assertEquals( 1, $this->object->current( )->getTerm( )->getId( ) );
     }
 
-    /**
-     * @todo Implement testKey().
-     */
     public function testKey() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
+        $this->assertEquals( 0, $this->object->key( ) );
+        $this->object->next( );
+        $this->assertEquals( 1, $this->object->key( ) );
+        $this->object->next( );
+        $this->assertEquals( 2, $this->object->key( ) );
     }
 
-    /**
-     * @todo Implement testValid().
-     */
     public function testValid() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
+        $this->assertEquals( true, $this->object->valid( ) );
+        $this->object->next( );
+        $this->assertEquals( true, $this->object->valid( ) );
+        while ( $this->object->valid( ) ) {
+            $this->object->next( );
+        }
+        $this->assertEquals( 10, $this->object->key( ) );
     }
 
-    /**
-     * @todo Implement testCount().
-     */
     public function testCount() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
+        $this->assertEquals( 10, $this->object->count( ) );
+        $this->assertEquals( 10, count( $this->object ) );
     }
 }
 
