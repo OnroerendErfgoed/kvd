@@ -37,8 +37,12 @@ class KVDdom_EditeerbareDomainObjectCollection extends KVDdom_DomainObjectCollec
     public function __construct( array $collection, $type = null)
     {
         parent::__construct( $collection );
-        if ( $this->type === null && $type == null ) {
-            throw new Exception ( 'Collection is niet correct geinitialiseerd. Er moet een type worden opgegeven.');
+        if ( $this->type === null ) {
+            if ( $type == null ) {
+                throw new Exception ( 'Collection is niet correct geinitialiseerd. Er moet een type worden opgegeven.');
+            } else {
+                $this->type = $type;
+            }
         }
     }
 
