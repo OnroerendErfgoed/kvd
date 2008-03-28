@@ -30,16 +30,18 @@ class KVDutil_Authenticator
 	 */
 	public function logIn($gebruiker, $paswoord)
 	{
-		$status->logIn($this, $gebruiker, $paswoord);
+		return $this->status->logIn($this, $gebruiker, $paswoord);
 	}
+	
 	/**
 	 * logOut
 	 *	Indien een gebruiker is ingelogd, uitloggen.
 	 */
 	public function logOut()
 	{
-		$status->logOut($this);
+		 return $this->status->logOut($this);
 	}
+	
 	/**
 	 * getNaam
 	 *  geeft de naam van de ingelogde gebruiker.
@@ -47,8 +49,9 @@ class KVDutil_Authenticator
 	 */
 	public function getNaam()
 	{
-		return $status->getNaam($this);
+		return $this->status->getNaam($this);
 	}
+	
 	/**
 	 * getEmail
 	 *  geeft het email adres van de gebruiker.
@@ -56,7 +59,7 @@ class KVDutil_Authenticator
 	 */
 	public function getEmail()
 	{
-		return $status->getEmail($this);
+		return $this->status->getEmail($this);
 	}
 
 	/**
@@ -66,8 +69,9 @@ class KVDutil_Authenticator
 	 */
 	public function isAuthenticated()
 	{	
-		return $status->isAuthenticated($this);		
+		return $this->status->isAuthenticated($this);		
 	}
+	
 	/**
 	 * getRollenVoorApplicatie
 	 *  geeft een array van rollen voor deze gebruiker weer.
@@ -75,7 +79,7 @@ class KVDutil_Authenticator
 	 */
 	public function getRollenVoorApplicatie($applicatie)
 	{
-		return $status->getRollenVoorApplicatie($this, $applicatie);
+		return $this->status->getRollenVoorApplicatie($this, $applicatie);
 	}
 	
 	/**
@@ -103,6 +107,14 @@ class KVDutil_Authenticator
  * @since 1.0.0
  */
 abstract class LoggedStatus{
+
+	protected $db;
+	
+	public function __contruct($db)
+	{
+		$this->db = $db;
+	}
+
 	abstract function logIn(KVDutil_Authenticator $auth, $gebruiker, $paswoord);
 	abstract function logOut(KVDutil_Authenticator $auth);
 	abstract function getNaam(KVDutil_Authenticator $auth);
@@ -123,19 +135,51 @@ abstract class LoggedStatus{
 class LoggedOut extends LoggedStatus{
 	
 	
-	private function checkPaswoord($paswoord, $check)
+	private $db;
+	
+	private final $userquery = "SELECT * FROM gebruiker WHERE username = ? AND paswoord = ?";
+	private final $encryptquery = "SELECT PASSWORD(?)";
+	
+	
+	public function __construct($database)
 	{
-		return $paswoord = $this->encrypt($check);
+		parent::__construct($database);
 	}
 	
-	
+
 	/**
 	 * @todo
 	 */
 	private function encrypt($woord)
 	{
-		return $word;
+		$col = "PASSWORD('".addslashes($woord)."')";
+		$stmt = $db->prepare($this->encryptquery);
+		$stmt->bindParam(1, $woord);
+		$stmt->execute();
+		if($stmt->rowCount() != 1) {
+			return false;
+		} else {
+			$row = $stmt->fetch( PDO::FETCH_OBJ );
+			return $row ->$col;
+		}
 	}
+		
+	
+	private function getGebruiker($gebruiker, $paswoord)
+	{
+		$stmt = $db->prepare($this->userquery);
+		$stmt->bindParam(1, $gebruiker);
+		$stmt->bindParam(1, $this->encrypt($paswoord));
+		$stmt->execute();
+		if($stmt->rowCount() != 1) {
+			return false;
+		} else {
+			$row = $stmt->fetch( PDO::FETCH_OBJ );
+			return $row;
+		}
+	}
+	
+	
 	
 
 	/**
@@ -143,12 +187,18 @@ class LoggedOut extends LoggedStatus{
 	 */
 	public function logIn(KVDutil_Authenticator $auth, $gebruiker, $paswoord)
 	{	
-		$gebruiker = null;
-		$auth->changeState(new LoggedIn($gebruiker));
+		$pass = $this->encrypt($paswoord);
+		$gebruiker = $this->getGebruiker($gebruiker, $pass);
+		if(!$gebruiker) {
+			return false;
+		} else {
+			$auth->changeState(new LoggedIn($this->db, $gebruiker));
+			return true;
+		}
 	}
 	public function logOut(KVDutil_Authenticator $auth)
-	{	
-		// ok
+	{
+		return true;
 	}
 	
 	public function getNaam(KVDutil_Authenticator $auth)
@@ -185,42 +235,43 @@ class LoggedIn extends LoggedStatus{
 	
 	private $gebruiker;
 	
-	public function __construct($gebruiker)
+	public function __construct($database, $gebruiker)
 	{
+			parent::__construct($database);
 		$this->gebruiker = $gebruiker;
 	}
-
 
 	public function logIn(KVDutil_Authenticator $auth, $gebruiker, $paswoord)
 	{
 		$this->logOut($auth);
-		$auth->logIn($gebruiker, $paswoord);
+		return $auth->logIn($gebruiker, $paswoord);
 	}
+
 	public function logOut(KVDutil_Authenticator $auth)
 	{	
-		$auth->changeState(new LoggedOut());
+		$auth->changeState(new LoggedOut($this->db));
 	}
-	
+
 	public function getNaam(KVDutil_Authenticator $auth)
 	{	
-		return $gebruiker->getNaam();
+		return $this->gebruiker->naam;
 	}
-	
+
 	public function getEmail(KVDutil_Authenticator $auth)
-	{	
-		return $gebruiker->getEmail();
+	{
+		return $this->gebruiker->email;
 	}
-	
+
 	public function isAuthenticated(KVDutil_Authenticator $auth)
 	{	
 		return true;
 	}
-	
+
 	public function getRollenVoorApplicatie(KVDutil_Authenticator $auth, $applicatie)
 	{
-		return $gebruiker->getRollenVoorApplicatie();
+		return $this->gebruiker->getRollenVoorApplicatie();
 	}
-	
+
 }
 
 
