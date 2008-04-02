@@ -80,6 +80,7 @@ abstract class KVDdom_PDODataMapper {
     /**
      * Maak de mapper aan en stel een connectie in
      * 
+     * @todo Problemen met mapperParameters aanpakken.
      * @param KVDdom_Sessie $sessie 
      * @param array $parameters 
      * @return void
@@ -88,6 +89,11 @@ abstract class KVDdom_PDODataMapper {
     {
         $this->_sessie = $sessie;
         $this->_conn = $sessie->getDatabaseConnection( get_class($this) );
+        //Opgelet: dit is een hack om een aantal problemen met de AgaviReturnArrayConfigHandler op te lossen.
+        //Dit moet op een correcte wijze aangepakt worden.
+        if ( isset( $parameters['mapperParameters'] ) ) {
+            $parameters = $parameters['mapperParameters'];
+        }
         $this->parameters = array_merge( $this->parameters, $parameters);
         $this->initialize( );
         $this->determineSystemFieldsMapper( );
