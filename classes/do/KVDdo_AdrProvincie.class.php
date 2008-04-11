@@ -52,7 +52,7 @@ class KVDdo_AdrProvincie extends KVDdom_ReadonlyDomainObject{
     {
         if ( $this->gemeenten === self::PLACEHOLDER ) {
             $gemeentenMapper = $this->_sessie->getMapper( 'KVDdo_AdrGemeente');
-            $this->gemeenten = $gemeentenMapper->findByProvincie( $this->getId( ) );
+            $this->gemeenten = $gemeentenMapper->findByProvincie( $this );
             
         }
         return $this->gemeenten;    
