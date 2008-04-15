@@ -50,6 +50,7 @@ class KVDdom_EditeerbareDomainObjectCollection extends KVDdom_DomainObjectCollec
      * checkType 
      * 
      * @param KVDdom_DomainObject $object 
+     * @throws KVDdom_OngeldigTypeException     Indien het object een ongeldig type heeft.
      * @return void
      */
     protected function checkType( KVDdom_DomainObject $object )
@@ -70,6 +71,24 @@ class KVDdom_EditeerbareDomainObjectCollection extends KVDdom_DomainObjectCollec
         $this->checkType( $object );
         if ( !$this->hasDomainObject( $object ) ) {
             $this->collection[$object->getId( )] = $object;
+        }
+    }
+
+    /**
+     * replace 
+     * 
+     * @since 15 april 2008
+     * @param KVDdom_DomainObject $object 
+     * @throws InvalidArgumentException     Indien het object niet bestaat in de collectie.
+     * @return void
+     */
+    public function replace( KVDdom_DomainObject $object )
+    {
+        $this->checkType( $object );
+        if ( $this->hasDomainObject( $object ) ) {
+            $this->collection[$object->getId( )] = $object;
+        } else {
+            throw new InvalidArgumentException ( 'U probeert een element in een collectie te vervangen door een ander object met hetzelfde id, maar dit object bestaat niet.' );
         }
     }
 
