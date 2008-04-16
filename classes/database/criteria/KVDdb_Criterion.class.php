@@ -365,6 +365,18 @@ class KVDdb_InSubselectCriterion extends KVDdb_Criterion
         $sql .= $this->generateSqlChildren( $mode , $dbType);
         return $sql .= ' )';
     }
+
+    /**
+     * getValues 
+     *
+     * Een Subselect mag enkel de values voor zijn kinderen teruggeven.
+     * @since 16 april 2008
+     * @return array
+     */
+    public function getValues( )
+    {
+        return $this->getValuesChildren( );
+    }
 }
 
 /**
