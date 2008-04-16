@@ -128,5 +128,23 @@ class TestOfCriteriaWithCriterion extends UnitTestCase
         $this->assertEqual( $this->criteria->generateSql( KVDdb_Criteria::MODE_PARAMETERIZED ) , "WHERE ( provincie = ? ) AND ( gemeente = ? )");
         $this->assertEqual( $this->criteria->getValues( ) , array ( 'West-Vlaanderen' , 'Knokke-Heist' ) );
     }
+
+    /**
+     * testParameterizedWithSubSelect 
+     *
+     * Test een geparameterizeerde subselect. Tot voor kort (zie ticket 363 in de OEPS applicatie) bevatte het getValues( ) array een SimpleQuery object.
+     * Probleem zou moeten opgelost zijn, een InSubSelect geeft enkel nog de values van zijn children terug.
+     * @return void
+     */
+    public function testParameterizedWithSubSelect( )
+    {
+        $crit = new KVDdb_Criteria( );
+        $crit->add( KVDdb_Criterion::equals ( 'provincie_id', 20001 ) );
+        $query = new KVDdb_SimpleQuery( array( 'gemeente_id' ) , 'gemeente' , $crit );
+        $criterion = KVDdb_Criterion::inSubselect( 'gemeente_id', $query);
+        $this->criteria->add( $criterion );
+        $this->assertEqual( $this->criteria->generateSql( KVDdb_Criteria::MODE_PARAMETERIZED ) , "WHERE ( gemeente_id IN ( SELECT gemeente_id FROM gemeente WHERE ( provincie_id = 20001 ) ) )");
+        $this->assertEqual( $this->criteria->getValues( ), array( ) );
+    }
 }
 ?>
