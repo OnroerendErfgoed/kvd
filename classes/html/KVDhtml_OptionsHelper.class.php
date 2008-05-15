@@ -161,7 +161,7 @@ class KVDhtml_OptionsHelper
     private function generateOption( $value , $omschrijving , $selected = false )
     {
         $selected = ( $selected ) ? ' selected="selected"' : '';
-        return sprintf( self::$optionFormat , $value , $selected , $omschrijving );
+        return sprintf( self::$optionFormat , KVDhtml_Tools::out( $value ) , $selected , KVDhtml_Tools::out( $omschrijving ) );
     }
 }
 ?>
