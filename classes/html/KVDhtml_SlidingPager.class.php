@@ -47,18 +47,23 @@ class KVDhtml_SlidingPager {
      */
     protected $lh;
 
+    protected $paginaNaam = 'pagina';
+
     /**
      * parameters 
      * 
      * @var array
      */
-    protected $parameters = array( 'pagina_naam' => 'pagina' );
+    protected $parameters = array();
 
     /**
      * @param KVDdom_DomainObjectCollectionPager    $pager 
      * @param AgaviRouting                          $ro 
      * @param String                                $route      Naam van de route die de overzichten genereert.
-     * @param array                                 $parameters Mogelijke parameters zijn 'pagina_naam'.
+     * @param array                                 $parameters Een array van parameters die doorgegeven worden aan de routing.
+     *                                                          Er is ook een speciale parameter: 'pagina_naam'. Deze bepaalt de
+     *                                                          naam van de pagina parameter in de routing. Standaard is deze
+     *                                                          gewoon 'pagina'.
      * @return void
      */
     public function __construct( KVDdom_DomainObjectCollectionPager $pager, AgaviRouting $ro, $route, $parameters = array( ) )
@@ -67,6 +72,7 @@ class KVDhtml_SlidingPager {
         $this->ro = $ro;
         $this->route = $route;
         $this->parameters = array_merge ( $this->parameters, $parameters);
+        $this->paginaNaam = isset( $parameters['pagina_naam'] ) ? $parameters['pagina_naam'] : 'pagina';
         $this->lh = new KVDhtml_LinkHelper( );
     }
 
@@ -80,9 +86,11 @@ class KVDhtml_SlidingPager {
     {
         $html = '';
         if ( $this->pager->getPage( ) > $this->pager->getFirstPage( ) ) {
-            $html .= $this->lh->genHtmlLink( $this->ro->gen( $this->route , array ( $this->parameters['pagina_naam'] => $this->pager->getPrev( ) ) ) , 'Vorige');
+            $this->parameters[$this->paginaNaam] = $this->pager->getPrev( );
+            $html .= $this->lh->genHtmlLink( $this->ro->gen( $this->route , $this->parameters ), 'Vorige');
             $html .= ' [ ';
-            $html .= $this->lh->genHtmlLink( $this->ro->gen( $this->route , array ( $this->parameters['pagina_naam'] => $this->pager->getFirstPage( ) ) ) , $this->pager->getFirstPage( ) ) . ' ';
+            $this->parameters[$this->paginaNaam] = $this->pager->getFirstPage( );
+            $html .= $this->lh->genHtmlLink( $this->ro->gen( $this->route , $this->parameters ), $this->pager->getFirstPage( ) ) . ' ';
         } else {
             $html .= 'Vorige [ ';
         }
@@ -91,7 +99,8 @@ class KVDhtml_SlidingPager {
         
 		foreach ($this->pager->getPrevLinks($range) as $page) {
 			if ($page != $this->pager->getFirstPage( )) {
-                $html .= $this->lh->genHtmlLink( $this->ro->gen( $this->route , array ($this->parameters['pagina_naam'] => $page ) ),$page) . ' ';
+                $this->parameters[$this->paginaNaam] = $page;
+                $html .= $this->lh->genHtmlLink( $this->ro->gen( $this->route , $this->parameters),$page) . ' ';
 			}
 		}
 
@@ -99,16 +108,19 @@ class KVDhtml_SlidingPager {
 			
         foreach ($this->pager->getNextLinks($range ) as $page) {
 			if ($page != $this->pager->getLastPage()) {
-                $html .= $this->lh->genHtmlLink( $this->ro->gen( $this->route , array ($this->parameters['pagina_naam'] => $page ) ),$page) . ' ';
+                $this->parameters[$this->paginaNaam] = $page;
+                $html .= $this->lh->genHtmlLink( $this->ro->gen( $this->route , $this->parameters),$page) . ' ';
 			}
 		}	
 
         $html .= ($this->pager->getPage() < $this->pager->getLastPage( ) - $range ) ? '.. ' : '';
 			 
    		if ( $this->pager->getPage( ) < $this->pager->getLastPage( ) ) {
-            $html .= $this->lh->genHtmlLink( $this->ro->gen( $this->route , array ( $this->parameters['pagina_naam'] => $this->pager->getLastPage( ) ) ) , $this->pager->getLastPage( ) );
+            $this->parameters[$this->paginaNaam] = $this->pager->getLastPage( );
+            $html .= $this->lh->genHtmlLink( $this->ro->gen( $this->route , $this->parameters ) , $this->pager->getLastPage( ) );
             $html .= ' ] ';
-            $html .= $this->lh->genHtmlLink( $this->ro->gen( $this->route , array ( $this->parameters['pagina_naam'] => $this->pager->getNext( ) ) ) , 'Volgende' );
+            $this->parameters[$this->paginaNaam] = $this->pager->getNext( );
+            $html .= $this->lh->genHtmlLink( $this->ro->gen( $this->route , $this->parameters ) , 'Volgende' );
   		} else {
             $html .= ' ] Volgende';
         }
