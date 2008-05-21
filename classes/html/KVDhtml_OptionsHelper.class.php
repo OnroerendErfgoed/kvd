@@ -121,7 +121,7 @@ class KVDhtml_OptionsHelper
             $buffer .= $this->generateOption($this->emptyId , $this->emptyValue );
         }
         foreach ( $this->collection as $item ) {
-            $buffer .= $this->generateOption( $this->getValue( $item ) , $this->getOmschrijving( $item ) , $this->selectedValue == $this->getValue( $item ) );
+            $buffer .= $this->generateOption( $this->getValue( $item ) , $this->getOmschrijving( $item ) , $this->selectedValue === $this->getValue( $item ) );
         }
         return $buffer;
     }
