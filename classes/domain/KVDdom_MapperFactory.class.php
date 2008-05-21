@@ -46,8 +46,9 @@ class KVDdom_MapperFactory
     }
     
     /**
-     * @param string $teMappenClass Naam van de class waarvoor een mapper moet aangemaakt worden.
-     * @return KVDdom_AbstractMapper Een concrete implementatie van een KVDdom_AbstractMapper.
+     * @param   string $teMappenClass Naam van de class waarvoor een mapper moet aangemaakt worden.
+     * @todo    inladen van mapper geeft problemen door gewijzigde agavi config.
+     * @return  KVDdom_AbstractMapper Een concrete implementatie van een KVDdom_AbstractMapper.
      * @throws <b>RuntimeException</b> - Indien er geen mapper gevonden werd
      */
     public function createMapper ( $teMappenClass , $type = null )
@@ -64,6 +65,10 @@ class KVDdom_MapperFactory
             throw new RuntimeException ( $message  );
         }
         $parameters = array_key_exists( $classMapper , $this->parameters ) ? $this->parameters[$classMapper] : array( );
+        // @todo: dit moet herzien worden en is enkel een tijdelijke fix totdat de problemen met de agavi config opgelost zijn.
+        if ( isset( $parameters['mapperParameters'] ) )  {
+            $parameters = $parameters['mapperParameters'];
+        }
         return new $classMapper ($this->_sessie , $parameters );
     }
 
