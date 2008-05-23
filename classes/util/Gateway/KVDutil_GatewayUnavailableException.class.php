@@ -46,6 +46,7 @@ class KVDutil_GatewayUnavailableException extends Exception
         parent::__construct ( $message );
         $this->gatewayName = $gatewayName;
         $this->soapFault = $soapFault;
+        $this->message .= ' [' . $soapFault->getMessage( ) . ']';
     }
 
     /**
@@ -69,5 +70,6 @@ class KVDutil_GatewayUnavailableException extends Exception
     {
         return $this->gatewayName;
     }
+
 }
 ?>

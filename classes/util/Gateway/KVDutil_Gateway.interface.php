@@ -22,6 +22,6 @@ interface KVDutil_Gateway {
      * De constructor aanvaardt een associatieve array met de nodige connectie parameters ( wsdl, username, paswoord, etc..)
      * @param array $parameters
      */
-    public function __construct ( $parameters );
+    public function __construct ( $parameters = array( ) );
 }
 ?>

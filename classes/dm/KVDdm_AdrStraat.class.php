@@ -41,7 +41,11 @@ class KVDdm_AdrStraat {
     public function __construct ( $sessie , $parameters = array( ) )
     {
         $this->_sessie = $sessie;
-        $this->_gateway = $sessie->getGateway( 'KVDgis_Crab2Gateway');
+        try {
+            $this->_gateway = $sessie->getGateway( 'KVDgis_Crab2Gateway');
+        } catch ( KVDutil_GatewayUnavailableException $e ) {
+            $this->_gateway = KVDgis_Crab2Gateway::newNull( );
+        }
     }
 
     /**
@@ -60,8 +64,11 @@ class KVDdm_AdrStraat {
         }
         
         if ( is_null( $gemeente ) ) {
-            $gemeenteMapper = $this->_sessie->getMapper( 'KVDdo_AdrGemeente');
-            $gemeente = $gemeenteMapper->findByCrabId( $crabData['gemeenteId']);
+            try {
+                $gemeente = $this->_sessie->getMapper( 'KVDdo_AdrGemeente')->findByCrabId( $crabData['gemeenteId']);
+            } catch ( KVDdom_DomainObjectNotFoundException $e ) {
+                $gemeente = KVDdo_AdrGemeente::newNull( );
+            }
         }
         return new KVDdo_AdrStraat (    $id,
                                         $this->_sessie,

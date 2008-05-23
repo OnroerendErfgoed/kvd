@@ -184,16 +184,17 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
      * @throws <b>IllegalArgumentException</b> Indien er foute of ontbrekende parameters zijn.
      * @throws <b>KVDutil_GatewayUnavailableException</b> Indien de externe bron niet beschikbaar is.
      */
-    public function __construct ( $parameters )
+    public function __construct ( $parameters = array( ) )
     {
         if ( !isset( $parameters['wsdl'] ) ) {
             throw new InvalidArgumentException ( 'De array parameters moet een sleutel wsdl bevatten!' );
         }
     
         try {
-            $this->_client = @new KVDgis_Crab2SoapClient ( $parameters['wsdl'] , array (    'exceptions'    => 1,
-                                                                                            'features'      => SOAP_SINGLE_ELEMENT_ARRAYS,
-                                                                                            'trace'         => 0
+            $this->_client = @new KVDgis_Crab2SoapClient ( $parameters['wsdl'] , array (    'exceptions'            => 1,
+                                                                                            'features'              => SOAP_SINGLE_ELEMENT_ARRAYS,
+                                                                                            'trace'                 => 0,
+                                                                                            'connection_timeout'    => 5
                                                                                         ));
         } catch ( SoapFault $e ) {
             throw new KVDutil_GatewayUnavailableException ( 'De Crab2Gateway kan geen verbinding maken met de Crab webservice.' , __CLASS__ , $e );
@@ -842,6 +843,11 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
         return $terrein;
     }
 
+    public static function newNull( )
+    {
+        return new KVDgis_NullCrab2Gateway( );
+    }
+
 }
 
 /**
@@ -913,6 +919,82 @@ class KVDgis_Crab2SoapClient extends SoapClient
 
         return parent::__doRequest( $wsse->saveXML( ) , $location , $saction , $version );
 
+    }
+}
+
+class KVDgis_NullCrab2Gateway extends KVDgis_Crab2Gateway
+{
+    public function __construct( $parameters = array( ) )
+    {
+
+    }
+
+    public function listStraatnamenByGemeenteId( $gemeenteId,  $sorteerVeld = self::STRAAT_SORT_NAAM ) 
+    {
+        return array ( array( 'straatnaam' => 'CRAB Onbereikbaar', 'straatnaamId' => 0, 'straatnaamLabel' => 'CRAB Onbereikbaar' ) );
+    }
+
+    public function getStraatnaamByStraatnaamId( $straatnaamId ) 
+    {
+        $straatnaam = array( );
+        $straatnaam['straatnaam'] = 'CRAB Onbereikbaar';
+        $straatnaam['straatnaamId'] = 0;
+        $straatnaam['gemeenteId'] = 0;
+        $straatnaam['taalCode'] = 'nl';
+        $straatnaam['straatnaamLabel'] = 'CRAB Onbereikbaar';
+        return $straatnaam;
+    }
+
+    public function getStraatnaamByStraatnaam( $straatnaam,  $gemeenteId ) 
+    {
+        $straatnaam = array( );
+        $straatnaam['straatnaam'] = 'CRAB Onbereikbaar';
+        $straatnaam['straatnaamId'] = 0;
+        $straatnaam['gemeenteId'] = 0;
+        $straatnaam['taalCode'] = 'nl';
+        $straatnaam['straatnaamLabel'] = 'CRAB Onbereikbaar';
+        return $straatnaam;
+    }
+
+    public function listHuisnummersByStraatnaamId( $straatnaamId,  $sorteerVeld = self::HUISNR_SORT_NAAM )
+    {
+        return array ( array ( 'huisnummer' => 'CRAB Onbereikbaar', 'huisnummerId' => 0 ) );
+    }
+
+    public function getHuisnummerByHuisnummerId( $huisnummerId ) 
+    {
+        return array(   'huisnummer' => 'CRAB Onbereikbaar',
+                        'huisnummerId' => 0,        
+                        'straatnaamId' => 0 );
+    }
+    
+    public function getHuisnummerByHuisnummer( $huisnummer,  $straatnaamId ) 
+    {
+        return array(   'huisnummer' => 'CRAB Onbereikbaar',
+                        'huisnummerId' => 0,        
+                        'straatnaamId' => 0 );
+    }
+    public function getPostkantonByHuisnummerId ( $huisnummerId )
+    {
+        return array ( 'postkantonCode' => 0000 );
+    }
+
+    public function listWegobjectenByStraatnaamId( $straatnaamId,  $sorteerVeld = self::WEG_SORT_ID ) 
+    {
+       return array( array( 'identificatorWegobject' => 'CRAB Onbereikbaar', 'aardWegobject' => 0 ) );
+    }
+    
+    public function listTerreinobjectenByHuisnummerId( $huisnummerId,  $sorteerVeld = self::TERREIN_SORT_ID )
+    {
+       return array( array( 'identificatorTerreinobject' => 'CRAB Onbereikbaar', 'aardTerreinobjectCode' => 0 ) );
+    }
+    
+    public function getTerreinobjectByIdentificatorTerreinobject( $identificatorTerreinobject )
+    {
+        return array ( 'identificatorTerreinobject' => 'CRAB Onbereikbaar',
+                       'aardTerreinobjectCode' => 0,
+                       'centerX' => 0.0,
+                       'centerY' => 0.0 );
     }
 }
 ?>
