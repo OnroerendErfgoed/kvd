@@ -18,7 +18,7 @@ class TestOfCrab2Gateway extends UnitTestCase
         try {
             return new KVDgis_Crab2Gateway( $this->parameters );
         } catch ( KVDutil_GatewayUnavailableException $e ) {
-            $this->fail( 'De Crab2 webservice is niet beschikbaar.');
+            $this->fail( $e->getMessage( ) );
         }
     }
 
