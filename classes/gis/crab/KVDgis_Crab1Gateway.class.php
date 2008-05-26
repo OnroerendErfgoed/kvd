@@ -67,7 +67,7 @@ class KVDgis_Crab1Gateway implements KVDutil_Gateway
      * @uses KVDgis_CrabCache
      * @uses KVDgis_NullCrabCache
      */
-    public function __construct ( $parameters )
+    public function __construct ( $parameters = array( ) )
     {
         if ( !isset( $parameters['wsdl'] ) ) {
             throw new InvalidArgumentException ( 'De array parameters moet een sleutel wsdl bevatten!' );
