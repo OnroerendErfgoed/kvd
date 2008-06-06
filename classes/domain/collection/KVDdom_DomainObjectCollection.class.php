@@ -160,5 +160,15 @@ class KVDdom_DomainObjectCollection implements SeekableIterator, Countable
     {
         return implode ( ', ' , $this->collection );
     }
+
+    /**
+     * toArray 
+     * 
+     * @return array
+     */
+    public function toArray( )
+    {
+        return $this->collection;
+    }
 }
 ?>

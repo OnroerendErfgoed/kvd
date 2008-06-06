@@ -147,4 +147,14 @@ class KVDdom_DomainObjectCollectionDecorator extends KVDdom_DomainObjectCollecti
     {
         return $this->collection->getDomainObjectWithId( $id );
     }
+
+    /**
+     * toArray 
+     * 
+     * @return array
+     */
+    public function toArray( )
+    {
+        return $this->collection->toArray( );
+    }
 }
