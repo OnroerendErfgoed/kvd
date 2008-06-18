@@ -1198,7 +1198,7 @@ class KVDutil_HuisnummerParser{
 	private function readHuisnummerReeks($begin){
 		$einde = $this->readElement(KVDutil_HuisnummerReader::nummer);
 		$this->reader->next();
-		$spring = ((($begin - $einde)/2) == floor(($begin - $einde)/2));
+		$spring = ((($begin - $einde)%2) == 0);
 		return new KVDUtil_HnrHuisnummerReeks($begin, $einde, $spring );	
 	}
 	/**
