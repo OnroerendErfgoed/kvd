@@ -384,6 +384,17 @@ abstract class KVDthes_Term implements KVDdom_DomainObject
     }
 
     /**
+     * getNarrowerTerms 
+     * 
+     * @return KVDthes_RelationsIterator
+     */
+    public function getNarrowerTerms( )
+    {
+        $this->checkRelations( );
+        return $this->relations->getNTIterator( );
+    }
+
+    /**
      * getLanguage 
      * 
      * @return string
@@ -414,6 +425,29 @@ abstract class KVDthes_Term implements KVDdom_DomainObject
     {
         $this->checkRelations( );
         return count( $this->relations->getBTIterator( ) ) > 0;
+    }
+
+    /**
+     * hasBT 
+     * 
+     * @return boolean
+     */
+    public function hasBT( )
+    {
+        return $this->hasBTRelations();
+    }
+
+    /**
+     * getBroaderTerm 
+     * 
+     * @return KVDthes_Term
+     */
+    public function getBroaderTerm( )
+    {
+        $this->checkRelations( );
+        $it = $this->relations->getBTIterator( );
+        $it->rewind( );
+        return $it->valid( ) ? $it->current( )->getTerm( ) : new KVDthes_NullTerm( );
     }
 
     /**
