@@ -479,6 +479,16 @@ abstract class KVDthes_Term implements KVDdom_DomainObject
     {
         return $this->getOmschrijving( );
     }
+
+    /**
+     * isNull 
+     * 
+     * @return boolean
+     */
+    public function isNull()
+    {
+        return false;
+    }
 }
 
 /**
@@ -558,6 +568,16 @@ class KVDthes_NullTerm extends KVDthes_Term
     public function getPreferredTerm( )
     {
         return new KVDthes_NullTerm( );
+    }
+
+    /**
+     * isNull 
+     * 
+     * @return boolean
+     */
+    public function isNull()
+    {
+        return true;
     }
 }
 ?>

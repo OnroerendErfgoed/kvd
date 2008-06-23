@@ -66,11 +66,42 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
     /**
      * getFindByIdStatement 
      * 
-     * @return string
+     * @return string SQL Statement
      */
     protected function getFindByIdStatement( )
     {
         return sprintf( 'SELECT id, term, language FROM %s.term WHERE id = ? AND thesaurus_id = %d' , $this->parameters['schema'], $this->parameters['thesaurus_id'] );
+    }
+
+    /**
+     * getFindByNaamStatement 
+     * 
+     * @return string SQL Statement
+     */
+    protected function getFindByNaamStatement( )
+    {
+        return sprintf( 'SELECT id, term, language FROM %s.term WHERE term = ? AND thesaurus_id = %d', $this->parameters['schema'], $this->parameters['thesaurus_id'] );
+    }
+
+    /**
+     * getFindSubTreeIdStatement 
+     * 
+     * @return string
+     */
+    protected function getFindSubTreeIdStatement( )
+    {
+         return sprintf( 'SELECT term_id 
+                         FROM %s.visitation v 
+                         WHERE 
+                            v.thesaurus_id = %d
+                            AND ( lft BETWEEN ( SELECT lft FROM %s.visitation WHERE thesaurus_id = v.thesaurus_id AND term_id = ?) 
+                                        AND ( SELECT rght FROM %s.visitation WHERE thesaurus_id = v.thesaurus_id AND term_id = ?) )
+                            ORDER BY lft',
+                         $this->parameters['schema'],
+                         $this->parameters['thesaurus_id'],
+                         $this->parameters['schema'],
+                         $this->parameters['schema']
+                         );
     }
 
     /**
@@ -167,7 +198,6 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
             return $domainObject;
         }
         $sql = $this->getFindByIdStatement( );
-        $this->sessie->getSqlLogger( )->log( $sql );
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(1, $id , PDO::PARAM_INT );
         $stmt->execute();
@@ -176,6 +206,25 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
             throw new KVDdom_DomainObjectNotFoundException ( $msg , $this->getReturnType( ) , $id );
         }
         return $this->doLoadRow( $id, $row);
+    }
+
+    /**
+     * findByNaam 
+     * 
+     * @param string $naam 
+     * @return KVDthes_Term
+     * @throws KVDdom_DomainObjectNotFoundException - Indien de term niet bestaat
+     */
+    public function findByNaam( $naam )
+    {
+        $stmt = $this->conn->prepare( $this->getFindByNaamStatement( ) );
+        $stmt->bindValue(1, $naam , PDO::PARAM_STR );
+        $stmt->execute();
+        if (!$row = $stmt->fetch( PDO::FETCH_OBJ )) {
+            $msg = $this->getReturnType( ) . " met naam $naam kon niet gevonden worden";
+            throw new KVDdom_DomainObjectNotFoundException ( $msg , $this->getReturnType( ) , $naam );
+        }
+        return $this->doLoadRow( $row->id, $row);
     }
 
     /**
@@ -194,6 +243,23 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
         }
         return $this->doLoadRow( $row->id, $row);
     }
+
+    /**
+     * findSubTreeId 
+     * 
+     * Zoek de id's van alle termen die een NT zijn van een bepaalde term.
+     * @return array
+     */
+    public function findSubTreeId( KVDthes_Term $term )
+    {
+        $this->sessie->getSqlLogger( )->log( $this->getFindSubTreeIdStatement( ) );
+        $stmt = $this->conn->prepare( $this->getFindSubTreeIdStatement( ) );
+        $stmt->bindValue(1, $term->getId( ) , PDO::PARAM_INT );
+        $stmt->bindValue(2, $term->getId( ) , PDO::PARAM_INT );
+        $stmt->execute();
+        return $stmt->fetchAll( PDO::FETCH_COLUMN );
+    }
+    
 
     /**
      * findAll 
