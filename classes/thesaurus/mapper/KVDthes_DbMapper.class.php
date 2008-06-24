@@ -56,7 +56,7 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
      */
     protected function initialize( array $parameters )
     {
-        $this->parameters = array ( 'thesaurus_id' => 0 );
+        $this->parameters = array ( 'thesaurus_id' => 0, 'thesaurus_naam' => 'Onbepaalde Thesaurus', 'thesaurus_taal' => 'Nederlands');
         if ( !isset ( $parameters['schema'] ) ) {
             throw new KVDdom_MapperConfigurationException( 'Er is geen schema gespecifieerd voor deze thesaurus.', $this);
         }
@@ -80,7 +80,7 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
      */
     protected function getFindByNaamStatement( )
     {
-        return sprintf( 'SELECT id, term, language FROM %s.term WHERE term = ? AND thesaurus_id = %d', $this->parameters['schema'], $this->parameters['thesaurus_id'] );
+        return sprintf( 'SELECT id, term, language FROM %s.term WHERE lower( term ) = lower ( ? ) AND thesaurus_id = %d', $this->parameters['schema'], $this->parameters['thesaurus_id'] );
     }
 
     /**
@@ -211,7 +211,7 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
     /**
      * findByNaam 
      * 
-     * @param string $naam 
+     * @param string $naam      Zoek een term op basis van de naam. Case insensitive.
      * @return KVDthes_Term
      * @throws KVDdom_DomainObjectNotFoundException - Indien de term niet bestaat
      */
@@ -291,7 +291,17 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
             return $domainObject;
         }
         $termType = $this->getReturnType( );
-        return new $termType( $this->sessie , $id , $row->term , $row->language );
+        $thesaurus = $this->doLoadThesaurus( );
+        return new $termType( $this->sessie , $id , $row->term , $row->language, null, null, $thesaurus);
+    }
+
+    protected function doLoadThesaurus( )
+    {
+        $domainObject = $this->sessie->getIdentityMap()->getDomainObject( 'KVDthes_Thesaurus', $this->parameters['thesaurus_id'] );
+        if ($domainObject != null) {
+            return $domainObject;
+        }
+        return new KVDthes_Thesaurus( $this->sessie, $this->parameters['thesaurus_id'], $this->parameters['thesaurus_naam'], $this->parameters['thesaurus_taal'] );
     }
 
     /**

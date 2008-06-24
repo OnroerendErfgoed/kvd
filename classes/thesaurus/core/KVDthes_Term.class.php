@@ -108,6 +108,13 @@ abstract class KVDthes_Term implements KVDdom_DomainObject
     protected $loadState;
 
     /**
+     * thesaurus 
+     * 
+     * @var KVDthes_Thesaurus
+     */
+    protected $thesaurus;
+
+    /**
      * __construct 
      *
      * @param KVDthes_ISessie $sessie
@@ -118,7 +125,7 @@ abstract class KVDthes_Term implements KVDdom_DomainObject
      * @param string $sourceNote
      * @return void
      */
-	public function __construct ( KVDdom_IReadSessie $sessie , $id , $term , $language = 'Nederlands', $scopeNote = null, $sourceNote = null)
+	public function __construct ( KVDdom_IReadSessie $sessie , $id , $term , $language = 'Nederlands', $scopeNote = null, $sourceNote = null, KVDthes_Thesaurus $thesaurus = null)
 	{
         $this->sessie = $sessie;
         $this->id = $id;
@@ -132,6 +139,7 @@ abstract class KVDthes_Term implements KVDdom_DomainObject
             $this->sourceNote = $sourceNote;
             $this->setLoadState( self::LS_SOURCENOTE );
         }
+        $this->thesaurus = ( $thesaurus != null ) ? $thesaurus : KVDthes_Thesaurus::newNull( );
         $this->relations = new KVDthes_Relations();
         $this->setLoadState( self::LS_TERM );
 	    $this->sessie->registerClean( $this );
@@ -448,6 +456,16 @@ abstract class KVDthes_Term implements KVDdom_DomainObject
         $it = $this->relations->getBTIterator( );
         $it->rewind( );
         return $it->valid( ) ? $it->current( )->getTerm( ) : new KVDthes_NullTerm( );
+    }
+
+    /**
+     * getThesaurus 
+     * 
+     * @return KVDthes_Thesaurus
+     */
+    public function getThesaurus( )
+    {
+        return $this->thesaurus;
     }
 
     /**
