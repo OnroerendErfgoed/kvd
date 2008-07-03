@@ -7,7 +7,7 @@
  * @version $Id$
  */
  
-/**
+/** 
  * 
  * @package KVD.util
  * @subpackage authenticate
@@ -21,6 +21,15 @@ class KVDutil_Authenticator
 	 * @var status LoggedStatus 'state' van dit object.
 	 */
 	private $status;
+	
+	/**
+	 * __construct
+	 * @param databank een databank verbinding waar queries naar gestuurd kunnen worden.
+	 */
+	public __construct($databank)
+	{
+		$this->status = new KVDutil_Auth_LoggedOut($databank, $this)
+	}
 
 	/**
 	 * logIn
@@ -30,7 +39,7 @@ class KVDutil_Authenticator
 	 */
 	public function logIn($gebruiker, $paswoord)
 	{
-		return $this->status->logIn($this, $gebruiker, $paswoord);
+		return $this->status->logIn($gebruiker, $paswoord);
 	}
 	
 	/**
@@ -39,7 +48,7 @@ class KVDutil_Authenticator
 	 */
 	public function logOut()
 	{
-		 return $this->status->logOut($this);
+		 return $this->status->logOut();
 	}
 	
 	/**
@@ -49,7 +58,7 @@ class KVDutil_Authenticator
 	 */
 	public function getNaam()
 	{
-		return $this->status->getNaam($this);
+		return $this->status->getNaam();
 	}
 	
 	/**
@@ -59,7 +68,7 @@ class KVDutil_Authenticator
 	 */
 	public function getEmail()
 	{
-		return $this->status->getEmail($this);
+		return $this->status->getEmail();
 	}
 
 	/**
@@ -69,19 +78,28 @@ class KVDutil_Authenticator
 	 */
 	public function isAuthenticated()
 	{	
-		return $this->status->isAuthenticated($this);		
+		return $this->status->isAuthenticated();		
 	}
 	
 	/**
-	 * getRollenVoorApplicatie
+	 * getRollenVoorApplicatieId
 	 *  geeft een array van rollen voor deze gebruiker weer.
 	 * @return array met 1 string per rol.
 	 */
-	public function getRollenVoorApplicatie($applicatie)
+	public function getRollenVoorApplicatieId($applicatie)
 	{
-		return $this->status->getRollenVoorApplicatie($this, $applicatie);
+		return $this->status->getRollenVoorApplicatie($applicatie);
 	}
 	
+	/**
+	 * getRollenVoorApplicatieNaam
+	 *  geeft een array van rollen voor deze gebruiker weer.
+	 * @return array met 1 string per rol.
+	 */
+	public function getRollenVoorApplicatieNaam($applicatie)
+	{
+		return $this->status->getRollenVoorApplicatieNaam($applicatie);
+	}	
 	/**
 	 * changeState
 	 *  veranderd de status van de authenticator
@@ -95,65 +113,73 @@ class KVDutil_Authenticator
 }
 
 
-
-
 /**
  * LoggedStatus
- *  Abstracte klasse die een interface biedt voor statusobjecten van
- *  de Authenticator.
+ *  De abstracte superklasse die een authenticatie status implementeert.
+ *  Deze status kan een van volgende subklasses (met hun status) zijn:
+ *   - LoggedOut: indien geen gebruiker is ingelogd
+ *   - LoggedIn: indien een gebruiker is ingelogd
+ *  
+ *  Deze abstracte klasse biedt een interface voor deze status
  * @package KVD.util
  * @subpackage authenticate
  * @author Dieter Standaert <dieter.standaert@eds.com>
  * @since 1.0.0
  */
-abstract class LoggedStatus{
+abstract class KVDutil_Auth_LoggedStatus{
 
 	protected $db;
+	protected $auth;
 	
-	public function __contruct($db)
+	public function __contruct(KVDutil_Authenticator $auth, $db)
 	{
+		$this->auth = $auth;
 		$this->db = $db;
 	}
-
-	abstract function logIn(KVDutil_Authenticator $auth, $gebruiker, $paswoord);
-	abstract function logOut(KVDutil_Authenticator $auth);
-	abstract function getNaam(KVDutil_Authenticator $auth);
-	abstract function getEmail(KVDutil_Authenticator $auth);
-	abstract function isAuthenticated(KVDutil_Authenticator $auth);
-	abstract function getRollenVoorApplicatie(KVDutil_Authenticator $auth, $applicatie);
+	abstract function logIn($gebruiker, $paswoord);
+	abstract function logOut();
+	abstract function getNaam();
+	abstract function getEmail();
+	abstract function isAuthenticated();
+	abstract function getRollenVoorApplicatieNaam($applicatie_naam);
+	abstract function getRollenVoorApplicatieId($applicatie);
 }
 
 
 /**
- * LoggedOut
- *  State-klasse voor een Authenticator wanneer er geen gebruiker is ingelogd.
+ * KVDutil_Auth_LoggedOut
+ *  State-klasse wanneer er geen gebruiker is ingelogd.
  * @package KVD.util
  * @subpackage authenticate
  * @author Dieter Standaert <dieter.standaert@eds.com>
  * @since 1.0.0
  */
-class LoggedOut extends LoggedStatus{
+class KVDutil_Auth_LoggedOut extends KVDutil_Auth_LoggedStatus{
+
 	
-	
-	private $db;
-	
-	private final $userquery = "SELECT * FROM gebruiker WHERE username = ? AND paswoord = ?";
-	private final $encryptquery = "SELECT PASSWORD(?)";
-	
-	
-	public function __construct($database)
+	public function __construct(KVDutil_Authenticator $auth, $db)
 	{
-		parent::__construct($database);
+		parent::__construct($auth, $db);
 	}
 	
 
+	protected function getGebruikerStatement()
+	{
+		return "SELECT * FROM gebruiker WHERE username = ? AND paswoord = ?";
+	}
+	
+	protected function getEncryptPasswordStatement()
+	{
+		return"SELECT PASSWORD(?)";
+	}
+	
 	/**
 	 * @todo
 	 */
 	private function encrypt($woord)
 	{
 		$col = "PASSWORD('".addslashes($woord)."')";
-		$stmt = $db->prepare($this->encryptquery);
+		$stmt = $db->prepare($this->getEncryptPasswordStatement());
 		$stmt->bindParam(1, $woord);
 		$stmt->execute();
 		if($stmt->rowCount() != 1) {
@@ -167,7 +193,7 @@ class LoggedOut extends LoggedStatus{
 	
 	private function getGebruiker($gebruiker, $paswoord)
 	{
-		$stmt = $db->prepare($this->userquery);
+		$stmt = $db->prepare($this->getGebruikerStatement());
 		$stmt->bindParam(1, $gebruiker);
 		$stmt->bindParam(1, $this->encrypt($paswoord));
 		$stmt->execute();
@@ -178,98 +204,144 @@ class LoggedOut extends LoggedStatus{
 			return $row;
 		}
 	}
-	
-	
-	
-
 	/**
 	 * @todo
 	 */
-	public function logIn(KVDutil_Authenticator $auth, $gebruiker, $paswoord)
+	public function logIn($gebruiker, $paswoord)
 	{	
 		$pass = $this->encrypt($paswoord);
 		$gebruiker = $this->getGebruiker($gebruiker, $pass);
 		if(!$gebruiker) {
 			return false;
 		} else {
-			$auth->changeState(new LoggedIn($this->db, $gebruiker));
+			$auth->changeState(new KVDutil_Auth_LoggedIn($this->db, $this->auth, $gebruiker));
 			return true;
 		}
 	}
-	public function logOut(KVDutil_Authenticator $auth)
+	public function logOut()
 	{
 		return true;
 	}
 	
-	public function getNaam(KVDutil_Authenticator $auth)
+	public function getNaam()
 	{	
 		return null;
 	}
 	
-	public function getEmail(KVDutil_Authenticator $auth)
+	public function getEmail()
 	{	
 		return null;
 	}
 	
-	public function isAuthenticated(KVDutil_Authenticator $auth)
+	public function isAuthenticated()
 	{	
 		return false;
 	}
 	
-	public function getRollenVoorApplicatie(KVDutil_Authenticator $auth, $applicatie)
+	public function getRollenVoorApplicatieId($applicatie)
 	{
 		return array();
 	}
-	
+	public function getRollenVoorApplicatieNaam($applicatie_naam)
+	{
+		return array();
+	}	
 }
 
 /**
- * LoggedIn
+ * KVDutil_Auth_LoggedIn
  *  State-klasse voor een Authenticator wanneer er een gebruiker is ingelogd.
  * @package KVD.util
  * @subpackage authenticate
  * @author Dieter Standaert <dieter.standaert@eds.com>
  * @since 1.0.0
  */
-class LoggedIn extends LoggedStatus{
+class KVDutil_Auth_LoggedIn extends KVDutil_Auth_LoggedStatus{
 	
 	private $gebruiker;
 	
-	public function __construct($database, $gebruiker)
+	protected function getRollenForGebruikerApplicatieStatement()
 	{
-			parent::__construct($database);
+		return 
+		"SELECT rol.id, rol.naam, rol.beschrijving".
+		" FROM rol, applicatie, gebruikerrol".
+		" WHERE rol.applicatie_id = applicatie.id".
+		" AND gebruikerrol.rol_id = rol.id".
+		" AND gebruikerrol.startdatum < ".date("Y-m-d").
+		" AND gebruikerrol.einddatum >= ".date("Y-m-d").
+		" AND gebruikerrol.gebruiker_id = ?".
+		" AND applicatie.naam = ?".;
+	}
+
+	protected function getRollenForGebruikerApplicatieIdStatement()
+	{
+		return 
+		"SELECT rol.id, rol.naam, rol.beschrijving".
+		" FROM rol, gebruikerrol".
+		" WHERE gebruikerrol.rol_id = rol.id".
+		" AND gebruikerrol.startdatum < ".date("Y-m-d").
+		" AND gebruikerrol.einddatum >= ".date("Y-m-d").
+		" AND gebruikerrol.gebruiker_id = ?".
+		" AND rol.applicatie_id = ?".;
+	}	
+
+	
+	public function __construct(KVDutil_Authenticator $auth, $database, $gebruiker)
+	{
+		parent::__construct($auth, $database);
 		$this->gebruiker = $gebruiker;
 	}
 
-	public function logIn(KVDutil_Authenticator $auth, $gebruiker, $paswoord)
+	public function logIn($gebruiker, $paswoord)
 	{
 		$this->logOut($auth);
-		return $auth->logIn($gebruiker, $paswoord);
+		return $this->auth->logIn($gebruiker, $paswoord);
 	}
 
-	public function logOut(KVDutil_Authenticator $auth)
+	public function logOut()
 	{	
-		$auth->changeState(new LoggedOut($this->db));
+		$this->auth->changeState(new KVDutil_Auth_LoggedOut($this->db, $this->auth));
 	}
 
-	public function getNaam(KVDutil_Authenticator $auth)
+	public function getNaam()
 	{	
 		return $this->gebruiker->naam;
 	}
 
-	public function getEmail(KVDutil_Authenticator $auth)
+	public function getEmail()
 	{
 		return $this->gebruiker->email;
 	}
 
-	public function isAuthenticated(KVDutil_Authenticator $auth)
+	public function isAuthenticated()
 	{	
 		return true;
 	}
-
-	public function getRollenVoorApplicatie(KVDutil_Authenticator $auth, $applicatie)
+	
+	public function getRollenVoorApplicatieId($applicatie)
 	{
-		return $this->gebruiker->getRollenVoorApplicatie();
+		$stmt = $this->db->prepare($this->getRollenForGebruikerApplicatieIdStatement());
+		$stmt->bindParam(1, $this->gebruiker->id);
+		$stmt->bindParam(2, $applicatie->getId());
+		$stmt->execute();
+		$rollen = array();
+		while($rol = $stmt->fetch( PDO::FETCH_OBJ )) {
+			$rollen[] = $rol->naam;
+		}
+		return $rollen;
+	}
+
+	public function getRollenVoorApplicatieNaam($applicatie_naam)
+	{
+		$stmt = $this->db->prepare($this->getRollenForGebruikerApplicatieStatement());
+		$stmt->bindParam(1, $this->gebruiker->id);
+		$stmt->bindParam(2, $applicatie_naam);
+		$stmt->execute();
+		$rollen = array();
+		while($rol = $stmt->fetch( PDO::FETCH_OBJ )) {
+			$rollen[] = $rol->naam;
+		}
+		return $rollen;
 	}
 
 }

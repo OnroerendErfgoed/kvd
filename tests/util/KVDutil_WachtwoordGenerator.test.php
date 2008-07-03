@@ -1,8 +1,6 @@
 <?php
-//require_once ( '../../classes/util/KVDutil_WachtwoordGenerator.class.php');
-require_once ( '../../classes/KVD_autoload.php');
-spl_autoload_register( 'KVD_autoload');
-class TestOfWachtwoordGenerator extends PHPUnit_Framework_TestCase
+
+class TestOfWachtwoordGenerator extends UnitTestCase
 {
     private $generator;
     
