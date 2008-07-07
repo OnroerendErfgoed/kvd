@@ -77,6 +77,12 @@ class KVDutil_DateRange
     {
         if( $this->getStart() != null && $this->getEinde( )!=null){
             return $this->getStart( ) . ' tot ' . $this->getEinde( );
+        } elseif ( $this->getStart( ) != null ) {
+            return $this->getStart( ) . ' tot ??';
+        } elseif ( $this->getEinde( ) != null ) {
+            return '?? tot ' . $this->getEinde( );
+        } else {
+            return '??';
         }
     }
 }
