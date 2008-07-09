@@ -115,13 +115,13 @@ class KVDdo_AdrStraat extends KVDdom_ReadonlyDomainObject {
  */
 class KVDdo_NullAdrStraat extends KVDdo_AdrStraat
 {
-    public function __construct( )
+    public function __construct( $gemeente = null )
     {
         $this->id = 0;
         $this->naam = 'Onbepaald';
         $this->label = 'Onbepaald';
-        $this->gemeente = KVDdo_AdrGemeente::newNull( );
-        $this->huisnummers = new KVDdom_DomainObjectCollection( );
+        $this->gemeente = ( is_null( $gemeente ) || !( $gemeente instanceof KVDdo_AdrGemeente ) ) ? KVDdo_AdrGemeente::newNull( ) : $gemeente;
+        $this->huisnummers = new KVDdom_DomainObjectCollection( array( ) );
     }
 
     /**
