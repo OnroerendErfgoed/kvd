@@ -111,6 +111,13 @@ class KVDutil_ImageToolkit{
     return $dst;
  }
  
+ static function getSize($src)
+ {
+	$x = imagesx( $src );
+	$y = imagesy( $src );
+	return array("x"=>$x, "y"=>$y);
+ }
+ 
  
 
 }
