@@ -111,13 +111,23 @@ class KVDutil_ImageToolkit{
     return $dst;
  }
  
- static function getSize($src)
- {
-	$x = imagesx( $src );
-	$y = imagesy( $src );
-	return array("x"=>$x, "y"=>$y);
- }
- 
+	static function getSize($src)
+	{
+		$x = imagesx( $src );
+		$y = imagesy( $src );
+		return array("x"=>$x, "y"=>$y);
+	}
+	
+	static function isValidFoto($filename, $config)
+	{
+		$data = getimagesize($filename);
+		// breedte
+		if(($data[0] < $config["minWidth"]) || ($data[0] > $config["maxWidth"])) return false;
+		// hooogte
+		if(($data[1] < $config["minHeight"]) || ($data[1] > $config["maxHeight"])) return false;
+		// else
+		return in_array($data['mime'], $config["mimes"]);
+	}
  
 
 }
