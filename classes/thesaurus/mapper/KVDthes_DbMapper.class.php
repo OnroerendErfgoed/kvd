@@ -70,7 +70,7 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
      */
     protected function getFindByIdStatement( )
     {
-        return sprintf( 'SELECT id, term, language FROM %s.term WHERE id = ? AND thesaurus_id = %d' , $this->parameters['schema'], $this->parameters['thesaurus_id'] );
+        return sprintf( 'SELECT id, term, qualifier, language FROM %s.term WHERE id = ? AND thesaurus_id = %d' , $this->parameters['schema'], $this->parameters['thesaurus_id'] );
     }
 
     /**
@@ -138,7 +138,7 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
      */
     protected function getLoadRelationsStatement( )
     {
-        return sprintf( 'SELECT r.relation_type, t2.id AS id_to, t2.term as term, t2.language as language 
+        return sprintf( 'SELECT r.relation_type, t2.id AS id_to, t2.term as term, t2.qualifier as qualifier, t2.language as language 
                         FROM %s.term t1 
                             LEFT JOIN %s.relation r ON ( t1.id = r.id_from AND t1.thesaurus_id = r.thesaurus_id ) 
                             LEFT JOIN %s.term t2 ON ( r.id_to=t2.id AND r.thesaurus_id=t2.thesaurus_id)
@@ -234,7 +234,6 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
      */
     public function findRoot( )
     {
-        $this->sessie->getSqlLogger( )->log( $this->getFindRootStatement( ) );
         $stmt = $this->conn->prepare($this->getFindRootStatement( ));
         $stmt->execute();
         if (!$row = $stmt->fetch( PDO::FETCH_OBJ )) {
@@ -252,7 +251,6 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
      */
     public function findSubTreeId( KVDthes_Term $term )
     {
-        $this->sessie->getSqlLogger( )->log( $this->getFindSubTreeIdStatement( ) );
         $stmt = $this->conn->prepare( $this->getFindSubTreeIdStatement( ) );
         $stmt->bindValue(1, $term->getId( ) , PDO::PARAM_INT );
         $stmt->bindValue(2, $term->getId( ) , PDO::PARAM_INT );
