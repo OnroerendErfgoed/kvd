@@ -110,9 +110,10 @@ abstract class KVDthes_XmlMapper implements KVDthes_IDataMapper
             $id = $term->getElementsByTagName( 'termId' )->item( 0 )->nodeValue;
             $name = $term->getElementsByTagName( 'termName' )->item( 0 )->nodeValue;
             $language = $term->getElementsByTagName( 'termLanguage' )->item( 0 )->nodeValue;
+            $qualifier = $term->getElementsByTagName( 'termQualifier')->length > 0 ? $term->getElementsByTagName( 'termQualifier' )->item( 0 )->nodeValue : null;
             $termType = $this->getReturnType( );
             $thesaurus = $this->doLoadThesaurus( );
-            $termObj = new $termType( $this->sessie , $id , $name , $language, null, null, $thesaurus);
+            $termObj = new $termType( $this->sessie , $id , $name , $qualifier, $language, null, null, $thesaurus);
             if ( $this->root == null ) {
                 $this->root = $termObj;
             }

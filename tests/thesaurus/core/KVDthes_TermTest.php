@@ -47,7 +47,7 @@ class KVDthes_TermTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $sessie = $this->getMock( 'KVDthes_Sessie' );
-        $this->object = new KVDthes_TestTerm( $sessie, 0, 'TestTerm' );
+        $this->object = new KVDthes_TestTerm( $sessie, 0, 'TestTerm', 'Uniek', 'Nederlands' );
     }
 
     /**
@@ -110,21 +110,20 @@ class KVDthes_TermTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * @todo Implement testGetTerm().
-     */
     public function testGetTerm() {
         $this->assertEquals( 'TestTerm', $this->object->getTerm( ) );
     }
 
-    /**
-     * @todo Implement testGetId().
-     */
+    public function testGetQualifier() {
+        $this->assertEquals( 'Uniek', $this->object->getQualifier( ) );
+    }
+
+    public function testGetQualifiedTerm( ) {
+        $this->assertEquals( 'TestTerm (Uniek)', $this->object->getQualifiedTerm( ) );
+    }
+
     public function testGetId() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
+        $this->assertEquals( 0 , $this->object->getId( ) );
     }
 
     /**
@@ -275,14 +274,14 @@ class KVDthes_TermTest extends PHPUnit_Framework_TestCase
      * @todo Implement testGetOmschrijving().
      */
     public function testGetOmschrijving() {
-        $this->assertEquals( 'TestTerm', $this->object->__toString( ) );
+        $this->assertEquals( 'TestTerm (Uniek)', $this->object->getOmschrijving( ) );
     }
 
     /**
      * @todo Implement test__toString().
      */
     public function test__toString() {
-        $this->assertEquals( 'TestTerm', $this->object->__toString( ) );
+        $this->assertEquals( 'TestTerm (Uniek)', $this->object->__toString( ) );
     }
 }
 

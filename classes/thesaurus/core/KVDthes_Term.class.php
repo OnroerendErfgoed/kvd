@@ -11,6 +11,8 @@
 /**
  * KVDthes_Term 
  * 
+ * Deze class stelt een term in een thesaurus voor. Dit DomainObject is losjes gebasseerd op de 
+ * zThes standaard maar heeft niet alle velden die in dat model aanwezig zijn.
  * @package KVD.thes
  * @subpackage Core
  * @since 19 maart 2007
@@ -72,6 +74,13 @@ abstract class KVDthes_Term implements KVDdom_DomainObject
 	protected $term = 'Onbepaald';
 
     /**
+     * qualifier 
+     * 
+     * @var string
+     */
+    protected $qualifier = null;
+
+    /**
      * language 
      * 
      * @var string
@@ -117,19 +126,22 @@ abstract class KVDthes_Term implements KVDdom_DomainObject
     /**
      * __construct 
      *
-     * @param KVDthes_ISessie $sessie
-     * @param integer $id
-     * @param string $term 
-     * @param string $language
-     * @param string $scopeNote
-     * @param string $sourceNote
+     * @param KVDthes_ISessie   $sessie
+     * @param integer           $id
+     * @param string            $term 
+     * @param string            $qualifier
+     * @param string            $language
+     * @param string            $scopeNote
+     * @param string            $sourceNote
+     * @param KVDthes_Thesaurus $thesaurus
      * @return void
      */
-	public function __construct ( KVDdom_IReadSessie $sessie , $id , $term , $language = 'Nederlands', $scopeNote = null, $sourceNote = null, KVDthes_Thesaurus $thesaurus = null)
+	public function __construct ( KVDdom_IReadSessie $sessie , $id , $term, $qualifier = null, $language = 'Nederlands', $scopeNote = null, $sourceNote = null, KVDthes_Thesaurus $thesaurus = null)
 	{
         $this->sessie = $sessie;
         $this->id = $id;
 		$this->term = $term;
+        $this->qualifier = $qualifier;
         $this->language = $language;
         if ( $scopeNote != null ) {
             $this->scopeNote = $scopeNote;
@@ -220,6 +232,34 @@ abstract class KVDthes_Term implements KVDdom_DomainObject
 	{
 		return $this->term;
 	}
+
+    /**
+     * getQualifier 
+     * 
+     * Geef de qualifier terug. Een qualifier is extra informatie die de term uniek maakt binnen een thesaurus.
+     * Stel bijvoorbeeld dat we twee termen hebben genaamd 'obelisken' waarbij de ene slaat op een grafmonument
+     * en de andere op een object binnen een tuin dan zou de ene de qualifier 'grafmonument' en de andere de
+     * qualifier 'tuinornament' kunnen hebben.
+     * Binnen de ANSI/NISO Z39.19-2005 standaard vinden we volgende definitie: "A defining term, used in a controlled
+     * vocabulary to distinguish homographs."
+     * @return string
+     */
+    public function getQualifier( )
+    {
+        return $this->qualifier;
+    }
+
+    /**
+     * getQualifiedTerm 
+     * 
+     * Geef een unieke weergave van een bepaalde term, dit bestaat uit de term gevolgd door de qualifier tussen
+     * haakjes. bv. 'obelisken (grafmonument)'.
+     * @return string
+     */
+    public function getQualifiedTerm( )
+    {
+        return $this->term . ( $this->qualifier !== null ? ' (' . $this->qualifier . ')' : '');
+    }
 
     /**
      * getId 
@@ -485,7 +525,7 @@ abstract class KVDthes_Term implements KVDdom_DomainObject
      */
     public function getOmschrijving( )
     {
-        return $this->term;
+        return $this->getQualifiedTerm( );
     }
 
     /**
