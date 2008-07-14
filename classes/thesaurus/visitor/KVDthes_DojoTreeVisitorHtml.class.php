@@ -58,7 +58,7 @@ class KVDthes_DojoTreeVisitorHtml extends KVDthes_AbstractTreeVisitor
 	{
 		$this->result .= $this->pad() ."<li>\n";
         $this->depth++;
-        $this->result .= $this->pad( ) . '<p><a href="javascript:loadDetail(' . $node->getId( )  . ');">'. $node->getTerm() . "</a></p>\n";
+        $this->result .= $this->pad( ) . '<p><a href="javascript:loadDetail(' . $node->getId( )  . ');">'. $node->getQualifiedTerm() . "</a></p>\n";
         $this->depth--;
         return true;
     }

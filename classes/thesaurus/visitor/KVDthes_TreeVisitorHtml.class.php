@@ -54,7 +54,7 @@ class KVDthes_TreeVisitorHtml extends KVDthes_AbstractTreeVisitor
 	{
 		$this->result .= $this->pad() ."<li>\n";
         $this->depth++;
-        $this->result .= $this->pad( ) . '<p>'. $node->getTerm() . "</p>\n";
+        $this->result .= $this->pad( ) . '<p>'. $node->getQualifiedTerm() . "</p>\n";
         $this->depth--;
         return true;
     }

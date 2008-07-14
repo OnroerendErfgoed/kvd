@@ -56,7 +56,7 @@ class KVDthes_TreeVisitorText extends KVDthes_AbstractTreeVisitor
      */
 	public function visit(KVDthes_Term $node)
 	{
-		$this->result .= $this->depth . $this->pad() . $node->getTerm() . "\n";
+		$this->result .= $this->depth . $this->pad() . $node->getQualifiedTerm() . "\n";
         return true;
     }
 

@@ -71,7 +71,7 @@ class KVDthes_TreeVisitorDojoDatastore extends KVDthes_AbstractTreeVisitor
      */
 	public function visit(KVDthes_Term $node)
 	{
-        $this->currItem = new KVDthes_DojoDatastoreTerm( $node->getId( ) , $node->getTerm( ) , $this->depth );
+        $this->currItem = new KVDthes_DojoDatastoreTerm( $node->getId( ) , $node->getQualifiedTerm( ) , $this->depth );
         $this->result->addItem( $this->currItem );
         return true;
     }

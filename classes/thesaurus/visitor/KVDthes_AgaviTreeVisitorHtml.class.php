@@ -86,7 +86,7 @@ class KVDthes_AgaviTreeVisitorHtml extends KVDthes_AbstractTreeVisitor
 	{
 		$this->result .= $this->pad() ."<li>\n";
         $this->depth++;
-        $this->result .= $this->pad( ) . '<p><a href="' . $this->ro->gen( $this->termRoute , array ( $this->termIdParameter => $node->getId( ) ) ) .'">'. $node->getTerm() . "</a></p>\n";
+        $this->result .= $this->pad( ) . '<p><a href="' . $this->ro->gen( $this->termRoute , array ( $this->termIdParameter => $node->getId( ) ) ) .'">'. $node->getQualifiedTerm() . "</a></p>\n";
         $this->depth--;
         return true;
     }
