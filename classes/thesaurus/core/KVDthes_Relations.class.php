@@ -21,6 +21,26 @@
 class KVDthes_Relations implements IteratorAggregate, Countable
 {
     /**
+     * Constante om aan te geven dat we willen sorteren op id. 
+     */
+    const SORT_ID = 1;
+
+    /**
+     * Constante om aan te geven dat we willen sorteren op de term. 
+     */
+    const SORT_TERM = 2;
+
+    /**
+     * Constant om aan te geven dat we willen sorteren op de Qualified Term. 
+     */
+    const SORT_QUALTERM = 3;
+
+    /**
+     * Constante om aan te geven dat we willen sorteren op de SortKey van een term. 
+     */
+    const SORT_SORTKEY = 4;
+
+    /**
      * relations 
      * 
      * @var array
@@ -108,9 +128,95 @@ class KVDthes_Relations implements IteratorAggregate, Countable
         return new KVDthes_RelationTypeIterator( $this->relations , KVDthes_Relation::REL_RT );
     }
 
+    /**
+     * count 
+     * 
+     * Geeft het aantal relaties terug.
+     * @return integer
+     */
     public function count( )
     {
         return count( $this->relations );
+    }
+
+    /**
+     * sort 
+     * 
+     * Sorteer de relaties op een bepaalde manier, standaard wordt er alfabetisch gesorteerd op de term.
+     * @param integer $sortMethod 
+     * @return void
+     */
+    public function sort( $sortMethod = self::SORT_TERM )
+    {
+        usort( $this->relations, array ( $this, 'compareTerm' ) );
+    }
+
+    /**
+     * compareRelations 
+     * 
+     * @param   string              $comparedMethod 
+     * @param   KVDthes_Relation    $a 
+     * @param   KVDthes_Relation    $b 
+     * @return  integer                                 -1, 0 of 1 indien de a kleiner dan, gelijk aan of groter dan b is.
+     */
+    private function compareRelations( $comparedMethod, KVDthes_Relation $a, KVDthes_Relation $b )
+    {
+        if ( $a->getTerm( )->$comparedMethod( ) < $b->getTerm( )->$comparedMethod( ) ) {
+            return -1;
+        }
+        if ( $a->getTerm( )->$comparedMethod( ) > $b->getTerm( )->comparedMethod( ) ) {
+            return 1;
+        }
+        return 0;
+    }
+
+    /**
+     * compareId 
+     * 
+     * @param   KVDthes_Relation $a 
+     * @param   KVDthes_Relation $b 
+     * @return  integer
+     */
+    private function compareId( KVDthes_Relation $a, KVDthes_Relation $b )
+    {
+        return compareRelations( 'getId', $a, $b);
+    }
+
+    /**
+     * compareTerm 
+     * 
+     * @param   KVDthes_Relation $a 
+     * @param   KVDthes_Relation $b 
+     * @return  integer
+     */
+    private function compareTerm( KVDthes_Relation $a, KVDthes_Relation $b )
+    {
+        return compareRelations( 'getTerm', $a, $b);
+    }
+
+    /**
+     * compareQualTerm 
+     * 
+     * @param   KVDthes_Relation $a 
+     * @param   KVDthes_Relation $b 
+     * @return  integer
+     */
+    private function compareQualTerm( KVDthes_Relation $a, KVDthes_Relation $b )
+    {
+        return compareRelations( 'getQualifiedTerm', $a, $b);
+    }
+
+    /**
+     * compareSortKey 
+     * 
+     * @param   KVDthes_Relation $a 
+     * @param   KVDthes_Relation $b 
+     * @return  integer
+     */
+    private function compareSortKey( KVDthes_Relation $a, KVDthes_Relation $b )
+    {
+        throw new LogicException ( 'Sorteren op SortKey werd nog niet geimplementeerd.' );
+        //return compareRelations( 'getSortKey', $a, $b);
     }
 }
 ?>
