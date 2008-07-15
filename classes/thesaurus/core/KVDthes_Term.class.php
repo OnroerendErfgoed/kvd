@@ -88,6 +88,13 @@ abstract class KVDthes_Term implements KVDdom_DomainObject
     protected $language = 'Nederlands';
 
     /**
+     * sortKey 
+     * 
+     * @var string
+     */
+    protected $sortKey = null;
+
+    /**
      * relations 
      * 
      * @var KVDthes_Relations
@@ -131,18 +138,20 @@ abstract class KVDthes_Term implements KVDdom_DomainObject
      * @param string            $term 
      * @param string            $qualifier
      * @param string            $language
+     * @param string            $sortKey
      * @param string            $scopeNote
      * @param string            $sourceNote
      * @param KVDthes_Thesaurus $thesaurus
      * @return void
      */
-	public function __construct ( KVDdom_IReadSessie $sessie , $id , $term, $qualifier = null, $language = 'Nederlands', $scopeNote = null, $sourceNote = null, KVDthes_Thesaurus $thesaurus = null)
+	public function __construct ( KVDdom_IReadSessie $sessie , $id , $term, $qualifier = null, $language = 'Nederlands', $sortKey = null, $scopeNote = null, $sourceNote = null, KVDthes_Thesaurus $thesaurus = null)
 	{
         $this->sessie = $sessie;
         $this->id = $id;
 		$this->term = $term;
         $this->qualifier = $qualifier;
         $this->language = $language;
+        $this->sortKey = $sortKey;
         if ( $scopeNote != null ) {
             $this->scopeNote = $scopeNote;
             $this->setLoadState( self::LS_SCOPENOTE );
@@ -269,6 +278,17 @@ abstract class KVDthes_Term implements KVDdom_DomainObject
     public function getId( )
     {
         return $this->id;
+    }
+
+    /**
+     * getSortKey 
+     * 
+     * Deze methode biedt de mogelijkheid om een term op een andere dan een puur alfabetische manier te sorteren.
+     * @return string
+     */
+    public function getSortKey( )
+    {
+        return $this->sortKey === null ? $this->term : $this->sortKey;
     }
 
     /**
@@ -565,7 +585,7 @@ abstract class KVDthes_Term implements KVDdom_DomainObject
  * 
  * @package KVD.thes
  * @subpackage Core
- * @since i19 maart 2007
+ * @since 19 maart 2007
  * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License

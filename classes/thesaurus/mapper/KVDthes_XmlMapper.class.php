@@ -134,9 +134,10 @@ abstract class KVDthes_XmlMapper implements KVDthes_IDataMapper
             if ( $qualifier === '' ) {
                 $qualifier = null;
             }
+            $sortKey = $term->getElementsByTagName( 'termSortKey')->length > 0 ? $term->getElementsByTagName( 'termSortKey' )->item( 0 )->nodeValue : null;
             $termType = $this->getReturnType( );
             $thesaurus = $this->doLoadThesaurus( );
-            $termObj = new $termType( $this->sessie , $id , $name , $qualifier, $language, null, null, $thesaurus);
+            $termObj = new $termType( $this->sessie , $id , $name , $qualifier, $language, $sortKey, null, null, $thesaurus);
             if ( $this->root == null ) {
                 $this->root = $termObj;
             }

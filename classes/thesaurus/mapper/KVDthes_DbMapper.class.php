@@ -70,7 +70,7 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
      */
     protected function getFindByIdStatement( )
     {
-        return sprintf( 'SELECT id, term, qualifier, language FROM %s.term WHERE id = ? AND thesaurus_id = %d' , $this->parameters['schema'], $this->parameters['thesaurus_id'] );
+        return sprintf( 'SELECT id, term, qualifier, language, sort_key FROM %s.term WHERE id = ? AND thesaurus_id = %d' , $this->parameters['schema'], $this->parameters['thesaurus_id'] );
     }
 
     /**
@@ -80,7 +80,7 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
      */
     protected function getFindByNaamStatement( )
     {
-        return sprintf( 'SELECT id, term, qualifier, language FROM %s.term WHERE lower( term ) = lower ( ? ) AND thesaurus_id = %d', $this->parameters['schema'], $this->parameters['thesaurus_id'] );
+        return sprintf( 'SELECT id, term, qualifier, language, sort_key FROM %s.term WHERE lower( term ) = lower ( ? ) AND thesaurus_id = %d', $this->parameters['schema'], $this->parameters['thesaurus_id'] );
     }
 
     /**
@@ -111,7 +111,7 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
      */
     protected function getFindAllStatement( )
     {
-        return sprintf( 'SELECT id, term, qualifier, language FROM %s.term WHERE thesaurus_id = %d ORDER BY term, qualifier' , $this->parameters['schema'], $this->parameters['thesaurus_id'] );
+        return sprintf( 'SELECT id, term, qualifier, language, sort_key FROM %s.term WHERE thesaurus_id = %d ORDER BY term, qualifier' , $this->parameters['schema'], $this->parameters['thesaurus_id'] );
     }
 
     /**
@@ -121,7 +121,7 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
      */
     protected function getFindRootStatement( )
     {
-        return sprintf( 'SELECT t.id AS id, term, qualifier, language 
+        return sprintf( 'SELECT t.id AS id, term, qualifier, language, sort_key 
                          FROM %s.visitation v LEFT JOIN %s.term t ON ( v.term_id = t.id and v.thesaurus_id = t.thesaurus_id )
                          WHERE 
                             v.thesaurus_id = %d
@@ -138,7 +138,7 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
      */
     protected function getLoadRelationsStatement( )
     {
-        return sprintf( 'SELECT r.relation_type, t2.id AS id_to, t2.term as term, t2.qualifier as qualifier, t2.language as language 
+        return sprintf( 'SELECT r.relation_type, t2.id AS id_to, t2.term AS term, t2.qualifier AS qualifier, t2.language AS language, t2.sort_key AS sort_key 
                         FROM %s.term t1 
                             LEFT JOIN %s.relation r ON ( t1.id = r.id_from AND t1.thesaurus_id = r.thesaurus_id ) 
                             LEFT JOIN %s.term t2 ON ( r.id_to=t2.id AND r.thesaurus_id=t2.thesaurus_id)
@@ -158,7 +158,7 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
      */
     protected function getFindSubTreeStatement( )
     {
-         return sprintf( 'SELECT v.id, lft, rght, depth, term_id, term, qualifier, language 
+         return sprintf( 'SELECT v.id, lft, rght, depth, term_id, term, qualifier, language, sort_key 
                          FROM %s.visitation v LEFT JOIN %s.term t ON ( v.term_id = t.id AND v.thesaurus_id = t.thesaurus_id )
                          WHERE 
                             t.thesaurus_id = %d
@@ -290,7 +290,7 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
         }
         $termType = $this->getReturnType( );
         $thesaurus = $this->doLoadThesaurus( );
-        return new $termType( $this->sessie , $id , $row->term , $row->qualifier, $row->language, null, null, $thesaurus);
+        return new $termType( $this->sessie , $id , $row->term , $row->qualifier, $row->language, $row->sort_key, null, null, $thesaurus);
     }
 
     protected function doLoadThesaurus( )

@@ -232,8 +232,7 @@ class KVDthes_Relations implements IteratorAggregate, Countable
      */
     private function compareSortKey( KVDthes_Relation $a, KVDthes_Relation $b )
     {
-        throw new LogicException ( 'Sorteren op SortKey werd nog niet geimplementeerd.' );
-        //return $this->compareRelations( 'getSortKey', $a, $b);
+        return $this->compareRelations( 'getSortKey', $a, $b);
     }
 }
 ?>
