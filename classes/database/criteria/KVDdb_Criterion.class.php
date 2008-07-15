@@ -346,6 +346,18 @@ class KVDdb_InCriterion extends KVDdb_Criterion
         return $sql .= ' )';
     }
 
+    /**
+     * getValues 
+     *
+     * @since 15 jul 2008
+     * @return array
+     */
+    public function getValues( )
+    {
+        return $this->value;
+    }
+    
+
 }
 
 /**
