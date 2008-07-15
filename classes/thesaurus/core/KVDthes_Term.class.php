@@ -312,6 +312,17 @@ abstract class KVDthes_Term implements KVDdom_DomainObject
     }
 
     /**
+     * sortRelations 
+     * 
+     * @param   integer     $methode    Een van de sort-constanten uit KVDthes_Relations.
+     * @return void
+     */
+    public function sortRelations( $methode )
+    {
+        $this->relations->sort( $methode );
+    }
+
+    /**
      * addScopeNote 
      * 
      * @param string $sn 

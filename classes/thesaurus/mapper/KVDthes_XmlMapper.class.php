@@ -87,7 +87,27 @@ abstract class KVDthes_XmlMapper implements KVDthes_IDataMapper
         if ( ( $all = $this->sessie->getIdentityMap( )->getDomainObjects( $this->getReturnType( ) ) ) === null ) {
             $all = array( );
         }
+        usort( $all, array ( $this, 'compareTerm' ) );
         return new KVDdom_DomainObjectCollection( $all );
+    }
+
+    /**
+     * compareTerm 
+     * 
+     * Callback functie voor de findAll methode.
+     * @param KVDthes_Term $a 
+     * @param KVDthes_Term $b 
+     * @return integer
+     */
+    private function compareTerm( KVDthes_Term $a, KVDthes_Term $b )
+    {
+        if ( $a->getTerm( ) < $b->getTerm( ) ) {
+            return -1;
+        }
+        if ( $a->getTerm( ) > $b->getTerm( ) ) {
+            return 1;
+        }
+        return 0;
     }
 
     /**

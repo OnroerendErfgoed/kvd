@@ -35,6 +35,17 @@ class KVDthes_TreeVisitorText extends KVDthes_AbstractTreeVisitor
     private $result = '';
 
     /**
+     * __construct 
+     * 
+     * @param integer $sortOrder    Zie de constanten in KVDthes_Relations
+     * @return void
+     */
+    public function __construct( $sortOrder = KVDthes_Relations::SORT_UNSORTED )
+    {
+        $this->relationsSortOrder = $sortOrder;
+    }
+
+    /**
      * pad 
      * 
      * @return string

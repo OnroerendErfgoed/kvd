@@ -55,11 +55,21 @@ class KVDthes_AgaviTreeVisitorHtml extends KVDthes_AbstractTreeVisitor
      */
     private $termIdParameter;
 
-    public function __construct( $ro , $termRoute, $termIdParameter = 'id' )
+    /**
+     * __construct 
+     * 
+     * @param AgaviRouting  $ro 
+     * @param string        $termRoute 
+     * @param string        $termIdParameter 
+     * @param integer       $relationsSortOrder 
+     * @return void
+     */
+    public function __construct( AgaviRouting $ro , $termRoute, $termIdParameter = 'id', $relationsSortOrder = KVDthes_Relations::SORT_UNSORTED )
     {
         $this->ro = $ro;
         $this->termRoute = $termRoute;
         $this->termIdParameter = $termIdParameter;
+        $this->relationsSortOrder = $relationsSortOrder;
     }
 
     /**
@@ -99,6 +109,7 @@ class KVDthes_AgaviTreeVisitorHtml extends KVDthes_AbstractTreeVisitor
 	public function enterComposite(KVDthes_Term $node)
 	{
         if ( $node->hasNTRelations( ) ) {
+            $this->sortRelations( $node );
 		    $this->depth++;
             $this->result .= $this->pad( ) . "<ul>\n";
             $this->depth++;

@@ -35,6 +35,17 @@ class KVDthes_TreeVisitorHtml extends KVDthes_AbstractTreeVisitor
     private $result = "<ul>\n";
 
     /**
+     * __construct 
+     * 
+     * @param integer $sortOrder    Zie de constanten in KVDthes_Relations
+     * @return void
+     */
+    public function __construct( $sortOrder = KVDthes_Relations::SORT_UNSORTED )
+    {
+        $this->relationsSortOrder = $sortOrder;
+    }
+
+    /**
      * pad 
      * 
      * @return string
@@ -67,6 +78,7 @@ class KVDthes_TreeVisitorHtml extends KVDthes_AbstractTreeVisitor
 	public function enterComposite(KVDthes_Term $node)
 	{
         if ( $node->hasNTRelations( ) ) {
+            $this->sortRelations( $node );
 		    $this->depth++;
             $this->result .= $this->pad( ) . "<ul>\n";
             $this->depth++;

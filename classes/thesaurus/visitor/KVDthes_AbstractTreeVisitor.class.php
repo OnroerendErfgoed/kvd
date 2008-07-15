@@ -21,6 +21,36 @@
 abstract class KVDthes_AbstractTreeVisitor
 {
     /**
+     * relations_sort_order 
+     * 
+     * @var integer
+     */
+    protected $relationsSortOrder = KVDthes_Relations::SORT_UNSORTED;
+
+    /**
+     * setRelationsSortOrder 
+     * 
+     * @param   integer     $order  Een van de constanten uit KVDthes_Relations. 
+     * @return void
+     */
+    public function setRelationsSortOrder( $order )
+    {
+        $this->relationsSortOrder = $order;
+    }
+
+    /**
+     * sortRelations 
+     * 
+     * @return void
+     */
+    protected function sortRelations( KVDthes_Term $node )
+    {
+        if ( $this->relationsSortOrder > KVDthes_Relations::SORT_UNSORTED ) {
+            $node->sortRelations( $this->relationsSortOrder );
+        }
+    }
+    
+    /**
      * visit 
      * 
      * @param KVDthes_Term $node 
@@ -31,11 +61,23 @@ abstract class KVDthes_AbstractTreeVisitor
         return true;
     }
 
+    /**
+     * visitRelation 
+     * 
+     * @param KVDthes_Relation $rel 
+     * @return boolean
+     */
     public function visitRelation( KVDthes_Relation $rel )
     {
         return true;
     }
 
+    /**
+     * enterRelations 
+     * 
+     * @param KVDthes_Term $node 
+     * @return boolean
+     */
     public function enterRelations( KVDthes_Term $node )
     {
         return false;
@@ -49,6 +91,7 @@ abstract class KVDthes_AbstractTreeVisitor
      */
 	public function enterComposite(KVDthes_Term $node)
     {
+        $this->sortRelations( $node );
         return true;
     }
 

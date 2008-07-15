@@ -41,11 +41,18 @@ class KVDthes_VisitationVisitor extends KVDthes_AbstractTreeVisitor
      */
     private $visitation;
 
-    public function __construct( )
+    /**
+     * __construct 
+     * 
+     * @param integer $sortOrder 
+     * @return void
+     */
+    public function __construct( $sortOrder = KVDthes_Relations::SORT_UNSORTED)
     {
         $this->count = 0;
         $this->depth = 0;
         $this->visitation = array( );
+        $this->relationsSortOrder = $sortOrder;
     }
 
     /**
@@ -67,6 +74,7 @@ class KVDthes_VisitationVisitor extends KVDthes_AbstractTreeVisitor
      */
 	public function enterComposite(KVDthes_Term $node)
     {
+        $this->sortRelations( $node );
         $this->visitation[$node->getId( )]['id'] = $node->getId( );
         $this->visitation[$node->getId( )]['left'] = ++$this->count;
         $this->visitation[$node->getId( )]['depth'] = ++$this->depth;

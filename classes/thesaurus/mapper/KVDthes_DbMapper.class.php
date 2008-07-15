@@ -111,7 +111,7 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
      */
     protected function getFindAllStatement( )
     {
-        return sprintf( 'SELECT id, term, qualifier, language FROM %s.term WHERE thesaurus_id = %d' , $this->parameters['schema'], $this->parameters['thesaurus_id'] );
+        return sprintf( 'SELECT id, term, qualifier, language FROM %s.term WHERE thesaurus_id = %d ORDER BY term, qualifier' , $this->parameters['schema'], $this->parameters['thesaurus_id'] );
     }
 
     /**

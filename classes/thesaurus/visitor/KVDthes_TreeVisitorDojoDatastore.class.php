@@ -45,10 +45,12 @@ class KVDthes_TreeVisitorDojoDatastore extends KVDthes_AbstractTreeVisitor
     /**
      * __construct 
      * 
+     * @param integer $sortOrder    Zie de constanten in KVDthes_Relations
      * @return void
      */
-    public function __construct( )
+    public function __construct( $sortOrder = KVDthes_Relations::SORT_UNSORTED )
     {
+        $this->relationsSortOrder = $sortOrder;
         $this->result = new KVDthes_DojoDatastore();
     }
 
@@ -60,6 +62,7 @@ class KVDthes_TreeVisitorDojoDatastore extends KVDthes_AbstractTreeVisitor
      */
     public function enterRelations( KVDthes_Term $node )
     {
+        $this->sortRelations( $node );
         return true;
     }
 

@@ -21,6 +21,11 @@
 class KVDthes_Relations implements IteratorAggregate, Countable
 {
     /**
+     * Constante om aan te geven dat we niet willen sorteren. 
+     */
+    const SORT_UNSORTED = 0;
+    
+    /**
      * Constante om aan te geven dat we willen sorteren op id. 
      */
     const SORT_ID = 1;
@@ -39,6 +44,16 @@ class KVDthes_Relations implements IteratorAggregate, Countable
      * Constante om aan te geven dat we willen sorteren op de SortKey van een term. 
      */
     const SORT_SORTKEY = 4;
+
+    /**
+     * Map om aan te geven met welke compare methode moet gewerkt worden voor een
+     * bepaalde sorteervolgorde.
+     */
+    private static $sortMap =  array (  self::SORT_UNSORTED => null,
+                                        self::SORT_ID => 'compareId',
+                                        self::SORT_TERM => 'compareTerm',
+                                        self::SORT_QUALTERM => 'compareQualifiedTerm',
+                                        self::SORT_SORTKEY => 'compareSortKey' );
 
     /**
      * relations 
@@ -148,23 +163,25 @@ class KVDthes_Relations implements IteratorAggregate, Countable
      */
     public function sort( $sortMethod = self::SORT_TERM )
     {
-        usort( $this->relations, array ( $this, 'compareTerm' ) );
+        if ( $sortMethod > self::SORT_UNSORTED && isset( self::$sortMap[$sortMethod] ) ) {
+            usort( $this->relations, array ( $this, self::$sortMap[$sortMethod] ) );
+        }
     }
 
     /**
      * compareRelations 
      * 
-     * @param   string              $comparedMethod 
+     * @param   string              $comparedMethod     Methode van het domainobject die dient om te vergelijken.
      * @param   KVDthes_Relation    $a 
      * @param   KVDthes_Relation    $b 
-     * @return  integer                                 -1, 0 of 1 indien de a kleiner dan, gelijk aan of groter dan b is.
+     * @return  integer                                 -1, 0 of 1 indien $a respectievelijk kleiner dan, gelijk aan of groter dan $b is.
      */
     private function compareRelations( $comparedMethod, KVDthes_Relation $a, KVDthes_Relation $b )
     {
         if ( $a->getTerm( )->$comparedMethod( ) < $b->getTerm( )->$comparedMethod( ) ) {
             return -1;
         }
-        if ( $a->getTerm( )->$comparedMethod( ) > $b->getTerm( )->comparedMethod( ) ) {
+        if ( $a->getTerm( )->$comparedMethod( ) > $b->getTerm( )->$comparedMethod( ) ) {
             return 1;
         }
         return 0;
@@ -179,7 +196,7 @@ class KVDthes_Relations implements IteratorAggregate, Countable
      */
     private function compareId( KVDthes_Relation $a, KVDthes_Relation $b )
     {
-        return compareRelations( 'getId', $a, $b);
+        return $this->compareRelations( 'getId', $a, $b);
     }
 
     /**
@@ -191,19 +208,19 @@ class KVDthes_Relations implements IteratorAggregate, Countable
      */
     private function compareTerm( KVDthes_Relation $a, KVDthes_Relation $b )
     {
-        return compareRelations( 'getTerm', $a, $b);
+        return $this->compareRelations( 'getTerm', $a, $b);
     }
 
     /**
-     * compareQualTerm 
+     * compareQualifiedTerm 
      * 
      * @param   KVDthes_Relation $a 
      * @param   KVDthes_Relation $b 
      * @return  integer
      */
-    private function compareQualTerm( KVDthes_Relation $a, KVDthes_Relation $b )
+    private function compareQualifiedTerm( KVDthes_Relation $a, KVDthes_Relation $b )
     {
-        return compareRelations( 'getQualifiedTerm', $a, $b);
+        return $this->compareRelations( 'getQualifiedTerm', $a, $b);
     }
 
     /**
@@ -216,7 +233,7 @@ class KVDthes_Relations implements IteratorAggregate, Countable
     private function compareSortKey( KVDthes_Relation $a, KVDthes_Relation $b )
     {
         throw new LogicException ( 'Sorteren op SortKey werd nog niet geimplementeerd.' );
-        //return compareRelations( 'getSortKey', $a, $b);
+        //return $this->compareRelations( 'getSortKey', $a, $b);
     }
 }
 ?>
