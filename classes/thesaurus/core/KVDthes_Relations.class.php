@@ -178,13 +178,7 @@ class KVDthes_Relations implements IteratorAggregate, Countable
      */
     private function compareRelations( $comparedMethod, KVDthes_Relation $a, KVDthes_Relation $b )
     {
-        if ( $a->getTerm( )->$comparedMethod( ) < $b->getTerm( )->$comparedMethod( ) ) {
-            return -1;
-        }
-        if ( $a->getTerm( )->$comparedMethod( ) > $b->getTerm( )->$comparedMethod( ) ) {
-            return 1;
-        }
-        return 0;
+        return strcmp( $a->getTerm( )->$comparedMethod( ), $b->getTerm( )->$comparedMethod );
     }
 
     /**
@@ -196,7 +190,9 @@ class KVDthes_Relations implements IteratorAggregate, Countable
      */
     private function compareId( KVDthes_Relation $a, KVDthes_Relation $b )
     {
-        return $this->compareRelations( 'getId', $a, $b);
+        if ( $a->getTerm( )->getId( ) < $b->getTerm->getId( ) ) return -1;
+        if ( $a->getTerm( )->getId( ) > $b->getTerm->getId( ) ) return 1;
+        return 0;
     }
 
     /**
