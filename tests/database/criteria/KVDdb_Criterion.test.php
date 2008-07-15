@@ -138,6 +138,9 @@ class TestOfCriterion extends UnitTestCase
 
         $criterion->addOr( KVDdb_Criterion::equals ( 'provincie' , 'Oost-Vlaanderen' ) );
         $this->assertEqual ( $criterion->getValues( ) , array ( 'West-Vlaanderen', 'Oost-Vlaanderen' ) );
+
+        $criterion->addOr( KVDdb_Criterion::in ( 'gemeente' , array( 'Overijse', 'Diest', 'Zemst', 'Vilvoorde' ) ) );
+        $this->assertEqual ( $criterion->getValues( ) , array ( 'West-Vlaanderen', 'Oost-Vlaanderen', 'Overijse', 'Diest', 'Zemst', 'Vilvoorde' ) );
     }
 
     public function testGetPreparedStatement( )
