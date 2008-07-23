@@ -26,9 +26,9 @@ class KVDutil_Authenticator
 	 * __construct
 	 * @param databank een databank verbinding waar queries naar gestuurd kunnen worden.
 	 */
-	public __construct($databank)
+	public function __construct($databank)
 	{
-		$this->status = new KVDutil_Auth_LoggedOut($databank, $this)
+		$this->status = new KVDutil_Auth_LoggedOut($this, $databank);
 	}
 
 	/**
@@ -131,11 +131,6 @@ abstract class KVDutil_Auth_LoggedStatus{
 	protected $db;
 	protected $auth;
 	
-	public function __contruct(KVDutil_Authenticator $auth, $db)
-	{
-		$this->auth = $auth;
-		$this->db = $db;
-	}
 	abstract function logIn($gebruiker, $paswoord);
 	abstract function logOut();
 	abstract function getNaam();
@@ -159,7 +154,8 @@ class KVDutil_Auth_LoggedOut extends KVDutil_Auth_LoggedStatus{
 	
 	public function __construct(KVDutil_Authenticator $auth, $db)
 	{
-		parent::__construct($auth, $db);
+		$this->auth = $auth;
+		$this->db = $db;
 	}
 	
 
@@ -179,7 +175,7 @@ class KVDutil_Auth_LoggedOut extends KVDutil_Auth_LoggedStatus{
 	private function encrypt($woord)
 	{
 		$col = "PASSWORD('".addslashes($woord)."')";
-		$stmt = $db->prepare($this->getEncryptPasswordStatement());
+		$stmt = $this->db->prepare($this->getEncryptPasswordStatement());
 		$stmt->bindParam(1, $woord);
 		$stmt->execute();
 		if($stmt->rowCount() != 1) {
@@ -193,7 +189,7 @@ class KVDutil_Auth_LoggedOut extends KVDutil_Auth_LoggedStatus{
 	
 	private function getGebruiker($gebruiker, $paswoord)
 	{
-		$stmt = $db->prepare($this->getGebruikerStatement());
+		$stmt = $this->db->prepare($this->getGebruikerStatement());
 		$stmt->bindParam(1, $gebruiker);
 		$stmt->bindParam(1, $this->encrypt($paswoord));
 		$stmt->execute();
@@ -270,7 +266,7 @@ class KVDutil_Auth_LoggedIn extends KVDutil_Auth_LoggedStatus{
 		" AND gebruikerrol.startdatum < ".date("Y-m-d").
 		" AND gebruikerrol.einddatum >= ".date("Y-m-d").
 		" AND gebruikerrol.gebruiker_id = ?".
-		" AND applicatie.naam = ?".;
+		" AND applicatie.naam = ?";
 	}
 
 	protected function getRollenForGebruikerApplicatieIdStatement()
@@ -282,13 +278,15 @@ class KVDutil_Auth_LoggedIn extends KVDutil_Auth_LoggedStatus{
 		" AND gebruikerrol.startdatum < ".date("Y-m-d").
 		" AND gebruikerrol.einddatum >= ".date("Y-m-d").
 		" AND gebruikerrol.gebruiker_id = ?".
-		" AND rol.applicatie_id = ?".;
+		" AND rol.applicatie_id = ?";
 	}	
 
 	
 	public function __construct(KVDutil_Authenticator $auth, $database, $gebruiker)
 	{
-		parent::__construct($auth, $database);
+
+		$this->auth = $auth;
+		$this->db = $database;
 		$this->gebruiker = $gebruiker;
 	}
 
@@ -300,7 +298,7 @@ class KVDutil_Auth_LoggedIn extends KVDutil_Auth_LoggedStatus{
 
 	public function logOut()
 	{	
-		$this->auth->changeState(new KVDutil_Auth_LoggedOut($this->db, $this->auth));
+		$this->auth->changeState(new KVDutil_Auth_LoggedOut( $this->auth, $this->db));
 	}
 
 	public function getNaam()

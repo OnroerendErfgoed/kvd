@@ -31,11 +31,19 @@ abstract class KVDUtil_HnrElement{
 	/**
 	 * @const integer
 	 */
-	const BIS = 1;
+	const BISN = 1;
 	/**
 	 * @const integer
 	 */
-	const BUS = 2;
+	const BISL = 2;
+	/**
+	 * @const integer
+	 */
+	const BUSN = 3;
+	/**
+	 * @const integer
+	 */
+	const BUSL = 4;
 	
 	/**
 	 * __construct
@@ -46,9 +54,11 @@ abstract class KVDUtil_HnrElement{
 	 * @param string laatste bisnummer of bisletter van de reeks
 	 * @param string laatste busnummer of busletter van de reeks
 	 */
-	public function __construct($h1, $bis1 =-1, $bus1=-1, $h2=-1, $bis2=-1, $bus2=-1)
+	public function __construct(
+		$h1		, $bisn1 =-1, $bisl1 =-1, $busn1=-1,  $busl1=-1,
+		$h2=-1, $bisn2 =-1, $bisl2 =-1, $busn2=-1,  $busl2=-1)
 	{
-		$this->data = array($h1, $bis1, $bus1, $h2, $bis2, $bus2);
+		$this->data = array($h1, $bisn1, $bisl1, $busn1, $busl1, $h2, $bisn2, $bisl2, $busn2, $busl2);
 	}
 	
 	/**
@@ -88,10 +98,12 @@ abstract class KVDUtil_HnrElement{
 	public function compareTo($el) 
 	{
 		$i = 0;
-		while(($i < 5) &&($this->data[$i] == $el->getData($i))){
+		while(($i < 10) &&($this->data[$i] == $el->getData($i))){
 			$i++;
 		}
-		return strcmp($this->data[$i], $el->getData($i));
+		if($this->data[$i] == $el->getData($i)) { return 0; }
+		else if($this->data[$i] < $el->getData($i)) { return -1; }
+		else { return 1; }
 	}
 	
 	/**
@@ -253,30 +265,13 @@ class KVDUtil_HnrHuisnummer extends KVDUtil_HnrEnkelElement{
  * @author Dieter Standaert <dieter.standaert@eds.com>  
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
-class KVDUtil_HnrBiselement extends KVDUtil_HnrEnkelElement{
-	/**
-	 * __construct
-	 * @param integer huisnummer
-	 * @param integer bisnummer
-	 */
-	public function __construct($huis, $bis){
-		parent::__construct($huis, $bis);
-	}
-	/**
-	 * __toString
-	 * @return string representatie van het nummer
-	 */
-	public function __toString(){
-		return $this->getHuisnummer()."/".$this->bis;
-	}
-	/**
-	 * getBisnummer
-	 * @return integer
-	 */
-	public function getBiselement(){
-		return $this->getData(KVDUtil_HnrElement::BIS);
-	}
+abstract class KVDUtil_HnrBiselement extends KVDUtil_HnrEnkelElement{
 
+	protected $bisIndex;
+	
+	public function getBiselement() {
+		return $this->getData($this->bisIndex);
+	}
 }
 
 /**
@@ -298,6 +293,7 @@ class KVDUtil_HnrBisnummer extends KVDUtil_HnrBiselement{
 	 */
 	public function __construct($huis, $bis){
 		parent::__construct($huis,$bis);
+		$this->bisIndex = 1;
 	}
 	/**
 	 * __toString
@@ -334,7 +330,8 @@ class KVDUtil_HnrBusnummer extends KVDUtil_HnrBiselement{
 	 * @param integer busnummer
 	 */
 	public function __construct($huis, $bus){
-		parent::__construct($huis,$bus);
+		parent::__construct($huis,-1, -1, $bus);
+		$this->bisIndex = 3;
 	}
 	/**
 	 * @return string representatie van het nummer
@@ -369,7 +366,8 @@ class KVDUtil_HnrBusletter extends KVDUtil_HnrBiselement{
 	 * @param string busletter
 	 */
 	public function __construct($huis, $bus){
-		parent::__construct($huis,$bus);
+		parent::__construct($huis,-1,-1,-1,$bus);
+		$this->bisIndex = 4;
 	}
 	/**
 	 * __toString
@@ -406,7 +404,8 @@ class KVDUtil_HnrBisletter extends KVDUtil_HnrBiselement{
 	 * @param string bisletter
 	 */
 	public function __construct($huis, $bis){
-		parent::__construct($huis,$bis);
+		parent::__construct($huis,-1,$bis);
+		$this->bisIndex = 2;
 	}
 	/**
 	 * __toString
@@ -507,9 +506,9 @@ class KVDUtil_HnrHuisnummerReeks extends KVDUtil_HnrReeksElement{
 	 * @param boolean spring geeft weer of de reeks telkens een huisnummer overslaat.
 	 */
 	public function __construct($begin, $einde, $spring = true){
-		parent::__construct($begin,-1, -1,$einde);
+		parent::__construct($begin,-1, -1,-1,-1,$einde);
 		$this->beginIndex = 0;
-		$this->eindeIndex = 3;
+		$this->eindeIndex = 5;
 		$this->spring = $spring;
 		
 	}
@@ -595,9 +594,9 @@ class KVDUtil_HnrBisnummerReeks extends KVDUtil_HnrReeksElement{
 	 * @param integer einde het laatste bisnummer van de reeks
 	 */
 	public function __construct($huis, $begin, $einde){
-		parent::__construct($huis, $begin, -1, $huis, $einde);
+		parent::__construct($huis, $begin,-1, -1,-1, $huis, $einde);
 		$this->beginIndex = 1;
-		$this->eindeIndex = 4;
+		$this->eindeIndex = 6;
 	}
 	/**
 	 * __toString
@@ -632,7 +631,7 @@ class KVDUtil_HnrBisnummerReeks extends KVDUtil_HnrReeksElement{
  * @author Dieter Standaert <dieter.standaert@eds.com>  
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
-class KVDUtil_HnrBisletterReeks extends KVDUtil_HnrBisnummerReeks{
+class KVDUtil_HnrBisletterReeks extends KVDUtil_HnrReeksElement{
 
 	/**
 	 * __construct
@@ -641,7 +640,9 @@ class KVDUtil_HnrBisletterReeks extends KVDUtil_HnrBisnummerReeks{
 	 * @param integer het laatste nummer van de reeks
 	 */	
 	public function __construct($huis, $begin, $einde){
-		parent::__construct($huis, $begin,$einde);
+		parent::__construct($huis,-1, $begin,-1,-1,$huis,-1, $einde);
+		$this->beginIndex = 2;
+		$this->eindeIndex = 7;
 	}
 	/**
 	 * __toString
@@ -688,9 +689,9 @@ class KVDUtil_HnrBusnummerReeks extends KVDUtil_HnrReeksElement{
 	 * @param integer het laatste nummer van de reeks
 	 */	
 	public function __construct($huis, $begin, $einde){
-		parent::__construct($huis, -1, $begin, $huis, -1, $einde);
-		$this->beginIndex = 2;
-		$this->eindeIndex = 5;
+		parent::__construct($huis,-1, -1, $begin,-1, $huis,-1, -1, $einde);
+		$this->beginIndex = 3;
+		$this->eindeIndex = 8;
 	}
 	
 	/**
@@ -725,7 +726,7 @@ class KVDUtil_HnrBusnummerReeks extends KVDUtil_HnrReeksElement{
  * @author Dieter Standaert <dieter.standaert@eds.com>  
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
-class KVDUtil_HnrBusletterReeks extends KVDUtil_HnrBusnummerReeks{
+class KVDUtil_HnrBusletterReeks extends KVDUtil_HnrReeksElement{
 	/**
 	 * __construct
 	 * @param integer huisnummer
@@ -733,9 +734,17 @@ class KVDUtil_HnrBusletterReeks extends KVDUtil_HnrBusnummerReeks{
 	 * @param integer het laatste nummer van de reeks
 	 */		
 	public function __construct($huis, $begin, $einde){
-		parent::__construct($huis, $begin,$einde);
+		parent::__construct($huis,-1,-1,-1, $begin,$huis,-1,-1,-1,$einde);
+		$this->beginIndex = 4;
+		$this->eindeIndex = 9;
 	}
-
+	/**
+	 * __toString
+	 * @return Een string representatie van de busnummer reeks, bijv: 13 bus 1-3.
+	 */
+	public function __toString(){
+		return $this->getHuisnummer()." bus ".$this->getBegin()."-".$this->getEinde();
+	}	
 	/**
 	 * split
 	 * @return array een array met de individuele bisnummers van deze reeks
