@@ -98,7 +98,7 @@ abstract class KVDUtil_HnrElement{
 	public function compareTo($el) 
 	{
 		$i = 0;
-		while(($i < 10) &&($this->data[$i] == $el->getData($i))){
+		while(($i < 9) &&($this->data[$i] == $el->getData($i))){
 			$i++;
 		}
 		if($this->data[$i] == $el->getData($i)) { return 0; }
@@ -895,6 +895,12 @@ class KVDutil_SequenceReader{
 		if($reeks->getBegin() == $reeks->getEinde()) return $bisletter;
 		else return $reeks;
 	}
+	
+	private function skip(){
+		$element = $this->content();
+		$this->next();
+		return $element;
+	}
 	/**
 	 * readReeks
 	 *  Leest een reeks van huisnummers, ongeacht hun type, uit de input array.
@@ -907,6 +913,7 @@ class KVDutil_SequenceReader{
 			case "KVDUtil_HnrBusnummer": return $this->readBusnummerReeks($this->content());
 			case "KVDUtil_HnrBusletter": return $this->readBusletterReeks($this->content());
 			case "KVDUtil_HnrBisletter": return $this->readBisletterReeks($this->content());
+			case "KVDUtil_HnrReadException": return $this->skip();
 			case "": return null;
 			default: throw new Exception("Invalid type: ".$this->current()." is of type: '".get_class($this->current())."'");
 		}
@@ -1103,9 +1110,9 @@ class KVDutil_HnrReader{
 	static function handleException($exception, &$results = array(), $flag = 1)
 	{
 		switch($flag) {
-			case KVDutil_HnrReader::ERR_EXCEPTIONS: throw new Exception($exception->getMessage()); break;
-			case KVDutil_HnrReader::ERR_IGNORE_INVALID_INPUT: $results[] = $exception; return $results; break;
-			case KVDutil_HnrReader::ERR_REMOVE_INVALID_INPUT: return $results; break;
+			case (KVDutil_HnrReader::ERR_EXCEPTIONS): throw new Exception($exception->getMessage()); break;
+			case (KVDutil_HnrReader::ERR_IGNORE_INVALID_INPUT): $results[] = $exception; return $results; break;
+			case (KVDutil_HnrReader::ERR_REMOVE_INVALID_INPUT): return $results; break;
 			default: throw new Exception("Invalid flag for KVDutil_HnrReader. Given ".$flag);
 		}
 	}
@@ -1288,13 +1295,19 @@ class KVDutil_HuisnummerFacade {
 	 * @var KVDutil_HnrSequenceReader
 	 */
 	private $sequencer;
-
+	
+	/**
+	 * @var integer
+	 */
+	private $flag;
+	
 	/**
 	 * __construct
 	 * @param integer flag voor errorhandling
 	 */
 	public function __construct($flag = 1)
 	{
+		$this->flag = $flag;
 		$this->sequencer = new KVDutil_SequenceReader();
 		$this->reader = new KVDutil_HnrReader($flag);
 	}
@@ -1306,7 +1319,7 @@ class KVDutil_HuisnummerFacade {
 	 */
 	public function stringToNummers($input)
 	{
-		return $this->reader->readString($input);
+		return $this->reader->readString($input, $this->flag);
 	}
 
 	/**
