@@ -123,6 +123,7 @@ abstract class KVDdom_AbstractSystemFieldsMapper
     /**
      * create 
      * 
+     * @todo Dingend refactoren, naar iets configureerbaars?
      * @param string $mapper 
      * @return KVDdom_AbstractSystemFieldsMapper
      */
@@ -139,6 +140,8 @@ abstract class KVDdom_AbstractSystemFieldsMapper
                 return new KVDdom_LegacySystemFieldsMapper( );
             case 'legacyDependent':
                 return new KVDdom_LegacyDependentSystemFieldsMapper( );
+            case 'activeerbaar':
+                return new OEPSdom_ActieveSystemFieldsMapper( );
             case 'geen':
             default:
                 return new KVDdom_NullSystemFieldsMapper( );

@@ -63,7 +63,7 @@ class KVDdom_GenericIdentityMap implements Iterator, Countable {
      * @param KVDdom_DomainObject $domainObject
      * @return void
      */
-    public function addDomainObject( $domainObject )
+    public function addDomainObject( KVDdom_DomainObject $domainObject )
     {
         $type = $domainObject->getClass();
         $id = $domainObject->getId();
