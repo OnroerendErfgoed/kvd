@@ -117,9 +117,12 @@ abstract class KVDdom_PDODataMapper {
     protected function determineSystemFieldsMapper( )
     {
         if ( !isset( $this->parameters['systemFieldsMapper'] ) ) {
-            $this->parameters['systemFieldsMapper'] = 'geen';
+            $this->parameters['systemFieldsMapper'] = 'KVDdom_NullSystemFieldsMapper';
         }
-        $this->systemFieldsMapper = KVDdom_AbstractSystemFieldsMapper::create( $this->parameters['systemFieldsMapper'] );
+        $this->systemFieldsMapper = new $this->parameters['systemFieldsMapper'];
+        if ( !$this->systemFieldsMapper instanceof KVDdom_AbstractSystemFieldsMapper ) {
+            throw new LogicException ( 'Deze datamapper heeft een ongeldige SystemFieldsMapper.' );
+        }
     }
 
     /**
