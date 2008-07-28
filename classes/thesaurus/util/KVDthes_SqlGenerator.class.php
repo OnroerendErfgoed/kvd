@@ -63,13 +63,13 @@ class KVDthes_SqlGenerator
         $sql .= "--Termen.\n";
         $termen = $this->sessie->getMapper( $domainObject )->findAll( );
         foreach ( $termen as $term ) {
-            $sql .= sprintf( "INSERT INTO thes.term VALUES ( %d, %d, '%s', %s, '%s');\n", 
+            $sql .= sprintf( "INSERT INTO thes.term VALUES ( %d, %d, '%s', %s, '%s', %s);\n", 
                                 $thesaurus_id, 
                                 $term->getId( ),
                                 $term->getTerm( ), 
                                 $term->getQualifier( ) !== null ? "'" . $term->getQualifier( ) . "'" : 'null', 
                                 $term->getLanguage(),
-                                $term->getSortKey( ), 
+                                $term->getSortKey( ) === $term->getTerm( ) ? 'null' : "'" . $term->getSortKey( ) . "'" 
                                 );
         }
         $sql .= "\n";
