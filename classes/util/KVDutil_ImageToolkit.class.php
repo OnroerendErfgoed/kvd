@@ -111,6 +111,13 @@ class KVDutil_ImageToolkit{
     return $dst;
  }
  
+ 
+	/**
+	 * getSize
+	 *  zoekt de breedte en hoogte van de foto op en geeft deze in een array terug.
+	 * @param resource
+	 * @return array
+	 */
 	static function getSize($src)
 	{
 		$x = imagesx( $src );
@@ -118,6 +125,16 @@ class KVDutil_ImageToolkit{
 		return array("x"=>$x, "y"=>$y);
 	}
 	
+	
+	/**
+	 * isValidFoto
+	 *  Neemt een foto en controleert of deze voldoet aan de eisen gegeven
+	 *  in de configuratie. De test bevat minimum en maximum afmetingen 
+	 *  alsook mimetypes.
+	 * @param string bestandsnaam van de foto
+	 * @param array configuratie
+	 * @return boolean
+	 */
 	static function isValidFoto($filename, $config)
 	{
 		$data = getimagesize($filename);
