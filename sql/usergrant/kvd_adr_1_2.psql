@@ -1,0 +1,11 @@
+SET NAMES 'LATIN1';
+
+-- Gebruikers-permissies
+GRANT SELECT ON kvd_adr.straat TO PUBLIC;
+GRANT SELECT, UPDATE, DELETE, INSERT ON kvd_adr.straat TO vandaeko, developer;
+
+GRANT SELECT ON kvd_adr.huisnummer TO PUBLIC;
+GRANT SELECT, UPDATE, DELETE, INSERT ON kvd_adr.huisnummer TO vandaeko, developer;
+
+GRANT SELECT ON kvd_adr.terreinobject TO PUBLIC;
+GRANT SELECT, UPDATE, DELETE, INSERT ON kvd_adr.terreinobject TO vandaeko, developer;
