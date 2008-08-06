@@ -18,13 +18,6 @@ CREATE TABLE kvd_adr.huisnummer(
 	CONSTRAINT huisnummer_pkey PRIMARY KEY (id)
 );
 
-CREATE TABLE kvd_adr.huisnummer(
-	id integer NOT NULL,
-	nummer	VARCHAR(120) NOT NULL,
-	straat_id INTEGER NOT NULL REFERENCES kvd_adr.straat (id),
-	CONSTRAINT huisnummer_pkey PRIMARY KEY (id)
-);
-
 CREATE TABLE kvd_adr.terreinobject(
 	id integer NOT NULL,
 	aard	VARCHAR(120) NOT NULL,
