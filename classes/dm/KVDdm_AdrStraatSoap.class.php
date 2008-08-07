@@ -9,7 +9,7 @@
  */
 
 /**
- * KVDdm_AdrStraat 
+ * KVDdm_AdrStraatSoap 
  * 
  * @package KVD.dm
  * @subpackage Adr
@@ -18,7 +18,7 @@
  * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
-class KVDdm_AdrStraat {
+class KVDdm_AdrStraatSoap {
     
     /**
      * Het soort domain-object dat deze mapper teruggeeft. 
@@ -56,7 +56,7 @@ class KVDdm_AdrStraat {
      * @param KVDdo_AdrGemeente
      * @return KVDdo_AdrStraat
      */
-    public function doLoad( $id , $crabData , $gemeente = null)
+    private function doLoad( $id , $crabData , $gemeente = null)
     {
         $domainObject = $this->_sessie->getIdentityMap( )->getDomainObject( self::RETURNTYPE, $id);
         if ( $domainObject !== null ) {

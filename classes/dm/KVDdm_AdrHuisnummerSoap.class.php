@@ -9,7 +9,7 @@
  */
 
 /**
- * KVDdm_AdrHuisnummer 
+ * KVDdm_AdrHuisnummerSoap 
  * 
  * @package KVD.dm
  * @subpackage Adr
@@ -18,7 +18,7 @@
  * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
-class KVDdm_AdrHuisnummer {
+class KVDdm_AdrHuisnummerSoap {
     
     /**
      * Het soort domain-objects dat deze mapper teruggeeft. 

@@ -9,7 +9,7 @@
  */
 
 /**
- * KVDdm_AdrTerreinobject 
+ * KVDdm_AdrTerreinobjectSoap 
  * 
  * @package KVD.dm
  * @subpackage Adr
@@ -18,7 +18,7 @@
  * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
-class KVDdm_AdrTerreinobject {
+class KVDdm_AdrTerreinobjectSoap {
     
     /**
      * Code volgens de EPSG voor de Belge Lambert projectie.
