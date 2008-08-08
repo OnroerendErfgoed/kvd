@@ -48,18 +48,22 @@ class KVDgis_CrabSqlGenerator
      */
     public function generateSqlStraten( KVDdo_AdrGemeente $gemeente )
     {
-			$mapper = $this->sessie->getMapper( $domainObject , 'soap');
-			$sql = "--Straten.\n";
+			$mapper = $this->sessie->getMapper( "KVDdo_AdrStraat" , 'soap');
 			
+			$startTime = microtime();
 			$straten = $mapper->findByGemeente( $gemeente );
+			$endTime = microtime();
+			$sql = "--Straten voor ".$gemeente->getGemeenteNaam()." (geladen in ".($endTime - $startTime)." secs)\n";
 			
+			if($straten->count() == 0) {
+				$sql.= "--Geen uit mapper ".get_class($mapper)."\n";
+			}
 			foreach ( $straten as $straat) {
 				$sql .= sprintf( "INSERT INTO kvd_adr.straat VALUES ( %d, '%s', '%s', %d);\n", 
-					$thesaurus_id, 
 					$straat->getId( ),
-					$straat->getNaam( ), 
-					$straat->getLabel( ), 
-					$straat->getGemeenteId()
+					$straat->getStraatnaam( ), 
+					$straat->getStraatLabel( ), 
+					$straat->getGemeente()->getId()
 				);
 			}
 			return $sql;
