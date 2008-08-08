@@ -1,24 +1,25 @@
 <?php
 /**
- * @package KVD.dom
- * @subpackage collection
- * @version $Id$
- * @copyright 2004-2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @package     KVD.dom
+ * @subpackage  collection
+ * @version     $Id$
+ * @copyright   2004-2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
  * KVDdom_LazyDomainObjectCollection 
  * 
  * Object om luie collecties van DomainObjects te beheren.
- * De collectie wordt niet meteen geladen, maar slechts in stukjes, wanneer dit nodig is. Zo kunnen grote collecties ook gebruikt worden zonder al te veel overhead.
- * @package KVD.dom
- * @subpackage collection
- * @since 2005
- * @copyright 2004-2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * De collectie wordt niet meteen geladen, maar slechts in stukjes, wanneer dit nodig is. i
+ * Zo kunnen grote collecties ook gebruikt worden zonder al te veel overhead.
+ * @package     KVD.dom
+ * @subpackage  collection
+ * @since       2005
+ * @copyright   2004-2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDdom_LazyDomainObjectCollection extends KVDdom_DomainObjectCollection
 {
@@ -109,6 +110,12 @@ class KVDdom_LazyDomainObjectCollection extends KVDdom_DomainObjectCollection
     }
 
     
+    /**
+     * fillChunk 
+     *
+     * Deze functie vult het volgende stuk van de collectie.
+     * @return void
+     */
     private function fillChunk()
     {
         $chunk = floor ( $this->currentIndex / $this->_chunkyQuery->getRowsPerChunk() ) + 1;
@@ -119,6 +126,20 @@ class KVDdom_LazyDomainObjectCollection extends KVDdom_DomainObjectCollection
             $this->collection[$i] = $DomainObject;
             $i++;
         }
+    }
+
+    /**
+     * setRowsPerChunk 
+     * 
+     * Stel in hoeveel rijen er geladen worden in 1 keer. Standaard wordt er gewerkt met blokken van 100 rijen.
+     * Op sommige momenten ( zoals een rapport) kan het handig zijn de blokgrootte te verhogen.
+     * @since   8 aug 2008
+     * @param   integer     $rows 
+     * @return  void
+     */
+    public function setRowsPerChunk( $rows )
+    {
+        $this->_chunkyQuery->setRowsPerChunk( $rows );
     }
 
 

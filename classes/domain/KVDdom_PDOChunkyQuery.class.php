@@ -1,10 +1,10 @@
 <?php
 /**
- * @package KVD.dom
- * @copyright 2004-20067 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
- * @version $Id$
+ * @package     KVD.dom
+ * @copyright   2004-2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @version     $Id$
  */
 
 /**
@@ -15,11 +15,11 @@
  * worden door middel van setChunk.
  * Bv. setChunk(2) zal er voor zorgen dat de tweede blok records wordt geladen.
  *
- * @package KVD.dom
- * @since 24 jul 2006
- * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @package     KVD.dom
+ * @since       24 jul 2006
+ * @copyright   2004-2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDdom_PDOChunkyQuery
 {

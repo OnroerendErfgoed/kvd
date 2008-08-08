@@ -43,9 +43,9 @@ class KVDdom_DomainObjectCollectionPager
 
     
     /**
-     * @param KVDdom_DomainObjectCollection $collection
-     * @param integer $page De startPagina.
-     * @param integer $rowsPerPage Het aantal rijen per pagina.
+     * @param KVDdom_DomainObjectCollection     $collection
+     * @param integer                           $page           De startPagina.
+     * @param integer                           $rowsPerPage    Het aantal rijen per pagina.
      */
     public function __construct ( $collection , $page = 1 , $rowsPerPage = 25)
     {
@@ -55,6 +55,10 @@ class KVDdom_DomainObjectCollectionPager
         $this->_collection = $collection;
         $this->rowsPerPage = $rowsPerPage;
         $this->setPage( $page );
+        // Indien het om een luie collectie gaat dan zorgen we er voor dat de pagina-groottes van de pager en de collectie gelijk zijn.
+        if ( $collection instanceof KVDdom_LazyDomainObjectCollection ) {
+            $collection->setRowsPerChunk( $rowsPerPage );
+        }
     }
     /**
      * @return integer
