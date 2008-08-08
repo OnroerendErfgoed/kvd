@@ -43,16 +43,15 @@ class KVDgis_CrabSqlGenerator
 		/**
      * generateSqlStraten 
      * 
-     * @param string    $domainObject       Naam van het domain object dat de thesaurus kan leveren. 
-     *                                      Er zal altijd afgedwongen worden dat deze door de xml-mapper wordt geleverd.
-     * @return string                       Een string die alle sql statements bevat nodig om deze thesaurus in een databank op te vragen. 
+     * @param KVDdo_AdrGemeente	$gemeente gemeente voor welke de straten moeten opgezocht worden
+     * @return string	Een string die alle sql statements bevat nodig om de strateb in een databank op te slaan. 
      */
-    public function generateSqlStraten( $domainObject )
+    public function generateSqlStraten( KVDdo_AdrGemeente $gemeente )
     {
-			$this->sessie->setDefaultMapper( $domainObject, 'xml');
+			$mapper = $this->sessie->getMapper( $domainObject , 'soap');
 			$sql = "--Straten.\n";
 			
-			$straten = $this->sessie->getMapper( $domainObject )->findAll( );
+			$straten = $mapper->findByGemeente( $gemeente );
 			
 			foreach ( $straten as $straat) {
 				$sql .= sprintf( "INSERT INTO kvd_adr.straat VALUES ( %d, '%s', '%s', %d);\n", 
