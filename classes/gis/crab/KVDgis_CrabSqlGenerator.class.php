@@ -68,4 +68,34 @@ class KVDgis_CrabSqlGenerator
 			}
 			return $sql;
     }
+
+
+		/**
+     * generateSqlHuisnummers 
+     * 
+     * @param KVDdo_AdrStraat	$straat straat voor welke de huisnummers moeten opgezocht worden
+     * @return string	Een string die alle sql statements bevat nodig om de strateb in een databank op te slaan. 
+     */
+    public function generateSqlHuisnummers( KVDdo_AdrStraat $straat )
+    {
+			$mapper = $this->sessie->getMapper( "KVDdo_AdrHuisnummer");
+			
+			$startTime = microtime();
+			$huizen = $mapper->findByStraat( $straat);
+			$endTime = microtime();
+			$sql = "--Huizen voor ".$straat->getStraatnaam()." (geladen in ".($endTime - $startTime)." secs)\n";
+			
+			if($huizen->count() == 0) {
+				$sql.= "--Geen uit mapper ".get_class($mapper)."\n";
+			}
+			foreach ( $huizen as $huis) {
+				$sql .= sprintf( "INSERT INTO kvd_adr.huisnummer VALUES ( %d, '%s', %d);\n", 
+					$huis->getId( ),
+					$huis->getHuisnummer( ),
+					$straat->getId()
+				);
+			}
+			return $sql;
+    }
+
 }
