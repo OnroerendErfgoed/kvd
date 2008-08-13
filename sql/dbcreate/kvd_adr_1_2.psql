@@ -10,6 +10,8 @@ CREATE TABLE kvd_adr.straat(
 	CONSTRAINT straat_pkey PRIMARY KEY (id)
 );
 
+CREATE INDEX straat_gemeente_idx ON kvd_adr.straat (gemeente_id);
+CREATE INDEX straat_naam_idx ON kvd_adr.straat (naam);
 
 CREATE TABLE kvd_adr.huisnummer(
 	id integer NOT NULL,
@@ -18,13 +20,15 @@ CREATE TABLE kvd_adr.huisnummer(
 	CONSTRAINT huisnummer_pkey PRIMARY KEY (id)
 );
 
+CREATE INDEX huisnummer_straat_idx ON kvd_adr.huisnummer (straat_id);
+
 CREATE TABLE kvd_adr.terreinobject(
-	id integer NOT NULL,
-	aard	VARCHAR(120) NOT NULL,
-	center_x	INTEGER,
-	center_y	INTEGER,
-	huisnummer_id	INTEGER NOT NULL REFERENCES kvd_adr.huisnummer (id),
-	CONSTRAINT terreinobject_pkey PRIMARY KEY (id)
+	id VARCHAR(120) NOT NULL,
+	aard VARCHAR(120) NOT NULL,
+	center_x INTEGER,
+	center_y INTEGER,
+	huisnummer_id INTEGER NOT NULL REFERENCES kvd_adr.huisnummer (id),
+	CONSTRAINT terreinobject_pkey PRIMARY KEY (id, huisnummer_id)
 );
 
 
