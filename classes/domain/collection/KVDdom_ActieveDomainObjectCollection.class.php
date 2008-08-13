@@ -18,7 +18,7 @@
  * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
  * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
-class OARdom_ActieveDomainObjectCollection extends KVDdom_DomainObjectCollectionDecorator
+class KVDdom_ActieveDomainObjectCollection extends KVDdom_DomainObjectCollectionDecorator
 {
     /**
      * rewind 
