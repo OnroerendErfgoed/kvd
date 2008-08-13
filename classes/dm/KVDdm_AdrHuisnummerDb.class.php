@@ -20,7 +20,7 @@
  * @author Dieter Standaert <dieter.standaert@eds.com>
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
-class KVDdm_AdrHuisnummerDb {
+class KVDdm_AdrHuisnummerDb extends KVDdom_PDODataMapper{
     
 	/**
 	 * Het soort domain-objects dat deze mapper teruggeeft. 
@@ -157,6 +157,15 @@ class KVDdm_AdrHuisnummerDb {
 	{
 		return 'Onbepaald';
 	} 
+
+	/**
+	 * findAll
+	 * @return KVDdom_Collection
+	 */	
+	public function findAll()
+	{
+		 return $this->abstractFindAll(self::RETURNTYPE);
+	}
 
 }
 ?>

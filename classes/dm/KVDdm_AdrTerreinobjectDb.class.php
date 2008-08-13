@@ -20,9 +20,9 @@
  * @author Dieter Standaert <dieter.standaert@eds.com>
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
-class KVDdm_AdrTerreinobjectDb {
+class KVDdm_AdrTerreinobjectDb extends KVDdom_PDODataMapper{
     
-	s/**
+	/**
 	 * Code volgens de EPSG voor de Belge Lambert projectie.
 	 * @var integer
 	 */

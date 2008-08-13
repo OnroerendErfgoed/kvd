@@ -49,12 +49,13 @@ class KVDgis_CrabSqlGenerator
      */
     public function generateSqlStraten( KVDdo_AdrGemeente $gemeente, $log = false )
     {
-			$mapper = $this->sessie->getMapper( "KVDdo_AdrStraat" , 'soap');
 			
+			$this->sessie->setDefaultMapper(  "KVDdo_AdrStraat" , 'soap');
+			$mapper = $this->sessie->getMapper( "KVDdo_AdrStraat" , 'soap');
+			$sql = "";
 			$startTime = microtime();
 			$straten = $mapper->findByGemeente( $gemeente );
 			$endTime = microtime();
-			$sql = '';
 			if($log) {
 				$sql .= "--Straten voor ".$gemeente->getGemeenteNaam()." (geladen in ".($endTime - $startTime)." secs)\n";
 			}
@@ -65,8 +66,8 @@ class KVDgis_CrabSqlGenerator
 			foreach ( $straten as $straat) {
 				$sql .= sprintf( "INSERT INTO kvd_adr.straat VALUES ( %d, '%s', '%s', %d);\n", 
 					$straat->getId( ),
-					$straat->getStraatnaam( ), 
-					$straat->getStraatLabel( ), 
+					addslashes($straat->getStraatnaam( )), 
+					addslashes($straat->getStraatLabel( )), 
 					$straat->getGemeente()->getId()
 				);
 			}
@@ -83,12 +84,13 @@ class KVDgis_CrabSqlGenerator
      */
     public function generateSqlHuisnummers( KVDdo_AdrStraat $straat , $log = false)
     {
+			$this->sessie->setDefaultMapper(  "KVDdo_AdrHuisnummer" , 'soap');
 			$mapper = $this->sessie->getMapper( "KVDdo_AdrHuisnummer");
 			
 			$startTime = microtime();
 			$huizen = $mapper->findByStraat( $straat);
 			$endTime = microtime();
-			$sql = '';
+			$sql = "";
 			if($log) {
 				$sql .= "--Huizen voor ".$straat->getStraatnaam()." (geladen in ".($endTime - $startTime)." secs)\n";
 			}
@@ -99,7 +101,7 @@ class KVDgis_CrabSqlGenerator
 			foreach ( $huizen as $huis) {
 				$sql .= sprintf( "INSERT INTO kvd_adr.huisnummer VALUES ( %d, '%s', %d);\n", 
 					$huis->getId( ),
-					$huis->getHuisnummer( ),
+					addslashes($huis->getHuisnummer( )),
 					$straat->getId()
 				);
 			}
@@ -115,12 +117,13 @@ class KVDgis_CrabSqlGenerator
      */
     public function generateSqlTerreinobjecten( KVDdo_AdrHuisnummer $huis, $log = false )
     {
+			$this->sessie->setDefaultMapper(  "KVDdo_AdrTerreinobject" , 'soap');
 			$mapper = $this->sessie->getMapper( "KVDdo_AdrTerreinobject");
 			
 			$startTime = microtime();
 			$objecten = $mapper->findByHuisnummer( $huis);
 			$endTime = microtime();
-			$sql = '';
+			$sql = "";
 			if($log) {
 				$sql .= "--Terreinobjecten voor nr ".$huis->getHuisnummer()." (geladen in ".($endTime - $startTime)." secs)\n";
 			}
@@ -131,7 +134,7 @@ class KVDgis_CrabSqlGenerator
 			foreach ( $objecten as $object) {
 				$sql .= sprintf( "INSERT INTO kvd_adr.terreinobject VALUES ( %d, '%s', %d, %d, %d);\n", 
 					$object->getId( ),
-					$object->getAardTerreinObject( ),
+					addslashes($object->getAardTerreinObject( )),
 					$object->getCenter()->getX(),
 					$object->getCenter()->getY(),
 					$huis->getId()
