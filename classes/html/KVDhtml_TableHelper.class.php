@@ -129,7 +129,7 @@ class KVDhtml_TableHelper {
      * Wordt standaard ingesteld op een non-breaking space.
      * @param string $value 
      */
-    public function setEmptyCell($value='&nbsp;')
+    public function setEmptyCell($value='&#160;')
     {
         $this->emptyCell = $value;
     }
