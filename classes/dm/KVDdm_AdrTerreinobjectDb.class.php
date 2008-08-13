@@ -125,5 +125,14 @@ class KVDdm_AdrTerreinobjectDb extends KVDdom_PDODataMapper{
 		return $this->executeFindMany($stmt);
 	}
 
+	/**
+	 * findAll
+	 * @return KVDdom_Collection
+	 */	
+	public function findAll()
+	{
+		 return $this->abstractFindAll(self::RETURNTYPE);
+	}
+
 }
 ?>

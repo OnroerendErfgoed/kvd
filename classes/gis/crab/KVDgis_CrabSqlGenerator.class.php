@@ -132,8 +132,8 @@ class KVDgis_CrabSqlGenerator
 				$sql.= "--Geen uit mapper ".get_class($mapper)."\n";
 			}
 			foreach ( $objecten as $object) {
-				$sql .= sprintf( "INSERT INTO kvd_adr.terreinobject VALUES ( %d, '%s', %d, %d, %d);\n", 
-					$object->getId( ),
+				$sql .= sprintf( "INSERT INTO kvd_adr.terreinobject VALUES ( '%s', '%s', %d, %d, %d);\n", 
+					addSlashes($object->getId( )),
 					addslashes($object->getAardTerreinObject( )),
 					$object->getCenter()->getX(),
 					$object->getCenter()->getY(),
