@@ -25,23 +25,25 @@
 class KVDag_GemeenteNISValidator extends AgaviValidator
 {
     /**
-     * Validates whether the argument is a valid gemeente. 
+     * initialize 
      * 
-     * @return  bool    True when valid.
+     * @param AgaviContext  $context 
+     * @param array         $parameters 
+     * @param array         $arguments 
+     * @param array         $errors 
+     * @return void
      */
-    protected function validate( )
+    public function initialize(AgaviContext $context, array $parameters = array(), array $arguments = array(), array $errors = array())
     {
-        $value = $this->getData( $this->getArgument( ) );
-
-        $this->sessie = $this->getContext( )->getDatabaseManager( )->getDatabase( $this->getParameter( 'session_name', 'sessie' ) )->getConnection( );
-
-        try {
-            $dom = $this->sessie->getMapper( 'KVDdo_AdrGemeente' )->findById( $value );
-        } catch ( KVDdom_DomainObjectNotFoundException $e ) {
-            $this->throwError( );
-            return false;
+        if ( !isset( $parameters['domain_object'] ) ) {
+            $parameters['domain_object'] = 'KVDdo_AdrGemeente';
+        }
+        
+        if ( !isset( $errors[''] ) ) {
+            $errors[''] = 'U hebt een ongeldige gemeente ingegeven.'
         }
 
-        return true;
+        parent::initialize( $context, $parameters, $arguments, $errors );
     }
+
 }

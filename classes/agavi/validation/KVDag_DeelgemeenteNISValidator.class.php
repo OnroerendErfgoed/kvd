@@ -23,26 +23,27 @@
  * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
  * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
-class KVDag_DeelgemeenteNISValidator extends AgaviValidator
+class KVDag_DeelgemeenteNISValidator extends KVDag_IdValidator
 {
     /**
-     * Validates whether the argument is a valid deelgemeente. 
+     * initialize 
      * 
-     * @return  bool    True when valid.
+     * @param AgaviContext  $context 
+     * @param array         $parameters 
+     * @param array         $arguments 
+     * @param array         $errors 
+     * @return void
      */
-    protected function validate( )
+    public function initialize(AgaviContext $context, array $parameters = array(), array $arguments = array(), array $errors = array())
     {
-        $value = $this->getData( $this->getArgument( ) );
-
-        $this->sessie = $this->getContext( )->getDatabaseManager( )->getDatabase( $this->getParameter( 'session_name', 'sessie' ) )->getConnection( );
-
-        try {
-            $dom = $this->sessie->getMapper( 'KVDdo_AdrDeelgemeente' )->findById( $value );
-        } catch ( KVDdom_DomainObjectNotFoundException $e ) {
-            $this->throwError( );
-            return false;
+        if ( !isset( $parameters['domain_object'] ) ) {
+            $parameters['domain_object'] = 'KVDdo_AdrDeelgemeente';
+        }
+        
+        if ( !isset( $errors[''] ) ) {
+            $errors[''] = 'U hebt een ongeldige deelgemeente ingegeven.'
         }
 
-        return true;
+        parent::initialize( $context, $parameters, $arguments, $errors );
     }
 }
