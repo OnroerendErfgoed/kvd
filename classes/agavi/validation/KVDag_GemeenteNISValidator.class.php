@@ -22,7 +22,7 @@
  * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
  * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
-class KVDag_GemeenteNISValidator extends AgaviValidator
+class KVDag_GemeenteNISValidator extends KVDag_IdValidator
 {
     /**
      * initialize 
@@ -40,7 +40,7 @@ class KVDag_GemeenteNISValidator extends AgaviValidator
         }
         
         if ( !isset( $errors[''] ) ) {
-            $errors[''] = 'U hebt een ongeldige gemeente ingegeven.'
+            $errors[''] = 'U hebt een ongeldige gemeente ingegeven.';
         }
 
         parent::initialize( $context, $parameters, $arguments, $errors );

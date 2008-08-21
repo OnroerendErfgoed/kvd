@@ -41,7 +41,7 @@ class KVDag_DeelgemeenteNISValidator extends KVDag_IdValidator
         }
         
         if ( !isset( $errors[''] ) ) {
-            $errors[''] = 'U hebt een ongeldige deelgemeente ingegeven.'
+            $errors[''] = 'U hebt een ongeldige deelgemeente ingegeven.';
         }
 
         parent::initialize( $context, $parameters, $arguments, $errors );
