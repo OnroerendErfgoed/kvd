@@ -71,8 +71,9 @@ class KVDhtml_SlidingPager {
         $this->pager = $pager;
         $this->ro = $ro;
         $this->route = $route;
-        $this->parameters = array_merge ( $this->parameters, $parameters);
         $this->paginaNaam = isset( $parameters['pagina_naam'] ) ? $parameters['pagina_naam'] : 'pagina';
+        unset( $parameters['pagina_naam'] );
+        $this->parameters = array_merge ( $this->parameters, $parameters);
         $this->lh = new KVDhtml_LinkHelper( );
     }
 
