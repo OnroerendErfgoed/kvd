@@ -20,7 +20,7 @@ class KVDUtil_Syndicator
 	protected	$docElement = null;
 	protected	$root	= null;
 	protected	$items = null;
-	protected	$hasChannel = null;
+	protected	$hasChannel = true;
 	protected	$tagMap = array(
 		'item'	=>	'item',
 		'feeddesc'	=>	'description',
@@ -155,7 +155,7 @@ class KVDUtil_RSS1 extends KVDUtil_Syndicator
 class KVDUtil_RSS2 extends KVDUtil_Syndicator
 {
 	protected $NS = null;
-	protected $SHELL = '<rss version="2.0"/>';
+	protected $SHELL = "<rss version=\"2.0\"/>";
 	
 	public function __construct($title, $url, $description, $pubDate = null, $id = null)
 	{
