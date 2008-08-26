@@ -38,7 +38,35 @@ class KVDgis_CrabSqlGenerator
     {
         $this->sessie = $sessie;
 
+    }   
+
+		/**
+     * generateSqlTableStraten 
+     * 
+     * @param KVDdo_AdrGemeente	$gemeente gemeente voor welke de straten moeten opgezocht worden
+     * @return string	Een string die alle sql statements bevat nodig om de strateb in een databank op te slaan. 
+     */
+    public function generateStratenTable( KVDdo_AdrGemeente $gemeente)
+    {
+			
+			$this->sessie->setDefaultMapper(  "KVDdo_AdrStraat" , 'soap');
+			$mapper = $this->sessie->getMapper( "KVDdo_AdrStraat" , 'soap');
+			$sql = "";
+			$startTime = microtime();
+			$straten = $mapper->findByGemeente( $gemeente );
+			$endTime = microtime();
+			foreach ( $straten as $straat) {
+				$sql .= 
+					$straat->getId( ) ."\t".
+					$straat->getStraatnaam( ) ."\t".
+					$straat->getStraatLabel( ) ."\t".
+					$straat->getGemeente()->getId() ."\n";
+			}
+			return $sql;
     }
+
+
+
 
 		/**
      * generateSqlStraten 
@@ -70,6 +98,30 @@ class KVDgis_CrabSqlGenerator
 					addslashes($straat->getStraatLabel( )), 
 					$straat->getGemeente()->getId()
 				);
+			}
+			return $sql;
+    }
+
+		/**
+     * generateHuisnummersTable
+     * 
+     * @param KVDdo_AdrStraat	$straat straat voor welke de huisnummers moeten opgezocht worden
+     * @return string	Een string die alle sql statements bevat nodig om de strateb in een databank op te slaan. 
+     */
+    public function generateHuisnummersTable( KVDdo_AdrStraat $straat)
+    {
+			$this->sessie->setDefaultMapper(  "KVDdo_AdrHuisnummer" , 'soap');
+			$mapper = $this->sessie->getMapper( "KVDdo_AdrHuisnummer");
+			
+			$startTime = microtime();
+			$huizen = $mapper->findByStraat( $straat);
+			$endTime = microtime();
+			$sql = "";
+			foreach ( $huizen as $huis) {
+				$sql .= 
+					$huis->getId( )."\t".
+					addslashes($huis->getHuisnummer( ))."\t".
+					$straat->getId()."\n";
 			}
 			return $sql;
     }
@@ -110,9 +162,34 @@ class KVDgis_CrabSqlGenerator
 
 
 		/**
-     * generateSqlHuisnummers 
+     * generateTerreinobjectenTable 
      * 
-     * @param KVDdo_AdrStraat	$straat straat voor welke de huisnummers moeten opgezocht worden
+     * @param KVDdo_AdrHuisnummer	$huis huis voor welke de terreinobjecten moeten opgezocht worden
+     * @return string	Een string die alle sql statements bevat nodig om de strateb in een databank op te slaan. 
+     */
+    public function generateTerreinobjectenTable( KVDdo_AdrHuisnummer $huis)
+    {
+			$this->sessie->setDefaultMapper(  "KVDdo_AdrTerreinobject" , 'soap');
+			$mapper = $this->sessie->getMapper( "KVDdo_AdrTerreinobject");
+			
+			$startTime = microtime();
+			$objecten = $mapper->findByHuisnummer( $huis);
+			$endTime = microtime();
+			$sql = "";
+			foreach ( $objecten as $object) {
+				$sql .=
+					$object->getId( )."\t".
+					$object->getAardTerreinObject( )."\t".
+					$object->getCenter()->getX()."\t".
+					$object->getCenter()->getY()."\t".
+					$huis->getId()."\n";
+			}
+			return $sql;
+    }
+		/**
+     * generateSqlTerreinobjecten 
+     * 
+     * @param KVDdo_AdrHuisnummer	$huis huis voor welke de terreinobjecten moeten opgezocht worden
      * @return string	Een string die alle sql statements bevat nodig om de strateb in een databank op te slaan. 
      */
     public function generateSqlTerreinobjecten( KVDdo_AdrHuisnummer $huis, $log = false )
