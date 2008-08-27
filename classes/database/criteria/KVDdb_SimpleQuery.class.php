@@ -1,16 +1,16 @@
 <?php
 /**
- * @package KVD.database
- * @subpackage criteria
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
- * @version $Id$
+ * @package     KVD.database
+ * @subpackage  criteria
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
+ * @version     $Id$
  */
 
 /**
- * @package KVD.database
- * @subpackage criteria
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
- * @since 28 aug 2006
+ * @package     KVD.database
+ * @subpackage  criteria
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
+ * @since       28 aug 2006
  */
 class KVDdb_SimpleQuery
 {
@@ -44,19 +44,28 @@ class KVDdb_SimpleQuery
     private $criteria;
 
     /**
+     * distinct 
+     * 
+     * @var boolean
+     */
+    private $distinct;
+
+    /**
      * __construct 
      * 
      * @param array             $fields 
      * @param string            $table 
      * @param KVDdb_Criteria    $criteria 
+     * @param boolean           $distinct   Of enkel de unieke waarden gezocht mogen worden, standaard wordt alles gezocht.
      * @return void
      */
-    public function __construct ( $fields , $table , KVDdb_Criteria $criteria = null )
+    public function __construct ( $fields , $table , KVDdb_Criteria $criteria = null, $distinct = false )
     {
         $this->fields = $fields;
         $this->table = $table;
         $this->joins = array( );
         $this->criteria = is_null( $criteria ) ? new KVDdb_Criteria( ) : $criteria;
+        $this->distinct = $distinct;
     }
 
     /**
@@ -66,7 +75,7 @@ class KVDdb_SimpleQuery
      */
     public function generateSql( )
     {
-        $sql =  'SELECT ' . implode ( $this->fields, ', ' ) . ' FROM ' . $this->table;
+        $sql =  'SELECT ' . ( $this->distinct ? 'DISTINCT ' : '' ) . implode ( $this->fields, ', ' ) . ' FROM ' . $this->table;
         if ( $this->hasJoins( ) ) {
             foreach( $this->joins as $join ) {
                 $sql .= ' ' . $join->generateSql( );
