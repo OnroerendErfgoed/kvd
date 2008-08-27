@@ -151,7 +151,7 @@ class KVDdo_AdrGemeente extends KVDdom_ReadonlyDomainObject {
      */
     public function getVolledigeOmschrijving( )
     {
-        return $this->provincie->getOmschrijving( ) . ' > ' . $this->naam;
+        return $this->provincie->getVolledigeOmschrijving( ) . ' > ' . $this->naam;
     }
 
     /**

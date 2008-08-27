@@ -99,6 +99,17 @@ class KVDdo_AdrStraat extends KVDdom_ReadonlyDomainObject {
     }
 
     /**
+     * getVolledigeOmschrijving 
+     * 
+     * @since   22 aug 2008 
+     * @return  string
+     */
+    public function getVolledigeOmschrijving( )
+    {
+        return $this->gemeente->getVolledigeOmschrijving( ) . ' > ' . $this->naam;
+    }
+
+    /**
      * @return KVDdo_NullAdrStraat
      */
     public function newNull( )

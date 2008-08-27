@@ -67,6 +67,17 @@ class KVDdo_AdrProvincie extends KVDdom_ReadonlyDomainObject{
     }
 
     /**
+     * getVolledigeOmschrijving 
+     * 
+     * @since   22 aug 2008
+     * @return  string
+     */
+    public function getVolledigeOmschrijving( )
+    {
+        return $this->naam;
+    }
+
+    /**
      * @return KVDdo_NullAdrProvincie( )
      */
     static public function newNull( )
