@@ -19,7 +19,7 @@
  * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
-class KVDdom_DomainObjectCollectionPager
+class KVDdom_DomainObjectCollectionPager implements Countable
 {
     /**
      * @var KVDdom_DomainObjectCollection
@@ -189,6 +189,17 @@ class KVDdom_DomainObjectCollectionPager
     public function getTotalRecordCount()
     {
         return $this->_collection->getTotalRecordCount();    
+    }
+
+    /**
+     * count 
+     * 
+     * @since   29 aug 2008
+     * @return  integer
+     */
+    public function count( )
+    {
+        return $this->_collection->getTotalRecordCount( );
     }
 
     /**
