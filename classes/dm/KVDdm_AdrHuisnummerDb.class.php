@@ -115,7 +115,7 @@ class KVDdm_AdrHuisnummerDb extends KVDdom_PDODataMapper{
 		if ( !$row = $stmt->fetch( PDO::FETCH_OBJ ) ) {
 			throw new KVDdom_DomainObjectNotFoundException ( 'Kon het huisnummer niet vinden' , self::RETURNTYPE, null);
 		}
-		return $this->doLoad($row, $row->id);
+		return $this->doLoad($row->id, $row);
 	}
 
 	/**
