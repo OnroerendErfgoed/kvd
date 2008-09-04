@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     KVD.agavi
- * @subpackage  validator
+ * @subpackage  validation
  * @version     $Id$
  * @copyright   2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
@@ -17,7 +17,7 @@
  *  <li>'session_name' : Name of the session that knows where to find the datamapper for Deelgemeentes.</li> 
  * </ul>
  * @package     KVD.agavi
- * @subpackage  validator
+ * @subpackage  validation
  * @since       19 aug 2008
  * @copyright   2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 

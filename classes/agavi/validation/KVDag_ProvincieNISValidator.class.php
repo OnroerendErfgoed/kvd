@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     KVD.agavi
- * @subpackage  validator
+ * @subpackage  validation
  * @version     $Id$
  * @copyright   2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
@@ -12,7 +12,7 @@
  * Validate whether the input is a valid NIS provincie number.
  * 
  * @package     KVD.agavi
- * @subpackage  validator
+ * @subpackage  validation
  * @since       19 aug 2008
  * @copyright   2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
@@ -37,5 +37,4 @@ class KVDag_ProvincieNISValidator extends AgaviValidator
         $this->export( $value );
 
         return true;
-    }
-}
+    }}
