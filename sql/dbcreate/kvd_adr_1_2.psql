@@ -21,6 +21,7 @@ CREATE TABLE kvd_adr.huisnummer(
 );
 
 CREATE INDEX huisnummer_straat_idx ON kvd_adr.huisnummer (straat_id);
+CREATE INDEX huisnummer_nummer_idx ON kvd_adr.huisnummer (nummer);
 
 CREATE TABLE kvd_adr.terreinobject(
 	id VARCHAR(120) NOT NULL,
