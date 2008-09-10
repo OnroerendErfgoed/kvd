@@ -4,8 +4,8 @@ BEGIN TRANSACTION;
 
 CREATE TABLE kvd_adr.straat(
 	id integer NOT NULL,
-	naam	VARCHAR(120) NOT NULL,
-	label	VARCHAR(120) NOT NULL,
+	naam	VARCHAR(50) NOT NULL,
+	label	VARCHAR(50) NOT NULL,
 	gemeente_id INTEGER NOT NULL REFERENCES kvd_adr.gemeente (id),
 	CONSTRAINT straat_pkey PRIMARY KEY (id)
 );
@@ -15,7 +15,7 @@ CREATE INDEX straat_naam_idx ON kvd_adr.straat (naam);
 
 CREATE TABLE kvd_adr.huisnummer(
 	id integer NOT NULL,
-	nummer	VARCHAR(120) NOT NULL,
+	nummer	VARCHAR(15) NOT NULL,
 	straat_id INTEGER NOT NULL REFERENCES kvd_adr.straat (id),
 	CONSTRAINT huisnummer_pkey PRIMARY KEY (id)
 );
