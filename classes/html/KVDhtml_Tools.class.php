@@ -27,7 +27,7 @@ class KVDhtml_Tools
      */
     public static function out( $value )
     {
-        return htmlentities( $value , ENT_QUOTES , 'UTF-8' );
+        return htmlspecialchars( $value , ENT_QUOTES , 'UTF-8' );
     }
 
     /**
