@@ -31,12 +31,11 @@ class KVDag_BeschermingsNummerValidator extends AgaviRegexValidator
      */
     public function initialize(AgaviContext $context, array $parameters = array(), array $arguments = array(), array $errors = array())
     {
-        $parameters['pattern'] = '/^O[BWOLA][0-9]{6}$';
+        $parameters['pattern'] = '/^O[BWOLA][0-9]{6}$/';
         $parameters['match'] = true;
 
         if ( !isset( $errors[''] ) ) {
-            $errors[''] = 'U hebt een ongeldig beschermingsnummer opgegeven. Een geldig nummer bestaat uit de hoofdletter O, 
-            gevolgd door een éénlettercode voor de provincie en een getal van 6 cijfers.'
+            $errors[''] = 'U hebt een ongeldig beschermingsnummer opgegeven. Een geldig nummer bestaat uit de hoofdletter O, gevolgd door een lettercode voor de provincie en een getal van 6 cijfers';
         }
 
         parent::initialize( $context, $parameters, $arguments, $errors );
