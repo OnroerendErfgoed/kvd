@@ -178,7 +178,7 @@ class KVDthes_Relations implements IteratorAggregate, Countable
      */
     private function compareRelations( $comparedMethod, KVDthes_Relation $a, KVDthes_Relation $b )
     {
-        return strcmp( $a->getTerm( )->$comparedMethod( ), $b->getTerm( )->$comparedMethod );
+        return strcmp( $a->getTerm( )->$comparedMethod( ), $b->getTerm( )->$comparedMethod( ) );
     }
 
     /**
