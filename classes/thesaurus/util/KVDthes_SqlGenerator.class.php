@@ -66,10 +66,10 @@ class KVDthes_SqlGenerator
             $sql .= sprintf( "INSERT INTO thes.term VALUES ( %d, %d, '%s', %s, '%s', %s);\n", 
                                 $thesaurus_id, 
                                 $term->getId( ),
-                                $term->getTerm( ), 
-                                $term->getQualifier( ) !== null ? "'" . $term->getQualifier( ) . "'" : 'null', 
-                                $term->getLanguage(),
-                                $term->getSortKey( ) === $term->getTerm( ) ? 'null' : "'" . $term->getSortKey( ) . "'" 
+                                addslashes( $term->getTerm( ) ), 
+                                $term->getQualifier( ) !== null ? "'" . addslashes( $term->getQualifier( ) ) . "'" : 'null', 
+                                addslashes( $term->getLanguage() ),
+                                $term->getSortKey( ) === $term->getTerm( ) ? 'null' : "'" . addslashes( $term->getSortKey( ) ) . "'" 
                                 );
         }
         $sql .= "\n";
@@ -84,11 +84,11 @@ class KVDthes_SqlGenerator
             }
         }
         $sql .= "\n";
-
+        
         $sql .= "--Notes.\n";
         foreach ( $termen as $term ) {
             if ( $term->getScopeNote( ) != null || $term->getSourceNote( ) != null ) {
-                $sql .= sprintf( "INSERT INTO thes.notes VALUES ( %d, %d, '%s', '%s');\n", $thesaurus_id, $term->getId( ), $term->getScopeNote( ), $term->getSourceNote( ) );
+                $sql .= sprintf( "INSERT INTO thes.notes VALUES ( %d, %d, '%s', '%s');\n", $thesaurus_id, $term->getId( ), addslashes( $term->getScopeNote( ) ), addslashes( $term->getSourceNote( ) ) );
             }
         }
         $sql .= "\n";

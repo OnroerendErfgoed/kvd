@@ -35,6 +35,13 @@ abstract class KVDthes_XmlMapper implements KVDthes_IDataMapper
     protected $dom;
 
     /**
+     * xp 
+     * 
+     * @var DOMXPath
+     */
+    protected $xp;
+
+    /**
      * root 
      * 
      * De root node van deze thesaurus.
@@ -59,6 +66,7 @@ abstract class KVDthes_XmlMapper implements KVDthes_IDataMapper
         }
         $this->dom = new DOMDocument( '1.0' );
         $this->dom->load( $parameters['file'] );
+        $this->xp = new DOMXPath( $this->dom );
         $this->loadIdentityMap( );
     }
 
@@ -153,6 +161,19 @@ abstract class KVDthes_XmlMapper implements KVDthes_IDataMapper
     {
         return KVDthes_Thesaurus::newNull( );
     }
+
+    /**
+     * findNodeForTerm 
+     * 
+     * @param   KVDthes_Term $termObj 
+     * @return  DOMNode
+     */
+    private function findNodeForTerm( KVDthes_Term $termObj )
+    {
+        $list = $this->xp->query( '/Zthes/term[termId="' . $termObj->getId( ) . '"]' );
+
+        return $list->item(0);
+    }
     
 
     /**
@@ -163,18 +184,14 @@ abstract class KVDthes_XmlMapper implements KVDthes_IDataMapper
      */
     public function loadRelations( KVDthes_Term $termObj )
     {
-        foreach (  $this->dom->getElementsByTagName( 'term' ) as $term ) {
-            $id = $term->getElementsByTagName( 'termId' )->item( 0 )->nodeValue;
-            if ( $id == $termObj->getId( ) ) {
-                foreach ( $term->getElementsByTagName( 'relation' ) as $relation ) {
-                    $relId = $relation->getElementsByTagName( 'termId' )->item( 0 )->nodeValue;
-                    $relType = $relation->getElementsByTagName( 'relationType' )->item( 0 )->nodeValue;
-                    $termObj->addRelation ( new KVDthes_Relation ( $relType , $this->findById( $relId ) ) );
-                }
-                $termObj->setLoadState( KVDthes_Term::LS_REL );
-                break;
-            }
+        $term = $this->findNodeForTerm( $termObj );
+        foreach ( $term->getElementsByTagName( 'relation' ) as $relation ) {
+            $relId = $relation->getElementsByTagName( 'termId' )->item( 0 )->nodeValue;
+            $relType = $relation->getElementsByTagName( 'relationType' )->item( 0 )->nodeValue;
+            $termObj->addRelation ( new KVDthes_Relation ( $relType , $this->findById( $relId ) ) );
         }
+        $termObj->setLoadState( KVDthes_Term::LS_REL );
+
         return $termObj;
     }
 
@@ -186,13 +203,8 @@ abstract class KVDthes_XmlMapper implements KVDthes_IDataMapper
      */
     public function loadScopeNote( KVDthes_Term $termObj )
     {
-        foreach (  $this->dom->getElementsByTagName( 'term' ) as $term ) {
-            $id = $term->getElementsByTagName( 'termId' )->item( 0 )->nodeValue;
-            if ( $id == $termObj->getId( ) ) {
-                $this->loadNote( $term, 'Scope' , $termObj);
-                break;
-            }
-        }
+        $this->loadNote( $this->findNodeForTerm($termObj), 'Scope' , $termObj);
+        
         return $termObj;
     }
 
@@ -204,13 +216,7 @@ abstract class KVDthes_XmlMapper implements KVDthes_IDataMapper
      */
     public function loadSourceNote( KVDthes_Term $termObj )
     {
-        foreach (  $this->dom->getElementsByTagName( 'term' ) as $term ) {
-            $id = $term->getElementsByTagName( 'termId' )->item( 0 )->nodeValue;
-            if ( $id == $termObj->getId( ) ) {
-                $this->loadNote( $term, 'Source' , $termObj);
-                break;
-            }
-        }
+        $this->loadNote( $this->findNodeForTerm($termObj), 'Source' , $termObj);
         return $termObj;
     }
 
