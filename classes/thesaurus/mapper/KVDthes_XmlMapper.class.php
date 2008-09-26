@@ -171,6 +171,10 @@ abstract class KVDthes_XmlMapper implements KVDthes_IDataMapper
     {
         $list = $this->xp->query( '/Zthes/term[termId="' . $termObj->getId( ) . '"]' );
 
+        if ( $list->length == 0 ) {
+            throw new RuntimeException ( 'Unable to find term node with id ' . $termObj->getId( ) . '!' );
+        }
+
         return $list->item(0);
     }
     
@@ -202,7 +206,9 @@ abstract class KVDthes_XmlMapper implements KVDthes_IDataMapper
      */
     public function loadScopeNote( KVDthes_Term $termObj )
     {
-        $this->loadNote( $this->findNodeForTerm($termObj), 'Scope' , $termObj);
+        $term = $this->findNodeForTerm( $termObj );
+        
+        $this->loadNote( $term, 'Scope' , $termObj);
         
         return $termObj;
     }
@@ -215,7 +221,10 @@ abstract class KVDthes_XmlMapper implements KVDthes_IDataMapper
      */
     public function loadSourceNote( KVDthes_Term $termObj )
     {
-        $this->loadNote( $this->findNodeForTerm($termObj), 'Source' , $termObj);
+        $term = $this->findNodeForTerm( $termObj );
+        
+        $this->loadNote( $term, 'Source' , $termObj);
+        
         return $termObj;
     }
 
@@ -227,10 +236,11 @@ abstract class KVDthes_XmlMapper implements KVDthes_IDataMapper
      * @param KVDthes_Term $termObj
      * @return boolean Was the note loaded?
      */
-    private function loadNote( $term, $type, $termObj)
+    private function loadNote( DOMElement $term, $type, KVDthes_Term $termObj)
     {
+        $this->sessie->getLogger( )->log( $term->nodeValue );
         foreach ( $term->getElementsByTagName( 'termNote' ) as $note ) {
-            if ( $note->hasAttribute( 'label' ) && $note->getAttribute( 'label' ) == $type ) {
+            if ( $note->hasAttribute( 'label' ) && strtolower($note->getAttribute( 'label' )) == strtolower($type) ) {
                 if ( $type == 'Source' ) {
                     $termObj->addSourceNote ( trim( $note->nodeValue ) );
                     $termObj->setLoadState( KVDthes_Term::LS_SOURCENOTE );
