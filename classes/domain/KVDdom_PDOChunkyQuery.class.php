@@ -160,8 +160,8 @@ class KVDdom_PDOChunkyQuery
         if ( stripos( $sql, 'DISTINCT') !== FALSE ) {
             $idField = 'DISTINCT ' . $idField;
         }
-        $sql = preg_replace( '/(SELECT).*?(FROM)/is' , 'SELECT COUNT('.$idField.') FROM' , $sql , 1);
-        $sql = preg_replace ( '/ ORDER.*/is','',$sql);
+        $sql = preg_replace( '/(SELECT).*(FROM)/is' , 'SELECT COUNT('.$idField.') FROM' , $sql , 1);
+        $sql = preg_replace ( '/[\n\s]*ORDER.*/is','',$sql);
         $this->logger->log ( $sql );
         return $sql;
     }
