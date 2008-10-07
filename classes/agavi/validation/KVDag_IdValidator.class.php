@@ -48,6 +48,16 @@ class KVDag_IdValidator extends AgaviValidator
 
         try {
             $dom = $mapper->$finder( $value );
+        } catch ( PDOException $e ) {
+            $this->getContext( )->getLoggerManager( )->log( 
+                sprintf(    'De KVDag_IdValidator kon een object niet vinden wegens een databank fout. De uitgevoerd methode was %s::%s. Dit leverde de volgende exception op: %s',
+                            $this->getParameter( 'domain_object'),
+                            $finder,
+                            $e->getMessage( ) )
+                            );
+            $this->throwError( );
+            return false;
+            
         } catch ( KVDdom_DomainObjectNotFoundException $e ) {
             $this->throwError( );
             return false;
