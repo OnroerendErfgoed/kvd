@@ -46,7 +46,9 @@ class KVDdom_LazyDomainObjectCollection extends KVDdom_DomainObjectCollection
         $this->_chunkyQuery = $chunkyQuery;
         if ($this->getTotalRecordCount() > 0 ) {
             $this->collection = array_fill (0, $this->getTotalRecordCount() , self::PLACEHOLDER);
-        } 
+        }
+        //Automatisch de eerte chunk laden
+        $this->fillChunk( );
     }
     
     /**

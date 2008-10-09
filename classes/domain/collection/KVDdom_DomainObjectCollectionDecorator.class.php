@@ -157,4 +157,15 @@ class KVDdom_DomainObjectCollectionDecorator extends KVDdom_DomainObjectCollecti
     {
         return $this->collection->toArray( );
     }
+
+    /**
+     * getFirst 
+     * 
+     * @return  mixed   Het eerste {@link KVDdom_DomainObjectCollection} uit de collection of false indien de collection leeg is.
+     */
+    public function getFirst( )
+    {
+        $this->rewind( );
+        return $this->current( );
+    }
 }

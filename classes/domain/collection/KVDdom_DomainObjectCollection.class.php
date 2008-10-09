@@ -51,7 +51,7 @@ class KVDdom_DomainObjectCollection implements SeekableIterator, Countable
     }
 
     /**
-     * @return KVDdom_DomainObject
+     * @return  mixed    Het huidige {@link KVDdom_DomainObject} of false indien er geen huidig object is.
      */
     public function current()
     {
@@ -63,7 +63,7 @@ class KVDdom_DomainObjectCollection implements SeekableIterator, Countable
      */
     public function key()
     {
-        return key ( $this->collection );   
+        return key ( $this->collection );
     }
 
     /**
@@ -169,6 +169,19 @@ class KVDdom_DomainObjectCollection implements SeekableIterator, Countable
     public function toArray( )
     {
         return $this->collection;
+    }
+
+    /**
+     * getFirst 
+     * 
+     * Geef het eerste domainobject uit de collection of false indien er geen elementen zijn. Let op dit, herinitialiseert de collection ook
+     * en zet de interne collectie pointer dus terug op het begin. Gebruik dit dus niet tijdens een loop.
+     * @return  mixed   Het eerste {@link KVDdom_DomainObject} uit de collection of false indien het niet bestaat.
+     */
+    public function getFirst( )
+    {
+        $this->rewind( );
+        return $this->current( );
     }
 }
 ?>
