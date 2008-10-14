@@ -31,16 +31,16 @@ class KVDutil_ImageToolkit{
    * @param integer $new_h de maximale hoogte voor de thumbnail, is standaard 130
    * @return resource een php beeld handler voor de thumbnail
    */
-  static function createThumbnailFor($src_img,$new_w = 130,$new_h = 130){
+  static function createThumbnailFor($src_img,$size = 128){
     /* calculate thumbnail size, preserving aspect ratio */ 
     $old_x=imageSX($src_img);
     $old_y=imageSY($src_img);
     if ($old_x > $old_y) {
-      $thumb_w=$new_w;
-      $thumb_h=$old_y*($new_h/$old_x);
+      $thumb_w=$size;
+      $thumb_h=$old_y*($size/$old_x);
     } else {
-      $thumb_w=$old_x*($new_w/$old_y);
-      $thumb_h=$new_h;
+      $thumb_w=$old_x*($size/$old_y);
+      $thumb_h=$size;
     }
     /* create new thumbnail */
     $dst_img=ImageCreateTrueColor($thumb_w,$thumb_h);
