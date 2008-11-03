@@ -127,6 +127,28 @@ class KVDdb_Criteria implements Countable
     {
         $this->orderFields = array( );
     }
+
+    /**
+     * hasOrder 
+     * 
+     * Ga na of er een sorteervolgorde werd ingesteld.
+     * @return  boolean
+     */
+    public function hasOrder( )
+    {
+        return count( $this->orderFields ) > 0;
+    }
+
+    /**
+     * hasCriteria 
+     * 
+     * Ga na of er zoekcriteria werden ingesteld.
+     * @return  boolean
+     */
+    public function hasCriteria( )
+    {
+        return count( $this->criteria ) > 0;
+    }
     
     /**
      * Telt het aantal criterion objecten.
