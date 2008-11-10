@@ -196,6 +196,9 @@ abstract class KVDdom_PDOChangeableDataMapper extends KVDdom_PDODataMapper {
                 $stmt->bindValue( 1 , $owner->getId( ) , $ownerIdType);
                 $stmt->bindValue( 3 , $owner->getSystemFields( )->getTargetVersie( ) , PDO::PARAM_INT );
                 foreach ( $coll as $item ) {
+                    if ( !$item instanceof KVDdom_DomainObject ) {
+                        throw new InvalidArgumentException( 'Een collection mag alleen maar DomainObjecten bevatten!' );
+                    }
                     $stmt->bindValue( 2 , $item->getId( ) , $collIdType);
                     $stmt->execute( );
                 }
