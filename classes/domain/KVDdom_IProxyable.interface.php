@@ -17,7 +17,7 @@
  * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
  * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
-interface KVDdom_IProxyable extends KVDdom_IDomainObject
+interface KVDdom_IProxyable extends KVDdom_DomainObject
 {
     /**
      * isProxy 
@@ -34,6 +34,6 @@ interface KVDdom_IProxyable extends KVDdom_IDomainObject
      * @param   integer             $id     Id nummer dat het proxy object moet hebben.
      * @return  KVDdom_IProxyable   Een object dat de proxyable interface implementeert.
      */
-    public function newProxy( $id );
+    public static function newProxy( $id );
 }
 ?>
