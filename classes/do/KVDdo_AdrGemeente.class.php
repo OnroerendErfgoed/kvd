@@ -179,7 +179,7 @@ class KVDdo_NullAdrGemeente extends KVDdo_AdrGemeente
         $this->provincie = ( $provincie === null ) ? KVDdo_AdrProvincie::newNull() : $provincie;
         $this->naam = 'Onbepaald';
         $this->crabId = 0;
-        $this->id = 0;
+        $this->id = ( $provincie === null ) ? null : $provincie->getId( ) ;
         $this->straten = new KVDdom_DomainObjectCollection( array( ) );
         $this->deelgemeenten = new KVDdom_DomainObjectCollection( array( ) );
         $this->kadastergemeente = new KVDdom_DomainObjectCollection( array( ) );
