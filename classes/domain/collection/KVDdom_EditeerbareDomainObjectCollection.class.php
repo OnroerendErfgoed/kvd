@@ -96,13 +96,14 @@ class KVDdom_EditeerbareDomainObjectCollection extends KVDdom_DomainObjectCollec
      * remove
      * 
      * @param KVDdom_DomainObject $object
+     * @throws InvalidArgumentException     Indien het object niet bestaat in de collectie.
      * @return void
      */
     public function remove( KVDdom_DomainObject $object )
     {
         $this->checkType( $object );
         if ( !$this->hasDomainObject( $object ) ) {
-            throw new LogicException( 'Het object dat u probeert te verwijderen bestaat niet!' );
+            throw new InvalidArgumentException( 'Het object dat u probeert te verwijderen bestaat niet!' );
         }
         $this->rewind( );
         unset( $this->collection[$object->getId( )] );
