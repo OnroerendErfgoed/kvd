@@ -57,12 +57,16 @@ class KVDdm_AdrStraatDb extends KVDdom_PDODataMapper{
 	}
 	
 	/**
-	 * @param integer $id
-	 * @param 
-	 * @return KVDdo_AdrStraat
+	 * @param   integer             $id
+	 * @param   StdClass            $rs 
+     * @param   KVDdo_AdrGemeente   $gemeente
+	 * @return  KVDdo_AdrStraat
 	 */
 	public function doLoad( $id , $rs, KVDdo_AdrGemeente $gemeente = null)
 	{
+        if ( !$rs instanceof stdClass ) {
+            throw new InvalidArgumentException( $rs . ' is geen stdClass.' );
+        }
 		$domainObject = $this->_sessie->getIdentityMap( )->getDomainObject( self::RETURNTYPE, $id);
 		if ( $domainObject !== null ) {
 			return $domainObject;
@@ -128,10 +132,11 @@ class KVDdm_AdrStraatDb extends KVDdom_PDODataMapper{
 	/**
 	 * Zoek een straat op basis van zijn naam en de gemeente waarin de straat ligt.
 	 * @param KVDdo_AdrGemeente $gemeente
+     * @param string            $straat
 	 * @return KVDdo_AdrStraat
 	 * @throws <b>KVDdom_DomainObjectNotFoundException</b> Indien het object niet geladen kon worden.
 	 */
-	public function findByNaam ( $gemeente, $naam )
+	public function findByNaam ( KVDdo_AdrGemeente $gemeente, $naam )
 	{
 		$sql = $this->getFindByGemeenteAndNaamStatement();
 		$this->_sessie->getSqlLogger( )->log( $sql );
@@ -142,7 +147,7 @@ class KVDdm_AdrStraatDb extends KVDdom_PDODataMapper{
 		if ( !$row = $stmt->fetch( PDO::FETCH_OBJ ) ) {
 			throw new KVDdom_DomainObjectNotFoundException ( 'Kon de straat niet vinden' , 'KVDdo_AdrStraat', null);
 		}
-		return $this->doLoad($row, $row->id);
+		return $this->doLoad($row->id,$row);
 	}
 	/**
 	 * findAll
