@@ -16,6 +16,7 @@
  *  <li>'domain_object' : Name of the domain object whose mapper has the find method. Generally this is the domain object for which the id should be checked. Required.</li>
  *  <li>'session_name' : Name of the session that knows where to find the datamapper for the domain object. Optional and defaults to 'sessie'.</li>
  *  <li>'finder_name' : Name of the finder that can return the domain object whose id is being checked. Optional and defaults to 'findById'.</li>
+ *  <li>'export' : Name of the exported domain object.</li>
  * </ul>
  * @package     KVD.agavi
  * @subpackage  validation
@@ -63,6 +64,7 @@ class KVDag_IdValidator extends AgaviValidator
             return false;
         }
 
+		$this->export( $dom, $this->getParameter( 'export', 'exportedDo' ) );
         return true;
     }
 }
