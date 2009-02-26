@@ -69,6 +69,8 @@ class KVDutil_HtmlFile {
 	{
 		if(preg_match("#<title>(.*)</title>#Us", $this->contents, $matches)) {
 			$this->title = trim($matches[1]);
+		} elseif(preg_match("#<TITLE>(.*)</TITLE>#Us", $this->contents, $matches)) {
+			$this->title = trim($matches[1]);
 		} else {
 			$this->title = "";
 		}
@@ -95,8 +97,11 @@ class KVDutil_HtmlFile {
 	 */
 	public static function openFile($file)
 	{
-		$content = file_get_contents($file);
-		KVDutil_HtmlFile::openContent($content);		
+		if (!$content = file_get_contents($file)){
+			throw new Exception("Bestand niet gevonden");
+		}
+		$htmlfile = KVDutil_HtmlFile::openContent($content);	
+		return $htmlfile;
 	}
 
 	
