@@ -112,6 +112,9 @@ class KVDdom_EditeerbareDomainObjectCollection extends KVDdom_DomainObjectCollec
     /**
      * clear
      * 
+     * Deze methode maakt de collection leeg. Indien de objecten in deze collection nergens anders bestaan dan zullen deze definitief
+     * verwijderd worden. Indien deze objecten ook ergens anders bestaand zullen deze niet verwijderd worden ( in dit geval worden dus
+     * enkel de koppelingen gewist).
      * @return void
      */
     public function clear( )
