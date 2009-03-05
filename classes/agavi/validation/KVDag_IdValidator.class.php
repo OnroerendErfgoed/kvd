@@ -64,7 +64,7 @@ class KVDag_IdValidator extends AgaviValidator
             return false;
         }
 
-		$this->export( $dom, $this->getParameter( 'export', 'exportedDo' ) );
+		$this->export( $dom );
         return true;
     }
 }
