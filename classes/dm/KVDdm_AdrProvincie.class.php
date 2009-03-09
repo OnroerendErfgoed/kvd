@@ -43,6 +43,16 @@ class KVDdm_AdrProvincie extends KVDdom_PDODataMapper {
     }
 
     /**
+     * getFindByNaamStatement 
+     * 
+     * @return string
+     */
+    protected function getFindByNaamStatement( )
+    {
+        return $this->getSelectStatement( ) . " WHERE UPPER(provincie_naam) = UPPER( ? )";
+    }
+
+    /**
      * getFindAllStatement 
      * 
      * @return string
@@ -77,6 +87,24 @@ class KVDdm_AdrProvincie extends KVDdom_PDODataMapper {
     public function findAll( )
     {
         return $this->abstractFindAll( );
+    }
+
+    /**
+     * findByNaam 
+     * 
+     * @throws  KVDdom_DomainObjectNotFoundException
+     * @return  KVDdo_AdrProvincie
+     */
+    public function findByNaam( $naam )
+    {
+         $stmt = $this->_conn->prepare( $this->getFindByNaamStatement( ));
+         $stmt->bindParam( 1, $naam,PDO::PARAM_STR);
+         $stmt->execute( );
+         if ( !$row = $stmt->fetch( PDO::FETCH_OBJ )) {
+            $msg = "KVDdo_AdrProvincie met naam $naam kon niet gevonden worden";
+            throw new KVDdom_DomainObjectNotFoundException (  $msg , 'KVDdo_AdrProvincie' , $naam );
+         }
+         return $this->doLoad( $row->id, $row);
     }
 
     /**
