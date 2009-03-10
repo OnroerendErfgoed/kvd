@@ -82,7 +82,7 @@ class KVDdm_AdrGemeente extends KVDdom_PDODataMapper {
      */
     private function getFindByNaamStatement( )
     {
-        return $this->getSelectStatement( ) . " WHERE gemeente_naam = ?";
+        return $this->getSelectStatement( ) . " WHERE UPPER(gemeente_naam) = UPPER(?)";
     }
 
     /**
