@@ -58,6 +58,17 @@ class KVDdm_AdrDeelgemeente extends KVDdom_PDODataMapper {
     }
 
     /**
+     * getFindAllByNaamStatement 
+     * 
+     * @since   13 mrt 2009
+     * @return  string
+     */
+    protected function getFindAllByNaamStatement( )
+    {
+        return $this->getSelectStatement( ) . ' WHERE UPPER( deelgemeente_naam ) = UPPER( ? )';
+    }
+
+    /**
      * getFindByGemeenteStatement 
      * 
      * @return string
@@ -155,6 +166,20 @@ class KVDdm_AdrDeelgemeente extends KVDdom_PDODataMapper {
            throw new KVDdom_DomainObjectNotFoundException (  $msg , 'KVDdo_AdrDeelgemeente' , $naam );
         }
         return $this->doLoad( $row->id, $row);
+    }
+
+    /**
+     * findAllByNaam 
+     * 
+     * Zoek alle deelgemeenten met een bepaalde naam.
+     * @param   string $naam 
+     * @return  KVDdom_DomainObjectCollection
+     */
+    public function findAllByNaam( $naam )
+    {
+       $stmt = $this->_conn->prepare ( $this->getFindAllByNaamStatement( ) );
+       $stmt->bindParam( 1, $naam , PDO::PARAM_STR );
+       return $this->executeFindMany( $stmt );
     }
 
     /**
