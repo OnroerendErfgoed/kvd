@@ -1,21 +1,21 @@
 <?php
 /**
- * @package KVD.html
- * @version $Id$
- * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @package     KVD.html
+ * @version     $Id$
+ * @copyright   2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
  * KVDhtml_SlidingPager 
  * 
- * Een Sliding Pager die gebruikt moet worden in combinatie met een KVDdom_DomainObejctCollectionPager en het Agavi Framework.
- * @package KVD.html
- * @since 21 aug 2007
- * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * Een Sliding Pager die gebruikt moet worden in combinatie met een {@link KVDdom_DomainObejctCollectionPager} en het Agavi Framework.
+ * @package     KVD.html
+ * @since       21 aug 2007
+ * @copyright   2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDhtml_SlidingPager {
 
@@ -47,6 +47,11 @@ class KVDhtml_SlidingPager {
      */
     protected $lh;
 
+    /**
+     * paginaNaam 
+     * 
+     * @var string
+     */
     protected $paginaNaam = 'pagina';
 
     /**

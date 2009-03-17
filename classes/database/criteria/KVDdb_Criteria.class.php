@@ -1,16 +1,20 @@
 <?php
 /**
- * @package KVD.database
- * @subpackage criteria
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
- * @version $Id$
+ * @package     KVD.database
+ * @subpackage  criteria
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
+ * @version     $Id$
+ * @copyright   2006-2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
- * @package KVD.database
- * @subpackage criteria
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
- * @since 24 aug 2006
+ * @package     KVD.database
+ * @subpackage  criteria
+ * @since       24 aug 2006
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
+ * @copyright   2006-2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDdb_Criteria implements Countable
 {
@@ -64,7 +68,7 @@ class KVDdb_Criteria implements Countable
     /**
      * @param KVDdb_Criterion $criterion
      */
-    public function add ( $criterion )
+    public function add ( KVDdb_Criterion $criterion )
     {
         $this->criteria[] = $criterion;
     }
@@ -100,6 +104,13 @@ class KVDdb_Criteria implements Countable
         return implode ( $tmp , " " );
     }
 
+    /**
+     * generateWhereClause 
+     * 
+     * @param   integer     $mode   Zie de MODE_ constanten
+     * @param   integer     $dbType Zie de DB_ constanten.    
+     * @return  string
+     */
     private function generateWhereClause( $mode , $dbType )
     {
         if ( $this->count( ) == 0 ) {
@@ -112,6 +123,11 @@ class KVDdb_Criteria implements Countable
         return 'WHERE ' . implode ( $tmp , ' AND ' );
     }
 
+    /**
+     * generateOrderClause 
+     * 
+     * @return string
+     */
     private function generateOrderClause( )
     {
         if ( count( $this->orderFields ) == 0 ) {

@@ -1,24 +1,23 @@
 <?php
 /**
- * @package KVD.dm
- * @subpackage Adr
- * @copyright 2004-2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @author Dieter Standaert <dieter.standaert@eds.com>
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
- * @version $Id: KVDdm_AdrStraat.class.php 440 2008-05-23 12:52:01Z vandaeko $
+ * @package     KVD.dm
+ * @subpackage  Adr
+ * @version     $Id: KVDdm_AdrStraat.class.php 440 2008-05-23 12:52:01Z vandaeko $
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @author      Dieter Standaert <dieter.standaert@eds.com>
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
  * KVDdm_AdrStraatDb 
  * 
- * @package KVD.dm
- * @subpackage Adr
- * @since augustus 2008
- * @copyright 2004-2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @author Dieter Standaert <dieter.standaert@eds.com>
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @package     KVD.dm
+ * @subpackage  Adr
+ * @since       augustus 2008
+ * @copyright   2004-2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @author      Dieter Standaert <dieter.standaert@eds.com>
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDdm_AdrStraatDb extends KVDdom_PDODataMapper{
     
@@ -53,7 +52,7 @@ class KVDdm_AdrStraatDb extends KVDdom_PDODataMapper{
 	 */
 	public function getFindByGemeenteAndNaamStatement()
 	{
-		return $this->getSelectStatement()." WHERE straat.gemeente_id = ? AND straat.naam = ?";
+		return $this->getSelectStatement()." WHERE straat.gemeente_id = ? AND UPPER(straat.naam) = UPPER( ? )";
 	}
 	
 	/**
@@ -131,10 +130,11 @@ class KVDdm_AdrStraatDb extends KVDdom_PDODataMapper{
 
 	/**
 	 * Zoek een straat op basis van zijn naam en de gemeente waarin de straat ligt.
-	 * @param KVDdo_AdrGemeente $gemeente
-     * @param string            $straat
-	 * @return KVDdo_AdrStraat
-	 * @throws <b>KVDdom_DomainObjectNotFoundException</b> Indien het object niet geladen kon worden.
+     * 
+	 * @param   KVDdo_AdrGemeente $gemeente
+     * @param   string            $naam
+	 * @return  KVDdo_AdrStraat
+	 * @throws  <b>KVDdom_DomainObjectNotFoundException</b> Indien het object niet geladen kon worden.
 	 */
 	public function findByNaam ( KVDdo_AdrGemeente $gemeente, $naam )
 	{
@@ -151,7 +151,7 @@ class KVDdm_AdrStraatDb extends KVDdom_PDODataMapper{
 	}
 	/**
 	 * findAll
-	 * @return KVDdom_Collection
+	 * @return KVDdom_DomainObjectCollection Een verzameling van {@link KVDdo_AdrStraat} objecten
 	 */	
 	public function findAll()
 	{

@@ -1,16 +1,21 @@
 <?php
 /**
- * @package KVD.database
- * @subpackage criteria
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
- * @version $Id$
+ * @package     KVD.database
+ * @subpackage  criteria
+ * @version     $Id$
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
+ * @copyright   2006-2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**²
- * @package KVD.database
- * @subpackage criteria
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
- * @since 24 aug 2006
+ * @package     KVD.database
+ * @subpackage  criteria
+ * @since       24 aug 2006
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
+ * @copyright   2006-2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ *
  */
 class KVDdb_Criterion
 {
