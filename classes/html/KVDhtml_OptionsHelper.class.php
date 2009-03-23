@@ -158,10 +158,46 @@ class KVDhtml_OptionsHelper
      * @param mixed $selected 
      * @return string
      */
-    private function generateOption( $value , $omschrijving , $selected = false )
+    protected function generateOption( $value , $omschrijving , $selected = false )
     {
         $selected = ( $selected ) ? ' selected="selected"' : '';
         return sprintf( self::$optionFormat , KVDhtml_Tools::out( $value ) , $selected , KVDhtml_Tools::out( $omschrijving ) );
     }
+    
+    /**
+     *
+     */
+    public static function arrayOptionsHelper($collection, $addEmptyLine = false, $selectedValue = null)
+    {
+			return new KVDhtml_OptionsHelperArray($collection, $addEmptyLine = false, $selectedValue = null);
+    }
 }
+
+
+class KVDhtml_OptionsHelperArray
+{
+	public function __construct($collection, $addEmptyLine = false, $selectedValue = null)
+	{
+		parent::__construct($collection, $addEmptyLine, null, null, $selectedValue)
+	}
+
+    /**
+     * toHtml 
+     * 
+     * @return string Html-weergave van de option-list
+     */
+    public function toHtml( )
+    {
+        $buffer = '';
+        if ( $this->addEmptyLine ) {
+            $buffer .= $this->generateOption($this->emptyId , $this->emptyValue );
+        }
+        foreach ( $this->collection as $value => $omschrijving ) {
+            $buffer .= $this->generateOption( $value , $omschrijving , $this->selectedValue == $value );
+        }
+        return $buffer;
+    }
+
+}
+
 ?>
