@@ -178,7 +178,7 @@ class KVDhtml_OptionsHelperArray
 {
 	public function __construct($collection, $addEmptyLine = false, $selectedValue = null)
 	{
-		parent::__construct($collection, $addEmptyLine, null, null, $selectedValue)
+		parent::__construct($collection, $addEmptyLine, null, null, $selectedValue);
 	}
 
     /**
