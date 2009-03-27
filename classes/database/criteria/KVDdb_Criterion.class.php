@@ -60,6 +60,16 @@ class KVDdb_Criterion
     const NOT_IN = 'NOT IN';
 
     /**
+     * @var string 
+     */
+    const EXISTS = 'EXISTS';
+
+    /**
+     * @var string 
+     */
+    const NOT_EXISTS = 'NOT EXISTS';
+
+    /**
      * @var string
      */
     protected $sqlOperator;
@@ -275,6 +285,26 @@ class KVDdb_Criterion
     }
 
     /**
+     * @param   KVDdb_IQuery        $value
+     * @return  KVDdb_ExistsCriterion
+     */
+    public static function exists( $value )
+    {
+        return new KVDdb_ExistsCriterion( self::EXISTS, $value );
+    }
+
+    /**
+     * notExists 
+     * 
+     * @param   KVDdb_IQuery    $value 
+     * @return  KVDdb_ExistsCriterion
+     */
+    public static function notExists( $value )
+    {
+        return new KVDdb_ExistsCriterion( self::NOT_EXISTS, $value );
+    }
+
+    /**
      * @param string $field
      * @return KVDdb_IsNullCriterion
      */
@@ -387,6 +417,46 @@ class KVDdb_InSubselectCriterion extends KVDdb_Criterion
      * getValues 
      *
      * Een Subselect mag enkel de values voor zijn kinderen teruggeven.
+     * @since 16 april 2008
+     * @return array
+     */
+    public function getValues( )
+    {
+        return $this->getValuesChildren( );
+    }
+}
+
+/**
+ * KVDdb_ExistsCriterion 
+ * 
+ * @package     KVD.database
+ * @subpackage  criteria
+ * @since       27 mrt 2009
+ * @copyright   2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
+class KVDdb_ExistsCriterion extends KVDdb_Criterion
+{
+    public function __construct ( $operator, $value )
+    {
+        parent::__construct( $operator, null, $value );
+    }
+    
+    /**
+     * @return string
+     */
+    public function generateSql( $mode = KVDdb_Criteria::MODE_FILLED, $dbType = KVDdb_Criteria::DB_MYSQL )
+    {
+        $sql = "( " . $this->sqlOperator . " ( " . $this->value->generateSql( ) . " )";
+        $sql .= $this->generateSqlChildren( $mode , $dbType);
+        return $sql .= ' )';
+    }
+
+    /**
+     * getValues 
+     *
+     * Een Exists mag enkel de values voor zijn kinderen teruggeven.
      * @since 16 april 2008
      * @return array
      */
