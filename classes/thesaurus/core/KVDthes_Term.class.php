@@ -430,14 +430,14 @@ abstract class KVDthes_Term implements KVDdom_DomainObject
     /**
      * getPreferredTerm 
      * 
-     * @return KVDthes_Term
+     * @return KVDthes_Term     Ofwel de preferred Term, ofwel deze term zelf.
      */
     public function getPreferredTerm( )
     {
         $this->checkRelations( );
         $it = $this->relations->getUSEIterator( );
         $it->rewind( );
-        return $it->valid( ) ? $it->current( )->getTerm( ) : new KVDthes_NullTerm( );
+        return $it->valid( ) ? $it->current( )->getTerm( ) : $this;
     }
 
     /**
