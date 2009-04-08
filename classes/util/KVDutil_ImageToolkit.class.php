@@ -110,7 +110,21 @@ class KVDutil_ImageToolkit{
     }
     return $dst;
  }
- 
+
+	static function flip($src)
+	{
+		$dst = imagecreatetruecolor(imagesx( $src ), imagesy( $src ));
+		$srcX = imagesx( $src );
+		$srcY = imagesy( $src );
+		for($x =0; $x < $srcX; $x++)
+		{
+			for($y =0; $y < $srcY; $y++)
+			{
+				imagecopy($dst, $src, $x, $y, $srcX-$x-1, $y, 1, 1);
+			}
+		}
+		return $dst;	
+	}
  
 	/**
 	 * getSize
