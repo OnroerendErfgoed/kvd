@@ -26,7 +26,7 @@ class KVDthes_TermHtmlRenderer implements KVDthes_ITermRenderer
      * 
      * @var array
      */
-    protected $parameters;
+    protected $parameters = array( );
 
     /**
      * __construct 
@@ -36,7 +36,7 @@ class KVDthes_TermHtmlRenderer implements KVDthes_ITermRenderer
      */
     public function __construct( array $parameters = array( ) )
     {
-        $this->parameter = $parameters;
+        $this->parameters = array_merge( $this->parameters, $parameters );
     }
 
     /**

@@ -61,7 +61,7 @@ class KVDthes_RenderingTreeVisitor extends KVDthes_AbstractTreeVisitor
     public function clear( )
     {
         $this->depth = 1;
-        $this->result = $renderer->getResultStart( );
+        $this->result = $this->renderer->getResultStart( );
     }
 
     /**
