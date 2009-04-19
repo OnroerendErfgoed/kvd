@@ -20,7 +20,7 @@
  * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
-abstract class KVDthes_Term implements KVDdom_DomainObject
+abstract class KVDthes_Term extends KVDdom_ChangeableDomainObject
 {
     /**
      * Geeft aan dat de basis data voor de term werd geladen. 
@@ -53,13 +53,6 @@ abstract class KVDthes_Term implements KVDdom_DomainObject
     CONST LS_SOURCENOTE = 32;
 
     /**
-     * sessie 
-     * 
-     * @var KVDthes_ISessie
-     */
-    protected $sessie;
-
-    /**
      * id 
      * 
      * @var integer
@@ -74,6 +67,13 @@ abstract class KVDthes_Term implements KVDdom_DomainObject
 	protected $term = 'Onbepaald';
 
     /**
+     * type: 
+     * 
+     * @var     KVDthes_TermType
+     */
+    protected $type;
+
+    /**
      * qualifier 
      * 
      * @var string
@@ -85,7 +85,7 @@ abstract class KVDthes_Term implements KVDdom_DomainObject
      * 
      * @var string
      */
-    protected $language = 'Nederlands';
+    protected $language = 'nl-BE';
 
     /**
      * sortKey 
@@ -133,22 +133,22 @@ abstract class KVDthes_Term implements KVDdom_DomainObject
     /**
      * __construct 
      *
-     * @param KVDthes_ISessie   $sessie
-     * @param integer           $id
-     * @param string            $term 
-     * @param string            $qualifier
-     * @param string            $language
-     * @param string            $sortKey
-     * @param string            $scopeNote
-     * @param string            $sourceNote
-     * @param KVDthes_Thesaurus $thesaurus
+     * @param integer               $id
+     * @param KVDdom_IWriteSessie   $sessie
+     * @param string                $term 
+     * @param string                $qualifier
+     * @param string                $language
+     * @param string                $sortKey
+     * @param string                $scopeNote
+     * @param string                $sourceNote
+     * @param KVDthes_Thesaurus     $thesaurus
      * @return void
      */
-	public function __construct ( KVDdom_IReadSessie $sessie , $id , $term, $qualifier = null, $language = 'Nederlands', $sortKey = null, $scopeNote = null, $sourceNote = null, KVDthes_Thesaurus $thesaurus = null)
+	public function __construct ( $id, KVDdom_IWriteSessie $sessie, $term, KVDthes_TermType $type = null, $qualifier = null, $language = 'nl-BE', $sortKey = null, $scopeNote = null, $sourceNote = null, KVDthes_Thesaurus $thesaurus = null)
 	{
-        $this->sessie = $sessie;
-        $this->id = $id;
+        parent::__construct($id, $sessie);
 		$this->term = $term;
+        $this->type = is_null( $type ) ? KVDthes_TermType::newNull( ) : $type;
         $this->qualifier = $qualifier;
         $this->language = $language;
         $this->sortKey = $sortKey;
@@ -163,7 +163,19 @@ abstract class KVDthes_Term implements KVDdom_DomainObject
         $this->thesaurus = ( $thesaurus != null ) ? $thesaurus : KVDthes_Thesaurus::newNull( );
         $this->relations = new KVDthes_Relations();
         $this->setLoadState( self::LS_TERM );
-	    $this->sessie->registerClean( $this );
+    }
+
+    /**
+     * markDirty 
+     * 
+     * @return void
+     */
+    protected function markDirty( )
+    {
+        $this->checkRelations( );
+        $this->checkScopeNote( );
+        $this->checkSourceNote( );
+        parent::markDirty( );
     }
 
     /**
@@ -186,7 +198,7 @@ abstract class KVDthes_Term implements KVDdom_DomainObject
     public function checkRelations( )
     {
         if ( !( $this->loadState & self::LS_REL ) ) {
-            $this->sessie->getMapper( $this->getClass( ) )->loadRelations( $this );
+            $this->_sessie->getMapper( $this->getClass( ) )->loadRelations( $this );
             $this->setLoadState( self::LS_REL );
         }
     }
@@ -200,7 +212,7 @@ abstract class KVDthes_Term implements KVDdom_DomainObject
     public function checkScopeNote( )
     {
         if ( !( $this->loadState & self::LS_SCOPENOTE ) ) {
-            $this->sessie->getMapper( $this->getClass( ) )->loadScopeNote( $this );
+            $this->_sessie->getMapper( $this->getClass( ) )->loadScopeNote( $this );
             $this->setLoadState( self::LS_SCOPENOTE );
         }
     }
@@ -214,7 +226,7 @@ abstract class KVDthes_Term implements KVDdom_DomainObject
     public function checkSourceNote( )
     {
         if ( !( $this->loadState & self::LS_SOURCENOTE ) ) {
-            $this->sessie->getMapper( $this->getClass( ) )->loadSourceNote( $this );
+            $this->_sessie->getMapper( $this->getClass( ) )->loadSourceNote( $this );
             $this->setLoadState( self::LS_SOURCENOTE );
         }
     }
@@ -242,6 +254,44 @@ abstract class KVDthes_Term implements KVDdom_DomainObject
 		return $this->term;
 	}
 
+
+    /**
+     * setTerm 
+     * 
+     * @since   7 apr 2009
+     * @param   string $term 
+     * @return  void
+     */
+    public function setTerm( $term )
+    {
+        $this->term = $term;
+        $this->markDirty( );
+    }
+
+    /**
+     * getType 
+     * 
+     * @since   16 apr 2009
+     * @return  KVDthes_TermType
+     */
+    public function getType( )
+    {
+        return $this->type;
+    }
+
+    /**
+     * setType 
+     * 
+     * @since   16 apr 2009
+     * @param   KVDthes_TermType $type 
+     * @return  void
+     */
+    public function setType( KVDthes_TermType $type )
+    {
+        $this->type = $type;
+        $this->markDirty( );
+    }
+
     /**
      * getQualifier 
      * 
@@ -256,6 +306,19 @@ abstract class KVDthes_Term implements KVDdom_DomainObject
     public function getQualifier( )
     {
         return $this->qualifier;
+    }
+
+    /**
+     * setQualifier 
+     * 
+     * @since   7 apr 2009
+     * @param   string $qual 
+     * @return  void
+     */
+    public function setQualifier( $qual )
+    {
+        $this->qualifier = $qual;
+        $this->markDirty( );
     }
 
     /**
@@ -292,6 +355,19 @@ abstract class KVDthes_Term implements KVDdom_DomainObject
     }
 
     /**
+     * setSortKey 
+     * 
+     * @since   7 apr 2009
+     * @param   string $sort 
+     * @return  void
+     */
+    public function setSortKey( $sort )
+    {
+        $this->sortKey = $sort;
+        $this->markDirty( );
+    }
+
+    /**
      * getScopeNote 
      * 
      * @return string
@@ -300,6 +376,20 @@ abstract class KVDthes_Term implements KVDdom_DomainObject
     {
         $this->checkScopeNote( );
         return $this->scopeNote;
+    }
+
+    /**
+     * setScopeNote 
+     * 
+     * @since   7 apr 2009
+     * @param   string $note 
+     * @return  void
+     */
+    public function setScopeNote( $note )
+    {
+        $this->scopeNote = $note;
+        $this->setLoadState( self::LS_SCOPENOTE );
+        $this->markDirty( );
     }
 
     /**
@@ -314,22 +404,89 @@ abstract class KVDthes_Term implements KVDdom_DomainObject
     }
 
     /**
+     * setSourceNote 
+     * 
+     * @since   7 apr 2009
+     * @param   string $note 
+     * @return  void
+     */
+    public function setSourceNote( $note )
+    {
+        $this->sourceNote = $note;
+        $this->setLoadState( self::LS_SOURCENOTE );
+        $this->markDirty( );
+    }
+
+    /**
+     * loadRelation 
+     * 
+     * @param KVDthes_Relation $relation 
+     * @return void
+     */
+    public function loadRelation ( KVDthes_Relation $relation )
+    {
+        if ( $this->relations->addRelation( $relation ) ) {
+            $relation->getTerm( )->loadRelation( new KVDthes_Relation( $relation->getInverseRelation( ) , $this ) );
+        }
+    }
+
+    /**
      * addRelation 
      * 
      * @param KVDthes_Relation $relation 
-     * @throws InvalidArgumentException
      * @return void
      */
-    public function addRelation ( KVDthes_Relation $relation )
+    public function addRelation( KVDthes_Relation $relation )
     {
-        foreach ( $this->relations as $curRel ) {
-            if ( $relation->equals( $curRel ) ) {
-                return;
-            }
+
+        $this->checkRelations( );
+        if ( $this->relations->addRelation( $relation ) ) {
+            //maak de inverse relatie aan
+            $relation->getTerm( )->addRelation( new KVDthes_Relation( $relation->getInverseRelation( ) , $this ) );
+            $this->markDirty( );
         }
-        $this->relations->addRelation( $relation );
-        $relation->getTerm( )->addRelation( new KVDthes_Relation( $relation->getInverseRelation( ) , $this ) );
     }
+
+    /**
+     * removeRelation 
+     * 
+     * @param   KVDthes_Relation $relation 
+     * @return  void
+     */
+    public function removeRelation( KVDthes_Relation $relation )
+    {
+        $this->checkRelations( );
+        if ( $this->relations->removeRelation( $relation ) ) {
+            //verwijder de inverse relatie
+            $relation->getTerm( )->removeRelation( new KVDthes_Relation( $relation->getInverseRelation( ), $this ) );
+            $this->markDirty( );
+        }
+    }
+
+    /**
+     * getRelations 
+     * 
+     * @return KVDdom_DomainObjectCollection
+     */
+    public function getRelations( )
+    {
+        $this->checkRelations( );
+        return $this->relations->getImmutableCollection( );
+    }
+
+    /**
+     * hasRelations 
+     * 
+     * @since   18 apr 2009
+     * @param   string      $type   Een constante uit {@link KVDthes_Relation} of null
+     * @return  boolean     Geeft aan of een term relaties heeft in het algemeen of van een bepaald type.
+     */
+    public function hasRelations( $type = null )
+    {
+        $this->checkRelations( );
+        return $this->relations->count( $type ) > 0;
+    }
+
 
     /**
      * sortRelations 
@@ -441,6 +598,29 @@ abstract class KVDthes_Term implements KVDdom_DomainObject
     }
 
     /**
+     * setPreferredTerm 
+     * 
+     * @since   10 apr 2009
+     * @param   KVDthes_Term    $term 
+     * @return  void
+     */
+    public function setPreferredTerm( KVDthes_Term $term )
+    {
+        $this->checkRelations( );
+        $it = $this->relations->getUSEIterator( );
+        $it->rewind( );
+        if ( $it->valid( ) ) {
+            $current = $it->current( );
+            $this->removeRelation( $current );
+        }
+        // Indien de term een NullObject is wissen we de bestaande USE relation maar vervangen we die niet door iets nieuws.
+        if ( !$term->isNull( ) ) {
+            $this->addRelation( new KVDthes_Relation( KVDthes_Relation::REL_USE, $term ) );
+        }
+        $this->markDirty( );
+    }
+
+    /**
      * getNonPreferredTerms 
      * 
      * @return KVDthes_RelationsIterator
@@ -454,12 +634,17 @@ abstract class KVDthes_Term implements KVDdom_DomainObject
     /**
      * getRelatedTerms 
      * 
-     * @return KVDthes_RelationsIterator
+     * @return  KVDdom_DomainObjectCollection
      */
     public function getRelatedTerms( )
     {
         $this->checkRelations( );
-        return $this->relations->getRTIterator( );
+        $it = $this->relations->getRTIterator( );
+        $arr = array( );
+        foreach ( $it as $r ) {
+            $arr[] = $r->getTerm( );
+        }
+        return new KVDdom_DomainObjectCollection( $arr );
     }
 
     /**
@@ -481,6 +666,19 @@ abstract class KVDthes_Term implements KVDdom_DomainObject
     public function getLanguage( )
     {
         return $this->language;
+    }
+
+    /**
+     * setLanguage 
+     * 
+     * @since   7 apr 2009
+     * @param   string $lang 
+     * @return  void
+     */
+    public function setLanguage( $lang )
+    {
+        $this->language = $lang;
+        $this->markDirty( );
     }
 
     /**
@@ -530,6 +728,29 @@ abstract class KVDthes_Term implements KVDdom_DomainObject
     }
 
     /**
+     * setBroaderTerm 
+     * 
+     * @since   10 apr 2009
+     * @param   KVDthes_Term    $term 
+     * @return  void
+     */
+    public function setBroaderTerm( KVDthes_Term $term )
+    {
+        $this->checkRelations( );
+        $it = $this->relations->getBTIterator( );
+        $it->rewind( );
+        if ( $it->valid( ) ) {
+            $current = $it->current( );
+            $this->removeRelation( $current );
+        }
+        // Indien de term een NullObject is wissen we de bestaande BT relation maar vervangen we die niet door iets nieuws.
+        if ( !$term->isNull( ) ) {
+            $this->addRelation( new KVDthes_Relation( KVDthes_Relation::REL_BT, $term ) );
+        }
+        $this->markDirty( );
+    }
+
+    /**
      * getThesaurus 
      * 
      * @return KVDthes_Thesaurus
@@ -537,6 +758,33 @@ abstract class KVDthes_Term implements KVDdom_DomainObject
     public function getThesaurus( )
     {
         return $this->thesaurus;
+    }
+
+    /**
+     * remove 
+     * 
+     * @since   7 apr 2009
+     * @return  void
+     */
+    public function remove( )
+    {
+        $this->markRemoved( );
+    }
+
+    /**
+     * create 
+     * 
+     * @param   string                  $returnType
+     * @param   integer                 $id 
+     * @param   KVDdom_IWriteSessie     $sessie 
+     * @param   KVDthes_Thesaurus       $thes 
+     * @return void
+     */
+    public static function create($returnType, $id, KVDdom_IWriteSessie $sessie, KVDthes_Thesaurus $thes )
+    {
+        $t = new $returnType( $id, $sessie, 'Onbepaald', null, null, null, null, null, $thes);
+        $t->markNew( );
+        return $t;
     }
 
     /**
@@ -577,6 +825,17 @@ abstract class KVDthes_Term implements KVDdom_DomainObject
     public function isNull()
     {
         return false;
+    }
+
+    /**
+     * newNull 
+     * 
+     * @since   17 apr 2009    
+     * @return  KVDthes_NullTerm
+     */
+    public static function newNull( )
+    {
+        return new KVDthes_NullTerm( );
     }
 }
 
@@ -634,7 +893,7 @@ class KVDthes_NullTerm extends KVDthes_Term
      * @param KVDthes_TreeVisitor $visitor 
      * @return void
      */
-    public function accept( KVDthes_TreeVisitor $visitor )
+    public function accept( KVDthes_AbstractTreeVisitor $visitor )
     {
         return true;
     }
@@ -668,5 +927,63 @@ class KVDthes_NullTerm extends KVDthes_Term
     {
         return true;
     }
+}
+
+/**
+ * KVDthes_TermType 
+ * 
+ * @package     KVD.thes
+ * @subpackage  Core
+ * @since       16 apr 2009
+ * @copyright   2004-2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
+class KVDthes_TermType extends KVDdom_ValueDomainObject
+{
+    /**
+     * __construct 
+     * 
+     * @param   string  $id 
+     * @param   string  $type 
+     * @return  KVDthes_TermType
+     */
+    public function __construct( $id, $type = 'Onbepaald' )
+    {
+        $this->id = $id;
+        $this->type=$type;
+    }
+
+    /**
+     * getType 
+     * 
+     * @return  string
+     */
+    public function getType( )
+    {
+        return $this->type;
+    }
+
+    /**
+     * getOmschrijving 
+     * 
+     * @return  string
+     */
+    public function getOmschrijving( )
+    {
+        return $this->type;
+    }
+
+    /**
+     * newNull 
+     * 
+     * @return  KVDthes_TermType
+     */
+    static public function newNull( )
+    {
+        return new KVDthes_TermType( 'ND', 'Non Descriptor');
+    }
+
+    
 }
 ?>

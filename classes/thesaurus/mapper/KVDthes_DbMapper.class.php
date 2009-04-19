@@ -56,11 +56,22 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
      */
     protected function initialize( array $parameters )
     {
-        $this->parameters = array ( 'thesaurus_id' => 0, 'thesaurus_naam' => 'Onbepaalde Thesaurus', 'thesaurus_taal' => 'Nederlands');
+        $this->parameters = array ( 'thesaurus_id' => 0, 'thesaurus_naam' => 'Onbepaalde Thesaurus', 'thesaurus_taal' => 'nl-BE');
         if ( !isset ( $parameters['schema'] ) ) {
             throw new KVDdom_MapperConfigurationException( 'Er is geen schema gespecifieerd voor deze thesaurus.', $this);
         }
+        if ( !isset ( $parameters['id_seq_naam'] ) ) {
+            throw new KVDdom_MapperConfigurationException( 'Er is geen naam van een sequentie gespecifieerd voor deze thesaurus.', $this);
+        }
         $this->parameters = array_merge( $this->parameters , $parameters);
+    }
+
+    protected function getSelectStatement( )
+    {
+        return sprintf( 'SELECT t.id, term, tt.id AS type_id, tt.name AS type_naam, qualifier, language, sort_key 
+                         FROM %s.term t 
+                            LEFT JOIN %s.term_type_code tt ON ( t.type = tt.id )
+                         WHERE thesaurus_id = %d' , $this->parameters['schema'], $this->parameters['schema'], $this->parameters['thesaurus_id'] );
     }
 
     /**
@@ -70,7 +81,7 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
      */
     protected function getFindByIdStatement( )
     {
-        return sprintf( 'SELECT id, term, qualifier, language, sort_key FROM %s.term WHERE id = ? AND thesaurus_id = %d' , $this->parameters['schema'], $this->parameters['thesaurus_id'] );
+        return $this->getSelectStatement( ) . ' AND t.id = ?';
     }
 
     /**
@@ -80,7 +91,7 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
      */
     protected function getFindByNaamStatement( )
     {
-        return sprintf( 'SELECT id, term, qualifier, language, sort_key FROM %s.term WHERE lower( term ) = lower ( ? ) AND thesaurus_id = %d', $this->parameters['schema'], $this->parameters['thesaurus_id'] );
+        return $this->getSelectStatement( ) . ' AND lower(term) = lower(?)';
     }
 
     /**
@@ -111,7 +122,7 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
      */
     protected function getFindAllStatement( )
     {
-        return sprintf( 'SELECT id, term, qualifier, language, sort_key FROM %s.term WHERE thesaurus_id = %d ORDER BY term, qualifier' , $this->parameters['schema'], $this->parameters['thesaurus_id'] );
+        return $this->getSelectStatement( ) . ' ORDER BY term, qualifier';
     }
 
     /**
@@ -121,7 +132,8 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
      */
     protected function getFindRootStatement( )
     {
-        return sprintf( 'SELECT t.id AS id, term, qualifier, language, sort_key 
+        /*
+        return sprintf( 'SELECT t.id AS id, term, type, qualifier, language, sort_key 
                          FROM %s.visitation v LEFT JOIN %s.term t ON ( v.term_id = t.id and v.thesaurus_id = t.thesaurus_id )
                          WHERE 
                             v.thesaurus_id = %d
@@ -129,6 +141,8 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
                          $this->parameters['schema'],
                          $this->parameters['schema'],
                          $this->parameters['thesaurus_id'] );
+        */
+        return $this->getSelectStatement( ) . ' AND t.type = \'HR\' LIMIT 1';
     }
 
     /**
@@ -138,13 +152,15 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
      */
     protected function getLoadRelationsStatement( )
     {
-        return sprintf( 'SELECT r.relation_type, t2.id AS id_to, t2.term AS term, t2.qualifier AS qualifier, t2.language AS language, t2.sort_key AS sort_key 
+        return sprintf( 'SELECT r.relation_type, t2.id AS id_to, t2.term AS term, tt.id AS type_id, tt.name AS type_naam, t2.qualifier AS qualifier, t2.language AS language, t2.sort_key AS sort_key 
                         FROM %s.term t1 
-                            LEFT JOIN %s.relation r ON ( t1.id = r.id_from AND t1.thesaurus_id = r.thesaurus_id ) 
-                            LEFT JOIN %s.term t2 ON ( r.id_to=t2.id AND r.thesaurus_id=t2.thesaurus_id)
+                            INNER JOIN %s.relation r ON ( t1.id = r.id_from AND t1.thesaurus_id = r.thesaurus_id ) 
+                            INNER JOIN %s.term t2 ON ( r.id_to=t2.id AND r.thesaurus_id=t2.thesaurus_id)
+                            INNER JOIN %s.term_type_code tt ON ( t2.type = tt.id )
                         WHERE 
                             t1.id = ?
                             AND t1.thesaurus_id = %d',
+                        $this->parameters['schema'],
                         $this->parameters['schema'],
                         $this->parameters['schema'],
                         $this->parameters['schema'],
@@ -182,6 +198,28 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
         return sprintf( 'SELECT scope_note, source_note FROM %s.notes WHERE term_id = ? AND thesaurus_id = %d', 
                         $this->parameters['schema'],
                         $this->parameters['thesaurus_id']);
+    }
+
+    /**
+     * getDeleteVisitationStatement 
+     * 
+     * @since   19 apr 2009
+     * @return  string  SQL Statement
+     */
+    public function getDeleteVisitationStatement( )
+    {
+        return sprintf( 'DELETE FROM %s.visitation WHERE thesaurus_id = %d', $this->parameters['schema'], $this->parameters['thesaurus_id'] );
+    }
+
+    /**
+     * getInsertVisitationStatement 
+     * 
+     * @since   19 apr 2009
+     * @return  string   SQL Statement
+     */
+    public function getInsertVisitationStatement( )
+    {
+        return sprintf( 'INSERT INTO %s.visitation VALUES ( default, ?, ?, %d, ?, ?)', $this->parameters['schema'], $this->parameters['thesaurus_id'] );
     }
 
     /**
@@ -276,6 +314,42 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
     }
 
     /**
+     * findByCriteria 
+     * 
+     * @param KVDdb_Criteria $c
+     * @return KVDdom_DomainObjectCollection
+     */
+    public function findByCriteria( KVDdb_Criteria $c )
+    {
+        if ( $c->count( ) == 0 ) {
+            return $this->findAll( );
+        }
+        
+        // criterion toevoegen dat enkel termen uit deze thesaurus toont.
+        $c->add( KVDdb_Criterion::equals( 'thesaurus_id', $this->parameters['thesaurus_id'] ) );
+        $c->addAscendingOrder( 'term' );
+        $c->addAscendingOrder( 'qualifier' );
+        
+        $sql = sprintf( 'SELECT t.id, term, tt.id AS type_id, tt.name AS type_naam, qualifier, language, sort_key 
+                         FROM %s.term t 
+                            LEFT JOIN %s.term_type_code tt ON ( t.type = tt.id )' , 
+                        $this->parameters['schema'], $this->parameters['schema'] );
+        
+        $sql .= $c->generateSql( KVDdb_Criteria::MODE_PARAMETERIZED );
+        $stmt = $this->conn->prepare( $sql );
+        $values = $c->getValues();
+        for ( $i = 0; $i<count( $values); $i++) {
+            $stmt->bindValue( $i+1, $values[$i] );
+        }
+        $stmt->execute( );
+        $termen = array( );
+        while ( $row = $stmt->fetch( PDO::FETCH_OBJ ) ) {
+            $termen[$row->id] = $this->doLoadRow( $row->id, $row );
+        }
+        return new KVDdom_DomainObjectCollection( $termen );
+    }
+
+    /**
      * doLoadRow 
      * 
      * @param integer   $id 
@@ -288,11 +362,17 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
         if ($domainObject != null) {
             return $domainObject;
         }
-        $termType = $this->getReturnType( );
+        $returnType = $this->getReturnType( );
         $thesaurus = $this->doLoadThesaurus( );
-        return new $termType( $this->sessie , $id , $row->term , $row->qualifier, $row->language, $row->sort_key, null, null, $thesaurus);
+        $termType = new KVDthes_TermType( $row->type_id, $row->type_naam );
+        return new $returnType( $id, $this->sessie, $row->term, $termType, $row->qualifier, $row->language, $row->sort_key, null, null, $thesaurus);
     }
 
+    /**
+     * doLoadThesaurus 
+     * 
+     * @return KVDthes_Thesaurus
+     */
     protected function doLoadThesaurus( )
     {
         $domainObject = $this->sessie->getIdentityMap()->getDomainObject( 'KVDthes_Thesaurus', $this->parameters['thesaurus_id'] );
@@ -314,7 +394,7 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
         $stmt->bindValue( 1, $termObj->getId( ), PDO::PARAM_INT );
         $stmt->execute( );
         while ( $row = $stmt->fetch( PDO::FETCH_OBJ ) ) {
-            $termObj->addRelation( new KVDthes_Relation( $row->relation_type, $this->doLoadRow( $row->id_to, $row ) ) );
+            $termObj->loadRelation( new KVDthes_Relation( $row->relation_type, $this->doLoadRow( $row->id_to, $row ) ) );
         }
         $termObj->setLoadState( KVDthes_Term::LS_REL);
         return $termObj;
@@ -421,10 +501,192 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
 	}
 
     /**
+     * @return  KVDthes_Term
+     */
+    public function create ( )
+    {
+        $id = $this->getIdFromSequence( $this->parameters['schema'] . '.' . $this->parameters['id_seq_naam'] );
+        $termType = $this->getReturnType( );
+        return call_user_func( $termType . '::create', $termType, $id, $this->sessie, $this->doLoadThesaurus( ) );
+    }
+
+    /**
+     * @param   string  $sequenceName
+     * @return  integer $id
+     */
+    protected function getIdFromSequence( $sequenceName )
+    {
+        $stmt = $this->conn->query( "SELECT nextval ( '$sequenceName' )" );
+        return $stmt->fetchColumn( );
+    }
+
+    /**
      * getReturnType 
      * 
      * @return string
      */
     abstract protected function getReturnType( );
+
+    protected function bindValues( $stmt, $nextIndex, $term )
+    {
+        $stmt->bindValue ( $nextIndex++, $term->getTerm( ) , PDO::PARAM_STR );
+        $stmt->bindValue ( $nextIndex++, $term->getType( )->getId( ) , PDO::PARAM_STR );
+        $stmt->bindValue ( $nextIndex++, $term->getLanguage( ) , PDO::PARAM_STR );
+        $stmt->bindValue ( $nextIndex++, $term->getQualifier( ) , PDO::PARAM_STR );
+        $stmt->bindValue ( $nextIndex++, $term->getSortKey( ) , PDO::PARAM_STR );
+        return $nextIndex;
+    }
+
+    public function insert( KVDthes_Term $term )
+    {
+        $sql = sprintf( 'INSERT INTO %s.term (thesaurus_id, id, term, type, language, qualifier, sort_key ) VALUES ( %s, ?, ?, ?, ?, ?, ? )', $this->parameters['schema'], $this->parameters['thesaurus_id'] );
+        $stmt = $this->conn->prepare(  $sql );
+        $stmt->bindValue(  1, $term->getId(  ) , PDO::PARAM_INT );
+        $this->bindValues(  $stmt , 2, $term );
+        $stmt->execute( );
+
+        $this->insertNotes( $term );
+
+        $this->insertRelations( $term );
+
+        return $term;
+    }
+
+    /**
+     * @param   KVDthes_Term    $term
+     * @return  KVDthes_Term    
+     */
+    public function update ( KVDthes_Term $term ) 
+    {
+        $sql = sprintf( 'UPDATE %s.term SET 
+                            term = ?,
+                            type = ?,
+                            language = ?,
+                            qualifier = ?,
+                            sort_key = ?
+                          WHERE thesaurus_id = %s AND id = ?', $this->parameters['schema'], $this->parameters['thesaurus_id'] );
+        $stmt = $this->conn->prepare(  $sql );
+        $nextIndex = $this->bindValues(  $stmt , 1 , $term );
+        $stmt->bindValue(  $nextIndex , $term->getId(  ) , PDO::PARAM_INT );
+        $stmt->execute(  );
+
+        $this->updateNotes( $term );
+
+        $this->deleteRelations( $term );
+        $this->insertRelations( $term );
+        
+        return $term;
+    }
+
+    /**
+     * delete 
+     * 
+     * @param   KVDthes_Term $term 
+     * @return  KVDthes_Term
+     */
+    public function delete( KVDthes_Term $term )
+    {
+        $sql = sprintf( 'DELETE FROM %s.term WHERE thesaurus_id = %s AND id = ?', $this->parameters['schema'], $this->parameters['thesaurus_id'] );
+        $stmt = $this->conn->prepare( $sql );
+        $stmt->bindValue( 1, $term->getId( ), PDO::PARAM_INT );
+        $stmt->execute( );
+        return $term;
+    }
+
+    
+    protected function insertNotes( KVDthes_Term $term )
+    {
+        $sql = sprintf( 'INSERT INTO %s.notes ( thesaurus_id, term_id, scope_note, source_note ) VALUES ( %s, ?, ?, ?)', $this->parameters['schema'], $this->parameters['thesaurus_id'] );
+        $stmt = $this->conn->prepare(  $sql );
+        $stmt->bindValue(  1, $term->getId(  ) , PDO::PARAM_INT );
+        $stmt->bindValue ( 2, $term->getScopeNote( ) , PDO::PARAM_STR );
+        $stmt->bindValue ( 3, $term->getSourceNote( ) , PDO::PARAM_STR );
+        $stmt->execute(  );
+        return $term;
+    }
+
+    protected function updateNotes( KVDthes_Term $term )
+    {
+        $sql = sprintf( 'UPDATE %s.notes SET 
+                            scope_note = ?,
+                            source_note = ?
+                          WHERE thesaurus_id = %s AND term_id = ?', $this->parameters['schema'], $this->parameters['thesaurus_id'] );
+        $stmt = $this->conn->prepare(  $sql );
+        $stmt->bindValue ( 1, $term->getScopeNote( ) , PDO::PARAM_STR );
+        $stmt->bindValue ( 2, $term->getSourceNote( ) , PDO::PARAM_STR );
+        $stmt->bindValue(  3, $term->getId(  ) , PDO::PARAM_INT );
+        $stmt->execute(  );
+        return $term;
+    }
+
+    /**
+     * deleteRelations 
+     * 
+     * @param   KVDthes_Term    $term
+     * @return  void
+     */
+    private function deleteRelations( KVDthes_Term $term )
+    {
+        $sql = sprintf( 'DELETE FROM %s.relation WHERE thesaurus_id = %s AND id_from = ?', $this->parameters['schema'], $this->parameters['thesaurus_id'] );
+        $stmt = $this->conn->prepare ($sql );
+        $stmt->bindValue ( 1, $term->getId( ) , PDO::PARAM_INT );
+        $stmt->execute();
+    }
+
+    /**
+     * insertRelations 
+     * 
+     * @param   KVDthes_Term $term
+     * @return  void
+     */
+    private function insertRelations( KVDthes_Term $term )
+    {
+        $sql = sprintf( 'INSERT INTO %s.relation ( thesaurus_id, id_from, relation_type, id_to) VALUES ( %s, ?, ?, ?)', $this->parameters['schema'], $this->parameters['thesaurus_id'] );
+        if ( count( $term->getRelations( ) ) > 0 ) {
+            $stmt = $this->conn->prepare(  $sql );
+            $stmt->bindValue(  1 , $term->getId(), PDO::PARAM_INT );
+            foreach ( $term->getRelations( ) as $rel ) {
+                $stmt->bindValue( 2, $rel->getType(  ) , PDO::PARAM_STR );
+                $stmt->bindValue( 3, $rel->getTerm( )->getId( ), PDO::PARAM_INT);
+                $stmt->execute();
+            }
+        }
+    }
+
+    /**
+     * findAllTermTypes 
+     * 
+     * @return KVDdom_DomainObjectCollection
+     */
+    public function findAllTermTypes( )
+    {
+        $sql = sprintf( 'SELECT id, name FROM %s.term_type_code', $this->parameters['schema'] );
+        $stmt = $this->conn->prepare( $sql );
+        $stmt->execute( );
+        $arr = array( );
+        while ( $row = $stmt->fetch( PDO::FETCH_OBJ ) ) {
+            $arr[] = new KVDthes_TermType( $row->id, $row->name );    
+        }
+        return new KVDdom_DomainObjectCollection( $arr );
+    }
+
+    /**
+     * findTermTypeById 
+     * 
+     * @param   string $id 
+     * @return  KVDthes_TermType
+     */
+    public function findTermTypeById( $id )
+    {
+        $sql = sprintf( 'SELECT id, name FROM %s.term_type_code WHERE id = ?', $this->parameters['schema'] );
+        $stmt = $this->conn->prepare( $sql );
+        $stmt->bindValue( 1, $id, PDO::PARAM_STR );
+        $stmt->execute( );
+        if (!$row = $stmt->fetch( PDO::FETCH_OBJ )) {
+            $msg = "KVDthes_TermType met id $id kon niet gevonden worden";
+            throw new KVDdom_DomainObjectNotFoundException ( $msg , "KVDthes_TermType", $id );
+        }
+        return new KVDthes_TermType( $row->id, $row->name );
+    }
 }
 ?>

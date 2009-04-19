@@ -75,12 +75,55 @@ class KVDthes_Relations implements IteratorAggregate, Countable
     /**
      * addRelation 
      * 
-     * @param KVDthes_Relation $relation 
-     * @return void
+     * @param   KVDthes_Relation     $relation 
+     * @return  boolean         True indien de relatie werd toegevoegd, false indien ze al aanwezig was.
      */
     public function addRelation ( KVDthes_Relation $relation )
     {
-        $this->relations[] = $relation;
+        if ( !$this->hasRelation( $relation ) ) {
+            $this->relations[] = $relation;
+            $this->currentSort = self::SORT_UNSORTED;
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * removeRelation 
+     * 
+     * @param   KVDthes_Relation     $relation 
+     * @return  boolean             True indien de relatie werd verwijderd, false indien ze niet aanwezig was en dus niet verwijderd kon worden.
+     */
+    public function removeRelation ( KVDthes_Relation $relation )
+    {
+        if ( ( $key = array_search ( $relation, $this->relations ) ) !== false ) {
+            unset( $this->relations[$key] );
+            //array herindexeren zodat de iterator blijft werken.
+            $this->relations = array_values( $this->relations );
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * hasRelation 
+     * 
+     * @param   KVDthes_Relation    $relation 
+     * @return  boolean
+     */
+    public function hasRelation( KVDthes_Relation $relation ) 
+    {
+        return in_array( $relation, $this->relations );
+    }
+
+    /**
+     * getImmutableCollection 
+     * 
+     * @return  KVDdom_DomainObjectCollection
+     */
+    public function getImmutableCollection( )
+    {
+        return new KVDdom_DomainObjectCollection( $this->relations );
     }
 
     /**
@@ -147,11 +190,17 @@ class KVDthes_Relations implements IteratorAggregate, Countable
      * count 
      * 
      * Geeft het aantal relaties terug.
-     * @return integer
+     * @param   $type       Een type constante uit {@link KVDthes_Relation} of null.
+     * @return  integer     Het totaal aantal relaties of indien er een type werd opgegeven, het aantal relaties van dit type.
      */
-    public function count( )
+    public function count( $type = null )
     {
-        return count( $this->relations );
+        if ( $type === null ) {
+            return count( $this->relations );
+        } else {
+            $it = new KVDthes_RelationTypeIterator( $this->relations, $type );
+            return count( $it );
+        }
     }
 
     /**
