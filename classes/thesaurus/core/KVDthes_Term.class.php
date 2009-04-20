@@ -628,7 +628,12 @@ abstract class KVDthes_Term extends KVDdom_ChangeableDomainObject
     public function getNonPreferredTerms( )
     {
         $this->checkRelations( );
-        return $this->relations->getUFIterator();
+        $it = $this->relations->getUFIterator( );
+        $arr = array( );
+        foreach ( $it as $r ) {
+            $arr[] = $r->getTerm( );
+        }
+        return new KVDdom_DomainObjectCollection( $arr );
     }
 
     /**
@@ -655,7 +660,12 @@ abstract class KVDthes_Term extends KVDdom_ChangeableDomainObject
     public function getNarrowerTerms( )
     {
         $this->checkRelations( );
-        return $this->relations->getNTIterator( );
+        $it = $this->relations->getNTIterator( );
+        $arr = array( );
+        foreach ( $it as $r ) {
+            $arr[] = $r->getTerm( );
+        }
+        return new KVDdom_DomainObjectCollection( $arr );
     }
 
     /**
