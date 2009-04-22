@@ -43,14 +43,9 @@ abstract class KVDthes_Term extends KVDdom_ChangeableDomainObject
     CONST LS_REL = 8;
 
     /**
-     * Geeft aan dat de Scope Note voor de term werd geladen. 
+     * Geeft aan dat de Notes voor de term werden geladen.
      */
-    CONST LS_SCOPENOTE = 16;
-
-    /**
-     * Geeft aan de Source Note voor de term werd geladen. 
-     */
-    CONST LS_SOURCENOTE = 32;
+    CONST LS_NOTES = 16;
 
     /**
      * id 
@@ -102,19 +97,14 @@ abstract class KVDthes_Term extends KVDdom_ChangeableDomainObject
     protected $relations;
 
     /**
-     * scopeNote 
+     * notes 
      * 
-     * @var string
+     * @var     array   Array van strings.
      */
-    protected $scopeNote = null;
-
-
-    /**
-     * scopeNote 
-     * 
-     * @var string
-     */
-    protected $sourceNote = null;
+    protected $notes = array(   'scopeNote'     => null,
+                                'sourceNote'    => null,
+                                'indexingNote'  => null,
+                                'historyNote'   => null );
 
     /**
      * loadState 
@@ -139,12 +129,11 @@ abstract class KVDthes_Term extends KVDdom_ChangeableDomainObject
      * @param string                $qualifier
      * @param string                $language
      * @param string                $sortKey
-     * @param string                $scopeNote
-     * @param string                $sourceNote
+     * @param array                 $notes
      * @param KVDthes_Thesaurus     $thesaurus
      * @return void
      */
-	public function __construct ( $id, KVDdom_IWriteSessie $sessie, $term, KVDthes_TermType $type = null, $qualifier = null, $language = 'nl-BE', $sortKey = null, $scopeNote = null, $sourceNote = null, KVDthes_Thesaurus $thesaurus = null)
+	public function __construct ( $id, KVDdom_IWriteSessie $sessie, $term, KVDthes_TermType $type = null, $qualifier = null, $language = 'nl-BE', $sortKey = null, array $notes = null, KVDthes_Thesaurus $thesaurus = null)
 	{
         parent::__construct($id, $sessie);
 		$this->term = $term;
@@ -152,13 +141,8 @@ abstract class KVDthes_Term extends KVDdom_ChangeableDomainObject
         $this->qualifier = $qualifier;
         $this->language = $language;
         $this->sortKey = $sortKey;
-        if ( $scopeNote != null ) {
-            $this->scopeNote = $scopeNote;
-            $this->setLoadState( self::LS_SCOPENOTE );
-        }
-        if ( $sourceNote != null ) {
-            $this->sourceNote = $sourceNote;
-            $this->setLoadState( self::LS_SOURCENOTE );
+        if ( $notes != null ) {
+            $this->loadNotes( $notes );
         }
         $this->thesaurus = ( $thesaurus != null ) ? $thesaurus : KVDthes_Thesaurus::newNull( );
         $this->relations = new KVDthes_Relations();
@@ -173,8 +157,7 @@ abstract class KVDthes_Term extends KVDdom_ChangeableDomainObject
     protected function markDirty( )
     {
         $this->checkRelations( );
-        $this->checkScopeNote( );
-        $this->checkSourceNote( );
+        $this->checkNotes( );
         parent::markDirty( );
     }
 
@@ -206,28 +189,14 @@ abstract class KVDthes_Term extends KVDdom_ChangeableDomainObject
     /**
      * checkScopeNote 
      * 
-     * Check if the ScopeNote has been loaded yet, if not load it.
+     * Check if the notes have been loaded yet, if not load them.
      * @return void
      */
-    public function checkScopeNote( )
+    public function checkNotes( )
     {
-        if ( !( $this->loadState & self::LS_SCOPENOTE ) ) {
-            $this->_sessie->getMapper( $this->getClass( ) )->loadScopeNote( $this );
-            $this->setLoadState( self::LS_SCOPENOTE );
-        }
-    }
-
-    /**
-     * checkSourceNote 
-     * 
-     * Check if the SourceNote has been loaded yet, if not load it.
-     * @return void
-     */
-    public function checkSourceNote( )
-    {
-        if ( !( $this->loadState & self::LS_SOURCENOTE ) ) {
-            $this->_sessie->getMapper( $this->getClass( ) )->loadSourceNote( $this );
-            $this->setLoadState( self::LS_SOURCENOTE );
+        if ( !( $this->loadState & self::LS_NOTES ) ) {
+            $this->_sessie->getMapper( $this->getClass( ) )->loadNotes( $this );
+            $this->setLoadState( self::LS_NOTES );
         }
     }
 
@@ -374,8 +343,8 @@ abstract class KVDthes_Term extends KVDdom_ChangeableDomainObject
      */
     public function getScopeNote( )
     {
-        $this->checkScopeNote( );
-        return $this->scopeNote;
+        $this->checkNotes( );
+        return $this->notes['scopeNote'];
     }
 
     /**
@@ -387,8 +356,8 @@ abstract class KVDthes_Term extends KVDdom_ChangeableDomainObject
      */
     public function setScopeNote( $note )
     {
-        $this->scopeNote = $note;
-        $this->setLoadState( self::LS_SCOPENOTE );
+        $this->checkNotes( );
+        $this->notes['scopeNote'] = $note;
         $this->markDirty( );
     }
 
@@ -399,8 +368,8 @@ abstract class KVDthes_Term extends KVDdom_ChangeableDomainObject
      */
     public function getSourceNote( )
     {
-        $this->checkSourceNote( );
-        return $this->sourceNote;
+        $this->checkNotes( );
+        return $this->notes['sourceNote'];
     }
 
     /**
@@ -412,8 +381,60 @@ abstract class KVDthes_Term extends KVDdom_ChangeableDomainObject
      */
     public function setSourceNote( $note )
     {
-        $this->sourceNote = $note;
-        $this->setLoadState( self::LS_SOURCENOTE );
+        $this->checkNotes( );
+        $this->notes['sourceNote'] = $note;
+        $this->markDirty( );
+    }
+
+    /**
+     * getIndexingNote 
+     * 
+     * @since   22 apr 2009
+     * @return  string
+     */
+    public function getIndexingNote( )
+    {
+        $this->checkNotes( );
+        return $this->notes['indexingNote'];
+    }
+
+    /**
+     * setIndexingNote 
+     * 
+     * @since   22 apr 2009
+     * @param   string $note 
+     * @return  void
+     */
+    public function setIndexingNote( $note )
+    {
+        $this->checkNotes( );
+        $this->notes['indexingNote'] = $note;
+        $this->markDirty( );
+    }
+
+    /**
+     * getHistoryNote 
+     * 
+     * @since   22 apr 2009
+     * @return  string
+     */
+    public function getHistoryNote( )
+    {
+        $this->checkNotes( );
+        return $this->notes['historyNote'];
+    }
+
+    /**
+     * setHistoryNote 
+     * 
+     * @since   22 apr 2009
+     * @param   string $note 
+     * @return  void
+     */
+    public function setHistoryNote( $note )
+    {
+        $this->checkNotes( );
+        $this->notes['historyNote'] = $note;
         $this->markDirty( );
     }
 
@@ -502,23 +523,12 @@ abstract class KVDthes_Term extends KVDdom_ChangeableDomainObject
     /**
      * addScopeNote 
      * 
-     * @param string $sn 
-     * @return void
+     * @param   array $n 
+     * @return  void
      */
-    public function addScopeNote( $sn ) {
-        $this->scopeNote = $sn;
-        $this->setLoadState( self::LS_SCOPENOTE );
-    }
-
-    /**
-     * addSourceNote 
-     * 
-     * @param string $sn 
-     * @return void
-     */
-    public function addSourceNote( $sn ) {
-        $this->sourceNote = $sn;
-        $this->setLoadState( self::LS_SOURCENOTE );
+    public function loadNotes( array $notes ) {
+        $this->notes = array_merge( $this->notes, $notes );
+        $this->setLoadState( self::LS_NOTES );
     }
 
     /**
@@ -578,10 +588,7 @@ abstract class KVDthes_Term extends KVDdom_ChangeableDomainObject
      */
     public function isPreferredTerm( )
     {
-        $this->checkRelations( );
-        $it = $this->relations->getUSEIterator( );
-        $it->rewind( );
-        return !$it->valid( );
+        return ( $this->getType( )->getId( ) === 'PT' );
     }
 
     /**
@@ -591,6 +598,10 @@ abstract class KVDthes_Term extends KVDdom_ChangeableDomainObject
      */
     public function getPreferredTerm( )
     {
+        // If this is a preferred term we don't need to load the relations.
+        if ( $this->isPreferredTerm( ) ) {
+            return $this;
+        }
         $this->checkRelations( );
         $it = $this->relations->getUSEIterator( );
         $it->rewind( );
@@ -606,6 +617,9 @@ abstract class KVDthes_Term extends KVDdom_ChangeableDomainObject
      */
     public function setPreferredTerm( KVDthes_Term $term )
     {
+        if ( $this->isPreferredTerm( ) && !$term->isNull( ) ) {
+            throw new LogicException( 'You are trying to set a preferred term for a term which is already a preferred term.' );
+        }
         $this->checkRelations( );
         $it = $this->relations->getUSEIterator( );
         $it->rewind( );
@@ -746,6 +760,9 @@ abstract class KVDthes_Term extends KVDdom_ChangeableDomainObject
      */
     public function setBroaderTerm( KVDthes_Term $term )
     {
+        if ( !$this->isPreferredTerm( ) && !$term->isNull( ) ) {
+            throw new LogicException( 'You are trying to set a Broader Term for a term which is not a preferred term.' );
+        }
         $this->checkRelations( );
         $it = $this->relations->getBTIterator( );
         $it->rewind( );

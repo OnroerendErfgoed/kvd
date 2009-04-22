@@ -185,7 +185,7 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
      */
     protected function getLoadNotesStatement( )
     {
-        return sprintf( 'SELECT scope_note, source_note FROM %s.notes WHERE term_id = ? AND thesaurus_id = %d', 
+        return sprintf( 'SELECT scope_note, source_note, indexing_note, history_note FROM %s.notes WHERE term_id = ? AND thesaurus_id = %d', 
                         $this->parameters['schema'],
                         $this->parameters['thesaurus_id']);
     }
@@ -359,7 +359,7 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
         $returnType = $this->getReturnType( );
         $thesaurus = $this->doLoadThesaurus( );
         $termType = new KVDthes_TermType( $row->type_id, $row->type_naam );
-        return new $returnType( $id, $this->sessie, $row->term, $termType, $row->qualifier, $row->language, $row->sort_key, null, null, $thesaurus);
+        return new $returnType( $id, $this->sessie, $row->term, $termType, $row->qualifier, $row->language, $row->sort_key, null, $thesaurus);
     }
 
     /**
@@ -395,48 +395,27 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
     }
 
     /**
-     * loadScopeNote 
-     * 
-     * @param KVDthes_Term $termObj 
-     * @return KVDthes_Term
-    */
-    public function loadScopeNote( KVDthes_Term $termObj )
-    {
-        return $this->loadNotes( $termObj);
-    }
-
-    /**
      * loadNotes 
      * 
-     * Deze methode zal alle notes ( zowel scope als source) van een term laden.
-     * @param KVDthes_Term $termObj 
-     * @return KVDthes_Term
+     * Deze methode zal alle notes (scope, source, indexing, history) van een term laden.
+     * @param   KVDthes_Term $termObj 
+     * @return  KVDthes_Term
      */
-    private function loadNotes( KVDthes_Term $termObj )
+    public function loadNotes( KVDthes_Term $termObj )
     {
         $stmt = $this->conn->prepare( $this->getLoadNotesStatement( ) );
         $stmt->bindValue( 1, $termObj->getId( ), PDO::PARAM_INT );
         $stmt->execute( );
         if (!$row = $stmt->fetch( PDO::FETCH_OBJ )) {
-            $termObj->setLoadState( KVDthes_Term::LS_SCOPENOTE );
+            $termObj->setLoadState( KVDthes_Term::LS_NOTES );
             return $termObj;
         }
-        $termObj->addScopeNote ( $row->scope_note );
-        $termObj->setLoadState( KVDthes_Term::LS_SCOPENOTE );
-        $termObj->addSourceNote ( $row->source_note );
-        $termObj->setLoadState( KVDthes_Term::LS_SOURCENOTE );
+        $notes = array (    'scopeNote'     => $row->scope_note,
+                            'sourceNote'    => $row->source_note,
+                            'indexingNote'  => $row->indexing_note,
+                            'historyNote'   => $row->history_note );
+        $termObj->loadNotes( $notes );
         return $termObj;
-    }
-
-    /**
-     * loadSourceNote 
-     * 
-     * @param KVDthes_Term $termObj 
-     * @return KVDthes_Term
-     */
-    public function loadSourceNote( KVDthes_Term $termObj )
-    {
-        return $this->loadNotes( $termObj);
     }
 
     /**
@@ -521,6 +500,14 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
      */
     abstract protected function getReturnType( );
 
+    /**
+     * bindValues 
+     * 
+     * @param   PDOStatement    $stmt 
+     * @param   integer         $nextIndex 
+     * @param   KVDthes_Term    $term 
+     * @return  integer         Volgende te gebruiken index.
+     */
     protected function bindValues( $stmt, $nextIndex, $term )
     {
         $stmt->bindValue ( $nextIndex++, $term->getTerm( ) , PDO::PARAM_STR );
@@ -531,6 +518,12 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
         return $nextIndex;
     }
 
+    /**
+     * insert 
+     * 
+     * @param   KVDthes_Term $term 
+     * @return  KVDthes_Term
+     */
     public function insert( KVDthes_Term $term )
     {
         $sql = sprintf( 'INSERT INTO %s.term (thesaurus_id, id, term, type, language, qualifier, sort_key ) VALUES ( %s, ?, ?, ?, ?, ?, ? )', $this->parameters['schema'], $this->parameters['thesaurus_id'] );
@@ -590,11 +583,13 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
     
     protected function insertNotes( KVDthes_Term $term )
     {
-        $sql = sprintf( 'INSERT INTO %s.notes ( thesaurus_id, term_id, scope_note, source_note ) VALUES ( %s, ?, ?, ?)', $this->parameters['schema'], $this->parameters['thesaurus_id'] );
+        $sql = sprintf( 'INSERT INTO %s.notes ( thesaurus_id, term_id, scope_note, source_note, indexing_note, history_note ) VALUES ( %s, ?, ?, ?, ?, ?)', $this->parameters['schema'], $this->parameters['thesaurus_id'] );
         $stmt = $this->conn->prepare(  $sql );
         $stmt->bindValue(  1, $term->getId(  ) , PDO::PARAM_INT );
         $stmt->bindValue ( 2, $term->getScopeNote( ) , PDO::PARAM_STR );
         $stmt->bindValue ( 3, $term->getSourceNote( ) , PDO::PARAM_STR );
+        $stmt->bindValue ( 4, $term->getIndexingNote( ) , PDO::PARAM_STR );
+        $stmt->bindValue ( 5, $term->getHistoryNote( ) , PDO::PARAM_STR );
         $stmt->execute(  );
         return $term;
     }
@@ -603,12 +598,16 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
     {
         $sql = sprintf( 'UPDATE %s.notes SET 
                             scope_note = ?,
-                            source_note = ?
+                            source_note = ?,
+                            indexing_note = ?,
+                            history_note = ?
                           WHERE thesaurus_id = %s AND term_id = ?', $this->parameters['schema'], $this->parameters['thesaurus_id'] );
         $stmt = $this->conn->prepare(  $sql );
         $stmt->bindValue ( 1, $term->getScopeNote( ) , PDO::PARAM_STR );
         $stmt->bindValue ( 2, $term->getSourceNote( ) , PDO::PARAM_STR );
-        $stmt->bindValue(  3, $term->getId(  ) , PDO::PARAM_INT );
+        $stmt->bindValue ( 3, $term->getIndexingNote( ) , PDO::PARAM_STR );
+        $stmt->bindValue ( 4, $term->getHistoryNote( ) , PDO::PARAM_STR );
+        $stmt->bindValue(  5, $term->getId(  ) , PDO::PARAM_INT );
         $stmt->execute(  );
         return $term;
     }
