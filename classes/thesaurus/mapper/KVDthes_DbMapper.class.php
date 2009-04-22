@@ -132,16 +132,6 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
      */
     protected function getFindRootStatement( )
     {
-        /*
-        return sprintf( 'SELECT t.id AS id, term, type, qualifier, language, sort_key 
-                         FROM %s.visitation v LEFT JOIN %s.term t ON ( v.term_id = t.id and v.thesaurus_id = t.thesaurus_id )
-                         WHERE 
-                            v.thesaurus_id = %d
-                            AND v.depth = 1',
-                         $this->parameters['schema'],
-                         $this->parameters['schema'],
-                         $this->parameters['thesaurus_id'] );
-        */
         return $this->getSelectStatement( ) . ' AND t.type = \'HR\' LIMIT 1';
     }
 
@@ -284,8 +274,8 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
     /**
      * findSubTreeId 
      * 
-     * Zoek de id's van alle termen die een NT zijn van een bepaalde term.
-     * @return array
+     * Zoek de id's van alle termen die een NT zijn van een bepaalde term en het id van de term zelf.
+     * @return array    Een array met ten minste de id van de term zelf en indien de term NTs heeft ook hun ids.
      */
     public function findSubTreeId( KVDthes_Term $term )
     {
@@ -293,7 +283,11 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
         $stmt->bindValue(1, $term->getId( ) , PDO::PARAM_INT );
         $stmt->bindValue(2, $term->getId( ) , PDO::PARAM_INT );
         $stmt->execute();
-        return $stmt->fetchAll( PDO::FETCH_COLUMN );
+        $res = $stmt->fetchAll( PDO::FETCH_COLUMN );
+        if ( count( $res ) < 1 ) {
+            $res[] = $term->getId( );
+        }
+        return $res;
     }
     
 
