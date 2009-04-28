@@ -259,7 +259,7 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
         if(preg_match("#^([\w\h]+)\h*\(([\w\h]+)\)\h*$#", $naam, $matches)) {
 					$stmt = $this->conn->prepare( $this->getFindByQualifiedNaamStatement());
           $stmt->bindValue(1, trim($matches[1]) , PDO::PARAM_STR );
-          $stmt->bindValue(1, trim($matches[2]) , PDO::PARAM_STR );					
+          $stmt->bindValue(2, trim($matches[2]) , PDO::PARAM_STR );					
 				} else {
 					$stmt = $this->conn->prepare( $this->getFindByNaamStatement());
           $stmt->bindValue(1, $naam , PDO::PARAM_STR );
