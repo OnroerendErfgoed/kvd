@@ -521,7 +521,7 @@ abstract class KVDthes_Term extends KVDdom_ChangeableDomainObject
     }
 
     /**
-     * addScopeNote 
+     * loadNotes
      * 
      * @param   array $n 
      * @return  void
@@ -588,7 +588,7 @@ abstract class KVDthes_Term extends KVDdom_ChangeableDomainObject
      */
     public function isPreferredTerm( )
     {
-        return ( $this->getType( )->getId( ) === 'PT' );
+        return ( $this->getType( )->getId( ) === 'PT' || $this->getType( )->getId( ) === 'HR' || $this->getType( )->getId( ) == 'NL' );
     }
 
     /**
