@@ -67,7 +67,7 @@ class KVDthes_SqlGenerator
                                 $thesaurus_id, 
                                 $term->getId( ),
                                 addslashes( $term->getTerm( ) ), 
-                                $term->getType( )->getId( );
+                                $term->getType( )->getId( ),
                                 $term->getQualifier( ) !== null ? "'" . addslashes( $term->getQualifier( ) ) . "'" : 'null', 
                                 addslashes( $term->getLanguage() ),
                                 $term->getSortKey( ) === $term->getTerm( ) ? 'null' : "'" . addslashes( $term->getSortKey( ) ) . "'" 

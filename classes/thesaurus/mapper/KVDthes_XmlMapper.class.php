@@ -218,7 +218,7 @@ abstract class KVDthes_XmlMapper implements KVDthes_IDataMapper
         foreach ( $term->getElementsByTagName( 'relation' ) as $relation ) {
             $relId = $relation->getElementsByTagName( 'termId' )->item( 0 )->nodeValue;
             $relType = $relation->getElementsByTagName( 'relationType' )->item( 0 )->nodeValue;
-            $termObj->addRelation ( new KVDthes_Relation ( $relType , $this->findById( $relId ) ) );
+            $termObj->loadRelation ( new KVDthes_Relation ( $relType , $this->findById( $relId ) ) );
         }
         $termObj->setLoadState( KVDthes_Term::LS_REL );
 
@@ -236,14 +236,14 @@ abstract class KVDthes_XmlMapper implements KVDthes_IDataMapper
         $termElem = $this->findNodeForTerm( $term );
 
         $notes = array( );
-
+        
         foreach ( $termElem->getElementsByTagName( 'termNote' ) as $note ) {
             if ( $note->hasAttribute( 'label' ) ) {
                 $noteType = strtolower( $note->getAttribute( 'label' ) ) . 'Note';
             } else {
                 $noteType = 'scopeNote';
             }
-            $notes[$noteType] = trim( $note->nodeValue( ) );
+            $notes[$noteType] = trim( $note->nodeValue );
         }
         $term->loadNotes( $notes );
         return $term;
