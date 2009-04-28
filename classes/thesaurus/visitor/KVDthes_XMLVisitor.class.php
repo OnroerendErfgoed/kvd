@@ -9,7 +9,7 @@
  */
 
 /**
- * KVDthes_XMLVisitor 
+ * Deze vistitor transformeert een in-memory tree van thesaurus termen tot een zthes file.
  * 
  * @package KVD.thes
  * @subpackage visitor
@@ -59,7 +59,8 @@ class KVDthes_XMLVisitor extends KVDthes_AbstractSimpleVisitor
         $this->term = $this->dom->createElement( 'term' );
         $this->term->appendChild( $this->createTermId( $node->getId( ) ) );
         $this->term->appendChild( $this->createTermName( $node->getTerm( ) ) );
-        $this->term->appendChild( $this->createTermLanguage( 'Nederlands' ) );
+        $this->term->appendChild( $this->createTermType( $node->getType( )->getId( ) ) );
+        $this->term->appendChild( $this->createTermLanguage( 'nl-BE' ) );
         return true;
     }
 
@@ -69,7 +70,8 @@ class KVDthes_XMLVisitor extends KVDthes_AbstractSimpleVisitor
         $relNode->appendChild( $this->createRelationType( $relation->getType( ) ) );
         $relNode->appendChild( $this->createTermId( $relation->getTerm( )->getId( ) ) );
         $relNode->appendChild( $this->createTermName( $relation->getTerm( )->getTerm( ) ) );
-        $relNode->appendChild( $this->createTermLanguage( 'Nederlands' ) );
+        $this->term->appendChild( $this->createTermType( $node->getType( )->getId( ) ) );
+        $relNode->appendChild( $this->createTermLanguage( 'nl-BE' ) );
         $this->term->appendChild( $relNode );
         return true;
     }
@@ -82,6 +84,11 @@ class KVDthes_XMLVisitor extends KVDthes_AbstractSimpleVisitor
     private function createTermLanguage( $language )
     {
         return $this->createNode( 'termLanguage' , $language );
+    }
+
+    private function createTermType( $type )
+    {
+        return $this->createNode( 'termType', $type );
     }
 
     private function createTermId( $id )

@@ -136,6 +136,8 @@ abstract class KVDthes_XmlMapper implements KVDthes_IDataMapper
     {
         foreach ( $this->dom->getElementsByTagName( 'term' ) as $term ) {
             $id = $term->getElementsByTagName( 'termId' )->item( 0 )->nodeValue;
+            $tc = $term->getElementsByTagName( 'termType' )->item( 0 )->nodeValue;
+            $type = $this->loadType( $tc );
             $name = $term->getElementsByTagName( 'termName' )->item( 0 )->nodeValue;
             $language = $term->getElementsByTagName( 'termLanguage' )->item( 0 )->nodeValue;
             $list = $this->xp->query( 'termQualifier', $term );
@@ -144,7 +146,7 @@ abstract class KVDthes_XmlMapper implements KVDthes_IDataMapper
             $sortKey = ( $list->length > 0 ) ? $list->item(0)->nodeValue : null;
             $termType = $this->getReturnType( );
             $thesaurus = $this->doLoadThesaurus( );
-            $termObj = new $termType( $this->sessie , $id , $name , $qualifier, $language, $sortKey, null, null, $thesaurus);
+            $termObj = new $termType($id, $this->sessie , $name, $type, $qualifier, $language, $sortKey, null, $thesaurus);
             if ( $this->root == null ) {
                 $this->root = $termObj;
             }
@@ -159,6 +161,31 @@ abstract class KVDthes_XmlMapper implements KVDthes_IDataMapper
     private function doLoadThesaurus( )
     {
         return KVDthes_Thesaurus::newNull( );
+    }
+
+    /**
+     * loadType 
+     * 
+     * @param   string              $code 
+     * @return  KVDthes_TermType
+     */
+    private function loadType( $code )
+    {
+        switch ( $code ) {
+            case 'ND':
+                return new KVDthes_TermType( 'ND', 'Preferred Term');
+                break;
+            case 'HR':
+                return new KVDthes_TermType( 'HR', 'Hierarchy Root');
+                break;
+            case 'NL':
+                return new KVDthes_TermType( 'NL', 'Guide Term');
+                break;
+            case 'PT':
+            default:
+                return new KVDthes_TermType( 'PT', 'Preferred Term');
+                break;
+        }
     }
 
     /**
@@ -199,65 +226,27 @@ abstract class KVDthes_XmlMapper implements KVDthes_IDataMapper
     }
 
     /**
-     * loadScopeNote 
+     * loadNotes 
      * 
-     * @param KVDthes_Term $termObj 
-     * @return KVDthes_Term
+     * @param   KVDthes_Term $term 
+     * @return  KVDthes_Term
      */
-    public function loadScopeNote( KVDthes_Term $termObj )
+    public function loadNotes( KVDthes_Term $term )
     {
-        $term = $this->findNodeForTerm( $termObj );
-        
-        $this->loadNote( $term, 'Scope' , $termObj);
-        
-        return $termObj;
-    }
+        $termElem = $this->findNodeForTerm( $term );
 
-    /**
-     * loadSourceNote 
-     * 
-     * @param KVDthes_Term $termObj 
-     * @return KVDthes_Term
-     */
-    public function loadSourceNote( KVDthes_Term $termObj )
-    {
-        $term = $this->findNodeForTerm( $termObj );
-        
-        $this->loadNote( $term, 'Source' , $termObj);
-        
-        return $termObj;
-    }
+        $notes = array( );
 
-    /**
-     * loadNote 
-     * 
-     * @param DOMElement $term 
-     * @param string $type 
-     * @param KVDthes_Term $termObj
-     * @return boolean Was the note loaded?
-     */
-    private function loadNote( DOMElement $term, $type, KVDthes_Term $termObj)
-    {
-        $this->sessie->getLogger( )->log( $term->nodeValue );
-        foreach ( $term->getElementsByTagName( 'termNote' ) as $note ) {
-            if ( $note->hasAttribute( 'label' ) && strtolower($note->getAttribute( 'label' )) == strtolower($type) ) {
-                if ( $type == 'Source' ) {
-                    $termObj->addSourceNote ( trim( $note->nodeValue ) );
-                    $termObj->setLoadState( KVDthes_Term::LS_SOURCENOTE );
-                }
-                if ( $type == 'Scope' ) {
-                    $termObj->addScopeNote ( trim( $note->nodeValue ) );
-                    $termObj->setLoadState( KVDthes_Term::LS_SCOPENOTE );
-                }
-                return true;
+        foreach ( $termElem->getElementsByTagName( 'termNote' ) as $note ) {
+            if ( $note->hasAttribute( 'label' ) ) {
+                $noteType = strtolower( $note->getAttribute( 'label' ) ) . 'Note';
+            } else {
+                $noteType = 'scopeNote';
             }
-            if ( !( $note->hasAttribute( 'label' ) ) ) {
-                $termObj->addScopeNote ( trim( $note->nodeValue ) );
-                $termObj->setLoadState( KVDthes_Term::LS_SCOPENOTE );
-                return true;
-            }
+            $notes[$noteType] = trim( $note->nodeValue( ) );
         }
-        return false;
+        $term->loadNotes( $notes );
+        return $term;
     }
 
     /**

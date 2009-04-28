@@ -63,10 +63,11 @@ class KVDthes_SqlGenerator
         $sql .= "--Termen.\n";
         $termen = $this->sessie->getMapper( $domainObject )->findAll( );
         foreach ( $termen as $term ) {
-            $sql .= sprintf( "INSERT INTO thes.term VALUES ( %d, %d, '%s', %s, '%s', %s);\n", 
+            $sql .= sprintf( "INSERT INTO thes.term VALUES ( %d, %d, '%s', '%s', %s, '%s', %s);\n", 
                                 $thesaurus_id, 
                                 $term->getId( ),
                                 addslashes( $term->getTerm( ) ), 
+                                $term->getType( )->getId( );
                                 $term->getQualifier( ) !== null ? "'" . addslashes( $term->getQualifier( ) ) . "'" : 'null', 
                                 addslashes( $term->getLanguage() ),
                                 $term->getSortKey( ) === $term->getTerm( ) ? 'null' : "'" . addslashes( $term->getSortKey( ) ) . "'" 
@@ -88,19 +89,11 @@ class KVDthes_SqlGenerator
         $sql .= "--Notes.\n";
         foreach ( $termen as $term ) {
             if ( $term->getScopeNote( ) != null || $term->getSourceNote( ) != null ) {
-                $sql .= sprintf( "INSERT INTO thes.notes VALUES ( %d, %d, '%s', '%s');\n", $thesaurus_id, $term->getId( ), addslashes( $term->getScopeNote( ) ), addslashes( $term->getSourceNote( ) ) );
+                $sql .= sprintf( "INSERT INTO thes.notes VALUES ( %d, %d, '%s', '%s', null, null);\n", $thesaurus_id, $term->getId( ), addslashes( $term->getScopeNote( ) ), addslashes( $term->getSourceNote( ) ) );
             }
         }
         $sql .= "\n";
        
-        $sql .= "--Visitation.\n";
-        $topTerm = $this->sessie->getMapper( $domainObject )->findRoot( );
-        $v = new KVDthes_VisitationVisitor( );
-        $topTerm->accept( $v );
-        foreach ( $v->getResult( ) as $row ) {
-            $sql .= sprintf("INSERT INTO thes.visitation VALUES ( default, %d, %d, %d, %d, %d );\n", $row['left'], $row['right'], $thesaurus_id, $row['id'], $row['depth']);
-        }
-
         return $sql;
     }
         
