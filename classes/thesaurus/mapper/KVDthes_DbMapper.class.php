@@ -95,6 +95,17 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
     }
 
     /**
+     * getFindByQualifiedNaamStatement 
+     * 
+     * @return string SQL Statement
+     */
+    protected function getFindByQualifiedNaamStatement( )
+    {
+        return $this->getFindByNaamStatement( ) . ' AND lower(qualifier) = lower(?)';
+    }
+
+
+    /**
      * getFindSubTreeIdStatement 
      * 
      * @return string
@@ -245,14 +256,20 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
      */
     public function findByNaam( $naam )
     {
-        $stmt = $this->conn->prepare( $this->getFindByNaamStatement( ) );
-        $stmt->bindValue(1, $naam , PDO::PARAM_STR );
+        if(preg_match("#^([\w\h]+)\h*\(([\w\h]+)\)\h*$#", $naam, $matches)) {
+					$stmt = $this->conn->prepare( $this->getFindByQualifiedNaamStatement());
+          $stmt->bindValue(1, trim($matches[1]) , PDO::PARAM_STR );
+          $stmt->bindValue(1, trim($matches[2]) , PDO::PARAM_STR );					
+				} else {
+					$stmt = $this->conn->prepare( $this->getFindByNaamStatement());
+          $stmt->bindValue(1, $naam , PDO::PARAM_STR );
+				}
         $stmt->execute();
-        if (!$row = $stmt->fetch( PDO::FETCH_OBJ )) {
-            $msg = $this->getReturnType( ) . " met naam $naam kon niet gevonden worden";
-            throw new KVDdom_DomainObjectNotFoundException ( $msg , $this->getReturnType( ) , $naam );
+        $termen = array( );
+        while ( $row = $stmt->fetch( PDO::FETCH_OBJ ) ) {
+            $termen[$row->id] = $this->doLoadRow( $row->id, $row );
         }
-        return $this->doLoadRow( $row->id, $row);
+        return (count($termen) == 0)? KVDthes_Term::newNull() : current($termen);
     }
 
     /**
