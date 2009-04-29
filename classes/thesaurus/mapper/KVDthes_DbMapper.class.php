@@ -250,9 +250,10 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
     /**
      * findByNaam 
      * 
-     * @param string $naam      Zoek een term op basis van de naam. Case insensitive.
-     * @return KVDthes_Term
-     * @throws KVDdom_DomainObjectNotFoundException - Indien de term niet bestaat
+     * @author  Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
+     * @author  Dieter Standaert <dieter.standaert@eds.com>
+     * @param   string $naam                    Zoek een term op basis van de naam. Case insensitive.
+     * @return  KVDdom_DomainObjectCollection   Alle termen die aan deze naam voldoen.
      */
     public function findByNaam( $naam )
     {
@@ -269,7 +270,7 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
         while ( $row = $stmt->fetch( PDO::FETCH_OBJ ) ) {
             $termen[$row->id] = $this->doLoadRow( $row->id, $row );
         }
-        return (count($termen) == 0)? KVDthes_Term::newNull() : current($termen);
+        return new KVDdom_DomainObjectCollection( $termen );
     }
 
     /**
