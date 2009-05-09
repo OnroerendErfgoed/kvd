@@ -159,10 +159,16 @@ class KVDdb_Criteria implements Countable
      * hasCriteria 
      * 
      * Ga na of er zoekcriteria werden ingesteld.
+     *
+     * @param   string  $field  Indien aanwezig zal er gekeken worden of er zoekcriteria op dit veld aanwezig zijn.
      * @return  boolean
      */
-    public function hasCriteria( )
+    public function hasCriteria( $field = null)
     {
+        if ( $field !== null ) {
+            $fields = $this->getFields( );
+            return in_array( $field, $fields);
+        }
         return count( $this->criteria ) > 0;
     }
     
@@ -173,6 +179,21 @@ class KVDdb_Criteria implements Countable
     public function count( )
     {
         return count( $this->criteria );
+    }
+
+    /**
+     * getFields 
+     * 
+     * Lijst met alle velden waarop criteria zitten.
+     * @return array
+     */
+    public function getFields( )
+    {
+        $ret = array( );
+        foreach ( $this->criteria as $criterion ) {
+            $ret = array_merge( $ret , $criterion->getFields( ) );
+        }
+        return $ret;
     }
 
     /**

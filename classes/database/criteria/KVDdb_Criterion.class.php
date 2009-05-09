@@ -77,7 +77,7 @@ class KVDdb_Criterion
     /**
      * @var string
      */
-    protected $field;
+    protected $field = null;
 
     /**
      * @var mixed
@@ -127,6 +127,7 @@ class KVDdb_Criterion
     {
         return $mode == KVDdb_Criteria::MODE_FILLED ? $this->sanitize( $value ) : '?';
     }
+
     
     /**
      * @return string
@@ -151,6 +152,33 @@ class KVDdb_Criterion
     }
 
     /**
+     * getField 
+     * 
+     * Naam van de velden waarvoor dit criterion en zijn children dienen.
+     * @since   9 mei 2009
+     * @return  array
+     */
+    public function getFields( )
+    {
+        $ret = array( $this->field );
+        return array_unique( array_merge( $ret, $this->getFieldsChildren( ) ) );
+    }
+
+    /**
+     * getFieldsChildren 
+     * 
+     * @return array
+     */
+    protected function getFieldsChildren( )
+    {
+        $ret = array( );
+        foreach ( $this->children as $child ){
+            $ret = array_merge( $ret , $child['criterion']->getFields( ) );
+        }
+        return $ret;
+    }
+
+    /**
      * getValues 
      * 
      * @return array
@@ -160,6 +188,7 @@ class KVDdb_Criterion
         $ret = array ( $this->value );
         return array_merge( $ret , $this->getValuesChildren( ) );
     }
+
 
     /**
      * getValuesChildren 
@@ -496,6 +525,18 @@ class KVDdb_IsNullCriterion extends KVDdb_Criterion
         $sql .= $this->generateSqlChildren( $mode , $dbType);
         return $sql .= ' )';
     }
+
+    /**
+     * getValues 
+     * 
+     * Een IsNull heeft geen waarden die achteraf gebonden moeten worden, enkel een veld.
+     * @since   9 mei 2009
+     * @return  array
+     */
+    public function getValues( )
+    {
+        return array( );
+    }
 }
 
 
@@ -524,6 +565,18 @@ class KVDdb_IsNotNullCriterion extends KVDdb_Criterion
         $sql = "( " . $this->field . " IS NOT NULL";
         $sql .= $this->generateSqlChildren( $mode , $dbType );
         return $sql .= ' )';
+    }
+
+    /**
+     * getValues 
+     * 
+     * Een IsNotNull heeft geen waarden die achteraf gebonden moeten worden, enkel een veld.
+     * @since   9 mei 2009
+     * @return  array
+     */
+    public function getValues( )
+    {
+        return array( );
     }
 }
 
