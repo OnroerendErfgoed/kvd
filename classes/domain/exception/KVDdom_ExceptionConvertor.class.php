@@ -33,7 +33,7 @@ class KVDdom_ExceptionConvertor
         }
         $msg = $e->getMessage( );
         if ( stripos( $msg , 'foreign key violation' ) ) {
-            return new KVDdom_ReferenceViolationException( $dom );
+            return new KVDdom_ReferenceViolationException( $dom, $e );
         }
         return $e;
     }

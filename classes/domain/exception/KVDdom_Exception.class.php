@@ -88,12 +88,14 @@ class KVDdom_ReferenceViolationException extends Exception
     /**
      * __construct 
      * 
-     * @param KVDdom_DomainObject $domainObject
+     * @param KVDdom_DomainObject   $domainObject
+     * @param PDOException          $exception
      * @return void
      */
-    public function __construct( $domainObject )
+    public function __construct( $domainObject, PDOException $exception )
     {
         $this->domainObject = $domainObject;
+        $this->exception = $exception;
         $this->message = 'U hebt geprobeerd een ' . $domainObject->getClass() . ' met id ' . $domainObject->getId( ) .' te bewerken of verwijderen maar dit is niet mogelijk omdat uw bewerking tot ongeldige referenties met andere objecten zou leiden.';
     }
 
@@ -104,6 +106,17 @@ class KVDdom_ReferenceViolationException extends Exception
     public function getDomainObject ()
     {
         return $this->domainObject;
+    }
+
+    /**
+     * getException 
+     * 
+     * De PDOException die de fout aangeeft.
+     * @return PDOException
+     */
+    public function getException( )
+    {
+        return $this->exception;
     }
 }
 
