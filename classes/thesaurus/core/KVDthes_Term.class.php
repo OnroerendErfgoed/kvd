@@ -320,7 +320,7 @@ abstract class KVDthes_Term extends KVDdom_ChangeableDomainObject
      */
     public function getSortKey( )
     {
-        return $this->sortKey === null ? $this->term : $this->sortKey;
+        return $this->sortKey === null ? substr( $this->term, 0, 45) : $this->sortKey;
     }
 
     /**
