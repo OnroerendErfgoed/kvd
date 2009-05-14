@@ -88,9 +88,13 @@ class KVDhtml_SlidingPager {
      * @param int $range 
      * @return string
      */
-    public function toHtml( $range = 5)
+    public function toHtml( $range = 5, $showtotals = false)
     {
         $html = '';
+        if( $showtotals){
+            $html.= '<p><strong>Je zoekopdracht leverde '.$this->pager->getTotalRecordCount( ).' resultaten.</strong><p>';
+        }
+        
         if ( $this->pager->getPage( ) > $this->pager->getFirstPage( ) ) {
             $this->parameters[$this->paginaNaam] = $this->pager->getPrev( );
             $html .= $this->lh->genHtmlLink( $this->ro->gen( $this->route , $this->parameters ), 'Vorige');
@@ -130,6 +134,7 @@ class KVDhtml_SlidingPager {
   		} else {
             $html .= ' ] Volgende';
         }
+
         return $html;
     }
 }
