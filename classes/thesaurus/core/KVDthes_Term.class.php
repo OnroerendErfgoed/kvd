@@ -452,6 +452,21 @@ abstract class KVDthes_Term extends KVDdom_ChangeableDomainObject
     }
 
     /**
+     * clearRelations 
+     * 
+     * @param   string  $type   Een van de REL_ constanten uit de {@link KVDthes_Relation} class.
+     * @return  void
+     */
+    public function clearRelations( $type = null)
+    {
+        $this->checkRelations( );
+        $it = $this->relations->getIterator( $type );
+        foreach ( $it as $relation ) {
+            $this->removeRelation( $relation );
+        }
+    }
+
+    /**
      * addRelation 
      * 
      * @param KVDthes_Relation $relation 

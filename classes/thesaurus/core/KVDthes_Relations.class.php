@@ -129,11 +129,16 @@ class KVDthes_Relations implements IteratorAggregate, Countable
     /**
      * getIterator 
      * 
-     * @return KVDthes_RelationsIterator
+     * @param   $type   Type van relations of null om alle relations te krijgen.
+     * @return  KVDthes_RelationsIterator
      */
-    public function getIterator( )
+    public function getIterator( $type = null)
     {
-        return new KVDthes_RelationsIterator( $this->relations );
+        if ( $type == null ) {
+            return new KVDthes_RelationsIterator( $this->relations );
+        } else {
+            return new KVDthes_RelationTypeIterator( $this->relations, $type );
+        }
     }
 
     /**
