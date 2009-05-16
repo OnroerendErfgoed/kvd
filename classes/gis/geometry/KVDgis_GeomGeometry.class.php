@@ -42,6 +42,27 @@ abstract class KVDgis_GeomGeometry
     }
 
     /**
+     * createFromText 
+     * 
+     * @since   16 mei 2009
+     * @throws  InvalidArgumentException    Indien de string ongeldig is.
+     * @param   string              $wkt 
+     * @return  KVDgis_GeomGeometry
+     */
+    public static function createFromText( $wkt )
+    {
+        if (substr($wkt,0,5) != 'POINT') {
+            $g = new KVDgis_GeomPoint( );
+        } elseif (substr($wkt,0,10) == 'MULTIPOINT') {
+            $g = new KVDgis_GeomMultipoint( );
+        } else {
+            throw new InvalidArgumentException ('Ongeldige Well-Known Text string: ' . $wkt . "\n. Momenteel worden enkel de POINT en MULTIPOINT types ondersteund.");
+        }
+        $g->setGeometryFromText( $wkt );
+        return $g;
+    }
+
+    /**
      * @param string $string De string waaruit geplukt moet worden.
      * @return string De tekst die zich binnen de buitenste haakjes bevindt.
      * @throws <b>InvalidArgumentException</b> - Indien de string geen haakjes bevat.
