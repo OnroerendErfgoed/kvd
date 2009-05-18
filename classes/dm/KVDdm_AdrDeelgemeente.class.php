@@ -141,7 +141,7 @@ class KVDdm_AdrDeelgemeente extends KVDdom_PDODataMapper {
      * @param string $orderField, Veld om op te sorteren. Kan id, deelgemeenteNaam, gemeenteNaam of provincieNaam zijn.
      * @return KVDdom_DomainObjectCollection Een collecte van KVDdo_AdrDeelgemeente objecten.
      */
-    public function findByGemeente ( $gemeente , $orderField = null)
+    public function findByGemeente ( KVDdo_AdrGemeente $gemeente , $orderField = null)
     {
        $stmt = $this->_conn->prepare ( $this->getFindByGemeenteStatement( ) . $this->getOrderClause( $orderField) );
        $id = $gemeente->getId( );
@@ -154,7 +154,7 @@ class KVDdm_AdrDeelgemeente extends KVDdom_PDODataMapper {
      * @param string $naam Naam van de deelgemeente
      * @return KVDdo_AdrDeelgemeente
      */
-    public function findByNaam ( $gemeente , $naam )
+    public function findByNaam ( KVDdo_AdrGemeente $gemeente , $naam )
     {
         $stmt = $this->_conn->prepare( $this->getFindByNaamStatement( ) );
         $id = $gemeente->getId( );
