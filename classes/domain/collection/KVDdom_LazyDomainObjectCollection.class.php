@@ -36,7 +36,7 @@ class KVDdom_LazyDomainObjectCollection extends KVDdom_DomainObjectCollection
     /**
      * @var integer
      */
-    private $currentIndex;
+    private $currentIndex = 0;
 
     /**
      * @param KVDdom_ChunkyQuery $chunkyQuery
