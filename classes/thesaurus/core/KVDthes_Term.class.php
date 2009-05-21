@@ -532,6 +532,7 @@ abstract class KVDthes_Term extends KVDdom_ChangeableDomainObject
      */
     public function sortRelations( $methode )
     {
+        $this->checkRelations( );
         $this->relations->sort( $methode );
     }
 
