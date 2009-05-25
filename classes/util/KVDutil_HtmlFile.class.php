@@ -31,6 +31,11 @@ class KVDutil_HtmlFile {
 	 */
 	private $title;
 	
+
+	/**
+	 * @var string encoding for output strings
+	 */
+	private $encoding = "UTF-8";
 	
 	/**
 	 * __construct
@@ -48,7 +53,7 @@ class KVDutil_HtmlFile {
 	 */
 	public function getTitle()
 	{
-		return $this->title;
+		return KVDutil_HtmlFile::ensureEncoding($this->title, $this->encoding);
 	}
 	
 	/**
@@ -57,7 +62,7 @@ class KVDutil_HtmlFile {
 	 */
 	public function getContents()
 	{
-		return $this->contents;
+		return KVDutil_HtmlFile::ensureEncoding($this->contents, $this->encoding);
 	}
 	
 	/**
@@ -115,7 +120,63 @@ class KVDutil_HtmlFile {
 	{
 		$nocomment = KVDutil_HtmlFile::stripComment($content);
 		return new KVDutil_HtmlFile($nocomment);			
-	}	
+	}
 	
+
+	/**
+	 * ensureEncoding
+	 * 
+	 * @param string to be encoded
+	 * @return string in proper encoding.
+	 */
+	public static function ensureEncoding($string, $encoding)
+	{
+		$source_encoding = mb_detect_encoding($string, 'UTF-8, ISO-8859-1');
+		if($source_encoding == $encoding) {
+			return $string;
+		} else {
+			return mb_convert_encoding($string, $encoding, $source_encoding);
+		}
+	}
+	
+	
+	/**
+	 * setEncoding
+	 *  sets the encoding for this class.
+	 * @param string encoding
+	 */	
+	public function setEncoding($encoding)
+	{
+		$this->encoding = $encoding;
+	}
+	
+	/**
+	 * getSourceEncoding
+	 *  returns the encoding of the original document.
+	 * @return string encoding name
+	 */
+	public function getSourceEncoding()
+	{
+		return mb_detect_encoding($this->contents,  'UTF-8, ISO-8859-1');
+	}	
+	/**
+	 * getTitleEncoding
+	 *  returns the encoding of the original document.
+	 * @return string encoding name
+	 */
+	public function getTitleEncoding()
+	{
+		return mb_detect_encoding($this->title,  'UTF-8, ISO-8859-1');
+	}
+	
+	/**
+	 * getTargetEncoding
+	 *  returns the encoding from the get-functions
+	 * @return string encoding name
+	 */
+	public function getTargetEncoding()
+	{
+		return $this->encoding;
+	}
 }
 ?>
