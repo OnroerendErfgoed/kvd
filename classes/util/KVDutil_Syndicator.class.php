@@ -99,10 +99,14 @@ class KVDUtil_Syndicator
 	 * @param string
 	 * @return void
 	 */
-	protected function createLink($parent, $url)
+	protected function createLink($parent, $url, $attributes = array())
 	{
 		$link = $this->createSyndElement($this->NS, 'link', $url);
+		foreach($attributes as $name=>$value) {
+			$link->setAttribute($name, $value);
+		}	
 		$parent->appendChild($link);
+		return $link;
 	}
 
 	/**
@@ -121,6 +125,12 @@ class KVDUtil_Syndicator
 		$description, $pubDate = null, $id=null) 
 	{
 		$this->createLink($parent, $url);
+		
+		$atomlink = $this->createSyndElement(null, "atom:link", '');
+		$atomlink->setAttribute("rel", "self");
+		$atomlink->setAttribute("type", "application/rss+xml");
+		$atomlink->setAttribute("href", $url);
+		$parent->appendChild($atomlink);
 		$title = $this->createSyndElement($this->NS, 'title', $title);
 		$parent->appendChild($title);
 		if ($type == KVDUtil_Syndicator::ITEM) {
@@ -132,11 +142,11 @@ class KVDUtil_Syndicator
 		$parent->appendChild($description);
 	
 		if(!is_null($id)) {
-			$idnode = $this->createSyndElement($this->NS, 'id', $id);
+			$idnode = $this->createSyndElement($this->NS, 'guid', $id);
 			$parent->appendChild($idnode);
 		}
 		if(!is_null($pubDate)) {
-			$datenode = $this->createSyndElement($this->NS, 'updated', $pubDate);
+			$datenode = $this->createSyndElement($this->NS, 'pubDate', $pubDate);
 			$parent->appendChild($datenode);
 		}
 	}
@@ -279,7 +289,7 @@ class KVDUtil_RSS2 extends KVDUtil_Syndicator
 	/**
 	 * @var string
 	 */
-	protected $SHELL = "<rss version=\"2.0\"/>";
+	protected $SHELL = "<rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\"/>";
 	
 	/**
 	 * __construct
@@ -293,7 +303,7 @@ class KVDUtil_RSS2 extends KVDUtil_Syndicator
 	{
 		try {
 			parent::__construct($title, $url, $description, $pubDate, $id);
-			$this->docElement = $this->root;		
+			$this->docElement = $this->root;
 		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
