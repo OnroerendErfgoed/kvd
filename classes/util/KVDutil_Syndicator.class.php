@@ -14,7 +14,7 @@
  * @author Dieter Standaert <dieter.standaert@eds.com>
  * @since 26 08 2008
  */
-class KVDUtil_Syndicator 
+abstract class KVDUtil_Syndicator 
 {
 	/**
 	 * @var DOMDocument het document met RSS/Atom data
@@ -54,7 +54,7 @@ class KVDUtil_Syndicator
 	const FEED	=	1;
 
 	
-	public function __construct($title, $url, $description, $pubDate = null, $id = null)
+	public function __construct($title, $url, $description, DateTime $pubDate = null, $id = null)
 	{
 		try{
 			$this->rssDoc = new DOMDocument();
@@ -78,10 +78,10 @@ class KVDUtil_Syndicator
 	/**
 	 * createSyndElement
 	 *
-	 * @param string namespace
-	 * @param string name
-	 * @param string value (optional)
-	 * @return DOMElement
+	 * @param   string    $namespace
+	 * @param   string    $name
+	 * @param   string    $value
+	 * @return  DOMElement
 	 */
 	protected function createSyndElement($namespace, $name, $value = null)
 	{
@@ -95,9 +95,10 @@ class KVDUtil_Syndicator
 	/**
 	 * createLink
 	 *
-	 * @param string
-	 * @param string
-	 * @return void
+	 * @param   string  $parent
+	 * @param   string  $url
+     * @param   array   $attributes
+	 * @return  DOMElement
 	 */
 	protected function createLink($parent, $url, $attributes = array())
 	{
@@ -112,25 +113,27 @@ class KVDUtil_Syndicator
 	/**
 	 * createRSSNode
 	 *  maakt een rss element aan in de 'parent'.
-	 * @param integer
-	 * @param DOMElement
-	 * @param string
-	 * @param string
-	 * @param string
-	 * @param string
-	 * @param integer
-	 * @return void
+	 * @param   integer     $type   
+	 * @param   DOMElement  $parent
+	 * @param   string      $title
+	 * @param   string      $url
+	 * @param   string      $description
+	 * @param   DateTime    $pubDate
+	 * @param   mixed       $id
+	 * @return  void
 	 */
-	protected function createRSSNode($type, $parent, $title, $url, 
-		$description, $pubDate = null, $id=null) 
+	protected function createRSSNode($type, DOMElement $parent, $title, $url, 
+		$description, DateTime $pubDate = null, $id=null) 
 	{
 		$this->createLink($parent, $url);
-		
-		$atomlink = $this->createSyndElement(null, "atom:link", '');
-		$atomlink->setAttribute("rel", "self");
-		$atomlink->setAttribute("type", "application/rss+xml");
-		$atomlink->setAttribute("href", $url);
-		$parent->appendChild($atomlink);
+	
+        if ( $type == KVDutil_Syndicator::FEED ) {
+		    $atomlink = $this->createSyndElement(null, "atom:link", '');
+		    $atomlink->setAttribute("rel", "self");
+		    $atomlink->setAttribute("type", "application/rss+xml");
+		    $atomlink->setAttribute("href", $url);
+		    $parent->appendChild($atomlink);
+        }
 		$title = $this->createSyndElement($this->NS, 'title', $title);
 		$parent->appendChild($title);
 		if ($type == KVDUtil_Syndicator::ITEM) {
@@ -146,20 +149,20 @@ class KVDUtil_Syndicator
 			$parent->appendChild($idnode);
 		}
 		if(!is_null($pubDate)) {
-			$datenode = $this->createSyndElement($this->NS, 'pubDate', $pubDate);
+			$datenode = $this->createSyndElement($this->NS, 'pubDate', $this->formatDateTime( $pubDate ) );
 			$parent->appendChild($datenode);
 		}
 	}
 	
 	/**
 	 * addItem
-	 * @param string
-	 * @param string
-	 * @param string
-	 * @param string
-	 * @param integer
+	 * @param   string      $title
+	 * @param   string      $link
+	 * @param   string      $description
+	 * @param   DateTime    $pubDate
+	 * @param   mixed       $id
 	 */
-	public function addItem($title, $link, $description = null, $pubDate = null, $id = null)
+	public function addItem($title, $link, $description = null, DateTime $pubDate = null, $id = null)
 	{
 		$item = $this->createSyndElement($this->NS, $this->tagMap['item']);
 		if($this->docElement->appendChild($item)) {
@@ -192,15 +195,24 @@ class KVDUtil_Syndicator
 		}
 		return "";
 	}
+
+    /**
+     * formatDateTime 
+     * 
+     * @param   DateTime $date 
+     * @return  string
+     */
+    abstract protected function formatDateTime( DateTime $date);
 }
  
 /**
  * KVDUtil_RSS1
  *
- * @package KVD.util
- * @subpackage syndication
- * @author Dieter Standaert <dieter.standaert@eds.com>
- * @since 26 08 2008
+ * @package     KVD.util
+ * @subpackage  syndication
+ * @author      Dieter Standaert <dieter.standaert@eds.com>
+ * @since       26 08 2008
+ * @deprecated
  */
 class KVDUtil_RSS1 extends KVDUtil_Syndicator
 {
@@ -269,6 +281,17 @@ class KVDUtil_RSS1 extends KVDUtil_Syndicator
 		$parent->setAttributeNS(self::RDFNS, 'rdf:about', $url);
 		parent::createRSSNode($type, $parent, $title, $url, $description, $pubDate);	
 	}
+
+    /**
+     * formatDateTime 
+     * 
+     * @param   DateTime $date 
+     * @return  string
+     */
+    protected function formatDateTime( DateTime $date )
+    {
+        return $date->format( DATE_RSS );
+    }
 }
 
  
@@ -299,7 +322,7 @@ class KVDUtil_RSS2 extends KVDUtil_Syndicator
 	 * @param string
 	 * @param integer
 	 */
-	public function __construct($title, $url, $description, $pubDate = null, $id = null)
+	public function __construct($title, $url, $description, DateTime $pubDate = null, $id = null)
 	{
 		try {
 			parent::__construct($title, $url, $description, $pubDate, $id);
@@ -308,6 +331,17 @@ class KVDUtil_RSS2 extends KVDUtil_Syndicator
 			throw new Exception($e->getMessage());
 		}
 	}
+
+    /**
+     * formatDateTime 
+     * 
+     * @param   DateTime $date 
+     * @return  string
+     */
+    protected function formatDateTime( DateTime $date )
+    {
+        return $date->format( DATE_RSS );
+    }
 }
 
  
@@ -343,20 +377,20 @@ class KVDUtil_Atom extends KVDUtil_Syndicator
 
 	/**
 	 * __construct
-	 * @param string
-	 * @param string
-	 * @param string
-	 * @param string
-	 * @param integer
+	 * @param string    $title
+	 * @param string    $url
+	 * @param string    $description
+	 * @param DateTime  $pubDate
+	 * @param mixed     $id
 	 */
-	public function __construct($title, $url, $description, $pubDate = null, $id = null)
+	public function __construct($title, $url, $description, DateTime $pubDate = null, $id = null)
 	{
 		try{
 			if(empty($id)) {
 				$id = $url;
 			}
 			if(empty($pubDate)) {
-				$pubDate = date('c');
+				$pubDate = new DateTime( );
 			}
 			parent::__construct($title, $url, $description, $pubDate, $id);
 		} catch(Exception $e){
@@ -376,8 +410,8 @@ class KVDUtil_Atom extends KVDUtil_Syndicator
 	}
 	/**
 	 * addAuthor
-	 * @param string
-	 * @return boolean
+	 * @param   string      $name
+	 * @return  boolean
 	 */
 	public function addAuthor($name)
 	{
@@ -392,23 +426,35 @@ class KVDUtil_Atom extends KVDUtil_Syndicator
 	}	
 	/**
 	 * addItem
-	 * @param string
-	 * @param string
-	 * @param string
-	 * @param string
-	 * @param integer
+	 * @param string    $title
+	 * @param string    $link
+	 * @param string    $description
+	 * @param DateTime  $pubDate
+	 * @param mixed     $id
 	 * @return boolean
 	 */
-	public function addItem($title, $link, $description = null, $pubDate = null, $id = null)
+	public function addItem($title, $link, $description = null, DateTime $pubDate = null, $id = null)
 	{
 		if(empty($id)) {
 			$id = $link;
 		}
 		if(empty($pubDate)){
-			$pubDate = date('c');
+			$pubDate = new DateTime( );
 		}
 		return parent::addItem($title, $link, $description, $pubDate, $id);
 	}	
+
+    /**
+     * formatDateTime 
+     * 
+     * @since   18 jun 2009
+     * @param   DateTime    $date 
+     * @return  string      DateTime formatted for ATOM.
+     */
+    protected function formatDateTime( DateTime $date )
+    {
+        return $date->format( DATE_ATOM );
+    }
 }
 
 ?>
