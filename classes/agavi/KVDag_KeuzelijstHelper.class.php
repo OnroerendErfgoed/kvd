@@ -18,13 +18,16 @@ class KVDag_KeuzelijstHelper
     public function __construct ( $mapper, $finderName = 'findAll', $orderField = null )
     {
         try {
-            $this->domainObjects = $mapper->$finderName( $orderField )
+            $this->domainObjects = $mapper->$finderName( $orderField );
         } catch ( Exception $e ) {
             $this->domainObjects = array( );
         }
     }
-
-    public function getAsOptionList
+    
+    /**
+     * @return string
+     */
+    public function getAsOptionList()
     {
        $buffer = '';
        foreach ( $this->domainObjects as $domainObject ) {
