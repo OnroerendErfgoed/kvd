@@ -8,9 +8,10 @@
     /**
      * Basisclass om lagen te querien op attributen.
      * 
-     * @package KVD.gis.query
-     * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
-     * @since 1.0.0
+     * @package     KVD.gis.query
+     * @author      Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
+     * @since       1.0.0
+     * @deprecated  Denk niet dat het ooit iets gedaan heeft.
      */
     abstract class KVDgis_PgQueryForAttributes
     {
@@ -49,6 +50,8 @@
                 $stmt = $this->_conn->prepare($sql);
                 $stmt->execute();
                 $rows = $stmt->fetchAll(PDO_FETCH_NUM);
+            } catch (PDOException $e ) {
+                $rows = array();
             }
             return $rows;
         }
