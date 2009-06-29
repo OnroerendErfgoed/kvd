@@ -41,9 +41,6 @@ class KVDgis_GeomLineString extends KVDgis_GeomGeometry
      */
     public function addPoint( KVDgis_GeomPoint $point )
     {
-        if ( !is_object( $point ) ) {
-            throw new InvalidArgumentException ( 'U probeert een punt toe te voegen dat geen object is.' );
-        }
         if ( $point->getX( ) == 0 && $point->getY( ) == 0 ) {
             return;
         }
@@ -68,9 +65,6 @@ class KVDgis_GeomLineString extends KVDgis_GeomGeometry
      */
     public function setPoints( array $points )
     {
-        if ( !is_array( $points ) ) {
-            throw new InvalidArgumentException( 'U probeert een collectie van punten toe te voegen die niet bestaat.' );
-        }
         foreach ( $points as $point ) {
             $this->addPoint( $point );
         }
@@ -89,7 +83,7 @@ class KVDgis_GeomLineString extends KVDgis_GeomGeometry
     /**
      * 
      * @see KVDgis_GeomGeometry::setGeometryFromText()
-     * @param string $wkt vb. LINESTRING((1 2), (4 5), (8 9)) of LINESTRING(1 2,4 5, 8 9).
+     * @param string $wkt vb. LINESTRING(1 2,4 5, 8 9).
      * @throws <b>InvalidArgumentException</b> - Indien de wkt-string ongeldig is.
      */
     public function setGeometryFromText ( $wkt )
@@ -105,7 +99,7 @@ class KVDgis_GeomLineString extends KVDgis_GeomGeometry
             if ( strpos( $point , '(' ) === false ) {
                 $stringPoint = trim( $point );
             } else {
-                $stringPoint = $this->getStringBetweenBraces( $point );
+                throw new InvalidArgumentException( 'Ongeldige Well-Known Text string: ' . $wkt . "\n. Een xy-paar mag niet omgeven worden door ronde haakjes." );
             }
             $punten = explode( " ", $stringPoint );
             $pointObj = new KVDgis_GeomPoint( $this->getSrid( ) );
@@ -127,7 +121,7 @@ class KVDgis_GeomLineString extends KVDgis_GeomGeometry
         $buffer = "LINESTRING(";
         $pointArray = array( );
         foreach ( $this->points as $point ) {
-            $pointArray[] = substr( $point->getAsText( ) , 5 );
+            $pointArray[] = $point->getX( ) . ' ' . $point->getY( );
         }
         $buffer .= implode ( ', ' , $pointArray);
         $buffer .= ")";

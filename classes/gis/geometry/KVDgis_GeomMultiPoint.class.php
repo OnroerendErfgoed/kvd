@@ -129,7 +129,7 @@ class KVDgis_GeomMultiPoint extends KVDgis_GeomGeometry
         $buffer = "MULTIPOINT(";
         $pointArray = array( );
         foreach ( $this->points as $point ) {
-            $pointArray[] = substr( $point->getAsText( ) , 5 );
+            $pointArray[] = $point->getX( ) . " " . $point->getY( );
         }
         $buffer .= implode ( ', ' , $pointArray);
         $buffer .= ")";

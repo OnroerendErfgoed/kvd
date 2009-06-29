@@ -88,7 +88,7 @@ abstract class KVDgis_GeomGeometry
     
     /**
      * Converteer een Geometry naar de Well-Known Text standaard.
-     * @return string;
+     * @return string
      */
     abstract public function getAsText();
 

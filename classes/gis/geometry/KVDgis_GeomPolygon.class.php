@@ -41,23 +41,37 @@ class KVDgis_GeomPolygon extends KVDgis_GeomGeometry
         if ( $outer != null ) {
             $this->setOuterRing( $outer );
         }
-        if ( $points != null && is_array( $points ) ) {
+        if ( $inner != null && is_array( $inner ) ) {
             $this->setInnerRings( $inner );
         }
     }
-
+    /**
+     * setOuterRing
+     *
+     * Stel de buitenste ring in van een polygoon.
+     * @param KVDgis_GeomLinearRing $outer
+     */
     public function setOuterRing(KVDgis_GeomLinearRing $outer )
     {
         $this->outer = $outer;
     }
-
+    /**
+     * setInnerRings
+     *
+     * @param array $inner
+     */
     public function setInnerRings( array $inner )
     {
         foreach ( $inner as $ring ) {
             $this->addInnerRing( $ring );
         }
     }
-
+    /**
+     * addInnerRing
+     *
+     * Voeg een binnenring toe aan een polygoon. Dit is dus een "gat" in een polygoon.
+     * @param KVDgis_GeomLinearRing $inner
+     */
     public function addInnerRing( KVDgis_GeomLinearRing $inner )
     {
         $this->inner[] = $inner;
@@ -69,8 +83,8 @@ class KVDgis_GeomPolygon extends KVDgis_GeomGeometry
             return null;
         }
         $buffer = "POLYGON(";
-        $buffer .= substr($this->outer->getAsText( ), 10);
         $inArray = array( );
+        $inArray[] = substr($this->outer->getAsText( ), 10);
         foreach ( $this->inner as $inner ) {
             $inArray[] = substr( $inner->getAsText( ) , 10 );
         }
@@ -85,6 +99,12 @@ class KVDgis_GeomPolygon extends KVDgis_GeomGeometry
         $this->inner = array( );
     }
 
+    /**
+     * setGeometryFromText
+     *
+     * Stel de geometry in aan de hand van het well known text formaat.
+     * @param string $wkt
+     */
     public function setGeometryFromText( $wkt )
     {
         if (substr($wkt,0,7) != 'POLYGON') {
