@@ -113,10 +113,12 @@ class KVDgis_GeomPolygon extends KVDgis_GeomGeometry
         $this->clear( );
         
         $stringPolygon = $this->getStringBetweenBraces($wkt);
-        $linestrings = explode("," , $stringPolygon);
-        foreach ( $linestring as $ls ) {
+        $linestrings = array( );
+        preg_match_all( '#\(((\d+(\.\d+)?)\s(\d+(\.\d+)?)\s*,?\s*)+\)#', $stringPolygon, $linestrings, PREG_SET_ORDER);
+        $first = true;
+        foreach ( $linestrings as $ls ) {
             $lsObj = new KVDgis_GeomLinearRing( $this->getSrid( ) );
-            $lsObj->setGeometryFromText( 'LINESTRING' . trim($ls));
+            $lsObj->setGeometryFromText( 'LINESTRING' . trim($ls[0]));
             if ( $first ) {
                 $this->setOuterRing( $lsObj );
                 $first = false;
