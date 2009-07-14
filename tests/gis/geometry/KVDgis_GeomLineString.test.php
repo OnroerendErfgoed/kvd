@@ -30,27 +30,27 @@ class TestOfGeomLineString extends UnitTestCase
     function testAddPoint( )
     {
         $this->testLineString->addPoint( $this->testPointOne );
-        $this->assertEqual( $this->testLineString->getAsText( ) , 'LINESTRING((178000 212000))');
+        $this->assertEqual( $this->testLineString->getAsText( ) , 'LINESTRING(178000 212000)');
     }
 
     function testSetPoints( )
     {
         $points = array ( $this->testPointOne, $this->testPointTwo );
         $this->testLineString->setPoints( $points );
-        $this->assertEqual( $this->testLineString->getAsText( ) , 'LINESTRING((178000 212000), (100000 150000))');
+        $this->assertEqual( $this->testLineString->getAsText( ) , 'LINESTRING(178000 212000, 100000 150000)');
     }
 
     function testSetPointsAndSridInConstructor( )
     {
         $points = array ( $this->testPointOne, $this->testPointTwo );
         $testLineString = new KVDgis_GeomLineString( 31300 , $points );
-        $this->assertEqual( $testLineString->getAsText( ) , 'LINESTRING((178000 212000), (100000 150000))');
+        $this->assertEqual( $testLineString->getAsText( ) , 'LINESTRING(178000 212000, 100000 150000)');
         $this->assertEqual( $testLineString->getSrid( ) , 31300 );
     }
 
     function testSetGeometryFromText()
     {
-        $this->testLineString->setGeometryFromText('LINESTRING((178000 212000), (100000 150000))');
+        $this->testLineString->setGeometryFromText('LINESTRING(178000 212000, 100000 150000)');
         $points = $this->testLineString->getPoints( );
         $this->assertEqual( $points[0]->getAsText( ) , 'POINT(178000 212000)');
         $this->assertEqual( $points[1]->getAsText( ) , 'POINT(100000 150000)');
@@ -59,12 +59,12 @@ class TestOfGeomLineString extends UnitTestCase
     
     function testGeometryToString()
     {
-        $this->testLineString->setGeometryFromText('LINESTRING((178000 212000), (100000 150000))');
+        $this->testLineString->setGeometryFromText('LINESTRING(178000 212000, 100000 150000)');
         ob_start( );
         echo $this->testLineString;
         $buffer = ob_get_contents( );
         ob_end_clean( );
-        $this->assertEqual( $buffer , 'LINESTRING((178000 212000), (100000 150000))');
+        $this->assertEqual( $buffer , 'LINESTRING(178000 212000, 100000 150000)');
     }
     
     /**
