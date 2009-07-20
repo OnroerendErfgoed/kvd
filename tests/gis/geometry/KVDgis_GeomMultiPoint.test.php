@@ -27,6 +27,12 @@ class TestOfGeomMultiPoint extends UnitTestCase
         $this->assertEqual($this->testMultiPoint->getSrid() , 5000 , 'De via setSrid() ingesteld srid is niet dezelfde als die die via getSrid() teruggegeven wordt!');    
     }
 
+    function testIsEmpty( )
+    {
+        $this->assertEqual( $this->testMultiPoint->getSrid( ), -1);
+        $this->assertTrue( $this->testMultiPoint->isEmpty( ));        
+    }
+
     function testAddPoint( )
     {
         $this->testMultiPoint->addPoint( $this->testPointOne );
@@ -56,8 +62,22 @@ class TestOfGeomMultiPoint extends UnitTestCase
         $this->assertEqual( $points[1]->getAsText( ) , 'POINT(100000 150000)');
     }
 
-    
-    function testGeometryToString()
+    function testSetEmptyGeometryFromText( )
+    {
+        $this->testMultiPoint->setGeometryFromText('EMPTY');
+        $this->assertTrue( $this->testMultiPoint->isEmpty( ) );
+    }
+
+    function testgetAsText()
+    {
+        $values = array ( 'MULTIPOINT(178000 212000, 100000 150000)', 'EMPTY' );
+        foreach ( $values as $wkt ) {
+            $this->testMultiPoint->setGeometryFromText($wkt);
+            $this->assertEqual( $this->testMultiPoint->getAsText( ), $wkt);
+        }
+    }
+
+    function testGeometryToString( )
     {
         $this->testMultiPoint->setGeometryFromText('MULTIPOINT(178000 212000, 100000 150000)');
         ob_start( );
@@ -66,6 +86,7 @@ class TestOfGeomMultiPoint extends UnitTestCase
         ob_end_clean( );
         $this->assertEqual( $buffer , 'MULTIPOINT(178000 212000, 100000 150000)');
     }
+    
     
     /**
      * testSetGeometryFromInvalidText 

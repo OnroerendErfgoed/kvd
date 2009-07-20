@@ -96,6 +96,10 @@ class KVDgis_GeomMultiPoint extends KVDgis_GeomGeometry
      */
     public function setGeometryFromText ( $wkt )
     {
+        if ( $wkt == 'EMPTY' ) {
+            $this->clearPoints( );
+            return;
+        }
         if (substr($wkt,0,10) != 'MULTIPOINT') {
             throw new InvalidArgumentException ('Ongeldige Well-Known Text string: ' . $wkt . "\n. De string zou moeten beginnen met 'MULTIPOINT'.");
         }
@@ -123,8 +127,8 @@ class KVDgis_GeomMultiPoint extends KVDgis_GeomGeometry
      */
     public function getAsText()
     {
-        if ( count( $this->points ) <= 0 ) {
-            return null;
+        if ( $this->isEmpty( ) ) {
+            return 'EMPTY';
         }
         $buffer = "MULTIPOINT(";
         $pointArray = array( );
@@ -134,6 +138,11 @@ class KVDgis_GeomMultiPoint extends KVDgis_GeomGeometry
         $buffer .= implode ( ', ' , $pointArray);
         $buffer .= ")";
         return $buffer;
+    }
+
+    public function isEmpty( )
+    {
+        return count( $this->points ) == 0;
     }
 }
 ?>

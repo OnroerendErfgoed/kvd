@@ -53,7 +53,7 @@ class KVDgis_GeomMultiPolygon extends KVDgis_GeomGeometry
      */
     public function clearPolygons( )
     {
-        $this->polygons = array( );    
+        $this->polys = array( );    
     }
 
     /**
@@ -87,10 +87,13 @@ class KVDgis_GeomMultiPolygon extends KVDgis_GeomGeometry
      */
     public function setGeometryFromText ( $wkt )
     {
+        $this->clearPolygons( );
+        if ( $wkt == 'EMPTY' ) {
+            return;
+        }
         if (substr($wkt,0,12) != 'MULTIPOLYGON') {
             throw new InvalidArgumentException ('Ongeldige Well-Known Text string: ' . $wkt . "\n. De string zou moeten beginnen met 'MULTIPOLYGON'.");
         }
-        $this->clearPolygons( );
         
         $stringMultiPoly = $this->getStringBetweenBraces($wkt);
         $polystrings = array( );
@@ -109,7 +112,7 @@ class KVDgis_GeomMultiPolygon extends KVDgis_GeomGeometry
      */
     public function getAsText()
     {
-        if ( count( $this->polys) < 1 ) {
+        if ( $this->isEmpty( ) ) {
             return 'EMPTY';
         }
         $buffer = "MULTIPOLYGON(";
@@ -121,6 +124,11 @@ class KVDgis_GeomMultiPolygon extends KVDgis_GeomGeometry
         $buffer .= implode ( ', ' , $pArray);
         $buffer .= ")";
         return $buffer;
+    }
+
+    public function isEmpty( )
+    {
+        return ( count( $this->polys) < 1 );
     }
 }
 ?>

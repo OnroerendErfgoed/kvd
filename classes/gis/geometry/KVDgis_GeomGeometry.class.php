@@ -51,7 +51,10 @@ abstract class KVDgis_GeomGeometry
      */
     public static function createFromText( $wkt )
     {
-        if (substr($wkt,0,5) != 'POINT') {
+        if ( $wkt == 'EMPTY' ) {
+            $g = new KVDgis_GeomPoint( );
+            return $g;
+        } elseif (substr($wkt,0,5) == 'POINT') {
             $g = new KVDgis_GeomPoint( );
         } elseif (substr($wkt,0,10) == 'MULTIPOINT') {
             $g = new KVDgis_GeomMultipoint( );
@@ -93,10 +96,18 @@ abstract class KVDgis_GeomGeometry
     abstract public function getAsText();
 
     /**
+     * Id dit een lege geometrie of niet?
+     * 
+     * @since   16 jul 2009
+     * @return boolean
+     */
+    abstract public function isEmpty( );
+
+    /**
      * __toString 
      * 
      * De WKT voorstelling van de geometry.
-     * @return string
+     * @return  string
      */
     public function __toString( )
     {

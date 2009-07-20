@@ -23,6 +23,12 @@ class TestOfGeomMultiPolygon extends UnitTestCase
         $this->testMultiPoly = null;
     }
 
+    function testIsEmpty( )
+    {
+        $this->assertEqual( $this->testMultiPoly->getSrid( ), -1 );
+        $this->assertTrue( $this->testMultiPoly->isEmpty( ) ); 
+    }
+
     function testSetSrid()
     {
         $this->testMultiPoly->setSrid(5000);
@@ -54,14 +60,13 @@ class TestOfGeomMultiPolygon extends UnitTestCase
     
     function testSetGeometryFromText()
     {
-        $this->testMultiPoly->setGeometryFromText(
-                            'MULTIPOLYGON(((178000.25 212000.35, 178100.50 212003.55, 180560 212100)), ((158000.25 200000.35, 158105.50 200203.55, 160560 200100), (160 250, 400 500, 210 321)))'
-                                                );
-        $this->assertEqual( $this->testMultiPoly->getAsText( ) , 
-                            'MULTIPOLYGON(((178000.25 212000.35, 178100.50 212003.55, 180560 212100)), ((158000.25 200000.35, 158105.50 200203.55, 160560 200100), (160 250, 400 500, 210 321)))'
-                            );
+        $values = array ( 'MULTIPOLYGON(((178000.25 212000.35, 178100.50 212003.55, 180560 212100)), ((158000.25 200000.35, 158105.50 200203.55, 160560 200100), (160 250, 400 500, 210 321)))', 'EMPTY' );
+        foreach ( $values as $v ) {
+            $this->testMultiPoly->setGeometryFromText($v);
+            $this->assertEqual( $this->testMultiPoly->getAsText( ) , $v );
+        }
     }
-    
+
     function testGeometryToString()
     {
         $this->testMultiPoly->setGeometryFromText(

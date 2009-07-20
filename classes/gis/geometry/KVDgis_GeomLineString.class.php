@@ -128,5 +128,15 @@ class KVDgis_GeomLineString extends KVDgis_GeomGeometry
         return $buffer;
     }
 
+    /**
+     * isEmpty 
+     * 
+     * @return boolean
+     */
+    public function isEmpty( )
+    {
+        return count( $this->points ) <= 0;
+    }
+
 }
 ?>

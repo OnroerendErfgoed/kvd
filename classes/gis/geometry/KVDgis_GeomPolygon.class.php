@@ -79,8 +79,8 @@ class KVDgis_GeomPolygon extends KVDgis_GeomGeometry
 
     public function getAsText( )
     {
-        if ( $this->outer == null ) {
-            return null;
+        if ( $this->isEmpty( ) ) {
+            return 'EMPTY';
         }
         $buffer = "POLYGON(";
         $inArray = array( );
@@ -107,10 +107,13 @@ class KVDgis_GeomPolygon extends KVDgis_GeomGeometry
      */
     public function setGeometryFromText( $wkt )
     {
+        $this->clear( );
+        if ( $wkt == 'EMPTY' ) {
+            return;
+        }
         if (substr($wkt,0,7) != 'POLYGON') {
             throw new InvalidArgumentException ('Ongeldige Well-Known Text string: ' . $wkt . "\n. De string zou moeten beginnen met 'POLYGON'.");
         }
-        $this->clear( );
         
         $stringPolygon = $this->getStringBetweenBraces($wkt);
         $linestrings = array( );
@@ -126,6 +129,16 @@ class KVDgis_GeomPolygon extends KVDgis_GeomGeometry
                 $this->addInnerRing( $lsObj );
             }
         }
+    }
+
+    /**
+     * isEmpty 
+     * 
+     * @return  boolean
+     */
+    public function isEmpty( )
+    {
+        return $this->outer == null;
     }
 
 }

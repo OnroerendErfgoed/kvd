@@ -27,7 +27,7 @@ class KVDgis_GeomPoint extends KVDgis_GeomGeometry
      * @param number $x
      * @param number $y
      */
-    public function __construct ( $srid = -1, $x= 0, $y=0)
+    public function __construct ( $srid = -1, $x= null, $y=null)
     {
         $this->setSrid($srid);
         $this->setX($x);
@@ -40,7 +40,7 @@ class KVDgis_GeomPoint extends KVDgis_GeomGeometry
      */
     public function setX($x)
     {
-        if ( !is_numeric( $x ) ) {
+        if ( !is_numeric( $x ) && !is_null( $x ) ) {
             throw new InvalidArgumentException( "$x is geen geldig nummer en kan dus geen punt in een geometry zijn!" );
         }
         $this->x = $x;
@@ -52,7 +52,7 @@ class KVDgis_GeomPoint extends KVDgis_GeomGeometry
      */
     public function setY($y)
     {
-        if ( !is_numeric( $y ) ) {
+        if ( !is_numeric( $y ) && !is_null( $y ) ) {
             throw new InvalidArgumentException( "$y is geen geldig nummer en kan dus geen punt in een geometry zijn!" );
         }
         $this->y = $y;
@@ -81,6 +81,11 @@ class KVDgis_GeomPoint extends KVDgis_GeomGeometry
      */
     public function setGeometryFromText ( $wkt )
     {
+        if ( $wkt == 'EMPTY' ) {
+            $this->x = null;
+            $this->y = null;
+            return;
+        }
         if (substr($wkt,0,5) != 'POINT') {
             throw new InvalidArgumentException ('Ongeldige Well-Known Text string: ' . $wkt . "\n. De string zou moeten beginnen met 'POINT'.");
         }
@@ -97,7 +102,21 @@ class KVDgis_GeomPoint extends KVDgis_GeomGeometry
      */
     public function getAsText()
     {
-        return "POINT({$this->x} {$this->y})";
+        if ( $this->isEmpty( ) ) {
+            return 'EMPTY';
+        } else {
+            return "POINT({$this->x} {$this->y})";
+        }
+    }
+
+    /**
+     * isEmpty 
+     * 
+     * @return  boolean
+     */
+    public function isEmpty( )
+    {
+        return ( $this->x == null || $this->y == null );
     }
 }
 ?>

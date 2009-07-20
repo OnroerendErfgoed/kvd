@@ -5,9 +5,9 @@ require_once('simpletest/unit_tester.php');
 require_once('simpletest/reporter.php');
 require_once('simpletest/mock_objects.php');
 
-define ('GISMAP' , '/data/projects/kvd/kvd/classes/gis/');
-define ('GISTESTMAP' , '/data/projects/kvd/kvd/tests/gis/');
-define ('UTILMAP' , '/data/projects/kvd/kvd/classes/util/');
+define ('GISMAP' , '/data/projects/kvd/oeps/libs/kvd/classes/gis/');
+define ('GISTESTMAP' , '/data/projects/kvd/oeps/libs/kvd/tests/gis/');
+define ('UTILMAP' , '/data/projects/kvd/oeps/libs/kvd/classes/util/');
 
 define ( 'CRABUSER' , 'VIOE' );
 define ( 'CRABPWD' , 'GISTLIBE' );
@@ -24,14 +24,21 @@ require_once ( UTILMAP . 'Gateway/KVDutil_GatewayUnavailableException.class.php'
 require_once ( UTILMAP . 'KVDutil_XMLSecurityKey.class.php' );
 require_once ( UTILMAP . 'soap/KVDutil_SoapWSA.class.php' );
 require_once ( UTILMAP . 'soap/KVDutil_SoapWSSE.class.php' );
-require_once ( GISMAP . 'crab/KVDgis_Crab1Gateway.class.php');
+//require_once ( GISMAP . 'crab/KVDgis_Crab1Gateway.class.php');
 require_once ( GISMAP . 'crab/KVDgis_Crab2Gateway.class.php');
 require_once ( GISMAP . 'geometry/KVDgis_GeomGeometry.class.php');
 require_once ( GISMAP . 'geometry/KVDgis_GeomPoint.class.php');
 require_once ( GISMAP . 'geometry/KVDgis_GeomMultiPoint.class.php');
+require_once ( GISMAP . 'geometry/KVDgis_GeomLineString.class.php');
+require_once ( GISMAP . 'geometry/KVDgis_GeomLinearRing.class.php');
+require_once ( GISMAP . 'geometry/KVDgis_GeomPolygon.class.php');
+require_once ( GISMAP . 'geometry/KVDgis_GeomMultiPolygon.class.php');
 
 require_once ( GISTESTMAP.'geometry/KVDgis_GeomPoint.test.php');
 require_once ( GISTESTMAP.'geometry/KVDgis_GeomMultiPoint.test.php');
+require_once ( GISTESTMAP.'geometry/KVDgis_GeomLineString.test.php');
+require_once ( GISTESTMAP.'geometry/KVDgis_GeomPolygon.test.php');
+require_once ( GISTESTMAP . 'geometry/KVDgis_GeomMultiPolygon.test.php');
 require_once ( GISTESTMAP.'crab/KVDgis_Crab1Gateway.test.php');
 require_once ( GISTESTMAP.'crab/KVDgis_Crab2Gateway.test.php');
 require_once ( GISTESTMAP.'crab/KVDgis_CrabCache.test.php');
@@ -43,6 +50,9 @@ $test = new GroupTest('KVDgis_AllTests');
 //$test->addTestCase( new TestOfMsMapAjaxHandler());
 $test->addTestCase( new TestOfGeomPoint());
 $test->addTestCase( new TestOfGeomMultiPoint());
+$test->addTestCase( new TestOfGeomLineString());
+$test->addTestCase( new TestOfGeomPolygon());
+$test->addTestCase( new TestOfGeomMultiPolygon());
 //$test->addTestCase( new TestOfCrab1Gateway( ) );
 $test->addTestCase( new TestOfCrab2Gateway( ) );
 $test->addTestCase( new TestofCrabCache( ) );

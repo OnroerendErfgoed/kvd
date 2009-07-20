@@ -22,6 +22,12 @@ class TestOfGeomPoint extends UnitTestCase
         $this->assertTrue($this->_testPoint->getSrid() == 5000, 'De via setSrid() ingesteld srid is niet dezelfde als die die via getSrid() teruggegeven wordt!');    
     }
 
+    function testIsEmpty( )
+    {
+        $this->assertEqual( $this->_testPoint->getSrid( ), -1 );
+        $this->assertTrue( $this->_testPoint->isEmpty( ) );
+    }
+
     function testSetXY()
     {
         $this->_testPoint->setX(178000);
@@ -46,6 +52,15 @@ class TestOfGeomPoint extends UnitTestCase
         }
         $this->assertIsA($e, 'Exception');
         
+    }
+
+    function testGetAsText( )
+    {
+        $values = array ( 'EMPTY', 'POINT(178000 212000)' );
+        foreach ( $values as $v ) {
+            $this->_testPoint->setGeometryFromText($v);
+            $this->assertEqual( $this->_testPoint->getAsText( ), $v );
+        }
     }
     
 }

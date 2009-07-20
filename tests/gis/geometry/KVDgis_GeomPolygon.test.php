@@ -35,6 +35,12 @@ class TestOfGeomPolygon extends UnitTestCase
         $this->assertEqual($this->testPolygon->getSrid() , 5000 , 'De via setSrid() ingesteld srid is niet dezelfde als die die via getSrid() teruggegeven wordt!');    
     }
 
+    function testIsEmpty( )
+    {
+        $this->assertEqual( $this->testPolygon->getSrid( ), -1);
+        $this->assertTrue( $this->testPolygon->isEmpty( ) );
+    }
+
     function testSetOuterRing( )
     {
         $this->testPolygon->setOuterRing( $this->testLinearRing1 );
@@ -69,11 +75,11 @@ class TestOfGeomPolygon extends UnitTestCase
     }
     function testSetGeometryFromText()
     {
-        $this->testPolygon->setGeometryFromText(
-                                                'POLYGON((178000.05 212000.10, 100000 150000), (178000 212000, 100000 150000))'
-                                                );
-        $this->assertEqual( $this->testPolygon->getAsText( ) , 
-                            'POLYGON((178000.05 212000.10, 100000 150000), (178000 212000, 100000 150000))');
+        $values = array ( 'POLYGON((178000.05 212000.10, 100000 150000), (178000 212000, 100000 150000))', 'EMPTY' );
+        foreach ( $values as $v ) {
+            $this->testPolygon->setGeometryFromText($v);
+            $this->assertEqual( $this->testPolygon->getAsText( ), $v ); 
+        }
     }
     
     function testGeometryToString()
