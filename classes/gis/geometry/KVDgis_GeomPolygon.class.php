@@ -45,6 +45,17 @@ class KVDgis_GeomPolygon extends KVDgis_GeomGeometry
             $this->setInnerRings( $inner );
         }
     }
+
+    /**
+     * getOuterRing 
+     * 
+     * @return KVDgis_GeomLinearRing
+     */
+    public function getOuterRing( )
+    {
+        return $this->outer;
+    }
+    
     /**
      * setOuterRing
      *
@@ -55,6 +66,7 @@ class KVDgis_GeomPolygon extends KVDgis_GeomGeometry
     {
         $this->outer = $outer;
     }
+    
     /**
      * setInnerRings
      *
@@ -66,6 +78,7 @@ class KVDgis_GeomPolygon extends KVDgis_GeomGeometry
             $this->addInnerRing( $ring );
         }
     }
+
     /**
      * addInnerRing
      *
@@ -75,6 +88,16 @@ class KVDgis_GeomPolygon extends KVDgis_GeomGeometry
     public function addInnerRing( KVDgis_GeomLinearRing $inner )
     {
         $this->inner[] = $inner;
+    }
+
+    /**
+     * getInnerRings 
+     * 
+     * @return  array   Een array van {@link KVDgis_GeomLinearRing} objecten.
+     */
+    public function getInnerRings( )
+    {
+        return $this->inner;
     }
 
     public function getAsText( )
