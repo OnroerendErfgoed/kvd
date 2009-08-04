@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     KVD.domain
+ * @package     KVD.dom
  * @version     $Id$
  * @copyright   2004-2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
@@ -11,7 +11,7 @@
  * KVDdom_IProxyable 
  * 
  * Deze interface kan gebruikt worden om aan te geven of een object al dan niet volledig geladen is.
- * @package     KVD.domain
+ * @package     KVD.dom
  * @since       okt 2008
  * @copyright   2004-2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
