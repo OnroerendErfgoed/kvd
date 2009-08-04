@@ -58,6 +58,12 @@ abstract class KVDgis_GeomGeometry
             $g = new KVDgis_GeomPoint( );
         } elseif (substr($wkt,0,10) == 'MULTIPOINT') {
             $g = new KVDgis_GeomMultipoint( );
+        } elseif (substr($wkt,O,7) == 'POLYGON') {
+            $g = new KVDgis_GeomPolygon();
+        } elseif (substr($wkt,0,12) == 'MULTIPOLYGON') {
+            $g = new KVDgis_GeomMultiPolygon();
+        } elseif (substr($wkt,0,10) == 'LINESTRING') {
+            $g = new KVDgis_GeomLineString();
         } else {
             throw new InvalidArgumentException ('Ongeldige Well-Known Text string: ' . $wkt . "\n. Momenteel worden enkel de POINT en MULTIPOINT types ondersteund.");
         }
