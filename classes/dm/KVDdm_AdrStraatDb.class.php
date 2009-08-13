@@ -105,7 +105,7 @@ class KVDdm_AdrStraatDb extends KVDdom_PDODataMapper{
 	public function findByGemeente (KVDdo_AdrGemeente $gemeente )
 	{
 		$sql = $this->getFindByGemeenteIdStatement();
-		$this->_sessie->getSqlLogger( )->log( $sql );
+		//$this->_sessie->getSqlLogger( )->log( $sql );
 		$stmt = $this->_conn->prepare($sql);
 		$stmt->bindValue(1, $gemeente->getId(), PDO::PARAM_INT);
 		return $this->executeFindMany($stmt);
@@ -120,7 +120,7 @@ class KVDdm_AdrStraatDb extends KVDdom_PDODataMapper{
 	public function findByGemeenteId ($gemeente_id )
 	{
 		$sql = $this->getFindByGemeenteIdStatement();
-		$this->_sessie->getSqlLogger( )->log( $sql );
+		//$this->_sessie->getSqlLogger( )->log( $sql );
 		$stmt = $this->_conn->prepare($sql);
 		$stmt->bindValue(1, $gemeente_id, PDO::PARAM_INT);
 		return $this->executeFindMany($stmt);
@@ -139,7 +139,7 @@ class KVDdm_AdrStraatDb extends KVDdom_PDODataMapper{
 	public function findByNaam ( KVDdo_AdrGemeente $gemeente, $naam )
 	{
 		$sql = $this->getFindByGemeenteAndNaamStatement();
-		$this->_sessie->getSqlLogger( )->log( $sql );
+		//$this->_sessie->getSqlLogger( )->log( $sql );
 		$stmt = $this->_conn->prepare($sql);
 		$stmt->bindValue(1, $gemeente->getId(), PDO::PARAM_INT);
 		$stmt->bindValue(2, $naam, PDO::PARAM_STR);
