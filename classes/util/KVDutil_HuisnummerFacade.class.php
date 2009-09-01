@@ -1406,6 +1406,4 @@ class KVDutil_HuisnummerFacade {
 	}
 }
 
-
-
 ?>

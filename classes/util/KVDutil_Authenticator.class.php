@@ -344,6 +344,4 @@ class KVDutil_Auth_LoggedIn extends KVDutil_Auth_LoggedStatus{
 
 }
 
-
-
 ?>

@@ -177,5 +177,4 @@ class KVDutil_SoapWSSE {
         return $this->soapDoc->save($file);
     }
 }
-
 ?>
