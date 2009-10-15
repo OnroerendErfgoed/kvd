@@ -93,16 +93,15 @@ class KVDutil_HtmlFile {
 		return $result;
 	}
 	
-	
 	/**
 	 * openFile
 	 *  Open een bestand (lokaal of remote).
 	 * @throws InvalidArgumentException - Indien de file niet bestaat of geen html bestand is.
 	 * @return KVDutil_HtmlFile
 	 */
-	public static function openFile($file)
-	{
-		if (!$content = file_get_contents($file)){
+	public static function openFile($file, $flags = false, $context = null)
+	{	
+		if (!$content = file_get_contents($file, $flags, $context)){
 			throw new Exception("Bestand niet gevonden");
 		}
 		$htmlfile = KVDutil_HtmlFile::openContent($content);	
