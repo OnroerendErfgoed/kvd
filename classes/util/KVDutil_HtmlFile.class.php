@@ -97,7 +97,10 @@ class KVDutil_HtmlFile {
 	 * openFile
 	 *  Open een bestand (lokaal of remote).
 	 * @throws InvalidArgumentException - Indien de file niet bestaat of geen html bestand is.
-	 * @return KVDutil_HtmlFile
+     * @param   string      $file       Naam van het bestand (de url).
+     * @param   integer     $flags      Flags die kunnen worden doorgegeven aan file_get_contents
+     * @param   resource    $context    Een stream context.
+	 * @return  KVDutil_HtmlFile
 	 */
 	public static function openFile($file, $flags = false, $context = null)
 	{	
@@ -113,7 +116,8 @@ class KVDutil_HtmlFile {
 	 * openContent
 	 *  Open een HTML string.
 	 * @throws InvalidArgumentException - Indien de file niet bestaat of geen html bestand is.
-	 * @return KVDutil_HtmlFile
+     * @param   string      $content
+	 * @return  KVDutil_HtmlFile
 	 */
 	public static function openContent($content)
 	{
@@ -125,8 +129,9 @@ class KVDutil_HtmlFile {
 	/**
 	 * ensureEncoding
 	 * 
-	 * @param string to be encoded
-	 * @return string in proper encoding.
+	 * @param   string  $string     string to be encoded
+     * @param   string  $encoding   encoding waarnaar moet omgezet worden
+	 * @return  string  in proper encoding.
 	 */
 	public static function ensureEncoding($string, $encoding)
 	{
