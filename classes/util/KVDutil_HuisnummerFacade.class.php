@@ -1393,16 +1393,65 @@ class KVDutil_HuisnummerFacade {
 		return KVDutil_HnrSpeedSplitter::split($input);
 	}
 	
+	
+	
 	/**
-	 * merge
+	 * separateEven
+	 *
+	 */
+	public function separateEven($input)
+	{
+        $even = array();
+        $oneven = array();
+        foreach($input as $nummer) {
+            if(($nummer->getData(0))&1){
+                $oneven[] = $nummer;
+            } else {
+                $even[] = $nummer;
+            }
+        }
+        return array("even"=>$even, "oneven"=>$oneven);
+	}
+	
+	/**
+	 * separateMerge
+	 * @param string inputstring met huisnummers
+	 * @return string met samengevoegde huisnummers tot reeksen, met even en oneven nummers gescheiden
+	 */
+	public function separateMerge($input) {
+		$reeksen = $this->stringToNummers($input);
+		$nummers = $this->splitNummers($reeksen);
+		$separate = $this->separateEven($nummers);
+		$even = $this->mergeNummers($separate["even"]);
+		$oneven = $this->mergeNummers($separate["oneven"]);
+		return $this->sortNummers(array_merge($even, $oneven));
+	}
+	
+	/**
+	 * straightMerge
 	 * @param string inputstring met huisnummers
 	 * @return string met samengevoegde huisnummers tot reeksen
 	 */
-	public function merge($input)
+	public function straightMerge($input)
 	{
 		$reeksen = $this->stringToNummers($input);
 		$nummers = $this->splitNummers($reeksen);
 		return $this->mergeNummers($nummers);
+	}
+	
+	/**
+	 * merge
+	 * @param string inputstring met huisnummers
+	 * @param boolean seperate geeft aan of even en onever al dan niet gescheiden blijven.
+	 * @return string met samengevoegde huisnummers tot reeksen
+	 */
+	public function merge($input, $separate = true)
+	{
+        if($separate) { 
+            return $this->separateMerge($input);
+        } else {
+            return $this->straightMerge($input);
+        }
 	}
 }
 

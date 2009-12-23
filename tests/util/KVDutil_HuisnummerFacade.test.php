@@ -263,9 +263,9 @@ class TestOfHuisnummerFacade extends UnitTestCase
         $this->assertIsA( $huisnummers, 'array' );
         $this->assertEqual ( count( $huisnummers ) , 4);
         $this->assertEqual (  $huisnummers[0], '25-31' );
-        $this->assertEqual (  $huisnummers[1], '32-38' );
-        $this->assertEqual (  $huisnummers[2], '39-44' );
-        $this->assertEqual (  $huisnummers[3], '46, 47-50' );
+        $this->assertEqual (  $huisnummers[1], '32-50' );
+        $this->assertEqual (  $huisnummers[2], '39-43' );
+        $this->assertEqual (  $huisnummers[3], '47-49' );
     }
     
     public function testMergeCombinatieHuisnummerBereiken( )
@@ -273,10 +273,9 @@ class TestOfHuisnummerFacade extends UnitTestCase
         $label = '25-31,18-26';
         $huisnummers = $this->facade->merge( $label );
         $this->assertIsA( $huisnummers, 'array' );
-        $this->assertEqual ( count( $huisnummers ) , 3);
-        $this->assertEqual (  $huisnummers[0], '18-24' );
-        $this->assertEqual (  $huisnummers[1], '25, 26-27' );
-        $this->assertEqual (  $huisnummers[2], '29-31' );
+        $this->assertEqual ( count( $huisnummers ) , 2);
+        $this->assertEqual (  $huisnummers[0], '18-26' );
+        $this->assertEqual (  $huisnummers[1], '25-31' );
     }
     
     public function testPerformantie()
