@@ -91,7 +91,7 @@ class TestOfPDOChunkyQuery extends UnitTestCase
         $rs->setReturnValue ( 'fetchColumn' , 255 );
         $this->pdo->setReturnValue( 'query' , $rs );
         $this->pdo->expectOnce( 'query' , array( 'SELECT COUNT(relict.id) FROM mel_master.relict LEFT JOIN mel_gis.locatie ON (  relict.id = mel_gis.locatie.relict_id ) WHERE (  locatie.id IN (  SELECT locatie_id FROM mel_gis.adres WHERE (  provincie_id = 30000 ) ) )' ) );
-        $sql = 'SELECT relict.id AS id, naam, is_deel_van, ensemble, locatie.id AS locatie_id, opmerkingen, gevonden, provincie_naam, gemeente_naam, deelgemeente_naam, locatie.bewaard AS bewaard, in_crab  FROM mel_master.relict LEFT JOIN mel_gis.locatie ON (  relict.id = mel_gis.locatie.relict_id ) WHERE (  locatie.id IN (  SELECT locatie_id FROM mel_gis.adres WHERE (  provincie_id = 30000 ) ) )';
+        $sql = 'SELECT relict.id AS id, naam, is_deel_van, toponiem, locatie.id AS locatie_id, opmerkingen, gevonden, provincie_naam, gemeente_naam, deelgemeente_naam, locatie.bewaard AS bewaard, in_crab  FROM mel_master.relict LEFT JOIN mel_gis.locatie ON (  relict.id = mel_gis.locatie.relict_id ) WHERE (  locatie.id IN (  SELECT locatie_id FROM mel_gis.adres WHERE (  provincie_id = 30000 ) ) )';
         $query = new KVDdom_PDOChunkyQuery( $this->pdo, $this->mapper, $sql , 'relict.id' );
         $this->assertIsA( $query, 'KVDdom_PDOChunkyQuery' );
 
