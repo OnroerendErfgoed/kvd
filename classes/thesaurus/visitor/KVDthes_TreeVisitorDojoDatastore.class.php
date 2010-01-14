@@ -74,7 +74,11 @@ class KVDthes_TreeVisitorDojoDatastore extends KVDthes_AbstractTreeVisitor
      */
 	public function visit(KVDthes_Term $node)
 	{
-        $this->currItem = new KVDthes_DojoDatastoreTerm( $node->getId( ) , $node->getQualifiedTerm( ) , $this->depth );
+        if($node->hasRelations(KVDthes_Relation::REL_NT)) {
+            $this->currItem = new KVDthes_DojoDatastoreComposite( $node->getId( ) , $node->getQualifiedTerm( ) , $this->depth );
+        } else {
+            $this->currItem = new KVDthes_DojoDatastoreTerm( $node->getId( ) , $node->getQualifiedTerm( ) , $this->depth );
+        }
         $this->result->addItem( $this->currItem );
         return true;
     }
@@ -233,6 +237,48 @@ class KVDthes_DojoDatastoreTerm
      */
     public $type;
 
+    
+    /**
+     * __construct 
+     * 
+     * @param integer $id 
+     * @param string $term 
+     * @param integer $depth 
+     * @return void
+     */
+    public function __construct( $id, $term , $depth)
+    {
+        $this->id = (string) $id;
+        $this->term = $term;
+        $this->type = 'L ' . $depth;
+    }
+
+    /**
+     * addChild 
+     * 
+     * @param integer $id 
+     * @return void
+     */
+    public function addChild( $id )
+    {
+        
+    }
+}
+
+
+/**
+ * KVDthes_DojoDatastoreTerm 
+ * 
+ * @package KVD.thes
+ * @subpackage visitor
+ * @since 12 sep 2007
+ * @copyright 2004-2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
+class KVDthes_DojoDatastoreComposite extends KVDthes_DojoDatastoreTerm
+{
+  
     /**
      * children 
      * 
@@ -240,7 +286,7 @@ class KVDthes_DojoDatastoreTerm
      * @var array
      */
     public $children = array( );
-
+    
     /**
      * __construct 
      * 
@@ -267,6 +313,7 @@ class KVDthes_DojoDatastoreTerm
         $this->children[]= new KVDthes_DojoDatastoreReference( $id );
     }
 }
+
 
 /**
  * KVDthes_DojoDatastoreReference 
