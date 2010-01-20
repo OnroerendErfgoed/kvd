@@ -146,6 +146,7 @@
 		<phpunit bootstrap="tests/KVD_Autoload.php"
 			codecoverage="true">
 			<formatter todir="build" type="xml" />
+			<formatter todir="build" type="clover" />
 			<batchtest>
 				<fileset dir="tests">
 					<include name="database/**/KVDdb_*Test.php" />
