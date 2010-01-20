@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
-
-
 <project name="kvd" default="main" basedir=".">
+
+	<property file="${project.basedir}/build.properties" />
 
 	<property name="projectsDir" value="/data/projects/kvd" />
 
@@ -32,7 +32,7 @@
 	</target>
 
 	<target name="generateTestAutoloader" description="Maak de autoloader voor de unit tests aan.">
-		<generateautoloader destfile="tests/KVD_Autoload.php" outputtype="Function" outputname="KVD_Autoload">
+		<generateautoloader destfile="tests/KVD_Autoload.php" outputtype="RegisteredFunction" outputname="KVD_Autoload">
 			<fileset dir="classes">
 				<include name="**/*.class.php" />
 				<include name="**/*.interface.php" />
@@ -130,4 +130,34 @@
 		<echo msg="De API-documentatie voor de KVDlib wort aangemaakt. Dit kan even duren." />
 		<phpdoc title="KVDlib API documentatie" destdir="${docsDir}" output="HTML:frames:earthli" sourcepath="${kvdLibDir}/classes/,${agaviDir}" />
 	</target>
+
+	<target name="runTests" description="Laat de Unit Tests lopen." depends="generateTestAutoloader">
+		<delete dir="build" />
+		<mkdir dir="build" />
+		<coverage-setup database="build/coverage.xml">
+			<fileset dir="classes">
+				<include name="gis/crab/KVDgis_*Cache*.php"/>
+			</fileset>
+		</coverage-setup>
+		<phpunit bootstrap="tests/KVD_Autoload.php"
+			codecoverage="true">
+			<formatter todir="build" type="xml" />
+			<batchtest>
+				<fileset dir="tests">
+					<include name="gis/crab/KVDgis_*Test.php" />
+				</fileset>
+			</batchtest>
+		</phpunit>
+	</target>
+
+	<target name="genTestReports" description="Maak rapporten over de UnitTests aan." depends="runTests">
+		<mkdir dir="build/reports" />
+		<mkdir dir="build/reports/tests" />
+		<mkdir dir="build/reports/coverage" />
+		<phpunitreport styledir="${tests.style_dir}" todir="build/reports/tests" infile="build/testsuites.xml" />
+		<coverage-report outfile="build/coverage.xml">
+			<report todir="build/reports/coverage" styledir="${tests.style_dir}"/>
+		</coverage-report>
+	</target>
+
 </project>
