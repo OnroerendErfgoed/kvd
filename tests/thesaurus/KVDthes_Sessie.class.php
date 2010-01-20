@@ -19,7 +19,7 @@
  * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
-class KVDthes_Sessie implements KVDdom_IReadSessie
+class KVDthes_Sessie implements KVDdom_IWriteSessie
 {
     /**
      * map 
@@ -48,6 +48,9 @@ class KVDthes_Sessie implements KVDdom_IReadSessie
             throw new LogicException ( 'Sessie was al geinitialiseerd.' );
         }
         $this->identityMap = new KVDdom_GenericIdentityMap( );
+        $this->dirty = new KVDdom_GenericIdentityMap( );
+        $this->new = new KVDdom_GenericIdentityMap( );
+        $this->removed = new KVDdom_GenericIdentityMap( );
         $this->mapperRegistry = new KVDdom_MapperRegistry( new KVDdom_MapperFactory( $this , $config['dataMapperDirs'] , $config['dataMapperParameters'] ) );
         self::$initialized = true;
     }
@@ -91,6 +94,46 @@ class KVDthes_Sessie implements KVDdom_IReadSessie
         $this->identityMap->addDomainObject( $do );
     }
 
+    /**
+     * registerDirty 
+     * 
+     * @param KVDthes_Term $do 
+     * @return void
+     */
+    public function registerDirty( $do )
+    {
+        $this->dirty->addDomainObject( $do );
+    }
+
+    /**
+     * registerNew 
+     * 
+     * @param KVDthes_Term $do 
+     * @return void
+     */
+    public function registerNew( $do )
+    {
+        $this->new->addDomainObject( $do );
+    }
+
+    /**
+     * registerRemoved 
+     * 
+     * @param KVDthes_Term $do 
+     * @return void
+     */
+    public function registerRemoved( $do )
+    {
+        $this->removed->addDomainObject( $do );
+    }
+
+    public function commit(  )
+    {
+        $this->dirty = new KVDdom_GenericIdentityMap( );
+        $this->new = new KVDdom_GenericIdentityMap( );
+        $this->removed = new KVDdom_GenericIdentityMap( );
+    }
+
     public function getMapper( $domainObject )
     {
         return $this->mapperRegistry->getMapper( $domainObject );
@@ -109,6 +152,30 @@ class KVDthes_Sessie implements KVDdom_IReadSessie
     public function getSqlLogger( )
     {
         return null;
+    }
+
+    public function getGebruiker( )
+    {
+        return new KVDthes_Gebruiker( );
+    }
+}
+
+/**
+ * KVDthes_Gebruiker 
+ *
+ * Een test gebruiker om te gebruiken in de unit tests.
+ * 
+ * @package     KVD.thes
+ * @since       15 jan 2010
+ * @copyright   2009-2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
+class KVDthes_Gebruiker 
+{
+    public function getGebruikersNaam( )
+    {
+        return 'TestGebruiker';
     }
 }
 ?>
