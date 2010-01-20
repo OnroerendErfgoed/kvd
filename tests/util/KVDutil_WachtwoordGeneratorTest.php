@@ -1,9 +1,12 @@
 <?php
 
-class TestOfWachtwoordGenerator extends UnitTestCase
+require_once 'PHPUnit/Framework.php';
+
+
+class KVDutil_WachtwoordGeneratorTest extends PHPUnit_Framework_TestCase
 {
     private $generator;
-    
+
     public function setUp( )
     {
         $generator = new KVDutil_WachtwoordGenerator( );
@@ -34,14 +37,22 @@ class TestOfWachtwoordGenerator extends UnitTestCase
         }
     }
 
-    public function testTeKort( )
+    /**
+     * @expectedException InvalidArgumentException
+     * @return void
+     */
+    public function testWachtwoordMagNietTeKortZijn( )
     {
-        try {
-            $generator = new KVDutil_WachtwoordGenerator( 3 );
-        } catch ( InvalidArgumentException $e ) {
-            return;
-        }
-        $this->fail( 'InvalidArgumentException', 'Wacthwoorden genereren met een te korte lengte moet een exception geven.');
+        $generator = new KVDutil_WachtwoordGenerator( 3 );
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     * @return void
+     */
+    public function testLengteMoetEenGetalZijn( )
+    {
+        $generator = new KVDutil_WachtwoordGenerator( 'drie' );
     }
     public function testWithHoofdletters( )
     {
@@ -64,4 +75,5 @@ class TestOfWachtwoordGenerator extends UnitTestCase
         }
     }
 }
+
 ?>
