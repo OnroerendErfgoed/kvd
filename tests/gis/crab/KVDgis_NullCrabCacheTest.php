@@ -1,8 +1,5 @@
 <?php
-
-require_once ( GISMAP . '/crab/KVDgis_NullCrabCache.class.php');
-
-class TestOfNullCrabCache extends UnitTestCase
+class KVDgis_NullCrabCacheTest extends PHPUnit_Framework_TestCase
 {
 
     private $_testCache;
@@ -51,7 +48,5 @@ class TestOfNullCrabCache extends UnitTestCase
         $result = $this->_testCache->cacheGet( $functionName,$parameters);
         $this->assertFalse( $result );
     }
-    
-    
 }
 ?>

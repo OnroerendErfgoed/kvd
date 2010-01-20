@@ -1,9 +1,14 @@
 <?php
+require_once 'PHPUnit/Framework.php';
+/*
+if ( !defined( 'KVD_AUTOLOAD')) {
+    define( 'KVD_AUTOLOAD', '../../KVD_Autoload.php' );
+}
+require_once( KVD_AUTOLOAD );
+spl_autoload_register( 'KVD_Autoload');
+*/
 
-require_once ( UTILMAP . 'KVDutil_CacheFile.class.php');
-require_once ( GISMAP . '/crab/KVDgis_CrabCache.class.php');
-
-class TestOfCrabCache extends UnitTestCase
+class KVDgis_CrabCacheTest extends PHPUnit_Framework_TestCase
 {
 
     private $_testCache;
@@ -20,14 +25,38 @@ class TestOfCrabCache extends UnitTestCase
         $this->_testCache = null;
     }
 
+    /**
+     * testCacheDirMoetBestaan 
+     * 
+     * @expectedException   InvalidArgumentException
+     * @return void
+     */
+    public function testCacheDirMoetBestaan( )
+    {
+        $testCache = new KVDgis_CrabCache( '/bestaat/niet', array(  ) );
+    }
+
+    /**
+     * testDefaultExpirationTimeMoetAanwezigZijn 
+     * 
+     * @expectedException   InvalidArgumentException
+     * @return void
+     */
+    public function testDefaultExpirationTimeMoetAanwezigZijn( )
+    {
+        $expirationTimes = array (  'testFunctie' => 100 );
+
+        $this->_testCache = new KVDgis_CrabCache ( '/tmp/',$expirationTimes);
+    }
+
     public function testGetCacheName( )
     {
         $functionName = 'testFunctie';
         $parameters = array( 'p1',2);
         $result = $this->_testCache->getCacheName( $functionName,$parameters);
         $this->assertNotNull( $result );
-        $this->assertIsA( $result,'string');
-        $this->assertEqual( $result , '/tmp/testFunctie#p1#2.crbcache');
+        $this->assertType( 'string', $result );
+        $this->assertEquals( $result , '/tmp/testFunctie#p1#2.crbcache');
     }
 
     public function testCachePut( )
@@ -45,7 +74,7 @@ class TestOfCrabCache extends UnitTestCase
         $parameters = array ( 'p1' , 2 );
         $result = $this->_testCache->cacheGet( $functionName,$parameters);
         $this->assertNotNull( $result );
-        $this->assertIsA( $result,'string');
+        $this->assertType('string', $result );
     }
 
     public function testCacheClear( )
@@ -57,7 +86,6 @@ class TestOfCrabCache extends UnitTestCase
         $result = $this->_testCache->cacheGet( $functionName,$parameters);
         $this->assertFalse( $result );
     }
-    
-    
 }
+
 ?>
