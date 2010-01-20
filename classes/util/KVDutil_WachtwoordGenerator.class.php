@@ -77,7 +77,9 @@ class KVDutil_WachtwoordGenerator
             $wachtwoord = $this->generateWachtwoord( );
             $counter++;
             if ( $counter > 10 ) {
+                // @codeCoverageIgnoreStart
                 throw new Exception ( 'Kan geen geldig paswoord genereren na 10 pogingen.');
+                // @codeCoverageIgnoreEnd
             }
         } while ( !$this->validateWachtwoord( $wachtwoord) );
         return $wachtwoord;

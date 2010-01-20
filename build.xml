@@ -136,7 +136,11 @@
 		<mkdir dir="build" />
 		<coverage-setup database="build/coverage.xml">
 			<fileset dir="classes">
+				<include name="database/criteria/*.php" />
 				<include name="gis/crab/KVDgis_*Cache*.php"/>
+				<include name="thesaurus/**/*.php" />
+				<include name="util/**/*.php" />
+				<exclude name="util/KVDutil_GetDeclaredClassesFilter.class.php" />
 			</fileset>
 		</coverage-setup>
 		<phpunit bootstrap="tests/KVD_Autoload.php"
@@ -144,7 +148,10 @@
 			<formatter todir="build" type="xml" />
 			<batchtest>
 				<fileset dir="tests">
+					<include name="database/**/KVDdb_*Test.php" />
 					<include name="gis/crab/KVDgis_*Test.php" />
+					<include name="thesaurus/core/KVDthes_*Test.php" />
+					<include name="util/**/KVDutil_*Test.php" />
 				</fileset>
 			</batchtest>
 		</phpunit>

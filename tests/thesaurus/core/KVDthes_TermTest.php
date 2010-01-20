@@ -16,7 +16,7 @@ class KVDthes_TermTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $sessie = $this->getMock( 'KVDthes_Sessie' );
-        $this->object = new KVDthes_TestTerm( $sessie, 0, 'TestTerm', 'Uniek', 'Nederlands' );
+        $this->object = new KVDthes_TestTerm( 0, $sessie, 'TestTerm', null, 'Uniek');
     }
 
     /**

@@ -19,7 +19,6 @@ class KVDutil_GatewayRegistryTest extends PHPUnit_Framework_TestCase
 
     function setUp( )
     {
-        echo 'setting up';
         $sessie = new StdClass();
         $this->factory = $this->getMock('KVDutil_GatewayFactory', array(), array( $sessie ) );
 
@@ -43,8 +42,8 @@ class KVDutil_GatewayRegistryTest extends PHPUnit_Framework_TestCase
 
     function testGetGateway()
     {
-        //$this->assertSame ($this->registry->getGateway( 'KVDgis_Crab2Gateway') , $this->gateway );
-        //$this->assertSame ($this->registry->getGateway( 'KVDgis_Crab2Gateway') , $this->gateway );
+        $this->assertSame ($this->registry->getGateway( 'KVDgis_Crab2Gateway') , $this->gateway );
+        $this->assertSame ($this->registry->getGateway( 'KVDgis_Crab2Gateway') , $this->gateway );
     }
 
 
