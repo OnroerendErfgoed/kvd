@@ -112,6 +112,8 @@ class AutoloadGenerationTask extends Task
     /**
      * Validate input. Check if filesets, destinationfile and outputname are present.
      * Set outputtype to default value 'Array' if not present.
+     * Set registerAutoloader to default value 'True' if outputType is function 
+     * and value is not set.
      * 
      * @throws BuildException - If certain parameters are not set.
      * @return void
@@ -275,6 +277,9 @@ abstract class AutoloadCreator
             case 'Function':
                 return new AutoloadFunctionCreator( $outputName );
                 break;
+            case 'RegisteredFunction':
+                return new AutoloadRegisteredFunctionCreator( $outputName );
+                break;
             case 'Array':
             default:
                 return new AutoloadArrayCreator( $outputName );
@@ -333,7 +338,40 @@ class AutoloadFunctionCreator extends AutoloadCreator
         "\tif(isset(\$autoloads[\$class])) {\n" .
         "\t\trequire(\$autoloads[\$class]);\n".
         "\t}\n".
-        "}\n";
+        "}\n".
+        "?>";
+    }
+}
+
+/**
+ * AutoloadRegisteredFunctionCreator 
+ * 
+ * @package     phing
+ * @since       20 jan 2010
+ * @copyright   2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
+class AutoloadRegisteredFunctionCreator extends AutoloadCreator
+{
+    /**
+     * create 
+     * 
+     * @param array $classes 
+     * @return void
+     */
+    public function create( array $classes )
+    {
+        $this->result = 
+        "<?php \n " .
+        "function {$this->outputName}( \$class )  {\n" . 
+        "\tstatic \$autoloads = " .var_export( $classes, true) . ";\n" .
+        "\tif(isset(\$autoloads[\$class])) {\n" .
+        "\t\trequire(\$autoloads[\$class]);\n".
+        "\t}\n".
+        "}\n".
+        "spl_autoload_register(\"{$this->outputName}\");\n".
+        "?>";
     }
 }
 ?>
