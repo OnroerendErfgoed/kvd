@@ -37,5 +37,16 @@ class KVDdb_JoinTest extends PHPUnit_Framework_TestCase
         $join = new KVDdb_Join( 'gemeente', array( array( 'locatie.gemeente_id', 'gemeente.id' ) ), 'ILLEGAL JOIN' );
     }
 
+    /**
+     * testVeldpaarBevatExactTweeVelden 
+     * 
+     * @expectedException   InvalidArgumentException
+     * @return void
+     */
+    public function testVeldpaarBevatExactTweeVelden( )
+    {
+        $join = new KVDdb_Join( 'gemeente', array( array( 'locatie.gemeente_id', 'gemeente.id', 'gemeente.provincie_id' ) ), KVDdb_Join::LEFT_JOIN );
+    }
+
 }
 ?>

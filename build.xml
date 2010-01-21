@@ -27,7 +27,6 @@
 				<include name="**/*.class.php" />
 				<include name="**/*.interface.php" />
 			</fileset>
-			
 		</generateautoloader>
 	</target>
 
@@ -126,14 +125,33 @@
 		<delete dir="${builddir}" />
 	</target>
 
-	<target name="docs" description="Maak de API-documentatie voor de KVDlib en Agavi aan.">
-		<echo msg="De API-documentatie voor de KVDlib wort aangemaakt. Dit kan even duren." />
-		<phpdoc title="KVDlib API documentatie" destdir="${docsDir}" output="HTML:frames:earthli" sourcepath="${kvdLibDir}/classes/,${agaviDir}" />
+	<target name="createBuildDir">
+		<available file="build" type="dir" property="build.dir_exists" />
+		<if>
+			<not>
+				<istrue value="build.dir_exists" />
+			</not>
+			<then>
+				<mkdir dir="build" />
+			</then>
+		</if>
 	</target>
 
-	<target name="runTests" description="Laat de Unit Tests lopen." depends="generateTestAutoloader">
-		<delete dir="build" />
-		<mkdir dir="build" />
+	<target name="genDocs" description="Maak de API-documentatie voor de KVDlib aan." depends="createBuildDir">
+		<delete dir="build/docs" />
+		<mkdir dir="build/docs" />
+		<echo msg="De API-documentatie voor de KVDlib wordt aangemaakt. Dit kan even duren." />
+		<phpdoc title="KVDlib API documentatie" destdir="build/docs" output="HTML:frames:earthli" quiet="true">
+			<fileset dir="classes">
+				<include name="**/*.php" />
+			</fileset>
+		</phpdoc>
+	</target>
+
+	<target name="runTests" description="Laat de Unit Tests lopen." depends="createBuildDir,generateTestAutoloader">
+		<delete file="build/coverage.xml" />
+		<delete file="build/testsuites.xml" />
+		<delete file="build/clover-coverage.xml" />
 		<coverage-setup database="build/coverage.xml">
 			<fileset dir="classes">
 				<include name="database/criteria/*.php" />
@@ -159,6 +177,7 @@
 	</target>
 
 	<target name="genTestReports" description="Maak rapporten over de UnitTests aan." depends="runTests">
+		<delete dir="build/reports" />
 		<mkdir dir="build/reports" />
 		<mkdir dir="build/reports/tests" />
 		<mkdir dir="build/reports/coverage" />
