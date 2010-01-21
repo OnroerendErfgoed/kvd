@@ -149,9 +149,33 @@
 	</target>
 
 	<target name="runTests" description="Laat de Unit Tests lopen." depends="createBuildDir,generateTestAutoloader">
-		<delete file="build/coverage.xml" />
-		<delete file="build/testsuites.xml" />
-		<delete file="build/clover-coverage.xml" />
+		<available file="build/coverage.xml" type="file" property="build.coverage_exists" />
+		<available file="build/testsuites.xml" type="file" property="build.testsuite_exists" />
+		<available file="build/clover-coverage.xml" type="file" property="build.clover-coverage_xml_exists" />
+		<if>
+			<not>
+				<istrue value="build.coverage_exists" />
+			</not>
+			<then>
+				<delete file="build/coverage.xml" />
+			</then>
+		</if>
+		<if>
+			<not>
+				<istrue value="build.testsuites_exists" />
+			</not>
+			<then>
+				<delete file="build/testsuites.xml" />
+			</then>
+		</if>
+		<if>
+			<not>
+				<istrue value="build.clover-coverage_exists" />
+			</not>
+			<then>
+				<delete file="build/clover-coverage.xml" />
+			</then>
+		</if>
 		<coverage-setup database="build/coverage.xml">
 			<fileset dir="classes">
 				<include name="database/criteria/*.php" />
