@@ -126,12 +126,13 @@
 	</target>
 
 	<target name="createBuildDir">
-		<available file="build" type="dir" property="build.dir_exists" />
+		<available file="build" property="build.dir_exists" />
 		<if>
 			<not>
-				<istrue value="build.dir_exists" />
+				<isset property="build.dir_exists" />
 			</not>
 			<then>
+				<echo>Build dir wordt aangemaakt.</echo>
 				<mkdir dir="build" />
 			</then>
 		</if>
@@ -153,25 +154,19 @@
 		<available file="build/testsuites.xml" type="file" property="build.testsuite_exists" />
 		<available file="build/clover-coverage.xml" type="file" property="build.clover-coverage_xml_exists" />
 		<if>
-			<not>
-				<istrue value="build.coverage_exists" />
-			</not>
+			<istrue value="build.coverage_exists" />
 			<then>
 				<delete file="build/coverage.xml" />
 			</then>
 		</if>
 		<if>
-			<not>
-				<istrue value="build.testsuites_exists" />
-			</not>
+			<istrue value="build.testsuites_exists" />
 			<then>
 				<delete file="build/testsuites.xml" />
 			</then>
 		</if>
 		<if>
-			<not>
-				<istrue value="build.clover-coverage_exists" />
-			</not>
+			<istrue value="build.clover-coverage_exists" />
 			<then>
 				<delete file="build/clover-coverage.xml" />
 			</then>
