@@ -18,11 +18,18 @@ class KVDdb_CriteriaTest extends PHPUnit_Framework_TestCase
     {
         $this->criteria = null;
     }
+
+    public function testEmpty( )
+    {
+        $this->assertEquals( '', $this->criteria->generateSql(  ) );
+    }
     
     public function testAddCriteria( )
     {
         $this->criteria->add( $this->criterion_one );
         $this->assertEquals ( 1, count( $this->criteria ) );
+        $this->assertTrue( $this->criteria->hasCriteria( ) );
+        $this->assertTrue( $this->criteria->hasCriteria( 'provincie' ) );
     }
 
     public function testGenerateSqlOneCriterion( )
@@ -49,6 +56,7 @@ class KVDdb_CriteriaTest extends PHPUnit_Framework_TestCase
     {
         $this->criteria->addAscendingOrder( 'provincie' );
         $this->assertEquals( 'ORDER BY provincie ASC', $this->criteria->generateSql() );
+        $this->assertTrue( $this->criteria->hasOrder( ) );
     }
 
     public function testGenerateSqlWithMultipleOrder( )

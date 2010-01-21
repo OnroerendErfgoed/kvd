@@ -50,7 +50,9 @@ class PHP_CodeSniffer_Standards_VIOE_VIOECodingStandard extends PHP_CodeSniffer_
     {
         return array(
                     'Generic/Sniffs/Functions/OpeningFunctionBraceKernighanRitchieSniff.php',
-                    'Generic/Sniffs/VersionControl/SubversionPropertiesSniff.php'
+                    'Generic/Sniffs/VersionControl/SubversionPropertiesSniff.php',
+                    'Generic/Sniffs/Formatting/MultipleStatementAlignmentSniff.php',
+                    'Generic/Sniffs/PHP/UpperCaseConstantSniff.php'
                     );
     }
 }

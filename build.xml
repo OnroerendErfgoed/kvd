@@ -126,23 +126,42 @@
 	</target>
 
 	<target name="createBuildDir">
-		<available file="build" property="build.dir_exists" />
+		<available file="build" property="build.build_dir_exists" />
 		<if>
 			<not>
-				<isset property="build.dir_exists" />
+				<isset property="build.build_dir_exists" />
 			</not>
 			<then>
 				<echo>Build dir wordt aangemaakt.</echo>
 				<mkdir dir="build" />
 			</then>
 		</if>
+		<available file="build/reports" type="dir" property="build.reports_dir_exists" />
+		<if>
+			<not>
+				<isset property="build.reports_dir_exists" />
+			</not>
+			<then>
+				<echo>build/reports dir wordt aangemaakt.</echo>
+				<mkdir dir="build/reports" />
+			</then>
+		</if>
+		<available file="build/docs" type="dir" property="build.docs_dir_exists" />
+		<if>
+			<not>
+				<isset property="build.docs_dir_exists" />
+			</not>
+			<then>
+				<echo>build/docs dir wordt aangemaakt.</echo>
+				<mkdir dir="build/docs" />
+			</then>
+		</if>
 	</target>
 
 	<target name="genDocs" description="Maak de API-documentatie voor de KVDlib aan." depends="createBuildDir">
-		<delete dir="build/docs" />
-		<mkdir dir="build/docs" />
+		<mkdir dir="build/docs/api" />
 		<echo msg="De API-documentatie voor de KVDlib wordt aangemaakt. Dit kan even duren." />
-		<phpdoc title="KVDlib API documentatie" destdir="build/docs" output="HTML:frames:earthli" quiet="true">
+		<phpdoc title="KVDlib API documentatie" destdir="build/docs/api" output="HTML:frames:earthli" quiet="true">
 			<fileset dir="classes">
 				<include name="**/*.php" />
 			</fileset>
@@ -204,6 +223,29 @@
 		<coverage-report outfile="build/coverage.xml">
 			<report todir="build/reports/coverage" styledir="${tests.style_dir}"/>
 		</coverage-report>
+	</target>
+
+	<target name="genCodeSnifferReports" description="Maak rapporten over de staat van de code aan." depends="createBuildDir">
+		<delete dir="build/reports/sniffs" />
+		<mkdir dir="build/reports/sniffs" />
+		<phpcodesniffer
+			standard="dev/phpcs/VIOE/">
+			<fileset dir="classes">
+				<include name="database/criteria/*.php" />
+				<include name="gis/crab/KVDgis_*Cache*.php"/>
+				<include name="thesaurus/**/*.php" />
+				<include name="util/**/*.php" />
+				<exclude name="util/KVDutil_GetDeclaredClassesFilter.class.php" />
+			</fileset>
+			<formatter type="summary" usefile="false"/>
+			<formatter type="checkstyle" outfile="build/reports/sniffs/checkstyle.xml"/>
+		</phpcodesniffer>
+	</target>
+
+	<target name="runBuild" description="Maak een volledig build met unit tests en documentatie." depends="createBuildDir">
+		<phingcall target="genTestReports" />
+		<phingcall target="genCodeSnifferReports" />
+		<phingcall target="genDocs" />
 	</target>
 
 </project>
