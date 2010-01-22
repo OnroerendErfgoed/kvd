@@ -1,14 +1,24 @@
 <?php
 /**
- * @package KVD.gis.geometry
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
- * @version $Id$
+ * @package     KVD.gis
+ * @subpackage  geometry
+ * @copyright   2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @version     $Id$
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
- * @package KVD.gis.geometry
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
- * @since jan 2006
+ * KVDgis_GeomGeometry
+ *
+ * Abstracte class die de basis is voor alle geometry objecten.
+ *
+ * @package     KVD.gis
+ * @subpackage  geometry
+ * @copyright   2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @since       jan 2006
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 abstract class KVDgis_GeomGeometry
 {

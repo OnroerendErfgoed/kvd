@@ -1,5 +1,8 @@
 <?php
-class TestOfGeomMultiPoint extends UnitTestCase
+
+require_once( 'PHPUnit/Framework.php' );
+
+class KVDgis_GeomMultiPointTest extends PHPUnit_Framework_TestCase
 {
     private $testMultiPoint;
 
@@ -24,42 +27,42 @@ class TestOfGeomMultiPoint extends UnitTestCase
     function testSetSrid()
     {
         $this->testMultiPoint->setSrid(5000);
-        $this->assertEqual($this->testMultiPoint->getSrid() , 5000 , 'De via setSrid() ingesteld srid is niet dezelfde als die die via getSrid() teruggegeven wordt!');    
+        $this->assertEquals( 5000, $this->testMultiPoint->getSrid() );    
     }
 
     function testIsEmpty( )
     {
-        $this->assertEqual( $this->testMultiPoint->getSrid( ), -1);
+        $this->assertEquals( -1, $this->testMultiPoint->getSrid( ) );
         $this->assertTrue( $this->testMultiPoint->isEmpty( ));        
     }
 
     function testAddPoint( )
     {
         $this->testMultiPoint->addPoint( $this->testPointOne );
-        $this->assertEqual( $this->testMultiPoint->getAsText( ) , 'MULTIPOINT(178000 212000)');
+        $this->assertEquals( 'MULTIPOINT(178000 212000)', $this->testMultiPoint->getAsText( ) );
     }
 
     function testSetPoints( )
     {
         $points = array ( $this->testPointOne, $this->testPointTwo );
         $this->testMultiPoint->setPoints( $points );
-        $this->assertEqual( $this->testMultiPoint->getAsText( ) , 'MULTIPOINT(178000 212000, 100000 150000)');
+        $this->assertEquals( 'MULTIPOINT(178000 212000, 100000 150000)', $this->testMultiPoint->getAsText( ) );
     }
 
     function testSetPointsAndSridInConstructor( )
     {
         $points = array ( $this->testPointOne, $this->testPointTwo );
         $testMultiPoint = new KVDgis_GeomMultiPoint( 31300 , $points );
-        $this->assertEqual( $testMultiPoint->getAsText( ) , 'MULTIPOINT(178000 212000, 100000 150000)');
-        $this->assertEqual( $testMultiPoint->getSrid( ) , 31300 );
+        $this->assertEquals( 'MULTIPOINT(178000 212000, 100000 150000)', $testMultiPoint->getAsText( ) );
+        $this->assertEquals(31300, $testMultiPoint->getSrid( ) , 31300 );
     }
 
     function testSetGeometryFromText()
     {
         $this->testMultiPoint->setGeometryFromText('MULTIPOINT(178000 212000, 100000 150000)');
         $points = $this->testMultiPoint->getPoints( );
-        $this->assertEqual( $points[0]->getAsText( ) , 'POINT(178000 212000)');
-        $this->assertEqual( $points[1]->getAsText( ) , 'POINT(100000 150000)');
+        $this->assertEquals( 'POINT(178000 212000)',  $points[0]->getAsText( ) );
+        $this->assertEquals( 'POINT(100000 150000)', $points[1]->getAsText( ) );
     }
 
     function testSetEmptyGeometryFromText( )
@@ -73,18 +76,14 @@ class TestOfGeomMultiPoint extends UnitTestCase
         $values = array ( 'MULTIPOINT(178000 212000, 100000 150000)', 'EMPTY' );
         foreach ( $values as $wkt ) {
             $this->testMultiPoint->setGeometryFromText($wkt);
-            $this->assertEqual( $this->testMultiPoint->getAsText( ), $wkt);
+            $this->assertEquals( $wkt, $this->testMultiPoint->getAsText( ) );
         }
     }
 
     function testGeometryToString( )
     {
         $this->testMultiPoint->setGeometryFromText('MULTIPOINT(178000 212000, 100000 150000)');
-        ob_start( );
-        echo $this->testMultiPoint;
-        $buffer = ob_get_contents( );
-        ob_end_clean( );
-        $this->assertEqual( $buffer , 'MULTIPOINT(178000 212000, 100000 150000)');
+        $this->assertEquals( 'MULTIPOINT(178000 212000, 100000 150000)', (string) $this->testMultiPoint );
     }
     
     
@@ -99,38 +98,40 @@ class TestOfGeomMultiPoint extends UnitTestCase
     {
         $this->testMultiPoint->setGeometryFromText('MULTIPOINT(178000 212000, 100000 150000)');
         $points = $this->testMultiPoint->getPoints( );
-        $this->assertEqual( $points[0]->getAsText( ) , 'POINT(178000 212000)');
-        $this->assertEqual( $points[1]->getAsText( ) , 'POINT(100000 150000)');
+        $this->assertEquals( 'POINT(178000 212000)', $points[0]->getAsText( ) );
+        $this->assertEquals( 'POINT(100000 150000)', $points[1]->getAsText( ) );
     }
 
     function testSetGeometryFromSpacyData( )
     {
         $this->testMultiPoint->setGeometryFromText('MULTIPOINT(  178000 212000  , 100000 150000 )');
         $points = $this->testMultiPoint->getPoints( );
-        $this->assertEqual( $points[0]->getAsText( ) , 'POINT(178000 212000)');
-        $this->assertEqual( $points[1]->getAsText( ) , 'POINT(100000 150000)');
+        $this->assertEquals( 'POINT(178000 212000)', $points[0]->getAsText( ) );
+        $this->assertEquals( 'POINT(100000 150000)', $points[1]->getAsText( ) );
     }
 
+    /**
+     * testSetGeometryFromBogusData 
+     * 
+     * @expectedException   InvalidArgumentException 
+     * @access public
+     * @return void
+     */
     function testSetGeometryFromBogusData( )
     {
-        try {
-            $this->testMultiPoint->setGeometryFromText('MULTIPOINT( ( coorda coordb ) , (testa testb) )');
-            $this->fail( 'Er had een Exception moeten zijn.');
-        } catch ( InvalidArgumentException $e ) {
-            $this->pass( );
-        } catch ( Exception $e ) {
-            $this->fail ( 'Er is wel een Exception maar van een verkeerd type.' );
-        }
+        $this->testMultiPoint->setGeometryFromText('MULTIPOINT( ( coorda coordb ) , (testa testb) )');
     }
 
+    /**
+     * testSetIllegalGeometryFromText 
+     *
+     * @expectedException   InvalidArgumentException 
+     * @access public
+     * @return void
+     */
     function testSetIllegalGeometryFromText()
     {
-        try {
             $this->testMultiPoint->setGeometryFromText('POLYGON(178000 212000)');    
-            $this->fail( 'Er had een Exception moeten zijn.');
-        } catch (Exception $e) {
-            $this->pass( );
-        }
     }
     
 }

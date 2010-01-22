@@ -1,6 +1,7 @@
 <?php
 /**
- * @package     KVD.gis.geometry
+ * @package     KVD.gis
+ * @subpackage  geometry
  * @version     $Id$
  * @copyright   2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
@@ -8,7 +9,8 @@
  */
 
 /**
- * @package     KVD.gis.geometry
+ * @package     KVD.gis
+ * @subpackage  geometry
  * @since       11 jun 2009
  * @copyright   2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
@@ -41,7 +43,7 @@ class KVDgis_GeomLineString extends KVDgis_GeomGeometry
      */
     public function addPoint( KVDgis_GeomPoint $point )
     {
-        if ( $point->getX( ) == 0 && $point->getY( ) == 0 ) {
+        if ( $point->isEmpty() ) {
             return;
         }
         $this->points[] = $point;
@@ -50,11 +52,23 @@ class KVDgis_GeomLineString extends KVDgis_GeomGeometry
     /**
      * clearPoints 
      * 
-     * @return void
+     * @deprectated     Gebruik KVDgis_GeomLineString::clear
+     * @return          void
      */
     public function clearPoints( )
     {
-        $this->points = array( );    
+        $this->clear();
+    }
+
+    /**
+     * clear 
+     * 
+     * @since   22 jan 2010
+     * @return  void
+     */
+    public function clear( )
+    {
+        $this->points = array( );
     }
 
     /**
@@ -88,10 +102,13 @@ class KVDgis_GeomLineString extends KVDgis_GeomGeometry
      */
     public function setGeometryFromText ( $wkt )
     {
+        $this->clear( );
+        if ( $wkt == 'EMPTY' ) {
+            return;
+        }
         if (substr($wkt,0,10) != 'LINESTRING') {
             throw new InvalidArgumentException ('Ongeldige Well-Known Text string: ' . $wkt . "\n. De string zou moeten beginnen met 'LINESTRING'.");
         }
-        $this->clearPoints( );
         
         $stringLineString = $this->getStringBetweenBraces($wkt);
         $points = explode("," , $stringLineString);
@@ -115,8 +132,8 @@ class KVDgis_GeomLineString extends KVDgis_GeomGeometry
      */
     public function getAsText()
     {
-        if ( count( $this->points ) <= 0 ) {
-            return null;
+        if ( $this->isEmpty( ) ) {
+            return 'EMPTY';
         }
         $buffer = "LINESTRING(";
         $pointArray = array( );

@@ -1,5 +1,8 @@
 <?php
-class TestOfGeomMultiPolygon extends UnitTestCase
+
+require_once( 'PHPUnit/Framework.php' );
+
+class KVDgis_GeomMultiPolygonTest extends PHPUnit_Framework_TestCase
 {
     private $testMultiPoly;
     
@@ -25,27 +28,27 @@ class TestOfGeomMultiPolygon extends UnitTestCase
 
     function testIsEmpty( )
     {
-        $this->assertEqual( $this->testMultiPoly->getSrid( ), -1 );
+        $this->assertEquals( -1, $this->testMultiPoly->getSrid( ) );
         $this->assertTrue( $this->testMultiPoly->isEmpty( ) ); 
     }
 
     function testSetSrid()
     {
         $this->testMultiPoly->setSrid(5000);
-        $this->assertEqual($this->testMultiPoly->getSrid() , 5000 , 'De via setSrid() ingesteld srid is niet dezelfde als die die via getSrid() teruggegeven wordt!');    
+        $this->assertEquals( 5000, $this->testMultiPoly->getSrid() );    
     }
 
     function testSetPolygons( )
     {
         $this->testMultiPoly->setPolygons( array( $this->testPolygon1, $this->testPolygon2 ) );
-        $this->assertEqual($this->testMultiPoly->getAsText( ),
+        $this->assertEquals($this->testMultiPoly->getAsText( ),
                                 'MULTIPOLYGON(((178000.25 212000.35, 178100.50 212003.55, 180560 212100)), ((158000.25 200000.35, 158105.50 200203.55, 160560 200100)))' );
     }
     
     function testAddPolygon( )
     {
         $this->testMultiPoly->addPolygon( $this->testPolygon1 );
-        $this->assertEqual($this->testMultiPoly->getAsText( ),
+        $this->assertEquals($this->testMultiPoly->getAsText( ),
                            'MULTIPOLYGON(((178000.25 212000.35, 178100.50 212003.55, 180560 212100)))' );
     }
     
@@ -53,9 +56,9 @@ class TestOfGeomMultiPolygon extends UnitTestCase
     function testConstructor( )
     {
         $testMultiPoly = new KVDgis_GeomMultiPolygon( 31300 , array($this->testPolygon1, $this->testPolygon2));
-        $this->assertEqual( $testMultiPoly->getAsText( ) , 
+        $this->assertEquals( $testMultiPoly->getAsText( ) , 
                             'MULTIPOLYGON(((178000.25 212000.35, 178100.50 212003.55, 180560 212100)), ((158000.25 200000.35, 158105.50 200203.55, 160560 200100)))' );
-        $this->assertEqual( $testMultiPoly->getSrid( ) , 31300 );
+        $this->assertEquals( $testMultiPoly->getSrid( ) , 31300 );
     }
     
     function testSetGeometryFromText()
@@ -63,7 +66,7 @@ class TestOfGeomMultiPolygon extends UnitTestCase
         $values = array ( 'MULTIPOLYGON(((178000.25 212000.35, 178100.50 212003.55, 180560 212100)), ((158000.25 200000.35, 158105.50 200203.55, 160560 200100), (160 250, 400 500, 210 321)))', 'EMPTY' );
         foreach ( $values as $v ) {
             $this->testMultiPoly->setGeometryFromText($v);
-            $this->assertEqual( $this->testMultiPoly->getAsText( ) , $v );
+            $this->assertEquals( $v, $this->testMultiPoly->getAsText( ) );
         }
     }
 
@@ -72,23 +75,21 @@ class TestOfGeomMultiPolygon extends UnitTestCase
         $this->testMultiPoly->setGeometryFromText(
                             'MULTIPOLYGON(((178000.25 212000.35, 178100.50 212003.55, 180560 212100)), ((158000.25 200000.35, 158105.50 200203.55, 160560 200100), (160 250, 400 500, 210 321)))'
                                                 );
-        ob_start( );
-        echo $this->testMultiPoly;
-        $buffer = ob_get_contents( );
-        ob_end_clean( );
-        $this->assertEqual( $buffer , 
+        $this->assertEquals( (string) $this->testMultiPoly, 
                             'MULTIPOLYGON(((178000.25 212000.35, 178100.50 212003.55, 180560 212100)), ((158000.25 200000.35, 158105.50 200203.55, 160560 200100), (160 250, 400 500, 210 321)))'
                             );
     }
 
+    /**
+     * testSetIllegalGeometryFromText 
+     * 
+     * @expectedException   InvalidArgumentException
+     * @access public
+     * @return void
+     */
     function testSetIllegalGeometryFromText()
     {
-        try {
-            $this->testMultiPoly->setGeometryFromText('MULTIPOINT(178000 212000)');    
-            $this->fail( 'Er had een Exception moeten zijn.');
-        } catch (Exception $e) {
-            $this->pass( );
-        }
+        $this->testMultiPoly->setGeometryFromText('MULTIPOINT(178000 212000)');    
     }
 }
 ?>

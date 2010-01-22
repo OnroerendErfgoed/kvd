@@ -1,14 +1,16 @@
 <?php
 /**
- * @package KVD.gis.geometry
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
- * @version $Id$
+ * @package     KVD.gis
+ * @subpackage  geometry
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
+ * @version     $Id$
  */
 
 /**
- * @package KVD.gis.geometry
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
- * @since jan 2006
+ * @package     KVD.gis
+ * @subpackage  geometry
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
+ * @since       jan 2006
  */
 class KVDgis_GeomPoint extends KVDgis_GeomGeometry
 {

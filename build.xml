@@ -193,12 +193,17 @@
 		<coverage-setup database="build/coverage.xml">
 			<fileset dir="classes">
 				<include name="database/criteria/*.php" />
-				<include name="gis/crab/KVDgis_*Cache*.php"/>
+				<include name="domain/**/*.php" />
+				<exclude name="domain/KVDdom_ChangeableSystemFields.class.php" />
+				<include name="gis/**/KVDgis_*.php"/>
+				<include name="html/**/*.php" />
 				<include name="thesaurus/**/*.php" />
 				<include name="util/**/*.php" />
 				<exclude name="util/KVDutil_GetDeclaredClassesFilter.class.php" />
 			</fileset>
 		</coverage-setup>
+		<php expression="define('CRABUSER', '${crab.user}')" />
+		<php expression="define('CRABPWD', '${crab.pwd}')" />
 		<phpunit bootstrap="tests/KVD_Autoload.php"
 			codecoverage="true">
 			<formatter todir="build" type="xml" />
@@ -206,7 +211,7 @@
 			<batchtest>
 				<fileset dir="tests">
 					<include name="database/**/KVDdb_*Test.php" />
-					<include name="gis/crab/KVDgis_*Test.php" />
+					<include name="gis/**/KVDgis_*Test.php" />
 					<include name="thesaurus/core/KVDthes_*Test.php" />
 					<include name="util/**/KVDutil_*Test.php" />
 				</fileset>

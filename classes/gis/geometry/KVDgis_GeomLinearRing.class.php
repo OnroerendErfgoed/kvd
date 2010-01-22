@@ -1,6 +1,7 @@
 <?php
 /**
- * @package     KVD.gis.geometry
+ * @package     KVD.gis
+ * @subpackage  geometry
  * @version     $Id$
  * @copyright   2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
@@ -8,7 +9,8 @@
  */
 
 /**
- * @package     KVD.gis.geometry
+ * @package     KVD.gis
+ * @subpackage  geometry
  * @since       11 jun 2009
  * @copyright   2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 

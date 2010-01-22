@@ -1,6 +1,7 @@
 <?php
 /**
- * @package     KVD.gis.geometry
+ * @package     KVD.gis
+ * @subpackage  geometry
  * @copyright   2004-2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
  * @license     GNU General Public License {@link http://www.gnu.org/copyleft/gpl.html}
@@ -10,7 +11,8 @@
 /**
  * KVDgis_GeomMultiPolygon 
  * 
- * @package     KVD.gis.geometry 
+ * @package     KVD.gis
+ * @subpackage  geometry
  * @since       29 jun 2009
  * @copyright   2004-2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 

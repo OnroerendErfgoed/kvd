@@ -191,11 +191,15 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
         }
     
         try {
-            $this->_client = @new KVDgis_Crab2SoapClient ( $parameters['wsdl'] , array (    'exceptions'            => 1,
-                                                                                            'features'              => SOAP_SINGLE_ELEMENT_ARRAYS,
-                                                                                            'trace'                 => 0,
-                                                                                            'connection_timeout'    => 5
-                                                                                        ));
+            $soap_options = array ( 'exceptions'            => 1,
+                                    'features'              => SOAP_SINGLE_ELEMENT_ARRAYS,
+                                    'trace'                 => 0,
+                                    'connection_timeout'    => 5 );
+            if ( isset( $parameters['soap_options'] ) ) {
+                $soap_options = array_merge( $soap_options, $parameters['soap_options'] );
+            }
+
+            $this->_client = @new KVDgis_Crab2SoapClient ( $parameters['wsdl'] , $soap_options);
         } catch ( SoapFault $e ) {
             throw new KVDutil_GatewayUnavailableException ( 'De Crab2Gateway kan geen verbinding maken met de Crab webservice.' , __CLASS__ , $e );
         }

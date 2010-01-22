@@ -1,6 +1,7 @@
 <?php
 /**
- * @package KVD.gis.geometry
+ * @package     KVD.gis
+ * @subpackage  geometry
  * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
  * @license GNU General Public License {@link http://www.gnu.org/copyleft/gpl.html}
@@ -10,11 +11,12 @@
 /**
  * KVDgis_GeomMultiPoint 
  * 
- * @package KVD.gis.geometry 
- * @since 23 jun 2006
- * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license GNU General Public License {@link http://www.gnu.org/copyleft/gpl.html}
+ * @package     KVD.gis
+ * @subpackage  geometry
+ * @since       23 jun 2006
+ * @copyright   2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license     GNU General Public License {@link http://www.gnu.org/copyleft/gpl.html}
  */
 class KVDgis_GeomMultiPoint extends KVDgis_GeomGeometry
 {
@@ -41,11 +43,8 @@ class KVDgis_GeomMultiPoint extends KVDgis_GeomGeometry
      * @param KVDgis_GeomPoint $point 
      * @return void
      */
-    public function addPoint( $point )
+    public function addPoint( KVDgis_GeomPoint $point )
     {
-        if ( !is_object( $point ) ) {
-            throw new InvalidArgumentException ( 'U probeert een punt toe te voegen dat geen object is.' );
-        }
         if ( $point->getX( ) == 0 && $point->getY( ) == 0 ) {
             return;
         }
@@ -68,11 +67,8 @@ class KVDgis_GeomMultiPoint extends KVDgis_GeomGeometry
      * @param array $points Een verzameling KVDgis_GeomPoint objecten.
      * @return void
      */
-    public function setPoints( $points )
+    public function setPoints( array $points )
     {
-        if ( !is_array( $points ) ) {
-            throw new InvalidArgumentException( 'U probeert een collectie van punten toe te voegen die niet bestaat.' );
-        }
         foreach ( $points as $point ) {
             $this->addPoint( $point );
         }

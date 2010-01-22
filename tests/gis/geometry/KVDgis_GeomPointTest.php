@@ -1,7 +1,7 @@
 <?php
+require_once ( 'PHPUnit/Framework.php' );
 
-
-class TestOfGeomPoint extends UnitTestCase
+class KVDgis_GeomPointTest extends PHPUnit_Framework_TestCase
 {
 
     private $_testPoint;
@@ -19,12 +19,12 @@ class TestOfGeomPoint extends UnitTestCase
     function testSetSrid()
     {
         $this->_testPoint->setSrid(5000);
-        $this->assertTrue($this->_testPoint->getSrid() == 5000, 'De via setSrid() ingesteld srid is niet dezelfde als die die via getSrid() teruggegeven wordt!');    
+        $this->assertEquals( 5000, $this->_testPoint->getSrid() );    
     }
 
     function testIsEmpty( )
     {
-        $this->assertEqual( $this->_testPoint->getSrid( ), -1 );
+        $this->assertEquals( -1, $this->_testPoint->getSrid( ) );
         $this->assertTrue( $this->_testPoint->isEmpty( ) );
     }
 
@@ -32,26 +32,27 @@ class TestOfGeomPoint extends UnitTestCase
     {
         $this->_testPoint->setX(178000);
         $this->_testPoint->setY(212000);
-        $this->assertTrue($this->_testPoint->getX() == 178000);
-        $this->assertTrue($this->_testPoint->getY() == 212000);
+        $this->assertEquals(178000, $this->_testPoint->getX() );
+        $this->assertEquals(212000, $this->_testPoint->getY() );
     }
 
     function testSetGeometryFromText()
     {
         $this->_testPoint->setGeometryFromText('POINT(178000 212000)');
-        $this->assertTrue($this->_testPoint->getX() == 178000);
-        $this->assertTrue($this->_testPoint->getY() == 212000);
+        $this->assertEquals(178000, $this->_testPoint->getX());
+        $this->assertEquals(212000, $this->_testPoint->getY());
     }
 
+    /**
+     * testSetIllegalGeometryFromText 
+     *
+     * @expectedException   InvalidArgumentException 
+     * @access public
+     * @return void
+     */
     function testSetIllegalGeometryFromText()
     {
-        try {
-            $this->_testPoint->setGeometryFromText('POLYGON(178000 212000)');    
-        } catch (Exception $e) {
-            $exception = $e;    
-        }
-        $this->assertIsA($e, 'Exception');
-        
+        $this->_testPoint->setGeometryFromText('POLYGON(178000 212000)');    
     }
 
     function testGetAsText( )
@@ -59,7 +60,8 @@ class TestOfGeomPoint extends UnitTestCase
         $values = array ( 'EMPTY', 'POINT(178000 212000)' );
         foreach ( $values as $v ) {
             $this->_testPoint->setGeometryFromText($v);
-            $this->assertEqual( $this->_testPoint->getAsText( ), $v );
+            $this->assertEquals( $v, $this->_testPoint->getAsText( ) );
+            $this->assertEquals( $v, (string) $this->_testPoint );
         }
     }
     
