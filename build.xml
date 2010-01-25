@@ -40,6 +40,7 @@
 			<fileset dir="tests">
 				<include name="thesaurus/KVDthes_TestTerm.class.php" />
 				<include name="thesaurus/KVDthes_Sessie.class.php" />
+				<include name="util/Gateway/KVDutil_GatewayTestGateway.class.php" />
 			</fileset>
 		</generateautoloader>
 	</target>
@@ -204,10 +205,12 @@
 		</coverage-setup>
 		<php expression="define('CRABUSER', '${crab.user}')" />
 		<php expression="define('CRABPWD', '${crab.pwd}')" />
+		<property name="tests.failure" value="false" />
 		<phpunit bootstrap="tests/KVD_Autoload.php"
-			codecoverage="true">
+			codecoverage="true" failureproperty="${tests.failure}">
 			<formatter todir="build" type="xml" />
 			<formatter todir="build" type="clover" />
+			<formatter todir="build" type="plain" />
 			<batchtest>
 				<fileset dir="tests">
 					<include name="database/**/KVDdb_*Test.php" />
@@ -217,6 +220,15 @@
 				</fileset>
 			</batchtest>
 		</phpunit>
+		<if>
+			<istrue value="${tests.failure}" />
+			<then>
+				<echo>Het builden van de KVDlib is mislukt!</echo>
+			</then>
+			<else>
+				<echo>Unit tests werden met success uitgevoerd.</echo>
+			</else>
+		</if>
 	</target>
 
 	<target name="genTestReports" description="Maak rapporten over de UnitTests aan." depends="runTests">

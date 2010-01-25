@@ -150,7 +150,7 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
      * @var SoapClient
      * @access private
      */
-    private $_client;
+    private $_client = false;
 
     /**
      * @var KVDgis_CrabCache
@@ -190,19 +190,18 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
             throw new InvalidArgumentException ( 'De array parameters moet een sleutel wsdl bevatten!' );
         }
     
-        try {
-            $soap_options = array ( 'exceptions'            => 1,
-                                    'features'              => SOAP_SINGLE_ELEMENT_ARRAYS,
-                                    'trace'                 => 0,
-                                    'connection_timeout'    => 5 );
-            if ( isset( $parameters['soap_options'] ) ) {
-                $soap_options = array_merge( $soap_options, $parameters['soap_options'] );
-            }
-
-            $this->_client = @new KVDgis_Crab2SoapClient ( $parameters['wsdl'] , $soap_options);
-        } catch ( SoapFault $e ) {
-            throw new KVDutil_GatewayUnavailableException ( 'De Crab2Gateway kan geen verbinding maken met de Crab webservice.' , __CLASS__ , $e );
+        $soap_options = array ( 'exceptions'            => 1,
+                                'features'              => SOAP_SINGLE_ELEMENT_ARRAYS,
+                                'trace'                 => 0,
+                                'connection_timeout'    => 5 );
+        if ( isset( $parameters['soap_options'] ) ) {
+            $soap_options = array_merge( $soap_options, $parameters['soap_options'] );
         }
+        if ( !@file_get_contents( $parameters['wsdl'] ) ) {
+            throw new KVDutil_GatewayUnavailableException ( 'De Crab2Gateway kan geen verbinding maken met de Crab webservice. De WSDL file is niet beschikbaar.' , __CLASS__ );
+        }
+
+        $this->_client = @new KVDgis_Crab2SoapClient ( $parameters['wsdl'] , $soap_options);
         
         if ( !isset( $parameters['username']) || !isset( $parameters['password'])) {
             throw new InvalidArgumentException ( 'De array parameters moet de sleutels username en password bevatten!');

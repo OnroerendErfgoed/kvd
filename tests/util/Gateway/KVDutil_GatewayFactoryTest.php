@@ -7,10 +7,12 @@ class KVDutil_GatewayFactoryTest extends PHPUnit_Framework_TestCase
     function setUp( )
     {
 
-        $config = array ( 'KVDgis_Crab2Gateway' => array (  'wsdl' => 'http://ws.agiv.be/crabws/nodataset.asmx?WSDL',
-                                                            'username' => 'CRABUSER',
-                                                            'password' => 'CRABPWD'
-                                                            )
+        $config = array ( 'KVDgis_Crab2Gateway'         => array (  'wsdl' => 'http://ws.agiv.be/crabws/nodataset.asmx?WSDL',
+                                                                    'username' => 'CRABUSER',
+                                                                    'password' => 'CRABPWD' ),
+                          'KVDutil_GatewayTestGateway'  => array (  'url'       => 'http://test.vioe.be/gateway',
+                                                                    'username'  => 'TESTUSER',
+                                                                    'pwd'       => 'TESTPWD' )
                         );
         $this->gatewayFactory = new KVDutil_GatewayFactory ( $config );
     }
@@ -34,7 +36,7 @@ class KVDutil_GatewayFactoryTest extends PHPUnit_Framework_TestCase
 
     function testExisting()
     {
-        $gateway = $this->gatewayFactory->createGateway ( 'KVDgis_Crab2Gateway' );
+        $gateway = $this->gatewayFactory->createGateway ( 'KVDutil_GatewayTestGateway' );
         $this->assertNotNull ( $gateway );
         $this->assertType ( 'KVDutil_Gateway', $gateway );
     }
