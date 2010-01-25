@@ -216,6 +216,7 @@
 					<include name="database/**/KVDdb_*Test.php" />
 					<include name="gis/**/KVDgis_*Test.php" />
 					<include name="thesaurus/core/KVDthes_*Test.php" />
+					<include name="html/**/KVDhtml_*Test.php" />
 					<include name="util/**/KVDutil_*Test.php" />
 				</fileset>
 			</batchtest>
