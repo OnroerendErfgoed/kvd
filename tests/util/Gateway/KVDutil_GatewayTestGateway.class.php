@@ -24,7 +24,7 @@ class KVDutil_GatewayTestGateway implements KVDutil_Gateway
         $this->url = $parameters['url'];
         $this->username = $parameters['username'];
         $this->pwd = $parameters['pwd'];
-        $this->options = $parameters['options'];
+        $this->options = isset( $parameters['options'] ) ? $parameters['options'] : array( );
     }
 }
 ?>
