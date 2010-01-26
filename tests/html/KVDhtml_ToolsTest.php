@@ -2,7 +2,7 @@
 
 require_once ( 'PHPUnit/Framework.php' );
 
-class ToolsTest extends PHPUnit_Framework_TestCase
+class KVDhtml_ToolsTest extends PHPUnit_Framework_TestCase
 {
     private $testData;
     
