@@ -204,8 +204,20 @@
 				<exclude name="util/KVDutil_GetDeclaredClassesFilter.class.php" />
 			</fileset>
 		</coverage-setup>
-		<php expression="define('CRABUSER', '${crab.user}')" />
-		<php expression="define('CRABPWD', '${crab.pwd}')" />
+		<php expression="define('CRAB_USER', '${crab.user}')" />
+		<php expression="define('CRAB_PWD', '${crab.pwd}')" />
+		<if>
+			<isset property="crab.proxy_host" />
+			<then>
+				<php expression="define('CRAB_PROXY_HOST', '${crab.proxy_host}')" />
+				<if>
+					<isset property="crab.proxy_port" />
+					<then>
+						<php expression="define('CRAB_PROXY_PORT', '${crab.proxy_port}')" />
+					</then>
+				</if>
+			</then>
+		</if>
 		<phpunit bootstrap="tests/KVD_Autoload.php"
 			codecoverage="true" failureproperty="${tests.failure}">
 			<formatter todir="build" type="xml" />
@@ -223,7 +235,7 @@
 			</batchtest>
 		</phpunit>
 		<if>
-			<isset property="${tests.failure}" />
+			<istrue value="${tests.failure}" />
 			<then>
 				<echo>Het builden van de KVDlib is mislukt!</echo>
 			</then>

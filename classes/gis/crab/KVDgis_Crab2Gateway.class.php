@@ -161,8 +161,20 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
     /**
      * Initializeer de Crab2Gateway voor gebruik.
      *
-     * Parameters is een associatieve array met de volgende sleutels: wsdl ( url naar de wsdl file), username, password. Deze parameters zijn altijd vereist.
-     * De parmeter cache is optioneel. Indien ze weggelaten wordt zal er geen data gecached worden. De parameter is eveneens een array met de volgende sleutels:
+     * Parameters is een associatieve array met de volgende sleutels: 
+     * - wsdl ( url naar de wsdl file)
+     * - username
+     * - password. 
+     * Deze parameters zijn altijd vereist. Tevens zijn er ook nog de volgende 
+     * optionele parameters:
+     * - proxy_host: host die als proxy server dienst doet
+     * - proxy_port: poort op de proxy server
+     * - safe_mode: indien true dan zal er steeds getest worden of de service 
+     * bereikbaar is voor de soapclient in gang wordt gezet. Werkt beter voor 
+     * bv. unit testing maar zal zeker trager zijn. Default is false.
+     * - cache: De parmeter cache is optioneel. Indien ze weggelaten wordt zal 
+     * er geen data gecached worden. 
+     * De parameter is eveneens een array met de volgende sleutels:
      * - active ( boolean ): indien false zal er geen data gecached worden
      * - cacheDir ( string ): dir waarin de caches worden aangemaakt
      * - expirationTimes ( array ): een array met verschillende sleutels per te cachen functie. Er moet minstens een sleutel default aanwezig zijn.
@@ -172,6 +184,8 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
      *  $parameters = array (   'wsdl'      => 'http://webservices.gisvlaanderen.be/crab_1_0/ws_crab_NDS.asmx?WSDL',
      *                          'username'  => 'USERNAME',
      *                          'password'  => 'PASSWORD',
+     *                          'proxy_host'=> 'my.proxy.org',
+     *                          'proxy_port'=> 10000
      *                          'cache'     => array (  'active'    => true,
      *                                                  'cacheDir'  => '/tmp/',
      *                                                  'expirationTimes' => array (    'default' => false,
@@ -194,11 +208,30 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
                                 'features'              => SOAP_SINGLE_ELEMENT_ARRAYS,
                                 'trace'                 => 0,
                                 'connection_timeout'    => 5 );
-        if ( isset( $parameters['soap_options'] ) ) {
-            $soap_options = array_merge( $soap_options, $parameters['soap_options'] );
+        if ( isset( $parameters['proxy_host'] ) ) {
+            $soap_options['proxy_host'] = $parameters['proxy_host'];
         }
-        if ( !@file_get_contents( $parameters['wsdl'] ) ) {
-            throw new KVDutil_GatewayUnavailableException ( 'De Crab2Gateway kan geen verbinding maken met de Crab webservice. De WSDL file is niet beschikbaar.' , __CLASS__ );
+        if ( isset( $parameters['proxy_port'] ) ) {
+            $soap_options['proxy_port'] = $parameters['proxy_port'];
+        }
+        if ( isset( $parameters['safe_mode'] ) && $parameters['safe_mode'] === true ) {
+            $cOps = array( 
+                'http' => array ( 
+                    'method' => 'GET'
+                )
+            );
+            if ( isset( $parameters['proxy_host'] ) ) {
+                $proxy = $parameters['proxy_host'];
+                if ( isset ( $parameters['proxy_port'] ) ) {
+                    $proxy .= ':' . $parameters['proxy_port'];
+                }
+                $cOps['http']['proxy'] = $proxy;
+                $cOps['http']['request_fulluri'] = true;
+            }
+            $streamContext = stream_context_create( $cOps);
+            if ( !@file_get_contents( $parameters['wsdl'], false, $streamContext ) ) {
+                throw new KVDutil_GatewayUnavailableException ( 'De Crab2Gateway kan geen verbinding maken met de Crab webservice. De WSDL file is niet beschikbaar.' , __CLASS__ );
+            }
         }
 
         $this->_client = @new KVDgis_Crab2SoapClient ( $parameters['wsdl'] , $soap_options);
