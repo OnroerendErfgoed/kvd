@@ -2,11 +2,11 @@
 /**
  * KVDhtml_OptionsHelper 
  * 
- * @package KVD.html
- * @version $Id$
- * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @package     KVD.html
+ * @version     $Id$
+ * @copyright   2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
  
 /**
@@ -14,13 +14,12 @@
  * 
  * Helper class die een collectie van opties neemt en er een html options list  
  * ( voor een select veld in een form) van maakt.
- * @package KVD.html
- * @since 9 jan 2007
- * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @package     KVD.html
+ * @since       9 jan 2007
+ * @copyright   2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
- 
 abstract class KVDhtml_AbstractOptionsHelper
 {
 	/**
@@ -139,7 +138,7 @@ abstract class KVDhtml_AbstractOptionsHelper
 	 */
 	public static function objectOptionsHelper($collection , $addEmptyLine = false, $valueField = 'Id' , $omschrijvingField = 'Omschrijving' , $selectedValue = null)
 	{
-		return new KVDhtml_OptionsHelperArray($collection, $addEmptyLine, $valueField, $omschrijvingField, $selectedValue);
+		return new KVDhtml_OptionsHelper($collection, $addEmptyLine, $valueField, $omschrijvingField, $selectedValue);
 	}
 } 
  
@@ -240,30 +239,39 @@ class KVDhtml_OptionsHelper extends KVDhtml_AbstractOptionsHelper
  * 
  * Helper class die een collectie van strings neemt en er een html options list  
  * ( voor een select veld in een form) van maakt.
- * @package KVD.html
- * @since 9 jan 2007
- * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @package     KVD.html
+ * @since       9 jan 2007
+ * @copyright   2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
- 
 class KVDhtml_OptionsHelperArray extends KVDhtml_AbstractOptionsHelper
 {
+    /**
+     * __construct 
+     * 
+     * @param   array   $collection 
+     * @param   boolean $addEmptyLine 
+     * @param   string  $selectedValue 
+     * @return  void
+     */
 	public function __construct($collection, $addEmptyLine = false, $selectedValue = null)
 	{
-		parent::__construct($collection, $addEmptyLine, null, null, $selectedValue);
+        $this->collection = $collection;
+        $this->addEmptyLine = $addEmptyLine;
+        $this->selectedValue = $selectedValue;
 	}
 
 	/**
 	 * generateItem
 	 * 	genereert een html optie voor een item uit de collectie.
-	 * @param string
-	 * @param string
-	 * @return string
+	 * @param   string  $key    Sleutel van het element in de array
+	 * @param   string  $item   Waarde van het element in de array
+	 * @return  string  Het element omgezet in een html option tag.
 	 */
 	protected function generateItem($key, $item)
 	{
-		return $this->generateOption($key, $item, ($this->selectedValue == $key));
+		return $this->generateOption($key, $item, ($this->selectedValue === $key));
 	}
 }
 
