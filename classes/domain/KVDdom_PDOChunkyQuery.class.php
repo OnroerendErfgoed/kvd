@@ -124,7 +124,7 @@ class KVDdom_PDOChunkyQuery
      * @param KVDdom_SqlLogger      $logger         Een logger waarop sql statements gelogd kunnen worden.
      * @throws <b>InvalidArgumentException</b>      Indien er een ongeldige parameter wordt doorgegeven.
      */
-    public function __construct (   PDO $conn , 
+    public function __construct (   $conn , 
                                     KVDdom_PDODataMapper $dataMapper , 
                                     $sql , 
                                     $idField = 'id', 
