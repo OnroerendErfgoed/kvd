@@ -1,6 +1,23 @@
 <?php
+/**
+ * @package     KVD.database
+ * @version     $Id$
+ * @copyright   2009-2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
+
 require_once( 'PHPUnit/Framework.php' );
 
+/**
+ * KVDdb_SimpleQueryTest 
+ * 
+ * @package     KVD.database
+ * @since       jan 2010
+ * @copyright   2009-2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
 class KVDdb_SimpleQueryTest extends PHPUnit_Framework_TestCase
 {
     public function testExists( )
@@ -37,7 +54,16 @@ class KVDdb_SimpleQueryTest extends PHPUnit_Framework_TestCase
     }
 }
 
-class SimpleQueryWithCriteriaTest extends PHPUnit_Framework_TestCase
+/**
+ * KVDdb_SimpleQueryWithCriteriaTest 
+ * 
+ * @package     KVD.database
+ * @since       jan 2010
+ * @copyright   2009-2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
+class KVDdb_SimpleQueryWithCriteriaTest extends PHPUnit_Framework_TestCase
 {
     public function testSimple( )
     {
@@ -66,7 +92,16 @@ class SimpleQueryWithCriteriaTest extends PHPUnit_Framework_TestCase
 }
 
 
-class SimpleQueryWithJoinTest extends PHPUnit_Framework_TestCase
+/**
+ * KVDdb_SimpleQueryWithJoinTest 
+ * 
+ * @package     KVD.database
+ * @since       jan 2010
+ * @copyright   2009-2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
+class KVDdb_SimpleQueryWithJoinTest extends PHPUnit_Framework_TestCase
 {
     public function testSimple( )
     {

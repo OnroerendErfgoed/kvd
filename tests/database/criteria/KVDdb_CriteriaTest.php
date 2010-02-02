@@ -1,8 +1,23 @@
 <?php
+/**
+ * @package     KVD.database
+ * @version     $Id$
+ * @copyright   2009-2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
+
 require_once( 'PHPUnit/Framework.php' );
 
-Error_Reporting( E_ALL );
-
+/**
+ * KVDdb_CriteriaTest 
+ * 
+ * @package     KVD.database
+ * @since       jan 2010
+ * @copyright   2009-2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
 class KVDdb_CriteriaTest extends PHPUnit_Framework_TestCase
 {
     private $criteria;
@@ -80,7 +95,16 @@ class KVDdb_CriteriaTest extends PHPUnit_Framework_TestCase
 }
 
 
-class CriteriaIntegrationTest extends PHPUnit_Framework_TestCase
+/**
+ * KVDdb_CriteriaIntegrationTest 
+ * 
+ * @package     KVD.database
+ * @since       jan 2010
+ * @copyright   2009-2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
+class KVDdb_CriteriaIntegrationTest extends PHPUnit_Framework_TestCase
 {
     private $criteria;
     
