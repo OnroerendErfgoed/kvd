@@ -17,7 +17,7 @@
  * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
  * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
-interface KVDdom_IProxyable extends KVDdom_DomainObject
+interface KVDdom_IProxyable
 {
     /**
      * isProxy 
