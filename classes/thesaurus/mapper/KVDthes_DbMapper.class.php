@@ -1,29 +1,29 @@
 <?php
 /**
- * @package KVD.thes
- * @subpackage mapper
- * @version $Id$
- * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @package     KVD.thes
+ * @subpackage  mapper
+ * @version     $Id$
+ * @copyright   2004-2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
  * KVDthes_DbMapper 
  * 
- * @package KVD.thes
- * @subpackage mapper
- * @since 17 okt 2007
- * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @package     KVD.thes
+ * @subpackage  mapper
+ * @since       17 okt 2007
+ * @copyright   2004-2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
 {
     /**
      * sessie 
      * 
-     * @var KVDdom_IReadSessie
+     * @var KVDdom_IWriteSessie
      */
     protected $sessie;
 
@@ -37,7 +37,7 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
     /**
      * __construct 
      * 
-     * @param KVDdom_IReadSessie $sessie 
+     * @param KVDdom_IWriteSessie $sessie 
      * @param array $parameters 
      */
     public function __construct ( $sessie , $parameters )
@@ -575,7 +575,8 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
         $stmt->bindValue(  $nextIndex , $term->getId(  ) , PDO::PARAM_INT );
         $stmt->execute(  );
 
-        $this->updateNotes( $term );
+        $this->deleteNotes( $term );
+        $this->insertNotes( $term );
 
         $this->deleteRelations( $term );
         $this->insertRelations( $term );
@@ -598,34 +599,42 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
         return $term;
     }
 
+    /**
+     * deleteNotes 
+     * 
+     * @since   3 mrt 2010
+     * @param   KVdthes_Term $term 
+     * @return  void
+     */
+    protected function deleteNotes( KVDthes_Term $term )
+    {
+        $sql = sprintf( 'DELETE FROM %s.notes WHERE thesaurus_id = %s AND term_id = ?', 
+                        $this->parameters['schema'], 
+                        $this->parameters['thesaurus_id'] );
+        $stmt = $this->conn->prepare( $sql );
+        $stmt->bindValue( 1, $term->getId( ), PDO::PARAM_INT );
+        $stmt->execute( );
+    }
     
+    /**
+     * insertNotes 
+     * 
+     * @param   KVDthes_Term $term 
+     * @return  void
+     */
     protected function insertNotes( KVDthes_Term $term )
     {
-        $sql = sprintf( 'INSERT INTO %s.notes ( thesaurus_id, term_id, scope_note, source_note, indexing_note, history_note ) VALUES ( %s, ?, ?, ?, ?, ?)', $this->parameters['schema'], $this->parameters['thesaurus_id'] );
+        $sql = sprintf( 'INSERT INTO %s.notes 
+                        ( thesaurus_id, term_id, scope_note, source_note, indexing_note, history_note ) 
+                        VALUES ( %s, ?, ?, ?, ?, ?)', 
+                        $this->parameters['schema'], 
+                        $this->parameters['thesaurus_id'] );
         $stmt = $this->conn->prepare(  $sql );
         $stmt->bindValue(  1, $term->getId(  ) , PDO::PARAM_INT );
         $stmt->bindValue ( 2, $term->getScopeNote( ) , PDO::PARAM_STR );
         $stmt->bindValue ( 3, $term->getSourceNote( ) , PDO::PARAM_STR );
         $stmt->bindValue ( 4, $term->getIndexingNote( ) , PDO::PARAM_STR );
         $stmt->bindValue ( 5, $term->getHistoryNote( ) , PDO::PARAM_STR );
-        $stmt->execute(  );
-        return $term;
-    }
-
-    protected function updateNotes( KVDthes_Term $term )
-    {
-        $sql = sprintf( 'UPDATE %s.notes SET 
-                            scope_note = ?,
-                            source_note = ?,
-                            indexing_note = ?,
-                            history_note = ?
-                          WHERE thesaurus_id = %s AND term_id = ?', $this->parameters['schema'], $this->parameters['thesaurus_id'] );
-        $stmt = $this->conn->prepare(  $sql );
-        $stmt->bindValue ( 1, $term->getScopeNote( ) , PDO::PARAM_STR );
-        $stmt->bindValue ( 2, $term->getSourceNote( ) , PDO::PARAM_STR );
-        $stmt->bindValue ( 3, $term->getIndexingNote( ) , PDO::PARAM_STR );
-        $stmt->bindValue ( 4, $term->getHistoryNote( ) , PDO::PARAM_STR );
-        $stmt->bindValue(  5, $term->getId(  ) , PDO::PARAM_INT );
         $stmt->execute(  );
         return $term;
     }
