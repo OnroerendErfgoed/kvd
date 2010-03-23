@@ -42,6 +42,7 @@
 				<include name="thesaurus/KVDthes_Sessie.class.php" />
 				<include name="util/Gateway/KVDutil_GatewayTestGateway.class.php" />
 				<include name="domain/KVDdom_TestDomainObject.class.php" />
+				<include name="domain/KVDdom_TestSessie.class.php" />
 			</fileset>
 		</generateautoloader>
 	</target>
@@ -250,7 +251,7 @@
 		<mkdir dir="build/reports" />
 		<mkdir dir="build/reports/tests" />
 		<mkdir dir="build/reports/coverage" />
-		<phpunitreport styledir="${tests.style_dir}" todir="build/reports/tests" infile="build/testsuites.xml" />
+		<phpunitreport styledir="${tests.style_dir}" todir="build/reports/tests" infile="build/testsuites.xml" format="frames"/>
 		<coverage-report outfile="build/coverage.xml">
 			<report todir="build/reports/coverage" styledir="${tests.style_dir}"/>
 		</coverage-report>
