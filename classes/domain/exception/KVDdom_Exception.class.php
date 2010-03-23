@@ -1,9 +1,27 @@
 <?php
 /**
- * @package KVD.dom.exception
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @version $Id$
+ * @package     KVD.dom
+ * @subpackage  exception
+ * @version     $Id$
+ * @copyright   2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author      Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
+
+/**
+ * KVDdom_Exception 
+ * 
+ * @package     KVD.dom
+ * @subpackage  exception
+ * @since       23 mrt 2010
+ * @copyright   2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
+class KVDdom_Exception extends Exception
+{
+
+}
 
 /**
  * Afhandelen van Concurrency problemen bij het opslaan van DomainObjects.

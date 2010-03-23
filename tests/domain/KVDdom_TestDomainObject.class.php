@@ -12,6 +12,8 @@ class KVDdom_SimpleTestDomainObject implements KVDdom_DomainObject
 
     protected $titel;
 
+    protected $dirty;
+
     public function __construct( $id, $titel = null ) {
         $this->id = $id;
         $this->titel = $titel;
@@ -32,6 +34,16 @@ class KVDdom_SimpleTestDomainObject implements KVDdom_DomainObject
     public function getClass( ) 
     {
         return get_class( $this );
+    }
+
+    protected function markDirty( )
+    {
+        $this->dirty = true;
+    }
+
+    public function markFieldAsDirty( KVDdom_Fields_AbstractField $field )
+    {
+        $this->markDirty( );
     }
 }
 
@@ -58,6 +70,50 @@ class KVDdom_TestValueDomainObject extends KVDdom_ValueDomainObject
 
     public function getOmschrijving( ) {
         return $this->titel;
+    }
+}
+
+/**
+ * KVDdom_TestChangeableDomainObject 
+ * 
+ * @package     KVD.dom
+ * @category    test
+ * @version     $Id$
+ * @copyright   2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
+class KVDdom_TestChangeableDomainObject extends KVDdom_ChangeableDomainObject
+{
+    public function __construct( $id, $sessie, $data)
+    {
+        parent::__construct( $id, $sessie );
+        $this->initializeFields( $data );
+    }
+
+    protected function configureFields( )
+    {
+        $this->fields['naam'] = new KVDdom_Fields_SingleField( $this, 'naam', 'Onbepaald' );
+        $this->fields['voornaam'] = new KVDdom_Fields_SingleField( $this, 'voornaam', 'X.' );
+        $this->fields['ouders'] = new KVDdom_Fields_CollectionField( $this, 'ouders', 'KVDdom_TestChangeableDomainObject', $this->_sessie );
+    }
+
+    protected function pluralize( $property )
+    {
+        if ( $property == 'ouder' ) {
+            return 'ouders';
+        }
+        return false;
+    }
+
+    public function remove( )
+    {
+        $this->sessie->markRemoved( );
+    }
+
+    public function getOmschrijving( )
+    {
+        return $this->getNaam( ) . ', ' . $this->getVoornaam( );
     }
 }
 ?>

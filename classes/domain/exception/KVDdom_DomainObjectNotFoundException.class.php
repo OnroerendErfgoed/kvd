@@ -1,16 +1,18 @@
 <?php
 /**
- * @package KVD.dom.exception
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @version $Id$
+ * @package     KVD.dom
+ * @subpackage  exception
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
+ * @version     $Id$
  */
 
 /**
  * Exception wordt aangemaakt wanneer een DomainObject niet gevonden kan worden.
  *
- * @package KVD.dom.exception
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @since 1.0.0
+ * @package     KVD.dom
+ * @subpackage  exception
+ * @author      Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
+ * @since       1.0.0
  */
 class KVDdom_DomainObjectNotFoundException extends Exception
 {

@@ -105,9 +105,6 @@ class KVDdom_ChangeableSystemFields {
      */
     public function setUpdated ($gebruikersNaam=null)
     {
-        if ( $gebruikersNaam instanceof KVDdom_Gebruiker) {
-            throw new IllegalArgumentException ( 'Gebruikersnaam moet een string zijn!');
-        }
         if ( !$this->locked ) {
             $this->bewerktDoor = ( $gebruikersNaam == null ) ? $this->aangemaaktDoor : $gebruikersNaam;
             $this->targetVersie++;
@@ -177,12 +174,14 @@ class KVDdom_ChangeableSystemFields {
 
     /**
      * isBewerkt 
-     * 
-     * @return boolean
+     *
+     * @return  boolean     True indien het object al eens bewerkt werd sinds 
+     *                      het aanmaken. Dit is niet binnen een bepaalde sessie, 
+     *                      maar sinds de aanmaak in de databank.
      */
     public function isBewerkt( )
     {
-        return $this->aangemaaktOp->format( 'U' ) != $this->bewerktOp->format( 'U' );
+        return ( !is_null( $this->bewerktOp ) && ( $this->aangemaaktOp->format( 'U' ) != $this->bewerktOp->format( 'U' ) ) );
     }
 
     /**
