@@ -244,9 +244,15 @@ class KVDthes_Relations implements IteratorAggregate, Countable
      */
     private function compareId( KVDthes_Relation $a, KVDthes_Relation $b )
     {
-        if ( $a->getTerm( )->getId( ) < $b->getTerm->getId( ) ) return -1;
-        if ( $a->getTerm( )->getId( ) > $b->getTerm->getId( ) ) return 1;
+        if ( $a->getTerm( )->getId( ) < $b->getTerm(  )->getId( ) ) return -1;
+        if ( $a->getTerm( )->getId( ) > $b->getTerm(  )->getId( ) ) return 1;
+        /**
+         * Normaal geraken we hier niet aangezien een relatieset niet 2 keer 
+         * hetzelfde object kan bevatten.
+         * @codeCoverageIgnoreStart
+         */
         return 0;
+        // @codeCoverageIgnoreEnd
     }
 
     /**

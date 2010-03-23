@@ -1,4 +1,23 @@
 <?php
+/**
+ * @package     KVD.thes
+ * @subpacke    core
+ * @version     $Id$
+ * @copyright   2009-2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
+
+/**
+ * KVDthes_RelationsTest 
+ * 
+ * @package     KVD.thes
+ * @subpacke    core
+ * @since       2009
+ * @copyright   2009-2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
 class KVDthes_RelationsTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -18,9 +37,11 @@ class KVDthes_RelationsTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->sessie = $this->getMock( 'KVDthes_Sessie' );
-        $this->term = new KVDthes_TestTerm( 0, $this->sessie, 'TestTerm');
-        $this->relation = new KVDthes_Relation( KVDthes_Relation::REL_RT , $this->term );
-        $this->object = new KVDthes_Relations;
+        $this->zone = new KVDthes_TestTerm( 0, $this->sessie, 'Zone');
+        $this->gebied = new KVDthes_TestTerm( 1, $this->sessie, 'Gebied');
+        $this->locatie = new KVDthes_TestTerm( 2, $this->sessie, 'Locatie');
+        $this->relation = new KVDthes_Relation( KVDthes_Relation::REL_RT , $this->zone );
+        $this->object = new KVDthes_Relations( );
     }
 
     /**
@@ -38,14 +59,40 @@ class KVDthes_RelationsTest extends PHPUnit_Framework_TestCase
      */
     public function testAddRelation() {
         $this->assertEquals( $this->object->count( ), 0);
+        $res = $this->object->addRelation( $this->relation );
+        $this->assertTrue( $res );
+        $this->assertEquals( $this->object->count( ), 1);
+        $res = $this->object->addRelation( $this->relation );
+        $this->assertFalse( $res );
+        $this->assertEquals( $this->object->count( ), 1);
+    }
+
+    public function testRemoveRelation()
+    {
+        $this->assertEquals( $this->object->count( ), 0);
         $this->object->addRelation( $this->relation );
         $this->assertEquals( $this->object->count( ), 1);
+        $res = $this->object->removeRelation( $this->relation );
+        $this->assertTrue( $res );
+        $this->assertEquals( $this->object->count( ), 0);
+        $res = $this->object->removeRelation( $this->relation );
+        $this->assertFalse( $res );
+        $this->assertEquals( $this->object->count( ), 0);
     }
 
     public function testGetIterator() {
         $this->object->addRelation( $this->relation );
         $this->assertType( 'KVDthes_RelationsIterator', $this->object->getIterator( ) );
         $this->assertEquals( count( $this->object->getIterator( ) ), 1);
+    }
+
+    public function testGetIteratorByType()
+    {
+        $this->object->addRelation( $this->relation );
+        $it = $this->object->getIterator( KVDthes_Relation::REL_RT );
+        $this->assertType( 'KVDthes_RelationTypeIterator', $it);
+        $this->assertEquals( 1, count( $it) );
+        $this->assertEquals( $it, $this->object->getRTIterator(  ) );
     }
 
     /**
@@ -94,6 +141,29 @@ class KVDthes_RelationsTest extends PHPUnit_Framework_TestCase
         $this->object->addRelation( $this->relation );
         $this->assertEquals( $this->object->count(KVDthes_Relation::REL_RT ), 1);
         $this->assertEquals( $this->object->count(KVDthes_Relation::REL_NT ), 0);
+    }
+
+    public function testSort( )
+    {
+        $rel2 = new KVDthes_Relation( KVDthes_Relation::REL_RT , $this->gebied );
+        $rel3 = new KVDthes_Relation( KVDthes_Relation::REL_RT , $this->locatie );
+        $this->object->addRelation( $this->relation );
+        $this->object->addRelation( $rel2 );
+        $this->object->addRelation( $rel3 );
+        $this->object->sort( KVDthes_Relations::SORT_TERM );
+        $coll = new KVDdom_DomainObjectCollection( array( $rel2, $rel3, $this->relation ) );
+        $this->assertEquals( $coll, $this->object->getImmutableCollection( ) );
+
+
+        $this->object->sort( KVDthes_Relations::SORT_SORTKEY );
+        $this->assertEquals( $coll, $this->object->getImmutableCollection( ) );
+
+        $this->object->sort( KVDthes_Relations::SORT_QUALTERM );
+        $this->assertEquals( $coll, $this->object->getImmutableCollection( ) );
+
+        $this->object->sort( KVDthes_Relations::SORT_ID );
+        $coll = new KVDdom_DomainObjectCollection( array( $this->relation, $rel2, $rel3 ) );
+        $this->assertEquals( $coll, $this->object->getImmutableCollection( ) );
     }
 }
 ?>
