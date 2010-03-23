@@ -1,14 +1,23 @@
 <?php
 /**
- * @package     PACKAGE
- * @subpackage  SUBPACKAGE
+ * @package     KVD.html
  * @version     $Id$
- * @copyright   2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @copyright   2009-2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
  * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
+
 require_once( 'PHPUnit/Framework.php' );
 
+/**
+ * KVDhtml_OptionsHelperTest 
+ * 
+ * @package     KVD.html
+ * @since       2010
+ * @copyright   2009-2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
 class KVDhtml_OptionsHelperTest extends PHPUnit_Framework_TestCase
 {
     public function setUp( )
@@ -42,6 +51,15 @@ class KVDhtml_OptionsHelperTest extends PHPUnit_Framework_TestCase
     }
 }
 
+/**
+ * KVDhtml_OptionsHelperArrayTest 
+ * 
+ * @package     KVD.html
+ * @sicne       2010
+ * @copyright   2009-2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
 class KVDhtml_OptionsHelperArrayTest extends PHPUnit_Framework_TestCase
 {
     public function setUp( )
