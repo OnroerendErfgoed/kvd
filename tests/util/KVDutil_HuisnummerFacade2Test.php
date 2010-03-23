@@ -1,6 +1,24 @@
 <?php
+/**
+ * @package     KVD.util
+ * @version     $Id$
+ * @copyright   2009-2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author      Dieter Standaert <dieter.standaert@hp.com>
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
 
-class TestOfHuisnummerFacade extends UnitTestCase
+require_once ( 'PHPUnit/Framework.php' );
+
+/**
+ * KVDutil_HuisnummerFacade2Test 
+ * 
+ * @package     KVD.util
+ * @since       1 feb 2010
+ * @copyright   2009-2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author      Dieter Standaert <dieter.standaert@hp.com>
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
+class KVDutil_HuisnummerFacade2Test extends PHPUnit_Framework_TestCase
 {
     /**
      * @var KVDutil_HuisnummerFacade
@@ -20,77 +38,81 @@ class TestOfHuisnummerFacade extends UnitTestCase
     public function testToArrayOneElement( )
     {
         $string = '25';
-        $array = $this->facade->toArray( $string );
-        $this->assertIsA( $array, 'array' );
-        $this->assertEqual ( count( $array ) , 1);
-        $this->assertIdentical ( $array[0], '25' );
+        $array = $this->facade->stringToNummers( $string );
+        $this->assertType( 'array', $array );
+        $this->assertEquals ( 1, count( $array ) );
+        $this->assertEquals ( '25', (string) $array[0] );
 
     }
 
     public function testToArraySeveralElements( )
     {
         $string = '25,35,45';
-        $array = $this->facade->toArray( $string );
-        $this->assertIsA( $array, 'array' );
-        $this->assertEqual ( count( $array ) , 3);
-        $this->assertIdentical ( $array[0], '25' );
-        $this->assertIdentical ( $array[0], '35' );
-        $this->assertIdentical ( $array[0], '45' );
+        $array = $this->facade->stringToNummers( $string );
+        $this->assertType( 'array', $array );
+        $this->assertEquals ( 3, count( $array ) );
+        $this->assertEquals ( (string) $array[0], '25' );
+        $this->assertEquals ( (string) $array[1], '35' );
+        $this->assertEquals ( (string) $array[2], '45' );
     }
 
     public function testToArrayUglyInput( )
     {
         $string = ' 25 , 35,45 ';
-        $array = $this->facade->toArray( $string );
-        $this->assertIsA( $array, 'array' );
-        $this->assertEqual ( count( $array ) , 3);
-        $this->assertIdentical ( $array[0], '25' );
-        $this->assertIdentical ( $array[0], '35' );
-        $this->assertIdentical ( $array[0], '45' );
+        $array = $this->facade->stringToNummers( $string );
+        $this->assertType( 'array', $array );
+        $this->assertEquals ( 3, count( $array ) );
+        $this->assertEquals ( (string) $array[0], '25' );
+        $this->assertEquals ( (string) $array[1], '35' );
+        $this->assertEquals ( (string) $array[2], '45' );
     }
 
     public function testToStringOneElement( )
     {
         $array = array( '25' );
-        $string = $this->facade->toString( $array );
-        $this->assertIsA( $string, 'string' );
-        $this->assertIdentical ( $string, '25' );
+        $string = $this->facade->nummersToString( $array );
+        $this->assertType( 'string', $string );
+        $this->assertEquals ( '25', $string );
     }
 
     public function testToStringSeveralElements( )
     {
         $array = array( '25', '35', '45' );
-        $string = $this->facade->toString( $array );
-        $this->assertIsA( $string, 'string' );
-        $this->assertIdentical ( $string, '25, 35, 35' );
+        $string = $this->facade->nummersToString( $array );
+        $this->assertType( 'string', $string );
+        $this->assertEquals ('25, 35, 45', $string );
     }
 
     public function testToStringUglyInput( )
     {
         $array = array( ' 25 ', '   35', '45   ' );
-        $string = $this->facade->toString( $array );
-        $this->assertIsA( $string, 'string' );
-        $this->assertIdentical ( $string, '25, 35, 35' );
+        $string = $this->facade->nummersToString( $array );
+        $this->assertType( 'string', $string );
+        $this->assertEquals ( '25, 35, 35', $string );
     }
 
     public function testSplitEenNummer( )
     {
         $label = '25';
         $huisnummers = $this->facade->split( $label );
-        $this->assertIsA( $huisnummers, 'array' );
-        $this->assertEqual ( count( $huisnummers ) , 1);
-        $this->assertIdentical ( $huisnummers[0], '25' );
+        $this->assertType( 'array', $huisnummers );
+        $this->assertEquals ( 1, count( $huisnummers ) );
+        $hnr = $huisnummers[0];
+        $this->assertType( 'KVDutil_HnrHuisnummer', $hnr);
+        $this->assertEquals ( '25', (string) $hnr );
     }
 
     public function testSplitNummerMetLetterBisnummer( )
     {
         $label = '25A';
         $huisnummers = $this->facade->split( $label );
-        $this->assertIsA( $huisnummers, 'array' );
-        $this->assertEqual ( count( $huisnummers ) , 1);
-        $this->assertIdentical ( $huisnummers[0], '25A' );
+        $this->assertType( 'array', $huisnummers );
+        $this->assertEquals ( 1, count( $huisnummers ) );
+        $hnr = $huisnummers[0];
+        $this->assertType( 'KVDutil_HnrBisLetter', $hnr);
+        $this->assertEquals ( '25A', (string) $hnr );
     }
-
+/*
     public function testSplitNummerMetCijferBisnummer( )
     {
         $label = '25/1';
@@ -351,7 +373,7 @@ class TestOfHuisnummerFacade extends UnitTestCase
         $this->assertIsA( $label, 'string' );
         $this->assertEqual( $label, '25-31' );
     }
-
+*/
 }
 
 ?>
