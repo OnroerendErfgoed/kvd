@@ -1,16 +1,20 @@
 <?php
 /**
- * @package KVD.do
- * @subpackage Adr
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @version $Id$
+ * @package     KVD.do
+ * @subpackage  Adr
+ * @version     $Id$
+ * @copyright   2006-2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
- * @package KVD.do
- * @subpackage Adr
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @since maart 2006
+ * @package     KVD.do
+ * @subpackage  Adr
+ * @since       maart 2006
+ * @copyright   2006-2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDdo_AdrGemeente extends KVDdom_ReadonlyDomainObject {
     
@@ -157,24 +161,28 @@ class KVDdo_AdrGemeente extends KVDdom_ReadonlyDomainObject {
     /**
      * @return KVDdo_NullAdrGemeente
      */
-    public static function newNull( )
+    public static function newNull( KVDdo_AdrGemeente $gemeente = null )
     {
-        return new KVDdo_NullAdrGemeente( );
+        return new KVDdo_NullAdrGemeente( $gemeente );
     }
 }
 
 /**
- * @package KVD.do
- * @subpackage Adr
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @since 25 jul 2006
+ * KVDdo_NullAdrGemeente 
+ * 
+ * @package     KVD.do
+ * @subpackage  Adr
+ * @since       25 jul 2006
+ * @copyright   2006-2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDdo_NullAdrGemeente extends KVDdo_AdrGemeente
 {
     /**
      * @param KVDdo_AdrProvincie
      */
-    public function __construct ( $provincie = null ) 
+    public function __construct ( KVDdo_AdrProvincie $provincie = null ) 
     {
         $this->provincie = ( $provincie === null ) ? KVDdo_AdrProvincie::newNull() : $provincie;
         $this->naam = 'Onbepaald';
@@ -221,7 +229,8 @@ class KVDdo_NullAdrGemeente extends KVDdo_AdrGemeente
     }
 
     /**
-     * @return KVDdo_NullAdrGemeente
+     * @return      KVDdo_NullAdrGemeente
+     * @deprecated  Lijkt me eigenlijk geen nut te hebben.
      */
     public static function newNull( )
     {

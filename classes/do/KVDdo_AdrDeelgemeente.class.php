@@ -28,9 +28,9 @@ class KVDdo_AdrDeelgemeente extends KVDdom_ReadonlyDomainObject {
      * @param integer $id
      * @param KVDdom_Sessie $sessie
      * @param string $naam
-     * @param KVddo_AdrGemeente $gemeente
+     * @param KVDdo_AdrGemeente $gemeente
      */
-    public function __construct ( $id , $sessie , $naam , $gemeente )
+    public function __construct ( $id , $sessie , $naam , KVDdo_AdrGemeente $gemeente )
     {
         parent::__construct ( $id , $sessie);
         $this->naam = $naam;
@@ -73,8 +73,8 @@ class KVDdo_AdrDeelgemeente extends KVDdom_ReadonlyDomainObject {
     }
 
     /**
-     * @param mixed $gemeente Een NullDeelgemeente kan behoren aan een geldige gemeente.
-     * @return KVDdo_NullAdrDeelgemeente
+     * @param   KVDdo_AdrGemeente   $gemeente   Een NullDeelgemeente kan behoren aan een geldige gemeente.
+     * @return  KVDdo_NullAdrDeelgemeente
      */
     public static function newNull( $gemeente = null )
     {
@@ -93,11 +93,11 @@ class KVDdo_NullAdrDeelgemeente extends KVDdo_AdrDeelgemeente
     /**
      * @param mixed $gemeente Ofwel de gemeente waartoe de NullDeelgemeente behoort ofwel null
      */
-    public function __construct( $gemeente = null )
+    public function __construct( KVDdo_AdrGemeente $gemeente = null )
     {
-        $this->gemeente = ( is_null( $gemeente ) || !( $gemeente instanceof KVDdo_AdrGemeente ) ) ? KVDdo_AdrGemeente::newNull( ) : $gemeente; 
+        $this->gemeente = ( is_null( $gemeente ) ) ? KVDdo_AdrGemeente::newNull( ) : $gemeente; 
         $this->naam = 'Onbepaald';
-        $this->id = null;
+        $this->id = ( is_null( $gemeente ) ? null : $gemeente->getId() . 'X' );
     }
 
     /**
