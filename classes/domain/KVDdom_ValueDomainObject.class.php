@@ -2,9 +2,11 @@
 /**
  * DomainObject voor KeuzeLijsten en andere simpele objecten.
  *
- * @package KVD.dom
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @version $Id$
+ * @package     KVD.dom
+ * @version     $Id$
+ * @copyright   2006-2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
@@ -15,11 +17,12 @@
  * DataMappers voor deze objecten zouden in DataMappers van de objecten die verwijzen naar de keuzelijst moeten zitten, 
  * tenzij het om een keuzelijst gaat die door veel verschillende tabellen geraadpleegd wordt. Dan wordt er een aparte DM aangemaakt.
  * Ingewikkelde keuzelijsten die ook nog veel andere data bevatten gebruiken best de KVDdom_ReadonlyDomainObject class als superclass.
- * @package KVD.dom
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @since 1.0.0
+ * @package     KVD.dom
+ * @since       1.0.0
+ * @copyright   2006-2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
-
 abstract class KVDdom_ValueDomainObject implements KVDdom_DomainObject
 {
     /**
@@ -29,11 +32,20 @@ abstract class KVDdom_ValueDomainObject implements KVDdom_DomainObject
     protected $id;
 
     /**
+     * fields 
+     * 
+     * Een optionele array van @link{KVDdom_Fields_AbstractField} objecten.
+     * @var     array
+     */
+    protected $fields = array( );
+
+    /**
      * @param integer $id Id nummer van het object.
      */
     public function __construct ( $id )
     {
         $this->id = $id;
+        $this->configureFields( );
     }
 
     /**
@@ -62,6 +74,105 @@ abstract class KVDdom_ValueDomainObject implements KVDdom_DomainObject
     public function __toString( )
     {
         return $this->getOmschrijving( );
+    }
+
+    /**
+     * configureFields 
+     * 
+     * Deze methode dient om de velden te configurern
+     * Methode die mag overschreven worden in concrete 
+     * domainobjecten.
+     * @return  boolean Is het configureren geslaagd of niet. 
+     */
+    protected function configureFields()
+    {
+        return true;
+    }
+
+    /**
+     * __call 
+     * 
+     * Deze methode probeert te detecteren of er een magische get, set, add, 
+     * remove of clear methode wordt aangeroepen.
+     *
+     * @since   maart 2010
+     * @param   string  $name   Naam van de methode die werd aangeroepen.
+     * @param   array   $args   Argumenten die werden meegegeven aan de 
+     *                          methode.
+     * @return void
+     */
+    public function __call($name, array $args )
+    {
+		$matches = array();
+		if(preg_match('/^(get|set|add|remove|clear)(.+)$/', $name, $matches)) {
+			$property = strtolower(preg_replace('/((?<!\A)[A-Z])/u', '_$1', $matches[2]));
+            if ( $matches[1] == 'add' || $matches[1] == 'remove' ) {
+                $property = $this->pluralize( $property );
+                if ( !$property ) {
+                    throw new KVDdom_Fields_Exception( 'U probeert een bewerking 
+                        uit te voeren op een collection, maar de naam van de collection 
+                        kon niet gevonden worden. Mogelijk moet u de pluralize methode aanpassen.' );
+                }
+            }
+            if ( !isset( $this->fields[$property] ) ) {
+                throw new KVDdom_Fields_Exception ( 'U probeert een bewerking uit te voeren met het veld ' 
+                                                    . $property . ', maar dit veld bestaat niet.' );
+            }
+            switch ($matches[1]) {
+                case 'get':
+                    return $this->fields[$property]->getValue( );
+                case 'set':
+                    return $this->fields[$property]->setValue($args[0]);
+                case 'clear':
+                    return $this->fields[$property]->clear( );
+                case 'add':
+                    return $this->fields[$property]->add( $args[0] );
+                case 'remove':
+                    return $this->fields[$property]->remove( $args[0] );
+            }
+		} else {
+            throw new KVDdom_Exception( 'U probeert een methode ' . $name . ' op te roepen die niet bestaat.' );
+        }
+    }
+
+    /**
+     * pluralize 
+     * 
+     * @since   maart 2010
+     * @param   string  $property   Enkelvoudige property naam waarvoor een 
+     *                              meervoud moet gevonden worden.
+     * @return  mixed   string of boolean. Ofwel de meervoudige naam van de 
+     *                  property of false indien er geen meervoud kon gevonden 
+     *                  worden voor de naam.
+     */
+    protected function pluralize( $property )
+    {
+        return false;
+    }
+
+    /**
+     * markFieldAsDirty 
+     * 
+     * Geef aan dat een veld gewijzigd is. Deze methode mag enkel aangeroepen 
+     * worden door een field zelf. Om dit te bewijzen geeft het field zichzelf 
+     * mee als argument. Zonder deze methode zouden we de markDirty methode 
+     * public moeten maken en dat wouden we verhinderen.
+     * Deze methode is nodig om de fields correct te laten werken, maar doet 
+     * bij dit soort object eigenlijk niets aangezien dit object nooit dirty 
+     * kan zijn.
+     *
+     * @since   24 maart 2010
+     * @param   KVDdom_Fields_AbstractField $field 
+     * @throws  KVDdom_Fields_Exception
+     * @return  void
+     */
+    public function markFieldAsDirty( KVDdom_Fields_AbstractField $field )
+    {
+        if ( isset( $this->fields[$field->getName(  )] ) ) {
+            //ok, do nothing
+        } else {
+            throw new KVDdom_Fields_Exception( 'U probeert een niet-bestaand veld als dirty te markeren!' );
+        }
     }
     
 }

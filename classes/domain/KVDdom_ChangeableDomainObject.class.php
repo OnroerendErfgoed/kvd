@@ -44,6 +44,14 @@ abstract class KVDdom_ChangeableDomainObject implements KVDdom_DomainObject, KVD
      * @var KVDdom_ChangeableSystemFields
      */
     protected $systemFields;
+
+    /**
+     * fields 
+     * 
+     * Een optionele array van @link{KVDdom_Fields_AbstractField} objecten.
+     * @var     array
+     */
+    protected $fields = array( );
     
     /**
      * Maak het KVDdom_DomainObject
