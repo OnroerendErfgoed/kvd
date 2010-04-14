@@ -64,7 +64,7 @@ class KVDthes_AgaviTreeVisitorHtml extends KVDthes_AbstractTreeVisitor
      * @param integer       $relationsSortOrder 
      * @return void
      */
-    public function __construct( AgaviRouting $ro , $termRoute, $termIdParameter = 'id', $relationsSortOrder = KVDthes_Relations::SORT_UNSORTED )
+    public function __construct( AgaviRouting $ro , $termRoute, $termIdParameter = 'id', $relationsSortOrder = KVDthes_TermSorter::SORT_UNSORTED )
     {
         $this->ro = $ro;
         $this->termRoute = $termRoute;

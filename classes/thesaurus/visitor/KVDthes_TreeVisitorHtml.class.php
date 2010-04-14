@@ -40,7 +40,7 @@ class KVDthes_TreeVisitorHtml extends KVDthes_AbstractTreeVisitor
      * @param integer $sortOrder    Zie de constanten in KVDthes_Relations
      * @return void
      */
-    public function __construct( $sortOrder = KVDthes_Relations::SORT_UNSORTED )
+    public function __construct( $sortOrder = KVDthes_TermSorter::SORT_UNSORTED )
     {
         $this->relationsSortOrder = $sortOrder;
     }

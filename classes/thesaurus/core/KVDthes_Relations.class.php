@@ -20,40 +20,6 @@
  */
 class KVDthes_Relations implements IteratorAggregate, Countable
 {
-    /**
-     * Constante om aan te geven dat we niet willen sorteren. 
-     */
-    const SORT_UNSORTED = 0;
-    
-    /**
-     * Constante om aan te geven dat we willen sorteren op id. 
-     */
-    const SORT_ID = 1;
-
-    /**
-     * Constante om aan te geven dat we willen sorteren op de term. 
-     */
-    const SORT_TERM = 2;
-
-    /**
-     * Constant om aan te geven dat we willen sorteren op de Qualified Term. 
-     */
-    const SORT_QUALTERM = 3;
-
-    /**
-     * Constante om aan te geven dat we willen sorteren op de SortKey van een term. 
-     */
-    const SORT_SORTKEY = 4;
-
-    /**
-     * Map om aan te geven met welke compare methode moet gewerkt worden voor een
-     * bepaalde sorteervolgorde.
-     */
-    private static $sortMap =  array (  self::SORT_UNSORTED => null,
-                                        self::SORT_ID => 'compareId',
-                                        self::SORT_TERM => 'compareTerm',
-                                        self::SORT_QUALTERM => 'compareQualifiedTerm',
-                                        self::SORT_SORTKEY => 'compareSortKey' );
 
     /**
      * relations 
@@ -82,7 +48,7 @@ class KVDthes_Relations implements IteratorAggregate, Countable
     {
         if ( !$this->hasRelation( $relation ) ) {
             $this->relations[] = $relation;
-            $this->currentSort = self::SORT_UNSORTED;
+            $this->currentSort = KVDthes_TermSorter::SORT_UNSORTED;
             return true;
         }
         return false;
@@ -215,80 +181,13 @@ class KVDthes_Relations implements IteratorAggregate, Countable
      * @param integer $sortMethod 
      * @return void
      */
-    public function sort( $sortMethod = self::SORT_TERM )
+    public function sort( $sortMethod = KVDthes_TermSorter::SORT_TERM )
     {
-        if ( $sortMethod > self::SORT_UNSORTED && isset( self::$sortMap[$sortMethod] ) ) {
-            usort( $this->relations, array ( $this, self::$sortMap[$sortMethod] ) );
+        if ( $sortMethod > KVDthes_TermSorter::SORT_UNSORTED && array_key_exists( $sortMethod, KVDthes_TermSorter::$methodMap) ) {
+            usort( $this->relations, array ( new KVDthes_TermSorter($sortMethod), "compareRelations" ) );
         }
     }
 
-    /**
-     * compareRelations 
-     * 
-     * @param   string              $comparedMethod     Methode van het domainobject die dient om te vergelijken.
-     * @param   KVDthes_Relation    $a 
-     * @param   KVDthes_Relation    $b 
-     * @return  integer                                 -1, 0 of 1 indien $a respectievelijk kleiner dan, gelijk aan of groter dan $b is.
-     */
-    private function compareRelations( $comparedMethod, KVDthes_Relation $a, KVDthes_Relation $b )
-    {
-        return strcmp( $a->getTerm( )->$comparedMethod( ), $b->getTerm( )->$comparedMethod( ) );
-    }
 
-    /**
-     * compareId 
-     * 
-     * @param   KVDthes_Relation $a 
-     * @param   KVDthes_Relation $b 
-     * @return  integer
-     */
-    private function compareId( KVDthes_Relation $a, KVDthes_Relation $b )
-    {
-        if ( $a->getTerm( )->getId( ) < $b->getTerm(  )->getId( ) ) return -1;
-        if ( $a->getTerm( )->getId( ) > $b->getTerm(  )->getId( ) ) return 1;
-        /**
-         * Normaal geraken we hier niet aangezien een relatieset niet 2 keer 
-         * hetzelfde object kan bevatten.
-         * @codeCoverageIgnoreStart
-         */
-        return 0;
-        // @codeCoverageIgnoreEnd
-    }
-
-    /**
-     * compareTerm 
-     * 
-     * @param   KVDthes_Relation $a 
-     * @param   KVDthes_Relation $b 
-     * @return  integer
-     */
-    private function compareTerm( KVDthes_Relation $a, KVDthes_Relation $b )
-    {
-        return $this->compareRelations( 'getTerm', $a, $b);
-    }
-
-    /**
-     * compareQualifiedTerm 
-     * 
-     * @param   KVDthes_Relation $a 
-     * @param   KVDthes_Relation $b 
-     * @return  integer
-     */
-    private function compareQualifiedTerm( KVDthes_Relation $a, KVDthes_Relation $b )
-    {
-        return $this->compareRelations( 'getQualifiedTerm', $a, $b);
-    }
-
-    /**
-     * compareSortKey 
-     * 
-     * @param   KVDthes_Relation $a 
-     * @param   KVDthes_Relation $b 
-     * @return  integer
-     */
-    private function compareSortKey( KVDthes_Relation $a, KVDthes_Relation $b )
-    {
-        return $this->compareRelations( 'getSortKey', $a, $b);
-    }
 }
 ?>

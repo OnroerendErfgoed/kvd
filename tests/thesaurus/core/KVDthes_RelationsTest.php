@@ -150,18 +150,18 @@ class KVDthes_RelationsTest extends PHPUnit_Framework_TestCase
         $this->object->addRelation( $this->relation );
         $this->object->addRelation( $rel2 );
         $this->object->addRelation( $rel3 );
-        $this->object->sort( KVDthes_Relations::SORT_TERM );
+        $this->object->sort( KVDthes_TermSorter::SORT_TERM );
         $coll = new KVDdom_DomainObjectCollection( array( $rel2, $rel3, $this->relation ) );
         $this->assertEquals( $coll, $this->object->getImmutableCollection( ) );
 
 
-        $this->object->sort( KVDthes_Relations::SORT_SORTKEY );
+        $this->object->sort( KVDthes_TermSorter::SORT_SORTKEY );
         $this->assertEquals( $coll, $this->object->getImmutableCollection( ) );
 
-        $this->object->sort( KVDthes_Relations::SORT_QUALTERM );
+        $this->object->sort( KVDthes_TermSorter::SORT_QUALTERM );
         $this->assertEquals( $coll, $this->object->getImmutableCollection( ) );
 
-        $this->object->sort( KVDthes_Relations::SORT_ID );
+        $this->object->sort( KVDthes_TermSorter::SORT_ID );
         $coll = new KVDdom_DomainObjectCollection( array( $this->relation, $rel2, $rel3 ) );
         $this->assertEquals( $coll, $this->object->getImmutableCollection( ) );
     }

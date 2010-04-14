@@ -51,7 +51,7 @@ class KVDthes_RenderingTreeVisitor extends KVDthes_AbstractTreeVisitor
      *                                              zullen gevolgd worden zullen ze op deze wijze gesorteerd worden.
      * @return void
      */
-    public function __construct( KVDthes_ITermRenderer $renderer, $sortOrder = KVDthes_Relations::SORT_UNSORTED )
+    public function __construct( KVDthes_ITermRenderer $renderer, $sortOrder = KVDthes_TermSorter::SORT_UNSORTED )
     {
         $this->renderer = $renderer;
         $this->relationsSortOrder = $sortOrder;

@@ -47,7 +47,7 @@ class KVDthes_VisitationVisitor extends KVDthes_AbstractTreeVisitor
      * @param integer $sortOrder 
      * @return void
      */
-    public function __construct( $sortOrder = KVDthes_Relations::SORT_UNSORTED)
+    public function __construct( $sortOrder = KVDthes_TermSorter::SORT_UNSORTED)
     {
         $this->count = 0;
         $this->depth = 0;

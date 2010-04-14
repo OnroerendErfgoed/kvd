@@ -25,7 +25,7 @@ abstract class KVDthes_AbstractTreeVisitor
      * 
      * @var integer
      */
-    protected $relationsSortOrder = KVDthes_Relations::SORT_UNSORTED;
+    protected $relationsSortOrder = KVDthes_TermSorter::SORT_UNSORTED;
 
     /**
      * setRelationsSortOrder 
@@ -45,7 +45,7 @@ abstract class KVDthes_AbstractTreeVisitor
      */
     protected function sortRelations( KVDthes_Term $node )
     {
-        if ( $this->relationsSortOrder > KVDthes_Relations::SORT_UNSORTED ) {
+        if ( $this->relationsSortOrder > KVDthes_TermSorter::SORT_UNSORTED ) {
             $node->sortRelations( $this->relationsSortOrder );
         }
     }
