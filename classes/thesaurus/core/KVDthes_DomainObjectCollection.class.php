@@ -22,7 +22,7 @@ class KVDthes_DomainObjectCollection extends KVDdom_DomainObjectCollection
     public function sort( $sortMethod = KVDthes_TermSorter::SORT_TERM )
     {
         if ( $sortMethod > KVDthes_TermSorter::SORT_UNSORTED && array_key_exists( $sortMethod, KVDthes_TermSorter::$methodMap) ) {
-            usort( $this->relations, array ( new KVDthes_TermSorter($sortMethod), "compareTerms" ) );
+            usort( $this->collection, array ( new KVDthes_TermSorter($sortMethod), "compareTerms" ) );
         }
     }
 
