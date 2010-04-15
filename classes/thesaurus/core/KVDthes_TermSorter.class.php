@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Kvd.Thes
- * @subpackage  Core
+ * @package KVD.thes
+ * @subpackage Core
  * @version     $Id$
- * @copyright   2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @copyright   2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author      Dieter Standaert <dieter.standaert@hp.com>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
  
@@ -12,10 +12,13 @@
 /**
  * KVDthes_TermSorter 
  * 
+ * Een strategy class die afhankelijk van een parameter een compare functie biedt
+ * die toelaat om Thesaurus Termen te sorteren op id, term, qualified term of sort key.
+ *
  * @package KVD.thes
  * @subpackage Core
  * @since 13 april 2010
- * @copyright 2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author Dieter Standaert <dieter.standaert@hp.com>
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
@@ -69,9 +72,16 @@ class KVDthes_TermSorter
  
     
     
-    
+    /** 
+     * @var integer de sorteer methode die deze instantie (strategy) gebruikt.
+     */
     private $sortMethod;
     
+    
+    /**
+     * __construct
+     * @param integer $methode de sorteermethode voor deze instantie.
+     */
     public function __construct($method)
     {
         $this->sortMethod = $method;
