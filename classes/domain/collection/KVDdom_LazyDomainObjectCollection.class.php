@@ -31,12 +31,12 @@ class KVDdom_LazyDomainObjectCollection extends KVDdom_DomainObjectCollection
     /**
      * @var KVDdom_ChunkyQuery
      */
-    private $_chunkyQuery;
+    protected $_chunkyQuery;
 
     /**
      * @var integer
      */
-    private $currentIndex = 0;
+    protected $currentIndex = 0;
 
     /**
      * @param KVDdom_ChunkyQuery $chunkyQuery
@@ -64,7 +64,7 @@ class KVDdom_LazyDomainObjectCollection extends KVDdom_DomainObjectCollection
      */
     public function current()
     {
-        if ( $this->currentIndex >= $this->getTotalRecordCount() ) {
+        if ( ! $this->valid()) {
             return false;    
         }
         if ($this->collection[$this->currentIndex] === self::PLACEHOLDER ) {
@@ -192,5 +192,83 @@ class KVDdom_LazyDomainObjectCollection extends KVDdom_DomainObjectCollection
         $this->seek ( $currentIndex );
         return $return;
     }
+    
+    /**
+     * isNull
+     * @return boolean
+     */
+    public function isNull()
+    {
+        return false;
+    }
+    
+    
+    /**
+     * newNull
+     */
+    public static function newNull()
+    {
+        return new KVDdom_NullLazyDomainObjectCollection();
+    }
+}
+
+
+/**
+ * KVDdom_NullLazyDomainObjectCollection 
+ * 
+ * Een null KVDdom_LazyDomainObjectCollection
+ * @package     KVD.dom
+ * @subpackage  collection
+ * @since       2010
+ * @copyright   2004-2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author      Dieter Standaert <dieter.standaert@hp.com>
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
+
+class KVDdom_NullLazyDomainObjectCollection extends KVDdom_LazyDomainObjectCollection
+{
+
+
+    /**
+     * __construct
+     * 
+     */
+    public function __construct()
+    {
+        $this->_chunkyQuery = null;
+        $this->currentIndex = 0;
+    }
+
+    /**
+     * isNull
+     * @return boolean
+     */
+    public function isNull()
+    {
+        return true;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getTotalRecordCount()
+    {
+        return 0;
+    }
+
+    /**
+     * setRowsPerChunk 
+     * 
+     * Stel in hoeveel rijen er geladen worden in 1 keer. Standaard wordt er gewerkt met blokken van 100 rijen.
+     * Op sommige momenten ( zoals een rapport) kan het handig zijn de blokgrootte te verhogen.
+     * @since   8 aug 2008
+     * @param   integer     $rows 
+     * @return  void
+     */
+    public function setRowsPerChunk( $rows )
+    {
+        //
+    }
+
 }
 ?>
