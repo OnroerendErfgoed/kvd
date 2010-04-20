@@ -92,7 +92,7 @@ class KVDhtml_SlidingPager {
     {
         $html = '';
         if( $showtotals){
-            $html.= '<p><strong>Je zoekopdracht leverde '.$this->pager->getTotalRecordCount( ).' resultaten.</strong><p>';
+            $html.= '<p><strong>Je zoekopdracht leverde '.$this->pager->getTotalRecordCount( ).' resultaten.</strong></p>';
         }
         
         if ( $this->pager->getPage( ) > $this->pager->getFirstPage( ) ) {
