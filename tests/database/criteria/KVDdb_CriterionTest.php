@@ -150,6 +150,30 @@ class KVDdb_CriterionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals( array( ), $criterion->getValues( ) );
     }
 
+    public function testFullTextSearch(  )
+    {
+        $criterion = KVDdb_Criterion::searchFullTextIndex( 'tsv', 'koen & van & daele' );
+        $this->assertType ( 'KVDdb_Criterion', $criterion );
+        $this->assertEquals( "( tsv @@ to_tsquery( 'dutch', 'koen & van & daele' ) )", $criterion->generateSql( ));
+
+        $criterion = KVDdb_Criterion::searchFullTextIndex( 'tsv', 'koen & van & daele', 'english' );
+        $this->assertType ( 'KVDdb_Criterion', $criterion );
+        $this->assertEquals( "( tsv @@ to_tsquery( 'english', 'koen & van & daele' ) )", $criterion->generateSql( ));
+    }
+
+    /**
+     * testFullTextSearchOnlyWorksForPostgresql 
+     * 
+     * @expectedException   InvalidArgumentException
+     * @return void
+     */
+    public function testFullTextSearchOnlyWorksForPostgresql(  )
+    {
+        $criterion = KVDdb_Criterion::searchFullTextIndex( 'tsv', 'koen & van & daele' );
+        $this->assertType ( 'KVDdb_Criterion', $criterion );
+        $criterion->generateSql(KVDdb_Criteria::MODE_FILLED, KVDdb_Criteria::DB_MYSQL );
+    }
+
     public function testGetValues( )
     {
         $criterion = KVDdb_Criterion::equals( 'provincie' , 'West-Vlaanderen' );

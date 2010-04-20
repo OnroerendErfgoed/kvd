@@ -361,6 +361,20 @@ class KVDdb_Criterion
     {
         return new KVDdb_YearEqualsCriterion( $field, $value);
     }
+
+    /**
+     * searchFullTextIndex 
+     * 
+     * @since   1.4
+     * @param   string  $field 
+     * @param   string  $value 
+     * @param   string  $config 
+     * @return  KVDdb_SearchFullTextIndexCriterion
+     */
+    public static function searchFullTextIndex( $field, $value, $config = 'dutch' )
+    {
+        return new KVDdb_SearchFullTextIndexCriterion( $field, $value, $config );
+    }
 }
 
 /**
@@ -616,6 +630,60 @@ class KVDdb_YearEqualsCriterion extends KVDdb_Criterion
             $sql = '( YEAR(' . $this->field . ') = ' . $this->generateValue( $mode, $this->value );
         } else {
             throw new Exception ( 'This Criterion is only supported for MySQL.' );
+        }
+        $sql .= $this->generateSqlChildren( $mode , $dbType );
+        return $sql .= ')';
+    }
+}
+
+/**
+ * KVDdb_SearchFullTextIndexCriterion 
+ * 
+ * @package     KVD.database
+ * @subpackage  criteria
+ * @since       1.4
+ * @copyright   2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
+class KVDdb_SearchFullTextIndexCriterion extends KVDdb_Criterion
+{
+    /**
+     * config 
+     * 
+     * Een naam van een text search config zoals gekend door postgresql
+     * @var string
+     */
+    protected $config;
+
+    /**
+     * __construct 
+     * 
+     * @param   string  $field 
+     * @param   string  $value 
+     * @param   string  $config     Naam van een test search config zoals 
+     * gekend door postgres.
+     * @return void
+     */
+    public function __construct( $field, $value, $config = 'dutch' )
+    {
+        parent::__construct( null, $field, $value);
+        $this->config = $config;
+    }
+
+    /**
+     * generateSql 
+     * 
+     * @param   integer  $mode 
+     * @param   integer  $dbType 
+     * @return  string
+     */
+    public function generateSql( $mode = KVDdb_Criteria::MODE_FILLED, $dbType = KVDdb_Criteria::DB_PGSQL )
+    {
+        if ( $dbType == KVDdb_Criteria::DB_PGSQL ) {
+            $sql = '( ' . $this->field . " @@ to_tsquery( '" .$this->config . "', " . $this->generateValue( $mode, $this->value ) . ' ) ';
+        } else {
+            throw new InvalidArgumentException ( 'This Criterion is only supported for Postgresql.' );
         }
         $sql .= $this->generateSqlChildren( $mode , $dbType );
         return $sql .= ')';
