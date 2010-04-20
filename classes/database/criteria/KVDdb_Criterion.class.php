@@ -451,7 +451,7 @@ class KVDdb_InSubselectCriterion extends KVDdb_Criterion
      */
     public function generateSql( $mode = KVDdb_Criteria::MODE_FILLED, $dbType = KVDdb_Criteria::DB_MYSQL )
     {
-        $sql = "( " . $this->field . " " . $this->sqlOperator . " ( " . $this->value->generateSql( ) . " )";
+        $sql = "( " . $this->field . " " . $this->sqlOperator . " ( " . $this->value->generateSql( KVDdb_Criteria::MODE_FILLED, $dbType ) . " )";
         $sql .= $this->generateSqlChildren( $mode , $dbType);
         return $sql .= ' )';
     }

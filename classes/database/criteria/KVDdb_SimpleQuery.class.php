@@ -77,15 +77,15 @@ class KVDdb_SimpleQuery implements KVDdb_IQuery
      * 
      * @return string
      */
-    public function generateSql( )
+    public function generateSql( $mode = KVDdb_Criteria::MODE_FILLED, $dbType = KVDdb_Criteria::DB_MYSQL )
     {
         $sql =  'SELECT ' . ( $this->distinct ? 'DISTINCT ' : '' ) . implode ( $this->fields, ', ' ) . ' FROM ' . $this->table;
         if ( $this->hasJoins( ) ) {
             foreach( $this->joins as $join ) {
-                $sql .= ' ' . $join->generateSql( );
+                $sql .= ' ' . $join->generateSql( $mode, $dbType );
             }
         }
-        $where = $this->criteria->generateSql( );
+        $where = $this->criteria->generateSql( $mode, $dbType );
         if ( $where != '' ) {
             $sql .= ' ' . $where;
         }
