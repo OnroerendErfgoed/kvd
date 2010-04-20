@@ -68,7 +68,7 @@ abstract class KVDgis_GeomGeometry
             $g = new KVDgis_GeomPoint( );
         } elseif (substr($wkt,0,10) == 'MULTIPOINT') {
             $g = new KVDgis_GeomMultipoint( );
-        } elseif (substr($wkt,O,7) == 'POLYGON') {
+        } elseif (substr($wkt,0,7) == 'POLYGON') {
             $g = new KVDgis_GeomPolygon();
         } elseif (substr($wkt,0,12) == 'MULTIPOLYGON') {
             $g = new KVDgis_GeomMultiPolygon();
