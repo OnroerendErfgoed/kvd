@@ -93,6 +93,17 @@ class KVDdb_SimpleQuery implements KVDdb_IQuery
     }
 
     /**
+     * getValues 
+     * 
+     * @since   1.4
+     * @return  array
+     */
+    public function getValues(  )
+    {
+        return $this->criteria->getValues( );
+    }
+
+    /**
      * addJoin 
      * 
      * @param KVDdb_Join $join 

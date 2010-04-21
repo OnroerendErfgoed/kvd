@@ -30,6 +30,7 @@ class KVDdb_SqlTest extends PHPUnit_Framework_TestCase
     {
         $query = new KVDdb_SqlQuery( 'SELECT * FROM provincie');
         $this->assertEquals( 'SELECT * FROM provincie', $query->generateSql() );
+        $this->assertEquals( array( ), $query->getValues( ) );
     }
 }
 ?>

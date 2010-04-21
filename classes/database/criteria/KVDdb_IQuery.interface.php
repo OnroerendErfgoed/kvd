@@ -25,6 +25,16 @@ interface KVDdb_IQuery
      * 
      * @return string
      */
-    public function generateSql( );
+    public function generateSql( $mode = KVDdb_Criteria::MODE_FILLED, $dbType = KVDdb_Criteria::DB_MYSQL );
+
+    /**
+     * getValues 
+     * 
+     * Indien in de geparameteriseerde modus werken moet deze functie alle 
+     * waarden teruggeven die achteraf moeten ingevuld worden.
+     * @since   1.4
+     * @return  array
+     */
+    public function getValues(  );
 }
 ?>

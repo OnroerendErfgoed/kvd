@@ -161,8 +161,9 @@ class KVDdb_CriteriaIntegrationTest extends PHPUnit_Framework_TestCase
         $query = new KVDdb_SimpleQuery( array( 'gemeente_id' ) , 'gemeente' , $crit );
         $criterion = KVDdb_Criterion::inSubselect( 'gemeente_id', $query);
         $this->criteria->add( $criterion );
-        $this->assertEquals("WHERE ( gemeente_id IN ( SELECT gemeente_id FROM gemeente WHERE ( provincie_id = 20001 ) ) )",  $this->criteria->generateSql( KVDdb_Criteria::MODE_PARAMETERIZED ) );
-        $this->assertEquals( array( ), $this->criteria->getValues() );
+        $this->assertEquals("WHERE ( gemeente_id IN ( SELECT gemeente_id FROM gemeente WHERE ( provincie_id = 20001 ) ) )",  $this->criteria->generateSql( KVDdb_Criteria::MODE_FILLED ) );
+        $this->assertEquals("WHERE ( gemeente_id IN ( SELECT gemeente_id FROM gemeente WHERE ( provincie_id = ? ) ) )",  $this->criteria->generateSql( KVDdb_Criteria::MODE_PARAMETERIZED ) );
+        $this->assertEquals( array( '20001' ), $this->criteria->getValues() );
     }
 
 }

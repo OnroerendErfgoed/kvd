@@ -43,9 +43,21 @@ class KVDdb_SqlQuery implements KVDdb_IQuery
      * 
      * @return string
      */
-    public function generateSql( )
+    public function generateSql( $mode = KVDdb_Criteria::MODE_FILLED, $dbType = KVDdb_Criteria::DB_PGSQL )
     {
         return $this->sql;
+    }
+
+    /**
+     * getValues 
+     * 
+     * Altijd leeg voor een sql query aangezien die per definite al gevuld is.
+     * @since   1.4
+     * @return  array
+     */
+    public function getValues(  )
+    {
+        return array( );
     }
 }
 ?>

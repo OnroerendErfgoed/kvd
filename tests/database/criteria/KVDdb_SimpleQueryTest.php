@@ -31,6 +31,7 @@ class KVDdb_SimpleQueryTest extends PHPUnit_Framework_TestCase
         $query = new KVDdb_SimpleQuery( array( 'gemeente_id' ) , 'gemeente' );
         $this->assertEquals ( $query->generateSql( ) , 'SELECT gemeente_id FROM gemeente' );
         $this->assertFalse( $query->hasJoins( ) );
+        $this->assertEquals( $query->getValues( ), array(  ) );
     }
 
     public function testWithCriteria( )
@@ -88,6 +89,15 @@ class KVDdb_SimpleQueryWithCriteriaTest extends PHPUnit_Framework_TestCase
         $criteria2->add( $criterion );
         $this->assertEquals ( $criteria2->generateSql( ) , 'WHERE ( gemeente_id IN ( SELECT gemeente_id FROM gemeente WHERE ( provincie_id = 20001 ) ) )' );
         $this->assertFalse( $query->hasJoins( ) );
+    }
+
+    public function testParameterizedCriteria( )
+    {
+        $criteria = new KVDdb_Criteria( );
+        $criteria->add( KVDdb_Criterion::equals( 'provincie_id' , 20001 ) );
+        $query = new KVDdb_SimpleQuery( array( 'gemeente_id' ) , 'gemeente' , $criteria );
+        $this->assertEquals ( $query->generateSql(KVDdb_Criteria::MODE_PARAMETERIZED) , 'SELECT gemeente_id FROM gemeente WHERE ( provincie_id = ? )' );
+        $this->assertEquals ( $query->getValues(  ), array( '20001' ) );
     }
 }
 

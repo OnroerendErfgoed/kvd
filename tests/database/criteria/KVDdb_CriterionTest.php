@@ -126,6 +126,18 @@ class KVDdb_CriterionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals( "( gemeente_id IN ( SELECT gemeente_id FROM gemeente WHERE provincie_id = 20001 ) )", $criterion->generateSql( ));
     }
 
+    public function testInParameterizedSubselect( )
+    {
+        $criteria = new KVDdb_Criteria( );
+        $criteria->add( KVDdb_Criterion::equals( 'provincie_id' , 20001 ) );
+        $query = new KVDdb_SimpleQuery( array( 'gemeente_id' ) , 'gemeente' , $criteria );
+
+        $criterion = KVDdb_Criterion::inSubselect( 'gemeente_id' , $query );
+        $this->assertType ( 'KVDdb_Criterion', $criterion );
+        $this->assertEquals( "( gemeente_id IN ( SELECT gemeente_id FROM gemeente WHERE ( provincie_id = ? ) ) )", $criterion->generateSql(KVDdb_Criteria::MODE_PARAMETERIZED ));
+        $this->assertEquals( array( '20001' ), $criterion->getValues( ) );
+    }
+
     public function testNotInSubselect( )
     {
         $subselect = new KVDdb_SqlQuery('SELECT gemeente_id FROM gemeente WHERE provincie_id = 20001' );
@@ -154,11 +166,11 @@ class KVDdb_CriterionTest extends PHPUnit_Framework_TestCase
     {
         $criterion = KVDdb_Criterion::searchFullTextIndex( 'tsv', 'koen & van & daele' );
         $this->assertType ( 'KVDdb_Criterion', $criterion );
-        $this->assertEquals( "( tsv @@ to_tsquery( 'dutch', 'koen & van & daele' ) )", $criterion->generateSql( ));
+        $this->assertEquals( "( tsv @@ to_tsquery( 'dutch', quote_literal( 'koen & van & daele' ) ) )", $criterion->generateSql( ));
 
         $criterion = KVDdb_Criterion::searchFullTextIndex( 'tsv', 'koen & van & daele', 'english' );
         $this->assertType ( 'KVDdb_Criterion', $criterion );
-        $this->assertEquals( "( tsv @@ to_tsquery( 'english', 'koen & van & daele' ) )", $criterion->generateSql( ));
+        $this->assertEquals( "( tsv @@ to_tsquery( 'english', quote_literal( 'koen & van & daele' ) ) )", $criterion->generateSql( ));
     }
 
     /**

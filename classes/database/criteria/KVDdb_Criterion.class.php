@@ -451,7 +451,7 @@ class KVDdb_InSubselectCriterion extends KVDdb_Criterion
      */
     public function generateSql( $mode = KVDdb_Criteria::MODE_FILLED, $dbType = KVDdb_Criteria::DB_MYSQL )
     {
-        $sql = "( " . $this->field . " " . $this->sqlOperator . " ( " . $this->value->generateSql( KVDdb_Criteria::MODE_FILLED, $dbType ) . " )";
+        $sql = "( " . $this->field . " " . $this->sqlOperator . " ( " . $this->value->generateSql( $mode, $dbType ) . " )";
         $sql .= $this->generateSqlChildren( $mode , $dbType);
         return $sql .= ' )';
     }
@@ -465,7 +465,8 @@ class KVDdb_InSubselectCriterion extends KVDdb_Criterion
      */
     public function getValues( )
     {
-        return $this->getValuesChildren( );
+        $ret = $this->value->getValues( );
+        return array_merge( $ret , $this->getValuesChildren( ) );
     }
 }
 
@@ -681,7 +682,7 @@ class KVDdb_SearchFullTextIndexCriterion extends KVDdb_Criterion
     public function generateSql( $mode = KVDdb_Criteria::MODE_FILLED, $dbType = KVDdb_Criteria::DB_PGSQL )
     {
         if ( $dbType == KVDdb_Criteria::DB_PGSQL ) {
-            $sql = '( ' . $this->field . " @@ to_tsquery( '" .$this->config . "', " . $this->generateValue( $mode, $this->value ) . ' ) ';
+            $sql = '( ' . $this->field . " @@ to_tsquery( '" .$this->config . "', quote_literal( " . $this->generateValue( $mode, $this->value ) . ' ) ) ';
         } else {
             throw new InvalidArgumentException ( 'This Criterion is only supported for Postgresql.' );
         }
