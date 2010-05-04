@@ -1,0 +1,20 @@
+
+UPDATE kvd_adr.deelgemeente SET deelgemeente_naam = 'Antwerpen (kern - oude stad)' WHERE id = '11002A';
+UPDATE kvd_adr.deelgemeente SET deelgemeente_naam = 'Antwerpen (Linkeroever)' WHERE id = '11002B';
+UPDATE kvd_adr.deelgemeente SET deelgemeente_naam = 'Antwerpen (stadsdeel Statiekwartier)' WHERE id = '11002C';
+UPDATE kvd_adr.deelgemeente SET deelgemeente_naam = 'Antwerpen (stadsdeel Charlottalei)' WHERE id = '11002D';
+UPDATE kvd_adr.deelgemeente SET deelgemeente_naam = 'Antwerpen (stadsdeel Zuid, Waalse kaai)' WHERE id = '11002E';
+UPDATE kvd_adr.deelgemeente SET deelgemeente_naam = 'Antwerpen (stadsdeel Sint-Catharina)' WHERE id = '11002F';
+UPDATE kvd_adr.deelgemeente SET deelgemeente_naam = 'Antwerpen (stadsdeel Sint-Laurentius)' WHERE id = '11002G';
+UPDATE kvd_adr.deelgemeente SET deelgemeente_naam = 'Antwerpen (stadsdeel Sint-Amandus)' WHERE id = '11002H';
+UPDATE kvd_adr.deelgemeente SET deelgemeente_naam = 'Antwerpen (haven)' WHERE id = '11002J';
+UPDATE kvd_adr.deelgemeente SET deelgemeente_naam = 'Berendrecht en Lillo' WHERE id = '11002K';
+UPDATE kvd_adr.deelgemeente SET deelgemeente_naam = 'Zandvliet' WHERE id = '11002L';
+UPDATE kvd_adr.deelgemeente SET deelgemeente_naam = 'Schelde' WHERE id = '11002M';
+UPDATE kvd_adr.deelgemeente SET deelgemeente_naam = 'Ekeren' WHERE id = '11002P';
+UPDATE kvd_adr.deelgemeente SET deelgemeente_naam = 'Merksem' WHERE id = '11002Q';
+UPDATE kvd_adr.deelgemeente SET deelgemeente_naam = 'Deurne' WHERE id = '11002R';
+UPDATE kvd_adr.deelgemeente SET deelgemeente_naam = 'Borgerhout' WHERE id = '11002S';
+UPDATE kvd_adr.deelgemeente SET deelgemeente_naam = 'Berchem' WHERE id = '11002T';
+UPDATE kvd_adr.deelgemeente SET deelgemeente_naam = 'Wilrijk' WHERE id = '11002U';
+UPDATE kvd_adr.deelgemeente SET deelgemeente_naam = 'Hoboken' WHERE id = '11002V';
