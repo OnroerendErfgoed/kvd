@@ -55,10 +55,10 @@ class KVDdom_DomainObjectCollectionPager implements Countable
         // Indien het om een luie collectie gaat dan zorgen we er voor dat de pagina-groottes van de pager en de collectie gelijk zijn.
         if ( $collection instanceof KVDdom_LazyDomainObjectCollection ) {
             $collection->setRowsPerChunk( $rowsPerPage );
+        }
         $this->_collection = $collection;
         $this->rowsPerPage = $rowsPerPage;
         $this->setPage( $page );
-        }
     }
     /**
      * @return integer
