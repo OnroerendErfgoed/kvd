@@ -12,7 +12,7 @@
  * KVDdom_LazyDomainObjectCollection 
  * 
  * Object om luie collecties van DomainObjects te beheren.
- * De collectie wordt niet meteen geladen, maar slechts in stukjes, wanneer dit nodig is. i
+ * De collectie wordt niet meteen geladen, maar slechts in stukjes, wanneer dit nodig is. 
  * Zo kunnen grote collecties ook gebruikt worden zonder al te veel overhead.
  * @package     KVD.dom
  * @subpackage  collection
@@ -47,8 +47,6 @@ class KVDdom_LazyDomainObjectCollection extends KVDdom_DomainObjectCollection
         if ($this->getTotalRecordCount() > 0 ) {
             $this->collection = array_fill (0, $this->getTotalRecordCount() , self::PLACEHOLDER);
         }
-        //Automatisch de eerte chunk laden
-        $this->fillChunk( );
     }
     
     /**
