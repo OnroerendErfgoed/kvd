@@ -160,10 +160,9 @@ class KVDthes_RelationTypeIterator extends KVDthes_RelationsIterator
      */
     public function next( )
     {
-        $this->index++;
-        if ( $this->valid( ) && $this->current( )->getType( ) != $this->type ) {
-            $this->next( );
-        }
+        do {
+            $this->index++;
+        } while ( $this->valid( ) && $this->current( )->getType( ) != $this->type ) ;
     }
 
     /**
