@@ -159,11 +159,11 @@ class KVDdo_AdrGemeente extends KVDdom_ReadonlyDomainObject {
     }
 
     /**
-     * @return KVDdo_NullAdrGemeente
+     * @return KVDdo_NullAdrProvincie
      */
-    public static function newNull( KVDdo_AdrGemeente $gemeente = null )
+    public static function newNull( KVDdo_AdrProvincie $provincie = null )
     {
-        return new KVDdo_NullAdrGemeente( $gemeente );
+        return new KVDdo_NullAdrGemeente( $provincie );
     }
 }
 
