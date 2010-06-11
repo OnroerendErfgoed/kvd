@@ -251,6 +251,16 @@ class KVDdb_Criterion
     {
         return new KVDdb_MatchCriterion ( $field , $value );
     }
+    
+    /**
+     * @param string $field
+     * @param mixed $value
+     * @return KVDdb_NotMatchCriterion
+     */
+    public static function notmatches ( $field, $value )
+    {
+        return new KVDdb_NotMatchCriterion ( $field , $value );
+    }
 
     /**
      * @param string $field
@@ -395,6 +405,29 @@ class KVDdb_MatchCriterion extends KVDdb_Criterion
     public function generateSql( $mode = KVDdb_Criteria::MODE_FILLED , $dbType = KVDdb_Criteria::DB_MYSQL )
     {
         $sql = "( UPPER( " . $this->field . ' ) LIKE UPPER( ' . $this->generateValue( $mode , $this->value ) . ' )';
+        $sql .= $this->generateSqlChildren( $mode , $dbType );
+        return $sql .= ' )';
+    }
+}
+
+/**
+ * @package     KVD.database
+ * @subpackage  criteria
+ * @since       10 jun 2010
+ * @author      Bram Goessens<bram.goessens@rwo.vlaanderen.be>
+ * @copyright   2006-2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
+class KVDdb_NotMatchCriterion extends KVDdb_Criterion
+{
+    public function __construct ( $field, $value )
+    {
+        parent::__construct( null, $field, $value );
+    }
+    
+    public function generateSql( $mode = KVDdb_Criteria::MODE_FILLED , $dbType = KVDdb_Criteria::DB_MYSQL )
+    {
+        $sql = "( UPPER( " . $this->field . ' ) NOT LIKE UPPER( ' . $this->generateValue( $mode , $this->value ) . ' )';
         $sql .= $this->generateSqlChildren( $mode , $dbType );
         return $sql .= ' )';
     }
