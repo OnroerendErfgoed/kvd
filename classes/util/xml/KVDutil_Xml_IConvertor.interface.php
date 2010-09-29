@@ -13,10 +13,10 @@
  * KVDutil_Xml_IConvertor 
  *
  * Deze interface kan gebruikt worden door andere classes die het gebruik van 
- * @link{KVDutil_Xml_DomainObjectProcessor} classes regelen.
+ * {@link KVDutil_Xml_DomainObjectProcessor} classes regelen.
  *
- * @package     DIBE.util
- * @subpackage  lijsten
+ * @package     KVD.util
+ * @subpackage  xml
  * @since       15 feb 2008
  * @copyright   2008-2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
