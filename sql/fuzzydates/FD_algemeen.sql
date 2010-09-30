@@ -24,6 +24,33 @@ BEGIN
 END
 $$ LANGUAGE plpgsql IMMUTABLE;
 
+CREATE OR REPLACE FUNCTION FD_maakDatum(x float) RETURNS date AS $$
+DECLARE
+	jaar int;
+	dagen float;
+	dag int;
+	laatste_dag_jaar date;
+	aantal_dagen_in_jaar int;
+BEGIN
+	IF x > 0 THEN
+		jaar := floor(x);
+		laatste_dag_jaar = (lpad(abs(jaar)::text,4,'0') || '-12-31 AD')::date;
+		dagen := x - jaar;
+	ELSE 
+		jaar := ceil(x-1);
+		laatste_dag_jaar = (lpad(abs(jaar)::text,4,'0') || '-12-31 BC')::date;
+		dagen := abs(x-1) - abs(jaar);
+	END IF;
+	aantal_dagen_in_jaar := EXTRACT(doy FROM (laatste_dag_jaar));
+	dag := floor((dagen * aantal_dagen_in_jaar) + 1);
+	IF x > 0 THEN
+		RETURN lpad(jaar::text,4,'0') || '.' || lpad(dag::text,3,'0');
+	ELSE 
+		RETURN lpad(abs(jaar)::text,4,'0') || '.' || lpad(dag::text,3,'0') || ' BC';
+	END IF;
+END;
+$$ LANGUAGE plpgsql IMMUTABLE;
+
 CREATE OR REPLACE FUNCTION FD_maakVoorstelling(sa date, ka date, kb date, sb date) RETURNS geometry AS $$
 	SELECT ST_MakeLine(ARRAY[ST_MakePoint(FD_maakX($1),0),
 						ST_MakePoint(FD_maakX($2),1),
@@ -32,25 +59,25 @@ CREATE OR REPLACE FUNCTION FD_maakVoorstelling(sa date, ka date, kb date, sb dat
 $$ LANGUAGE sql IMMUTABLE;
 
 CREATE OR REPLACE FUNCTION FD_maakVoorstelling(ka date, kb date) RETURNS geometry AS $$
-	SELECT FD_S_maakVoorstelling($1,$1,$2,$2);
+	SELECT FD_maakVoorstelling($1,$1,$2,$2);
 $$ LANGUAGE sql IMMUTABLE;
 
 CREATE OR REPLACE FUNCTION FD_maakVoorstelling(d date) RETURNS geometry AS $$
-	SELECT FD_S_maakVoorstelling($1,$1,$1,$1);
+	SELECT FD_maakVoorstelling($1,$1,$1,$1);
 $$ LANGUAGE sql IMMUTABLE;
 
 CREATE OR REPLACE FUNCTION FD_vervaag(ka date, kb date, lv interval, rv interval) RETURNS geometry AS $$
-	SELECT FD_S_maakVoorstelling(($1 - $3)::date, $1, $2, ($2 + $4)::date);
+	SELECT FD_maakVoorstelling(($1 - $3)::date, $1, $2, ($2 + $4)::date);
 $$ LANGUAGE sql IMMUTABLE;
 
 CREATE OR REPLACE FUNCTION FD_vervaag(ka date, kb date, v interval) RETURNS geometry AS $$
-	SELECT FD_s_vervaag($1,$2,$3,$3);
+	SELECT FD_vervaag($1,$2,$3,$3);
 $$ LANGUAGE sql IMMUTABLE;
 
 CREATE OR REPLACE FUNCTION FD_vervaag(d date, v interval) RETURNS geometry AS $$
-	SELECT FD_S_vervaag($1,$1,$2,$2);
+	SELECT FD_vervaag($1,$1,$2,$2);
 $$ LANGUAGE sql IMMUTABLE;
 
 CREATE OR REPLACE FUNCTION FD_vervaag(d date, lv interval, rv interval) RETURNS geometry AS $$
-	SELECT FD_S_vervaag($1,$1,$2,$3);
+	SELECT FD_vervaag($1,$1,$2,$3);
 $$ LANGUAGE sql IMMUTABLE;
