@@ -104,5 +104,13 @@ class KVDgis_GeomPolygonTest extends PHPUnit_Framework_TestCase
     {
             $this->testPolygon->setGeometryFromText('MULTIPOINT(178000 212000)');    
     }
+
+    function testWithSpaces( )
+    {
+        $this->testPolygon->setGeometryFromText(
+                                                'POLYGON ( ( 178000 212000, 100000 150000 ) , ( 178000 212000, 100000 150000 ) ) '
+                                                );
+        $this->assertEquals( 'POLYGON((178000 212000, 100000 150000), (178000 212000, 100000 150000))', (string) $this->testPolygon );
+    }
 }
 ?>
