@@ -99,7 +99,7 @@ class KVDgis_GeomMultiPolygon extends KVDgis_GeomGeometry
         
         $stringMultiPoly = $this->getStringBetweenBraces($wkt);
         $polystrings = array( );
-        preg_match_all( '#\s*\(\s*(\(((\d+(\.\d+)?)\s(\d+(\.\d+)?)\s*,?\s*)+\)\s*,?\s*)+\)#', $stringMultiPoly, $polystrings, PREG_SET_ORDER);
+        preg_match_all( '#\s*'.self::$RE_MULTIPOLYGON.'\s*#', $stringMultiPoly, $polystrings, PREG_SET_ORDER);
         foreach ( $polystrings as $poly ) {
             $polyWKT = 'POLYGON' . $poly[0];
             $p = new KVDgis_GeomPolygon( $this->getSrid( ) );
