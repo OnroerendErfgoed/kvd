@@ -40,6 +40,7 @@ class KVDgis_GeomPolygon extends KVDgis_GeomGeometry
     public function __construct ( $srid = -1, KVDgis_GeomLinearRing $outer = null, array $inner = null)
     {
         $this->setSrid($srid);
+        if(!$this->RE_LOADED) $this->initRegEx();
         if ( $outer != null ) {
             $this->setOuterRing( $outer );
         }
@@ -142,7 +143,7 @@ class KVDgis_GeomPolygon extends KVDgis_GeomGeometry
         
         $stringPolygon = $this->getStringBetweenBraces($wkt);
         $linestrings = array( );
-        preg_match_all( '#\s*'.self::$RE_POLYGON.'\s*#', $stringPolygon, $linestrings, PREG_SET_ORDER);
+        preg_match_all( '#\s*'.$this->RE_LINESTRING.'\s*#', $stringPolygon, $linestrings, PREG_SET_ORDER);
         $first = true;
         foreach ( $linestrings as $ls ) {
             $lsObj = new KVDgis_GeomLinearRing( $this->getSrid( ) );

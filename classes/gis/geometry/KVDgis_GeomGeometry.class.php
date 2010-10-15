@@ -31,27 +31,27 @@ abstract class KVDgis_GeomGeometry
     /**
      * @var boolean geeft aan of de reguliere expresses voor de types al geladen zijn
      */
-    protected static $RE_LOADED = false;
+    protected $RE_LOADED = false;
     /**
      * @var string reguliere expressie voor een float getal met (optioneel) een + of - teken
      */
-    protected static $RE_SIGNED;
+    protected $RE_SIGNED;
     /**
      * @var string reguliere expressie voor een punt
      */
-    protected static $RE_POINT;
+    protected $RE_POINT;
     /**
      * @var string reguliere expressie voor een linestring
      */
-    protected static $RE_LINESTRING;
+    protected $RE_LINESTRING;
     /**
      * @var string reguliere expressie voor een polygoon
      */
-    protected static $RE_POLYGON;
+    protected $RE_POLYGON;
     /**
      * @var string reguliere expressie voor een multi polygoon
      */
-    protected static $RE_MULTIPOLYGON;
+    protected $RE_MULTIPOLYGON;
     
     
     /**
@@ -60,7 +60,7 @@ abstract class KVDgis_GeomGeometry
     public function __construct( $srid = -1)
     {
         $this->setSrid ( $srid );
-        if(!self::$RE_LOADED) self::initRegEx();
+        if(!$this->RE_LOADED) $this->initRegEx();
     }
 
     /**
@@ -69,26 +69,26 @@ abstract class KVDgis_GeomGeometry
      * @var void
      * @return void
      */
-    private static function initRegEx()
+    public function initRegEx()
     {
-        self::$RE_LOADED = true;
+        $this->RE_LOADED = true;
         // Syntax: {<sign>}<digit>*{<punt><digit>*}
         // Bijvoorbeeld: +0.235
         // Bijvoorbeeld: 2
         // Bijvoorbeeld: -5.2
-        self::$RE_SIGNED = "(-|\+)?\d+(\.\d+)?";
+        $this->RE_SIGNED = "(-|\+)?\d+(\.\d+)?";
         // Syntax: <signed numeric literal> <signed numeric literal>
         // Bijvoorbeeld: +0.235 -5.2
-        self::$RE_POINT = self::$RE_SIGNED."\s+".self::$RE_SIGNED; 
+        $this->RE_POINT = $this->RE_SIGNED."\s+".$this->RE_SIGNED; 
         // Syntax: '(' <point> { ',' <point>}* ')'
         // Bijvoorbeeld: (+0.235 -5.2, 2 -5)
-        self::$RE_LINESTRING = "\(\s*".self::$RE_POINT."(\s*,\s*".self::$RE_POINT.")*\s*\)";
+        $this->RE_LINESTRING = "\(\s*(".$this->RE_POINT."(\s*,\s*".$this->RE_POINT.")*)\s*\)";
         // Syntax: '(' <linestring> { ',' <linestring>}* ')'
         // Bijvoorbeeld: ((+0.235 -5.2, 2 -5), (0.2 -5, 2 -15))
-        self::$RE_POLYGON = "\(\s*".self::$LINESTRING."\s*(,\s*".self::$LINESTRING.")*\s*\)";
+        $this->RE_POLYGON = "\(\s*(".$this->RE_LINESTRING."\s*(,\s*".$this->RE_LINESTRING.")*)\s*\)";
         // Syntax: '(' <polygon> { ',' <polygon>}* ')'
         // Bijvoorbeeld: (((+0.235 -5.2, 2 -5), (0.2 -5, 2 -15)), ((+12.235 -6.2, 3 -1), (0.9 -7, 3 -10)))
-        self::$RE_MULTIPOLYGON = "\(\s*".self::$RE_POLYGON."\s*(,\s*".self::$RE_POLYGON.")*\s*\)";    
+        $this->RE_MULTIPOLYGON = "\(\s*".$this->RE_POLYGON."\s*(,\s*".$this->RE_POLYGON.")*\s*\)";    
     }
     
     /**

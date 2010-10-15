@@ -32,6 +32,7 @@ class KVDgis_GeomMultiPolygon extends KVDgis_GeomGeometry
     public function __construct ( $srid = -1, $polys = null)
     {
         $this->setSrid($srid);
+        if(!$this->RE_LOADED) $this->initRegEx();
         if ( $polys != null && is_array( $polys ) ) {
             $this->setPolygons( $polys );
         }
@@ -99,9 +100,9 @@ class KVDgis_GeomMultiPolygon extends KVDgis_GeomGeometry
         
         $stringMultiPoly = $this->getStringBetweenBraces($wkt);
         $polystrings = array( );
-        preg_match_all( '#\s*'.self::$RE_MULTIPOLYGON.'\s*#', $stringMultiPoly, $polystrings, PREG_SET_ORDER);
-        foreach ( $polystrings as $poly ) {
-            $polyWKT = 'POLYGON' . $poly[0];
+        preg_match_all( '#\s*'.$this->RE_POLYGON.'\s*#', $wkt, $polystrings);
+        foreach ( $polystrings[0] as $poly ) { 
+            $polyWKT = 'POLYGON' . $poly;
             $p = new KVDgis_GeomPolygon( $this->getSrid( ) );
             $p->setGeometryFromText( $polyWKT );
             $this->addPolygon( $p );
