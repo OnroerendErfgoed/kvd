@@ -89,7 +89,7 @@ class KVDdom_Fields_CollectionField extends KVDdom_Fields_AbstractField
     protected function checkValues( )
     {
         if ( $this->value === self::PLACEHOLDER ) {
-            $this->value = $this->sessie->getMapper( $this->mapper )->$finder;
+            $this->value = $this->sessie->getMapper( $this->mapper )->{$this->finder}( $this->dom );
         }
     }
 
