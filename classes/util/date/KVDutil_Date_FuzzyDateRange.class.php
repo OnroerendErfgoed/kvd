@@ -12,6 +12,7 @@
  * KVDutil_Date_FuzzyDateRange 
  * 
  * @package     KVD.util
+ * @subpackage  Date
  * @since       20 okt 2010
  * @copyright   2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
@@ -186,7 +187,7 @@ class KVDutil_Date_FuzzyDateRange
      */
     public function isOmschrijvingVanManueel(  )
     {
-        return $this->metadata['omschrijving_van']['manueel'];
+        return (bool) $this->metadata['omschrijving_van']['manueel'];
     }
 
     /**
@@ -206,7 +207,7 @@ class KVDutil_Date_FuzzyDateRange
      */
     public function isOmschrijvingTotManueel(  )
     {
-        return $this->metadata['omschrijving_tot']['manueel'];
+        return (bool) $this->metadata['omschrijving_tot']['manueel'];
     }
 
     /**
@@ -259,5 +260,30 @@ class KVDutil_Date_FuzzyDateRange
         return new KVDutil_Date_FuzzyDateRange();
     }
 
+}
+
+/**
+ * KVDutil_Date_FuzzyDateRange_Date 
+ * 
+ * @package     KVD.util
+ * @subpacakge  Date
+ * @since       20 okt 2010
+ * @copyright   2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
+class KVDutil_Date_FuzzyDateRange_Date extends DateTime
+{
+    const FORMAT = 'Y-m-d';
+
+    /**
+     * __toString 
+     * 
+     * @return string
+     */
+    public function __toString( )
+    {
+        return (string) parent::format( self::FORMAT );
+    }
 }
 ?>

@@ -56,7 +56,7 @@ class KVDag_VtiValidator extends AgaviValidator
             $date = $year;
         } elseif ( preg_match( '#\d{4}-\d{2}-\d{2}#', $val ) == 1 ) {
             try {
-                $date = new DateTime( $val );
+                $date = new KVDutil_Date_FuzzyDateRange_Date( $val );
             } catch( Exception $e ) {
                 $this->throwError( 'ongeldige_datum', $arg );
                 return false;
