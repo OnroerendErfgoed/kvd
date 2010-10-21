@@ -53,12 +53,13 @@ class KVDutil_Date_FuzzyDateRange
      * @param array $metadata 
      * @return void
      */
-    public function construct( $sa, $ka, $kb, $sb, array $metadata = array( ) )
+    public function __construct( $sa, $ka, $kb, $sb, array $metadata = array( ) )
     {
         $this->punten['sa'] = $this->corrigeerX( $sa );
         $this->punten['ka'] = $this->corrigeerX( $ka );
         $this->punten['kb'] = $this->corrigeerX( $kb );
         $this->punten['sb'] = $this->corrigeerX( $sb );
+        $this->setMetadata( $metadata );
     }
 
     /**
@@ -67,11 +68,13 @@ class KVDutil_Date_FuzzyDateRange
      * @param   mixed   $punt 
      * @return  mixed   DateTime of integer
      */
-    private function corrigeerX( $punt )
+    protected function corrigeerX( $punt )
     {
         if ( $punt instanceof DateTime ) {
-            if ( $punt < new DateTime( self::MIN_DATE ) || $punt > new DateTime( self::MAX_DATE )) {
+            if ( $punt < new DateTime( self::MIN_DATUM ) || $punt > new DateTime( self::MAX_DATUM )) {
                 return ( integer ) $punt->format( 'y' );
+            } else {
+                return $punt;
             }
         } else {
             return ( integer ) $punt;
@@ -157,13 +160,13 @@ class KVDutil_Date_FuzzyDateRange
     }
 
     /**
-     * getSa 
+     * getSb
      * 
      * @return mixed    DateTime of integer
      */
-    public function getSa(  )
+    public function getSb(  )
     {
-        return $this->punten['sa'];
+        return $this->punten['sb'];
     }
 
     /**
@@ -241,9 +244,9 @@ class KVDutil_Date_FuzzyDateRange
      * 
      * @return string
      */
-    public function __toString(  )
+    public function __toString( )
     {
-        return $this->getOmschrijving(  );
+        return $this->getOmschrijving( );
     }
 
 }
