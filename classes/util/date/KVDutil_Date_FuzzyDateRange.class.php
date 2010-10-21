@@ -53,7 +53,7 @@ class KVDutil_Date_FuzzyDateRange
      * @param array $metadata 
      * @return void
      */
-    public function __construct( $sa, $ka, $kb, $sb, array $metadata = array( ) )
+    public function __construct( $sa = null, $ka = null , $kb=null, $sb=null, array $metadata = array( ) )
     {
         $this->punten['sa'] = $this->corrigeerX( $sa );
         $this->punten['ka'] = $this->corrigeerX( $ka );
@@ -247,6 +247,16 @@ class KVDutil_Date_FuzzyDateRange
     public function __toString( )
     {
         return $this->getOmschrijving( );
+    }
+
+    /**
+     * newNull 
+     * 
+     * @return KVDutil_Date_FuzzyDateRange
+     */
+    public static function newNull(  )
+    {
+        return new KVDutil_Date_FuzzyDateRange();
     }
 
 }
