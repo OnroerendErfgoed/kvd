@@ -23,30 +23,30 @@ class KVDag_VtiValidator extends AgaviValidator
     /**
      * sa 
      * 
-     * @var mixed   KVDutil_Date_FuzzyDateRange_Date of integer
+     * @var mixed   {@link KVDutil_Date_FuzzyDateRange_Date} of integer
      */
     protected $sa;
 
     /**
      * ka 
      * 
-     * @var mixed   KVDutil_Date_FuzzyDateRange_Date of integer
+     * @var mixed   {@link KVDutil_Date_FuzzyDateRange_Date} of integer
      */
     protected $ka;
 
     /**
      * kb 
      * 
-     * @var mixed   KVDutil_Date_FuzzyDateRange_Date of integer
+     * @var mixed   {@link KVDutil_Date_FuzzyDateRange_Date} of integer
      */
     protected $kb;
 
     /**
      * sb 
      * 
-     * @var mixed   KVDutil_Date_FuzzyDateRange_Date of integer
+     * @var mixed   {@link KVDutil_Date_FuzzyDateRange_Date} of integer
      */
-    protected $sb
+    protected $sb;
 
     /**
      * validate 
@@ -127,25 +127,22 @@ class KVDag_VtiValidator extends AgaviValidator
      */
     protected function validateIsNotAfter( $a, $b )
     {
-        $first = $this->getArgument( $a );
-        $sec = $this->getArgument( $b );
-
-        if ( $this->$first instanceOf DateTime && $this->$sec instanceOf DateTime ) {
+        if ( $this->$a instanceOf DateTime && $this->$b instanceOf DateTime ) {
             // We vergelijken 2 DateTimes
-            $f = $this->$first;
-            $s = $this->$sec;
+            $f = $this->$a;
+            $s = $this->$b;
         } else {
             // Minstens 1 argument is geen datum. 
             // Herleiden tot jaartal.
-            if ( $this->$first instanceOf DateTime ) {
-                $f = ( integer ) $this->$first( 'y' );
+            if ( $this->$a instanceOf DateTime ) {
+                $f = ( integer ) $this->$a( 'y' );
             } else {
-                $f = $this->$first;
+                $f = $this->$a;
             }
-            if ( $this->$sec instanceOf DateTime ) {
-                $s = ( integer ) $this->$sec( 'y' );
+            if ( $this->$b instanceOf DateTime ) {
+                $s = ( integer ) $this->$b( 'y' );
             } else {
-                $s = $this->$sec;
+                $s = $this->$b;
             }
         }
 
