@@ -20,6 +20,33 @@
  */
 class KVDag_VtiValidator extends AgaviValidator
 {
+    /**
+     * sa 
+     * 
+     * @var mixed   KVDutil_Date_FuzzyDateRange_Date of integer
+     */
+    protected $sa;
+
+    /**
+     * ka 
+     * 
+     * @var mixed   KVDutil_Date_FuzzyDateRange_Date of integer
+     */
+    protected $ka;
+
+    /**
+     * kb 
+     * 
+     * @var mixed   KVDutil_Date_FuzzyDateRange_Date of integer
+     */
+    protected $kb;
+
+    /**
+     * sb 
+     * 
+     * @var mixed   KVDutil_Date_FuzzyDateRange_Date of integer
+     */
+    protected $sb
 
     /**
      * validate 
@@ -34,6 +61,10 @@ class KVDag_VtiValidator extends AgaviValidator
         $flags[] = $this->validateValue( 'ka', 'ka' );
         $flags[] = $this->validateValue( 'kb', 'kb' );
         $flags[] = $this->validateValue( 'sb', 'sb' );
+
+        $flags[] = $this->validateIsNotAfter( 'sa', 'ka' );
+        $flags[] = $this->validateIsNotAfter( 'ka', 'kb' );
+        $flags[] = $this->validateIsNotAfter( 'kb', 'sb' );
 
         return !in_array( false, $flags, true  );
     }
@@ -80,7 +111,48 @@ class KVDag_VtiValidator extends AgaviValidator
             }
         }
 
+        $this->$param = $date;
         $this->export( $date, $export );
+
+        return true;
+    }
+
+    /**
+     * validateIsNotAfter 
+     * 
+     * @param   string  $a  Naam van de member variable die moet vergeleken 
+     *                      worden.
+     * @param   string  $b  Naam van de tweede member variable.
+     * @return  boolean     True indien $a voor $b komt of gelijk is aan $b.
+     */
+    protected function validateIsNotAfter( $a, $b )
+    {
+        $first = $this->getArgument( $a );
+        $sec = $this->getArgument( $b );
+
+        if ( $this->$first instanceOf DateTime && $this->$sec instanceOf DateTime ) {
+            // We vergelijken 2 DateTimes
+            $f = $this->$first;
+            $s = $this->$sec;
+        } else {
+            // Minstens 1 argument is geen datum. 
+            // Herleiden tot jaartal.
+            if ( $this->$first instanceOf DateTime ) {
+                $f = ( integer ) $this->$first( 'y' );
+            } else {
+                $f = $this->$first;
+            }
+            if ( $this->$sec instanceOf DateTime ) {
+                $s = ( integer ) $this->$sec( 'y' );
+            } else {
+                $s = $this->$sec;
+            }
+        }
+
+        if ( $f > $s ) {
+            $this->throwError( 'ongeldige_volgorde' );
+            return false;
+        }
 
         return true;
     }
