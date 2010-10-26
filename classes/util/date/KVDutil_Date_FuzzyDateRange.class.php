@@ -254,10 +254,10 @@ class KVDutil_Date_FuzzyDateRange
     {
         $o = new stdClass(  );
         foreach ( $this->metadata as $k => $v ) {
-            $o->$k = $v;
+            $o->$k = ( string ) $v;
         }
         foreach( $this->punten as $k => $v ) {
-            $o->$k = $v;
+            $o->$k = ( string ) $v;
         }
         return $o;
     }
