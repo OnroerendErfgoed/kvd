@@ -10,7 +10,11 @@ class FuzzyDateRangeTest extends PHPUnit_Framework_TestCase
         $meta = array(  'type_van' => 'dag', 'type_tot' => 'dag', 
                         'omschrijving_van' => array( 'omschrijving' => 'vandaag', 'manueel' => true ),
                         'omschrijving_tot' => array( 'omschrijving' => 'vandaag', 'manueel' => true ));
-        $this->test = new KVDutil_Date_FuzzyDateRange( new DateTime( ), new DateTime( ), new DateTime(  ), new DateTime( ), $meta );
+        $this->test = new KVDutil_Date_FuzzyDateRange(  
+            new KVDutil_Date_FuzzyDateRange_Date( ), 
+            new KVDutil_Date_FuzzyDateRange_Date( ), 
+            new KVDutil_Date_FuzzyDateRange_Date( ), 
+            new KVDutil_Date_FuzzyDateRange_Date( ), $meta );
     }
 
     public function tearDown( )
@@ -20,10 +24,10 @@ class FuzzyDateRangeTest extends PHPUnit_Framework_TestCase
 
     public function testBasis( )
     {
-        $this->assertType( 'DateTime', $this->test->getSa( ) );
-        $this->assertType( 'DateTime', $this->test->getKa( ) );
-        $this->assertType( 'DateTime', $this->test->getKb( ) );
-        $this->assertType( 'DateTime', $this->test->getSb( ) );
+        $this->assertType( 'KVDutil_Date_FuzzyDateRange_Date', $this->test->getSa( ) );
+        $this->assertType( 'KVDutil_Date_FuzzyDateRange_Date', $this->test->getKa( ) );
+        $this->assertType( 'KVDutil_Date_FuzzyDateRange_Date', $this->test->getKb( ) );
+        $this->assertType( 'KVDutil_Date_FuzzyDateRange_Date', $this->test->getSb( ) );
     }
 
     public function testType(  )
@@ -43,6 +47,29 @@ class FuzzyDateRangeTest extends PHPUnit_Framework_TestCase
     public function testToString(  )
     {
         $this->assertEquals( 'vandaag - vandaag', ( string ) $this->test );
+    }
+
+    public function testConstructWithStrings(  )
+    {
+        $meta = array(  'type_van' => 'dag', 'type_tot' => 'dag', 
+                        'omschrijving_van' => array( 'omschrijving' => 'vandaag', 'manueel' => true ),
+                        'omschrijving_tot' => array( 'omschrijving' => 'vandaag', 'manueel' => true ));
+        $test = new KVDutil_Date_FuzzyDateRange( '2010-01-01', '2010-01-31','2010-12-01','2010-12-31',$meta );
+        $this->assertType( 'KVDutil_Date_FuzzyDateRange_Date', $test->getSa( ) );
+        $this->assertType( 'KVDutil_Date_FuzzyDateRange_Date', $test->getKa( ) );
+        $this->assertType( 'KVDutil_Date_FuzzyDateRange_Date', $test->getKb( ) );
+        $this->assertType( 'KVDutil_Date_FuzzyDateRange_Date', $test->getSb( ) );
+        $test = new KVDutil_Date_FuzzyDateRange( '2010', '2010','2010','2010',$meta );
+        $this->assertEquals( 2010, $test->getSa( ) );
+        $this->assertEquals( 2010, $test->getKa( ) );
+        $this->assertEquals( 2010, $test->getKb( ) );
+        $this->assertEquals( 2010, $test->getSb( ) );
+        $test = new KVDutil_Date_FuzzyDateRange( 2010, 2010,2010,2010,$meta );
+        $this->assertEquals( 2010, $test->getSa( ) );
+        $this->assertEquals( 2010, $test->getKa( ) );
+        $this->assertEquals( 2010, $test->getKb( ) );
+        $this->assertEquals( 2010, $test->getSb( ) );
+
     }
 
 }

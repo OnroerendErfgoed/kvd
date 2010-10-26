@@ -47,10 +47,10 @@ class KVDutil_Date_FuzzyDateRange
     /**
      * construct 
      * 
-     * @param mixed $sa         DateTime of integer
-     * @param mixed $ka         DateTime of integer
-     * @param mixed $kb         DateTime of integer
-     * @param mixed $sb         DateTime of integer
+     * @param mixed $sa         KVDutil_Date_FuzzyDateRange_Date, string of integer
+     * @param mixed $ka         KVDutil_Date_FuzzyDateRange_Date, string of integer
+     * @param mixed $kb         KVDutil_Date_FuzzyDateRange_Date, string of integer
+     * @param mixed $sb         KVDutil_Date_FuzzyDateRange_Date, string of integer
      * @param array $metadata 
      * @return void
      */
@@ -67,16 +67,20 @@ class KVDutil_Date_FuzzyDateRange
      * corrigeerX 
      * 
      * @param   mixed   $punt 
-     * @return  mixed   DateTime of integer
+     * @return  mixed   {@link KVDutil_Date_FuzzyDateRange_Date}, string of integer
      */
     protected function corrigeerX( $punt )
     {
-        if ( $punt instanceof DateTime ) {
+        if ( is_string( $punt ) && preg_match( '#\d{4}-\d{2}-\d{2}#', $punt ) == 1 ) {
+            $punt = new KVDutil_Date_FuzzyDateRange_Date( $punt );
+        }
+        if ( $punt instanceof KVDutil_Date_FuzzyDateRange_Date ) {
             if ( $punt < new DateTime( self::MIN_DATUM ) || $punt > new DateTime( self::MAX_DATUM )) {
                 return ( integer ) $punt->format( 'y' );
             } else {
                 return $punt;
             }
+
         } else {
             return ( integer ) $punt;
         }
@@ -116,10 +120,10 @@ class KVDutil_Date_FuzzyDateRange
         $punten = ( $voor == 'van' ) ?   array( 'a' =>  $this->punten['sa'], 'b' => $this->punten['ka'] ) :
             array( 'a' =>  $this->punten['kb'], 'b' => $this->punten['sb'] );
         if( $punten['a'] == $punten['b'] ) {
-            return $punten['a'] instanceof DateTime ? 'dag' : 'jaar';
+            return $punten['a'] instanceof KVDutil_Date_FuzzyDateRange_Date ? 'dag' : 'jaar';
         } 
         if( $punten['a'] < $punten['b'] ) {
-            if ( $punten['a'] instanceOf DateTime && $punten['b'] instanceOf DateTime ) {
+            if ( $punten['a'] instanceOf KVDutil_Date_FuzzyDateRange_Date && $punten['b'] instanceOf KVDutil_Date_FuzzyDateRange_Date ) {
                 if ( $punten['a']->format( 'MM-DD' ) == '01-01' && $punten['b']->format( 'MM-DD') == '12-31' ) {
                     return 'jaar';
                 } else {
@@ -238,6 +242,24 @@ class KVDutil_Date_FuzzyDateRange
     public function getOmschrijving(  )
     {
         return $this->getOmschrijvingVan( ) . ' - ' . $this->getOmschrijvingTot( );
+    }
+
+    /**
+     * getObject 
+     * 
+     * Een voorstelling van de FuzzyDateRange als een object.
+     * @return stdClass
+     */
+    public function getObject(  )
+    {
+        $o = new stdClass(  );
+        foreach ( $this->metadata as $k => $v ) {
+            $o->$k = $v;
+        }
+        foreach( $this->punten as $k => $v ) {
+            $o->$k = $v;
+        }
+        return $o;
     }
 
     /**
