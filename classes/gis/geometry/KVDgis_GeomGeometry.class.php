@@ -82,13 +82,15 @@ abstract class KVDgis_GeomGeometry
         $this->RE_POINT = $this->RE_SIGNED."\s+".$this->RE_SIGNED; 
         // Syntax: '(' <point> { ',' <point>}* ')'
         // Bijvoorbeeld: (+0.235 -5.2, 2 -5)
-        $this->RE_LINESTRING = "\(\s*(".$this->RE_POINT."(\s*,\s*".$this->RE_POINT.")*)\s*\)";
-        // Syntax: '(' <linestring> { ',' <linestring>}* ')'
+        $this->RE_LINESTRING = "\([\s\d\.\+-,]*\)";
+        // Syntax: '(' {<koppeling>?<linestring>}* ')'
         // Bijvoorbeeld: ((+0.235 -5.2, 2 -5), (0.2 -5, 2 -15))
-        $this->RE_POLYGON = "\(\s*(".$this->RE_LINESTRING."\s*(,\s*".$this->RE_LINESTRING.")*)\s*\)";
-        // Syntax: '(' <polygon> { ',' <polygon>}* ')'
+        $KOPPELING = "[\s,]*";
+        $this->RE_POLYGON = "\((".$KOPPELING.$this->RE_LINESTRING.")*\s*\)";
+        // Syntax: '(' { <koppeling>?<polygon>}* ')'
         // Bijvoorbeeld: (((+0.235 -5.2, 2 -5), (0.2 -5, 2 -15)), ((+12.235 -6.2, 3 -1), (0.9 -7, 3 -10)))
-        $this->RE_MULTIPOLYGON = "\(\s*".$this->RE_POLYGON."\s*(,\s*".$this->RE_POLYGON.")*\s*\)";    
+        $this->RE_MULTIPOLYGON = "\((".$KOPPELING.$this->RE_POLYGON.")*\s*\)";
+         
     }
     
     /**
