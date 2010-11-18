@@ -592,10 +592,14 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
      */
     public function delete( KVDthes_Term $term )
     {
-        $sql = sprintf( 'DELETE FROM %s.term WHERE thesaurus_id = %s AND id = ?', $this->parameters['schema'], $this->parameters['thesaurus_id'] );
-        $stmt = $this->conn->prepare( $sql );
-        $stmt->bindValue( 1, $term->getId( ), PDO::PARAM_INT );
-        $stmt->execute( );
+    	try {
+            $sql = sprintf( 'DELETE FROM %s.term WHERE thesaurus_id = %s AND id = ?', $this->parameters['schema'], $this->parameters['thesaurus_id'] );
+        	$stmt = $this->conn->prepare( $sql );
+        	$stmt->bindValue( 1, $term->getId( ), PDO::PARAM_INT );
+        	$stmt->execute( );
+        } catch (PDOException $e) {
+            throw KVDdom_ExceptionConvertor::convert( $e , $term );
+        } 
         return $term;
     }
 
