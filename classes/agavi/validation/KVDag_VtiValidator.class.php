@@ -100,7 +100,7 @@ class KVDag_VtiValidator extends AgaviValidator
 
         if ( $date instanceof DateTime ) {
             if ( $date < new DateTime( $this->getParameter( 'min_datum', '0100-01-01' ) ) || $date > new DateTime( $this->getParameter( 'max_datum', '2099-12-13' ) ) ) {
-                $date = ( integer ) $date->format( 'y' );
+                $date = ( integer ) $date->format( 'Y' );
             }
         }
 
