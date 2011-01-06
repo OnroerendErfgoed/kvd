@@ -1,4 +1,5 @@
 -- Aanmaak van een composiet type om metadata over een vaag tijdsinterval bij te houden.
+DROP TYPE IF EXISTS FD_vti_metadata CASCADE;
 CREATE TYPE FD_vti_metadata AS (
 	sa 				varchar(10),
 	ka				varchar(10),
