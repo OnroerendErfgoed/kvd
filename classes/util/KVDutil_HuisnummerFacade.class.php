@@ -24,25 +24,10 @@ abstract class KVDUtil_HnrElement{
 	 * @var array array met alle data van een huisnummer.
 	 */
 	private $data;
-	/**
-	 * @const integer
-	 */
 	const HUISNR = 0;
-	/**
-	 * @const integer
-	 */
 	const BISN = 1;
-	/**
-	 * @const integer
-	 */
 	const BISL = 2;
-	/**
-	 * @const integer
-	 */
 	const BUSN = 3;
-	/**
-	 * @const integer
-	 */
 	const BUSL = 4;
 	
 	/**
@@ -136,6 +121,7 @@ abstract class KVDUtil_HnrElement{
 /**
  * KVDUtil_HnrReadException
  *  Klasse voor een leesfout in de huisnummerlezer.
+ * @package KVD.util
  * @subpackage huisnummer
  * @since september 2007
  * @copyright 2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
@@ -194,6 +180,7 @@ class KVDUtil_HnrReadException extends KVDUtil_HnrElement{
 /**
  * KVDUtil_HnrEnkelElement
  *  abstracte superklasse voor een huisnummer.
+ * @package KVD.util
  * @subpackage huisnummer
  * @since september 2007
  * @copyright 2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
@@ -921,7 +908,7 @@ class KVDutil_SequenceReader{
 	/**
 	 * read
 	 *  Leest een array van te verzamelen elementen in.
-	 * @return array de input array
+	 * @param array de input array
 	 * @return KVDUtil_HnrReeksElement de volledige reeks
 	 */	
 	public function read($in){
@@ -1325,7 +1312,7 @@ class KVDutil_HuisnummerFacade {
 	/**
 	 * nummersToString
 	 * @param array met huisnummerobjecten
-	 * @string met de huisnummers
+	 * @return string met de huisnummers
 	 */
 	public function nummersToString($inputs)
 	{

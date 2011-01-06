@@ -56,8 +56,11 @@ class KVDdm_AdrTerreinobjectDb extends KVDdom_PDODataMapper{
 
 
 	/**
+     * doLoad
+     *
 	 * @param integer $id
-	 * @param
+	 * @param StdClass $rs
+     * @param KVDdo_AdrHuisnummer $huisnummer
 	 * @return KVDdo_AdrTerreinobject
 	 */
 	public function doLoad( $id , $rs , $huisnummer = null)
@@ -90,7 +93,7 @@ class KVDdm_AdrTerreinobjectDb extends KVDdom_PDODataMapper{
 	 * Zoek een terreinobject op basis van zijn id ( identificatorTerreinobject in Crab ).
 	 * @param string $id IdentificatorTerreinobject uit Crab.
 	 * @return KVDdo_AdrTerreinobjet
-	 * @totdo herbekijken hoe het zit met het huisnummer
+	 * @todo herbekijken hoe het zit met het huisnummer
 	 * @throws <b>KVDdom_DomainObjectNotFoundException</b> Indien het object niet geladen kon worden.
 	 */ 
 	public function findById ( $id )

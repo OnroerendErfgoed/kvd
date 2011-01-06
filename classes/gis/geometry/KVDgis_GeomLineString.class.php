@@ -52,7 +52,7 @@ class KVDgis_GeomLineString extends KVDgis_GeomGeometry
     /**
      * clearPoints 
      * 
-     * @deprectated     Gebruik KVDgis_GeomLineString::clear
+     * @deprecated     Gebruik KVDgis_GeomLineString::clear
      * @return          void
      */
     public function clearPoints( )

@@ -1,6 +1,6 @@
 <?php
 /**
- * @package KVD.do
+ * @package KVD.dm
  * @subpackage Adr
  * @version $Id$
  * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
@@ -11,7 +11,7 @@
 /**
  * KVDdm_AdrKadastergemeente 
  * 
- * @package KVD.do
+ * @package KVD.dm
  * @subpackage Adr
  * @since 31 aug 2007
  * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}

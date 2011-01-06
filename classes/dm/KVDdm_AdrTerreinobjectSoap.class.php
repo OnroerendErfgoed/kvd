@@ -83,7 +83,7 @@ class KVDdm_AdrTerreinobjectSoap {
      * Zoek een terreinobject op basis van zijn id ( identificatorTerreinobject in Crab ).
      * @param string $id IdentificatorTerreinobject uit Crab.
      * @return KVDdo_AdrTerreinobjet
-     * @totdo herbekijken hoe het zit met het huisnummer
+     * @todo herbekijken hoe het zit met het huisnummer
      * @throws <b>KVDdom_DomainObjectNotFoundException</b> Indien het object niet geladen kon worden.
      */ 
     public function findById ( $id )

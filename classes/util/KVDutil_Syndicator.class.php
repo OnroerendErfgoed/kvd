@@ -45,11 +45,11 @@ abstract class KVDUtil_Syndicator
 		'itemdesc'	=>	'description');
 	
 	/**
-	 * @const integer tag voor items
+	 * @var integer tag voor items
 	 */
 	const ITEM	=	0;
 	/**
-	 * @const integer tag voor feeds
+	 * @var integer tag voor feeds
 	 */
 	const FEED	=	1;
 
@@ -217,7 +217,7 @@ abstract class KVDUtil_Syndicator
 class KVDUtil_RSS1 extends KVDUtil_Syndicator
 {
 	/**
-	 * @const string
+	 * @var string
 	 */
 	const RDFNS = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#';
 	/**

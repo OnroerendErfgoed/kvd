@@ -296,7 +296,7 @@ class KVDutil_Date_FuzzyDateRange
  * KVDutil_Date_FuzzyDateRange_Date 
  * 
  * @package     KVD.util
- * @subpacakge  Date
+ * @subpackage  Date
  * @since       20 okt 2010
  * @copyright   2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 

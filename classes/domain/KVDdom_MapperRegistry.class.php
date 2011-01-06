@@ -86,7 +86,7 @@ class KVDdom_MapperRegistry
     /**
      * @param string $teMappenClass Naam van de class waarvoor de mapper gevraagd wordt.
      * @return KVDdom_DataMapper    Een concrete implementatie van een KVDdom_DataMapper.
-     * @throw <b>LogicException</b> Indien er geen standaard type is ingesteld voor een bepaalde te mappen class.
+     * @throws LogicException - Indien er geen standaard type is ingesteld voor een bepaalde te mappen class.
      * @throws Exception - Wanneer de gevraagde mapper niet gevonden werd.
      */
     public function getMapper( $teMappenClass )
@@ -126,7 +126,7 @@ class KVDdom_MapperRegistry
      * 
      * @param string $teMappenClass 
      * @return string
-     * @throw <b>LogicException</b> Indien er geen standaard type is ingesteld voor een bepaalde te mappen class.
+     * @throws LogicException Indien er geen standaard type is ingesteld voor een bepaalde te mappen class.
      */
     private function defaultMapper( $teMappenClass )
     {

@@ -1,12 +1,24 @@
 <?php
 /**
- * @package     PACKAGE
- * @subpackage  SUBPACKAGE
+ * @package     KVD.agavi
+ * @subpackage  validation
+ * @since       11 sep 2010
  * @version     $Id$
  * @copyright   2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
  * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
+/**
+ * KVDag_HtmlFilterValidator
+ *
+ * @package     KVD.agavi
+ * @subpackage  validation
+ * @since       11 sep 2010
+ * @copyright   2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
+
 
 
 class KVDag_HtmlFilterValidator extends AgaviStringValidator
