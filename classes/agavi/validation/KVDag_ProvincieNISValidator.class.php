@@ -11,6 +11,10 @@
 /**
  * Validate whether the input is a valid NIS provincie number.
  * 
+ * Parameters:
+ * <ul>
+ *  <li>'session_name' : Name of the session that knows where to find the datamapper for provincies.</li> 
+ * </ul>
  * @package     KVD.agavi
  * @subpackage  validation
  * @since       19 aug 2008
@@ -18,23 +22,29 @@
  * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
  * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
-class KVDag_ProvincieNISValidator extends AgaviValidator
+class KVDag_ProvincieNISValidator extends KVDag_IdValidator
 {
-    /**
-     * Validate if the argument is a valid NIS provincie number. 
-     * 
-     * @return  bool    If the argument is valid.
-     */
-    protected function validate( )
-    {
-        $value = (int) $this->getData( $this->getArgument( ) );
 
-        if ( !in_array( $value, array ( 10000, 20001, 30000, 40000, 70000 ) ) ) {
-            $this->throwError( );
-            return false;
+    /**
+     * initialize 
+     * 
+     * @param AgaviContext  $context 
+     * @param array         $parameters 
+     * @param array         $arguments 
+     * @param array         $errors 
+     * @return void
+     */
+    public function initialize(AgaviContext $context, array $parameters = array(), array $arguments = array(), array $errors = array())
+    {
+        if ( !isset( $parameters['domain_object'] ) ) {
+            $parameters['domain_object'] = 'KVDdo_AdrProvincie';
+        }
+        
+        if ( !isset( $errors[''] ) ) {
+            $errors[''] = 'U hebt een ongeldige provincie ingegeven.';
         }
 
-        $this->export( $value );
+        parent::initialize( $context, $parameters, $arguments, $errors );
+    }
 
-        return true;
-    }}
+}
