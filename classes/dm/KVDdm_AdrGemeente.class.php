@@ -1,16 +1,20 @@
 <?php
 /**
- * @package KVD.dm
- * @subpackage Adr
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
+ * @package     KVD.dm
+ * @subpackage  Adr
  * @version $Id$
+ * @copyright   2006-2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
- * @package KVD.dm
- * @subpackage Adr
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
- * @since maart 2006
+ * @package     KVD.dm
+ * @subpackage  Adr
+ * @since       maart 2006
+ * @copyright   2006-2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDdm_AdrGemeente extends KVDdom_PDODataMapper {
 
@@ -124,9 +128,9 @@ class KVDdm_AdrGemeente extends KVDdom_PDODataMapper {
     }
 
     /**
-     * @param integer $id
-     * @param Resultset $rs
-     * @return KVDdo_AdrGemeente
+     * @param   integer     $id
+     * @param   stdClass    $rs
+     * @return  KVDdo_AdrGemeente
      */
     public function doLoad( $id, $rs)
     {   
@@ -151,12 +155,12 @@ class KVDdm_AdrGemeente extends KVDdom_PDODataMapper {
     }
     
     /**
-     * @param KVDdo_AdrProvincie
-     * @param string $orderField Veld om op te sorteren. Kan id, gemeenteNaam of provincieNaam zijn.
-     * @param string $orderDirection Kan omlaag of omhoog zijn.
-     * @return KVDdom_DomainObjectCollection Een collecte van KVDdo_AdrGemeente objecten.
+     * @param   KVDdo_AdrProvincie  $provincie
+     * @param   string              $orderField     Veld om op te sorteren. Kan id, gemeenteNaam of provincieNaam zijn.
+     * @param   string              $orderDirection Kan omlaag of omhoog zijn.
+     * @return  KVDdom_DomainObjectCollection Een collecte van {@link KVDdo_AdrGemeente} objecten.
      */
-    public function findByProvincie ( $provincie , $orderField = null , $orderDirection = null )
+    public function findByProvincie ( KVDdo_AdrProvincie $provincie , $orderField = null , $orderDirection = null )
     {
        $stmt = $this->_conn->prepare ( $this->getFindByProvincieStatement( ) . $this->getOrderClause( $orderField , $orderDirection ) );
        $id = $provincie->getId( );
@@ -166,8 +170,9 @@ class KVDdm_AdrGemeente extends KVDdom_PDODataMapper {
 
     /**
      * Zoek een gemeente op basis van zijn naam. Deze moet natuurlijk correct geschreven zijn.
-     * @param string $naam
-     * @return KVDdo_AdrGemeente
+     *
+     * @param   string              $naam
+     * @return  KVDdo_AdrGemeente
      */
     public function findByNaam( $naam )
     {
@@ -184,9 +189,9 @@ class KVDdm_AdrGemeente extends KVDdom_PDODataMapper {
     /**
      * findByCriteria 
      *
-     * @since 30 okt 2007
-     * @param KVDdb_Criteria $criteria 
-     * @return void
+     * @since   30 okt 2007
+     * @param   KVDdb_Criteria $criteria 
+     * @return  KVDdom_DomainObjectCollection
      */
     public function findByCriteria ( KVDdb_Criteria $criteria )
     {
@@ -200,8 +205,9 @@ class KVDdm_AdrGemeente extends KVDdom_PDODataMapper {
     }
 
     /**
-     * @param string orderField Veld waarop gesorteerd moet worden.
-     * @return string
+     * @param   string  $orderField     Veld waarop gesorteerd moet worden.
+     * @param   string  $orderDirection Kan omlaag of omhoog zijn.
+     * @return  string
      */
     private function getOrderClause ( $orderField = 'gemeenteNaam' , $orderDirection = 'omlaag' )
     {
