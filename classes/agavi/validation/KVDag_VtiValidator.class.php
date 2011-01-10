@@ -135,12 +135,12 @@ class KVDag_VtiValidator extends AgaviValidator
             // Minstens 1 argument is geen datum. 
             // Herleiden tot jaartal.
             if ( $this->$a instanceOf DateTime ) {
-                $f = ( integer ) $this->$a( 'y' );
+                $f = ( integer ) $this->$a->format( 'y' );
             } else {
                 $f = $this->$a;
             }
             if ( $this->$b instanceOf DateTime ) {
-                $s = ( integer ) $this->$b( 'y' );
+                $s = ( integer ) $this->$b->format( 'y' );
             } else {
                 $s = $this->$b;
             }
