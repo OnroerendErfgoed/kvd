@@ -1,0 +1,2 @@
+UPDATE kvd_adr.deelgemeente SET deelgemeente_naam = 'Wezembeek-Oppem' WHERE id = '23103A';
+UPDATE kvd_adr.deelgemeente SET deelgemeente_naam = 'Vlezenbeek' WHERE id = '23077D';
