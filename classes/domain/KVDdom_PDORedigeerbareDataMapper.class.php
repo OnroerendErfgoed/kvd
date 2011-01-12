@@ -189,7 +189,7 @@ abstract class KVDdom_PDORedigeerbareDataMapper extends KVDdom_PDOLogableDataMap
      * revertDelete 
      * 
      * @param KVDdom_DomainObject $domainObject 
-     * @throw <b>Exception</b> Indien het verwijderde record niet kon teruggeplaatst worden.
+     * @throws <b>Exception</b> Indien het verwijderde record niet kon teruggeplaatst worden.
      */
     public function revertDelete( $domainObject )
     {

@@ -61,6 +61,19 @@ class KVDutil_DownloadModel implements IteratorAggregate
                 $this->bestanden[] = $bestand->getFileInfo( );
             }
         }
+        uasort( $this->bestanden, array( $this, 'cmpSPLFileInfo' ) );
+    }
+
+    /**
+     * cmpSPLFileInfo 
+     * 
+     * @param   SPLFileInfo     $info1 
+     * @param   SPLFileInfo     $info2 
+     * @return  integer         -1, 0 of 1
+     */
+    private function cmpSPLFileInfo( SPLFileInfo $info1, SPLFileInfo $info2 )
+    {
+        return strcmp( $info1->getFileName( ), $info2->getFileName( ) );
     }
 
     /**

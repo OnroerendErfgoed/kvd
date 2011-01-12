@@ -2,29 +2,29 @@
 /**
  * @package     KVD.agavi
  * @subpackage  validation
+ * @since       11 sep 2010
  * @version     $Id$
- * @copyright   2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @copyright   2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
  * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
-
 /**
- * Validate whether the input is a valid NIS provincie number.
- * 
- * Parameters:
- * <ul>
- *  <li>'session_name' : Name of the session that knows where to find the datamapper for provincies.</li> 
- * </ul>
+ * KVDag_HtmlFilterValidator
+ *
  * @package     KVD.agavi
  * @subpackage  validation
- * @since       19 aug 2008
- * @copyright   2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @since       11 sep 2010
+ * @copyright   2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
  * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
-class KVDag_ProvincieNISValidator extends KVDag_IdValidator
+
+
+
+class KVDag_HtmlFilterValidator extends AgaviStringValidator
 {
 
+    private $tagsallowed = "";
     /**
      * initialize 
      * 
@@ -36,15 +36,22 @@ class KVDag_ProvincieNISValidator extends KVDag_IdValidator
      */
     public function initialize(AgaviContext $context, array $parameters = array(), array $arguments = array(), array $errors = array())
     {
-        if ( !isset( $parameters['domain_object'] ) ) {
-            $parameters['domain_object'] = 'KVDdo_AdrProvincie';
-        }
-        
-        if ( !isset( $errors[''] ) ) {
-            $errors[''] = 'U hebt een ongeldige provincie ingegeven.';
-        }
-
+        $this->tagsallowed = $parameters["tags"];
         parent::initialize( $context, $parameters, $arguments, $errors );
     }
-
+    
+    
+    /**
+     * Validates whether the argument is a valid id for a domain object. 
+     * 
+     * @return  bool    True when valid.
+     */
+    protected function validate( )
+    {   
+        $value =& $this->getData( $this->getArgument( ) );
+        $value = strip_tags($value);
+        return parent::validate();
+    }
 }
+
+?>

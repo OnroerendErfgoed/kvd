@@ -27,14 +27,72 @@ abstract class KVDgis_GeomGeometry
      */
     private $srid;
 
+    
+    /**
+     * @var boolean geeft aan of de reguliere expresses voor de types al geladen zijn
+     */
+    protected $RE_LOADED = false;
+    /**
+     * @var string reguliere expressie voor een float getal met (optioneel) een + of - teken
+     */
+    protected $RE_SIGNED;
+    /**
+     * @var string reguliere expressie voor een punt
+     */
+    protected $RE_POINT;
+    /**
+     * @var string reguliere expressie voor een linestring
+     */
+    protected $RE_LINESTRING;
+    /**
+     * @var string reguliere expressie voor een polygoon
+     */
+    protected $RE_POLYGON;
+    /**
+     * @var string reguliere expressie voor een multi polygoon
+     */
+    protected $RE_MULTIPOLYGON;
+    
+    
     /**
      * @param integer $srid Spatial Referencing System Identifier
      */
     public function __construct( $srid = -1)
     {
         $this->setSrid ( $srid );
+        if(!$this->RE_LOADED) $this->initRegEx();
     }
 
+    /**
+     * initRegEx
+     * Laadt de reguliere expressies in de class (static) variabelen.
+     * @var void
+     * @return void
+     */
+    public function initRegEx()
+    {
+        $this->RE_LOADED = true;
+        // Syntax: {<sign>}<digit>*{<punt><digit>*}
+        // Bijvoorbeeld: +0.235
+        // Bijvoorbeeld: 2
+        // Bijvoorbeeld: -5.2
+        $this->RE_SIGNED = "(-|\+)?\d+(\.\d+)?";
+        // Syntax: <signed numeric literal> <signed numeric literal>
+        // Bijvoorbeeld: +0.235 -5.2
+        $this->RE_POINT = $this->RE_SIGNED."\s+".$this->RE_SIGNED; 
+        // Syntax: '(' <point> { ',' <point>}* ')'
+        // Bijvoorbeeld: (+0.235 -5.2, 2 -5)
+        $this->RE_LINESTRING = "\([\s\d\.\+-,]*\)";
+        // Syntax: '(' {<koppeling>?<linestring>}* ')'
+        // Bijvoorbeeld: ((+0.235 -5.2, 2 -5), (0.2 -5, 2 -15))
+        $KOPPELING = "[\s,]*";
+        $this->RE_POLYGON = "\((".$KOPPELING.$this->RE_LINESTRING.")*\s*\)";
+        // Syntax: '(' { <koppeling>?<polygon>}* ')'
+        // Bijvoorbeeld: (((+0.235 -5.2, 2 -5), (0.2 -5, 2 -15)), ((+12.235 -6.2, 3 -1), (0.9 -7, 3 -10)))
+        $this->RE_MULTIPOLYGON = "\((".$KOPPELING.$this->RE_POLYGON.")*\s*\)";
+         
+    }
+    
     /**
      * @param integer $srid Spatial Referencing System Identifier
      */

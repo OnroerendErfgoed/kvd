@@ -94,5 +94,11 @@ class KVDgis_GeomLineStringTest extends PHPUnit_Framework_TestCase
             $this->assertEquals( $v, (string) $this->testLineString );
         }
     }
+
+    function testWithSpaces( )
+    {
+        $this->testLineString->setGeometryFromText('LINESTRING ( 178000 212000, 100000 150000 ) ');
+        $this->assertEquals( 'LINESTRING(178000 212000, 100000 150000)', (string) $this->testLineString );
+    }
 }
 ?>
