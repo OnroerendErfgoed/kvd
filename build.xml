@@ -220,7 +220,7 @@
 			</then>
 		</if>
 		<phpunit bootstrap="tests/KVD_Autoload.php"
-			codecoverage="true" failureproperty="${tests.failure}">
+			codecoverage="true" failureproperty="testsFailure">
 			<formatter todir="build" type="xml" />
 			<formatter todir="build" type="clover" />
 			<formatter todir="build" type="plain" />
@@ -236,7 +236,7 @@
 			</batchtest>
 		</phpunit>
 		<if>
-			<istrue value="${tests.failure}" />
+			<isset property="testsFailure" />
 			<then>
 				<echo>Het builden van de KVDlib is mislukt!</echo>
 			</then>

@@ -267,7 +267,8 @@ abstract class AutoloadCreator
     /**
      * factory 
      * 
-     * @param string $type          Type of creator to return. Can be 'Array' or 'Function'. Defaults to 'Array'.
+     * @param string $type          Type of creator to return. Can be 'Array', 'Function' 
+     * , 'RegisteredFunction' or 'AgaviXml'. Defaults to 'Array'.
      * @param string $outputName    Name for the output variable or function
      * @return AutoloadCreator
      */
@@ -279,6 +280,9 @@ abstract class AutoloadCreator
                 break;
             case 'RegisteredFunction':
                 return new AutoloadRegisteredFunctionCreator( $outputName );
+                break;
+            case 'AgaviXml':
+                return new AutoloadAgaviXmlCreator( $outputName );
                 break;
             case 'Array':
             default:
@@ -372,6 +376,39 @@ class AutoloadRegisteredFunctionCreator extends AutoloadCreator
         "}\n".
         "spl_autoload_register(\"{$this->outputName}\");\n".
         "?>";
+    }
+}
+
+/**
+ * AutoloadAgaviXmlCreator 
+ * 
+ * @package     phing
+ * @since       31 jan 2010
+ * @copyright   2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
+class AutoloadAgaviXmlCreator extends AutoloadCreator
+{
+    /**
+     * create 
+     * 
+     * @param array $classes 
+     * @return void
+     */
+    public function create( array $classes )
+    {
+        $res = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
+        $res .= '<ae:configurations  xmlns="http://agavi.org/agavi/config/parts/autoload/1.0" xmlns:ae="http://agavi.org/agavi/config/global/envelope/1.0">' . "\n";
+        $res .= '<ae:configuration>' . "\n";
+        $res .= '<autoloads>' . "\n";
+        foreach ( $classes as $class => $file) {
+            $res .= '<autoload name="' . $class . '"><![CDATA[' . $file . ']]></autoload>' . "\n";
+        }
+        $res .= '</autoloads>' . "\n";
+        $res .= '</ae:configuration>' . "\n";
+        $res .= '</ae:configurations>';
+        $this->result = $res;
     }
 }
 ?>
