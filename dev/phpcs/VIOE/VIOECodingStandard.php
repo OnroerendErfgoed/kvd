@@ -34,7 +34,7 @@ class PHP_CodeSniffer_Standards_VIOE_VIOECodingStandard extends PHP_CodeSniffer_
     public function getIncludedSniffs( ) 
     {
         return array( 
-                    'Generic'
+                    'Generic',
                     );
     }
 
@@ -52,7 +52,8 @@ class PHP_CodeSniffer_Standards_VIOE_VIOECodingStandard extends PHP_CodeSniffer_
                     'Generic/Sniffs/Functions/OpeningFunctionBraceKernighanRitchieSniff.php',
                     'Generic/Sniffs/VersionControl/SubversionPropertiesSniff.php',
                     'Generic/Sniffs/Formatting/MultipleStatementAlignmentSniff.php',
-                    'Generic/Sniffs/PHP/UpperCaseConstantSniff.php'
+                    'Generic/Sniffs/PHP/UpperCaseConstantSniff.php',
+                    'Generic/Sniffs/Formatting/NoSpaceAfterCastSniff.php'
                     );
     }
 }

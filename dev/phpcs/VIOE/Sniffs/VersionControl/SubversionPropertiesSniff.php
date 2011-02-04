@@ -23,7 +23,7 @@
 class VIOE_Sniffs_VersionControl_SubversionPropertiesSniff extends Generic_Sniffs_VersionControl_SubversionPropertiesSniff
 {
     protected $properties = array( 'svn:keywords'  => 'Id',
-                                   'svn:eol-style' => 'LF'
+                                   'svn:eol-style' => 'native'
                                  );
 }
 ?>
