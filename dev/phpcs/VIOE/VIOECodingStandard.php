@@ -53,7 +53,8 @@ class PHP_CodeSniffer_Standards_VIOE_VIOECodingStandard extends PHP_CodeSniffer_
                     'Generic/Sniffs/VersionControl/SubversionPropertiesSniff.php',
                     'Generic/Sniffs/Formatting/MultipleStatementAlignmentSniff.php',
                     'Generic/Sniffs/PHP/UpperCaseConstantSniff.php',
-                    'Generic/Sniffs/Formatting/NoSpaceAfterCastSniff.php'
+                    'Generic/Sniffs/Formatting/NoSpaceAfterCastSniff.php',
+                    'Generic/Sniffs/Files/LineLengthSniff.php'
                     );
     }
 }
