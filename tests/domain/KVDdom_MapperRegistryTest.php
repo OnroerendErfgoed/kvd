@@ -1,4 +1,11 @@
 <?php
+/**
+ * @package     KVD.dom
+ * @version     $Id$
+ * @copyright   2011 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
 
 require_once ( 'PHPUnit/Framework.php' );
 
@@ -14,6 +21,15 @@ class genericDataMapperXml {
 class genericDataMapperDb {
 }
 
+/**
+ * KVDdom_MapperRegistryTest 
+ * 
+ * @package     KVD.dom
+ * @since       1.4.1
+ * @copyright   2011 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
 class KVDdom_MapperRegistryTest extends PHPUnit_Framework_TestCase
 {
     public function setUp(  )
@@ -49,6 +65,21 @@ class KVDdom_MapperRegistryTest extends PHPUnit_Framework_TestCase
         $this->assertSame ( $mapperXml, $mapperRegistry->getMapper('genericDomainObject') );
     }
 
+    /**
+     * Test of er een LogicException is indien er voor een bepaald domainobject 
+     * meerdere mappers zijn, maar geen default mapper. 
+     * 
+     * @expectedException   LogicException
+     */
+    public function testOnbestaandeDefaultMapper(  )
+    {
+        $mapperConfig = array ( 'genericDomainObject' => array( 'mappers' => array( 'db' => '', 'xml' => '' ) ) );
+        $mapperFactory = $this->getMock('KVDdom_MapperFactory', array(), array( $this->sessie, array(  ) ) );
+
+        $mapperRegistry = new KVDdom_MapperRegistry( $mapperFactory, $mapperConfig );
+        $mapperRegistry->getMapper( 'genericDomainObject' );
+    }
+
 
     public function testGetOtherMapper( )
     {
@@ -63,7 +94,34 @@ class KVDdom_MapperRegistryTest extends PHPUnit_Framework_TestCase
         $this->assertSame ( $mapperDb, $mapperRegistry->getMapper('genericDomainObject') );
     }
 
+    /**
+     * Testen dat we geen onbestaande mapper als default kunnen instellen.
+     * 
+     * @expectedException   LogicException
+     */
+    public function testSetOngeldigeDefaultMapper1( )
+    {
+        $mapperConfig = array ( 'genericDomainObject' => array( 'mappers' => array( 'default' => 'xml', 'db' => '', 'xml' => '' ) ) );
+        $mapperFactory = $this->getMock('KVDdom_MapperFactory', array(), array( $this->sessie, array(  ) ) );
 
+        $mapperRegistry = new KVDdom_MapperRegistry( $mapperFactory, $mapperConfig );
+        $mapperRegistry->setDefaultMapper( 'genericDomainObject', 'soap' );
+    }
+
+    /**
+     * Testen dat we geen default mapper kunnen instellen voor een class die 
+     * maar 1 mapper heeft.
+     * 
+     * @expectedException   LogicException
+     */
+    public function testSetOngeldigeDefaultMapper2( )
+    {
+        $mapperConfig = array ( 'genericDomainObject' => array( 'mappers' => array( 'default' => 'xml', 'db' => '', 'xml' => '' ) ) );
+        $mapperFactory = $this->getMock('KVDdom_MapperFactory', array(), array( $this->sessie, array(  ) ) );
+
+        $mapperRegistry = new KVDdom_MapperRegistry( $mapperFactory, $mapperConfig );
+        $mapperRegistry->setDefaultMapper( 'ericDomainObject', 'db' );
+    }
 
 
 
