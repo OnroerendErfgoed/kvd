@@ -36,6 +36,12 @@ class KVDdom_Fields_SingleFieldTest extends PHPUnit_Framework_TestCase
         $this->assertEquals( 'eigenaar', $this->field->getName( ) );
     }
 
+    public function testFieldType(  )
+    {
+        $field = new KVDdom_Fields_SingleField( $this->dom, 'eigenaar', 'Koen Van Daele', 'string' );
+        $this->assertEquals( 'string', $field->getType(  )  );
+    }
+
     public function testDefaultValue( )
     {
         $this->assertEquals( $this->field->getValue( ), $this->field->getDefaultValue() );

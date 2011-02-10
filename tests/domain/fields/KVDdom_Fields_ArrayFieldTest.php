@@ -40,6 +40,12 @@ class KVDdom_Fields_ArrayFieldTest extends PHPUnit_Framework_TestCase
         $this->assertEquals( 'eigenaars', $this->field->getName( ) );
     }
 
+    public function testFieldType(  )
+    {
+        $field = new KVDdom_Fields_ArrayField( $this->dom, 'eigenaars', 'string' );
+        $this->assertEquals( 'string', $field->getType(  )  );
+    }
+
     public function testInitializeValue( )
     {
         $this->dom->expects($this->never())->method( 'markDirty' );
