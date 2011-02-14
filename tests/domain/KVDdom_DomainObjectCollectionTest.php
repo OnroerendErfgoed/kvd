@@ -17,10 +17,10 @@ class KVDdom_DomainObjectCollectionTest extends PHPUnit_Framework_TestCase
         $this->_domObject = new KVDdom_SimpleTestDomainObject( 54321, 'Object 54321' );
         $this->_domObject2 = new KVDdom_SimpleTestDomainObject( 9876, 'Object 9876' );
         $this->_domObject3 = new KVDdom_SimpleTestDomainObject( 123456789, 'Object 123456789' );
-        $test_array = array (    54321       => $this->_domObject,
+        $this->_testArray = array (    54321       => $this->_domObject,
                                  9876        => $this->_domObject2,
                                  123456789   => $this->_domObject3 );
-        $this->_domainObjectCollection = new KVDdom_DomainObjectCollection( $test_array );
+        $this->_domainObjectCollection = new KVDdom_DomainObjectCollection( $this->_testArray );
     }
 
     function tearDown( )
@@ -114,6 +114,16 @@ class KVDdom_DomainObjectCollectionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals ( 9876, $this->_domainObjectCollection->key( ) );
         $this->assertSame( $this->_domainObjectCollection->getDomainObjectWithId( 54321 ) , $this->_domObject );
         $this->assertEquals ( 9876, $this->_domainObjectCollection->key( ) );
+    }
+
+    public function testToArray(  )
+    {
+        $this->assertEquals( $this->_testArray, $this->_domainObjectCollection->toArray( ) );
+    }
+
+    public function testToString(  )
+    {
+        $this->assertEquals( 'Object 54321, Object 9876, Object 123456789', $this->_domainObjectCollection->__toString( ) );
     }
 
 }

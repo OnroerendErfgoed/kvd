@@ -54,6 +54,22 @@ class KVDdb_CriterionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals( "( UPPER( provincie ) LIKE UPPER( '__st-Vlaanderen' ) )", $criterion->generateSql( ) );
     }
 
+    public function testNotMatch( )
+    {
+        $criterion = KVDdb_Criterion::notMatches( 'provincie', 'West-Vlaanderen' );
+        $this->assertType ( 'KVDdb_NotMatchCriterion', $criterion );
+        $this->assertEquals( "( UPPER( provincie ) NOT LIKE UPPER( 'West-Vlaanderen' ) )", $criterion->generateSql( ) );
+        
+        $criterion = KVDdb_Criterion::notMatches( 'provincie', '%West-Vlaanderen' );
+        $this->assertType ( 'KVDdb_NotMatchCriterion', $criterion );
+        $this->assertEquals( "( UPPER( provincie ) NOT LIKE UPPER( '%West-Vlaanderen' ) )", $criterion->generateSql( ) );
+
+        
+        $criterion = KVDdb_Criterion::notMatches( 'provincie', '__st-Vlaanderen' );
+        $this->assertType ( 'KVDdb_NotMatchCriterion', $criterion );
+        $this->assertEquals( "( UPPER( provincie ) NOT LIKE UPPER( '__st-Vlaanderen' ) )", $criterion->generateSql( ) );
+    }
+
     public function testGreaterThan( )
     {
         $criterion = KVDdb_Criterion::greaterThan( 'provincie', 40000 );
