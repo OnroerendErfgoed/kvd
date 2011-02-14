@@ -35,7 +35,7 @@ class KVDutil_GatewayRegistry {
      */
     public function __construct ( $factory )
     {
-        $this->_factory = $factory;
+        $this->factory = $factory;
         $this->gateways = array( );
     }
 
@@ -46,9 +46,22 @@ class KVDutil_GatewayRegistry {
     public function getGateway ( $gateway )
     {
         if ( !array_key_exists( $gateway, $this->gateways) ) {
-            $this->gateways[$gateway] = $this->_factory->createGateway( $gateway );
+            $this->gateways[$gateway] = $this->factory->createGateway( $gateway );
         }
         return $this->gateways[$gateway];
+    }
+
+    /**
+     * Indien we het object serialiseren, verwijderen we alle gekende gateways. 
+     * Dit zorgt er voor dat eventuele resources die de gateways vast hebben 
+     * niet meer geserialiseerd worden. 
+     * 
+     * @since 1.4.2
+     * @return void
+     */
+    public function __sleep(  )
+    {
+        $this->gateways = array( );
     }
 }
 ?>

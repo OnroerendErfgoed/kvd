@@ -31,6 +31,11 @@ class KVDdom_SimpleTestDomainObject implements KVDdom_DomainObject
         return $this->titel;
     }
 
+    public function __toString(  )
+    {
+        return $this->getOmschrijving( );
+    }
+
     public function getClass( ) 
     {
         return get_class( $this );

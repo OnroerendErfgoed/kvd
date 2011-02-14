@@ -40,6 +40,12 @@ class KVDdom_Fields_CollectionFieldTest extends PHPUnit_Framework_TestCase
         $this->assertEquals( 'eigenaars', $this->field->getName( ) );
     }
 
+    public function testFieldType(  )
+    {
+        $field = new KVDdom_Fields_CollectionField( $this->dom, 'eigenaars', 'KVDdom_SimpleTestDomainObject' );
+        $this->assertEquals( 'KVDdom_SimpleTestDomainObject', $field->getType(  )  );
+    }
+
     public function testInitializeValue( )
     {
         $this->dom->expects($this->never())->method( 'markDirty' );

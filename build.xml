@@ -271,7 +271,16 @@
 			</fileset>
 			<formatter type="summary" usefile="false"/>
 			<formatter type="checkstyle" outfile="build/reports/sniffs/checkstyle.xml"/>
+			<formatter type="full" outfile="build/reports/sniffs/sniffs.txt" usefile="true"/>
 		</phpcodesniffer>
+		<copy file="build/reports/sniffs/checkstyle.xml" tofile="build/bitten_lint.xml" overwrite="true">
+			<filterchain>
+				<xsltfilter style="phing/style/checkstyle_to_bitten.xslt" />
+				<replaceregexp>
+					<regexp pattern="${project.basedir}" replace="" />
+				</replaceregexp>
+			</filterchain>
+		</copy>
 	</target>
 
 	<target name="runBuild" description="Maak een volledig build met unit tests en documentatie." depends="createBuildDir">
