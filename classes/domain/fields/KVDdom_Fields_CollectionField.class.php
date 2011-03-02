@@ -154,8 +154,8 @@ class KVDdom_Fields_CollectionField extends KVDdom_Fields_AbstractField
     {
         $this->checkValues();
         if ( count( $this->value ) > 0 ) {
-            $this->dom->markFieldAsDirty($this);
             $this->value->clear( );
+            $this->dom->markFieldAsDirty($this);
         }
     }
 }

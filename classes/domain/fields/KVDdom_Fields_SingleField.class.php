@@ -93,8 +93,8 @@ class KVDdom_Fields_SingleField extends KVDdom_Fields_AbstractField
     public function setValue($value)
     {
         if ( $value !== $this->value ) {
-            $this->dom->markFieldAsDirty($this);
             $this->value = $value;
+            $this->dom->markFieldAsDirty($this);
         }
     }
 
