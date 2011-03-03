@@ -267,6 +267,28 @@ abstract class KVDdom_PDODataMapper {
         $fields = explode ( ', ' , $this->velden );
         return implode ( ', ' , array_fill( 0 , count( $fields ) , '?' ) );
     }
+
+    /**
+     * Serialiseer de datamapper. 
+     * 
+     * @return array
+     */
+    public function __sleep( )
+    {
+        $arr = get_object_vars($this);
+        unset($arr['_conn']);
+        return array_keys($arr);
+    }
+
+    /**
+     * Deserialiseer de datamapper. 
+     * 
+     * @return void
+     */
+    public function __wakeup( )
+    {
+        $this->_conn = $this->_sessie->getDatabaseConnection( get_class($this) );
+    }
     
 }
 ?>
