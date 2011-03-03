@@ -114,7 +114,9 @@ abstract class KVDdom_ChangeableDomainObject implements KVDdom_DomainObject, KVD
             if ( isset( $this->fields[$key] ) ) {
                 $this->fields[$key]->initializeValue( $val );
             } else {
-                throw new KVDdom_Fields_Exception( 'U probeert een startwaarde in te stellen voor een niet bestaand veld.' );
+                throw new KVDdom_Fields_Exception( 
+                    sprintf( 'U probeert een startwaarde in te stellen voor een niet bestaand veld ( %s ).',
+                    $key ) );
             }
         }
     }
