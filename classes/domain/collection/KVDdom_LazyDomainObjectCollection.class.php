@@ -151,7 +151,7 @@ class KVDdom_LazyDomainObjectCollection extends KVDdom_DomainObjectCollection
      * @param KVDdom_DomainObject $domainObject 
      * @return boolean
      */
-    public function hasDomainObject( KVDdom_DomainObject $domainObject )
+    public function hasDomainObject( $domainObject )
     {
         $currentIndex = $this->key( );
         $this->rewind( );
