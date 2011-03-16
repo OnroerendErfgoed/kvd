@@ -299,7 +299,7 @@ abstract class KVDthes_Term extends KVDdom_ChangeableDomainObject
      */
     public function getQualifiedTerm( )
     {
-        return $this->term . ( $this->qualifier !== null ? ' (' . $this->qualifier . ')' : '');
+        return $this->term . ( !empty( $this->qualifier ) ? ' (' . $this->qualifier . ')' : '');
     }
 
     /**
