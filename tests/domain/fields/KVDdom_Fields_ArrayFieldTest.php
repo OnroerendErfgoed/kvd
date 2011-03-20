@@ -114,5 +114,15 @@ class KVDdom_Fields_ArrayFieldTest extends PHPUnit_Framework_TestCase
         $this->assertEquals( 0, count($tarr) );
     }
 
+    public function testSetValue(  )
+    {
+        $arr = array( $this->lena, $this->mira);
+        $this->dom->expects($this->never())->method( 'markDirty' );
+        $this->dom->expects($this->exactly(2))->method( 'markFieldAsDirty' );
+        $this->field->setValue( $arr );
+        $tarr = $this->field->getValue( );
+        $this->assertEquals( 2, count($tarr) );
+    }
+
 }
 ?>

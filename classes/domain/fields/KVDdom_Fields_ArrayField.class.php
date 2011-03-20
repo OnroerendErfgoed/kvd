@@ -80,6 +80,20 @@ class KVDdom_Fields_ArrayField extends KVDdom_Fields_AbstractField
     }
 
     /**
+     * setValue 
+     * 
+     * @param   array   $coll
+     * @return  void
+     */
+    public function setValue( $coll  )
+    {
+        $this->clear( );
+        foreach ( $coll as $elem ) {
+            $this->add( $elem );
+        }
+    }
+
+    /**
      * add 
      * 
      * @param   mixed   $value 

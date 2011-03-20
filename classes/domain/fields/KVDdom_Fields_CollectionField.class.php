@@ -116,6 +116,21 @@ class KVDdom_Fields_CollectionField extends KVDdom_Fields_AbstractField
     }
 
     /**
+     * setValue 
+     * 
+     * @param   KVDdom_DomainObjectCollection   $coll
+     * @return  void
+     */
+    public function setValue( $coll  )
+    {
+        $this->checkValues();
+        $this->clear( );
+        foreach ( $coll as $elem ) {
+            $this->add( $elem );
+        }
+    }
+
+    /**
      * add 
      * 
      * @param   KVDdom_DomainObject $value 

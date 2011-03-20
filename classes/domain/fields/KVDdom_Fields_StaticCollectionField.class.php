@@ -80,6 +80,20 @@ class KVDdom_Fields_StaticCollectionField extends KVDdom_Fields_AbstractField
     }
 
     /**
+     * setValue 
+     * 
+     * @param   KVDdom_DomainObjectCollection   $coll
+     * @return  void
+     */
+    public function setValue( $coll  )
+    {
+        $this->clear( );
+        foreach ( $coll as $elem ) {
+            $this->add( $elem );
+        }
+    }
+
+    /**
      * add 
      * 
      * @param   KVDdom_DomainObject $value 

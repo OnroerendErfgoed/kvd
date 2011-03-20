@@ -74,6 +74,16 @@ abstract class KVDdom_Fields_AbstractField
     abstract public function getValue(  );
 
     /**
+     * setValue 
+     * 
+     * Stel een nieuwe waarde voor het veld. Voor een meervoudig veld zal dit 
+     * alle veldwaarden vervangen.
+     * @param   mixed   $value
+     * @return  void
+     */
+    abstract public function setValue( $value  );
+
+    /**
      * initializeValue 
      * 
      * Methode om een veld een startwaarde toe te kennen.

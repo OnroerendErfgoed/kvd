@@ -125,5 +125,16 @@ class KVDdom_Fields_CollectionFieldTest extends PHPUnit_Framework_TestCase
         $this->assertEquals( 0, count($coll) );
     }
 
+    public function testSetValue( )
+    {
+        $this->field->initializeValue( $this->collection );
+        $collection = new KVDdom_EditeerbareDomainObjectCollection( array( 11 => $this->mira), 'KVDdom_SimpleTestDomainObject' );
+        $this->dom->expects($this->never())->method( 'markDirty' );
+        $this->dom->expects($this->once())->method( 'markFieldAsDirty' );
+        $this->field->setValue( $collection );
+        $this->assertType( 'KVDdom_DomainObjectCollection', $this->field->getValue() );
+        $this->assertEquals( 1, $this->field->getValue( )->count( ) );
+    }
+
 }
 ?>
