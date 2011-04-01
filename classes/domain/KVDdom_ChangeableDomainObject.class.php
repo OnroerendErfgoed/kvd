@@ -246,14 +246,23 @@ abstract class KVDdom_ChangeableDomainObject implements KVDdom_DomainObject, KVD
 
     /**
      * Maakt een nieuw KVDdom_ChangeableDomainObject aan dat niet uit de databank wordt geladen
-     * @param integer $id Het Id nummer voor het nieuwe object. Meestal wordt dit aangereikt door de DataMapper die er voor moet zorgen dat dit nummer uniek is binnen het type object.
-     * @param KVDdom_Sessie $sessie Het sessie object. Of een ander object dat de Unit Of Work implementeert
+     *
+     * Deze methode werd uit de interface gehaald omdat sommige subtypes een 
+     * create methode moeten kunnen gebruiken die ook andere parameters kan 
+     * aanvaarden. Momenteel kon dit niet en dit leidde tot E_STRICT fouten.
+     * @param   integer         $id     Het Id nummer voor het nieuwe object. Meestal wordt dit 
+     *                                  aangereikt door de DataMapper die er voor moet zorgen dat 
+     *                                  dit nummer uniek is binnen het type object.
+     * @param   KVDdom_Sessie   $sessie Het sessie object. Of een ander object dat de 
+     *                                  Unit Of Work implementeert
      * @return KVDdom_ChangeableDomainObject
      */
+    /*
 	static function create( $id , $sessie )
     {
         throw new Exception ( 'This method should only be called on a concrete implementation.' );
     }
+    */
 
     /**
      * Verwijdert dit object uit het domein
