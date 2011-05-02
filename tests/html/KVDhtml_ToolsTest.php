@@ -27,8 +27,8 @@ class KVDhtml_ToolsTest extends PHPUnit_Framework_TestCase
 
     public function testOutImplode( )
     {
-        $this->assertEquals('Dit is een test. | Lena &gt; Mira | Luka &amp; Felix',  KVDhtml_Tools::outImplode( $this->testData , ' | ' ) );
-        $this->assertEquals('Dit is een test. <br/> Lena &gt; Mira <br/> Luka &amp; Felix', KVDhtml_Tools::outImplode( $this->testData , ' <br/> ' ) );
+        $this->assertEquals('Dit is een test. | Lena &gt; Mira | Luka &amp; Felix',  KVDhtml_Tools::outImplode( array_keys( $this->testData ) , ' | ' ) );
+        $this->assertEquals('Dit is een test. <br/> Lena &gt; Mira <br/> Luka &amp; Felix', KVDhtml_Tools::outImplode( array_keys( $this->testData ) , ' <br/> ' ) );
     }
 }
 ?>

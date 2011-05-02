@@ -261,7 +261,7 @@
 		<delete dir="build/reports/sniffs" />
 		<mkdir dir="build/reports/sniffs" />
 		<phpcodesniffer
-			standard="dev/phpcs/VIOE/">
+			standard="${project.basedir}/dev/phpcs/VIOE/VIOECodingStandard.php">
 			<fileset dir="classes">
 				<include name="database/criteria/*.php" />
 				<include name="gis/crab/KVDgis_*Cache*.php"/>

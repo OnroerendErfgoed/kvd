@@ -39,8 +39,8 @@ class KVDhtml_Tools
      */
     public static function outImplode( array $value , $delimiter )
     {
-        array_walk( $value , array ( 'KVDhtml_Tools' , 'out' ) );
-        return implode( $delimiter , $value );
+        return implode( $delimiter , 
+                        array_map( array ( 'KVDhtml_Tools' , 'out' ), $value ) );
     }
 
     /**
