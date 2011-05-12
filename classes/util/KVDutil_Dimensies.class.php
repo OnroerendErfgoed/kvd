@@ -74,7 +74,8 @@ class KVDutil_Dimensies implements ArrayAccess, IteratorAggregate
             $this->dimensies[$offset] = $value;        
         } else {
             $toegestaneDimensies = implode ( ', ' , $this->allowedDimensies );
-            throw new Exception ("Deze dimensie hoort niet tot de toegstane dimensies. Toegestane dimensies zijn $toegestaneDimensies.");
+            throw new InvalidArgumentException (
+                "Deze dimensie hoort niet tot de toegstane dimensies. Toegestane dimensies zijn $toegestaneDimensies.");
         }
     }
 

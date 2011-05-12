@@ -62,6 +62,7 @@ class KVDutil_GatewayRegistry {
     public function __sleep(  )
     {
         $this->gateways = array( );
+        return array( );
     }
 }
 ?>

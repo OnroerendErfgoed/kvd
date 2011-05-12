@@ -1,22 +1,22 @@
 <?php
 /**
- * @package     KVD.util
- * @subpackage  Date
- * @version     $Id$
- * @copyright   2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @package    KVD.util
+ * @subpackage date
+ * @version    $Id$
+ * @copyright  2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
- * KVDutil_Date_FuzzyDateRange 
+ * Een simpele implementatie van een Fuzzy Time Interval.
  * 
- * @package     KVD.util
- * @subpackage  Date
- * @since       20 okt 2010
- * @copyright   2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @package    KVD.util
+ * @subpackage date
+ * @since      20 okt 2010
+ * @copyright  2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDutil_Date_FuzzyDateRange
 {
@@ -54,7 +54,8 @@ class KVDutil_Date_FuzzyDateRange
      * @param array $metadata 
      * @return void
      */
-    public function __construct( $sa = null, $ka = null , $kb=null, $sb=null, array $metadata = array( ) )
+    public function __construct( $sa = null, $ka = null , $kb=null, $sb=null, 
+                                array $metadata = array( ) )
     {
         $this->punten['sa'] = $this->corrigeerX( $sa );
         $this->punten['ka'] = $this->corrigeerX( $ka );
@@ -75,7 +76,8 @@ class KVDutil_Date_FuzzyDateRange
             $punt = new KVDutil_Date_FuzzyDateRange_Date( $punt );
         }
         if ( $punt instanceof KVDutil_Date_FuzzyDateRange_Date ) {
-            if ( $punt < new DateTime( self::MIN_DATUM ) || $punt > new DateTime( self::MAX_DATUM )) {
+            if ( $punt < new DateTime( self::MIN_DATUM ) || 
+                    $punt > new DateTime( self::MAX_DATUM )) {
                 return ( integer ) $punt->format( 'y' );
             } else {
                 return $punt;
@@ -117,14 +119,19 @@ class KVDutil_Date_FuzzyDateRange
      */
     protected function determineerType( $voor = 'van' )
     {
-        $punten = ( $voor == 'van' ) ?   array( 'a' =>  $this->punten['sa'], 'b' => $this->punten['ka'] ) :
-            array( 'a' =>  $this->punten['kb'], 'b' => $this->punten['sb'] );
+        if ( $voor == 'van' ) {
+            $punten = array( 'a' =>  $this->punten['sa'], 'b' => $this->punten['ka'] ); 
+        } else {
+            $punten = array( 'a' =>  $this->punten['kb'], 'b' => $this->punten['sb'] );
+        }
         if( $punten['a'] == $punten['b'] ) {
             return $punten['a'] instanceof KVDutil_Date_FuzzyDateRange_Date ? 'dag' : 'jaar';
         } 
         if( $punten['a'] < $punten['b'] ) {
-            if ( $punten['a'] instanceOf KVDutil_Date_FuzzyDateRange_Date && $punten['b'] instanceOf KVDutil_Date_FuzzyDateRange_Date ) {
-                if ( $punten['a']->format( 'MM-DD' ) == '01-01' && $punten['b']->format( 'MM-DD') == '12-31' ) {
+            if ( $punten['a'] instanceOf KVDutil_Date_FuzzyDateRange_Date && 
+                    $punten['b'] instanceOf KVDutil_Date_FuzzyDateRange_Date ) {
+                if ( $punten['a']->format( 'MM-DD' ) == '01-01' && 
+                        $punten['b']->format( 'MM-DD') == '12-31' ) {
                     return 'jaar';
                 } else {
                     return 'maand';
@@ -241,7 +248,8 @@ class KVDutil_Date_FuzzyDateRange
      */
     public function getOmschrijving(  )
     {
-        return $this->getOmschrijvingVan( ) . ' - ' . $this->getOmschrijvingTot( );
+        return $this->getOmschrijvingVan( ) . ' - ' . 
+                $this->getOmschrijvingTot( );
     }
 
     /**
@@ -293,14 +301,14 @@ class KVDutil_Date_FuzzyDateRange
 }
 
 /**
- * KVDutil_Date_FuzzyDateRange_Date 
+ * Een datum die kan gebruikt worden in een fuzzy range.
  * 
- * @package     KVD.util
- * @subpackage  Date
- * @since       20 okt 2010
- * @copyright   2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @package    KVD.util
+ * @subpackage date
+ * @since      20 okt 2010
+ * @copyright  2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDutil_Date_FuzzyDateRange_Date extends DateTime
 {

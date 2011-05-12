@@ -1,20 +1,20 @@
 <?php
 /**
- * @package KVD.html
- * @version $Id$
+ * @package   KVD.html
+ * @version   $Id$
  * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author    Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
- * KVDhtml_Tools 
+ * Utility methodes om te helpen met het verwerken van HTML.
  * 
- * @package KVD.html
- * @since 16 maart 2007
+ * @package   KVD.html
+ * @since     16 maart 2007
  * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author    Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDhtml_Tools
 {
@@ -27,7 +27,7 @@ class KVDhtml_Tools
      */
     public static function out( $value )
     {
-        return htmlspecialchars( $value , ENT_QUOTES , 'UTF-8' );
+        return htmlspecialchars( $value, ENT_QUOTES, 'UTF-8' );
     }
 
     /**

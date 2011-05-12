@@ -1,5 +1,22 @@
 <?php
-class TestOfDimensies extends UnitTestCase
+/**
+ * @package    KVD.util
+ * @subpackage dimensie
+ * @version    $Id$
+ * @copyright  2004-2011 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
+
+/**
+ * @package    KVD.util
+ * @subpackage dimensie
+ * @since      lang geleden
+ * @copyright  2004-2011 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
+class TestOfDimensies extends PHPUnit_Framework_TestCase
 {
     private $_dimensies;
 
@@ -36,27 +53,28 @@ class TestOfDimensies extends UnitTestCase
         $breedte2 = $this->_dimensies['breedte'];
         $gewicht2 = $this->_dimensies['gewicht'];
         
-        $this->assertReference ( $breedte2 , $breedte );
-        $this->assertReference ( $gewicht2 , $gewicht );
+        $this->assertSame ( $breedte2 , $breedte );
+        $this->assertSame ( $gewicht2 , $gewicht );
     }
     
     public function testOfRemoveDimensie()
     {
         $breedte = new KVDutil_VoorwerpAfmeting ( 5 , 'cm', 'breedte' );
         $this->_dimensies['breedte'] = $breedte;
-        $this->assertReference ( $this->_dimensies['breedte'] , $breedte );
+        $this->assertSame ( $this->_dimensies['breedte'] , $breedte );
         unset ( $this->_dimensies['breedte'] );
         $this->assertFalse ( $this->_dimensies['breedte'] );
     }
     
+    /**
+     * testOfIllegalDimensie 
+     * 
+     * @expectedException InvalidArgumentException
+     */
     public function testOfIllegalDimensie()
     {
-        try {
-            $diepte = new KVDutil_VoorwerpAfmeting ( 5 , 'cm' , 'diepte' );
-            $this->_dimensies['diepte'] = $diepte;    
-        } catch (Exception $e) {
-            $this->assertWantedPattern ( '/Deze dimensie hoort niet/',$e->getMessage());   
-        }
+        $diepte = new KVDutil_VoorwerpAfmeting ( 5 , 'cm' , 'diepte' );
+        $this->_dimensies['diepte'] = $diepte;    
     }
 
     public function testOfOmschrijving()
@@ -67,7 +85,7 @@ class TestOfDimensies extends UnitTestCase
         $this->_dimensies['breedte'] = $breedte;
         $this->_dimensies['gewicht'] = $gewicht;
 
-        $this->assertEqual ( $this->_dimensies->getOmschrijving() , 'B: 50mm, G: 346gr.');
+        $this->assertEquals ( 'B: 50mm, G: 346gr.', $this->_dimensies->getOmschrijving() );
     }
     
     

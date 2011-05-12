@@ -44,7 +44,21 @@ class KVDutil_GatewayFactory {
         if ( !array_key_exists( $gateway, $this->config ) ) {
             throw new InvalidArgumentException ( "$gateway is geen gekende gateway!" );
         }
-        return new $gateway ( $this->config[$gateway]);
+        if ( array_key_exists( 'factory', $this->config[$gateway] ) ) {
+            $f = $this->config[$gateway]['factory'];
+            if ( !array_key_exists( 'method', $f ) ) {
+                throw new LogicException ( "De factory voor $gateway is onvolledig!" );
+            }
+            $m = $f['method'];
+            if ( array_key_exists( 'class', $f ) ) {
+                $c = $f['class'];
+                return $c::$m($this->config[$gateway]);
+            } else {
+                return $m($this->config[$gateway] );
+            }
+        } else {
+            return new $gateway ( $this->config[$gateway]);
+        }
     }
 }
 ?>
