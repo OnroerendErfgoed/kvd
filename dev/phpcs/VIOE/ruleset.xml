@@ -6,7 +6,7 @@
 		<exclude name="Generic.Functions.OpeningFunctionBraceKernighanRitchie" />
 		<exclude name="Generic.Formatting.MultipleStatementAlignment" />
 		<exclude name="Generic.Formatting.NoSpaceAfterCast" />
-		<include name="Generic.VersionControl.SubversionProperties" />
+		<exclude name="Generic.VersionControl.SubversionProperties" />
 		<exclude name="Generic.PHP.UpperCaseConstant" />
 		<include name="Generic.PHP.LowerCaseConstant" />
 	</rule>
