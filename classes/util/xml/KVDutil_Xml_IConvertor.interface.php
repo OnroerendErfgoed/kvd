@@ -1,12 +1,12 @@
 <?php
 /**
- * @package     KVD.util
- * @subpackage  xml
- * @version     $Id$
- * @copyright   2008-2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @author      Bram Goessens <bram.goessens@rwo.vlaanderen.be> 
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @package    KVD.util
+ * @subpackage xml
+ * @version    $Id$
+ * @copyright  2008-2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @author     Bram Goessens <bram.goessens@rwo.vlaanderen.be> 
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
@@ -15,13 +15,13 @@
  * Deze interface kan gebruikt worden door andere classes die het gebruik van 
  * {@link KVDutil_Xml_DomainObjectProcessor} classes regelen.
  *
- * @package     KVD.util
- * @subpackage  xml
- * @since       15 feb 2008
- * @copyright   2008-2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @author      Bram Goessens <bram.goessens@rwo.vlaanderen.be>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @package    KVD.util
+ * @subpackage xml
+ * @since      15 feb 2008
+ * @copyright  2008-2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @author     Bram Goessens <bram.goessens@rwo.vlaanderen.be>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 interface KVDutil_Xml_IConvertor
 {

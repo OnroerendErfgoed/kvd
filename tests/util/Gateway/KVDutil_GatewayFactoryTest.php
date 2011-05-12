@@ -40,5 +40,20 @@ class KVDutil_GatewayFactoryTest extends PHPUnit_Framework_TestCase
         $this->assertNotNull ( $gateway );
         $this->assertType ( 'KVDutil_Gateway', $gateway );
     }
+
+    public function testGatewayInjection( )
+    {
+        $config = array( 
+              'KVDutil_GatewayTestGateway'  => array (  'url'       => 'http://test.vioe.be/gateway',
+                                                        'username'  => 'TESTUSER',
+                                                        'pwd'       => 'TESTPWD',
+                                                        'factory'   => array(   'class'     => 'KVDutil_GatewayTestGatewayFactory',
+                                                                                'method'    => 'create') )
+        );
+        $gatewayFactory = new KVDutil_GatewayFactory ( $config );
+        $gateway = $gatewayFactory->createGateway ( 'KVDutil_GatewayTestGateway' );
+        $this->assertNotNull ( $gateway );
+        $this->assertType ( 'KVDutil_Gateway', $gateway );
+    }
 }
 ?>

@@ -41,6 +41,7 @@
 				<include name="thesaurus/KVDthes_TestTerm.class.php" />
 				<include name="thesaurus/KVDthes_Sessie.class.php" />
 				<include name="util/Gateway/KVDutil_GatewayTestGateway.class.php" />
+				<include name="util/Gateway/KVDutil_GatewayTestGatewayFactory.class.php" />
 				<include name="domain/KVDdom_TestDomainObject.class.php" />
 				<include name="domain/KVDdom_TestSessie.class.php" />
 			</fileset>
@@ -260,8 +261,9 @@
 	<target name="genCodeSnifferReports" description="Maak rapporten over de staat van de code aan." depends="createBuildDir">
 		<delete dir="build/reports/sniffs" />
 		<mkdir dir="build/reports/sniffs" />
+		<!--
 		<phpcodesniffer
-			standard="dev/phpcs/VIOE/">
+			standard="dev/phpcs/VIOE/ruleset.xml">
 			<fileset dir="classes">
 				<include name="database/criteria/*.php" />
 				<include name="gis/crab/KVDgis_*Cache*.php"/>
@@ -273,6 +275,10 @@
 			<formatter type="checkstyle" outfile="build/reports/sniffs/checkstyle.xml"/>
 			<formatter type="full" outfile="build/reports/sniffs/sniffs.txt" usefile="true"/>
 		</phpcodesniffer>
+		-->
+		<exec command="phpcs --standard=${project.basedir}/dev/phpcs/VIOE/ruleset.xml ${project.basedir}/classes 
+			--report-summary --report-full=${project.basedir}/build/reports/sniffs/sniffs.txt
+			--report-checkstyle=${project.basedir}/build/reports/sniffs/checkstyle.xml" />
 		<copy file="build/reports/sniffs/checkstyle.xml" tofile="build/bitten_lint.xml" overwrite="true">
 			<filterchain>
 				<xsltfilter style="phing/style/checkstyle_to_bitten.xslt" />
