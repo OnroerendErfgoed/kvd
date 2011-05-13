@@ -13,7 +13,6 @@
 
 	<rule ref="PEAR.Functions.ValidDefaultValue"/>
 	<rule ref="PEAR.WhiteSpace.ScopeClosingBrace"/>
-	<rule ref="PEAR.WhiteSpace.ScopeIndent"/>
 	<rule ref="Squiz.Functions.GlobalFunction"/>
 
 
