@@ -1,17 +1,22 @@
 <?php
 /**
- * @package KVD.database
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @version $Id$
+ * @package   KVD.database
+ * @version   $Id$
+ * @copyright 2006-2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author    Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
  * Uitbreiding van de Jargon PagedQuery die alle nodige links berekent.
  *
  * Volgt (grotendeels) de API van een PropelObjectPager.
- * @package KVD.database
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @since 1.0.0
+ *
+ * @package   KVD.database
+ * @since     1.0.0
+ * @copyright 2006-2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author    Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDdb_JargonPagedQuery extends PagedQuery
 {
@@ -42,11 +47,11 @@ class KVDdb_JargonPagedQuery extends PagedQuery
     public function getPrev()
     {
         if ( $this->getPage() != $this->getFirstPage() ) {
-				$prev = $this->getPage() - 1;
-		} else {
-				$prev = false;
-		}
-		return $prev;
+            $prev = $this->getPage() - 1;
+        } else {
+            $prev = false;
+        }
+        return $prev;
     }
 
     /**
@@ -55,11 +60,11 @@ class KVDdb_JargonPagedQuery extends PagedQuery
     public function getNext()
     {
         if ( $this->getPage() != $this->getLastPage() ) {
-				$next = $this->getPage() + 1;
-		} else {
-				$next = false;
-		}
-		return $next;
+            $next = $this->getPage() + 1;
+        } else {
+            $next = false;
+        }
+        return $next;
     }
 
     /**
@@ -68,49 +73,49 @@ class KVDdb_JargonPagedQuery extends PagedQuery
     public function getTotalPages()
     {
         if ( !isset ( $this->totalPages ) ) {
-			if ( $this->max > 0) {
-					$this->totalPages = ceil ( $this->getTotalRecordCount() / $this->max );
-			} else {
-					$this->totalPages = 0;
-			}
-		}
-		return $this->totalPages;    
+            if ( $this->max > 0) {
+                $this->totalPages = ceil ( $this->getTotalRecordCount() / $this->max );
+            } else {
+                $this->totalPages = 0;
+            }
+        }
+        return $this->totalPages;    
     }
 
     /**
-	 * @param integer $range
-	 * @return array $links
-	 */
+     * @param integer $range
+     * @return array $links
+     */
     public function getPrevLinks( $range = 5 )
     {
-		$start = $this->getPage() - 1;
-		$end = $this->getPage() - $range;
-		$links = array();
-		for ( $i=$start ; $i>$end ; $i-- ) {
-			if ( $i < $this->getFirstPage() ) {
-					break;
-			}
-			$links[] = $i;
-		}
-		return array_reverse($links);    
+        $start = $this->getPage() - 1;
+        $end = $this->getPage() - $range;
+        $links = array();
+        for ( $i=$start ; $i>$end ; $i-- ) {
+            if ( $i < $this->getFirstPage() ) {
+                break;
+            }
+            $links[] = $i;
+        }
+        return array_reverse($links);    
     }
 
     /**
-	 * @param integer $range
-	 * @return array $links
-	 */
+     * @param integer $range
+     * @return array $links
+     */
     public function getNextLinks( $range=5 )
     {
-		$start = $this->getPage() + 1;
-		$end = $this->getPage() + $range;
-		$links = array();
-		for ( $i=$start ; $i<$end ; $i++ ) {
-			if ( $i > $this->getLastPage() ) {
-					break;
-			}
-			$links[] = $i;
-		}
-		return $links;    
+        $start = $this->getPage() + 1;
+        $end = $this->getPage() + $range;
+        $links = array();
+        for ( $i=$start ; $i<$end ; $i++ ) {
+            if ( $i > $this->getLastPage() ) {
+                break;
+            }
+            $links[] = $i;
+        }
+        return $links;    
     }
 
 }
