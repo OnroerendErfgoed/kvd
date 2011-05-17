@@ -1,22 +1,22 @@
 <?php
 /**
- * @package     KVD.database
- * @subpackage  criteria
- * @version     $Id$
- * @copyright   2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @package    KVD.database
+ * @subpackage criteria
+ * @version    $Id$
+ * @copyright  2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
- * KVDdb_IQuery 
+ * Interface die alle query objecten gemeenschappelijk hebben. 
  * 
- * @package     KVD.database
- * @subpackage  criteria
- * @since       27 mrt 2009
- * @copyright   2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @package    KVD.database
+ * @subpackage criteria
+ * @since      27 mrt 2009
+ * @copyright  2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 interface KVDdb_IQuery
 {
@@ -25,7 +25,17 @@ interface KVDdb_IQuery
      * 
      * @return string
      */
-    public function generateSql( $mode = KVDdb_Criteria::MODE_FILLED, $dbType = KVDdb_Criteria::DB_MYSQL );
+    /**
+     * generateSql 
+     * 
+     * @param mixed $mode Moet de query geparameteriseerd gebruikt worden of 
+     *                    moeten de waarden meteen worden ingevuld.
+     * @param mixed $dbType Om welk soort databank gaat het? 
+     * @return void
+     */
+    public function generateSql( 
+                        $mode = KVDdb_Criteria::MODE_FILLED, 
+                        $dbType = KVDdb_Criteria::DB_MYSQL );
 
     /**
      * getValues 

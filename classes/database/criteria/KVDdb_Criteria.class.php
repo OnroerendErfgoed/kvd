@@ -1,20 +1,22 @@
 <?php
 /**
- * @package     KVD.database
- * @subpackage  criteria
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
- * @version     $Id$
- * @copyright   2006-2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @package    KVD.database
+ * @subpackage criteria
+ * @version    $Id$
+ * @copyright  2006-2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
- * @package     KVD.database
- * @subpackage  criteria
- * @since       24 aug 2006
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
- * @copyright   2006-2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * Dit object stelt een verzameling van sql voorwaarden voor.
+ *
+ * @package    KVD.database
+ * @subpackage criteria
+ * @since      24 aug 2006
+ * @copyright  2006-2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDdb_Criteria implements Countable
 {
@@ -96,12 +98,12 @@ class KVDdb_Criteria implements Countable
     {
         $tmp = array( );
         if ( $this->count( ) > 0 ) {
-            $tmp[] = $this->generateWhereClause( $mode , $dbType );
+            $tmp[] = $this->generateWhereClause( $mode, $dbType );
         }
         if ( count( $this->orderFields ) > 0 ) {
             $tmp[] = $this->generateOrderClause( );
         }
-        return implode ( $tmp , " " );
+        return implode ( $tmp, " " );
     }
 
     /**
@@ -111,16 +113,16 @@ class KVDdb_Criteria implements Countable
      * @param   integer     $dbType Zie de DB_ constanten.    
      * @return  string
      */
-    private function generateWhereClause( $mode , $dbType )
+    private function generateWhereClause( $mode, $dbType )
     {
         if ( $this->count( ) == 0 ) {
             return '';
         }
         $tmp = array( );
         foreach ( $this->criteria as $criteria ) {
-            $tmp[] = $criteria->generateSql( $mode , $dbType );
+            $tmp[] = $criteria->generateSql( $mode, $dbType );
         }
-        return 'WHERE ' . implode ( $tmp , ' AND ' );
+        return 'WHERE ' . implode ( $tmp, ' AND ' );
     }
 
     /**
@@ -133,7 +135,7 @@ class KVDdb_Criteria implements Countable
         if ( count( $this->orderFields ) == 0 ) {
             return '';
         }
-        return 'ORDER BY ' . implode ( $this->orderFields , ' , ' );
+        return 'ORDER BY ' . implode ( $this->orderFields, ' , ' );
     }
 
     /**
@@ -160,7 +162,8 @@ class KVDdb_Criteria implements Countable
      * 
      * Ga na of er zoekcriteria werden ingesteld.
      *
-     * @param   string  $field  Indien aanwezig zal er gekeken worden of er zoekcriteria op dit veld aanwezig zijn.
+     * @param   string  $field  Indien aanwezig zal er gekeken worden 
+     *                          of er zoekcriteria op dit veld aanwezig zijn.
      * @return  boolean
      */
     public function hasCriteria( $field = null)
@@ -191,7 +194,7 @@ class KVDdb_Criteria implements Countable
     {
         $ret = array( );
         foreach ( $this->criteria as $criterion ) {
-            $ret = array_merge( $ret , $criterion->getFields( ) );
+            $ret = array_merge( $ret, $criterion->getFields( ) );
         }
         return $ret;
     }
@@ -205,7 +208,7 @@ class KVDdb_Criteria implements Countable
     {
         $ret = array( );
         foreach ( $this->criteria as $criterion ) {
-            $ret = array_merge( $ret , $criterion->getValues( ) );
+            $ret = array_merge( $ret, $criterion->getValues( ) );
         }
         return $ret;
     }
