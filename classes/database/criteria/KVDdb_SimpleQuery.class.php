@@ -1,20 +1,22 @@
 <?php
 /**
- * @package     KVD.database
- * @subpackage  criteria
- * @version     $Id$
- * @copyright   2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @package    KVD.database
+ * @subpackage criteria
+ * @version    $Id$
+ * @copyright  2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
- * @package     KVD.database
- * @subpackage  criteria
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
- * @since       28 aug 2006
- * @copyright   2006-2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * Query die een aantal velden uit een tabel selecteert.
+ *
+ * @package    KVD.database
+ * @subpackage criteria
+ * @since      28 aug 2006
+ * @copyright  2006-2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDdb_SimpleQuery implements KVDdb_IQuery
 {
@@ -57,13 +59,19 @@ class KVDdb_SimpleQuery implements KVDdb_IQuery
     /**
      * __construct 
      * 
-     * @param array             $fields 
-     * @param string            $table 
-     * @param KVDdb_Criteria    $criteria 
-     * @param boolean           $distinct   Of enkel de unieke waarden gezocht mogen worden, standaard wordt alles gezocht.
+     * @param array          $fields 
+     * @param string         $table 
+     * @param KVDdb_Criteria $criteria 
+     * @param boolean        $distinct Of enkel de unieke waarden gezocht 
+     *                                 mogen worden, standaard wordt alles 
+     *                                 gezocht.
      * @return void
      */
-    public function __construct ( $fields , $table , KVDdb_Criteria $criteria = null, $distinct = false )
+    public function __construct ( 
+                        $fields , 
+                        $table , 
+                        KVDdb_Criteria $criteria = null, 
+                        $distinct = false )
     {
         $this->fields = $fields;
         $this->table = $table;
@@ -77,9 +85,14 @@ class KVDdb_SimpleQuery implements KVDdb_IQuery
      * 
      * @return string
      */
-    public function generateSql( $mode = KVDdb_Criteria::MODE_FILLED, $dbType = KVDdb_Criteria::DB_MYSQL )
+    public function generateSql( 
+                        $mode = KVDdb_Criteria::MODE_FILLED, 
+                        $dbType = KVDdb_Criteria::DB_MYSQL )
     {
-        $sql =  'SELECT ' . ( $this->distinct ? 'DISTINCT ' : '' ) . implode ( $this->fields, ', ' ) . ' FROM ' . $this->table;
+        $sql = sprintf( 'SELECT%s %s FROM %s', 
+                        $this->distinct ? ' DISTINCT' : '', 
+                        implode( $this->fields, ', ' ), 
+                        $this->table );
         if ( $this->hasJoins( ) ) {
             foreach( $this->joins as $join ) {
                 $sql .= ' ' . $join->generateSql( $mode, $dbType );

@@ -1,22 +1,22 @@
 <?php
 /**
- * @package KVD.database
- * @subpackage Criteria
- * @version $Id$
- * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @package    KVD.database
+ * @subpackage criteria
+ * @version    $Id$
+ * @copyright  2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
- * KVDdb_Join 
+ * Stelt een simpele SQL Join voor.
  * 
- * @package KVD.database
- * @subpackage Criteria
- * @since 11 dec 2007
- * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @package    KVD.database
+ * @subpackage criteria
+ * @since      11 dec 2007
+ * @copyright  2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDdb_Join
 {
@@ -63,16 +63,19 @@ class KVDdb_Join
     {
         $this->table = $table;
         if ( count( $fields ) < 1 ) {
-            throw new InvalidArgumentException( 'Er moet minstens 1 veldpaar gedefinieerd zijn om een join te kunnen leggen.' );
+            throw new InvalidArgumentException( 
+                'Er moet minstens 1 veldpaar gedefinieerd zijn om een join te kunnen leggen.' );
         }
         foreach ( $fields as $fieldPair ) {
             if ( count( $fieldPair) != 2 ) {
-                throw new InvalidArgumentException( 'Elk veldpaar kan maar uit 2 velden bestaan.' );
+                throw new InvalidArgumentException( 
+                    'Elk veldpaar kan maar uit 2 velden bestaan.' );
             }
         }
         $this->fields = $fields;
-        if ( !in_array( $type , self::$joinTypes ) ) {
-            throw new InvalidArgumentException ( 'Het jointype ' . $type . ' wordt niet ondersteund.' );
+        if ( !in_array( $type, self::$joinTypes ) ) {
+            throw new InvalidArgumentException ( 
+                'Het jointype ' . $type . ' wordt niet ondersteund.' );
         }
         $this->type = $type;
     }
