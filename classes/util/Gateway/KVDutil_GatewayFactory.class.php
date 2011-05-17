@@ -1,22 +1,22 @@
 <?php
 /**
- * @package KVD.util
+ * @package    KVD.util
  * @subpackage gateway
- * @version $Id$
- * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @version    $Id$
+ * @copyright  2004-2011 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
  * KVDutil_GatewayFactory 
  * 
- * @package KVD.util
+ * @package    KVD.util
  * @subpackage gateway
- * @since jan 2006
- * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @since      jan 2006
+ * @copyright  2004-2011 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDutil_GatewayFactory {
 
@@ -27,7 +27,9 @@ class KVDutil_GatewayFactory {
     
     /**
      * @param array $config Een array met configuratie-parameters voor de gateways.
-     *                      Elke gateway is een sleutel in deze array, de dieper liggende sleutels worden doorgegeven aan de gateway voor de configuratie.
+     *                      Elke gateway is een sleutel in deze array, de dieper 
+     *                      liggende sleutels worden doorgegeven aan de gateway 
+     *                      voor de configuratie.
      */
     public function __construct ( $config )
     {

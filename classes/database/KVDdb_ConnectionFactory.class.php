@@ -46,17 +46,18 @@ abstract class KVDdb_ConnectionFactory
      */
     public function getConnection ( $connectionName )
     {
-       if ( !array_key_exists ( $connectionName , $this->connections ) ) {
-           $this->createConnection ( $connectionName );
-       }
-       return $this->connections[$connectionName];
+        if ( !array_key_exists ( $connectionName, $this->connections ) ) {
+            $this->createConnection ( $connectionName );
+        }
+        return $this->connections[$connectionName];
     }
 
     protected function checkConnectionConfig ( $connectionName )
     {
         if ( !array_key_exists ( $connectionName, $this->connectionConfig ) ) {
             throw new Exception ( 
-                "De database $connectionName kon niet geopend worden omdat er parameters ontbreken.");
+                "De database $connectionName kon niet geopend worden 
+                omdat er parameters ontbreken.");
         }
     }
 

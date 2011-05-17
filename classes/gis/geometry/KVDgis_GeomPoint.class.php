@@ -1,16 +1,22 @@
 <?php
 /**
- * @package     KVD.gis
- * @subpackage  geometry
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
- * @version     $Id$
+ * @package    KVD.gis
+ * @subpackage geometry
+ * @version    $Id$
+ * @copyright  2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
- * @package     KVD.gis
- * @subpackage  geometry
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
- * @since       jan 2006
+ * KVDgis_GeomPoint 
+ * 
+ * @package    KVD.gis
+ * @subpackage geometry
+ * @since      jan 2006
+ * @copyright  2011 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDgis_GeomPoint extends KVDgis_GeomGeometry
 {
@@ -43,7 +49,8 @@ class KVDgis_GeomPoint extends KVDgis_GeomGeometry
     public function setX($x)
     {
         if ( !is_numeric( $x ) && !is_null( $x ) ) {
-            throw new InvalidArgumentException( "$x is geen geldig nummer en kan dus geen punt in een geometry zijn!" );
+            throw new InvalidArgumentException( 
+                "$x is geen geldig nummer en kan dus geen punt in een geometry zijn!" );
         }
         $this->x = $x;
     }
@@ -55,7 +62,8 @@ class KVDgis_GeomPoint extends KVDgis_GeomGeometry
     public function setY($y)
     {
         if ( !is_numeric( $y ) && !is_null( $y ) ) {
-            throw new InvalidArgumentException( "$y is geen geldig nummer en kan dus geen punt in een geometry zijn!" );
+            throw new InvalidArgumentException( 
+                "$y is geen geldig nummer en kan dus geen punt in een geometry zijn!" );
         }
         $this->y = $y;
     }
@@ -88,12 +96,14 @@ class KVDgis_GeomPoint extends KVDgis_GeomGeometry
             $this->y = null;
             return;
         }
-        if (substr($wkt,0,5) != 'POINT') {
-            throw new InvalidArgumentException ('Ongeldige Well-Known Text string: ' . $wkt . "\n. De string zou moeten beginnen met 'POINT'.");
+        if (substr($wkt, 0, 5) != 'POINT') {
+            throw new InvalidArgumentException (
+                'Ongeldige Well-Known Text string: ' . $wkt . 
+                "\n. De string zou moeten beginnen met 'POINT'.");
         }
         
         $stringPoint = $this->getStringBetweenBraces($wkt);
-        $points = explode(" " , $stringPoint);
+        $points = explode(" ", $stringPoint);
         $this->setX($points['0']);
         $this->setY($points['1']);
     }

@@ -1,22 +1,22 @@
 <?php
 /**
- * @package     KVD.gis
- * @subpackage  geometry
- * @copyright   2004-2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license     GNU General Public License {@link http://www.gnu.org/copyleft/gpl.html}
- * @version     $Id$
+ * @package    KVD.gis
+ * @subpackage geometry
+ * @version    $Id$
+ * @copyright  2004-2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license    GNU General Public License {@link http://www.gnu.org/copyleft/gpl.html}
  */
 
 /**
- * KVDgis_GeomMultiPolygon 
+ * Class die een multipolygoon voorstelt.
  * 
- * @package     KVD.gis
- * @subpackage  geometry
- * @since       29 jun 2009
- * @copyright   2004-2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license     GNU General Public License {@link http://www.gnu.org/copyleft/gpl.html}
+ * @package    KVD.gis
+ * @subpackage geometry
+ * @since      29 jun 2009
+ * @copyright  2004-2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license    GNU General Public License {@link http://www.gnu.org/copyleft/gpl.html}
  */
 class KVDgis_GeomMultiPolygon extends KVDgis_GeomGeometry
 {
@@ -32,7 +32,9 @@ class KVDgis_GeomMultiPolygon extends KVDgis_GeomGeometry
     public function __construct ( $srid = -1, $polys = null)
     {
         $this->setSrid($srid);
-        if(!$this->RE_LOADED) $this->initRegEx();
+        if (!$this->RE_LOADED) {
+            $this->initRegEx();
+        }
         if ( $polys != null && is_array( $polys ) ) {
             $this->setPolygons( $polys );
         }
@@ -85,7 +87,8 @@ class KVDgis_GeomMultiPolygon extends KVDgis_GeomGeometry
     /**
      * 
      * @see KVDgis_GeomGeometry::setGeometryFromText()
-     * @param string $wkt vb. MULTIPOLYGON(((1 2, 3 4, 5 6)), ((7 8, 9 10, 11 12, 13 14),(15 16, 17 18, 19 20))). 
+     * @param string $wkt vb. MULTIPOLYGON(((1 2, 3 4, 5 6)), 
+     *                    ((7 8, 9 10, 11 12, 13 14),(15 16, 17 18, 19 20))). 
      * @throws <b>InvalidArgumentException</b> - Indien de wkt-string ongeldig is.
      */
     public function setGeometryFromText ( $wkt )
@@ -94,8 +97,10 @@ class KVDgis_GeomMultiPolygon extends KVDgis_GeomGeometry
         if ( $wkt == 'EMPTY' ) {
             return;
         }
-        if (substr($wkt,0,12) != 'MULTIPOLYGON') {
-            throw new InvalidArgumentException ('Ongeldige Well-Known Text string: ' . $wkt . "\n. De string zou moeten beginnen met 'MULTIPOLYGON'.");
+        if (substr($wkt, 0, 12) != 'MULTIPOLYGON') {
+            throw new InvalidArgumentException (
+                'Ongeldige Well-Known Text string: ' . $wkt . 
+                "\n. De string zou moeten beginnen met 'MULTIPOLYGON'.");
         }
         
         $stringMultiPoly = $this->getStringBetweenBraces($wkt);
@@ -122,9 +127,9 @@ class KVDgis_GeomMultiPolygon extends KVDgis_GeomGeometry
         
         $pArray = array();
         foreach ( $this->polys as $poly ) {
-            $pArray[] = substr( $poly->getAsText( ) , 7 );
+            $pArray[] = substr( $poly->getAsText( ), 7 );
         }
-        $buffer .= implode ( ', ' , $pArray);
+        $buffer .= implode ( ', ', $pArray);
         $buffer .= ")";
         return $buffer;
     }

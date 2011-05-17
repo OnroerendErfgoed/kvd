@@ -1,12 +1,12 @@
 <?php
 /**
- * @package     KVD.util
- * @subpackage  xml
- * @version     $Id$
- * @copyright   2008-2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @author      Bram Goessens <bram.goessens@rwo.vlaanderen.be> 
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @package    KVD.util
+ * @subpackage xml
+ * @version    $Id$
+ * @copyright  2008-2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @author     Bram Goessens <bram.goessens@rwo.vlaanderen.be> 
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
@@ -17,13 +17,13 @@
  * die van een stuk xml een geldig domainobject maken of er een geldige 
  * bewerking mee doen.
  *
- * @package     KVD.util
- * @subpackage  xml
- * @since       15 feb 2008
- * @copyright   2008-2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @author      Bram Goessens <bram.goessens@rwo.vlaanderen.be>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @package    KVD.util
+ * @subpackage xml
+ * @since      15 feb 2008
+ * @copyright  2008-2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @author     Bram Goessens <bram.goessens@rwo.vlaanderen.be>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 abstract class KVDutil_Xml_DomainObjectProcessor
 {
@@ -79,15 +79,9 @@ abstract class KVDutil_Xml_DomainObjectProcessor
      * 
      * @param   SimpleXMLElement $xml 
      * @return  void
-     * @throws  <b>InvalidArgumentException</b> - Indien een argument ongeldig is.
      */
     public function setXml( SimpleXMLElement $xml )
     {
-        /*
-        if (  !$xml instanceof SimpleXMLElement ) {
-            throw new InvalidArgumentException (  'De parameter xml moet een SimpleXMLElement object zijn.');
-        }
-         */
         $this->xml = $xml;
     }
 

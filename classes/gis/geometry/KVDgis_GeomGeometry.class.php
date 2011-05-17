@@ -1,11 +1,11 @@
 <?php
-/**
- * @package     KVD.gis
- * @subpackage  geometry
- * @copyright   2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @version     $Id$
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+/** 
+ * @package    KVD.gis
+ * @subpackage geometry
+ * @version    $Id$
+ * @copyright  2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
@@ -13,12 +13,12 @@
  *
  * Abstracte class die de basis is voor alle geometry objecten.
  *
- * @package     KVD.gis
- * @subpackage  geometry
- * @copyright   2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @since       jan 2006
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @package    KVD.gis
+ * @subpackage geometry
+ * @since      jan 2006
+ * @copyright  2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 abstract class KVDgis_GeomGeometry
 {
@@ -60,7 +60,9 @@ abstract class KVDgis_GeomGeometry
     public function __construct( $srid = -1)
     {
         $this->setSrid ( $srid );
-        if(!$this->RE_LOADED) $this->initRegEx();
+        if (!$this->RE_LOADED) {
+            $this->initRegEx();
+        }
     }
 
     /**
@@ -88,7 +90,8 @@ abstract class KVDgis_GeomGeometry
         $KOPPELING = "[\s,]*";
         $this->RE_POLYGON = "\((".$KOPPELING.$this->RE_LINESTRING.")*\s*\)";
         // Syntax: '(' { <koppeling>?<polygon>}* ')'
-        // Bijvoorbeeld: (((+0.235 -5.2, 2 -5), (0.2 -5, 2 -15)), ((+12.235 -6.2, 3 -1), (0.9 -7, 3 -10)))
+        // Bijvoorbeeld: (((+0.235 -5.2, 2 -5), (0.2 -5, 2 -15)), 
+        // ((+12.235 -6.2, 3 -1), (0.9 -7, 3 -10)))
         $this->RE_MULTIPOLYGON = "\((".$KOPPELING.$this->RE_POLYGON.")*\s*\)";
          
     }
@@ -122,18 +125,20 @@ abstract class KVDgis_GeomGeometry
         if ( $wkt == 'EMPTY' ) {
             $g = new KVDgis_GeomPoint( );
             return $g;
-        } elseif (substr($wkt,0,5) == 'POINT') {
+        } elseif (substr($wkt, 0, 5) == 'POINT') {
             $g = new KVDgis_GeomPoint( );
-        } elseif (substr($wkt,0,10) == 'MULTIPOINT') {
+        } elseif (substr($wkt, 0, 10) == 'MULTIPOINT') {
             $g = new KVDgis_GeomMultipoint( );
-        } elseif (substr($wkt,0,7) == 'POLYGON') {
+        } elseif (substr($wkt, 0, 7) == 'POLYGON') {
             $g = new KVDgis_GeomPolygon();
-        } elseif (substr($wkt,0,12) == 'MULTIPOLYGON') {
+        } elseif (substr($wkt, 0, 12) == 'MULTIPOLYGON') {
             $g = new KVDgis_GeomMultiPolygon();
-        } elseif (substr($wkt,0,10) == 'LINESTRING') {
+        } elseif (substr($wkt, 0, 10) == 'LINESTRING') {
             $g = new KVDgis_GeomLineString();
         } else {
-            throw new InvalidArgumentException ('Ongeldige Well-Known Text string: ' . $wkt . "\n. Momenteel worden enkel de POINT en MULTIPOINT types ondersteund.");
+            throw new InvalidArgumentException (
+                'Ongeldige Well-Known Text string: ' . $wkt . 
+                "\n. Het door u opgegeven type wordt niet ondersteund.");
         }
         $g->setGeometryFromText( $wkt );
         return $g;
@@ -146,16 +151,18 @@ abstract class KVDgis_GeomGeometry
      */
     protected function getStringBetweenBraces ( $string )
     {
-        $firstBrace = strpos($string,'(');
-        if ($firstBrace === FALSE) {
-            throw new InvalidArgumentException ('Ongeldige parameter. ' . $string . ' bevat geen openingshaakje!');    
+        $firstBrace = strpos($string, '(');
+        if ($firstBrace === false) {
+            throw new InvalidArgumentException (
+                'Ongeldige parameter. ' . $string . ' bevat geen openingshaakje!');    
         }
-        $lastBrace = strrpos($string,')');
-        if ($lastBrace === FALSE) {
-            throw new InvalidArgumentException ('Ongeldige parameter. ' . $string . ' bevat geen sluitshaakje!');
+        $lastBrace = strrpos($string, ')');
+        if ($lastBrace === false) {
+            throw new InvalidArgumentException (
+                'Ongeldige parameter. ' . $string . ' bevat geen sluitshaakje!');
         }
         $length = ( $lastBrace ) - ( $firstBrace + 1);
-        return trim( substr($string,$firstBrace+1,$length) );
+        return trim( substr($string, $firstBrace+1, $length) );
     }
 
     /**

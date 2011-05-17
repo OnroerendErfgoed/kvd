@@ -1,20 +1,22 @@
 <?php
 /**
- * @package     KVD.gis
- * @subpackage  geometry
- * @version     $Id$
- * @copyright   2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @package    KVD.gis
+ * @subpackage geometry
+ * @version    $Id$
+ * @copyright  2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
- * @package     KVD.gis
- * @subpackage  geometry
- * @since       11 jun 2009
- * @copyright   2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * Class die een linestring voorstelt.
+ *
+ * @package    KVD.gis
+ * @subpackage geometry
+ * @since      11 jun 2009
+ * @copyright  2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDgis_GeomLineString extends KVDgis_GeomGeometry
 {
@@ -106,17 +108,21 @@ class KVDgis_GeomLineString extends KVDgis_GeomGeometry
         if ( $wkt == 'EMPTY' ) {
             return;
         }
-        if (substr($wkt,0,10) != 'LINESTRING') {
-            throw new InvalidArgumentException ('Ongeldige Well-Known Text string: ' . $wkt . "\n. De string zou moeten beginnen met 'LINESTRING'.");
+        if (substr($wkt, 0, 10) != 'LINESTRING') {
+            throw new InvalidArgumentException (
+                'Ongeldige Well-Known Text string: ' . $wkt . 
+                "\n. De string zou moeten beginnen met 'LINESTRING'.");
         }
         
         $stringLineString = $this->getStringBetweenBraces($wkt);
-        $points = explode("," , $stringLineString);
+        $points = explode(",", $stringLineString);
         foreach ( $points as $point ) {
-            if ( strpos( $point , '(' ) === false ) {
+            if ( strpos( $point, '(' ) === false ) {
                 $stringPoint = trim( $point );
             } else {
-                throw new InvalidArgumentException( 'Ongeldige Well-Known Text string: ' . $wkt . "\n. Een xy-paar mag niet omgeven worden door ronde haakjes." );
+                throw new InvalidArgumentException( 
+                    'Ongeldige Well-Known Text string: ' . $wkt . 
+                    "\n. Een xy-paar mag niet omgeven worden door ronde haakjes." );
             }
             $punten = explode( " ", $stringPoint );
             $pointObj = new KVDgis_GeomPoint( $this->getSrid( ) );
@@ -140,7 +146,7 @@ class KVDgis_GeomLineString extends KVDgis_GeomGeometry
         foreach ( $this->points as $point ) {
             $pointArray[] = $point->getX( ) . ' ' . $point->getY( );
         }
-        $buffer .= implode ( ', ' , $pointArray);
+        $buffer .= implode ( ', ', $pointArray);
         $buffer .= ")";
         return $buffer;
     }
