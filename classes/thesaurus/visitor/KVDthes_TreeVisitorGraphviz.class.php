@@ -1,22 +1,22 @@
 <?php
 /**
- * @package     KVD.thes
- * @subpackage  visitor
- * @version     $Id$
- * @copyright   2004-2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @package    KVD.thes
+ * @subpackage visitor
+ * @version    $Id$
+ * @copyright  2004-2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
  * KVDthes_TreeVisitorGraphviz
  * 
- * @package     KVD.thes
- * @subpackage  visitor
- * @since       12 sep 2007
- * @copyright   2004-2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @package    KVD.thes
+ * @subpackage visitor
+ * @since      12 sep 2007
+ * @copyright  2004-2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDthes_TreeVisitorGraphviz extends KVDthes_AbstractTreeVisitor
 {
@@ -64,8 +64,8 @@ class KVDthes_TreeVisitorGraphviz extends KVDthes_AbstractTreeVisitor
      * @param KVDthes_Term $node 
      * @return void
      */
-	public function visit(KVDthes_Term $node)
-	{
+    public function visit(KVDthes_Term $node)
+    {
         $this->currItem = $node;
         $this->result .= $this->currItem->getId( ) . ' [label = "'. $this->currItem ."\"];\n";
         return true;
@@ -88,22 +88,22 @@ class KVDthes_TreeVisitorGraphviz extends KVDthes_AbstractTreeVisitor
      * 
      * @return boolean
      */
-	public function enterComposite()
-	{
+    public function enterComposite()
+    {
         $this->depth++;
-		return true;
-	}
+        return true;
+    }
 
     /**
      * leaveComposite 
      * 
      * @return boolean
      */
-	public function leaveComposite()
-	{
+    public function leaveComposite()
+    {
         $this->depth--;
         return true;
-	}
+    }
 
     /**
      * getIterator

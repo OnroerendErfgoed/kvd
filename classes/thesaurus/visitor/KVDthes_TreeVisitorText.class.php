@@ -1,22 +1,22 @@
 <?php
 /**
- * @package KVD.thes
+ * @package    KVD.thes
  * @subpackage visitor
- * @version $Id$
- * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @version    $Id$
+ * @copyright  2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
  * KVDthes_TreeVisitorText 
  * 
- * @package KVD.thes
+ * @package    KVD.thes
  * @subpackage visitor
- * @since 19 maart 2007
- * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @since      19 maart 2007
+ * @copyright  2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDthes_TreeVisitorText extends KVDthes_AbstractTreeVisitor
 {
@@ -25,7 +25,7 @@ class KVDthes_TreeVisitorText extends KVDthes_AbstractTreeVisitor
      * 
      * @var integer
      */
-	private $depth = 1;
+    private $depth = 1;
 
     /**
      * result 
@@ -50,14 +50,14 @@ class KVDthes_TreeVisitorText extends KVDthes_AbstractTreeVisitor
      * 
      * @return string
      */
-	private function pad()
-	{
-		$buf = '';
-		for ($i=1;$i<=$this->depth;++$i) {
-			$buf .= "\t";
-		}
-		return $buf;
-	}
+    private function pad()
+    {
+        $buf = '';
+        for ($i=1;$i<=$this->depth;++$i) {
+            $buf .= "\t";
+        }
+        return $buf;
+    }
 
     /**
      * visit 
@@ -65,9 +65,9 @@ class KVDthes_TreeVisitorText extends KVDthes_AbstractTreeVisitor
      * @param KVDthes_Term $node 
      * @return void
      */
-	public function visit(KVDthes_Term $node)
-	{
-		$this->result .= $this->depth . $this->pad() . $node->getQualifiedTerm() . "\n";
+    public function visit(KVDthes_Term $node)
+    {
+        $this->result .= $this->depth . $this->pad() . $node->getQualifiedTerm() . "\n";
         return true;
     }
 
@@ -76,22 +76,22 @@ class KVDthes_TreeVisitorText extends KVDthes_AbstractTreeVisitor
      * 
      * @return boolean
      */
-	public function enterComposite()
-	{
-		$this->depth++;
-		return true;
-	}
+    public function enterComposite()
+    {
+        $this->depth++;
+        return true;
+    }
 
     /**
      * leaveComposite 
      * 
      * @return boolean
      */
-	public function leaveComposite()
-	{
-		$this->depth--;
+    public function leaveComposite()
+    {
+        $this->depth--;
         return true;
-	}
+    }
 
     /**
      * getIterator
