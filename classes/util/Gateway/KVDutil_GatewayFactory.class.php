@@ -54,7 +54,7 @@ class KVDutil_GatewayFactory {
             $m = $f['method'];
             if ( array_key_exists( 'class', $f ) ) {
                 $c = $f['class'];
-                return $c::$m($this->config[$gateway]);
+                return call_user_func_array( array( $c, $m ), $this->config['gateway'] ); 
             } else {
                 return $m($this->config[$gateway] );
             }
