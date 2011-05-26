@@ -164,7 +164,7 @@ class KVDdom_MapperConfigurationException extends Exception
  * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
-class KVDdom_OngeldigeTypeException extends Exception
+class KVDdom_OngeldigTypeException extends Exception
 {
     public function __construct( $gekregenType, $gevraagdType )
     {
