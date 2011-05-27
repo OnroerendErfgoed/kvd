@@ -1,22 +1,22 @@
 <?php
 /**
- * @package KVD.dom
+ * @package    KVD.dom
  * @subpackage collection
- * @copyright 2004-2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
- * @version $Id$
+ * @version    $Id$
+ * @copyright  2004-2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
-
+ 
 /**
- * KVDdom_DomainObjectCollection 
+ * Een collectie van {@link KVDdom_DomainObject} objecten.
  * 
- * @package KVD.dom
+ * @package    KVD.dom
  * @subpackage collection
- * @since 2005
- * @copyright 2004-2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @since      2005
+ * @copyright  2004-2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDdom_DomainObjectCollection implements SeekableIterator, Countable
 {
@@ -51,7 +51,8 @@ class KVDdom_DomainObjectCollection implements SeekableIterator, Countable
     }
 
     /**
-     * @return  mixed    Het huidige {@link KVDdom_DomainObject} of false indien er geen huidig object is.
+     * @return mixed Het huidige {@link KVDdom_DomainObject} of 
+     *               false indien er geen huidig object is.
      */
     public function current()
     {
@@ -91,7 +92,6 @@ class KVDdom_DomainObjectCollection implements SeekableIterator, Countable
      */
     public function seek ($index)
     {
-
         if ( $index < 0 || $index >= $this->getTotalRecordCount() ) {
             $index = 0; 
         }
@@ -114,17 +114,19 @@ class KVDdom_DomainObjectCollection implements SeekableIterator, Countable
 
     /**
      * Verwijder alle objecten uit de collectie.
-     * Opgelet, deze functie zal ook de opdracht geven aan de sessie om alle objecten te wissen. 
+     *
+     * Opgelet, deze functie zal ook de opdracht geven aan de sessie om alle objecten te wissen.
      * Gebruik ze dus niet als je alleen maar objecten wilt loskoppelen.
+     *
      * @deprecated Functie hoort hier niet thuis en is zelfs sterker dan de clear
      * methode van een @link KVDdom_EditeerbareDomainObjectCollection.
      */
     public function clear( )
     {
-       foreach ( $this->collection as $object ) {
-           $object->remove( );
-       }
-       $this->collection = array( );
+        foreach ( $this->collection as $object ) {
+            $object->remove( );
+        }
+        $this->collection = array( );
     }
 
     /**
@@ -158,7 +160,7 @@ class KVDdom_DomainObjectCollection implements SeekableIterator, Countable
      */
     public function __toString( )
     {
-        return implode ( ', ' , $this->collection );
+        return implode ( ', ', $this->collection );
     }
 
     /**
@@ -174,9 +176,12 @@ class KVDdom_DomainObjectCollection implements SeekableIterator, Countable
     /**
      * getFirst 
      * 
-     * Geef het eerste domainobject uit de collection of false indien er geen elementen zijn. Let op dit, herinitialiseert de collection ook
-     * en zet de interne collectie pointer dus terug op het begin. Gebruik dit dus niet tijdens een loop.
-     * @return  mixed   Het eerste {@link KVDdom_DomainObject} uit de collection of false indien het niet bestaat.
+     * Geef het eerste domainobject uit de collection of false indien er geen elementen zijn. 
+     * Let op dit, herinitialiseert de collection ook en zet de interne collectie pointer dus 
+     * terug op het begin. Gebruik dit dus niet tijdens een loop.
+     *
+     * @return mixed Het eerste {@link KVDdom_DomainObject} uit de collection 
+     *               of false indien het niet bestaat.
      */
     public function getFirst( )
     {
