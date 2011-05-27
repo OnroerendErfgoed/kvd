@@ -80,7 +80,7 @@ class KVDutil_NullDateTime extends KVDutil_DateTime
      * 
      * @return  null
      */
-    public function format( )
+    public function format( $format = parent::FORMAT )
     {
         return null;
     }
