@@ -16,7 +16,7 @@
  * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
-class TestOfDimensies extends PHPUnit_Framework_TestCase
+class KVDutil_DimensiesTest extends PHPUnit_Framework_TestCase
 {
     private $_dimensies;
 

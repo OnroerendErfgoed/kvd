@@ -1,18 +1,22 @@
 <?php
 /**
- * @package KVD.util
+ * @package    KVD.util
  * @subpackage dimensies
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @version $Id$
+ * @version    $Id$
+ * @copyright  2004 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
  * Class die alle dimensies van een object (voorwerp, vindplaats, monument, spoor, ...) groepeert.
  *
- * @package KVD.util
+ * @package    KVD.util
  * @subpackage dimensies
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @since 1.0.0
+ * @since      lang, lang, lang geleden
+ * @copyright  2004 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDutil_Dimensies implements ArrayAccess, IteratorAggregate
 {
@@ -29,30 +33,24 @@ class KVDutil_Dimensies implements ArrayAccess, IteratorAggregate
     /**
      * @param array $allowedDimensies
      */
-    public function __construct ( $allowedDimensies )
+    public function __construct ( array $allowedDimensies )
     {
-        if ( is_array ( $allowedDimensies ) ) {
-            $this->allowedDimensies = $allowedDimensies;
-        } else {
-            throw new Exception ("Illegal parameter. Parameter allowedDimensies moet array zijn.");
-        }
+        $this->allowedDimensies = $allowedDimensies;
     }
 
     /**
      * @param string $offset Naam van een soort dimensie
+     *
      * @return boolean
      */
     public function offsetExists ( $offset )
     {
-        if ( isset ($this->dimensies[$offset]) ) {
-            return TRUE;
-        } else {
-            return FALSE;
-        }
+        return isset ($this->dimensies[$offset]);
     }
 
     /**
      * @param string $offset Naam van een soort dimensie
+     *
      * @return KVDutil_Dimensie
      */
     public function offsetGet ( $offset )
@@ -60,7 +58,7 @@ class KVDutil_Dimensies implements ArrayAccess, IteratorAggregate
         if ( $this->offsetExists ( $offset ) ) {
             return $this->dimensies[$offset];
         } else {
-            return FALSE;
+            return false;
         }
     }
 
@@ -70,12 +68,13 @@ class KVDutil_Dimensies implements ArrayAccess, IteratorAggregate
      */
     public function offsetSet( $offset , $value )
     {
-        if ( in_array ( $offset , $this->allowedDimensies ) ) {
+        if ( in_array ($offset, $this->allowedDimensies ) ) {
             $this->dimensies[$offset] = $value;        
         } else {
-            $toegestaneDimensies = implode ( ', ' , $this->allowedDimensies );
+            $toegestaneDimensies = implode (', ', $this->allowedDimensies );
             throw new InvalidArgumentException (
-                "Deze dimensie hoort niet tot de toegstane dimensies. Toegestane dimensies zijn $toegestaneDimensies.");
+                "Deze dimensie hoort niet tot de toegstane dimensies. 
+                Toegestane dimensies zijn $toegestaneDimensies.");
         }
     }
 
@@ -115,7 +114,7 @@ class KVDutil_Dimensies implements ArrayAccess, IteratorAggregate
             }
         }
         if ( $omschrijving !== '' ) {
-            $omschrijving = substr($omschrijving,0,-2) . '.';    
+            $omschrijving = substr($omschrijving, 0, -2) . '.';    
         }
         return $omschrijving;
     }
