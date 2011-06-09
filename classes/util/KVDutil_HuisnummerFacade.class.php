@@ -1411,7 +1411,8 @@ class KVDutil_HuisnummerFacade {
 		$separate = $this->separateEven($nummers);
 		$even = $this->mergeNummers($separate["even"]);
 		$oneven = $this->mergeNummers($separate["oneven"]);
-		return $this->sortNummers(array_merge($even, $oneven));
+        $ret = array_merge( $even, $oneven );
+		return $this->sortNummers($ret);
 	}
 	
 	/**
