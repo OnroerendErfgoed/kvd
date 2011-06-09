@@ -229,12 +229,12 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
                 $cOps['http']['request_fulluri'] = true;
             }
             $streamContext = stream_context_create( $cOps);
-            if ( !@file_get_contents( $parameters['wsdl'], false, $streamContext ) ) {
+            if ( !file_get_contents( $parameters['wsdl'], false, $streamContext ) ) {
                 throw new KVDutil_GatewayUnavailableException ( 'De Crab2Gateway kan geen verbinding maken met de Crab webservice. De WSDL file is niet beschikbaar.' , __CLASS__ );
             }
         }
 
-        $this->_client = @new KVDgis_Crab2SoapClient ( $parameters['wsdl'] , $soap_options);
+        $this->_client = new KVDgis_Crab2SoapClient ( $parameters['wsdl'] , $soap_options);
         
         if ( !isset( $parameters['username']) || !isset( $parameters['password'])) {
             throw new InvalidArgumentException ( 'De array parameters moet de sleutels username en password bevatten!');
@@ -886,77 +886,6 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
 
 }
 
-/**
- * KVDgis_Crab2SoapClient 
- * 
- * @package KVD.gis
- * @subpackage crab
- * @since 5 maart 2007
- * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
- */
-class KVDgis_Crab2SoapClient extends SoapClient
-{
-    /**
-     * user 
-     * 
-     * @var string
-     */
-    private $user = null;
-    
-    /**
-     * password 
-     * 
-     * @var string
-     */
-    private $password = null;
-
-    /**
-     * setAuthentication
-     *  
-     * @param string $user 
-     * @param string $password 
-     */
-    public function setAuthentication ( $user , $password )
-    {
-        $this->user = $user;
-        $this->password = $password;
-    }
-
-    /**
-     * __doRequest 
-     * 
-     * @param string $request 
-     * @param string $location 
-     * @param string $saction 
-     * @param integer $version 
-     * @return string
-     */
-    public function __doRequest( $request , $location , $saction , $version )
-    {
-        if ( is_null( $this->user ) || is_null( $this->password ) ) {
-            throw new SoapFault ( 'U hebt geen authenticatie credentials opgegeven.' );
-        }
-        $dom = new DOMDocument( '1.0' );
-        $dom->loadXML( $request );
-
-        $wsa = new KVDutil_SoapWSA( $dom );
-        $wsa->addAction( $saction );
-        $wsa->addTo( $location );
-        $wsa->addMessageID( );
-        $wsa->addReplyTo( );
-
-        $dom = $wsa->getDoc( );
-
-        $wsse = new KVDutil_SoapWSSE( $dom );
-
-        $wsse->addUserToken( $this->user , $this->password , true );
-
-        return parent::__doRequest( $wsse->saveXML( ) , $location , $saction , $version );
-
-    }
-}
 /**
  * KVDgis_NullCrab2Gateway 
  * 
