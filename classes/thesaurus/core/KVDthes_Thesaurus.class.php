@@ -1,22 +1,22 @@
 <?php
 /**
- * @package KVD.thes
- * @subpackage Core
- * @version $Id$
- * @copyright 2004-2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @package    KVD.thes
+ * @subpackage core
+ * @version    $Id$
+ * @copyright  2004-2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
  * KVDthes_Thesaurus
  * 
- * @package KVD.thes
- * @subpackage Core
- * @since 24 juni 2008
- * @copyright 2004-2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @package    KVD.thes
+ * @subpackage core
+ * @since      24 juni 2008
+ * @copyright  2004-2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDthes_Thesaurus implements KVDdom_DomainObject
 {
