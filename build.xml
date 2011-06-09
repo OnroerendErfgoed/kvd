@@ -10,6 +10,12 @@
 	<property name="docsDir" value="/data/docs/kvd/kvd" />
 	<property name="agaviDir" value="/opt/csw/php5/lib/php/agavi/" />
 
+	<!-- Default values voor properties -->
+	<property name="crab.user" value="" />
+	<property name="crab.pwd" value="" />
+	<property name="crab.proxy_host" value="" />
+	<property name="crab.proxy_port" value="" />
+
 	<taskdef name="generateautoloader" classname="phing.tasks.AutoloadGenerationTask" />
 
 	<target name="main" description="Overzicht van de mogelijke taken">
@@ -31,13 +37,13 @@
 	</target>
 
 	<target name="generateTestAutoloader" description="Maak de autoloader voor de unit tests aan.">
-		<generateautoloader destfile="tests/KVD_Autoload.php" outputtype="RegisteredFunction" outputname="KVD_Autoload">
+		<generateautoloader destfile="test/KVD_Autoload.php" outputtype="RegisteredFunction" outputname="KVD_Autoload">
 			<fileset dir="classes">
 				<include name="**/*.class.php" />
 				<include name="**/*.interface.php" />
 			</fileset>
 
-			<fileset dir="tests">
+			<fileset dir="test/tests">
 				<include name="thesaurus/KVDthes_TestTerm.class.php" />
 				<include name="thesaurus/KVDthes_Sessie.class.php" />
 				<include name="util/Gateway/KVDutil_GatewayTestGateway.class.php" />
@@ -172,7 +178,20 @@
 		</phpdoc>
 	</target>
 
-	<target name="runTests" description="Laat de Unit Tests lopen." depends="createBuildDir,generateTestAutoloader">
+	<target name="genBootstrap">
+		<copy file="test/dev/bootstrap.php.tpl" tofile="test/bootstrap.php" overwrite="true">
+			<filterchain>
+				<replacetokens begintoken="@@" endtoken="@@">
+					<token key="CRAB_USER" value="${crab.user}" />
+					<token key="CRAB_PWD" value="${crab.pwd}" />
+					<token key="CRAB_PROXY_HOST" value="${crab.proxy_host}" />
+					<token key="CRAB_PROXY_PORT" value="${crab.proxy_port}" />
+				</replacetokens>
+			</filterchain>
+		</copy>
+	</target>
+
+	<target name="runTests" description="Laat de Unit Tests lopen." depends="createBuildDir,generateTestAutoloader,genBootstrap">
 		<available file="build/coverage.xml" type="file" property="build.coverage_exists" />
 		<available file="build/testsuites.xml" type="file" property="build.testsuite_exists" />
 		<available file="build/clover-coverage.xml" type="file" property="build.clover-coverage_xml_exists" />
@@ -194,88 +213,61 @@
 				<delete file="build/clover-coverage.xml" />
 			</then>
 		</if>
-		<coverage-setup database="build/coverage.xml">
-			<fileset dir="classes">
-				<include name="database/criteria/*.php" />
-				<include name="domain/**/*.php" />
-				<exclude name="domain/KVDdom_ChangeableSystemFields.class.php" />
-				<include name="gis/**/KVDgis_*.php"/>
-				<include name="html/**/*.php" />
-				<include name="thesaurus/**/*.php" />
-				<include name="util/**/*.php" />
-				<exclude name="util/KVDutil_GetDeclaredClassesFilter.class.php" />
-			</fileset>
-		</coverage-setup>
-		<php expression="define('CRAB_USER', '${crab.user}')" />
-		<php expression="define('CRAB_PWD', '${crab.pwd}')" />
+		<exec command="phpunit --bootstrap test/bootstrap.php --configuration test/config/testsuites.xml --log-junit build/testsuites.xml" passthru="true" returnProperty="testsExit" />
+
 		<if>
-			<isset property="crab.proxy_host" />
+			<equals arg1="${testsExit}" arg2="0" />
 			<then>
-				<php expression="define('CRAB_PROXY_HOST', '${crab.proxy_host}')" />
-				<if>
-					<isset property="crab.proxy_port" />
-					<then>
-						<php expression="define('CRAB_PROXY_PORT', '${crab.proxy_port}')" />
-					</then>
-				</if>
-			</then>
-		</if>
-		<phpunit bootstrap="tests/KVD_Autoload.php"
-			codecoverage="true" failureproperty="testsFailure">
-			<formatter todir="build" type="xml" />
-			<formatter todir="build" type="clover" />
-			<formatter todir="build" type="plain" />
-			<batchtest>
-				<fileset dir="tests">
-					<include name="database/**/KVDdb_*Test.php" />
-					<include name="gis/**/KVDgis_*Test.php" />
-					<include name="thesaurus/core/KVDthes_*Test.php" />
-					<include name="html/**/KVDhtml_*Test.php" />
-					<include name="util/**/KVDutil_*Test.php" />
-					<include name="domain/**/KVDdom_*Test.php" />
-				</fileset>
-			</batchtest>
-		</phpunit>
-		<if>
-			<isset property="testsFailure" />
-			<then>
-				<echo>Het builden van de KVDlib is mislukt!</echo>
+				<echo>Unit tests werden met success uitgevoerd.</echo>
 			</then>
 			<else>
-				<echo>Unit tests werden met success uitgevoerd.</echo>
+				<echo>Niet alle unit tests werden succesvol uitgevoerd!</echo>
 			</else>
 		</if>
 	</target>
 
-	<target name="genTestReports" description="Maak rapporten over de UnitTests aan." depends="runTests">
+
+	<target name="genTestReports" description="Maak rapporten over de UnitTests aan." depends="createBuildDir,generateTestAutoloader,genBootstrap">
 		<delete dir="build/reports" />
 		<mkdir dir="build/reports" />
 		<mkdir dir="build/reports/tests" />
 		<mkdir dir="build/reports/coverage" />
-		<phpunitreport styledir="${tests.style_dir}" todir="build/reports/tests" infile="build/testsuites.xml" format="frames"/>
-		<coverage-report outfile="build/coverage.xml">
-			<report todir="build/reports/coverage" styledir="${tests.style_dir}"/>
-		</coverage-report>
+		<available file="build/testsuites.xml" type="file" property="build.testsuite_exists" />
+		<available file="build/clover-coverage.xml" type="file" property="build.clover-coverage_xml_exists" />
+		<if>
+			<istrue value="build.testsuites_exists" />
+			<then>
+				<delete file="build/testsuites.xml" />
+			</then>
+		</if>
+		<if>
+			<istrue value="build.clover-coverage_exists" />
+			<then>
+				<delete file="build/clover-coverage.xml" />
+			</then>
+		</if>
+		<exec command="phpunit --bootstrap test/bootstrap.php 
+							   --configuration test/config/testsuites.xml 
+							   --log-junit build/testsuites.xml
+							   --coverage-html build/reports/coverage
+							   --coverage-clover build/clover-coverage.xml
+							   " 
+			  passthru="true" returnProperty="testsExit" />
+
+		<if>
+			<equals arg1="${testsExit}" arg2="0" />
+			<then>
+				<echo>Unit tests werden met success uitgevoerd.</echo>
+			</then>
+			<else>
+				<echo>Niet alle unit tests werden succesvol uitgevoerd!</echo>
+			</else>
+		</if>
 	</target>
 
 	<target name="genCodeSnifferReports" description="Maak rapporten over de staat van de code aan." depends="createBuildDir">
 		<delete dir="build/reports/sniffs" />
 		<mkdir dir="build/reports/sniffs" />
-		<!--
-		<phpcodesniffer
-			standard="${project.basedir}/dev/phpcs/VIOE/VIOECodingStandard.php">
-			<fileset dir="classes">
-				<include name="database/criteria/*.php" />
-				<include name="gis/crab/KVDgis_*Cache*.php"/>
-				<include name="thesaurus/**/*.php" />
-				<include name="util/**/*.php" />
-				<exclude name="util/KVDutil_GetDeclaredClassesFilter.class.php" />
-			</fileset>
-			<formatter type="summary" usefile="false"/>
-			<formatter type="checkstyle" outfile="build/reports/sniffs/checkstyle.xml"/>
-			<formatter type="full" outfile="build/reports/sniffs/sniffs.txt" usefile="true"/>
-		</phpcodesniffer>
-		-->
 		<exec command="phpcs --standard=${project.basedir}/dev/phpcs/VIOE/ruleset.xml ${project.basedir}/classes 
 			--report-summary --report-full=${project.basedir}/build/reports/sniffs/sniffs.txt
 			--report-checkstyle=${project.basedir}/build/reports/sniffs/checkstyle.xml" />

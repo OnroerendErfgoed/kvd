@@ -230,7 +230,9 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
             }
             $streamContext = stream_context_create( $cOps);
             if ( !file_get_contents( $parameters['wsdl'], false, $streamContext ) ) {
-                throw new KVDutil_GatewayUnavailableException ( 'De Crab2Gateway kan geen verbinding maken met de Crab webservice. De WSDL file is niet beschikbaar.' , __CLASS__ );
+                throw new KVDutil_GatewayUnavailableException ( 
+                    'De Crab2Gateway kan geen verbinding maken met de Crab webservice. De WSDL file is niet beschikbaar.' , 
+                    __CLASS__ );
             }
         }
 
