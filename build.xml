@@ -33,6 +33,10 @@
 				<include name="**/*.class.php" />
 				<include name="**/*.interface.php" />
 			</fileset>
+
+			<fileset dir="vendor">
+				<include name="easyrdf/lib/**/*.php" />
+			</fileset>
 		</generateautoloader>
 	</target>
 
@@ -50,6 +54,10 @@
 				<include name="util/Gateway/KVDutil_GatewayTestGatewayFactory.class.php" />
 				<include name="domain/KVDdom_TestDomainObject.class.php" />
 				<include name="domain/KVDdom_TestSessie.class.php" />
+			</fileset>
+
+			<fileset dir="vendor">
+				<include name="easyrdf/lib/**/*.php" />
 			</fileset>
 		</generateautoloader>
 	</target>

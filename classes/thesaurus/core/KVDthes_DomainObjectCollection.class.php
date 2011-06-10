@@ -1,27 +1,27 @@
 <?php
 /**
- * @package KVD.thes
- * @subpackage Core
- * @version     $Id$
- * @copyright   2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Dieter Standaert <dieter.standaert@hp.com>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @package    KVD.thes
+ * @subpackage core
+ * @version    $Id$
+ * @copyright  2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author     Dieter Standaert <dieter.standaert@hp.com>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
  * KVDthes_DomainObjectCollection 
  * 
  * Een KVDdom_DomainObjectCollection met sort methode.
- * @package KVD.thes
- * @subpackage Core
- * @since 14 april 2010
- * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Dieter Standaert <dieter.standaert@hp.com>
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ *
+ * @package    KVD.thes
+ * @subpackage core
+ * @since      14 april 2010
+ * @copyright  2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author     Dieter Standaert <dieter.standaert@hp.com>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDthes_DomainObjectCollection extends KVDdom_DomainObjectCollection
 {
-
 
     /**
      * sort 
@@ -41,8 +41,4 @@ class KVDthes_DomainObjectCollection extends KVDdom_DomainObjectCollection
 
 }
 
-
-
 ?>
-
-

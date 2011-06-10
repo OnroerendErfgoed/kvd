@@ -153,10 +153,5 @@ class KVDthes_TermSorter
         return strcmp($a->$method(), $b->$method());    
     }
 
-
-
-
 }
-
 ?>
-

@@ -81,5 +81,19 @@ class KVDthes_TermTest extends PHPUnit_Framework_TestCase
         $this->assertEquals( 1, count( $this->object->getRelations( ) ) );
         $this->assertEquals( 1, count( $term2->getRelations( ) ) );
     }
+
+    public function testNotes( )
+    {
+        $this->object->setLoadState( KVDthes_Term::LS_NOTES );
+        $this->object->setLoadState( KVDthes_Term::LS_REL );
+        $this->object->setScopeNote( 'SN' );
+        $this->object->setHistoryNote( 'HN' );
+        $this->object->setIndexingNote( 'IN' );
+        $this->object->setSourceNote( 'SoN' );
+        $this->assertEquals( 'SN', $this->object->getScopeNote( ) );
+        $this->assertEquals( 'HN', $this->object->getHistoryNote( ) );
+        $this->assertEquals( 'IN', $this->object->getIndexingNote( ) );
+        $this->assertEquals( 'SoN', $this->object->getSourceNote( ) );
+    }
 }
 ?>
