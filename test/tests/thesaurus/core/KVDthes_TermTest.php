@@ -15,9 +15,9 @@ class KVDthes_TermTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $sessie = $this->getMock( 'KVDthes_Sessie' );
+        $this->sessie = $this->getMock( 'KVDthes_Sessie' );
         $termType = new KVDthes_TermType( 'PT', 'voorkeursterm' );
-        $this->object = new KVDthes_TestTerm( 507, $sessie, 'kapellen', $termType, 'klein erfgoed');
+        $this->object = new KVDthes_TestTerm( 507, $this->sessie, 'kapellen', $termType, 'klein erfgoed');
     }
 
     /**
@@ -28,6 +28,8 @@ class KVDthes_TermTest extends PHPUnit_Framework_TestCase
      */
     protected function tearDown()
     {
+        $this->sessie = null;
+        $this->object = null;
     }
 
     public function testLoadState() {
@@ -67,6 +69,17 @@ class KVDthes_TermTest extends PHPUnit_Framework_TestCase
 
     public function test__toString() {
         $this->assertEquals( 'kapellen (klein erfgoed)', $this->object->__toString( ) );
+    }
+
+    public function testLoadRelation( )
+    {
+        $termType = new KVDthes_TermType( 'PT', 'voorkeursterm' );
+        $term2 = new KVDthes_TestTerm( 508, $this->sessie, 'kapellen', $termType, 'bouwkundig erfgoed' );
+        $this->object->loadRelation( new KVDthes_Relation(KVDthes_Relation::REL_RT, $term2 ));
+        $this->object->setLoadState( KVDthes_Term::LS_REL );
+        $term2->setLoadState( KVDthes_Term::LS_REL );
+        $this->assertEquals( 1, count( $this->object->getRelations( ) ) );
+        $this->assertEquals( 1, count( $term2->getRelations( ) ) );
     }
 }
 ?>
