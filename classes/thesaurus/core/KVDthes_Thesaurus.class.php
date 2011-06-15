@@ -55,9 +55,9 @@ class KVDthes_Thesaurus implements KVDdom_DomainObject
     {
         $this->sessie = $sessie;
         $this->id = $id;
-		$this->naam = $naam;
+        $this->naam = $naam;
         $this->language = $language;
-	    $this->sessie->registerClean( $this );
+        $this->sessie->registerClean( $this );
     }
 
     /**
@@ -65,10 +65,10 @@ class KVDthes_Thesaurus implements KVDdom_DomainObject
      * 
      * @return string
      */
-	public function getNaam()
-	{
-		return $this->naam;
-	}
+    public function getNaam()
+    {
+        return $this->naam;
+    }
 
     /**
      * getId 
@@ -138,41 +138,6 @@ class KVDthes_Thesaurus implements KVDdom_DomainObject
     public static function newNull( )
     {
         return new KVDthes_NullThesaurus( );
-    }
-}
-
-/**
- * KVDthes_NullTerm 
- * 
- * @package KVD.thes
- * @subpackage Core
- * @since i19 maart 2007
- * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
- */
-class KVDthes_NullThesaurus extends KVDthes_Thesaurus
-{
-    /**
-     * __construct 
-     * 
-     * @return void
-     */
-    public function __construct( )
-    {
-        $this->id = 0;
-        $this->naam = 'Onbepaald';
-        $this->language = 'Nederlands';
-    }
-
-    /**
-     * isNull 
-     * 
-     * @return boolean
-     */
-    public function isNull()
-    {
-        return true;
     }
 }
 ?>

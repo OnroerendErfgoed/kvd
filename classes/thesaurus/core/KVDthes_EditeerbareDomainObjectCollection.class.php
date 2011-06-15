@@ -1,11 +1,11 @@
 <?php
 /**
- * @package KVD.thes
- * @subpackage Core
- * @version     $Id$
- * @copyright 2004-2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Dieter Standaert <dieter.standaert@hp.com>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @package    KVD.thes
+ * @subpackage core
+ * @version    $Id$
+ * @copyright  2004-2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author     Dieter Standaert <dieter.standaert@hp.com>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
@@ -13,14 +13,16 @@
  * 
  * Een KVDdom_EditeerbareDomainObjectCollection die een KVDthes_DomainObjectCollection als
  * immutable collection teruggeeft.
- * @package KVD.thes
- * @subpackage Core
- * @since 14 april 2010
- * @copyright 2004-2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Dieter Standaert <dieter.standaert@hp.com>
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ *
+ * @package    KVD.thes
+ * @subpackage core
+ * @since      14 april 2010
+ * @copyright  2004-2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author     Dieter Standaert <dieter.standaert@hp.com>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
-abstract class KVDthes_EditeerbareDomainObjectCollection extends KVDdom_EditeerbareDomainObjectCollection
+abstract class KVDthes_EditeerbareDomainObjectCollection 
+                    extends KVDdom_EditeerbareDomainObjectCollection
 {
 
     /**

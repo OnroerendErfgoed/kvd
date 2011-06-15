@@ -1,7 +1,7 @@
 <?php
 /**
  * @package    KVD.thes
- * @subpackage Core
+ * @subpackage core
  * @version    $Id$
  * @copyright  2009-2011 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
@@ -12,9 +12,9 @@
  * KVDthes_TermType 
  * 
  * @package    KVD.thes
- * @subpackage Core
+ * @subpackage core
  * @since      16 apr 2009
- * @copyright  2009-2001 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @copyright  2009-2011 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */

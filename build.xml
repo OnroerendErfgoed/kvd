@@ -49,6 +49,7 @@
 
 			<fileset dir="test/tests">
 				<include name="thesaurus/KVDthes_TestTerm.class.php" />
+				<include name="thesaurus/KVDthes_TestEditeerbareDomainObjectCollection.class.php" />
 				<include name="thesaurus/KVDthes_Sessie.class.php" />
 				<include name="util/Gateway/KVDutil_GatewayTestGateway.class.php" />
 				<include name="util/Gateway/KVDutil_GatewayTestGatewayFactory.class.php" />
