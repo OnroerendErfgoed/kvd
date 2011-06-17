@@ -39,12 +39,35 @@ class KVDthes_TermTest extends PHPUnit_Framework_TestCase
         $this->assertTrue( $this->object->isLoadState( KVDthes_Term::LS_REL ) );
     }
 
+    public function testIsNull( )
+    {
+        $this->assertFalse( $this->object->isNull( ) );
+        $niets = KVDthes_TestTerm::newNull( );
+        $this->assertTrue( $niets->isNull( ) );
+    }
+
     public function testGetTerm() {
         $this->assertEquals( 'kapellen', $this->object->getTerm( ) );
     }
 
+    public function testSetTerm( )
+    {
+        $this->object->setLoadState( KVDthes_Term::LS_NOTES );
+        $this->object->setLoadState( KVDthes_Term::LS_REL );
+        $this->object->setTerm( 'klootschieten' );
+        $this->assertEquals( 'klootschieten', $this->object->getTerm( ) );
+    }
+
     public function testGetQualifier() {
         $this->assertEquals( 'klein erfgoed', $this->object->getQualifier( ) );
+    }
+
+    public function testSetQualifier( )
+    {
+        $this->object->setLoadState( KVDthes_Term::LS_NOTES );
+        $this->object->setLoadState( KVDthes_Term::LS_REL );
+        $this->object->setQualifier( 'groot erfgoed' );
+        $this->assertEquals( 'groot erfgoed', $this->object->getQualifier( ) );
     }
 
     public function testGetQualifiedTerm( ) {
@@ -55,8 +78,24 @@ class KVDthes_TermTest extends PHPUnit_Framework_TestCase
         $this->assertEquals( 507 , $this->object->getId( ) );
     }
 
+    public function testSetType( )
+    {
+        $this->object->setLoadState( KVDthes_Term::LS_NOTES );
+        $this->object->setLoadState( KVDthes_Term::LS_REL );
+        $this->object->setType( new KVDthes_TermType( 'ND', 'Non-Descriptor' ) );
+        $this->assertEquals( 'ND', $this->object->getType()->getId( ) );
+    }
+
     public function testGetLanguage() {
         $this->assertEquals( 'nl-BE', $this->object->getLanguage( ) );
+    }
+
+    public function testSetLanguage( )
+    {
+        $this->object->setLoadState( KVDthes_Term::LS_NOTES );
+        $this->object->setLoadState( KVDthes_Term::LS_REL );
+        $this->object->setLanguage( 'en-US' );
+        $this->assertEquals( 'en-US', $this->object->getLanguage( ) );
     }
 
     public function testGetClass() {
@@ -69,6 +108,14 @@ class KVDthes_TermTest extends PHPUnit_Framework_TestCase
 
     public function test__toString() {
         $this->assertEquals( 'kapellen (klein erfgoed)', $this->object->__toString( ) );
+    }
+
+    public function testSetSortKey( )
+    {
+        $this->object->setLoadState( KVDthes_Term::LS_NOTES );
+        $this->object->setLoadState( KVDthes_Term::LS_REL );
+        $this->object->setSortKey( 'aaa' );
+        $this->assertEquals( 'aaa', $this->object->getSortKey( ) );
     }
 
     public function testLoadRelation( )

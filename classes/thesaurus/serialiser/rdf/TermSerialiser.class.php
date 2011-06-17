@@ -11,53 +11,15 @@
 /**
  * Object dat een thesaurusterm kan serialiseren naar rdf/xml. 
  * 
- * @package    KVd.thes
+ * @package    KVD.thes
  * @subpackage serialiser
  * @since      1.5
  * @copyright  2011 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
-class KVDthes_Serialiser_Rdf_TermSerialiser
+class KVDthes_Serialiser_Rdf_TermSerialiser extends KVDthes_Serialiser_Rdf_AbstractSerialiser
 {
-    protected $graph;
-    
-    /**
-     * uriGenerators 
-     * 
-     * @var array
-     */
-    protected $uriGenerators;
-    
-    public function __construct( EasyRdf_Graph $graph = null)
-    {
-        if ( $graph === null ) {
-            $graph = new EasyRdf_Graph( );
-        }
-        $this->graph = $graph;
-        $this->uriGenerators = array( );
-
-        EasyRdf_Format::register( 'rdfxml',
-                                  'RDF/XML',
-                                  'http://www.w3.org/TR/rdf-syntax-grammar',
-                                  'application/rdf+xml' );
-
-        //EasyRdf_Format::registerParser( 'rdfxml', 'EasyRdf_Parser_RdfXml');
-
-        EasyRdf_Format::registerSerialiser( 'rdfxml', 'EasyRdf_Serialiser_RdfXml');
-    }
-
-    /**
-     * addUriGenerator 
-     * 
-     * @param KVDthes_Serialiser_Rdf_IUriGenerator $urigen 
-     * @return void
-     */
-    public function addUriGenerator( KVDthes_Serialiser_Rdf_IUriGenerator $urigen )
-    {
-        $this->uriGenerators[] = $urigen;
-    }
-
     /**
      * transform 
      * 
@@ -75,7 +37,7 @@ class KVDthes_Serialiser_Rdf_TermSerialiser
             $type = 'skos:Concept';
         }
         try {
-            $uri = $this->genUri( $term );
+            $uri = $this->genTermUri( $term );
             $res = $this->graph->resource( $uri, $type );
         } catch ( InvalidArgumentException $e ) {
             $res = $this->graph->newBNode( $type );
@@ -110,19 +72,20 @@ class KVDthes_Serialiser_Rdf_TermSerialiser
                     } else {
                         $rel_uri = 'skos:narrower';
                     }
-                    $uri = $this->genUri( $nt );
+                    $uri = $this->genTermUri( $nt );
                     $ntres = $this->graph->resource( $uri );
                     $res->add( $rel_uri, $ntres );
                 }
             }
         }
 
-        if ( $term->getType( )->getId( ) != 'NL' && $term->hasRelations( KVDthes_Relation::REL_BT ) ) {
+        if ( $term->getType( )->getId( ) != 'NL' && 
+             $term->hasRelations( KVDthes_Relation::REL_BT ) ) {
             $bt = $term->getBroaderTerm( );
             while ( $bt->getType( )->getId( ) == 'NL' ) {
                 $bt = $bt->getBroaderTerm( );
             }
-            $uri = $this->genUri( $bt);
+            $uri = $this->genTermUri( $bt);
             $bt = $this->graph->resource( $uri );
             $res->add( 'skos:broader', $bt );
         }
@@ -130,7 +93,7 @@ class KVDthes_Serialiser_Rdf_TermSerialiser
         if ( $term->hasRelations( KVDthes_Relation::REL_RT ) ) {
             $rels = $term->getRelatedTerms( );
             foreach( $rels as $rel ) {
-                $uri = $this->genUri( $rel );
+                $uri = $this->genTermUri( $rel );
                 $rt = $this->graph->resource( $uri );
                 $res->add( 'skos:related', $rt );
             }
@@ -151,67 +114,5 @@ class KVDthes_Serialiser_Rdf_TermSerialiser
         return $res;
     }
 
-    /**
-     * getGraph 
-     * 
-     * @return EasyRdf_Graph
-     */
-    public function getGraph( )
-    {
-        return $this->graph;
-    }
-
-    /**
-     * Bekom een geserialiseerde vorm van de rdf graph.
-     * 
-     * @param  string $format 
-     * @return string
-     */
-    public function serialise( $format = 'rdfxml' )
-    {
-        return $this->graph->serialise( $format );
-    }
-
-    /**
-     * genUri 
-     * 
-     * @param KVDthes_Term $term 
-     * @return string
-     */
-    private function genUri( KVDthes_Term $term )
-    {
-        foreach ( $this->uriGenerators as $gen ) {
-            try {
-                $uri = $gen->generateTermUri( $term );
-                return $uri;
-            } catch ( InvalidArgumentException $e ) {
-                //Verder loopen
-            }
-        }
-        throw new InvalidArgumentException( 
-            sprintf( 'Kan geen uri genereren voor de term %s.', $term->getTerm( ) )
-        );
-    }
-
-    /**
-     * genThesaurusUri 
-     * 
-     * @param KVDthes_Thesaurus $thesaurus 
-     * @return string
-     */
-    private function genThesaurusUri( KVDthes_Thesaurus $thesaurus )
-    {
-        foreach ( $this->uriGenerators as $gen ) {
-            try {
-                $uri = $gen->generateThesaurusUri( $thesaurus );
-                return $uri;
-            } catch ( InvalidArgumentException $e ) {
-                //Verder loopen
-            }
-        }
-        throw new InvalidArgumentException( 
-            sprintf( 'Kan geen uri genereren voor de thesaurus %s.', $thesaurus->getOmschrijving( ) )
-        );
-    }
 }
 ?>
