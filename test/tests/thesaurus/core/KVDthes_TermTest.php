@@ -118,6 +118,60 @@ class KVDthes_TermTest extends PHPUnit_Framework_TestCase
         $this->assertEquals( 'aaa', $this->object->getSortKey( ) );
     }
 
+    public function testHasBTRelations(  )
+    {
+        $this->object->setLoadState( KVDthes_Term::LS_REL );
+        $this->assertFalse( $this->object->hasBTRelations( ) );
+        $this->assertEquals( $this->object->hasBTRelations( ), $this->object->hasBT( ) );
+    }
+
+    public function testPreferredTerm( )
+    {
+        $termType = new KVDthes_TermType( 'PT', 'voorkeursterm' );
+        $term2 = new KVDthes_TestTerm( 508, $this->sessie, 'kapellen', $termType, 'bouwkundig erfgoed' );
+        $this->object->setLoadState( KVDthes_Term::LS_REL );
+        $this->object->setLoadState( KVDthes_Term::LS_NOTES );
+        $term2->setLoadState( KVDthes_Term::LS_REL );
+        $term2->setLoadState( KVDthes_Term::LS_NOTES );
+        $this->object->setType( new KVDthes_TermType( 'ND', 'Non Descriptor' ) );
+        $this->object->setPreferredTerm( $term2  );
+        $this->assertTrue( $term2->isPreferredTerm( ) );
+        $this->assertEquals( $term2, $this->object->getPreferredTerm( ) );
+        $this->assertEquals( $term2, $term2->getPreferredTerm( ) );
+    }
+
+
+    public function testAddRemoveRelation( )
+    {
+        $termType = new KVDthes_TermType( 'PT', 'voorkeursterm' );
+        $term2 = new KVDthes_TestTerm( 508, $this->sessie, 'kapellen', $termType, 'bouwkundig erfgoed' );
+        $this->object->setLoadState( KVDthes_Term::LS_REL );
+        $this->object->setLoadState( KVDthes_Term::LS_NOTES );
+        $term2->setLoadState( KVDthes_Term::LS_REL );
+        $term2->setLoadState( KVDthes_Term::LS_NOTES );
+        $this->object->setType( new KVDthes_TermType( 'ND', 'Non Descriptor' ) );
+        $this->object->addRelation( new KVDthes_Relation( KVDthes_Relation::REL_USE, $term2 ) );
+        $this->assertEquals( $term2, $this->object->getPreferredTerm( ) );
+        $term2->removeRelation( new KVDthes_Relation( KVDthes_Relation::REL_UF, $this->object ) );
+        $this->assertEquals( $term2, $term2->getPreferredTerm( ) );
+    }
+
+    public function testClearRelation( )
+    {
+        $termType = new KVDthes_TermType( 'PT', 'voorkeursterm' );
+        $term2 = new KVDthes_TestTerm( 508, $this->sessie, 'kapellen', $termType, 'bouwkundig erfgoed' );
+        $this->object->setLoadState( KVDthes_Term::LS_REL );
+        $this->object->setLoadState( KVDthes_Term::LS_NOTES );
+        $term2->setLoadState( KVDthes_Term::LS_REL );
+        $term2->setLoadState( KVDthes_Term::LS_NOTES );
+        $this->object->setType( new KVDthes_TermType( 'ND', 'Non Descriptor' ) );
+        $this->object->addRelation( new KVDthes_Relation( KVDthes_Relation::REL_USE, $term2 ) );
+        $this->assertEquals( 1, count( $this->object->getRelations( ) ) );
+        $this->object->clearRelations( );
+        $this->assertEquals( 0, count( $this->object->getRelations( ) ) );
+    }
+
+
     public function testLoadRelation( )
     {
         $termType = new KVDthes_TermType( 'PT', 'voorkeursterm' );

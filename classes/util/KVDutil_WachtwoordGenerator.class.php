@@ -1,20 +1,20 @@
 <?php
 /**
- * @package KVD.util 
- * @version $Id$
+ * @package   KVD.util 
+ * @version   $Id$
  * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author    Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
- * KVDutil_WachtwoordGenerator 
+ * Class die random wachtwoorden kan aanmaken. 
  * 
- * @package KVD.util 
- * @since 18 okt 2006
+ * @package   KVD.util 
+ * @since     18 okt 2006
  * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author    Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDutil_WachtwoordGenerator
 {
@@ -55,10 +55,12 @@ class KVDutil_WachtwoordGenerator
     public function __construct ( $lengte = self::LENGTE , $hoofdletters = false )
     {
         if ( !is_int( $lengte ) ) {
-            throw new InvalidArgumentException ( 'Lengte moet een getal zijn.' ); 
+            throw new InvalidArgumentException ( 
+                'Lengte moet een getal zijn.' ); 
         }
         if ( $lengte < 6 ) {
-            throw new InvalidArgumentException ( 'Een wachtwoord mag nooit minder dan 6 tekens bevatten.' );
+            throw new InvalidArgumentException ( 
+                'Een wachtwoord mag nooit minder dan 6 tekens bevatten.' );
         }
         $this->lengte = $lengte;
         $this->hoofdlettersGebruiken = $hoofdletters;
@@ -96,9 +98,9 @@ class KVDutil_WachtwoordGenerator
         $buffer = '';
         $maxStrings = $this->hoofdlettersGebruiken ? 2 : 1; 
         for ( $i=0 ; $i<$this->lengte ; $i++) {
-            $str = $this->teGebruikenTekens[mt_rand( 0 , $maxStrings ) ];
+            $str = $this->teGebruikenTekens[mt_rand(0, $maxStrings) ];
             $maxTeken = strlen( $str ) -1;
-            $buffer .= $str[mt_rand( 0 , $maxTeken ) ];
+            $buffer .= $str[mt_rand(0, $maxTeken) ];
         }
         return $buffer;
     }
@@ -114,13 +116,13 @@ class KVDutil_WachtwoordGenerator
         if ( strlen( $wachtwoord ) != $this->lengte ) {
             return false;
         }
-        if ( !preg_match( '/[0-9]+/' , $wachtwoord ) ) {
+        if ( !preg_match( '/[0-9]+/', $wachtwoord ) ) {
             return false;
         }
-        if ( !preg_match( '/[a-z]+/' , $wachtwoord ) ) {
+        if ( !preg_match( '/[a-z]+/', $wachtwoord ) ) {
             return false;
         }
-        if ( $this->hoofdlettersGebruiken && !preg_match( '/[A-Z]+/' , $wachtwoord ) ) {
+        if ( $this->hoofdlettersGebruiken && !preg_match( '/[A-Z]+/', $wachtwoord ) ) {
             return false;
         }
         return true;

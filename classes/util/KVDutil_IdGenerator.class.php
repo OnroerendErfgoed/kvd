@@ -1,20 +1,20 @@
 <?php
 /**
- * @package KVD.util
- * @version $Id$
+ * @package   KVD.util
+ * @version   $Id$
  * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author    Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
- * KVDutil_IdGenerator 
+ * Simpele class die id's kan genereren 
  * 
- * @package KVD.util
- * @since 28 maart 2007
+ * @package   KVD.util
+ * @since     28 maart 2007
  * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author    Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDutil_IdGenerator
 {
@@ -33,7 +33,7 @@ class KVDutil_IdGenerator
      */
     public function __construct( $start = 0 )
     {
-        $this->id = 0;
+        $this->id = $start;
     }
 
     /**
