@@ -47,14 +47,14 @@ interface KVDdom_Chunky_IQuery
      *
      * @return integer Het aantal rijen in een chunk.
      */
-    public function getRowsPerChunk()
+    public function getRowsPerChunk();
 
     /**
      * Hoeveel records zitten er opgeslagen in de query?
      * 
      * @return integer Het aantal records in de query.
      */
-    public function getTotalRecordCount()
+    public function getTotalRecordCount();
 
     /**
      * Het totale aantal chunks aanwezig in de query, op basis van het aantal 
@@ -62,7 +62,7 @@ interface KVDdom_Chunky_IQuery
      *
      * @return integer Het aantal chunks.
      */
-    public function getTotalChunksCount()
+    public function getTotalChunksCount();
 
     /**
      * Wijzig de actieve chunk.
