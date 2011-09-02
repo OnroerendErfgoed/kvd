@@ -30,7 +30,7 @@ class KVDutil_Auth_LDAPProvider implements KVDutil_Auth_IProvider
      *
      * @param   $connectie  connectie naar een LDAP databank.
      */
-    public function __construct($connectie)
+    public function __construct( Net_LDAP2 $connectie)
     {
         $this->connectie = $connectie;
     }
