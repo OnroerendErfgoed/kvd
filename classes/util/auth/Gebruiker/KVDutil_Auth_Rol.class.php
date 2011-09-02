@@ -18,8 +18,14 @@
  * @author     Bram Goessens <bram.goessens@rwo.vlaanderen.be>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
-class KVDutil_Auth_Rol extends KVDdom_DomainObject
+class KVDutil_Auth_Rol implements KVDdom_DomainObject
 {
+    /**
+     * Id nummer of unieke string id van het domain-object
+     * @var string
+     */
+    protected $id;
+    
     /**
      * naam van de rol
      *
@@ -47,11 +53,20 @@ class KVDutil_Auth_Rol extends KVDdom_DomainObject
      */
     public function __construct($id, $naam ='', $beschrijving = '')
     {
-        parent::__construct($id);
+        $this->id = $id;
         $this->naam = $naam;
         $this->beschrijving = $beschrijving;
     }
 
+    /**
+     * Geeft het Id nummer of Id string van dit object terug.
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+    
     /**
      * getNaam
      *
@@ -79,7 +94,29 @@ class KVDutil_Auth_Rol extends KVDdom_DomainObject
      */
     public function getOmschrijving()
     {
-        return $this->getNaam().' ('.$this->getBeschrijving.')';
+        if( !$this->getBeschrijving() ){
+            return $this->getNaam();
+        }
+        return $this->getNaam().' ('.$this->getBeschrijving().')';
+    }
+    
+    /**
+     * Geef het type van een DomainObject terug. Onder andere nodig om de (@link KVDdom_DataMapper) te kunnen vinden.
+     * @return string
+     */
+    public function getClass()
+    {
+        return get_class( $this );
+    }
+    
+    /**
+     * __toString
+     *
+     * @return string
+     */
+    public function __toString( )
+    {
+        return $this->getOmschrijving( );
     }
 }
 ?>

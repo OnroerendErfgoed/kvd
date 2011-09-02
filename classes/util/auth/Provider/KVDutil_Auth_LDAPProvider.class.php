@@ -124,36 +124,7 @@ class KVDutil_Auth_LDAPProvider implements KVDutil_Auth_IProvider
      */
     public function getRollenVoorApplicatie( KVDutil_Auth_Gebruiker $gebruiker, $applicatie)
     {
-        $searchbase = $applicatie->getId();
-
-        $filter = Net_LDAP2_Filter::create( 'uniqueMember', 'contains', $gebruiker->getId());
-
-        $options = array(
-            'scope' => 'sub',
-            'attributes' => array(
-                'cn',
-                'description'
-                )
-            );
-
-        //Voer zoekactie uit op boven meegegeven searchbase met de opgegeven options en filters
-        $search = $this->connectie->search( $searchbase, $filter, $options);
-        if (Net_LDAP2::isError($search)) {
-            throw new Exception( $search->getMessage() );
-        }
-
-        $results = array();
-        //objecten worden 1 voor 1 volledig geladen en in een array geplaatst.
-        foreach ( $search as $dn=>$entry) {
-            $results[$dn] = new KVDutil_Auth_Rol(
-                                $dn,
-                                $entry->getValue('cn', 'single'),
-                                $entry->getValue('description', 'single')
-                            );
-        }
-
-        //De array met objecten wordt in een KVDdom_DomainObjectCollection geplaatst.
-        return new KVDutil_Auth_RolCollectie( $results );
+        return $this->getRollenVoorApplicatieNaam( $gebruiker, $applicatie->getId() );
     }
 }
 ?>

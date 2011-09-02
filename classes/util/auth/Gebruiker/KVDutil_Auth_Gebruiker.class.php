@@ -18,7 +18,7 @@
  * @author     Bram Goessens <bram.goessens@rwo.vlaanderen.be>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
-class KVDutil_Auth_Gebruiker extends KVDdom_DomainObject implements KVDdom_Gebruiker, KVDdom_Nullable
+class KVDutil_Auth_Gebruiker implements KVDdom_Gebruiker, KVDdom_Nullable
 {
     /**
      * Loadstate const: geeft aan dat de basis data (=alles wat in construct geladen wordt) van het object geladen is
@@ -41,6 +41,12 @@ class KVDutil_Auth_Gebruiker extends KVDdom_DomainObject implements KVDdom_Gebru
      * KVDutil_Auth_IProvider
      */
     protected $provider;
+
+    /**
+     * Id nummer of unieke string id van het domain-object
+     * @var string
+     */
+    protected $id;
 
     /**
      * gebruikersnaam
@@ -110,7 +116,7 @@ class KVDutil_Auth_Gebruiker extends KVDdom_DomainObject implements KVDdom_Gebru
     public function __construct ( KVDutil_Auth_IProvider $provider, $id, $gebruikersnaam, $wachtwoord ='', $voornaam ='', $familienaam ='',
             $email ='', $telefoon ='' )
     {
-        parent::__construct( $id );
+        $this->id = $id;
         $this->provider = $provider;
         $this->gebruikersnaam = $gebruikersnaam;
         $this->wachtwoord = $wachtwoord;
@@ -121,6 +127,15 @@ class KVDutil_Auth_Gebruiker extends KVDdom_DomainObject implements KVDdom_Gebru
         $this->loadState = $this->setLoadState(self::LS_BASIS);
     }
 
+    /**
+     * Geeft het Id nummer of Id string van dit object terug.
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+    
     /**
      * getGebruikersnaam
      *
@@ -189,6 +204,25 @@ class KVDutil_Auth_Gebruiker extends KVDdom_DomainObject implements KVDdom_Gebru
     public function getOmschrijving( )
     {
         return $this->voornaam . ' ' . $this->familienaam;
+    }
+
+    /**
+     * Geef het type van een DomainObject terug. Onder andere nodig om de (@link KVDdom_DataMapper) te kunnen vinden.
+     * @return string
+     */
+    public function getClass()
+    {
+        return get_class( $this );
+    }
+    
+    /**
+     * __toString
+     *
+     * @return string
+     */
+    public function __toString( )
+    {
+        return $this->getOmschrijving( );
     }
 
     /**

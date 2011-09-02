@@ -112,7 +112,7 @@ class KVDutil_Auth_PDOProvider implements KVDutil_Auth_IProvider
     public function getRollenVoorApplicatieNaam( KVDutil_Auth_Gebruiker $gebruiker, $applicatieNaam)
     {
         $stmt = $this->db->prepare($this->getRollenForGebruikerApplicatieStatement());
-		$stmt->bindParam(1, $this->gebruiker->id);
+		$stmt->bindParam(1, $gebruiker->getId());
 		$stmt->bindParam(2, $applicatie_naam);
 		$stmt->execute();
 		$rollen = array();
@@ -140,7 +140,7 @@ class KVDutil_Auth_PDOProvider implements KVDutil_Auth_IProvider
     public function getRollenVoorApplicatie( KVDutil_Auth_Gebruiker $gebruiker, $applicatie)
     {
         $stmt = $this->db->prepare($this->getRollenForGebruikerApplicatieIdStatement());
-		$stmt->bindParam(1, $this->gebruiker->id);
+		$stmt->bindParam(1, $gebruiker->getId());
 		$stmt->bindParam(2, $applicatie->getId());
 		$stmt->execute();
 		$rollen = array();
