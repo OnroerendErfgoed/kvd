@@ -94,7 +94,7 @@ class KVDutil_Auth_ArrayProvider implements KVDutil_Auth_IProvider
      */
     public function getRollenVoorApplicatie( KVDutil_Auth_Gebruiker $gebruiker, $applicatie)
     {
-        return $this->getRollenVoorApplicatieNaam( $applicatie->getId());
+        return $this->getRollenVoorApplicatieNaam( $gebruiker, $applicatie->getId());
     }
 }
 ?>

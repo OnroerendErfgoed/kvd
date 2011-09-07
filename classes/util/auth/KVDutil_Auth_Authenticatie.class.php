@@ -57,7 +57,7 @@ class KVDutil_Auth_Authenticator
     {
         $this->aangemeldStatus = new KVDutil_Auth_AangemeldStatus($this, $provider);
         $this->afgemeldStatus = new KVDutil_Auth_AfgemeldStatus($this, $provider);
-        $this->status = $this->$afgemeldStatus;
+        $this->status = $this->afgemeldStatus;
         $this->provider = $provider;
     }
 

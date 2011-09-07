@@ -124,7 +124,7 @@ class KVDutil_Auth_Gebruiker implements KVDdom_Gebruiker, KVDdom_Nullable
         $this->familienaam = $familienaam;
         $this->email = $email;
         $this->telefoon = $telefoon;
-        $this->loadState = $this->setLoadState(self::LS_BASIS);
+        $this->loadState = self::LS_BASIS;
     }
 
     /**
@@ -248,9 +248,9 @@ class KVDutil_Auth_Gebruiker implements KVDdom_Gebruiker, KVDdom_Nullable
     {
         if( !$this->checkRollen() ){
             $this->rollen = $this->provider->getRollenVoorApplicatie( $this, $applicatie);
-            $this->loadState = $this->setLoadState(self::LS_ROLLEN);
+            $this->setLoadState(self::LS_ROLLEN);
         }
-        return $this->rollen->getImmutableCollection();
+        return $this->rollen;
     }
 
     /**
@@ -262,10 +262,10 @@ class KVDutil_Auth_Gebruiker implements KVDdom_Gebruiker, KVDdom_Nullable
     public function getRollenVoorApplicatieNaam($applicatieNaam)
     {
         if( !$this->checkRollen() ){
-            $this->rollen = $this->provider->getRollenVoorApplicatieNaam( $this, $applicatie);
-            $this->loadState = $this->setLoadState(self::LS_ROLLEN);
+            $this->rollen = $this->provider->getRollenVoorApplicatieNaam( $this, $applicatieNaam);
+            $this->setLoadState(self::LS_ROLLEN);
         }
-        return $this->rollen->getImmutableCollection();
+        return $this->rollen;
     }
 
     /**
@@ -323,7 +323,7 @@ class KVDutil_Auth_Gebruiker implements KVDdom_Gebruiker, KVDdom_Nullable
  * @author     Bram Goessens <bram.goessens@rwo.vlaanderen.be>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
-class KVDutil_AUTH_NullGebruiker extends KVDutil_AUTH_Gebruiker {
+class KVDutil_Auth_NullGebruiker extends KVDutil_AUTH_Gebruiker {
 
     /**
      * __construct
@@ -356,7 +356,7 @@ class KVDutil_AUTH_NullGebruiker extends KVDutil_AUTH_Gebruiker {
      */
     public function getClass()
     {
-        return "KVDutil_AUTH_Gebruiker";
+        return "KVDutil_Auth_Gebruiker";
     }
 
     /*

@@ -18,7 +18,7 @@
  * @author     Bram Goessens <bram.goessens@rwo.vlaanderen.be>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
-class KVDutil_Auth_RolCollectie extends KVDdom_EditeerbareDomainObjectCollection
+class KVDutil_Auth_RolCollectie extends KVDdom_DomainObjectCollection
 {
     /**
      * __construct
