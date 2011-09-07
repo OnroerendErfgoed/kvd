@@ -50,8 +50,8 @@ class KVDutil_Auth_ArrayProvider implements KVDutil_Auth_IProvider
                             $gebruikersnaam,
                             $gebruikersnaam,
                             $paswoord,
-                            $gebruiker['familienaam'],
                             $gebruiker['voornaam'],
+                            $gebruiker['familienaam'],
                             $gebruiker['mail'],
                             $gebruiker['telefoon'],
                             new KVDutil_Auth_RolCollectie( array())
