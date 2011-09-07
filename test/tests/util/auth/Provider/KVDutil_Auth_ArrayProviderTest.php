@@ -1,6 +1,6 @@
 <?php
 
-class KVDutil_Auth_GebruikerTest extends PHPUnit_Framework_TestCase
+class KVDutil_Auth_ArrayProviderTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var KVDutil_Auth_ArrayProvider
