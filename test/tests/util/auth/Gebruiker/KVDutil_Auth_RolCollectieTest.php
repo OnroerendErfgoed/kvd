@@ -22,6 +22,11 @@ class KVDutil_Auth_RolCollectieTest extends PHPUnit_Framework_TestCase
         $this->collectie = null;
     }
 
+    public function testExists( )
+    {
+        $this->assertInstanceOf('KVDutil_Auth_RolCollectie', $this->collectie);
+    }
+
     public function testObjectsType( )
     {
         $this->assertInstanceOf('KVDutil_Auth_Rol', $this->do);
@@ -30,27 +35,6 @@ class KVDutil_Auth_RolCollectieTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('KVDutil_Auth_Rol', $this->collectie->current());
         $this->collectie->next();
         $this->assertInstanceOf('KVDutil_Auth_Rol', $this->collectie->current());
-    }
-
-    /**
-     * @expectedException KVDdom_OngeldigTypeException
-     */
-    public function testAddWrongType() {
-        $this->collectie->add( new KVDutil_AUTH_NullGebruiker() );
-    }
-
-    /**
-     * @expectedException KVDdom_OngeldigTypeException
-     */
-    public function testReplaceWrongType() {
-        $this->collectie->replace( new KVDutil_AUTH_NullGebruiker() );
-    }
-
-    /**
-     * @expectedException KVDdom_OngeldigTypeException
-     */
-    public function testRemoveWrongType() {
-        $this->collectie->remove( new KVDutil_AUTH_NullGebruiker() );
     }
 }
 ?>
