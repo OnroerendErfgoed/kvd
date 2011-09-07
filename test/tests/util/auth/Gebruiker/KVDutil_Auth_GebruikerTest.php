@@ -97,7 +97,7 @@ class KVDutil_Auth_GebruikerTest extends PHPUnit_Framework_TestCase {
         //We hebben een dummy object nodig dat een methode getId() bevat.
         //We gebruiken hiervoor zonder noemenswaardige redenen de gebruikerclass met ID cai
         $applicatie = new KVDutil_Auth_Gebruiker( $this->provider, 'cai', '' );
-        
+
         $rollen = $this->do->getRollenVoorApplicatie( $applicatie );
         $this->assertTrue( $this->do->checkRollen() );
         $this->assertInstanceOf( 'KVDutil_Auth_RolCollectie', $rollen);
@@ -105,13 +105,12 @@ class KVDutil_Auth_GebruikerTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testGetRollenVoorApplicatieNaam() {
-        $geb = new KVDutil_Auth_Gebruiker( $this->provider, 'goessebr', 'goessebr',
-                'wachtwoord', 'Bram', 'Goessens', 'bram.goessens@rwo.vlaanderen.be', '025531868');
-        $this->assertFalse( $geb->checkRollen() );
-        $rollen = $geb->getRollenVoorApplicatieNaam( 'cai' );
-        $this->assertTrue( $geb->checkRollen() );
+        $this->assertFalse( $this->do->checkRollen() );
+        $rollen = $this->do->getRollenVoorApplicatieNaam( 'cai' );
+        $this->assertTrue( $this->do->checkRollen() );
         $this->assertInstanceOf( 'KVDutil_Auth_RolCollectie', $rollen);
         $this->assertEquals( 2, $rollen->count());
+        $this->assertTrue( $this->do->checkRollen() );
     }
 
     public function testIsNull() {
