@@ -94,9 +94,10 @@ class KVDutil_Auth_GebruikerTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testGetRollenVoorApplicatie() {
-        //We hebben een dummy object nodig dat een methode getId() bevat.
-        //We gebruiken hiervoor zonder noemenswaardige redenen de gebruikerclass met ID cai
-        $applicatie = new KVDutil_Auth_Gebruiker( $this->provider, 'cai', '' );
+        $applicatie = $this->getMock('FictieveApplicatieClass', array('getId'));
+        $applicatie->expects($this->once())
+                    ->method('getId')
+                    ->will($this->returnValue('cai'));
 
         $rollen = $this->do->getRollenVoorApplicatie( $applicatie );
         $this->assertTrue( $this->do->checkRollen() );
