@@ -1,6 +1,5 @@
 <?php
 
-require_once( 'PHPUnit/Framework.php' );
 
 class KVDgis_GeomMultiPolygonTest extends PHPUnit_Framework_TestCase
 {

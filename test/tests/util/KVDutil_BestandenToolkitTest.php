@@ -1,5 +1,4 @@
 <?php
-require_once 'PHPUnit/Framework.php';
 
 class KVDutil_BestandenToolkitTest extends PHPUnit_Framework_TestCase
 {

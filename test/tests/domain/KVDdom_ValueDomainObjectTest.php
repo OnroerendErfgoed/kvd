@@ -6,13 +6,13 @@
  * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
  * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
-require_once ( 'PHPUnit/Framework.php' );
 
 class KVDdom_ValueDomainObjectTest extends PHPUnit_Framework_TestCase
 {
     public function setUp( )
     {
-        $this->do = new KVDdom_TestValueDomainObject( 1, 'Dit is een test.' );
+        $this->do = new KVDdom_TestValueDomainObject( 1, 'Dit is een test.', array ( 'naam' => 'Van Daele',
+                                                                                     'voornaam' => 'Henk' ) );
     }
 
     public function tearDown( )
@@ -30,6 +30,38 @@ class KVDdom_ValueDomainObjectTest extends PHPUnit_Framework_TestCase
         $this->assertEquals( 1, $this->do->getId( ) );
         $this->assertEquals( 'Dit is een test.', $this->do->getTitel( ) );
         $this->assertEquals( 'Dit is een test.', $this->do->getOmschrijving( ) );
+        $this->assertEquals( 'Van Daele', $this->do->getNaam( ) );
+        $this->assertEquals( 'Henk', $this->do->getVoornaam( ) );
+    }
+
+    /**
+     * testUnexistingProperty 
+     * 
+     * @expectedException   KVDdom_Fields_Exception
+     */
+    public function testSetters( )
+    {
+        $this->do->setNaam( 'Van Daele' );
+    }
+
+    /**
+     * testUnexistingProperty 
+     * 
+     * @expectedException   KVDdom_Fields_Exception
+     */
+    public function testUnexistingProperty( )
+    {
+        $this->do->setGeboorteplaats( 'Knokke-Heist' );
+    }
+
+    /**
+     * testUnexistingProperty 
+     * 
+     * @expectedException   KVDdom_Exception
+     */
+    public function testUnexistingFunction(  )
+    {
+        $this->do->createGeboorteplaats( 'Knokke-Heist' );
     }
 
     public function testToString( )
@@ -41,5 +73,6 @@ class KVDdom_ValueDomainObjectTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals( 'KVDdom_TestValueDomainObject', $this->do->getClass( ) );
     }
+
 }
 ?>

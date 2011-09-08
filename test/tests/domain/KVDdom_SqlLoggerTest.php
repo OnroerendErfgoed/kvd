@@ -1,6 +1,5 @@
 <?php
 
-require_once( 'PHPUnit/Framework.php' );
 
 class KVDdom_SqlLoggerTest extends PHPUnit_Framework_TestCase
 {

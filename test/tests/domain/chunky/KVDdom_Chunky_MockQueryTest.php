@@ -82,16 +82,13 @@ class KVDdom_Chunky_MockQueryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals( $this->domObject3, $dom[0] );
     }
 
-    /*
-     * @todo uitwerken en class beveilgen tegen overflows
+    /**
+     * @expectedException InvalidArgumentException
+     */
     public function testIllegalChunk( )
     {
         $this->query->setRowsPerChunk( 2 );
         $this->query->setChunk( 3 );
-        $dom = $this->query->getDomainObjects( );
-        $this->assertEquals( 0, count( $dom ) );
-        $this->assertEquals( 3, $query->getChunk( ) );
     }
-    */
 }
 ?>

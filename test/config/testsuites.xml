@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <phpunit>
-	<testsuite name="all">
-		<directory>test/tests</directory>
-	</testsuite>
 	<filter>
 		<blacklist>
-			<directory>test</directory>
+			<directory suffix=".php">test</directory>
+			<directory suffix=".php">vendor</directory>
 		</blacklist>
-		<blacklist>
-			<directory>vendor</directory>
-		</blacklist>
+		<whitelist addUncoveredFilesFromWhiteList="true">
+			<directory suffix=".class.php">classes</directory>
+			<directory suffix=".interface.php">classes</directory>
+		</whitelist>
 	</filter>
 </phpunit>

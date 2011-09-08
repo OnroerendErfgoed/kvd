@@ -67,7 +67,8 @@ interface KVDdom_Chunky_IQuery
     /**
      * Wijzig de actieve chunk.
      * _
-     * @param integer $chunk Het nummer van de chunk die nu actief moet worden.
+     * @param  integer $chunk Het nummer van de chunk die nu actief moet worden.
+     * @throws InvalidArgumentException Indien de gevraagde chunk niet bestaat.
      */
     public function setChunk ( $chunk );
 

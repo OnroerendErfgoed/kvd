@@ -1,12 +1,4 @@
 <?php
-require_once 'PHPUnit/Framework.php';
-/*
-if ( !defined( 'KVD_AUTOLOAD')) {
-    define( 'KVD_AUTOLOAD', '../../KVD_Autoload.php' );
-}
-require_once( KVD_AUTOLOAD );
-spl_autoload_register( 'KVD_Autoload');
-*/
 
 class KVDgis_CrabCacheTest extends PHPUnit_Framework_TestCase
 {

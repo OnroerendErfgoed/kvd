@@ -1,6 +1,5 @@
 <?php
 
-require_once( 'PHPUnit/Framework.php' );
 
 class KVDgis_GeomMultiPointTest extends PHPUnit_Framework_TestCase
 {

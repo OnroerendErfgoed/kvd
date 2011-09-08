@@ -27,6 +27,18 @@ class KVDdom_LazyDomainObjectCollection extends KVDdom_DomainObjectCollection
      * Geeft aan dat een bepaald object nog niet geladen is.
      */
     const PLACEHOLDER = "TE LADEN";
+
+    /**
+     * Retention Strategy die aangeeft dat we alle geladen objecten bijhouden. 
+     */
+    const RETAIN_ALL = 1;
+
+    /**
+     * Retention Strategy die aangeeft dat we objecten enkel bijhouden zolang 
+     * ze in de actieve chunk zitten. Dit zorgt er dus voor dat als we een 
+     * nieuwe set van records laden, de oudere records terug gewist worden.
+     */
+    const RETAIN_CURRENT = 2;
     
     /**
      * @var KVDdom_ChunkyQuery
@@ -39,6 +51,13 @@ class KVDdom_LazyDomainObjectCollection extends KVDdom_DomainObjectCollection
     protected $currentIndex = 0;
 
     /**
+     * Geef aan op welke manier wortdt omgegaan met geladen chunks. 
+     * 
+     * @var int
+     */
+    protected $retentionStrategy;
+
+    /**
      * @param KVDdom_ChunkyQuery $chunkyQuery
      */
     public function __construct ( $chunkyQuery )
@@ -47,6 +66,7 @@ class KVDdom_LazyDomainObjectCollection extends KVDdom_DomainObjectCollection
         if ($this->getTotalRecordCount() > 0 ) {
             $this->collection = array_fill (0, $this->getTotalRecordCount() , self::PLACEHOLDER);
         }
+        $this->retentionStrategy = self::RETAIN_CURRENT;
     }
     
     /**
@@ -126,6 +146,24 @@ class KVDdom_LazyDomainObjectCollection extends KVDdom_DomainObjectCollection
             $this->collection[$i] = $DomainObject;
             $i++;
         }
+        if ( $this->retentionStrategy === self::RETAIN_CURRENT ) {
+            $this->unloadChunk( $chunk-1 );
+        }
+    }
+
+    /**
+     * Zorg er voor dat een chunk terug op te laden wordt gezet.
+     * 
+     * @param integer $chunk 
+     * @return void
+     */
+    private function unloadChunk( $chunk )
+    {
+        $start = ($chunk - 1) * $this->_chunkyQuery->getRowsPerChunk();
+        for ( $i = 0; $i < $this->_chunkyQuery->getRowsPerChunk( ); $i++ ) {
+            $index = $start + $i;
+            $this->collection[$index] = self::PLACEHOLDER;
+        }
     }
 
     /**
@@ -140,6 +178,23 @@ class KVDdom_LazyDomainObjectCollection extends KVDdom_DomainObjectCollection
     public function setRowsPerChunk( $rows )
     {
         $this->_chunkyQuery->setRowsPerChunk( $rows );
+    }
+
+    /**
+     * setRetentionStrategy 
+     * 
+     * Stel in op welke manier vroeger geladen objecten worden bijgehouden.
+     *
+     * @param  integer $strategy 
+     * @throws InvalidArgumentException Indien de strategie niet bestaat.
+     * @return void
+     */
+    public function setRetentionStrategy( $strategy )
+    {
+        if ( $strategy != self::RETAIN_ALL && $strategy != self::RETAIN_CURRENT ) {
+            throw new InvalidArgumentException( 'Invalid RetentionStrategy: ' . $strategy );
+        }
+        $this->retentionStrategy = $strategy;
     }
 
 

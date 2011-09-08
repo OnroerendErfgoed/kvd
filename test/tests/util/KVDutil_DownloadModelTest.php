@@ -1,5 +1,4 @@
 <?php
-require_once ( 'PHPUnit/Framework.php' );
 
 class DownloadModelTest extends PHPUnit_Framework_TestCase
 {

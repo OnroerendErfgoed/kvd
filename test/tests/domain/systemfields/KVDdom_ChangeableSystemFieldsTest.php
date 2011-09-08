@@ -8,8 +8,6 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
-require_once( 'PHPUnit/Framework.php' );
-
 /**
  * KVDdom_ChangeableSystemFieldsTest 
  * 

@@ -63,17 +63,37 @@ class KVDdom_TestValueDomainObject extends KVDdom_ValueDomainObject
 {
     protected $titel;
 
-    public function __construct( $id, $titel )
+    protected $fields = array( );
+
+    public function __construct( $id, $titel, $data = array( ) )
     {
         parent::__construct( $id );
         $this->titel = $titel;
+        $this->initializeFields( $data );
     }
 
-    public function getTitel( ) {
+    public function getTitel( ) 
+    {
         return $this->titel;
     }
 
-    public function getOmschrijving( ) {
+    protected function configureFields( )
+    {
+        $this->fields['naam'] = new KVDdom_Fields_SingleField( $this, 'naam', 'Onbepaald' );
+        $this->fields['voornaam'] = new KVDdom_Fields_SingleField( $this, 'voornaam', 'X.' );
+        $this->fields['ouders'] = new KVDdom_Fields_StaticCollectionField( $this, 'ouders', 'KVDdom_TestChangeableDomainObject' );
+    }
+
+    protected function pluralize( $property )
+    {
+        if ( $property == 'ouder' ) {
+            return 'ouders';
+        }
+        return false;
+    }
+
+    public function getOmschrijving( ) 
+    {
         return $this->titel;
     }
 }

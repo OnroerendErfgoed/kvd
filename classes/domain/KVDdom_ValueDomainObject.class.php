@@ -90,6 +90,28 @@ abstract class KVDdom_ValueDomainObject implements KVDdom_DomainObject
     }
 
     /**
+     * initializeFields 
+     * 
+     * Stel de startwaarden in voor elk veld. Dit zal er NIET toe leiden dat 
+     * een object als dirty gemarkeerd wordt.
+     * @param   array   $data   Een array met als sleutel de naam van een veld 
+     *                          en als waarde de startwaarde voor dat veld.
+     * @return  void
+     */
+    protected function initializeFields( array $data )
+    {
+        foreach ( $data as $key => $val ) {
+            if ( isset( $this->fields[$key] ) ) {
+                $this->fields[$key]->initializeValue( $val );
+            } else {
+                throw new KVDdom_Fields_Exception( 
+                    sprintf( 'U probeert een startwaarde in te stellen voor een niet bestaand veld ( %s ).',
+                    $key ) );
+            }
+        }
+    }
+
+    /**
      * __call 
      * 
      * Deze methode probeert te detecteren of er een magische get, set, add, 
@@ -106,30 +128,16 @@ abstract class KVDdom_ValueDomainObject implements KVDdom_DomainObject
 		$matches = array();
 		if(preg_match('/^(get|set|add|remove|clear)(.+)$/', $name, $matches)) {
 			$property = strtolower(preg_replace('/((?<!\A)[A-Z])/u', '_$1', $matches[2]));
-            if ( $matches[1] == 'add' || $matches[1] == 'remove' ) {
-                $property = $this->pluralize( $property );
-                if ( !$property ) {
-                    throw new KVDdom_Fields_Exception( 'U probeert een bewerking 
-                        uit te voeren op een collection, maar de naam van de collection 
-                        kon niet gevonden worden. Mogelijk moet u de pluralize methode aanpassen.' );
-                }
+            if ( $matches[1] != 'get' ) {
+                // Enkel een get is toegelaten bij een valueobject.
+                throw new KVDdom_Fields_Exception( 'U probeert gevevens toe te voegen of te wijzigen 
+                    in een value object. Dit is niet toegelaten!' );
             }
             if ( !isset( $this->fields[$property] ) ) {
                 throw new KVDdom_Fields_Exception ( 'U probeert een bewerking uit te voeren met het veld ' 
                                                     . $property . ', maar dit veld bestaat niet.' );
             }
-            switch ($matches[1]) {
-                case 'get':
-                    return $this->fields[$property]->getValue( );
-                case 'set':
-                    return $this->fields[$property]->setValue($args[0]);
-                case 'clear':
-                    return $this->fields[$property]->clear( );
-                case 'add':
-                    return $this->fields[$property]->add( $args[0] );
-                case 'remove':
-                    return $this->fields[$property]->remove( $args[0] );
-            }
+            return $this->fields[$property]->getValue( );
 		} else {
             throw new KVDdom_Exception( 'U probeert een methode ' . $name . ' op te roepen die niet bestaat.' );
         }

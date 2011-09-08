@@ -1,5 +1,4 @@
 <?php
-require_once 'PHPUnit/Framework.php';
 
 class KVDthes_RelationTypeIteratorTest extends PHPUnit_Framework_TestCase
 {

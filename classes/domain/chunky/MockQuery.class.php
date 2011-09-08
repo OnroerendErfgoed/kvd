@@ -110,6 +110,11 @@ class KVDdom_Chunky_MockQuery implements KVDdom_Chunky_IQuery
      */
     public function setChunk( $chunk )
     {
+        $chunk = ( int ) $chunk;
+        if ( $chunk < 1 || $chunk > $this->getTotalChunksCount( ) ) {
+            throw new InvalidArgumentException( 'U vraagt een chunk op die
+                niet bestaat.' );
+        }
         $this->chunk = $chunk;
         $this->calculateStart();
     }

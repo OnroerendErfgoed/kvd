@@ -1,7 +1,5 @@
 <?php
 
-require_once 'PHPUnit/Framework.php';
-
 
 class KVDutil_WachtwoordGeneratorTest extends PHPUnit_Framework_TestCase
 {

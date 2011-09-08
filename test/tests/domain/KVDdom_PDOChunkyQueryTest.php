@@ -1,9 +1,4 @@
 <?php
-//Mock::generate( 'PDO' );
-//Mock::generate( 'PDOStatement' );
-//Mock::generate( 'KVDdom_PDODataMapper' );
-
-require_once( 'PHPUnit/Framework.php' );
 
 class KVDdom_TestPDO {
     public function query(  ){

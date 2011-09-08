@@ -6,7 +6,6 @@
  * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
  * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
-require_once ( 'PHPUnit/Framework.php' );
 
 /**
  * KVDdb_CriterionTest 
