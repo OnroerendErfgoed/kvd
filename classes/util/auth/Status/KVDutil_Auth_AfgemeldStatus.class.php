@@ -54,8 +54,8 @@ class KVDutil_Auth_AfgemeldStatus implements KVDutil_Auth_IStatus
     public function aanmelden($gebruikersnaam, $paswoord)
     {
         if( $geb = $this->provider->aanmelden($gebruikersnaam, $paswoord)) {
-            $this->authenticator->setStatus( $this->authenticator->getAangemeldStatus());
-            $this->authenticator->getLoggedInState()->setGebruiker( $geb );
+            $this->authenticatie->setStatus( $this->authenticatie->getAangemeldStatus());
+            $this->authenticatie->getAangemeldStatus()->setGebruiker( $geb );
             return true;
         } else {
             return false;

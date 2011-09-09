@@ -22,9 +22,9 @@
 class KVDutil_Auth_AangemeldStatus implements KVDutil_Auth_IStatus
 {
     /*
-     * KVDutil_Auth_Authenticator
+     * KVDutil_Auth_Authenticatie
      */
-    protected $authenticator;
+    protected $authenticatie;
     
     /*
      * KVDutil_Auth_Gebruiker
@@ -34,17 +34,17 @@ class KVDutil_Auth_AangemeldStatus implements KVDutil_Auth_IStatus
     /*
      * constructor
      *
-     * @param   KVDutil_Auth_Authenticator  $authenticator
+     * @param   KVDutil_Auth_Authenticatie  $authenticatie
      */
-    public function __construct(KVDutil_Auth_Authenticator $authenticator)
+    public function __construct(KVDutil_Auth_Authenticatie $authenticatie )
     {
-        $this->authenticator = $authenticator;
-        $this->gebruiker = new KVDutil_Auth_Gebruiker();
+        $this->authenticatie = $authenticatie;
+        $this->gebruiker = KVDutil_Auth_Gebruiker::newNull();
     }
 
     /**
      * De authenticatie klasse verandert naar status afgemeld.
-     * Vervolgens zal de authenticator de gebruiker opnieuw aanmelden.
+     * Vervolgens zal de authenticatie de gebruiker opnieuw aanmelden.
      *
      * @param string $gebruikersnaam
      * @param string $paswoord
@@ -52,7 +52,7 @@ class KVDutil_Auth_AangemeldStatus implements KVDutil_Auth_IStatus
     public function aanmelden($gebruikersnaam, $paswoord)
     {
         $this->afmelden();
-        return $this->authenticator->aanmelden($gebruikersnaam, $paswoord);
+        return $this->authenticatie->aanmelden($gebruikersnaam, $paswoord);
     }
 
     /**
@@ -61,7 +61,7 @@ class KVDutil_Auth_AangemeldStatus implements KVDutil_Auth_IStatus
     public function afmelden()
     {
         $this->gebruiker = KVDutil_Auth_Gebruiker::newNull();
-        $this->authenticator->setStatus( $this->authenticator->getAfgemeldStatus() );
+        $this->authenticatie->setStatus( $this->authenticatie->getAfgemeldStatus() );
         return true;
     }
 

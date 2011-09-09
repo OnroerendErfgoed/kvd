@@ -21,7 +21,7 @@ class KVDutil_Auth_GebruikerTest extends PHPUnit_Framework_TestCase {
      */
     protected function setUp() {
         $connectie['goessebr'] = array(
-            'paswoord' => 'encryrpted_pas',
+            'paswoord' => 'encrypted_pas',
             'familienaam' => 'Goessens',
             'voornaam' => 'Bram',
             'mail' => 'bram.goessens@rwo.vlaanderen.be',

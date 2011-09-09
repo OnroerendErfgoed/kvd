@@ -18,26 +18,26 @@
  * @author     Bram Goessens <bram.goessens@rwo.vlaanderen.be>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
-class KVDutil_Auth_Authenticator
+class KVDutil_Auth_Authenticatie
 {
     /**
      * Statusobject voor het afhandelen van functies terwijl de gebruiker is aangemeld
      *
-     * @var KVDutil_Auth_Status
+     * @var KVDutil_Auth_IStatus
      */
     private $aangemeldStatus;
 
     /**
      * Statusobject voor het afhandelen van functies terwijl de gebruiker is afgemeld
      *
-     * @var KVDutil_Auth_Status
+     * @var KVDutil_Auth_IStatus
      */
     private $afgemeldStatus;
 
     /**
      * Actieve status van het object
      * 
-     * @var KVDutil_Auth_Status
+     * @var KVDutil_Auth_IStatus
      */
     private $status;
 
@@ -95,17 +95,17 @@ class KVDutil_Auth_Authenticator
      * 
      * @return  boolean
      */
-    public function isAuthenticated()
+    public function isAangemeld()
     {
-        return $this->status->isAuthenticated();
+        return $this->status->isAangemeld();
     }
 
     /**
      * Verander de actieve status van het object
      * 
-     * @param   KVDutil_Auth_Status $status
+     * @param   KVDutil_Auth_IStatus $status
      */
-    public function setStatus(KVDutil_Auth_ILoggedStatus $status)
+    public function setStatus(KVDutil_Auth_IStatus $status)
     {
         $this->status = $status;
     }
