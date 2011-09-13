@@ -26,13 +26,67 @@ class KVDutil_Auth_LDAPProvider implements KVDutil_Auth_IProvider
     private $connectie;
 
     /**
+     * LDAP specifieke parameters
+     */
+    private $parameters;
+
+    /**
      * constructor
      *
      * @param   $connectie  connectie naar een LDAP databank.
+     * @param   $parameters  array met benamingen van LDAP velden
+     *                      Lijst van array-keys:
+     *                      <ul>
+     *                          <li>gebruikersnaam</li>
+     *                          <li>voornaam</li>
+     *                          <li>familienaam</li>
+     *                          <li>email</li>
+     *                          <li>telefoon</li>
+     *                          <li>rol_naam</li>
+     *                          <li>rol_beschrijving</li>
+     *                          <li>gebruiker_bij_rol</li>
+     *                      </ul>
      */
-    public function __construct( Net_LDAP2 $connectie)
+    public function __construct( Net_LDAP2 $connectie, $parameters = array())
     {
         $this->connectie = $connectie;
+        $this->parameters = $parameters;
+        $this->initialize();        
+    }
+
+    /*
+     * Parameter-array vullen.
+     */
+    private function initialize()
+    {
+        $defaultWaarden = array(
+            'gebruikersnaam'=>'uid',
+            'voornaam'=>'givenName',
+            'familienaam'=>'sn',
+            'email'=>'mail',
+            'telefoon'=>'telephoneNumber',
+            'rol_naam'=>'cn',
+            'rol_beschrijving'=>'description',
+            'gebruiker_bij_rol'=>'uniqueMember'
+            );
+        foreach( $defaultWaarden as $veld=>$default){
+            $this->laadLegeParameters( $veld, $default);
+        }
+    }
+
+    /**
+     * Controleert of alle parameters aanwezig zijn in de door de consturctor doorgegeven parameters array
+     * Indien niet, wordt de default waarde geladen
+     *
+     * @param   string      $veld
+     * @param   string      default waarde
+     * @return  void
+     */
+    private function laadLegeParameters( $veld, $default)
+    {
+        if ( !isset($this->parameters[$veld])){
+            $this->parameters[$veld] = $default;
+        }
     }
     
     /**
@@ -40,18 +94,18 @@ class KVDutil_Auth_LDAPProvider implements KVDutil_Auth_IProvider
      * @param   string $paswoord
      * @return  KVDutil_Auth_Gebruiker
      */
-    public function aanmelden($gebruikersnaam, $paswoord)
+    public function aanmelden($bindnaam, $paswoord)
     {
         //FASE 1: We gaan proberen binden met de ldap.
         //Lukt de bind niet, dan bestaat ofwel de gebruikersnaam niet, ofwel is er een verkeerd wachtwoord opgegeven.
-        $res = $this->connectie->bind( $gebruikersnaam, $paswoord );
+        $res = $this->connectie->bind( $bindnaam, $paswoord );
         if (Net_LDAP2::isError($res)) {
             return false;
         }
 
         //FASE 2: Bind is gelukt, we gaan gebruiker ophalen
         //Haal de entry op uit de ldap
-        $entry = $this->connectie->getEntry( $gebruikersnaam );
+        $entry = $this->connectie->getEntry( $bindnaam );
 
         //Indien het object niet bestaat in ldap, geven alsnog op dat de login mislukt is
         if (Net_LDAP2::isError($entry)){
@@ -60,13 +114,13 @@ class KVDutil_Auth_LDAPProvider implements KVDutil_Auth_IProvider
 
         $gebruiker = new KVDutil_Auth_Gebruiker(
                             $this,
-                            $id,
-                            $entry->getValue('uid', 'single'),
+                            $bindnaam,
+                            $entry->getValue($this->parameters['gebruikersnaam'], 'single'),
                             $paswoord,
-                            $entry->getValue('givenName', 'single'),
-                            $entry->getValue('sn', 'single'),
-                            $entry->getValue('mail', 'single'),
-                            $entry->getValue('telephoneNumber', 'single'),
+                            $entry->getValue($this->parameters['voornaam'], 'single'),
+                            $entry->getValue($this->parameters['familienaam'], 'single'),
+                            $entry->getValue($this->parameters['email'], 'single'),
+                            $entry->getValue($this->parameters['telefoon'], 'single'),
                             new KVDutil_Auth_RolCollectie( array())
                         );
         return $gebruiker;
@@ -83,13 +137,13 @@ class KVDutil_Auth_LDAPProvider implements KVDutil_Auth_IProvider
      */
     public function getRollenVoorApplicatieNaam( KVDutil_Auth_Gebruiker $gebruiker, $applicatieNaam)
     {
-        $filter = Net_LDAP2_Filter::create( 'uniqueMember', 'contains', $gebruiker->getId());
+        $filter = Net_LDAP2_Filter::create( $this->parameters['gebruiker_bij_rol'], 'contains', $gebruiker->getId());
 
         $options = array(
             'scope' => 'sub',
             'attributes' => array(
-                'cn',
-                'description'
+                $this->parameters['rol_naam'],
+                $this->parameters['rol_beschrijving']
                 )
             );
 
@@ -104,8 +158,8 @@ class KVDutil_Auth_LDAPProvider implements KVDutil_Auth_IProvider
         foreach ( $search as $dn=>$entry) {
             $results[$dn] = new KVDutil_Auth_Rol(
                                 $dn,
-                                $entry->getValue('cn', 'single'),
-                                $entry->getValue('description', 'single')
+                                $entry->getValue($this->parameters['rol_naam'], 'single'),
+                                $entry->getValue($this->parameters['rol_beschrijving'], 'single')
                             );
         }
 

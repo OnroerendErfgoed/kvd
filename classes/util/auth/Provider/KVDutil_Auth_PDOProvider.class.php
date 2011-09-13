@@ -26,13 +26,65 @@ class KVDutil_Auth_PDOProvider implements KVDutil_Auth_IProvider
     private $connectie;
 
     /**
+     * Database specifieke parameters
+     */
+    private $parameters;
+
+    /**
      * constructor
      *
      * @param   $connectie  connectie naar een LDAP databank.
+     * @param   $parameters  array met benamingen van LDAP velden
+     *                      Lijst van array-keys:
+     *                      <ul>
+     *                          <li>gebruikersnaam</li>
+     *                          <li>voornaam</li>
+     *                          <li>familienaam</li>
+     *                          <li>email</li>
+     *                          <li>telefoon</li>
+     *                          <li>rol_naam</li>
+     *                          <li>rol_beschrijving</li>
+     *                          <li>gebruiker_bij_rol</li>
+     *                      </ul>
      */
-    public function __construct($connectie)
+    public function __construct($connectie, $parameters = array())
     {
         $this->connectie = $connectie;
+        $this->parameters = $parameters;
+        $this->initialize();
+    }
+
+    /*
+     * Parameter-array vullen.
+     */
+    private function initialize()
+    {
+        $defaultWaarden = array(
+            'voornaam'=>'voornaam',
+            'familienaam'=>'familienaam',
+            'email'=>'email',
+            'telefoon'=>'telefoon',
+            'rol_naam'=>'naam',
+            'rol_beschrijving'=>'beschrijving'
+            );
+        foreach( $defaultWaarden as $veld=>$default){
+            $this->laadLegeParameters( $veld, $default);
+        }
+    }
+
+    /**
+     * Controleert of alle parameters aanwezig zijn in de door de consturctor doorgegeven parameters array
+     * Indien niet, wordt de default waarde geladen
+     *
+     * @param   string      $veld
+     * @param   string      default waarde
+     * @return  void
+     */
+    private function laadLegeParameters( $veld, $default)
+    {
+        if ( !isset($this->parameters[$veld])){
+            $this->parameters[$veld] = $default;
+        }
     }
 
     /**
@@ -82,10 +134,10 @@ class KVDutil_Auth_PDOProvider implements KVDutil_Auth_IProvider
                             $gebruikersnaam,
                             $gebruikersnaam,
                             $paswoord,
-                            $row->voornaam,
-                            $row->familienaam,
-                            $row->email,
-                            $row->telefoon,
+                            $row->{$this->parameters['voornaam']},
+                            $row->{$this->parameters['familienaam']},
+                            $row->{$this->parameters['email']},
+                            $row->{$this->parameters['telefoon']},
                             new KVDutil_Auth_RolCollectie( array())
                         );
 		}
@@ -120,9 +172,9 @@ class KVDutil_Auth_PDOProvider implements KVDutil_Auth_IProvider
             //ID is hier gelijk aan rolnaam.
             //Meer informatie hieromtrent in constructor van KVDutil_Auth_Rol
 			$rollen[] = new KVDutil_Auth_Rol(
-                                $rol->naam,
-                                $rol->naam,
-                                $rol->beschrijving
+                                $rol->{$this->parameters['rol_naam']},
+                                $rol->{$this->parameters['rol_naam']},
+                                $rol->{$this->parameters['rol_beschrijving']}
                             );
 		}
         //De array met objecten wordt in een KVDdom_DomainObjectCollection geplaatst.
@@ -148,9 +200,9 @@ class KVDutil_Auth_PDOProvider implements KVDutil_Auth_IProvider
             //ID is hier gelijk aan rolnaam.
             //Meer informatie hieromtrent in constructor van KVDutil_Auth_Rol
 			$rollen[] = new KVDutil_Auth_Rol(
-                                $rol->naam,
-                                $rol->naam,
-                                $rol->beschrijving
+                                $rol->{$this->parameters['rol_naam']},
+                                $rol->{$this->parameters['rol_naam']},
+                                $rol->{$this->parameters['rol_beschrijving']}
                             );
 		}
 
@@ -161,7 +213,7 @@ class KVDutil_Auth_PDOProvider implements KVDutil_Auth_IProvider
     private function getRollenForGebruikerApplicatieStatement()
 	{
 		return
-		"SELECT rol.id, rol.naam, rol.beschrijving".
+		"SELECT rol.id, rol.".$this->parameters['rol_naam'].", rol.".$this->parameters['rol_beschrijving'].
 		" FROM rol, applicatie, gebruikerrol".
 		" WHERE rol.applicatie_id = applicatie.id".
 		" AND gebruikerrol.rol_id = rol.id".
@@ -174,7 +226,7 @@ class KVDutil_Auth_PDOProvider implements KVDutil_Auth_IProvider
 	private function getRollenForGebruikerApplicatieIdStatement()
 	{
 		return
-		"SELECT rol.id, rol.naam, rol.beschrijving".
+		"SELECT rol.id, rol.".$this->parameters['rol_naam'].", rol.".$this->parameters['rol_beschrijving'].
 		" FROM rol, gebruikerrol".
 		" WHERE gebruikerrol.rol_id = rol.id".
 		" AND gebruikerrol.startdatum < ".date("Y-m-d").
