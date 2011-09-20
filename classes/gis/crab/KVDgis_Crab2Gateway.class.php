@@ -225,11 +225,12 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
                 if ( isset ( $parameters['proxy_port'] ) ) {
                     $proxy .= ':' . $parameters['proxy_port'];
                 }
-                $cOps['http']['proxy'] = $proxy;
+                $cOps['http']['proxy'] = urlencode( $proxy );
                 $cOps['http']['request_fulluri'] = true;
             }
             $streamContext = stream_context_create( $cOps);
-            if ( !file_get_contents( $parameters['wsdl'], false, $streamContext ) ) {
+            $res = @file_get_contents( $parameters['wsdl'], false, $streamContext ); 
+            if ( !$res ) {
                 throw new KVDutil_GatewayUnavailableException ( 
                     'De Crab2Gateway kan geen verbinding maken met de Crab webservice. De WSDL file is niet beschikbaar.' , 
                     __CLASS__ );

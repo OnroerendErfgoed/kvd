@@ -1,13 +1,39 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <phpunit>
+	<testsuites>
+		<testsuite name="Database">
+			<directory>../tests/database/*</directory>
+		</testsuite>
+		<testsuite name="Domain">
+			<directory>../tests/domain/*</directory>
+		</testsuite>
+		<testsuite name="Gis">
+			<directory>../tests/gis/*</directory>
+		</testsuite>
+		<testsuite name="Html">
+			<directory>../tests/html/*</directory>
+		</testsuite>
+		<testsuite name="Thesaurus">
+			<directory>../tests/thesaurus/*</directory>
+		</testsuite>
+		<testsuite name="Util">
+			<directory>../tests/util/*</directory>
+		</testsuite>
+	</testsuites>
 	<filter>
+		<!--
 		<blacklist>
 			<directory suffix=".php">test</directory>
 			<directory suffix=".php">vendor</directory>
 		</blacklist>
+		-->
 		<whitelist addUncoveredFilesFromWhiteList="true">
 			<directory suffix=".class.php">classes</directory>
 			<directory suffix=".interface.php">classes</directory>
+			<exclude>
+				<directory suffix=".php">/home/vandaeko/Projecten/kvd/test</directory>
+				<directory suffix=".php">/home/vandaeko/Projecten/kvd/vendor</directory>
+			</exclude>
 		</whitelist>
 	</filter>
 </phpunit>

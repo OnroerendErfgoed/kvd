@@ -11,7 +11,7 @@ class KVDgis_Crab2GatewayTest extends PHPUnit_Framework_TestCase
         $this->parameters = array ( 'wsdl' => 'http://ws.agiv.be/crabws/nodataset.asmx?WSDL',
                                     'username' => CRAB_USER,
                                     'password' => CRAB_PWD,
-                                    'safe_mode'=> false
+                                    'safe_mode'=> true
                             );
         if ( defined ( 'CRAB_PROXY_HOST' ) && CRAB_PROXY_HOST != '' ) {
             $this->parameters['proxy_host'] = CRAB_PROXY_HOST;
@@ -26,7 +26,7 @@ class KVDgis_Crab2GatewayTest extends PHPUnit_Framework_TestCase
         try {
             return new KVDgis_Crab2Gateway( $this->parameters );
         } catch ( KVDutil_GatewayUnavailableException $e ) {
-            $this->fail( $e->getMessage( ) );
+            $this->markTestSkipped( $e->getMessage( ) );
         }
     }
    

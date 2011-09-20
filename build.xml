@@ -259,8 +259,7 @@
 							   --configuration test/config/testsuites.xml 
 							   --log-junit build/testsuites.xml
 							   --coverage-html build/reports/coverage
-							   --coverage-clover build/clover-coverage.xml
-							   test/tests" 
+							   --coverage-clover build/clover-coverage.xml"
 			  passthru="true" returnProperty="testsExit" />
 
 		<if>
