@@ -42,7 +42,7 @@ class KVDthes_EditeerbareDomainObjectCollectionTest extends PHPUnit_Framework_Te
     public function testGetImmutableCollection( )
     {
         $coll2 = $this->coll->getImmutableCollection( );
-        $this->assertType( 'KVDthes_DomainObjectCollection', $coll2 );
+        $this->assertInstanceOf( 'KVDthes_DomainObjectCollection', $coll2 );
         $this->assertTrue( $coll2->hasDomainObject( $this->zone ) );
         $this->assertTrue( $coll2->hasDomainObject( $this->gebied ) );
         $this->assertTrue( $coll2->hasDomainObject( $this->locatie ) );

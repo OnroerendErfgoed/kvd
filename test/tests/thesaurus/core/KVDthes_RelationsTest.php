@@ -82,7 +82,7 @@ class KVDthes_RelationsTest extends PHPUnit_Framework_TestCase
 
     public function testGetIterator() {
         $this->object->addRelation( $this->relation );
-        $this->assertType( 'KVDthes_RelationsIterator', $this->object->getIterator( ) );
+        $this->assertInstanceOf( 'KVDthes_RelationsIterator', $this->object->getIterator( ) );
         $this->assertEquals( count( $this->object->getIterator( ) ), 1);
     }
 
@@ -90,7 +90,7 @@ class KVDthes_RelationsTest extends PHPUnit_Framework_TestCase
     {
         $this->object->addRelation( $this->relation );
         $it = $this->object->getIterator( KVDthes_Relation::REL_RT );
-        $this->assertType( 'KVDthes_RelationTypeIterator', $it);
+        $this->assertInstanceOf( 'KVDthes_RelationTypeIterator', $it);
         $this->assertEquals( 1, count( $it) );
         $this->assertEquals( $it, $this->object->getRTIterator(  ) );
     }
@@ -100,31 +100,31 @@ class KVDthes_RelationsTest extends PHPUnit_Framework_TestCase
      */
     public function testGetNTIterator() {
         $this->object->addRelation( $this->relation );
-        $this->assertType( 'KVDthes_RelationTypeIterator', $this->object->getNTIterator( ) );
+        $this->assertInstanceOf( 'KVDthes_RelationTypeIterator', $this->object->getNTIterator( ) );
         $this->assertEquals( count( $this->object->getNTIterator( ) ), 0);
     }
 
     public function testGetBTIterator() {
         $this->object->addRelation( $this->relation );
-        $this->assertType( 'KVDthes_RelationTypeIterator', $this->object->getBTIterator( ) );
+        $this->assertInstanceOf( 'KVDthes_RelationTypeIterator', $this->object->getBTIterator( ) );
         $this->assertEquals( count( $this->object->getBTIterator( ) ), 0);
     }
 
     public function testGetUSEIterator() {
         $this->object->addRelation( $this->relation );
-        $this->assertType( 'KVDthes_RelationTypeIterator', $this->object->getUSEIterator( ) );
+        $this->assertInstanceOf( 'KVDthes_RelationTypeIterator', $this->object->getUSEIterator( ) );
         $this->assertEquals( count( $this->object->getUSEIterator( ) ), 0);
     }
 
     public function testGetUFIterator() {
         $this->object->addRelation( $this->relation );
-        $this->assertType( 'KVDthes_RelationTypeIterator', $this->object->getUFIterator( ) );
+        $this->assertInstanceOf( 'KVDthes_RelationTypeIterator', $this->object->getUFIterator( ) );
         $this->assertEquals( count( $this->object->getUFIterator( ) ), 0);
     }
 
     public function testGetRTIterator() {
         $this->object->addRelation( $this->relation );
-        $this->assertType( 'KVDthes_RelationTypeIterator', $this->object->getRTIterator( ) );
+        $this->assertInstanceOf( 'KVDthes_RelationTypeIterator', $this->object->getRTIterator( ) );
         $this->assertEquals( count( $this->object->getRTIterator( ) ), 1);
     }
 

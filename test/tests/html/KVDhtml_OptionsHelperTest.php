@@ -31,7 +31,7 @@ class KVDhtml_OptionsHelperTest extends PHPUnit_Framework_TestCase
     public function testEmpty( )
     {
         $oh = new KVDhtml_OptionsHelper( new KVDdom_DomainObjectCollection( array( ) ) );
-        $this->assertType( 'KVDhtml_OptionsHelper', $oh );
+        $this->assertInstanceOf( 'KVDhtml_OptionsHelper', $oh );
         $this->assertEquals( '', $oh->toHtml(  ) );
     }
 
@@ -72,7 +72,7 @@ class KVDhtml_OptionsHelperArrayTest extends PHPUnit_Framework_TestCase
     public function testEmpty( )
     {
         $oh = new KVDhtml_OptionsHelperArray( array( ) );
-        $this->assertType( 'KVDhtml_OptionsHelperArray', $oh );
+        $this->assertInstanceOf( 'KVDhtml_OptionsHelperArray', $oh );
         $this->assertEquals( '', $oh->toHtml(  ) );
     }
 

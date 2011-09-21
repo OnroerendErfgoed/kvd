@@ -23,10 +23,10 @@ class FuzzyDateRangeTest extends PHPUnit_Framework_TestCase
 
     public function testBasis( )
     {
-        $this->assertType( 'KVDutil_Date_FuzzyDateRange_Date', $this->test->getSa( ) );
-        $this->assertType( 'KVDutil_Date_FuzzyDateRange_Date', $this->test->getKa( ) );
-        $this->assertType( 'KVDutil_Date_FuzzyDateRange_Date', $this->test->getKb( ) );
-        $this->assertType( 'KVDutil_Date_FuzzyDateRange_Date', $this->test->getSb( ) );
+        $this->assertInstanceOf( 'KVDutil_Date_FuzzyDateRange_Date', $this->test->getSa( ) );
+        $this->assertInstanceOf( 'KVDutil_Date_FuzzyDateRange_Date', $this->test->getKa( ) );
+        $this->assertInstanceOf( 'KVDutil_Date_FuzzyDateRange_Date', $this->test->getKb( ) );
+        $this->assertInstanceOf( 'KVDutil_Date_FuzzyDateRange_Date', $this->test->getSb( ) );
     }
 
     public function testType(  )
@@ -54,10 +54,10 @@ class FuzzyDateRangeTest extends PHPUnit_Framework_TestCase
                         'omschrijving_van' => array( 'omschrijving' => 'vandaag', 'manueel' => true ),
                         'omschrijving_tot' => array( 'omschrijving' => 'vandaag', 'manueel' => true ));
         $test = new KVDutil_Date_FuzzyDateRange( '2010-01-01', '2010-01-31','2010-12-01','2010-12-31',$meta );
-        $this->assertType( 'KVDutil_Date_FuzzyDateRange_Date', $test->getSa( ) );
-        $this->assertType( 'KVDutil_Date_FuzzyDateRange_Date', $test->getKa( ) );
-        $this->assertType( 'KVDutil_Date_FuzzyDateRange_Date', $test->getKb( ) );
-        $this->assertType( 'KVDutil_Date_FuzzyDateRange_Date', $test->getSb( ) );
+        $this->assertInstanceOf( 'KVDutil_Date_FuzzyDateRange_Date', $test->getSa( ) );
+        $this->assertInstanceOf( 'KVDutil_Date_FuzzyDateRange_Date', $test->getKa( ) );
+        $this->assertInstanceOf( 'KVDutil_Date_FuzzyDateRange_Date', $test->getKb( ) );
+        $this->assertInstanceOf( 'KVDutil_Date_FuzzyDateRange_Date', $test->getSb( ) );
         $test = new KVDutil_Date_FuzzyDateRange( '2010', '2010','2010','2010',$meta );
         $this->assertEquals( 2010, $test->getSa( ) );
         $this->assertEquals( 2010, $test->getKa( ) );

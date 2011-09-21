@@ -37,7 +37,7 @@ class KVDutil_HuisnummerFacade2Test extends PHPUnit_Framework_TestCase
     {
         $string = '25';
         $array = $this->facade->stringToNummers( $string );
-        $this->assertType( 'array', $array );
+        $this->assertInternalType( 'array', $array );
         $this->assertEquals ( 1, count( $array ) );
         $this->assertEquals ( '25', (string) $array[0] );
 
@@ -47,7 +47,7 @@ class KVDutil_HuisnummerFacade2Test extends PHPUnit_Framework_TestCase
     {
         $string = '25,35,45';
         $array = $this->facade->stringToNummers( $string );
-        $this->assertType( 'array', $array );
+        $this->assertInternalType( 'array', $array );
         $this->assertEquals ( 3, count( $array ) );
         $this->assertEquals ( (string) $array[0], '25' );
         $this->assertEquals ( (string) $array[1], '35' );
@@ -58,7 +58,7 @@ class KVDutil_HuisnummerFacade2Test extends PHPUnit_Framework_TestCase
     {
         $string = ' 25 , 35,45 ';
         $array = $this->facade->stringToNummers( $string );
-        $this->assertType( 'array', $array );
+        $this->assertInternalType( 'array', $array );
         $this->assertEquals ( 3, count( $array ) );
         $this->assertEquals ( (string) $array[0], '25' );
         $this->assertEquals ( (string) $array[1], '35' );
@@ -69,7 +69,7 @@ class KVDutil_HuisnummerFacade2Test extends PHPUnit_Framework_TestCase
     {
         $array = array( '25' );
         $string = $this->facade->nummersToString( $array );
-        $this->assertType( 'string', $string );
+        $this->assertInternalType( 'string', $string );
         $this->assertEquals ( '25', $string );
     }
 
@@ -77,7 +77,7 @@ class KVDutil_HuisnummerFacade2Test extends PHPUnit_Framework_TestCase
     {
         $array = array( '25', '35', '45' );
         $string = $this->facade->nummersToString( $array );
-        $this->assertType( 'string', $string );
+        $this->assertInternalType( 'string', $string );
         $this->assertEquals ('25, 35, 45', $string );
     }
 
@@ -95,10 +95,10 @@ class KVDutil_HuisnummerFacade2Test extends PHPUnit_Framework_TestCase
     {
         $label = '25';
         $huisnummers = $this->facade->split( $label );
-        $this->assertType( 'array', $huisnummers );
+        $this->assertInternalType( 'array', $huisnummers );
         $this->assertEquals ( 1, count( $huisnummers ) );
         $hnr = $huisnummers[0];
-        $this->assertType( 'KVDutil_HnrHuisnummer', $hnr);
+        $this->assertInstanceOf( 'KVDutil_HnrHuisnummer', $hnr);
         $this->assertEquals ( '25', (string) $hnr );
     }
 
@@ -106,10 +106,10 @@ class KVDutil_HuisnummerFacade2Test extends PHPUnit_Framework_TestCase
     {
         $label = '25A';
         $huisnummers = $this->facade->split( $label );
-        $this->assertType( 'array', $huisnummers );
+        $this->assertInternalType( 'array', $huisnummers );
         $this->assertEquals ( 1, count( $huisnummers ) );
         $hnr = $huisnummers[0];
-        $this->assertType( 'KVDutil_HnrBisLetter', $hnr);
+        $this->assertInstanceOf( 'KVDutil_HnrBisLetter', $hnr);
         $this->assertEquals ( '25A', (string) $hnr );
     }
 /*
@@ -362,7 +362,7 @@ class KVDutil_HuisnummerFacade2Test extends PHPUnit_Framework_TestCase
     {
         $array = '25-31';
         $label = $this->facade->merge( $array );
-        $this->assertIsA( $label, 'string' );
+        $this->assertIsAernal( $label, 'string' );
         $this->assertEqual( $label, '25-31' );
     }
 

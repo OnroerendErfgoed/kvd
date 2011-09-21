@@ -34,7 +34,7 @@ class KVDdom_Fields_ArrayFieldTest extends PHPUnit_Framework_TestCase
 
     public function testField( )
     {
-        $this->assertType( 'KVDdom_Fields_ArrayField', $this->field );
+        $this->assertInstanceOf( 'KVDdom_Fields_ArrayField', $this->field );
         $this->assertEquals( 'eigenaars', $this->field->getName( ) );
     }
 
@@ -49,7 +49,7 @@ class KVDdom_Fields_ArrayFieldTest extends PHPUnit_Framework_TestCase
         $this->dom->expects($this->never())->method( 'markDirty' );
         $this->dom->expects($this->never())->method( 'markFieldAsDirty' );
         $this->field->initializeValue( $this->test_array );
-        $this->assertType( 'array', $this->field->getValue() );
+        $this->assertInternalType( 'array', $this->field->getValue() );
         $this->assertEquals( 0, count($this->field->getValue( ) ) );
     }
 

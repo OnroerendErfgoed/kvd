@@ -69,7 +69,7 @@ class KVDdom_ChangeableSystemFieldsTest extends PHPUnit_Framework_TestCase
     public function testNull( )
     {
         $sf = KVDdom_ChangeableSystemFields::newNull( );
-        $this->assertType( 'KVDdom_ChangeableSystemFields', $sf );
+        $this->assertInstanceOf( 'KVDdom_ChangeableSystemFields', $sf );
         $this->assertEquals( 'anoniem', $sf->getAangemaaktDoor(  ) );
         $this->assertEquals( 0, $sf->getVersie() );
         $this->assertFalse( $sf->isBewerkt( ) );

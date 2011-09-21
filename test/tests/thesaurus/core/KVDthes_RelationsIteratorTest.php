@@ -49,7 +49,7 @@ class KVDthes_RelationsIteratorTest extends PHPUnit_Framework_TestCase
     public function testCurrent() {
         $curr = $this->object->current( );
         $this->assertNotNull( $curr );
-        $this->assertType( 'KVDthes_Relation', $curr );
+        $this->assertInstanceOf( 'KVDthes_Relation', $curr );
         $this->assertEquals( '0', $curr->getTerm( )->getId( ) );
     }
 

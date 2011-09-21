@@ -21,65 +21,65 @@ class KVDdb_CriterionTest extends PHPUnit_Framework_TestCase
     public function testCriterionExists( )
     {
         $criterion = KVDdb_Criterion::equals( 'provincie' , 'West-Vlaanderen' );
-        $this->assertType( 'KVDdb_Criterion', $criterion );
+        $this->assertInstanceOf( 'KVDdb_Criterion', $criterion );
     }
 
     public function testEquals( )
     {
         $criterion = KVDdb_Criterion::equals( 'provincie', 'West-Vlaanderen' );
-        $this->assertType ( 'KVDdb_Criterion', $criterion );
+        $this->assertInstanceOf ( 'KVDdb_Criterion', $criterion );
         $this->assertEquals( "( provincie = 'West-Vlaanderen' )", $criterion->generateSql( ));
     }
 
     public function testNotEquals( )
     {
         $criterion = KVDdb_Criterion::notEquals( 'provincie', 'West-Vlaanderen' );
-        $this->assertType ( 'KVDdb_Criterion', $criterion );
+        $this->assertInstanceOf ( 'KVDdb_Criterion', $criterion );
         $this->assertEquals( "( provincie <> 'West-Vlaanderen' )", $criterion->generateSql( ));
     }
 
     public function testMatch( )
     {
         $criterion = KVDdb_Criterion::matches( 'provincie', 'West-Vlaanderen' );
-        $this->assertType ( 'KVDdb_MatchCriterion', $criterion );
+        $this->assertInstanceOf ( 'KVDdb_MatchCriterion', $criterion );
         $this->assertEquals( "( UPPER( provincie ) LIKE UPPER( 'West-Vlaanderen' ) )", $criterion->generateSql( ) );
         
         $criterion = KVDdb_Criterion::matches( 'provincie', '%West-Vlaanderen' );
-        $this->assertType ( 'KVDdb_MatchCriterion', $criterion );
+        $this->assertInstanceOf ( 'KVDdb_MatchCriterion', $criterion );
         $this->assertEquals( "( UPPER( provincie ) LIKE UPPER( '%West-Vlaanderen' ) )", $criterion->generateSql( ) );
         
         $criterion = KVDdb_Criterion::matches( 'provincie', '__st-Vlaanderen' );
-        $this->assertType ( 'KVDdb_MatchCriterion', $criterion );
+        $this->assertInstanceOf ( 'KVDdb_MatchCriterion', $criterion );
         $this->assertEquals( "( UPPER( provincie ) LIKE UPPER( '__st-Vlaanderen' ) )", $criterion->generateSql( ) );
     }
 
     public function testNotMatch( )
     {
         $criterion = KVDdb_Criterion::notMatches( 'provincie', 'West-Vlaanderen' );
-        $this->assertType ( 'KVDdb_NotMatchCriterion', $criterion );
+        $this->assertInstanceOf ( 'KVDdb_NotMatchCriterion', $criterion );
         $this->assertEquals( "( UPPER( provincie ) NOT LIKE UPPER( 'West-Vlaanderen' ) )", $criterion->generateSql( ) );
         
         $criterion = KVDdb_Criterion::notMatches( 'provincie', '%West-Vlaanderen' );
-        $this->assertType ( 'KVDdb_NotMatchCriterion', $criterion );
+        $this->assertInstanceOf ( 'KVDdb_NotMatchCriterion', $criterion );
         $this->assertEquals( "( UPPER( provincie ) NOT LIKE UPPER( '%West-Vlaanderen' ) )", $criterion->generateSql( ) );
 
         
         $criterion = KVDdb_Criterion::notMatches( 'provincie', '__st-Vlaanderen' );
-        $this->assertType ( 'KVDdb_NotMatchCriterion', $criterion );
+        $this->assertInstanceOf ( 'KVDdb_NotMatchCriterion', $criterion );
         $this->assertEquals( "( UPPER( provincie ) NOT LIKE UPPER( '__st-Vlaanderen' ) )", $criterion->generateSql( ) );
     }
 
     public function testGreaterThan( )
     {
         $criterion = KVDdb_Criterion::greaterThan( 'provincie', 40000 );
-        $this->assertType ( 'KVDdb_Criterion', $criterion );
+        $this->assertInstanceOf ( 'KVDdb_Criterion', $criterion );
         $this->assertEquals("( provincie > 40000 )", $criterion->generateSql( ));
     }
 
     public function testLessThan( )
     {
         $criterion = KVDdb_Criterion::lessThan( 'provincie', 40000 );
-        $this->assertType ( 'KVDdb_Criterion', $criterion );
+        $this->assertInstanceOf ( 'KVDdb_Criterion', $criterion );
         $this->assertEquals("( provincie < 40000 )", $criterion->generateSql( ) );
     }
 
@@ -109,14 +109,14 @@ class KVDdb_CriterionTest extends PHPUnit_Framework_TestCase
     public function testEqualBoolean( )
     {
         $criterion = KVDdb_Criterion::equals( 'gevonden', true );
-        $this->assertType ( 'KVDdb_Criterion', $criterion );
+        $this->assertInstanceOf ( 'KVDdb_Criterion', $criterion );
         $this->assertEquals( "( gevonden = true )", $criterion->generateSql() );
     }
 
     public function testIn( )
     {
         $criterion = KVDdb_Criterion::in( 'gemeente_id' , array( 40000, 40001, 40002 ) );
-        $this->assertType ( 'KVDdb_Criterion', $criterion );
+        $this->assertInstanceOf ( 'KVDdb_Criterion', $criterion );
         $this->assertEquals( "( gemeente_id IN ( 40000, 40001, 40002 ) )", $criterion->generateSql( ) );
 
         $criterion = KVDdb_Criterion::in( 'gemeente' , array( 'Knokke-Heist', 'Brugge', 'Dudzele' ) );
@@ -126,7 +126,7 @@ class KVDdb_CriterionTest extends PHPUnit_Framework_TestCase
     public function testNotIn( )
     {
         $criterion = KVDdb_Criterion::notIn( 'gemeente_id' , array( 40000, 40001, 40002 ) );
-        $this->assertType ( 'KVDdb_Criterion', $criterion );
+        $this->assertInstanceOf ( 'KVDdb_Criterion', $criterion );
         $this->assertEquals(  "( gemeente_id NOT IN ( 40000, 40001, 40002 ) )", $criterion->generateSql( ));
 
         $criterion = KVDdb_Criterion::notIn( 'gemeente' , array( 'Knokke-Heist', 'Brugge', 'Dudzele' ) );
@@ -137,7 +137,7 @@ class KVDdb_CriterionTest extends PHPUnit_Framework_TestCase
     {
         $subselect = new KVDdb_SqlQuery('SELECT gemeente_id FROM gemeente WHERE provincie_id = 20001' );
         $criterion = KVDdb_Criterion::inSubselect( 'gemeente_id' , $subselect );
-        $this->assertType ( 'KVDdb_Criterion', $criterion );
+        $this->assertInstanceOf ( 'KVDdb_Criterion', $criterion );
         $this->assertEquals( "( gemeente_id IN ( SELECT gemeente_id FROM gemeente WHERE provincie_id = 20001 ) )", $criterion->generateSql( ));
     }
 
@@ -148,7 +148,7 @@ class KVDdb_CriterionTest extends PHPUnit_Framework_TestCase
         $query = new KVDdb_SimpleQuery( array( 'gemeente_id' ) , 'gemeente' , $criteria );
 
         $criterion = KVDdb_Criterion::inSubselect( 'gemeente_id' , $query );
-        $this->assertType ( 'KVDdb_Criterion', $criterion );
+        $this->assertInstanceOf ( 'KVDdb_Criterion', $criterion );
         $this->assertEquals( "( gemeente_id IN ( SELECT gemeente_id FROM gemeente WHERE ( provincie_id = ? ) ) )", $criterion->generateSql(KVDdb_Criteria::MODE_PARAMETERIZED ));
         $this->assertEquals( array( '20001' ), $criterion->getValues( ) );
     }
@@ -157,14 +157,14 @@ class KVDdb_CriterionTest extends PHPUnit_Framework_TestCase
     {
         $subselect = new KVDdb_SqlQuery('SELECT gemeente_id FROM gemeente WHERE provincie_id = 20001' );
         $criterion = KVDdb_Criterion::notInSubselect( 'gemeente_id' , $subselect );
-        $this->assertType ( 'KVDdb_Criterion', $criterion );
+        $this->assertInstanceOf ( 'KVDdb_Criterion', $criterion );
         $this->assertEquals(  "( gemeente_id NOT IN ( SELECT gemeente_id FROM gemeente WHERE provincie_id = 20001 ) )", $criterion->generateSql( ) );
     }
 
     public function testIsNull( )
     {
         $criterion = KVDdb_Criterion::isNull( 'gevonden' );
-        $this->assertType ( 'KVDdb_Criterion', $criterion );
+        $this->assertInstanceOf ( 'KVDdb_Criterion', $criterion );
         $this->assertEquals( '( gevonden IS NULL )',  $criterion->generateSql( ) );
         $this->assertEquals( array( ), $criterion->getValues( ) );
     }
@@ -172,7 +172,7 @@ class KVDdb_CriterionTest extends PHPUnit_Framework_TestCase
     public function testIsNotNull( )
     {
         $criterion = KVDdb_Criterion::isNotNull( 'gevonden' );
-        $this->assertType ( 'KVDdb_Criterion', $criterion );
+        $this->assertInstanceOf ( 'KVDdb_Criterion', $criterion );
         $this->assertEquals( '( gevonden IS NOT NULL )', $criterion->generateSql( ));
         $this->assertEquals( array( ), $criterion->getValues( ) );
     }
@@ -180,11 +180,11 @@ class KVDdb_CriterionTest extends PHPUnit_Framework_TestCase
     public function testFullTextSearch(  )
     {
         $criterion = KVDdb_Criterion::searchFullTextIndex( 'tsv', 'koen & van & daele' );
-        $this->assertType ( 'KVDdb_Criterion', $criterion );
+        $this->assertInstanceOf ( 'KVDdb_Criterion', $criterion );
         $this->assertEquals( "( tsv @@ to_tsquery( 'dutch', quote_literal( 'koen & van & daele' ) ) )", $criterion->generateSql( ));
 
         $criterion = KVDdb_Criterion::searchFullTextIndex( 'tsv', 'koen & van & daele', 'english' );
-        $this->assertType ( 'KVDdb_Criterion', $criterion );
+        $this->assertInstanceOf ( 'KVDdb_Criterion', $criterion );
         $this->assertEquals( "( tsv @@ to_tsquery( 'english', quote_literal( 'koen & van & daele' ) ) )", $criterion->generateSql( ));
     }
 
@@ -197,7 +197,7 @@ class KVDdb_CriterionTest extends PHPUnit_Framework_TestCase
     public function testFullTextSearchOnlyWorksForPostgresql(  )
     {
         $criterion = KVDdb_Criterion::searchFullTextIndex( 'tsv', 'koen & van & daele' );
-        $this->assertType ( 'KVDdb_Criterion', $criterion );
+        $this->assertInstanceOf ( 'KVDdb_Criterion', $criterion );
         $criterion->generateSql(KVDdb_Criteria::MODE_FILLED, KVDdb_Criteria::DB_MYSQL );
     }
 

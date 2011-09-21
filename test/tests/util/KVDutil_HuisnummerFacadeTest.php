@@ -37,10 +37,10 @@ class KVDutil_HuisnummerFacadeTest extends PHPUnit_Framework_TestCase
     {
         $label = '25';
         $huisnummers = $this->facade->split( $label );
-        $this->assertType( 'array', $huisnummers );
+        $this->assertInternalType( 'array', $huisnummers );
         $this->assertEquals ( 1, count( $huisnummers ) );
         $hnr = $huisnummers[0];
-        $this->assertType( 'KVDutil_HnrHuisnummer', $hnr);
+        $this->assertInstanceOf( 'KVDutil_HnrHuisnummer', $hnr);
         $this->assertEquals ( '25', (string) $hnr );
     }
 
@@ -48,10 +48,10 @@ class KVDutil_HuisnummerFacadeTest extends PHPUnit_Framework_TestCase
     {
         $label = '25A';
         $huisnummers = $this->facade->split( $label );
-        $this->assertType( 'array', $huisnummers );
+        $this->assertInternalType( 'array', $huisnummers );
         $this->assertEquals ( 1, count( $huisnummers ) );
         $hnr = $huisnummers[0];
-        $this->assertType( 'KVDutil_HnrBisLetter', $hnr);
+        $this->assertInstanceOf( 'KVDutil_HnrBisLetter', $hnr);
         $this->assertEquals ( '25A', (string) $hnr );
     }
 
@@ -59,10 +59,10 @@ class KVDutil_HuisnummerFacadeTest extends PHPUnit_Framework_TestCase
     {
         $label = '25/1';
         $huisnummers = $this->facade->split( $label );
-        $this->assertType( 'array', $huisnummers );
+        $this->assertInternalType( 'array', $huisnummers );
         $this->assertEquals ( 1, count( $huisnummers ));
         $hnr = $huisnummers[0];
-        $this->assertType( 'KVDutil_HnrBisnummer', $hnr);
+        $this->assertInstanceOf( 'KVDutil_HnrBisnummer', $hnr);
         $this->assertEquals ( '25/1', (string) $hnr );
     }
 
@@ -70,10 +70,10 @@ class KVDutil_HuisnummerFacadeTest extends PHPUnit_Framework_TestCase
     {
         $label = '111_1';
         $huisnummers = $this->facade->split( $label );
-        $this->assertType( 'array', $huisnummers );
+        $this->assertInternalType( 'array', $huisnummers );
         $this->assertEquals ( 1, count( $huisnummers ) );
         $hnr = $huisnummers[0];
-        $this->assertType( 'KVDutil_HnrBisnummer', $hnr);
+        $this->assertInstanceOf( 'KVDutil_HnrBisnummer', $hnr);
         $this->assertEquals ( '111/1', (string) $hnr );
     }
 
@@ -81,11 +81,11 @@ class KVDutil_HuisnummerFacadeTest extends PHPUnit_Framework_TestCase
     {
         $label = '25 bus 3';
         $huisnummers = $this->facade->split( $label );
-        $this->assertType( 'array', $huisnummers );
+        $this->assertInternalType( 'array', $huisnummers );
         $this->assertEquals ( 1, count( $huisnummers ) , '25 bus 3 wordt gesplitst in een verkeerd aantal elementen: '.count( $huisnummers ) );
 
         $hnr = $huisnummers[0];
-        $this->assertType( 'KVDutil_HnrBusnummer', $hnr);
+        $this->assertInstanceOf( 'KVDutil_HnrBusnummer', $hnr);
         $this->assertEquals ( '25 bus 3', (string) $hnr );
     }
 
@@ -93,7 +93,7 @@ class KVDutil_HuisnummerFacadeTest extends PHPUnit_Framework_TestCase
     {
         $label = '25,27,29,31';
         $huisnummers = $this->facade->split( $label );
-        $this->assertType( 'array', $huisnummers );
+        $this->assertInternalType( 'array', $huisnummers );
         $this->assertEquals ( 4, count( $huisnummers ) );
         $this->assertEquals ( '25', ( string ) $huisnummers[0] );
         $this->assertEquals ( '27', ( string ) $huisnummers[1] );
@@ -105,7 +105,7 @@ class KVDutil_HuisnummerFacadeTest extends PHPUnit_Framework_TestCase
     {
         $label = '25-31';
         $huisnummers = $this->facade->split( $label );
-        $this->assertType( 'array', $huisnummers );
+        $this->assertInternalType( 'array', $huisnummers );
         $this->assertEquals ( 4, count( $huisnummers ) );
         $this->assertEquals ( '25', (string) $huisnummers[0] );
         $this->assertEquals ( '27', (string) $huisnummers[1] );
@@ -117,7 +117,7 @@ class KVDutil_HuisnummerFacadeTest extends PHPUnit_Framework_TestCase
     {
         $label = '25-32';
         $huisnummers = $this->facade->split( $label );
-        $this->assertType( 'array', $huisnummers );
+        $this->assertInternalType( 'array', $huisnummers );
         $this->assertEquals ( 8, count( $huisnummers ));
         $this->assertEquals ((string) $huisnummers[0], '25' );
         $this->assertEquals ((string) $huisnummers[1], '26' );
@@ -133,7 +133,7 @@ class KVDutil_HuisnummerFacadeTest extends PHPUnit_Framework_TestCase
     {
         $label = '25,26-31';
         $huisnummers = $this->facade->split( $label );
-        $this->assertType( 'array', $huisnummers );
+        $this->assertInternalType( 'array', $huisnummers );
         $this->assertEquals ( 7, count( $huisnummers ) );
         $this->assertEquals ((string) $huisnummers[0], '25' );
         $this->assertEquals ((string) $huisnummers[1], '26' );
@@ -148,7 +148,7 @@ class KVDutil_HuisnummerFacadeTest extends PHPUnit_Framework_TestCase
     {
         $label = '25-31,18-26';
         $huisnummers = $this->facade->split( $label );
-        $this->assertType( 'array', $huisnummers );
+        $this->assertInternalType( 'array', $huisnummers );
         $this->assertEquals( 9, count( $huisnummers ) );
         $this->assertEquals ((string) $huisnummers[0], '25' );
         $this->assertEquals ((string) $huisnummers[1], '27' );
@@ -165,7 +165,7 @@ class KVDutil_HuisnummerFacadeTest extends PHPUnit_Framework_TestCase
     {
         $label = '25 bus 3-7';
         $huisnummers = $this->facade->split( $label );
-        $this->assertType( 'array', $huisnummers );
+        $this->assertInternalType( 'array', $huisnummers );
         $this->assertEquals( 5, count( $huisnummers ) );
         $this->assertEquals ((string)  $huisnummers[0], '25 bus 3' );
         $this->assertEquals ((string) $huisnummers[1], '25 bus 4' );
@@ -178,7 +178,7 @@ class KVDutil_HuisnummerFacadeTest extends PHPUnit_Framework_TestCase
     {
         $label = '25 bus C-F';
         $huisnummers = $this->facade->split( $label );
-        $this->assertType( 'array', $huisnummers );
+        $this->assertInternalType( 'array', $huisnummers );
         $this->assertEquals( 4, count( $huisnummers ) );
         $this->assertEquals ( (string) $huisnummers[0], '25 bus C' );
         $this->assertEquals ( (string) $huisnummers[1], '25 bus D' );
@@ -190,7 +190,7 @@ class KVDutil_HuisnummerFacadeTest extends PHPUnit_Framework_TestCase
     {
         $label = '25C-F';
         $huisnummers = $this->facade->split( $label );
-        $this->assertType( 'array', $huisnummers );
+        $this->assertInternalType( 'array', $huisnummers );
         $this->assertEquals( 4, count( $huisnummers ) );
         $this->assertEquals ( (string)  $huisnummers[0], '25C' );
         $this->assertEquals ( (string) $huisnummers[1], '25D' );
@@ -300,7 +300,7 @@ class KVDutil_HuisnummerFacadeTest extends PHPUnit_Framework_TestCase
     {
         $label = '25-31,18-26';
         $huisnummers = $this->facade->merge( $label );
-        $this->assertType( 'array', $huisnummers );
+        $this->assertInternalType( 'array', $huisnummers );
         $this->assertEquals ( 2, count( $huisnummers ) );
         $this->assertEquals ((string)  $huisnummers[0], '18-26' );
         $this->assertEquals ((string)  $huisnummers[1], '25-31' );

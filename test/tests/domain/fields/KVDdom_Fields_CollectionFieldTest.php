@@ -34,7 +34,7 @@ class KVDdom_Fields_CollectionFieldTest extends PHPUnit_Framework_TestCase
 
     public function testField( )
     {
-        $this->assertType( 'KVDdom_Fields_CollectionField', $this->field );
+        $this->assertInstanceOf( 'KVDdom_Fields_CollectionField', $this->field );
         $this->assertEquals( 'eigenaars', $this->field->getName( ) );
     }
 
@@ -49,7 +49,7 @@ class KVDdom_Fields_CollectionFieldTest extends PHPUnit_Framework_TestCase
         $this->dom->expects($this->never())->method( 'markDirty' );
         $this->dom->expects($this->never())->method( 'markFieldAsDirty' );
         $this->field->initializeValue( $this->collection );
-        $this->assertType( 'KVDdom_DomainObjectCollection', $this->field->getValue() );
+        $this->assertInstanceOf( 'KVDdom_DomainObjectCollection', $this->field->getValue() );
         $this->assertEquals( 0, $this->field->getValue( )->count( ) );
     }
 
@@ -130,7 +130,7 @@ class KVDdom_Fields_CollectionFieldTest extends PHPUnit_Framework_TestCase
         $this->dom->expects($this->never())->method( 'markDirty' );
         $this->dom->expects($this->once())->method( 'markFieldAsDirty' );
         $this->field->setValue( $collection );
-        $this->assertType( 'KVDdom_DomainObjectCollection', $this->field->getValue() );
+        $this->assertInstanceOf( 'KVDdom_DomainObjectCollection', $this->field->getValue() );
         $this->assertEquals( 1, $this->field->getValue( )->count( ) );
     }
 

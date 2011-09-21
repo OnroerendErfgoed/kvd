@@ -21,7 +21,7 @@ class KVDdb_JoinTest extends PHPUnit_Framework_TestCase
     public function testExists( )
     {
         $join = new KVDdb_Join( 'gemeente', array( array( 'locatie.gemeente_id', 'gemeente.id' ) ), KVDdb_Join::LEFT_JOIN );
-        $this->assertType( 'KVDdb_Join', $join );
+        $this->assertInstanceOf( 'KVDdb_Join', $join );
     }
 
     public function testLeftJoin( )

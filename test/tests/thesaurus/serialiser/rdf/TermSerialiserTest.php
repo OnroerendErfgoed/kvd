@@ -66,7 +66,7 @@ class KVDthes_Serialiser_Rdf_TermSerialiserTest extends PHPUnit_Framework_TestCa
         $transformer->addUriGenerator( $this->gen );
 
         $res = $transformer->transform( $term );
-        $this->assertType( 'EasyRdf_Resource', $res );
+        $this->assertInstanceOf( 'EasyRdf_Resource', $res );
         $xml = '<?xml version="1.0" encoding="utf-8"?>
                 <rdf:RDF
                     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
@@ -231,7 +231,7 @@ class KVDthes_Serialiser_Rdf_TermSerialiserTest extends PHPUnit_Framework_TestCa
 
         $res = $transformer->transform( $term );
 
-        $this->assertType( 'EasyRdf_Graph', $transformer->getGraph( ) );
+        $this->assertInstanceOf( 'EasyRdf_Graph', $transformer->getGraph( ) );
     }
 
     public function testNoUriGeneratorGeneratesBNodes( )

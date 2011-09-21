@@ -21,7 +21,7 @@ class KVDdb_SimpleQueryTest extends PHPUnit_Framework_TestCase
     public function testExists( )
     {
         $query = new KVDdb_SimpleQuery( array( 'gemeente_id') , 'gemeente' );
-        $this->assertType( 'KVDdb_SimpleQuery', $query );
+        $this->assertInstanceOf( 'KVDdb_SimpleQuery', $query );
     }
 
     public function testWithoutCriteria( )
@@ -115,7 +115,7 @@ class KVDdb_SimpleQueryWithJoinTest extends PHPUnit_Framework_TestCase
     {
         $join = new KVDdb_Join( 'provincie', array ( array( 'gemeente.provincie_id', 'provincie.id') ), KVDdb_Join::LEFT_JOIN );
         $query = new KVDdb_SimpleQuery( array( 'gemeente_id' ) , 'gemeente' );
-        $this->assertType( 'KVDdb_SimpleQuery', $query );
+        $this->assertInstanceOf( 'KVDdb_SimpleQuery', $query );
         $this->assertFalse( $query->hasJoins( ) );
         $query->addJoin( $join );
         $this->assertEquals ( $query->generateSql( ) , 'SELECT gemeente_id FROM gemeente LEFT JOIN provincie ON (gemeente.provincie_id = provincie.id)' );

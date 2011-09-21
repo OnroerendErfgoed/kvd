@@ -38,7 +38,7 @@ class KVDutil_GatewayFactoryTest extends PHPUnit_Framework_TestCase
     {
         $gateway = $this->gatewayFactory->createGateway ( 'KVDutil_GatewayTestGateway' );
         $this->assertNotNull ( $gateway );
-        $this->assertType ( 'KVDutil_Gateway', $gateway );
+        $this->assertInstanceOf ( 'KVDutil_Gateway', $gateway );
     }
 
     public function testGatewayInjection( )
@@ -53,7 +53,7 @@ class KVDutil_GatewayFactoryTest extends PHPUnit_Framework_TestCase
         $gatewayFactory = new KVDutil_GatewayFactory ( $config );
         $gateway = $gatewayFactory->createGateway ( 'KVDutil_GatewayTestGateway' );
         $this->assertNotNull ( $gateway );
-        $this->assertType ( 'KVDutil_Gateway', $gateway );
+        $this->assertInstanceOf ( 'KVDutil_Gateway', $gateway );
     }
 }
 ?>

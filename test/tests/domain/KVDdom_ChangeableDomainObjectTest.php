@@ -40,7 +40,7 @@ class KVDdom_ChangeableDomainObjectTest extends PHPUnit_Framework_TestCase
 
     public function testExists( )
     {
-        $this->assertType( 'KVDdom_TestChangeableDomainObject', $this->do );
+        $this->assertInstanceOf( 'KVDdom_TestChangeableDomainObject', $this->do );
     }
 
     public function testGetters( )

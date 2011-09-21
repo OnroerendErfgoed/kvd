@@ -22,7 +22,7 @@ class KVDdom_ValueDomainObjectTest extends PHPUnit_Framework_TestCase
 
     public function testExists( )
     {
-        $this->assertType( 'KVDdom_TestValueDomainObject', $this->do );
+        $this->assertInstanceOf( 'KVDdom_TestValueDomainObject', $this->do );
     }
 
     public function testGetters( )

@@ -21,7 +21,7 @@ class KVDgis_UtilSridTest extends PHPUnit_Framework_Testcase
     public function testClassExists(  )
     {
         $util = new KVDgis_UtilSrid(  );
-        $this->assertType( 'KVDgis_UtilSrid', $util );
+        $this->assertInstanceOf( 'KVDgis_UtilSrid', $util );
     }
 
     public function testConstants( )

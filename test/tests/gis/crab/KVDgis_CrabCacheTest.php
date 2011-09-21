@@ -47,7 +47,7 @@ class KVDgis_CrabCacheTest extends PHPUnit_Framework_TestCase
         $parameters = array( 'p1',2);
         $result = $this->_testCache->getCacheName( $functionName,$parameters);
         $this->assertNotNull( $result );
-        $this->assertType( 'string', $result );
+        $this->assertInternalType( 'string', $result );
         $this->assertEquals( $result , '/tmp/testFunctie#p1#2.crbcache');
     }
 
@@ -66,7 +66,7 @@ class KVDgis_CrabCacheTest extends PHPUnit_Framework_TestCase
         $parameters = array ( 'p1' , 2 );
         $result = $this->_testCache->cacheGet( $functionName,$parameters);
         $this->assertNotNull( $result );
-        $this->assertType('string', $result );
+        $this->assertInternalType('string', $result );
     }
 
     public function testCacheClear( )

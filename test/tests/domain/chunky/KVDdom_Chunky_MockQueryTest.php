@@ -52,7 +52,7 @@ class KVDdom_Chunky_MockQueryTest extends PHPUnit_Framework_TestCase
 
     public function testImplementsInterface( )
     {
-        $this->assertType( 'KVDdom_Chunky_IQuery', $this->query );
+        $this->assertInstanceOf( 'KVDdom_Chunky_IQuery', $this->query );
     }
 
     public function testAllInOneChunk(  )

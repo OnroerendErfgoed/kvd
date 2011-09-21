@@ -30,7 +30,7 @@ class KVDdom_Fields_SingleFieldTest extends PHPUnit_Framework_TestCase
 
     public function testField( )
     {
-        $this->assertType( 'KVDdom_Fields_SingleField', $this->field );
+        $this->assertInstanceOf( 'KVDdom_Fields_SingleField', $this->field );
         $this->assertEquals( 'eigenaar', $this->field->getName( ) );
     }
 

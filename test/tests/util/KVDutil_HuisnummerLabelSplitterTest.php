@@ -38,7 +38,7 @@ class KVDutil_TestOfHuisnummerLabelSplitter extends PHPUnit_Framework_TestCase
     {
         $label = '25';
         $huisnummers = $this->splitter->split( $label );
-        $this->assertType( 'array', $huisnummers );
+        $this->assertInternalType( 'array', $huisnummers );
         $this->assertEquals ( 1, count( $huisnummers ) , 1);
         $this->assertEquals ( '25', $huisnummers[0] );
     }
@@ -47,7 +47,7 @@ class KVDutil_TestOfHuisnummerLabelSplitter extends PHPUnit_Framework_TestCase
     {
         $label = '25A';
         $huisnummers = $this->splitter->split( $label );
-        $this->assertType( 'array', $huisnummers);
+        $this->assertInternalType( 'array', $huisnummers);
         $this->assertEquals ( 1, count( $huisnummers ) );
         $this->assertEquals ( '25A', $huisnummers[0] );
     }
@@ -56,7 +56,7 @@ class KVDutil_TestOfHuisnummerLabelSplitter extends PHPUnit_Framework_TestCase
     {
         $label = '25/1';
         $huisnummers = $this->splitter->split( $label );
-        $this->assertType( 'array', $huisnummers );
+        $this->assertInternalType( 'array', $huisnummers );
         $this->assertEquals ( 1, count( $huisnummers ) );
         $this->assertEquals ( '25/1', $huisnummers[0] );
     }
@@ -65,7 +65,7 @@ class KVDutil_TestOfHuisnummerLabelSplitter extends PHPUnit_Framework_TestCase
     {
         $label = '111_1';
         $huisnummers = $this->splitter->split( $label );
-        $this->assertType( 'array', $huisnummers );
+        $this->assertInternalType( 'array', $huisnummers );
         $this->assertEquals ( count( $huisnummers ) , 1);
         $this->assertEquals ( $huisnummers[0], '111_1' );
     }
@@ -74,7 +74,7 @@ class KVDutil_TestOfHuisnummerLabelSplitter extends PHPUnit_Framework_TestCase
     {
         $label = '25 bus 3';
         $huisnummers = $this->splitter->split( $label );
-        $this->assertType( 'array', $huisnummers );
+        $this->assertInternalType( 'array', $huisnummers );
         $this->assertEquals ( count( $huisnummers ) , 1, '25 bus 3 wordt gesplitst in een verkeerd aantal elementen: '.count( $huisnummers ) );
         $this->assertEquals ( $huisnummers[0], '25 bus 3' );
     }
@@ -83,7 +83,7 @@ class KVDutil_TestOfHuisnummerLabelSplitter extends PHPUnit_Framework_TestCase
     {
         $label = '25,27,29,31';
         $huisnummers = $this->splitter->split( $label );
-        $this->assertType( 'array', $huisnummers );
+        $this->assertInternalType( 'array', $huisnummers );
         $this->assertEquals ( count( $huisnummers ) , 4);
         $this->assertEquals ( $huisnummers[0], '25' );
         $this->assertEquals ( $huisnummers[1], '27' );
@@ -95,7 +95,7 @@ class KVDutil_TestOfHuisnummerLabelSplitter extends PHPUnit_Framework_TestCase
     {
         $label = '25-31';
         $huisnummers = $this->splitter->split( $label );
-        $this->assertType( 'array', $huisnummers );
+        $this->assertInternalType( 'array', $huisnummers );
         $this->assertEquals ( count( $huisnummers ) , 4);
         $this->assertEquals ( $huisnummers[0], '25' );
         $this->assertEquals ( $huisnummers[1], '27' );
@@ -107,7 +107,7 @@ class KVDutil_TestOfHuisnummerLabelSplitter extends PHPUnit_Framework_TestCase
     {
         $label = '25-32';
         $huisnummers = $this->splitter->split( $label );
-        $this->assertType( 'array', $huisnummers );
+        $this->assertInternalType( 'array', $huisnummers );
         $this->assertEquals ( count( $huisnummers ) , 8);
         $this->assertEquals ( $huisnummers[0], '25' );
         $this->assertEquals ( $huisnummers[1], '26' );
@@ -123,7 +123,7 @@ class KVDutil_TestOfHuisnummerLabelSplitter extends PHPUnit_Framework_TestCase
     {
         $label = '25,26-31';
         $huisnummers = $this->splitter->split( $label );
-        $this->assertType( 'array', $huisnummers );
+        $this->assertInternalType( 'array', $huisnummers );
         $this->assertEquals ( 7, count( $huisnummers ) );
         $this->assertEquals ( $huisnummers[0], '25' );
         $this->assertEquals ( $huisnummers[1], '26' );
@@ -138,7 +138,7 @@ class KVDutil_TestOfHuisnummerLabelSplitter extends PHPUnit_Framework_TestCase
     {
         $label = '25-31,18-26';
         $huisnummers = $this->splitter->split( $label );
-        $this->assertType( 'array', $huisnummers );
+        $this->assertInternalType( 'array', $huisnummers );
         $this->assertEquals ( count( $huisnummers ) , 9);
         $this->assertEquals ( $huisnummers[0], '25' );
         $this->assertEquals ( $huisnummers[1], '27' );
@@ -155,7 +155,7 @@ class KVDutil_TestOfHuisnummerLabelSplitter extends PHPUnit_Framework_TestCase
     {
         $label = '25 bus 3-7';
         $huisnummers = $this->splitter->split( $label );
-        $this->assertType( 'array', $huisnummers );
+        $this->assertInternalType( 'array', $huisnummers );
         $this->assertEquals ( 5, count( $huisnummers ) );
         $this->assertEquals ( $huisnummers[0], '25 bus 3' );
         $this->assertEquals ( $huisnummers[1], '25 bus 4' );
@@ -168,7 +168,7 @@ class KVDutil_TestOfHuisnummerLabelSplitter extends PHPUnit_Framework_TestCase
     {
         $label = '25 bus C-F';
         $huisnummers = $this->splitter->split( $label );
-        $this->assertType( 'array', $huisnummers );
+        $this->assertInternalType( 'array', $huisnummers );
         $this->assertEquals ( count( $huisnummers ) , 4);
         $this->assertEquals ( $huisnummers[0], '25 bus C' );
         $this->assertEquals ( $huisnummers[1], '25 bus D' );
@@ -180,7 +180,7 @@ class KVDutil_TestOfHuisnummerLabelSplitter extends PHPUnit_Framework_TestCase
     {
         $label = '25C-F';
         $huisnummers = $this->splitter->split( $label );
-        $this->assertType( 'array', $huisnummers );
+        $this->assertInternalType( 'array', $huisnummers );
         $this->assertEquals ( 4, count( $huisnummers ) );
         $this->assertEquals ( $huisnummers[0], '25C' );
         $this->assertEquals ( $huisnummers[1], '25D' );
@@ -192,7 +192,7 @@ class KVDutil_TestOfHuisnummerLabelSplitter extends PHPUnit_Framework_TestCase
     {
         $label = '25/3-7';
         $huisnummers = $this->splitter->split( $label );
-        $this->assertType( 'array', $huisnummers );
+        $this->assertInternalType( 'array', $huisnummers );
         $this->assertEquals ( 5, count( $huisnummers ) );
         $this->assertEquals ( $huisnummers[0], '25/3' );
         $this->assertEquals ( $huisnummers[1], '25/4' );
@@ -205,7 +205,7 @@ class KVDutil_TestOfHuisnummerLabelSplitter extends PHPUnit_Framework_TestCase
     {
         $label = '25C-F,28-32,29 bus 2-5';
         $huisnummers = $this->splitter->split( $label );
-        $this->assertType( 'array', $huisnummers );
+        $this->assertInternalType( 'array', $huisnummers );
         $this->assertEquals ( 11, count( $huisnummers ) );
         $this->assertEquals ( $huisnummers[0], '25C' );
         $this->assertEquals ( $huisnummers[1], '25D' );
@@ -224,7 +224,7 @@ class KVDutil_TestOfHuisnummerLabelSplitter extends PHPUnit_Framework_TestCase
     {
         $label = '2A,7-11';
         $huisnummers = $this->splitter->split( $label );
-        $this->assertType( 'array', $huisnummers );
+        $this->assertInternalType( 'array', $huisnummers );
         $this->assertEquals ( 4, count( $huisnummers ) );
         $this->assertEquals ( $huisnummers[0], '2A' );
         $this->assertEquals ( $huisnummers[1], '7' );
@@ -236,7 +236,7 @@ class KVDutil_TestOfHuisnummerLabelSplitter extends PHPUnit_Framework_TestCase
     {
         $label = 'A,1/3,?';
         $huisnummers = $this->splitter->split( $label );
-        $this->assertType( 'array', $huisnummers );
+        $this->assertInternalType( 'array', $huisnummers );
         $this->assertEquals( 3, count( $huisnummers ) );
         $this->assertEquals ( $huisnummers[0], 'A' );
         $this->assertEquals ( $huisnummers[1], '1/3' );
@@ -247,7 +247,7 @@ class KVDutil_TestOfHuisnummerLabelSplitter extends PHPUnit_Framework_TestCase
     {
         $label = ' A , 1/3 , 5 - 7 ';
         $huisnummers = $this->splitter->split( $label );
-        $this->assertType( 'array', $huisnummers );
+        $this->assertInternalType( 'array', $huisnummers );
         $this->assertEquals( 4, count( $huisnummers ) );
         $this->assertEquals ( $huisnummers[0], 'A' );
         $this->assertEquals ( $huisnummers[1], '1/3' );

@@ -2,37 +2,35 @@
 <phpunit>
 	<testsuites>
 		<testsuite name="Database">
-			<directory>../tests/database/*</directory>
+			<directory>../tests/database/</directory>
 		</testsuite>
 		<testsuite name="Domain">
-			<directory>../tests/domain/*</directory>
+			<directory>../tests/domain/</directory>
 		</testsuite>
 		<testsuite name="Gis">
-			<directory>../tests/gis/*</directory>
+			<directory>../tests/gis/</directory>
 		</testsuite>
 		<testsuite name="Html">
-			<directory>../tests/html/*</directory>
+			<directory>../tests/html/</directory>
 		</testsuite>
 		<testsuite name="Thesaurus">
-			<directory>../tests/thesaurus/*</directory>
+			<directory>../tests/thesaurus/</directory>
 		</testsuite>
 		<testsuite name="Util">
-			<directory>../tests/util/*</directory>
+			<directory>../tests/util/</directory>
 		</testsuite>
 	</testsuites>
 	<filter>
-		<!--
-		<blacklist>
-			<directory suffix=".php">test</directory>
-			<directory suffix=".php">vendor</directory>
-		</blacklist>
-		-->
 		<whitelist addUncoveredFilesFromWhiteList="true">
-			<directory suffix=".class.php">classes</directory>
-			<directory suffix=".interface.php">classes</directory>
+			<directory suffix=".php">../../classes/database/criteria</directory>
+			<directory suffix=".php">../../classes/domain/</directory>
+			<directory suffix=".php">../../classes/util/</directory>
+			<directory suffix=".php">../../classes/gis/</directory>
+			<directory suffix=".php">../../classes/html/</directory>
+			<directory suffix=".php">../../classes/thesaurus/</directory>
 			<exclude>
-				<directory suffix=".php">/home/vandaeko/Projecten/kvd/test</directory>
-				<directory suffix=".php">/home/vandaeko/Projecten/kvd/vendor</directory>
+				<directory suffix=".php">../../vendor/*</directory>
+				<file>../../classes/util/KVDutil_GetDeclaredClassesFilter.class.php</file>
 			</exclude>
 		</whitelist>
 	</filter>

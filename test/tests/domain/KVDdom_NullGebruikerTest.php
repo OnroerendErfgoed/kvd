@@ -27,7 +27,7 @@ class KVDdom_NullGebruikerTest extends PHPUnit_Framework_TestCase
 
     public function testNullGebruikerIsGebruiker( )
     {
-        $this->assertType( 'KVDdom_Gebruiker', $this->gebruiker );
+        $this->assertInstanceOf( 'KVDdom_Gebruiker', $this->gebruiker );
     }
 
     public function testGebruikerIsAnoniem( )
