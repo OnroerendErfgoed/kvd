@@ -29,7 +29,7 @@ class KVDhtml_FormFieldComboBox extends KVDhtml_FormField
     {
         parent::setField( $fieldOptions );
         $this->value = isset( $fieldOptions['value'] ) ? $fieldOptions['value'] : null;
-        $this->autoComplete = isset( $fieldOptions['autoComplete'] ) ? $fieldOptions['autoComplete'] : true;
+        $this->autoComplete = isset( $fieldOptions['autoComplete'] ) ? $fieldOptions['autoComplete'] : 'true';
         if ( !isset( $fieldOptions['dataUrl'] ) ) {
             throw new InvalidArgumentException ( 'U moet een dataUrl opgeven voor een ComboBox.' );
         }

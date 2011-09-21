@@ -1,6 +1,6 @@
 <?php
 
-class TestOfFormFieldCheckbox extends UnitTestCase
+class KVDhtml_FormFieldCheckboxTest extends PHPUnit_Framework_TestCase
 {
     private $fieldOptions;
     
@@ -22,12 +22,12 @@ class TestOfFormFieldCheckbox extends UnitTestCase
     {
         $formField = new KVDhtml_FormFieldCheckbox( $this->fieldOptions );
         $html = $formField->toHtml( );
-        $this->assertWantedPattern( '<input*>', $html);
-        $this->assertWantedPattern( '/ type="checkbox"/' ,$html);
-        $this->assertWantedPattern( '/ name="testField"/', $html);
-        $this->assertWantedPattern( '/ class="testClass"/', $html);
-        $this->assertWantedPattern( '/ value="testValue"/', $html);
-        $this->assertWantedPattern( '/ id="testId"/', $html);
+        $this->assertRegExp( '<input*>', $html);
+        $this->assertRegExp( '/ type="checkbox"/' ,$html);
+        $this->assertRegExp( '/ name="testField"/', $html);
+        $this->assertRegExp( '/ class="testClass"/', $html);
+        $this->assertRegExp( '/ value="testValue"/', $html);
+        $this->assertRegExp( '/ id="testId"/', $html);
     }
 
     function testFormFieldCheckboxNotReadonly( )
@@ -35,7 +35,7 @@ class TestOfFormFieldCheckbox extends UnitTestCase
         $this->fieldOptions['readonly'] = true;
         $formField = new KVDhtml_FormFieldCheckbox( $this->fieldOptions );
         $html = $formField->toHtml( );
-        $this->assertNoUnwantedPattern( '/ readonly="readonly"/', $html);
+        $this->assertNotRegExp( '/ readonly="readonly"/', $html);
     }
 
     function testFormFieldCheckboxDisabled( )
@@ -43,7 +43,7 @@ class TestOfFormFieldCheckbox extends UnitTestCase
         $this->fieldOptions['disabled'] = true;
         $formField = new KVDhtml_FormFieldCheckbox( $this->fieldOptions );
         $html = $formField->toHtml( );
-        $this->assertWantedPattern( '/ disabled="disabled"/', $html);
+        $this->assertRegExp( '/ disabled="disabled"/', $html);
     }
 
     function testFormFieldCheckboxChecked( )
@@ -51,7 +51,7 @@ class TestOfFormFieldCheckbox extends UnitTestCase
         $this->fieldOptions['checked'] = true;
         $formField = new KVDhtml_FormFieldCheckbox( $this->fieldOptions );
         $html = $formField->toHtml( );
-        $this->assertWantedPattern( '/ checked="checked"/', $html);
+        $this->assertRegExp( '/ checked="checked"/', $html);
     }
     
 

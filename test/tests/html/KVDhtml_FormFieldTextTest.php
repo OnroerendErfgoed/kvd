@@ -1,6 +1,6 @@
 <?php
 
-class TestOfFormFieldText extends UnitTestCase
+class KVDhtml_FormFieldTextTest extends PHPUnit_Framework_TestCase
 {
     private $fieldOptions;
     
@@ -22,12 +22,12 @@ class TestOfFormFieldText extends UnitTestCase
     {
         $formField = new KVDhtml_FormFieldText( $this->fieldOptions );
         $html = $formField->toHtml( );
-        $this->assertWantedPattern( '<input*>', $html);
-        $this->assertWantedPattern( '/ type="text"/' ,$html);
-        $this->assertWantedPattern( '/ name="testField"/', $html);
-        $this->assertWantedPattern( '/ class="testClass"/', $html);
-        $this->assertWantedPattern( '/ value="testValue"/', $html);
-        $this->assertWantedPattern( '/ id="testId"/', $html);
+        $this->assertRegExp( '<input*>', $html);
+        $this->assertRegExp( '/ type="text"/' ,$html);
+        $this->assertRegExp( '/ name="testField"/', $html);
+        $this->assertRegExp( '/ class="testClass"/', $html);
+        $this->assertRegExp( '/ value="testValue"/', $html);
+        $this->assertRegExp( '/ id="testId"/', $html);
     }
 
     function testFormFieldTextReadonly( )
@@ -35,7 +35,7 @@ class TestOfFormFieldText extends UnitTestCase
         $this->fieldOptions['readonly'] = true;
         $formField = new KVDhtml_FormFieldText( $this->fieldOptions );
         $html = $formField->toHtml( );
-        $this->assertWantedPattern( '/ readonly="readonly"/', $html);
+        $this->assertRegExp( '/ readonly="readonly"/', $html);
     }
 
     function testFormFieldTextDisabled( )
@@ -43,7 +43,7 @@ class TestOfFormFieldText extends UnitTestCase
         $this->fieldOptions['disabled'] = true;
         $formField = new KVDhtml_FormFieldText( $this->fieldOptions );
         $html = $formField->toHtml( );
-        $this->assertWantedPattern( '/ disabled="disabled"/', $html);
+        $this->assertRegExp( '/ disabled="disabled"/', $html);
     }
 
     function testFormFieldValue0( )
@@ -51,7 +51,7 @@ class TestOfFormFieldText extends UnitTestCase
         $this->fieldOptions['value'] = 0;
         $formField = new KVDhtml_FormFieldText( $this->fieldOptions );
         $html = $formField->toHtml( );
-        $this->assertWantedPattern( '/ value="0"/', $html);
+        $this->assertRegExp( '/ value="0"/', $html);
     }
 
     public function testFormFieldValueHtlmEntities( )
@@ -59,7 +59,7 @@ class TestOfFormFieldText extends UnitTestCase
         $this->fieldOptions['value'] = 'Lena > Mira';
         $formField = new KVDhtml_FormFieldText( $this->fieldOptions );
         $html = $formField->toHtml( );
-        $this->assertWantedPattern( '/ value="Lena &gt; Mira"/', $html);
+        $this->assertRegExp( '/ value="Lena &gt; Mira"/', $html);
     }
 
 }

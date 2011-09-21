@@ -1,6 +1,6 @@
 <?php
 
-class TestOfFormFieldReset extends UnitTestCase
+class KVDhtml_FormFieldResetTest extends PHPUnit_Framework_TestCase
 {
     private $fieldOptions;
     
@@ -22,12 +22,12 @@ class TestOfFormFieldReset extends UnitTestCase
     {
         $formField = new KVDhtml_FormFieldReset( $this->fieldOptions );
         $html = $formField->toHtml( );
-        $this->assertWantedPattern( '<input*>', $html);
-        $this->assertWantedPattern( '/ type="reset"/' ,$html);
-        $this->assertWantedPattern( '/ name="testField"/', $html);
-        $this->assertWantedPattern( '/ class="testClass"/', $html);
-        $this->assertWantedPattern( '/ value="testValue"/', $html);
-        $this->assertWantedPattern( '/ id="testId"/', $html);
+        $this->assertRegExp( '<input*>', $html);
+        $this->assertRegExp( '/ type="reset"/' ,$html);
+        $this->assertRegExp( '/ name="testField"/', $html);
+        $this->assertRegExp( '/ class="testClass"/', $html);
+        $this->assertRegExp( '/ value="testValue"/', $html);
+        $this->assertRegExp( '/ id="testId"/', $html);
     }
 
     function testFormFieldResetNoReadonly( )
@@ -35,7 +35,7 @@ class TestOfFormFieldReset extends UnitTestCase
         $this->fieldOptions['readonly'] = true;
         $formField = new KVDhtml_FormFieldReset( $this->fieldOptions );
         $html = $formField->toHtml( );
-        $this->assertNoUnwantedPattern( '/ readonly="readonly"/', $html);
+        $this->assertNotRegExp( '/ readonly="readonly"/', $html);
     }
 
     function testFormFieldResetDisabled( )
@@ -43,7 +43,7 @@ class TestOfFormFieldReset extends UnitTestCase
         $this->fieldOptions['disabled'] = true;
         $formField = new KVDhtml_FormFieldReset( $this->fieldOptions );
         $html = $formField->toHtml( );
-        $this->assertWantedPattern( '/ disabled="disabled"/', $html);
+        $this->assertRegExp( '/ disabled="disabled"/', $html);
     }
 
 }

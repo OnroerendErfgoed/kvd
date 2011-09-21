@@ -74,9 +74,10 @@ class KVDthes_TreeVisitorText extends KVDthes_AbstractTreeVisitor
     /**
      * enterComposite 
      * 
+     * @param KVDthes_Term $term
      * @return boolean
      */
-    public function enterComposite()
+    public function enterComposite(KVDthes_Term $term)
     {
         $this->depth++;
         return true;
@@ -85,9 +86,10 @@ class KVDthes_TreeVisitorText extends KVDthes_AbstractTreeVisitor
     /**
      * leaveComposite 
      * 
+     * @param KVDthes_Term $term
      * @return boolean
      */
-    public function leaveComposite()
+    public function leaveComposite(KVDthes_Term $term)
     {
         $this->depth--;
         return true;

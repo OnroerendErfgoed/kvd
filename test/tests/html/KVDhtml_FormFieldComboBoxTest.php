@@ -1,6 +1,6 @@
 <?php
 
-class TestOfFormFielComboBox extends UnitTestCase
+class KVDhtml_FormFielComboBoxTest extends PHPUnit_Framework_TestCase
 {
     private $fieldOptions;
     
@@ -23,16 +23,16 @@ class TestOfFormFielComboBox extends UnitTestCase
     {
         $formField = new KVDhtml_FormFieldComboBox( $this->fieldOptions );
         $html = $formField->toHtml( );
-        $this->assertWantedPattern( '<input*>', $html);
-        $this->assertWantedPattern( '/ dojoType="ComboBox"/' ,$html);
-        $this->assertWantedPattern( '/ name="testField"/', $html);
-        $this->assertWantedPattern( '/ class="testClass"/', $html);
-        $this->assertWantedPattern( '/ value="1"/', $html);
-        $this->assertWantedPattern( '/ id="testId"/', $html);
-        $this->assertWantedPattern( '/ dataUrl="persoon.php?filter=%{searchString}"/', $html);
-        $this->assertWantedPattern( '/ autoComplete="true"/', $html);
-        $this->assertWantedPattern( '/ mode="remote"/', $html);
-        $this->assertWantedPattern( '/ maxListLength="20"/', $html);
+        $this->assertRegExp( '<input*>', $html);
+        $this->assertRegExp( preg_quote('/ dojoType="ComboBox"/') ,$html);
+        $this->assertRegExp( '/ name="testField"/', $html);
+        $this->assertRegExp( '/ class="testClass"/', $html);
+        $this->assertRegExp( '/ value="1"/', $html);
+        $this->assertRegExp( '/ id="testId"/', $html);
+        $this->assertRegExp( preg_quote('/ dataUrl="persoon.php?filter=%{searchString}"/'), $html);
+        $this->assertRegExp( preg_quote('/ autoComplete="true"/'), $html);
+        $this->assertRegExp( '/ mode="remote"/', $html);
+        $this->assertRegExp( '/ maxListLength="20"/', $html);
     }
 
     function testFormFieldReadonly( )
@@ -40,7 +40,7 @@ class TestOfFormFielComboBox extends UnitTestCase
         $this->fieldOptions['readonly'] = true;
         $formField = new KVDhtml_FormFieldDate( $this->fieldOptions );
         $html = $formField->toHtml( );
-        $this->assertWantedPattern( '/ readonly="readonly"/', $html);
+        $this->assertRegExp( '/ readonly="readonly"/', $html);
     }
 
     function testFormFieldDisabled( )
@@ -48,7 +48,7 @@ class TestOfFormFielComboBox extends UnitTestCase
         $this->fieldOptions['disabled'] = true;
         $formField = new KVDhtml_FormFieldDate( $this->fieldOptions );
         $html = $formField->toHtml( );
-        $this->assertWantedPattern( '/ disabled="disabled"/', $html);
+        $this->assertRegExp( '/ disabled="disabled"/', $html);
     }
 
 }

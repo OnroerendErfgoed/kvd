@@ -56,8 +56,8 @@ class KVDgis_Crab2GatewayTest extends PHPUnit_Framework_TestCase
     function testListGemeentenByGewestId( )
     {
         $gemeenten = $this->getGateway( )->listGemeentenByGewestId( KVDgis_Crab2Gateway::GEWEST_VLAANDEREN, KVDgis_Crab2Gateway::GEM_SORT_NAAM );
-        $this->assertType( 'array', $gemeenten);
-        $this->assertType( 'array', $gemeenten[20]);
+        $this->assertInternalType( 'array', $gemeenten);
+        $this->assertInternalType( 'array', $gemeenten[20]);
         $this->assertNotNull ( $gemeenten[20]['gemeenteId']);
         $this->assertNotNull ( $gemeenten[20]['gemeenteNaam']);
         $this->assertNotNull ( $gemeenten[20]['taalCode']);
@@ -66,7 +66,7 @@ class KVDgis_Crab2GatewayTest extends PHPUnit_Framework_TestCase
 
     private function assertIsKnokke( $gemeente ) 
     {
-        $this->assertType( 'array', $gemeente );
+        $this->assertInternalType( 'array', $gemeente );
         $this->assertEquals( $gemeente['gemeenteId'], 191);
         $this->assertEquals( $gemeente['gemeenteNaam'], 'Knokke-Heist');
         $this->assertEquals( $gemeente['nisGemeenteCode'], 31043);
@@ -107,8 +107,8 @@ class KVDgis_Crab2GatewayTest extends PHPUnit_Framework_TestCase
     public function testListStraatnamenByGemeenteId( )
     {
         $straatnamen = $this->getGateway( )->listStraatnamenByGemeenteId( 191, KVDgis_Crab2Gateway::STRAAT_SORT_NAAM);
-        $this->assertType( 'array', $straatnamen);
-        $this->assertType( 'array', $straatnamen[20]);
+        $this->assertInternalType( 'array', $straatnamen);
+        $this->assertInternalType( 'array', $straatnamen[20]);
         $this->assertNotNull ( $straatnamen[20]['straatnaam']);
         $this->assertNotNull ( $straatnamen[20]['straatnaamId']);
         $this->assertNotNull ( $straatnamen[20]['straatnaamLabel']);
@@ -116,7 +116,7 @@ class KVDgis_Crab2GatewayTest extends PHPUnit_Framework_TestCase
     
     private function assertIsNieuwstraat ( $straatnaam )
     {
-        $this->assertType( 'array', $straatnaam );
+        $this->assertInternalType( 'array', $straatnaam );
         $this->assertEquals( $straatnaam['straatnaamId'], 48086);
         $this->assertEquals( $straatnaam['straatnaam'], 'Nieuwstraat');
         $this->assertEquals( $straatnaam['straatnaamLabel'], 'Nieuwstraat' );
@@ -139,15 +139,15 @@ class KVDgis_Crab2GatewayTest extends PHPUnit_Framework_TestCase
     public function testListHuisnummersByStraatnaamId ()
     {
         $huisnummers = $this->getGateway( )->listHuisnummersByStraatnaamId ( 48086 , 2 );
-        $this->assertType( 'array', $huisnummers);
-        $this->assertType( 'array', $huisnummers[20]);
+        $this->assertInternalType( 'array', $huisnummers);
+        $this->assertInternalType( 'array', $huisnummers[20]);
         $this->assertNotNull ( $huisnummers[20]['huisnummerId']);
         $this->assertNotNull ( $huisnummers[20]['huisnummer']);
     }
 
     private function assertIsNieuwstraat68 ( $huisnummer )
     {
-        $this->assertType( 'array', $huisnummer );
+        $this->assertInternalType( 'array', $huisnummer );
         $this->assertEquals ( $huisnummer['huisnummerId'] , 887821);
         $this->assertEquals ( $huisnummer['huisnummer'] , '68');
     }
@@ -173,16 +173,16 @@ class KVDgis_Crab2GatewayTest extends PHPUnit_Framework_TestCase
     public function testListWegobjectenByStraatnaamId( )
     {
         $wegobjecten = $this->getGateway( )->listWegobjectenByStraatnaamId( 48086 , KVDgis_Crab2Gateway::WEG_SORT_ID );
-        $this->assertType( 'array', $wegobjecten );
-        $this->assertType( 'array', $wegobjecten[1] );
+        $this->assertInternalType( 'array', $wegobjecten );
+        $this->assertInternalType( 'array', $wegobjecten[1] );
         $this->assertNotNull ( $wegobjecten[1]['identificatorWegobject'] );
     }
 
     public function testListTerreinObjectenByHuisnummerId( )
     {
         $terreinobjecten = $this->getGateway( )->listTerreinobjectenByHuisnummerId( 887821, KVDgis_Crab2Gateway::TERREIN_SORT_ID );
-        $this->assertType( 'array', $terreinobjecten );
-        $this->assertType( 'array', $terreinobjecten[0] );
+        $this->assertInternalType( 'array', $terreinobjecten );
+        $this->assertInternalType( 'array', $terreinobjecten[0] );
         $this->assertNotNull( $terreinobjecten[0]['identificatorTerreinobject']);
         $this->assertNotNull( $terreinobjecten[0]['aardTerreinobjectCode']);
     }
@@ -192,7 +192,7 @@ class KVDgis_Crab2GatewayTest extends PHPUnit_Framework_TestCase
         $gateway = $this->getGateway( );
         $terreinobjecten = $gateway->listTerreinobjectenByHuisnummerId( 887821 );
         $terreinobject = $gateway->getTerreinobjectByIdentificatorTerreinobject( $terreinobjecten[0]['identificatorTerreinobject'] );
-        $this->assertType( 'array', $terreinobject );
+        $this->assertInternalType( 'array', $terreinobject );
         $this->assertEquals( $terreinobject['identificatorTerreinobject'] , $terreinobjecten[0]['identificatorTerreinobject'] );
         $this->assertNotNull( $terreinobject['centerX']);
         $this->assertNotNull( $terreinobject['centerY']);
@@ -202,7 +202,7 @@ class KVDgis_Crab2GatewayTest extends PHPUnit_Framework_TestCase
     public function getHuisnummerWithSubAdresByHuisnummer( )
     {
        $huisnummer = $this->getGateway( )->getHuisnummerByHuisnummer( '111_1' , 1568 );
-       $this->assertType( 'array', $huisnummer );
+       $this->assertInternalType( 'array', $huisnummer );
        $this->assertEqual( $huisnummer['huisnummer'] , '111_1' );
        $this->assertEqual( $huisnummer['straatnaamId'] , 1568 );
     }

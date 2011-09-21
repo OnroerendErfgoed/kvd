@@ -120,9 +120,10 @@ class KVDthes_XMLVisitor extends KVDthes_AbstractSimpleVisitor
     /**
      * enterComposite 
      * 
+     * @param KVDthes_Term $term
      * @return boolean
      */
-    public function enterComposite( $node )
+    public function enterComposite(KVDthes_Term $term )
     {
         return true;
     }
@@ -130,9 +131,10 @@ class KVDthes_XMLVisitor extends KVDthes_AbstractSimpleVisitor
     /**
      * leaveComposite 
      * 
+     * @param KVDthes_Term $term
      * @return boolean
      */
-    public function leaveComposite( $node )
+    public function leaveComposite(KVDthes_Term  $term )
     {
         $this->zthes->appendChild( $this->term );
         $this->term = null;

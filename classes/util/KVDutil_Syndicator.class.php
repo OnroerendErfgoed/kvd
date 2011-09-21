@@ -258,7 +258,7 @@ class KVDUtil_RSS1 extends KVDUtil_Syndicator
 	 * @param integer
 	 * @return boolean
 	 */
-	public function addItem($title, $link, $description = null, $pubDate = null, $id = null)
+	public function addItem($title, $link, $description = null, DateTime $pubDate = null, $id = null)
 	{
 		if(parent::addItem($title, $link, $description, $pubDate, $id)) {
 			$this->addToItems($link);
@@ -276,7 +276,7 @@ class KVDUtil_RSS1 extends KVDUtil_Syndicator
 	 * @param string
 	 * @return void
 	 */
-	protected function createRSSNode($type, $parent, $title, $url, $description, $pubDate = null)
+	protected function createRSSNode($type, DOMElement $parent, $title, $url, $description, DateTime $pubDate = null, $id = null)
 	{
 		$parent->setAttributeNS(self::RDFNS, 'rdf:about', $url);
 		parent::createRSSNode($type, $parent, $title, $url, $description, $pubDate);	
@@ -402,7 +402,7 @@ class KVDUtil_Atom extends KVDUtil_Syndicator
 	 * @param string
 	 * @param string
 	 */
-	protected function createLink($parent, $url)
+	protected function createLink($parent, $url, $attributes = array( ))
 	{
 		$link = $this->rssDoc->createElementNS($this->NS, 'link');
 		$parent->appendChild($link);

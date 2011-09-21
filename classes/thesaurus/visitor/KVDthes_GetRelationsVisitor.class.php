@@ -27,6 +27,11 @@ class KVDthes_GetRelationsVisitor extends KVDthes_AbstractSimpleVisitor
      */
     private $result = array( );
 
+    /**
+     * from 
+     * 
+     * @var mixed String of integer.
+     */
     private $from;
 
 
@@ -42,6 +47,12 @@ class KVDthes_GetRelationsVisitor extends KVDthes_AbstractSimpleVisitor
         return true;
     }
 
+    /**
+     * visitRelation 
+     * 
+     * @param KVDthes_Relation $relation 
+     * @return boolean
+     */
     public function visitRelation(KVDthes_Relation $relation)
     {
         $this->result[] = array( 'id_from' => $this->from, 'rel_type' => $relation->getType( ), 'id_to' => $relation->getTerm( )->getId( ) );
@@ -51,9 +62,10 @@ class KVDthes_GetRelationsVisitor extends KVDthes_AbstractSimpleVisitor
     /**
      * enterComposite 
      * 
+     * @param KVDthes_Term $term
      * @return boolean
      */
-	public function enterComposite( $node )
+	public function enterComposite( KVDthes_Term $term )
 	{
         return true;
 	}
@@ -61,9 +73,10 @@ class KVDthes_GetRelationsVisitor extends KVDthes_AbstractSimpleVisitor
     /**
      * leaveComposite 
      * 
+     * @param KVDthes_Term $term
      * @return boolean
      */
-	public function leaveComposite( $node )
+	public function leaveComposite( KVDthes_Term $term )
 	{
         return true;
 	}
