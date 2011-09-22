@@ -222,8 +222,10 @@
 				<delete file="build/clover-coverage.xml" />
 			</then>
 		</if>
-		<exec command="phpunit --bootstrap test/bootstrap.php --configuration test/config/testsuites.xml --log-junit build/testsuites.xml" passthru="true" returnProperty="testsExit" />
-
+		<exec command="phpunit --bootstrap test/bootstrap.php 
+							   --configuration test/config/testsuites.xml 
+							   --log-junit build/testsuites.xml"
+			  passthru="true" returnProperty="testsExit" />
 		<if>
 			<equals arg1="${testsExit}" arg2="0" />
 			<then>
@@ -293,6 +295,9 @@
 		<phingcall target="genTestReports" />
 		<phingcall target="genCodeSnifferReports" />
 		<phingcall target="genDocs" />
+	</target>
+
+	<target name="runBitten" description="Target voor de CI vanuit Bitten." depends="genTestReports,genCodeSnifferReports">
 	</target>
 
 </project>
