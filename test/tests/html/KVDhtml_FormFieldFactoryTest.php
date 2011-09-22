@@ -1,6 +1,11 @@
 <?php
-class TestOfFormFieldFactory extends UnitTestCase
+class KVDhtml_FormFieldFactoryTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * factory 
+     * 
+     * @var KVdhtml_FormFieldFactory
+     */
     private $factory;
 
     private $fieldOptions;
@@ -32,27 +37,23 @@ class TestOfFormFieldFactory extends UnitTestCase
 
     public function testIsAFactory( )
     {
-        $this->assertIsA( $this->factory, 'KVDhtml_FormFieldFactory' );
+        $this->assertInstanceOf( 'KVDhtml_FormFieldFactory', $this->factory );
     }
 
     public function testAllTypes( )
     {
         foreach ( $this->fieldOptions as $fieldOption) {
             $field = $this->factory->getFormField( $fieldOption );
-            $this->assertIsA( $field, 'KVDhtml_FormField' );
+            $this->assertInstanceOf( 'KVDhtml_FormField', $field );
         }
     }
 
+    /**
+     * @expectedException InvalidArgumentException
+     */
     public function testIllegalType( )
     {
-        try {
             $field = $this->factory->getFormField ( array ( 'type' => 'ongeldigType' ) );
-            $this->fail( 'Het type ongeldigType zou een exception moeten genereren.');
-        } catch ( InvalidArgumentException $e ) {
-            $this->pass( );
-        } catch ( Exception $e ) {
-            $this->fail( 'Het type ongeldigType zou een exception van het type InvalidArgumentException moeten genereren.');
-        }
     }
 }
 ?>

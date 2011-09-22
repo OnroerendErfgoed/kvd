@@ -1,6 +1,5 @@
 <?php
-
-class TestOfFormFieldTextarea extends UnitTestCase
+class KVDhtml_FormFieldTextareaTest extends PHPUnit_Framework_Testcase
 {
     private $fieldOptions;
     
@@ -22,12 +21,12 @@ class TestOfFormFieldTextarea extends UnitTestCase
     {
         $formField = new KVDhtml_FormFieldTextarea( $this->fieldOptions );
         $html = $formField->toHtml( );
-        $this->assertWantedPattern( '<textarea[\w]*>', $html);
-        $this->assertWantedPattern( '</textarea>', $html);
-        $this->assertNoUnwantedPattern( '/ type="*"/' ,$html);
-        $this->assertWantedPattern( '/ name="testField"/', $html);
-        $this->assertWantedPattern( '/ class="testClass"/', $html);
-        $this->assertWantedPattern( '/ id="testId"/', $html);
+        $this->assertRegExp( '<textarea[\w]*>', $html);
+        $this->assertRegExp( '</textarea>', $html);
+        $this->assertNotRegExp( '/ type="*"/' ,$html);
+        $this->assertRegExp( '/ name="testField"/', $html);
+        $this->assertRegExp( '/ class="testClass"/', $html);
+        $this->assertRegExp( '/ id="testId"/', $html);
     }
 
     function testFormFieldTextareaReadonly( )
@@ -35,7 +34,7 @@ class TestOfFormFieldTextarea extends UnitTestCase
         $this->fieldOptions['readonly'] = true;
         $formField = new KVDhtml_FormFieldTextarea( $this->fieldOptions );
         $html = $formField->toHtml( );
-        $this->assertWantedPattern( '/ readonly="readonly"/', $html);
+        $this->assertRegExp( '/ readonly="readonly"/', $html);
     }
 
     function testFormFieldTextareaDisabled( )
@@ -43,7 +42,7 @@ class TestOfFormFieldTextarea extends UnitTestCase
         $this->fieldOptions['disabled'] = true;
         $formField = new KVDhtml_FormFieldTextarea( $this->fieldOptions );
         $html = $formField->toHtml( );
-        $this->assertWantedPattern( '/ disabled="disabled"/', $html);
+        $this->assertRegExp( '/ disabled="disabled"/', $html);
     }
 
 }

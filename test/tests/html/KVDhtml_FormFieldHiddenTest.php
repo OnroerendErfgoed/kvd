@@ -1,6 +1,6 @@
 <?php
 
-class TestOfFormFieldHidden extends UnitTestCase
+class KVDhtml_FormFieldHiddenTest extends PHPUnit_Framework_TestCase
 {
     private $fieldOptions;
     
@@ -22,12 +22,12 @@ class TestOfFormFieldHidden extends UnitTestCase
     {
         $formField = new KVDhtml_FormFieldHidden( $this->fieldOptions );
         $html = $formField->toHtml( );
-        $this->assertWantedPattern( '<input*>', $html);
-        $this->assertWantedPattern( '/ type="hidden"/' ,$html);
-        $this->assertWantedPattern( '/ name="testField"/', $html);
-        $this->assertNoUnwantedPattern( '/ class="testClass"/', $html);
-        $this->assertWantedPattern( '/ value="testValue"/', $html);
-        $this->assertWantedPattern( '/ id="testId"/', $html);
+        $this->assertRegExp( '<input*>', $html);
+        $this->assertRegExp( '/ type="hidden"/' ,$html);
+        $this->assertRegExp( '/ name="testField"/', $html);
+        $this->assertNotRegExp( '/ class="testClass"/', $html);
+        $this->assertRegExp( '/ value="testValue"/', $html);
+        $this->assertRegExp( '/ id="testId"/', $html);
     }
 
     function testFormFieldHiddenNotReadonly( )
@@ -35,7 +35,7 @@ class TestOfFormFieldHidden extends UnitTestCase
         $this->fieldOptions['readonly'] = true;
         $formField = new KVDhtml_FormFieldHidden( $this->fieldOptions );
         $html = $formField->toHtml( );
-        $this->assertNoUnwantedPattern( '/ readonly="readonly"/', $html);
+        $this->assertNotRegExp( '/ readonly="readonly"/', $html);
     }
 
     function testFormFieldHiddenDisabled( )
@@ -43,7 +43,7 @@ class TestOfFormFieldHidden extends UnitTestCase
         $this->fieldOptions['disabled'] = true;
         $formField = new KVDhtml_FormFieldHidden( $this->fieldOptions );
         $html = $formField->toHtml( );
-        $this->assertNoUnwantedPattern( '/ disabled="disabled"/', $html);
+        $this->assertNotRegExp( '/ disabled="disabled"/', $html);
     }
 
 }
