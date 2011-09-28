@@ -1,30 +1,34 @@
 <?php
 /**
- * @package     KVD.agavi
- * @subpackage  validation
- * @since       11 sep 2010
- * @version     $Id$
- * @copyright   2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @package    KVD.agavi
+ * @subpackage validation
+ * @version    $Id$
+ * @copyright  2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
+
 /**
- * KVDag_HtmlFilterValidator
+ * Validator die HTML filtert uit tekst. Potentieel worden een aantal tags 
+ * toegelaten.
  *
- * @package     KVD.agavi
- * @subpackage  validation
- * @since       11 sep 2010
- * @copyright   2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * Toegelaten parameters:
+ * <ul>
+ *  <li>'tags' : Welke html tags mogen wel aanwezig zijn.</li>
+ * </ul>
+ *
+ * @package    KVD.agavi
+ * @subpackage validation
+ * @since      11 sep 2010
+ * @copyright  2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
-
-
-
 class KVDag_HtmlFilterValidator extends AgaviStringValidator
 {
 
     private $tagsallowed = "";
+
     /**
      * initialize 
      * 
@@ -34,7 +38,10 @@ class KVDag_HtmlFilterValidator extends AgaviStringValidator
      * @param array         $errors 
      * @return void
      */
-    public function initialize(AgaviContext $context, array $parameters = array(), array $arguments = array(), array $errors = array())
+    public function initialize( AgaviContext $context, 
+                                array $parameters = array(), 
+                                array $arguments = array(), 
+                                array $errors = array() )
     {
         $this->tagsallowed = $parameters["tags"];
         parent::initialize( $context, $parameters, $arguments, $errors );

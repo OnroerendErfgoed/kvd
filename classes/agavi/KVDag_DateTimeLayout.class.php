@@ -1,15 +1,21 @@
 <?php
 /**
- * @package KVD.agavi
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @version $Id$
+ * @package   KVD.agavi
+ * @version   $Id$
+ * @copyright 2004-2011 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author    Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
- * Class die messages uit het agavi framework logt met inbegrip van datum en tijd.
- * @package KVD.agavi
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @since 1.0.0
+ * Class die messages uit het agavi framework logt 
+ * met inbegrip van datum en tijd.
+ *
+ * @package   KVD.agavi
+ * @since     1.0.0
+ * @copyright 2004-2011 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author    Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDag_DateTimeLayout extends Layout
 {

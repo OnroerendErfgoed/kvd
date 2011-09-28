@@ -1,22 +1,22 @@
 <?php
 /**
- * @package     KVD.agavi
- * @subpackage  validation
- * @version     $Id$
- * @copyright   2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @package    KVD.agavi
+ * @subpackage validation
+ * @version    $Id$
+ * @copyright  2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
- * KVDag_VtiValidator 
+ * Validator die nagaat of er geldige data voor een VTI aanwezig is.
  * 
- * @package     KVD.agavi
- * @subpackage  validation
- * @since       21 okt 2010
- * @copyright   2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @package    KVD.agavi
+ * @subpackage validation
+ * @since      21 okt 2010
+ * @copyright  2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDag_VtiValidator extends AgaviValidator
 {
@@ -99,13 +99,15 @@ class KVDag_VtiValidator extends AgaviValidator
 
 
         if ( $date instanceof DateTime ) {
-            if ( $date < new DateTime( $this->getParameter( 'min_datum', '0100-01-01' ) ) || $date > new DateTime( $this->getParameter( 'max_datum', '2099-12-13' ) ) ) {
+            if ( $date < new DateTime( $this->getParameter( 'min_datum', '0100-01-01' ) ) || 
+                 $date > new DateTime( $this->getParameter( 'max_datum', '2099-12-13' ) ) ) {
                 $date = ( integer ) $date->format( 'Y' );
             }
         }
 
         if ( is_int( $date ) ) {
-            if ( $date < $this->getParameter( 'min_jaar', '-1000000' ) || $date > $this->getParameter( 'max_jaar', '2100' ) ) {
+            if ( $date < $this->getParameter( 'min_jaar', '-1000000' ) || 
+                 $date > $this->getParameter( 'max_jaar', '2100' ) ) {
                 $this->throwError( 'ongeldig_jaar' );
                 return false;
             }

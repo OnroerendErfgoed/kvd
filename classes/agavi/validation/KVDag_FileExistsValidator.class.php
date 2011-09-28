@@ -1,11 +1,11 @@
 <?php
 /**
- * @package     KVD.agavi
- * @subpackage  validation
- * @version     $Id$
- * @copyright   2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @package    KVD.agavi
+ * @subpackage validation
+ * @version    $Id$
+ * @copyright  2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
@@ -22,12 +22,13 @@
  *  <li>'export' : Indien aanwezig wordt aan deze parameter de filehandle in 
  *  read modus meegegeven.</li>
  * </ul>
- * @package     KVD.agavi
- * @subpackage  validation
- * @since       30 nov 2010
- * @copyright   2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ *
+ * @package    KVD.agavi
+ * @subpackage validation
+ * @since      30 nov 2010
+ * @copyright  2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDag_FileExistsValidator extends AgaviValidator
 {

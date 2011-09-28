@@ -279,6 +279,7 @@
 		<delete dir="build/reports/sniffs" />
 		<mkdir dir="build/reports/sniffs" />
 		<exec command="phpcs --standard=${project.basedir}/dev/phpcs/VIOE/ruleset.xml ${project.basedir}/classes 
+			--ignore=${project.basedir}/classes/KVD_Autoload.php
 			--report-summary --report-full=${project.basedir}/build/reports/sniffs/sniffs.txt
 			--report-checkstyle=${project.basedir}/build/reports/sniffs/checkstyle.xml" />
 		<copy file="build/reports/sniffs/checkstyle.xml" tofile="build/bitten_lint.xml" overwrite="true">
