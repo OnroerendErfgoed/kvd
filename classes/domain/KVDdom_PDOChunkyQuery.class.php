@@ -177,7 +177,11 @@ class KVDdom_PDOChunkyQuery
         if ( $this->mode == self::MODE_PARAMETERIZED ) {
             $stmt = $this->conn->prepare( $this->getTotalRecordCountSql( $this->sql, $this->idField ) );
             for ( $i = 0; $i<count( $this->values); $i++) {
-                $stmt->bindValue( $i+1, $this->values[$i] );
+                if ( is_bool( $this->values[$i] ) ) {
+                    $stmt->bindValue( $i+1, $this->values[$i], PDO::PARAM_BOOL );
+                } else {
+                    $stmt->bindValue( $i+1, $this->values[$i] );
+                }
             }
             $stmt->execute( );
         }
@@ -222,7 +226,11 @@ class KVDdom_PDOChunkyQuery
         $nextIndex = 1;
         if ( $this->mode == self::MODE_PARAMETERIZED ) {
             for ( $i = 0; $i < count( $this->values); $i++) {
-                $this->stmt->bindValue( $i+1, $this->values[$i] );
+                if ( is_bool( $this->values[$i] ) ) {
+                    $this->stmt->bindValue( $i+1, $this->values[$i], PDO::PARAM_BOOL );
+                } else {
+                    $this->stmt->bindValue( $i+1, $this->values[$i] );
+                }
             }
             $nextIndex = ++$i;
         }
