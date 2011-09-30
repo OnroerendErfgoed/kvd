@@ -68,9 +68,11 @@ class KVDag_IdValidator extends AgaviValidator
                          $e->getMessage( ) ) );
             $this->throwError( );
             return false;
-            
+        } catch ( KVDdom_DomainObjectDeletedException $e ) {
+            $this->throwError( 'deleted_object' );
+            return false;
         } catch ( KVDdom_DomainObjectNotFoundException $e ) {
-            $this->throwError( );
+            $this->throwError( 'unexisting_object' );
             return false;
         }
 
