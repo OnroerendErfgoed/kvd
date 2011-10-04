@@ -1,25 +1,26 @@
 <?php
 /**
- * @package     KVD.thes
- * @subpackage  Util
- * @version     $Id$
- * @copyright   2004-2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @package    KVD.thes
+ * @subpackage util
+ * @version    $Id$
+ * @copyright  2004-2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
- * KVDthes_SqlGenerator 
+ * Zet een thesaurus om naar een hoop SQL statements.
  * 
- * Een class die ons in staat stelt om van een Thesaurus een weergave in sql statements te krijgen. 
- * Door deze sql in een databank te voeden kan deze Thesaurus dan ook aangesproken worden door middel 
- * van een KVDthes_DbMapper.
- * @package     KVD.thes
- * @subpackage  Util
- * @since       12 jul 2008
- * @copyright   2004-2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * Een class die ons in staat stelt om van een Thesaurus een weergave in sql 
+ * statements te krijgen. Door deze sql in een databank te voeden kan deze 
+ * Thesaurus dan ook aangesproken worden door middel van een KVDthes_DbMapper.
+ *
+ * @package    KVD.thes
+ * @subpackage util
+ * @since      12 jul 2008
+ * @copyright  2004-2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDthes_SqlGenerator
 {
@@ -45,19 +46,24 @@ class KVDthes_SqlGenerator
     /**
      * generateSql 
      * 
-     * @param string    $domainObject       Naam van het domain object dat de thesaurus kan leveren. 
-     *                                      Er zal altijd afgedwongen worden dat deze door de xml-mapper wordt geleverd.
-     * @param integer   $thesaurus_id       Id dat de thesaurus in de databank moet krijgen. Het is de verantwoordelijkheid van de programmeur
-     *                                      er voor te zorgen dat dit id nog niet in gebruik is.
-     * @param string    $thesaurus_naam     Naam die de thesaurus in de databank moet krijgen.
-     * @return string                       Een string die alle sql statements bevat nodig om deze thesaurus in een databank op te vragen. 
+     * @param string  $domainObject   Naam van het domain object dat de thesaurus kan leveren. 
+     *                                Er zal altijd afgedwongen worden dat deze door de 
+     *                                xml-mapper wordt geleverd.
+     * @param integer $thesaurus_id   Id dat de thesaurus in de databank moet krijgen. 
+     *                                Het is de verantwoordelijkheid van de programmeur
+     *                                er voor te zorgen dat dit id nog niet in gebruik is.
+     * @param string  $thesaurus_naam Naam die de thesaurus in de databank moet krijgen.
+     * @return string Een string die alle sql statements bevat nodig om deze thesaurus 
+     *                in een databank op te vragen. 
      */
     public function generateSql( $domainObject, $thesaurus_id, $thesaurus_naam )
     {
-		$this->sessie->setDefaultMapper( $domainObject, 'xml');
-        
+        $this->sessie->setDefaultMapper( $domainObject, 'xml');
+
         $sql = "--Thesaurus.\n";
-        $sql .= sprintf( "INSERT INTO thes.thesaurus VALUES ( %d, '%s');\n" , $thesaurus_id , $thesaurus_naam );
+        $sql .= sprintf( "INSERT INTO thes.thesaurus VALUES ( %d, '%s');\n", 
+                         $thesaurus_id, 
+                         $thesaurus_naam );
         $sql .= "\n";
 
         $sql .= "--Termen.\n";
@@ -68,9 +74,11 @@ class KVDthes_SqlGenerator
                                 $term->getId( ),
                                 addslashes( $term->getTerm( ) ), 
                                 $term->getType( )->getId( ),
-                                $term->getQualifier( ) !== null ? "'" . addslashes( $term->getQualifier( ) ) . "'" : 'null', 
+                                $term->getQualifier( ) !== null ? 
+                                    "'" . addslashes( $term->getQualifier( ) ) . "'" : 'null', 
                                 addslashes( $term->getLanguage() ),
-                                $term->getSortKey( ) === $term->getTerm( ) ? 'null' : "'" . addslashes( $term->getSortKey( ) ) . "'" 
+                                $term->getSortKey( ) === $term->getTerm( ) ? 
+                                    'null' : "'" . addslashes( $term->getSortKey( ) ) . "'" 
                                 );
         }
         $sql .= "\n";
@@ -81,7 +89,11 @@ class KVDthes_SqlGenerator
             $v->clearResult( );
             $term->acceptSimple( $v );
             foreach( $v->getResult( ) as $result ) {
-                $sql.= sprintf( "INSERT INTO thes.relation VALUES ( %d, %d, '%s', %d);\n", $thesaurus_id, $result['id_from'], $result['rel_type'], $result['id_to'] );
+                $sql.= sprintf( "INSERT INTO thes.relation VALUES ( %d, %d, '%s', %d);\n", 
+                                $thesaurus_id, 
+                                $result['id_from'], 
+                                $result['rel_type'], 
+                                $result['id_to'] );
             }
         }
         $sql .= "\n";
@@ -89,7 +101,12 @@ class KVDthes_SqlGenerator
         $sql .= "--Notes.\n";
         foreach ( $termen as $term ) {
             if ( $term->getScopeNote( ) != null || $term->getSourceNote( ) != null ) {
-                $sql .= sprintf( "INSERT INTO thes.notes VALUES ( %d, %d, '%s', '%s', null, null);\n", $thesaurus_id, $term->getId( ), addslashes( $term->getScopeNote( ) ), addslashes( $term->getSourceNote( ) ) );
+                $sql .= sprintf( 
+                            "INSERT INTO thes.notes VALUES ( %d, %d, '%s', '%s', null, null);\n", 
+                            $thesaurus_id, 
+                            $term->getId( ), 
+                            addslashes( $term->getScopeNote( ) ), 
+                            addslashes( $term->getSourceNote( ) ) );
             }
         }
         $sql .= "\n";
