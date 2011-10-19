@@ -1,0 +1,744 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="Phing Batchtest" tests="667" assertions="1322" failures="0" errors="0" time="5.188051">
+    <testsuite name="EasyRdf_GraphStoreTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphStoreTest.php" fullPackage="EasyRdf" package="EasyRdf" tests="13" assertions="32" failures="0" errors="0" time="0.216275">
+      <testcase name="testGetUri" class="EasyRdf_GraphStoreTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphStoreTest.php" line="55" assertions="1" time="0.010860"/>
+      <testcase name="testGetDirect" class="EasyRdf_GraphStoreTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphStoreTest.php" line="63" assertions="3" time="0.080228"/>
+      <testcase name="testGetIndirect" class="EasyRdf_GraphStoreTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphStoreTest.php" line="78" assertions="3" time="0.014065"/>
+      <testcase name="testDeleteDirect" class="EasyRdf_GraphStoreTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphStoreTest.php" line="93" assertions="1" time="0.005917"/>
+      <testcase name="testDeleteIndirect" class="EasyRdf_GraphStoreTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphStoreTest.php" line="102" assertions="1" time="0.007556"/>
+      <testcase name="testDeleteHttpError" class="EasyRdf_GraphStoreTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphStoreTest.php" line="111" assertions="2" time="0.043022"/>
+      <testcase name="testInsertDirect" class="EasyRdf_GraphStoreTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphStoreTest.php" line="135" assertions="4" time="0.016027"/>
+      <testcase name="testInsertIndirect" class="EasyRdf_GraphStoreTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphStoreTest.php" line="147" assertions="4" time="0.006613"/>
+      <testcase name="testInsertHttpError" class="EasyRdf_GraphStoreTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphStoreTest.php" line="158" assertions="2" time="0.006741"/>
+      <testcase name="testReplaceIndirect" class="EasyRdf_GraphStoreTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphStoreTest.php" line="172" assertions="4" time="0.006127"/>
+      <testcase name="testReplaceDirectJson" class="EasyRdf_GraphStoreTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphStoreTest.php" line="194" assertions="4" time="0.007669"/>
+      <testcase name="testReplaceHttpError" class="EasyRdf_GraphStoreTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphStoreTest.php" line="206" assertions="2" time="0.007104"/>
+      <testcase name="testToString" class="EasyRdf_GraphStoreTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphStoreTest.php" line="220" assertions="1" time="0.004346"/>
+    </testsuite>
+    <testsuite name="EasyRdf_Sparql_ClientTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Sparql/ClientTest.php" fullPackage="EasyRdf" package="EasyRdf" tests="8" assertions="16" failures="0" errors="0" time="0.090805">
+      <testcase name="testGetUri" class="EasyRdf_Sparql_ClientTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Sparql/ClientTest.php" line="52" assertions="1" time="0.004492"/>
+      <testcase name="testQuerySelectAll" class="EasyRdf_Sparql_ClientTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Sparql/ClientTest.php" line="60" assertions="4" time="0.034802"/>
+      <testcase name="testQueryAddPrefix" class="EasyRdf_Sparql_ClientTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Sparql/ClientTest.php" line="82" assertions="4" time="0.013721"/>
+      <testcase name="testQueryAskTrue" class="EasyRdf_Sparql_ClientTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Sparql/ClientTest.php" line="107" assertions="1" time="0.006604"/>
+      <testcase name="testQueryAskFalse" class="EasyRdf_Sparql_ClientTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Sparql/ClientTest.php" line="120" assertions="1" time="0.007498"/>
+      <testcase name="testQueryConstructJson" class="EasyRdf_Sparql_ClientTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Sparql/ClientTest.php" line="133" assertions="2" time="0.012532"/>
+      <testcase name="testQueryInvalid" class="EasyRdf_Sparql_ClientTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Sparql/ClientTest.php" line="145" assertions="2" time="0.006919"/>
+      <testcase name="testToString" class="EasyRdf_Sparql_ClientTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Sparql/ClientTest.php" line="162" assertions="1" time="0.004237"/>
+    </testsuite>
+    <testsuite name="EasyRdf_Sparql_ResultTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Sparql/ResultTest.php" fullPackage="EasyRdf" package="EasyRdf" tests="17" assertions="78" failures="0" errors="0" time="0.171860">
+      <testcase name="testSelectAllXml" class="EasyRdf_Sparql_ResultTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Sparql/ResultTest.php" line="44" assertions="7" time="0.019326"/>
+      <testcase name="testSelectAllJson" class="EasyRdf_Sparql_ResultTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Sparql/ResultTest.php" line="67" assertions="7" time="0.015149"/>
+      <testcase name="testSelectEmptyXml" class="EasyRdf_Sparql_ResultTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Sparql/ResultTest.php" line="90" assertions="3" time="0.005876"/>
+      <testcase name="testSelectEmptyJson" class="EasyRdf_Sparql_ResultTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Sparql/ResultTest.php" line="102" assertions="3" time="0.006508"/>
+      <testcase name="testSelectTypedLiteralJson" class="EasyRdf_Sparql_ResultTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Sparql/ResultTest.php" line="114" assertions="3" time="0.016742"/>
+      <testcase name="testAskTrueJson" class="EasyRdf_Sparql_ResultTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Sparql/ResultTest.php" line="127" assertions="7" time="0.008103"/>
+      <testcase name="testAskFalseJson" class="EasyRdf_Sparql_ResultTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Sparql/ResultTest.php" line="144" assertions="7" time="0.005743"/>
+      <testcase name="testAskTrueXml" class="EasyRdf_Sparql_ResultTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Sparql/ResultTest.php" line="161" assertions="7" time="0.005540"/>
+      <testcase name="testAskFalseXml" class="EasyRdf_Sparql_ResultTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Sparql/ResultTest.php" line="177" assertions="7" time="0.006499"/>
+      <testcase name="testInvalidXml" class="EasyRdf_Sparql_ResultTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Sparql/ResultTest.php" line="193" assertions="2" time="0.006136"/>
+      <testcase name="testInvalidJson" class="EasyRdf_Sparql_ResultTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Sparql/ResultTest.php" line="205" assertions="2" time="0.005617"/>
+      <testcase name="testInvalidJsonTerm" class="EasyRdf_Sparql_ResultTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Sparql/ResultTest.php" line="217" assertions="2" time="0.005723"/>
+      <testcase name="testDumpSelectAllHtml" class="EasyRdf_Sparql_ResultTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Sparql/ResultTest.php" line="229" assertions="8" time="0.025316"/>
+      <testcase name="testDumpSelectAllText" class="EasyRdf_Sparql_ResultTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Sparql/ResultTest.php" line="248" assertions="9" time="0.024584"/>
+      <testcase name="testDumpAskFalseHtml" class="EasyRdf_Sparql_ResultTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Sparql/ResultTest.php" line="267" assertions="1" time="0.005004"/>
+      <testcase name="testDumpAskFalseText" class="EasyRdf_Sparql_ResultTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Sparql/ResultTest.php" line="278" assertions="1" time="0.004695"/>
+      <testcase name="testUnsupportedFormat" class="EasyRdf_Sparql_ResultTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Sparql/ResultTest.php" line="289" assertions="2" time="0.005299"/>
+    </testsuite>
+    <testsuite name="EasyRdf_NamespaceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/NamespaceTest.php" fullPackage="EasyRdf" package="EasyRdf" tests="47" assertions="73" failures="0" errors="0" time="0.268227">
+      <testcase name="testNamespaces" class="EasyRdf_NamespaceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/NamespaceTest.php" line="55" assertions="2" time="0.004938"/>
+      <testcase name="testGetDcNamespace" class="EasyRdf_NamespaceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/NamespaceTest.php" line="62" assertions="1" time="0.005362"/>
+      <testcase name="testGetFoafNamespace" class="EasyRdf_NamespaceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/NamespaceTest.php" line="70" assertions="1" time="0.006846"/>
+      <testcase name="testGetRdfNamespace" class="EasyRdf_NamespaceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/NamespaceTest.php" line="78" assertions="1" time="0.006832"/>
+      <testcase name="testGetRdfsNamespace" class="EasyRdf_NamespaceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/NamespaceTest.php" line="86" assertions="1" time="0.007409"/>
+      <testcase name="testGetXsdNamespace" class="EasyRdf_NamespaceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/NamespaceTest.php" line="94" assertions="1" time="0.007053"/>
+      <testcase name="testGetUpperCaseFoafNamespace" class="EasyRdf_NamespaceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/NamespaceTest.php" line="102" assertions="1" time="0.004966"/>
+      <testcase name="testGetNullNamespace" class="EasyRdf_NamespaceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/NamespaceTest.php" line="110" assertions="2" time="0.006178"/>
+      <testcase name="testGetEmptyNamespace" class="EasyRdf_NamespaceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/NamespaceTest.php" line="119" assertions="2" time="0.006322"/>
+      <testcase name="testGetNonStringNamespace" class="EasyRdf_NamespaceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/NamespaceTest.php" line="128" assertions="2" time="0.005983"/>
+      <testcase name="testGetNonAlphanumeric" class="EasyRdf_NamespaceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/NamespaceTest.php" line="137" assertions="2" time="0.005742"/>
+      <testcase name="testAddNamespace" class="EasyRdf_NamespaceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/NamespaceTest.php" line="146" assertions="1" time="0.004958"/>
+      <testcase name="testAddUppercaseNamespace" class="EasyRdf_NamespaceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/NamespaceTest.php" line="155" assertions="1" time="0.005302"/>
+      <testcase name="testAddNamespaceShortNull" class="EasyRdf_NamespaceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/NamespaceTest.php" line="164" assertions="2" time="0.005668"/>
+      <testcase name="testAddNamespaceShortEmpty" class="EasyRdf_NamespaceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/NamespaceTest.php" line="173" assertions="2" time="0.005861"/>
+      <testcase name="testAddNamespaceShortNonString" class="EasyRdf_NamespaceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/NamespaceTest.php" line="182" assertions="2" time="0.005903"/>
+      <testcase name="testAddNamespaceShortNonAlphanumeric" class="EasyRdf_NamespaceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/NamespaceTest.php" line="191" assertions="2" time="0.006155"/>
+      <testcase name="testAddNamespaceLongNull" class="EasyRdf_NamespaceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/NamespaceTest.php" line="200" assertions="2" time="0.005576"/>
+      <testcase name="testAddNamespaceLongEmpty" class="EasyRdf_NamespaceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/NamespaceTest.php" line="209" assertions="2" time="0.005915"/>
+      <testcase name="testAddNamespaceLongNonString" class="EasyRdf_NamespaceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/NamespaceTest.php" line="218" assertions="2" time="0.005730"/>
+      <testcase name="testDeleteNamespace" class="EasyRdf_NamespaceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/NamespaceTest.php" line="227" assertions="2" time="0.006696"/>
+      <testcase name="testDeleteEmptyNamespace" class="EasyRdf_NamespaceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/NamespaceTest.php" line="235" assertions="2" time="0.005710"/>
+      <testcase name="testDeleteNullNamespace" class="EasyRdf_NamespaceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/NamespaceTest.php" line="244" assertions="2" time="0.005783"/>
+      <testcase name="testDeleteNonStringNamespace" class="EasyRdf_NamespaceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/NamespaceTest.php" line="253" assertions="2" time="0.005768"/>
+      <testcase name="testShortenFoafName" class="EasyRdf_NamespaceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/NamespaceTest.php" line="262" assertions="1" time="0.004743"/>
+      <testcase name="testShortenResource" class="EasyRdf_NamespaceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/NamespaceTest.php" line="270" assertions="1" time="0.004770"/>
+      <testcase name="testShortenUnknown" class="EasyRdf_NamespaceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/NamespaceTest.php" line="275" assertions="1" time="0.005366"/>
+      <testcase name="testShortenAndCreateOneUnknown" class="EasyRdf_NamespaceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/NamespaceTest.php" line="283" assertions="1" time="0.006408"/>
+      <testcase name="testShortenAndCreateTwoUnknown" class="EasyRdf_NamespaceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/NamespaceTest.php" line="291" assertions="2" time="0.005914"/>
+      <testcase name="testShortenUnshortenable" class="EasyRdf_NamespaceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/NamespaceTest.php" line="303" assertions="1" time="0.006025"/>
+      <testcase name="testShortenNull" class="EasyRdf_NamespaceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/NamespaceTest.php" line="311" assertions="2" time="0.005863"/>
+      <testcase name="testShortenEmpty" class="EasyRdf_NamespaceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/NamespaceTest.php" line="320" assertions="2" time="0.006316"/>
+      <testcase name="testShortenNonString" class="EasyRdf_NamespaceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/NamespaceTest.php" line="329" assertions="2" time="0.005652"/>
+      <testcase name="testPrefixOfUriFoafName" class="EasyRdf_NamespaceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/NamespaceTest.php" line="338" assertions="1" time="0.004945"/>
+      <testcase name="testrefixOfUriForResource" class="EasyRdf_NamespaceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/NamespaceTest.php" line="346" assertions="1" time="0.005710"/>
+      <testcase name="testPrefixOfUnknownUrl" class="EasyRdf_NamespaceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/NamespaceTest.php" line="354" assertions="1" time="0.005112"/>
+      <testcase name="testPrefixOfUriNull" class="EasyRdf_NamespaceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/NamespaceTest.php" line="362" assertions="2" time="0.005623"/>
+      <testcase name="testPrefixOfUriEmpty" class="EasyRdf_NamespaceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/NamespaceTest.php" line="371" assertions="2" time="0.006013"/>
+      <testcase name="testPrefixOfUriNonString" class="EasyRdf_NamespaceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/NamespaceTest.php" line="380" assertions="2" time="0.005707"/>
+      <testcase name="testExpandFoafName" class="EasyRdf_NamespaceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/NamespaceTest.php" line="389" assertions="1" time="0.004607"/>
+      <testcase name="testExpandFoafDoapProgrammingLanguage" class="EasyRdf_NamespaceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/NamespaceTest.php" line="397" assertions="1" time="0.004829"/>
+      <testcase name="testExpandMissingColon" class="EasyRdf_NamespaceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/NamespaceTest.php" line="405" assertions="1" time="0.004926"/>
+      <testcase name="testExpandExpanded" class="EasyRdf_NamespaceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/NamespaceTest.php" line="413" assertions="1" time="0.004622"/>
+      <testcase name="testExpandURN" class="EasyRdf_NamespaceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/NamespaceTest.php" line="421" assertions="1" time="0.004731"/>
+      <testcase name="testExpandNull" class="EasyRdf_NamespaceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/NamespaceTest.php" line="429" assertions="2" time="0.006018"/>
+      <testcase name="testExpandEmpty" class="EasyRdf_NamespaceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/NamespaceTest.php" line="438" assertions="2" time="0.005692"/>
+      <testcase name="testExpandNonString" class="EasyRdf_NamespaceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/NamespaceTest.php" line="447" assertions="2" time="0.005977"/>
+    </testsuite>
+    <testsuite name="EasyRdf_HttpTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/HttpTest.php" fullPackage="EasyRdf" package="EasyRdf" tests="3" assertions="5" failures="0" errors="0" time="0.017854">
+      <testcase name="testSetDefaultHttpClient" class="EasyRdf_HttpTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/HttpTest.php" line="52" assertions="1" time="0.004620"/>
+      <testcase name="testSetDefaultHttpClientNull" class="EasyRdf_HttpTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/HttpTest.php" line="61" assertions="2" time="0.005766"/>
+      <testcase name="testSetDefaultHttpClientString" class="EasyRdf_HttpTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/HttpTest.php" line="70" assertions="2" time="0.007468"/>
+    </testsuite>
+    <testsuite name="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" fullPackage="EasyRdf" tests="60" assertions="107" failures="0" errors="0" time="0.358917">
+      <testcase name="testRegisterNameNull" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="69" assertions="2" time="0.007747"/>
+      <testcase name="testRegisterNameEmpty" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="78" assertions="2" time="0.008044"/>
+      <testcase name="testRegisterNameNonString" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="87" assertions="2" time="0.006245"/>
+      <testcase name="testGetFormats" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="96" assertions="15" time="0.043130"/>
+      <testcase name="testGetHttpAcceptHeader" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="106" assertions="2" time="0.007708"/>
+      <testcase name="testGetHttpAcceptHeaderWithExtra" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="113" assertions="2" time="0.008106"/>
+      <testcase name="testFormatExistsTrue" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="120" assertions="0" time="0.004175"/>
+      <testcase name="testFormatExistsFalse" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="125" assertions="0" time="0.004652"/>
+      <testcase name="testUnRegister" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="130" assertions="0" time="0.004215"/>
+      <testcase name="testGetFormatByName" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="136" assertions="5" time="0.005094"/>
+      <testcase name="testGetFormatByUri" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="146" assertions="5" time="0.005507"/>
+      <testcase name="testGetFormatByMime" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="156" assertions="5" time="0.005209"/>
+      <testcase name="testGetFormatByMime2" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="166" assertions="5" time="0.005113"/>
+      <testcase name="testGetFormatNull" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="176" assertions="2" time="0.005503"/>
+      <testcase name="testGetFormatEmpty" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="185" assertions="2" time="0.005850"/>
+      <testcase name="testGetFormatNonString" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="194" assertions="2" time="0.005720"/>
+      <testcase name="testGetFormatUnknown" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="203" assertions="2" time="0.005604"/>
+      <testcase name="testGetNames" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="212" assertions="2" time="0.004460"/>
+      <testcase name="testGetName" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="219" assertions="1" time="0.004252"/>
+      <testcase name="testGetLabel" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="224" assertions="1" time="0.004698"/>
+      <testcase name="testSetLabel" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="229" assertions="1" time="0.004283"/>
+      <testcase name="testSetLabelNull" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="235" assertions="1" time="0.004272"/>
+      <testcase name="testSetLabelEmpty" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="241" assertions="1" time="0.004530"/>
+      <testcase name="testSetLabelNonString" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="247" assertions="2" time="0.005381"/>
+      <testcase name="testSetUri" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="256" assertions="1" time="0.004351"/>
+      <testcase name="testSetUriNull" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="262" assertions="1" time="0.004567"/>
+      <testcase name="testSetUriEmpty" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="268" assertions="1" time="0.004525"/>
+      <testcase name="testSetUriNonString" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="274" assertions="2" time="0.005404"/>
+      <testcase name="testGetUri" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="283" assertions="1" time="0.004311"/>
+      <testcase name="testGetDefaultMimeType" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="291" assertions="1" time="0.004279"/>
+      <testcase name="testGetMimeTypes" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="299" assertions="1" time="0.004786"/>
+      <testcase name="testSetMimeType" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="307" assertions="1" time="0.004297"/>
+      <testcase name="testSetMimeTypes" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="316" assertions="1" time="0.004663"/>
+      <testcase name="testSetMimeTypeNull" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="327" assertions="1" time="0.004262"/>
+      <testcase name="testToString" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="333" assertions="1" time="0.004279"/>
+      <testcase name="testSetParserClass" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="338" assertions="1" time="0.004919"/>
+      <testcase name="testSetParserClassNull" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="347" assertions="1" time="0.004361"/>
+      <testcase name="testSetParserClassEmpty" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="353" assertions="1" time="0.004475"/>
+      <testcase name="testSetParserClassNonString" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="359" assertions="2" time="0.005486"/>
+      <testcase name="testRegisterParser" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="368" assertions="1" time="0.004670"/>
+      <testcase name="testRegisterParserForUnknownFormat" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="377" assertions="2" time="0.005310"/>
+      <testcase name="testNewParser" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="385" assertions="2" time="0.005479"/>
+      <testcase name="testNewParserNull" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="393" assertions="2" time="0.005433"/>
+      <testcase name="testSetSerialiserClass" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="403" assertions="1" time="0.006253"/>
+      <testcase name="testSetSerialiserClassNull" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="412" assertions="1" time="0.006494"/>
+      <testcase name="testSetSerialiserClassEmpty" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="418" assertions="1" time="0.006300"/>
+      <testcase name="testSetSerialiserClassNonString" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="424" assertions="2" time="0.010066"/>
+      <testcase name="testNewSerialiser" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="433" assertions="2" time="0.008705"/>
+      <testcase name="testNewSerialiserNull" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="441" assertions="2" time="0.005717"/>
+      <testcase name="testRegisterSerialiser" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="451" assertions="1" time="0.004582"/>
+      <testcase name="testRegisterSerialiserForUnknownFormat" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="460" assertions="2" time="0.005126"/>
+      <testcase name="testGuessFormatPhp" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="473" assertions="1" time="0.004738"/>
+      <testcase name="testGuessFormatRdfXml" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="479" assertions="1" time="0.006263"/>
+      <testcase name="testGuessFormatJson" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="485" assertions="1" time="0.005244"/>
+      <testcase name="testGuessFormatTurtle" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="491" assertions="1" time="0.005470"/>
+      <testcase name="testGuessFormatNtriples" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="497" assertions="1" time="0.005507"/>
+      <testcase name="testGuessFormatSparqlXml" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="503" assertions="1" time="0.005017"/>
+      <testcase name="testGuessFormatRdfa" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="509" assertions="1" time="0.004754"/>
+      <testcase name="testGuessFormatXml" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="515" assertions="1" time="0.004945"/>
+      <testcase name="testGuessFormatUnknown" class="EasyRdf_FormatTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/FormatTest.php" line="523" assertions="1" time="0.004380"/>
+    </testsuite>
+    <testsuite name="EasyRdf_Parser_NtriplesTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Parser/NtriplesTest.php" fullPackage="EasyRdf" package="EasyRdf" tests="6" assertions="22" failures="0" errors="0" time="0.048598">
+      <testcase name="testParse" class="EasyRdf_Parser_NtriplesTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Parser/NtriplesTest.php" line="55" assertions="8" time="0.014153"/>
+      <testcase name="testParseLang" class="EasyRdf_Parser_NtriplesTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Parser/NtriplesTest.php" line="72" assertions="4" time="0.006109"/>
+      <testcase name="testParseDatatype" class="EasyRdf_Parser_NtriplesTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Parser/NtriplesTest.php" line="87" assertions="4" time="0.006637"/>
+      <testcase name="testParseEscaped" class="EasyRdf_Parser_NtriplesTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Parser/NtriplesTest.php" line="102" assertions="3" time="0.008116"/>
+      <testcase name="testParseComment" class="EasyRdf_Parser_NtriplesTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Parser/NtriplesTest.php" line="118" assertions="1" time="0.007156"/>
+      <testcase name="testParseUnsupportedFormat" class="EasyRdf_Parser_NtriplesTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Parser/NtriplesTest.php" line="132" assertions="2" time="0.006427"/>
+    </testsuite>
+    <testsuite name="EasyRdf_Parser_RdfPhpTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Parser/RdfPhpTest.php" fullPackage="EasyRdf" package="EasyRdf" tests="3" assertions="13" failures="0" errors="0" time="0.020777">
+      <testcase name="testParse" class="EasyRdf_Parser_RdfPhpTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Parser/RdfPhpTest.php" line="65" assertions="9" time="0.007375"/>
+      <testcase name="testParseDuplicateBNodes" class="EasyRdf_Parser_RdfPhpTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Parser/RdfPhpTest.php" line="84" assertions="2" time="0.006975"/>
+      <testcase name="testParseUnsupportedFormat" class="EasyRdf_Parser_RdfPhpTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Parser/RdfPhpTest.php" line="107" assertions="2" time="0.006427"/>
+    </testsuite>
+    <testsuite name="EasyRdf_Parser_RapperTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Parser/RapperTest.php" fullPackage="EasyRdf" package="EasyRdf" tests="3" assertions="0" failures="0" errors="0" time="0.136873">
+      <testcase name="testRapperNotFound" class="EasyRdf_Parser_RapperTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Parser/RapperTest.php" line="66" assertions="0" time="0.094536"/>
+      <testcase name="testParseRdfXml" class="EasyRdf_Parser_RapperTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Parser/RapperTest.php" line="75" assertions="0" time="0.022373"/>
+      <testcase name="testParseUnsupportedFormat" class="EasyRdf_Parser_RapperTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Parser/RapperTest.php" line="101" assertions="0" time="0.019964"/>
+    </testsuite>
+    <testsuite name="EasyRdf_Parser_ArcTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Parser/ArcTest.php" fullPackage="EasyRdf" package="EasyRdf" tests="2" assertions="0" failures="0" errors="0" time="0.010697">
+      <testcase name="testParseRdfXml" class="EasyRdf_Parser_ArcTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Parser/ArcTest.php" line="63" assertions="0" time="0.005613"/>
+      <testcase name="testParseUnsupportedFormat" class="EasyRdf_Parser_ArcTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Parser/ArcTest.php" line="89" assertions="0" time="0.005084"/>
+    </testsuite>
+    <testsuite name="EasyRdf_Parser_RedlandTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Parser/RedlandTest.php" fullPackage="EasyRdf" package="EasyRdf" tests="1" assertions="0" failures="0" errors="0" time="0.007469">
+      <testcase name="testParseRdfXml" class="EasyRdf_Parser_RedlandTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Parser/RedlandTest.php" line="57" assertions="0" time="0.007469"/>
+    </testsuite>
+    <testsuite name="EasyRdf_Parser_RdfXmlTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Parser/RdfXmlTest.php" fullPackage="EasyRdf" package="EasyRdf" tests="3" assertions="17" failures="0" errors="0" time="0.049594">
+      <testcase name="testParseRdfXml" class="EasyRdf_Parser_RdfXmlTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Parser/RdfXmlTest.php" line="57" assertions="10" time="0.030012"/>
+      <testcase name="testParseSeq" class="EasyRdf_Parser_RdfXmlTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Parser/RdfXmlTest.php" line="83" assertions="5" time="0.013372"/>
+      <testcase name="testParseUnsupportedFormat" class="EasyRdf_Parser_RdfXmlTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Parser/RdfXmlTest.php" line="107" assertions="2" time="0.006210"/>
+    </testsuite>
+    <testsuite name="EasyRdf_Parser_JsonTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Parser/JsonTest.php" fullPackage="EasyRdf" package="EasyRdf" tests="4" assertions="25" failures="0" errors="0" time="0.052047">
+      <testcase name="testParse" class="EasyRdf_Parser_JsonTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Parser/JsonTest.php" line="54" assertions="11" time="0.012424"/>
+      <testcase name="testParseJsonTriples" class="EasyRdf_Parser_JsonTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Parser/JsonTest.php" line="77" assertions="11" time="0.014953"/>
+      <testcase name="testParseWithFormatObject" class="EasyRdf_Parser_JsonTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Parser/JsonTest.php" line="100" assertions="1" time="0.014777"/>
+      <testcase name="testParseUnsupportedFormat" class="EasyRdf_Parser_JsonTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Parser/JsonTest.php" line="110" assertions="2" time="0.009893"/>
+    </testsuite>
+    <testsuite name="EasyRdf_Serialiser_NtriplesTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Serialiser/NtriplesTest.php" fullPackage="EasyRdf" package="EasyRdf" tests="6" assertions="7" failures="0" errors="0" time="0.078188">
+      <testcase name="testSerialise" class="EasyRdf_Serialiser_NtriplesTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Serialiser/NtriplesTest.php" line="53" assertions="1" time="0.018008"/>
+      <testcase name="testSerialiseQuotes" class="EasyRdf_Serialiser_NtriplesTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Serialiser/NtriplesTest.php" line="77" assertions="1" time="0.016203"/>
+      <testcase name="testSerialiseBNode" class="EasyRdf_Serialiser_NtriplesTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Serialiser/NtriplesTest.php" line="89" assertions="1" time="0.015494"/>
+      <testcase name="testSerialiseLang" class="EasyRdf_Serialiser_NtriplesTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Serialiser/NtriplesTest.php" line="103" assertions="1" time="0.011229"/>
+      <testcase name="testSerialiseDatatype" class="EasyRdf_Serialiser_NtriplesTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Serialiser/NtriplesTest.php" line="117" assertions="1" time="0.011382"/>
+      <testcase name="testSerialiseUnsupportedFormat" class="EasyRdf_Serialiser_NtriplesTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Serialiser/NtriplesTest.php" line="131" assertions="2" time="0.005872"/>
+    </testsuite>
+    <testsuite name="EasyRdf_Serialiser_RdfPhpTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Serialiser/RdfPhpTest.php" fullPackage="EasyRdf" package="EasyRdf" tests="2" assertions="20" failures="0" errors="0" time="0.023603">
+      <testcase name="testSerialisePhp" class="EasyRdf_Serialiser_RdfPhpTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Serialiser/RdfPhpTest.php" line="53" assertions="18" time="0.015918"/>
+      <testcase name="testSerialiseUnsupportedFormat" class="EasyRdf_Serialiser_RdfPhpTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Serialiser/RdfPhpTest.php" line="95" assertions="2" time="0.007685"/>
+    </testsuite>
+    <testsuite name="EasyRdf_Serialiser_RapperTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Serialiser/RapperTest.php" fullPackage="EasyRdf" package="EasyRdf" tests="3" assertions="0" failures="0" errors="0" time="0.078455">
+      <testcase name="testRapperNotFound" class="EasyRdf_Serialiser_RapperTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Serialiser/RapperTest.php" line="60" assertions="0" time="0.030610"/>
+      <testcase name="testSerialiseRdfXml" class="EasyRdf_Serialiser_RapperTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Serialiser/RapperTest.php" line="69" assertions="0" time="0.023185"/>
+      <testcase name="testSerialiseUnsupportedFormat" class="EasyRdf_Serialiser_RapperTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Serialiser/RapperTest.php" line="86" assertions="0" time="0.024660"/>
+    </testsuite>
+    <testsuite name="EasyRdf_Serialiser_ArcTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Serialiser/ArcTest.php" fullPackage="EasyRdf" package="EasyRdf" tests="2" assertions="0" failures="0" errors="0" time="0.012697">
+      <testcase name="testSerialiseRdfXml" class="EasyRdf_Serialiser_ArcTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Serialiser/ArcTest.php" line="59" assertions="0" time="0.005158"/>
+      <testcase name="testSerialiseUnsupportedFormat" class="EasyRdf_Serialiser_ArcTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Serialiser/ArcTest.php" line="76" assertions="0" time="0.007539"/>
+    </testsuite>
+    <testsuite name="EasyRdf_Serialiser_RdfXmlTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Serialiser/RdfXmlTest.php" fullPackage="EasyRdf" package="EasyRdf" tests="15" assertions="18" failures="0" errors="0" time="0.200674">
+      <testcase name="testSerialiseRdfXml" class="EasyRdf_Serialiser_RdfXmlTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Serialiser/RdfXmlTest.php" line="58" assertions="1" time="0.020020"/>
+      <testcase name="testSerialiseRdfXmlWithInline" class="EasyRdf_Serialiser_RdfXmlTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Serialiser/RdfXmlTest.php" line="77" assertions="1" time="0.020870"/>
+      <testcase name="testSerialiseRdfXmlDoubleRefernce" class="EasyRdf_Serialiser_RdfXmlTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Serialiser/RdfXmlTest.php" line="102" assertions="1" time="0.026775"/>
+      <testcase name="testSerialiseRdfXmlWithInlineBnode" class="EasyRdf_Serialiser_RdfXmlTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Serialiser/RdfXmlTest.php" line="128" assertions="1" time="0.022008"/>
+      <testcase name="testSerialiseRdfXmlBnodeMentionedTwice" class="EasyRdf_Serialiser_RdfXmlTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Serialiser/RdfXmlTest.php" line="153" assertions="1" time="0.025858"/>
+      <testcase name="testSerialiseRdfXmlTwoTypes" class="EasyRdf_Serialiser_RdfXmlTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Serialiser/RdfXmlTest.php" line="184" assertions="1" time="0.011894"/>
+      <testcase name="testSerialiseRdfXmlWithTwoBNodes" class="EasyRdf_Serialiser_RdfXmlTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Serialiser/RdfXmlTest.php" line="205" assertions="1" time="0.010087"/>
+      <testcase name="testSerialiseRdfXmlWithLang" class="EasyRdf_Serialiser_RdfXmlTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Serialiser/RdfXmlTest.php" line="222" assertions="1" time="0.007126"/>
+      <testcase name="testSerialiseRdfXmlWithDatatype" class="EasyRdf_Serialiser_RdfXmlTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Serialiser/RdfXmlTest.php" line="236" assertions="1" time="0.007495"/>
+      <testcase name="testSerialiseRdfXmlWithUnknownProperty" class="EasyRdf_Serialiser_RdfXmlTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Serialiser/RdfXmlTest.php" line="251" assertions="2" time="0.009098"/>
+      <testcase name="testSerialiseRdfXmlWithUnshortenableProperty" class="EasyRdf_Serialiser_RdfXmlTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Serialiser/RdfXmlTest.php" line="264" assertions="2" time="0.007395"/>
+      <testcase name="testSerialiseRdfXmlWithXMLLiteral" class="EasyRdf_Serialiser_RdfXmlTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Serialiser/RdfXmlTest.php" line="279" assertions="1" time="0.007074"/>
+      <testcase name="testSerialiseUnsupportedFormat" class="EasyRdf_Serialiser_RdfXmlTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Serialiser/RdfXmlTest.php" line="293" assertions="2" time="0.005248"/>
+      <testcase name="testSerialiseRdfTypeAddsPrefix" class="EasyRdf_Serialiser_RdfXmlTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Serialiser/RdfXmlTest.php" line="309" assertions="1" time="0.009468"/>
+      <testcase name="testSerialiseReferenceAlreadyOutput" class="EasyRdf_Serialiser_RdfXmlTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Serialiser/RdfXmlTest.php" line="333" assertions="1" time="0.010259"/>
+    </testsuite>
+    <testsuite name="EasyRdf_Serialiser_JsonTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Serialiser/JsonTest.php" fullPackage="EasyRdf" package="EasyRdf" tests="2" assertions="3" failures="0" errors="0" time="0.015139">
+      <testcase name="testSerialiseJson" class="EasyRdf_Serialiser_JsonTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Serialiser/JsonTest.php" line="53" assertions="1" time="0.008895"/>
+      <testcase name="testSerialiseUnsupportedFormat" class="EasyRdf_Serialiser_JsonTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Serialiser/JsonTest.php" line="81" assertions="2" time="0.006244"/>
+    </testsuite>
+    <testsuite name="EasyRdf_Serialiser_TurtleTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Serialiser/TurtleTest.php" fullPackage="EasyRdf" package="EasyRdf" tests="14" assertions="27" failures="0" errors="0" time="0.147299">
+      <testcase name="testSerialise" class="EasyRdf_Serialiser_TurtleTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Serialiser/TurtleTest.php" line="59" assertions="5" time="0.018443"/>
+      <testcase name="testSerialiseBnode" class="EasyRdf_Serialiser_TurtleTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Serialiser/TurtleTest.php" line="94" assertions="2" time="0.016787"/>
+      <testcase name="testSerialiseLang" class="EasyRdf_Serialiser_TurtleTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Serialiser/TurtleTest.php" line="115" assertions="1" time="0.008756"/>
+      <testcase name="testSerialiseBooleanDatatype" class="EasyRdf_Serialiser_TurtleTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Serialiser/TurtleTest.php" line="127" assertions="2" time="0.013380"/>
+      <testcase name="testSerialiseDecimalDatatype" class="EasyRdf_Serialiser_TurtleTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Serialiser/TurtleTest.php" line="140" assertions="2" time="0.013640"/>
+      <testcase name="testSerialiseDoubleDatatype" class="EasyRdf_Serialiser_TurtleTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Serialiser/TurtleTest.php" line="153" assertions="2" time="0.011771"/>
+      <testcase name="testSerialiseIntegerDatatype" class="EasyRdf_Serialiser_TurtleTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Serialiser/TurtleTest.php" line="166" assertions="2" time="0.009703"/>
+      <testcase name="testSerialiseOtherDatatype" class="EasyRdf_Serialiser_TurtleTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Serialiser/TurtleTest.php" line="179" assertions="2" time="0.009834"/>
+      <testcase name="testSerialiseUnknownDatatype" class="EasyRdf_Serialiser_TurtleTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Serialiser/TurtleTest.php" line="192" assertions="1" time="0.008600"/>
+      <testcase name="testSerialiseShortenableResource" class="EasyRdf_Serialiser_TurtleTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Serialiser/TurtleTest.php" line="209" assertions="2" time="0.007256"/>
+      <testcase name="testSerialiseUnshortenableDatatype" class="EasyRdf_Serialiser_TurtleTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Serialiser/TurtleTest.php" line="220" assertions="1" time="0.008113"/>
+      <testcase name="testSerialisePropertyWithUnknownNamespace" class="EasyRdf_Serialiser_TurtleTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Serialiser/TurtleTest.php" line="237" assertions="2" time="0.007987"/>
+      <testcase name="testSerialiseUnshortenableProperty" class="EasyRdf_Serialiser_TurtleTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Serialiser/TurtleTest.php" line="254" assertions="1" time="0.007512"/>
+      <testcase name="testSerialiseUnsupportedFormat" class="EasyRdf_Serialiser_TurtleTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Serialiser/TurtleTest.php" line="268" assertions="2" time="0.005516"/>
+    </testsuite>
+    <testsuite name="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" fullPackage="EasyRdf" package="EasyRdf" tests="65" assertions="58" failures="0" errors="0" time="0.319375">
+      <testcase name="testCameliseSimple" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="48" assertions="1" time="0.004822"/>
+      <testcase name="testCameliseUnderscore" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="56" assertions="1" time="0.004367"/>
+      <testcase name="testCameliseDHyphen" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="64" assertions="1" time="0.005650"/>
+      <testcase name="testCameliseDoubleHyphen" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="72" assertions="1" time="0.006097"/>
+      <testcase name="testCameliseSpace" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="80" assertions="1" time="0.006669"/>
+      <testcase name="testCameliseFilePath" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="88" assertions="1" time="0.007800"/>
+      <testcase name="testCameliseEmpty" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="96" assertions="1" time="0.007349"/>
+      <testcase name="testIsAssoc" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="104" assertions="1" time="0.004274"/>
+      <testcase name="testIsAssocNonArray" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="111" assertions="1" time="0.004393"/>
+      <testcase name="testIsAssocArray" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="116" assertions="1" time="0.004320"/>
+      <testcase name="testIsAssocIntAppend" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="122" assertions="1" time="0.004242"/>
+      <testcase name="testIsAssocIntPreppend" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="129" assertions="1" time="0.005139"/>
+      <testcase name="testResolveReferenceUriNormal0" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="147" assertions="1" time="0.004259"/>
+      <testcase name="testResolveReferenceUriNormal1" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="156" assertions="1" time="0.004321"/>
+      <testcase name="testResolveReferenceUriNormal2" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="164" assertions="1" time="0.004650"/>
+      <testcase name="testResolveReferenceUriNormal3" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="172" assertions="1" time="0.004561"/>
+      <testcase name="testResolveReferenceUriNormal4" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="180" assertions="1" time="0.004593"/>
+      <testcase name="testResolveReferenceUriNormal5" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="188" assertions="1" time="0.004614"/>
+      <testcase name="testResolveReferenceUriNormal6" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="196" assertions="1" time="0.004211"/>
+      <testcase name="testResolveReferenceUriNormal7" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="204" assertions="0" time="0.005520"/>
+      <testcase name="testResolveReferenceUriNormal8" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="213" assertions="1" time="0.004391"/>
+      <testcase name="testResolveReferenceUriNormal9" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="221" assertions="1" time="0.004319"/>
+      <testcase name="testResolveReferenceUriNormal10" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="229" assertions="1" time="0.004483"/>
+      <testcase name="testResolveReferenceUriNormal11" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="237" assertions="1" time="0.004399"/>
+      <testcase name="testResolveReferenceUriNormal12" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="245" assertions="1" time="0.004466"/>
+      <testcase name="testResolveReferenceUriNormal13" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="253" assertions="1" time="0.004404"/>
+      <testcase name="testResolveReferenceUriNormal14" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="261" assertions="1" time="0.004392"/>
+      <testcase name="testResolveReferenceUriNormal15" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="269" assertions="0" time="0.005341"/>
+      <testcase name="testResolveReferenceUriNormal16" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="278" assertions="0" time="0.005210"/>
+      <testcase name="testResolveReferenceUriNormal17" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="287" assertions="0" time="0.005201"/>
+      <testcase name="testResolveReferenceUriNormal18" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="296" assertions="1" time="0.004734"/>
+      <testcase name="testResolveReferenceUriNormal19" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="304" assertions="1" time="0.004528"/>
+      <testcase name="testResolveReferenceUriNormal20" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="312" assertions="0" time="0.005172"/>
+      <testcase name="testResolveReferenceUriNormal21" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="321" assertions="1" time="0.004714"/>
+      <testcase name="testResolveReferenceUriNormal22" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="329" assertions="1" time="0.004398"/>
+      <testcase name="testResolveReferenceUriNormal23" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="337" assertions="1" time="0.004446"/>
+      <testcase name="testResolveReferenceUriAbnormal1" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="347" assertions="1" time="0.004586"/>
+      <testcase name="testResolveReferenceUriAbnormal2" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="355" assertions="1" time="0.004463"/>
+      <testcase name="testResolveReferenceUriAbnormal3" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="363" assertions="0" time="0.005338"/>
+      <testcase name="testResolveReferenceUriAbnormal4" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="372" assertions="0" time="0.005135"/>
+      <testcase name="testResolveReferenceUriAbnormal5" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="381" assertions="1" time="0.004372"/>
+      <testcase name="testResolveReferenceUriAbnormal6" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="389" assertions="1" time="0.004541"/>
+      <testcase name="testResolveReferenceUriAbnormal7" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="397" assertions="1" time="0.004358"/>
+      <testcase name="testResolveReferenceUriAbnormal8" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="405" assertions="1" time="0.004629"/>
+      <testcase name="testResolveReferenceUriAbnormal9" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="413" assertions="1" time="0.004608"/>
+      <testcase name="testResolveReferenceUriAbnormal10" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="421" assertions="0" time="0.005241"/>
+      <testcase name="testResolveReferenceUriAbnormal11" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="430" assertions="0" time="0.005380"/>
+      <testcase name="testResolveReferenceUriAbnormal12" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="439" assertions="0" time="0.005612"/>
+      <testcase name="testResolveReferenceUriAbnormal13" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="448" assertions="0" time="0.005522"/>
+      <testcase name="testResolveReferenceUriAbnormal14" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="457" assertions="0" time="0.005247"/>
+      <testcase name="testResolveReferenceUriAbnormal15" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="466" assertions="1" time="0.004781"/>
+      <testcase name="testResolveReferenceUriAbnormal16" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="474" assertions="1" time="0.004421"/>
+      <testcase name="testResolveReferenceUriAbnormal17" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="482" assertions="1" time="0.004397"/>
+      <testcase name="testResolveReferenceUriAbnormal18" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="490" assertions="1" time="0.004796"/>
+      <testcase name="testResolveReferenceUriExtra1" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="498" assertions="1" time="0.004497"/>
+      <testcase name="testResolveReferenceUriExtra2" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="509" assertions="1" time="0.004469"/>
+      <testcase name="testResolveReferenceUriExtra3" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="520" assertions="0" time="0.005410"/>
+      <testcase name="testResolveReferenceUriExtra4" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="532" assertions="0" time="0.005470"/>
+      <testcase name="testDumpResourceValue" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="544" assertions="2" time="0.007083"/>
+      <testcase name="testDumpResourceValueFromArray" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="559" assertions="2" time="0.005275"/>
+      <testcase name="testDumpLiteralValue" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="574" assertions="2" time="0.004477"/>
+      <testcase name="testDumpLiteralValueFromArray" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="587" assertions="2" time="0.004402"/>
+      <testcase name="testDumpLiteralValueFromString" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="600" assertions="2" time="0.004861"/>
+      <testcase name="testDumpLiteralValueWithLanguage" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="613" assertions="2" time="0.004310"/>
+      <testcase name="testDumpLiteralValueWithDatatype" class="EasyRdf_UtilsTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/UtilsTest.php" line="626" assertions="2" time="0.005246"/>
+    </testsuite>
+    <testsuite name="EasyRdf_Literal_DateTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Literal/DateTest.php" fullPackage="EasyRdf.Literal" tests="6" assertions="13" failures="0" errors="0" time="0.094776">
+      <testcase name="testConstructFromString" class="EasyRdf_Literal_DateTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Literal/DateTest.php" line="8" assertions="4" time="0.070960"/>
+      <testcase name="testConstructFromDateTime" class="EasyRdf_Literal_DateTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Literal/DateTest.php" line="17" assertions="5" time="0.005797"/>
+      <testcase name="testFormat" class="EasyRdf_Literal_DateTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Literal/DateTest.php" line="28" assertions="1" time="0.004412"/>
+      <testcase name="testYear" class="EasyRdf_Literal_DateTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Literal/DateTest.php" line="34" assertions="1" time="0.004466"/>
+      <testcase name="testMonth" class="EasyRdf_Literal_DateTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Literal/DateTest.php" line="40" assertions="1" time="0.004614"/>
+      <testcase name="testDate" class="EasyRdf_Literal_DateTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Literal/DateTest.php" line="46" assertions="1" time="0.004527"/>
+    </testsuite>
+    <testsuite name="EasyRdf_Literal_DateTimeTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Literal/DateTimeTest.php" fullPackage="EasyRdf.Literal" tests="9" assertions="16" failures="0" errors="0" time="0.053888">
+      <testcase name="testConstructFromString" class="EasyRdf_Literal_DateTimeTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Literal/DateTimeTest.php" line="8" assertions="4" time="0.005882"/>
+      <testcase name="testConstructFromDateTime" class="EasyRdf_Literal_DateTimeTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Literal/DateTimeTest.php" line="17" assertions="5" time="0.008551"/>
+      <testcase name="testFormat" class="EasyRdf_Literal_DateTimeTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Literal/DateTimeTest.php" line="35" assertions="1" time="0.006654"/>
+      <testcase name="testYear" class="EasyRdf_Literal_DateTimeTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Literal/DateTimeTest.php" line="43" assertions="1" time="0.007398"/>
+      <testcase name="testMonth" class="EasyRdf_Literal_DateTimeTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Literal/DateTimeTest.php" line="48" assertions="1" time="0.005413"/>
+      <testcase name="testDay" class="EasyRdf_Literal_DateTimeTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Literal/DateTimeTest.php" line="53" assertions="1" time="0.005609"/>
+      <testcase name="testHour" class="EasyRdf_Literal_DateTimeTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Literal/DateTimeTest.php" line="58" assertions="1" time="0.004863"/>
+      <testcase name="testMin" class="EasyRdf_Literal_DateTimeTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Literal/DateTimeTest.php" line="63" assertions="1" time="0.004596"/>
+      <testcase name="testSec" class="EasyRdf_Literal_DateTimeTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Literal/DateTimeTest.php" line="68" assertions="1" time="0.004922"/>
+    </testsuite>
+    <testsuite name="EasyRdf_Literal_IntegerTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Literal/IntegerTest.php" fullPackage="EasyRdf.Literal" tests="2" assertions="12" failures="0" errors="0" time="0.014334">
+      <testcase name="testConstruct" class="EasyRdf_Literal_IntegerTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Literal/IntegerTest.php" line="8" assertions="6" time="0.007183"/>
+      <testcase name="testConstructCast" class="EasyRdf_Literal_IntegerTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Literal/IntegerTest.php" line="19" assertions="6" time="0.007151"/>
+    </testsuite>
+    <testsuite name="EasyRdf_Literal_DecimalTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Literal/DecimalTest.php" fullPackage="EasyRdf.Literal" tests="2" assertions="12" failures="0" errors="0" time="0.019470">
+      <testcase name="testConstruct" class="EasyRdf_Literal_DecimalTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Literal/DecimalTest.php" line="8" assertions="6" time="0.009660"/>
+      <testcase name="testConstructCast" class="EasyRdf_Literal_DecimalTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Literal/DecimalTest.php" line="19" assertions="6" time="0.009810"/>
+    </testsuite>
+    <testsuite name="EasyRdf_Literal_BooleanTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Literal/BooleanTest.php" fullPackage="EasyRdf.Literal" tests="6" assertions="24" failures="0" errors="0" time="0.053707">
+      <testcase name="testConstructTrue" class="EasyRdf_Literal_BooleanTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Literal/BooleanTest.php" line="8" assertions="5" time="0.009977"/>
+      <testcase name="testConstructFalse" class="EasyRdf_Literal_BooleanTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Literal/BooleanTest.php" line="18" assertions="5" time="0.009850"/>
+      <testcase name="testConstructCast1" class="EasyRdf_Literal_BooleanTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Literal/BooleanTest.php" line="28" assertions="5" time="0.008314"/>
+      <testcase name="testConstructCast0" class="EasyRdf_Literal_BooleanTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Literal/BooleanTest.php" line="38" assertions="5" time="0.010704"/>
+      <testcase name="testIsTrue" class="EasyRdf_Literal_BooleanTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Literal/BooleanTest.php" line="48" assertions="2" time="0.007769"/>
+      <testcase name="testIsFalse" class="EasyRdf_Literal_BooleanTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Literal/BooleanTest.php" line="57" assertions="2" time="0.007093"/>
+    </testsuite>
+    <testsuite name="EasyRdf_ParserTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ParserTest.php" fullPackage="EasyRdf" tests="12" assertions="20" failures="0" errors="0" time="0.100425">
+      <testcase name="testParse" class="EasyRdf_ParserTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ParserTest.php" line="64" assertions="1" time="0.011270"/>
+      <testcase name="testParseFormatObject" class="EasyRdf_ParserTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ParserTest.php" line="76" assertions="1" time="0.009511"/>
+      <testcase name="testParseNullGraph" class="EasyRdf_ParserTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ParserTest.php" line="89" assertions="2" time="0.010937"/>
+      <testcase name="testParseNonObjectGraph" class="EasyRdf_ParserTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ParserTest.php" line="98" assertions="2" time="0.009511"/>
+      <testcase name="testParseNonGraph" class="EasyRdf_ParserTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ParserTest.php" line="107" assertions="2" time="0.012172"/>
+      <testcase name="testParseNullData" class="EasyRdf_ParserTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ParserTest.php" line="116" assertions="1" time="0.007962"/>
+      <testcase name="testParseEmptyData" class="EasyRdf_ParserTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ParserTest.php" line="123" assertions="1" time="0.005255"/>
+      <testcase name="testParseNullFormat" class="EasyRdf_ParserTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ParserTest.php" line="130" assertions="2" time="0.006731"/>
+      <testcase name="testParseEmptyFormat" class="EasyRdf_ParserTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ParserTest.php" line="139" assertions="2" time="0.006771"/>
+      <testcase name="testParseBadObjectFormat" class="EasyRdf_ParserTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ParserTest.php" line="148" assertions="2" time="0.007017"/>
+      <testcase name="testParseIntegerFormat" class="EasyRdf_ParserTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ParserTest.php" line="157" assertions="2" time="0.006776"/>
+      <testcase name="testParseNonStringBaseUri" class="EasyRdf_ParserTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ParserTest.php" line="166" assertions="2" time="0.006512"/>
+    </testsuite>
+    <testsuite name="EasyRdf_LiteralTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/LiteralTest.php" fullPackage="EasyRdf" tests="39" assertions="123" failures="0" errors="0" time="0.226781">
+      <testcase name="testCreate" class="EasyRdf_LiteralTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/LiteralTest.php" line="62" assertions="4" time="0.004895"/>
+      <testcase name="testCreateWithLanguage" class="EasyRdf_LiteralTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/LiteralTest.php" line="71" assertions="4" time="0.005193"/>
+      <testcase name="testCreateWithDatatype" class="EasyRdf_LiteralTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/LiteralTest.php" line="80" assertions="4" time="0.005593"/>
+      <testcase name="testCreateWithLanguageAndDatatype" class="EasyRdf_LiteralTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/LiteralTest.php" line="89" assertions="4" time="0.005352"/>
+      <testcase name="testCreateIntegerLiteralWithLanguage" class="EasyRdf_LiteralTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/LiteralTest.php" line="98" assertions="4" time="0.005113"/>
+      <testcase name="testCreateWithUriDatatype" class="EasyRdf_LiteralTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/LiteralTest.php" line="107" assertions="4" time="0.006442"/>
+      <testcase name="testCreateWithUnshortenableUriDatatype" class="EasyRdf_LiteralTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/LiteralTest.php" line="118" assertions="4" time="0.006267"/>
+      <testcase name="testCreateWithAssociativeArray" class="EasyRdf_LiteralTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/LiteralTest.php" line="129" assertions="4" time="0.006356"/>
+      <testcase name="testCreateWithAssociativeArrayWithLang" class="EasyRdf_LiteralTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/LiteralTest.php" line="138" assertions="4" time="0.005492"/>
+      <testcase name="testCreateWithAssociativeArrayWithDatatype" class="EasyRdf_LiteralTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/LiteralTest.php" line="147" assertions="4" time="0.005695"/>
+      <testcase name="testCreateWithInteger" class="EasyRdf_LiteralTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/LiteralTest.php" line="156" assertions="4" time="0.006061"/>
+      <testcase name="testCreateWithFloat" class="EasyRdf_LiteralTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/LiteralTest.php" line="165" assertions="4" time="0.005346"/>
+      <testcase name="testCreateWithBooleanTrue" class="EasyRdf_LiteralTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/LiteralTest.php" line="174" assertions="4" time="0.005649"/>
+      <testcase name="testCreateWithBooleanFalse" class="EasyRdf_LiteralTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/LiteralTest.php" line="183" assertions="4" time="0.005519"/>
+      <testcase name="testCreateConvertToBooleanTrue" class="EasyRdf_LiteralTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/LiteralTest.php" line="192" assertions="5" time="0.006446"/>
+      <testcase name="testCreateConvertToBooleanFalse" class="EasyRdf_LiteralTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/LiteralTest.php" line="202" assertions="5" time="0.006182"/>
+      <testcase name="testCreateConvertToInteger" class="EasyRdf_LiteralTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/LiteralTest.php" line="212" assertions="5" time="0.006363"/>
+      <testcase name="testCreateConvertToDecimal" class="EasyRdf_LiteralTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/LiteralTest.php" line="222" assertions="5" time="0.006600"/>
+      <testcase name="testCreateConvertToString" class="EasyRdf_LiteralTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/LiteralTest.php" line="232" assertions="5" time="0.006526"/>
+      <testcase name="testConstruct" class="EasyRdf_LiteralTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/LiteralTest.php" line="243" assertions="3" time="0.005521"/>
+      <testcase name="testGetDatatypeUri" class="EasyRdf_LiteralTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/LiteralTest.php" line="251" assertions="1" time="0.005527"/>
+      <testcase name="testToString" class="EasyRdf_LiteralTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/LiteralTest.php" line="260" assertions="1" time="0.005561"/>
+      <testcase name="testToArray" class="EasyRdf_LiteralTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/LiteralTest.php" line="266" assertions="1" time="0.005475"/>
+      <testcase name="testToArrayWithLang" class="EasyRdf_LiteralTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/LiteralTest.php" line="277" assertions="1" time="0.004870"/>
+      <testcase name="testToArrayWithDatatype" class="EasyRdf_LiteralTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/LiteralTest.php" line="289" assertions="1" time="0.004696"/>
+      <testcase name="testDumpValue" class="EasyRdf_LiteralTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/LiteralTest.php" line="301" assertions="2" time="0.005601"/>
+      <testcase name="testDumpValueWithLanguage" class="EasyRdf_LiteralTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/LiteralTest.php" line="314" assertions="2" time="0.005484"/>
+      <testcase name="testDumpValueWithDatatype" class="EasyRdf_LiteralTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/LiteralTest.php" line="327" assertions="2" time="0.005735"/>
+      <testcase name="testConstructCustomClass" class="EasyRdf_LiteralTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/LiteralTest.php" line="340" assertions="5" time="0.006458"/>
+      <testcase name="testCreateCustomClass" class="EasyRdf_LiteralTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/LiteralTest.php" line="351" assertions="5" time="0.008180"/>
+      <testcase name="testSetDatatypeMappingNull" class="EasyRdf_LiteralTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/LiteralTest.php" line="362" assertions="2" time="0.006218"/>
+      <testcase name="testSetDatatypeMappingEmpty" class="EasyRdf_LiteralTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/LiteralTest.php" line="371" assertions="2" time="0.005698"/>
+      <testcase name="testSetDatatypeMappingNonString" class="EasyRdf_LiteralTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/LiteralTest.php" line="380" assertions="2" time="0.005831"/>
+      <testcase name="testSetDatatypeMappingClassNull" class="EasyRdf_LiteralTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/LiteralTest.php" line="389" assertions="2" time="0.005400"/>
+      <testcase name="testSetDatatypeMappingClassEmpty" class="EasyRdf_LiteralTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/LiteralTest.php" line="398" assertions="2" time="0.006632"/>
+      <testcase name="testSetDatatypeMappingClassNonString" class="EasyRdf_LiteralTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/LiteralTest.php" line="407" assertions="2" time="0.005646"/>
+      <testcase name="testDeleteDatatypeMappingNull" class="EasyRdf_LiteralTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/LiteralTest.php" line="416" assertions="2" time="0.006101"/>
+      <testcase name="testDeleteDatatypeMappingEmpty" class="EasyRdf_LiteralTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/LiteralTest.php" line="425" assertions="2" time="0.005450"/>
+      <testcase name="testDeleteDatatypeMappingNonString" class="EasyRdf_LiteralTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/LiteralTest.php" line="434" assertions="2" time="0.005606"/>
+    </testsuite>
+    <testsuite name="EasyRdf_SerialiserTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/SerialiserTest.php" fullPackage="EasyRdf" tests="9" assertions="16" failures="0" errors="0" time="0.054091">
+      <testcase name="testSerialise" class="EasyRdf_SerialiserTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/SerialiserTest.php" line="63" assertions="1" time="0.004881"/>
+      <testcase name="testSerialiseFormatObject" class="EasyRdf_SerialiserTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/SerialiserTest.php" line="70" assertions="1" time="0.004923"/>
+      <testcase name="testSerialiseNullGraph" class="EasyRdf_SerialiserTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/SerialiserTest.php" line="78" assertions="2" time="0.005787"/>
+      <testcase name="testSerialiseNonObjectGraph" class="EasyRdf_SerialiserTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/SerialiserTest.php" line="87" assertions="2" time="0.006023"/>
+      <testcase name="testSerialiseNonGraph" class="EasyRdf_SerialiserTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/SerialiserTest.php" line="96" assertions="2" time="0.005922"/>
+      <testcase name="testSerialiseNullFormat" class="EasyRdf_SerialiserTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/SerialiserTest.php" line="105" assertions="2" time="0.006719"/>
+      <testcase name="testSerialiseEmptyFormat" class="EasyRdf_SerialiserTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/SerialiserTest.php" line="114" assertions="2" time="0.006229"/>
+      <testcase name="testSerialiseBadObjectFormat" class="EasyRdf_SerialiserTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/SerialiserTest.php" line="123" assertions="2" time="0.006229"/>
+      <testcase name="testSerialiseIntegerFormat" class="EasyRdf_SerialiserTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/SerialiserTest.php" line="132" assertions="2" time="0.007378"/>
+    </testsuite>
+    <testsuite name="EasyRdf_ExceptionTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ExceptionTest.php" fullPackage="EasyRdf" package="EasyRdf" tests="1" assertions="2" failures="0" errors="0" time="0.005111">
+      <testcase name="testException" class="EasyRdf_ExceptionTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ExceptionTest.php" line="43" assertions="2" time="0.005111"/>
+    </testsuite>
+    <testsuite name="EasyRdf_TypeMapperTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/TypeMapperTest.php" fullPackage="EasyRdf" tests="18" assertions="32" failures="0" errors="0" time="0.108618">
+      <testcase name="testGet" class="EasyRdf_TypeMapperTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/TypeMapperTest.php" line="64" assertions="1" time="0.005415"/>
+      <testcase name="testGetUri" class="EasyRdf_TypeMapperTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/TypeMapperTest.php" line="72" assertions="1" time="0.004948"/>
+      <testcase name="testGetNull" class="EasyRdf_TypeMapperTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/TypeMapperTest.php" line="82" assertions="2" time="0.005993"/>
+      <testcase name="testGetEmpty" class="EasyRdf_TypeMapperTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/TypeMapperTest.php" line="91" assertions="2" time="0.005683"/>
+      <testcase name="testGetNonString" class="EasyRdf_TypeMapperTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/TypeMapperTest.php" line="100" assertions="2" time="0.006286"/>
+      <testcase name="testGetUnknown" class="EasyRdf_TypeMapperTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/TypeMapperTest.php" line="109" assertions="1" time="0.005142"/>
+      <testcase name="testSetUri" class="EasyRdf_TypeMapperTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/TypeMapperTest.php" line="114" assertions="1" time="0.005490"/>
+      <testcase name="testSetTypeNull" class="EasyRdf_TypeMapperTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/TypeMapperTest.php" line="127" assertions="2" time="0.005820"/>
+      <testcase name="testSetTypeEmpty" class="EasyRdf_TypeMapperTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/TypeMapperTest.php" line="136" assertions="2" time="0.006304"/>
+      <testcase name="testSetTypeNonString" class="EasyRdf_TypeMapperTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/TypeMapperTest.php" line="145" assertions="2" time="0.005960"/>
+      <testcase name="testSetClassNull" class="EasyRdf_TypeMapperTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/TypeMapperTest.php" line="154" assertions="2" time="0.007515"/>
+      <testcase name="testSetClassEmpty" class="EasyRdf_TypeMapperTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/TypeMapperTest.php" line="163" assertions="2" time="0.005945"/>
+      <testcase name="testSetClassNonString" class="EasyRdf_TypeMapperTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/TypeMapperTest.php" line="172" assertions="2" time="0.005757"/>
+      <testcase name="testDelete" class="EasyRdf_TypeMapperTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/TypeMapperTest.php" line="181" assertions="2" time="0.005088"/>
+      <testcase name="testDeleteTypeNull" class="EasyRdf_TypeMapperTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/TypeMapperTest.php" line="188" assertions="2" time="0.005731"/>
+      <testcase name="testDeleteTypeEmpty" class="EasyRdf_TypeMapperTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/TypeMapperTest.php" line="197" assertions="2" time="0.005716"/>
+      <testcase name="testDeleteTypeNonString" class="EasyRdf_TypeMapperTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/TypeMapperTest.php" line="206" assertions="2" time="0.005627"/>
+      <testcase name="testInstantiate" class="EasyRdf_TypeMapperTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/TypeMapperTest.php" line="215" assertions="2" time="0.010197"/>
+    </testsuite>
+    <testsuite name="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" fullPackage="EasyRdf" package="EasyRdf" tests="100" assertions="175" failures="0" errors="0" time="0.749661">
+      <testcase name="testConstructNullUri" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="44" assertions="2" time="0.005340"/>
+      <testcase name="testConstructEmptyUri" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="53" assertions="2" time="0.005178"/>
+      <testcase name="testConstructNonStringUri" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="62" assertions="2" time="0.005340"/>
+      <testcase name="testGetUri" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="71" assertions="1" time="0.004279"/>
+      <testcase name="testIsBnode" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="80" assertions="1" time="0.004274"/>
+      <testcase name="testIsNotBnode" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="86" assertions="1" time="0.004889"/>
+      <testcase name="testGetNodeId" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="92" assertions="1" time="0.004609"/>
+      <testcase name="testGetNodeIdForUri" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="98" assertions="1" time="0.005029"/>
+      <testcase name="testPrefix" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="104" assertions="1" time="0.005177"/>
+      <testcase name="testUnknownPrefix" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="110" assertions="1" time="0.005022"/>
+      <testcase name="testShorten" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="116" assertions="1" time="0.005066"/>
+      <testcase name="testShortenUnknown" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="122" assertions="1" time="0.004828"/>
+      <testcase name="testToArrayForUri" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="128" assertions="1" time="0.004328"/>
+      <testcase name="testToArrayForBnode" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="137" assertions="1" time="0.004621"/>
+      <testcase name="testDumpValue" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="146" assertions="2" time="0.005314"/>
+      <testcase name="testDumpValueWithColor" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="161" assertions="1" time="0.004689"/>
+      <testcase name="testToString" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="172" assertions="1" time="0.004360"/>
+      <testcase name="testGetUriWithGraph" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="198" assertions="1" time="0.004245"/>
+      <testcase name="testGet" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="208" assertions="1" time="0.007075"/>
+      <testcase name="testGetWithoutGraph" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="217" assertions="2" time="0.006606"/>
+      <testcase name="testGetAResource" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="227" assertions="1" time="0.007553"/>
+      <testcase name="testGetWithUri" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="236" assertions="1" time="0.007127"/>
+      <testcase name="testGetWithLanguage" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="247" assertions="1" time="0.007374"/>
+      <testcase name="testGetInverse" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="256" assertions="1" time="0.007875"/>
+      <testcase name="testGetArray" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="264" assertions="1" time="0.007572"/>
+      <testcase name="testGetArray2" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="273" assertions="1" time="0.007443"/>
+      <testcase name="testGetEmptyArray" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="282" assertions="1" time="0.006548"/>
+      <testcase name="testGetNonExistantProperty" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="291" assertions="1" time="0.006755"/>
+      <testcase name="testGetNullKey" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="297" assertions="2" time="0.007857"/>
+      <testcase name="testGetEmptyKey" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="307" assertions="2" time="0.007652"/>
+      <testcase name="testGetNonStringKey" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="317" assertions="2" time="0.007740"/>
+      <testcase name="testGetLiteral" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="327" assertions="1" time="0.007253"/>
+      <testcase name="testGetLiteralForResource" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="336" assertions="1" time="0.007284"/>
+      <testcase name="testGetResource" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="344" assertions="1" time="0.008523"/>
+      <testcase name="testAll" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="354" assertions="3" time="0.007657"/>
+      <testcase name="testAllWithUri" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="363" assertions="3" time="0.007651"/>
+      <testcase name="testAllWithLang" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="374" assertions="2" time="0.007264"/>
+      <testcase name="testAllInverse" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="382" assertions="2" time="0.007052"/>
+      <testcase name="testAllNonExistantProperty" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="390" assertions="1" time="0.006748"/>
+      <testcase name="testAllNullKey" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="399" assertions="2" time="0.007863"/>
+      <testcase name="testAllEmptyKey" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="409" assertions="2" time="0.007744"/>
+      <testcase name="testAllNonStringKey" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="419" assertions="2" time="0.007943"/>
+      <testcase name="testAllLiterals" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="429" assertions="3" time="0.007889"/>
+      <testcase name="testAllLiteralsForResource" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="438" assertions="2" time="0.007915"/>
+      <testcase name="testAllResources" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="446" assertions="5" time="0.009562"/>
+      <testcase name="testAdd" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="459" assertions="4" time="0.008339"/>
+      <testcase name="testAddWithUri" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="470" assertions="4" time="0.008124"/>
+      <testcase name="testAddLiteral" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="484" assertions="2" time="0.009161"/>
+      <testcase name="testAddLiteralWithLanguage" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="492" assertions="3" time="0.008002"/>
+      <testcase name="testAddResource" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="502" assertions="2" time="0.009393"/>
+      <testcase name="testAddMultipleLiterals" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="510" assertions="5" time="0.009554"/>
+      <testcase name="testAddLiteralMultipleTimes" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="522" assertions="2" time="0.008160"/>
+      <testcase name="testAddLiteralDifferentLanguages" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="532" assertions="3" time="0.010717"/>
+      <testcase name="testAddNull" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="543" assertions="3" time="0.009044"/>
+      <testcase name="testAddNullKey" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="553" assertions="2" time="0.009734"/>
+      <testcase name="testAddEmptyKey" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="563" assertions="2" time="0.008867"/>
+      <testcase name="testAddNonStringKey" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="573" assertions="2" time="0.009406"/>
+      <testcase name="testAddInvalidObject" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="583" assertions="2" time="0.008664"/>
+      <testcase name="testDelete" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="593" assertions="2" time="0.009900"/>
+      <testcase name="testDeleteWithUri" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="601" assertions="2" time="0.008631"/>
+      <testcase name="testDeleteNullKey" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="611" assertions="2" time="0.008198"/>
+      <testcase name="testDeleteEmptyKey" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="621" assertions="2" time="0.009911"/>
+      <testcase name="testDeleteNonStringKey" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="631" assertions="2" time="0.008002"/>
+      <testcase name="testDeleteValue" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="641" assertions="1" time="0.007788"/>
+      <testcase name="testSet" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="650" assertions="2" time="0.007835"/>
+      <testcase name="testSetWithUri" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="659" assertions="2" time="0.007825"/>
+      <testcase name="testSetInverse" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="671" assertions="4" time="0.010671"/>
+      <testcase name="testSetNullKey" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="697" assertions="2" time="0.007664"/>
+      <testcase name="testSetEmptyKey" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="707" assertions="2" time="0.007515"/>
+      <testcase name="testSetNonStringKey" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="717" assertions="2" time="0.007589"/>
+      <testcase name="testSetNull" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="727" assertions="1" time="0.007790"/>
+      <testcase name="testJoinDefaultGlue" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="737" assertions="1" time="0.007704"/>
+      <testcase name="testJoinWithUri" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="746" assertions="1" time="0.007697"/>
+      <testcase name="testJoinWithLang" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="757" assertions="1" time="0.007216"/>
+      <testcase name="testJoinNonExistantProperty" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="766" assertions="1" time="0.007086"/>
+      <testcase name="testJoinCustomGlue" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="772" assertions="1" time="0.007533"/>
+      <testcase name="testJoinNullKey" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="781" assertions="2" time="0.008004"/>
+      <testcase name="testJoinEmptyKey" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="791" assertions="2" time="0.007708"/>
+      <testcase name="testJoinNonStringKey" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="801" assertions="2" time="0.007713"/>
+      <testcase name="testProperties" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="811" assertions="1" time="0.006899"/>
+      <testcase name="testPropertyUris" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="820" assertions="1" time="0.006571"/>
+      <testcase name="testReversePropertyUris" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="832" assertions="1" time="0.006834"/>
+      <testcase name="testHasProperty" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="843" assertions="1" time="0.007069"/>
+      <testcase name="testDoesntHaveProperty" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="851" assertions="1" time="0.007176"/>
+      <testcase name="testTypes" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="859" assertions="2" time="0.007875"/>
+      <testcase name="testType" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="867" assertions="1" time="0.007447"/>
+      <testcase name="testTypeAsResource" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="873" assertions="1" time="0.007842"/>
+      <testcase name="testIsA" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="882" assertions="1" time="0.007162"/>
+      <testcase name="testIsAFullUri" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="888" assertions="1" time="0.007170"/>
+      <testcase name="testIsntA" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="896" assertions="1" time="0.007321"/>
+      <testcase name="testAddType" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="902" assertions="1" time="0.008282"/>
+      <testcase name="testSetType" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="911" assertions="3" time="0.010254"/>
+      <testcase name="testPrimaryTopic" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="926" assertions="1" time="0.008409"/>
+      <testcase name="testIsPrimaryTopicOf" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="938" assertions="1" time="0.008906"/>
+      <testcase name="testLabelWithRdfsLabel" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="950" assertions="1" time="0.010237"/>
+      <testcase name="testLabelWithFoafName" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="959" assertions="1" time="0.009387"/>
+      <testcase name="testLabelWithDc11Title" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="967" assertions="1" time="0.009280"/>
+      <testcase name="testLabelNoRdfsLabel" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="974" assertions="1" time="0.008205"/>
+      <testcase name="testLabelWithLang" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="980" assertions="1" time="0.009747"/>
+      <testcase name="testDump" class="EasyRdf_ResourceTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/ResourceTest.php" line="991" assertions="10" time="0.010330"/>
+    </testsuite>
+    <testsuite name="EasyRdf_Http_MockClientTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Http/MockClientTest.php" fullPackage="EasyRdf.Http" tests="16" assertions="30" failures="0" errors="0" time="0.094245">
+      <testcase name="testUrlMatch" class="EasyRdf_Http_MockClientTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Http/MockClientTest.php" line="22" assertions="2" time="0.005801"/>
+      <testcase name="testPathMatch" class="EasyRdf_Http_MockClientTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Http/MockClientTest.php" line="33" assertions="2" time="0.005854"/>
+      <testcase name="testPathAndQueryMatch" class="EasyRdf_Http_MockClientTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Http/MockClientTest.php" line="43" assertions="2" time="0.006060"/>
+      <testcase name="testSettingGetParameter" class="EasyRdf_Http_MockClientTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Http/MockClientTest.php" line="54" assertions="2" time="0.006508"/>
+      <testcase name="testUnknownUrl" class="EasyRdf_Http_MockClientTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Http/MockClientTest.php" line="71" assertions="2" time="0.005858"/>
+      <testcase name="testMethodUnknownMatch" class="EasyRdf_Http_MockClientTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Http/MockClientTest.php" line="80" assertions="2" time="0.007379"/>
+      <testcase name="testWildcardMethod" class="EasyRdf_Http_MockClientTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Http/MockClientTest.php" line="90" assertions="1" time="0.005451"/>
+      <testcase name="testWildcardUrl" class="EasyRdf_Http_MockClientTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Http/MockClientTest.php" line="97" assertions="1" time="0.005260"/>
+      <testcase name="testSetStatus" class="EasyRdf_Http_MockClientTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Http/MockClientTest.php" line="104" assertions="1" time="0.004813"/>
+      <testcase name="testSetHeaders" class="EasyRdf_Http_MockClientTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Http/MockClientTest.php" line="111" assertions="1" time="0.005014"/>
+      <testcase name="testSetResponse" class="EasyRdf_Http_MockClientTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Http/MockClientTest.php" line="119" assertions="3" time="0.005091"/>
+      <testcase name="testOnce" class="EasyRdf_Http_MockClientTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Http/MockClientTest.php" line="129" assertions="4" time="0.007263"/>
+      <testcase name="testCallbackWithoutArgs" class="EasyRdf_Http_MockClientTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Http/MockClientTest.php" line="144" assertions="2" time="0.006706"/>
+      <testcase name="testCallbackWithArgs" class="EasyRdf_Http_MockClientTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Http/MockClientTest.php" line="170" assertions="2" time="0.006538"/>
+      <testcase name="testCallbackWithMockHttp" class="EasyRdf_Http_MockClientTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Http/MockClientTest.php" line="193" assertions="1" time="0.005165"/>
+      <testcase name="testGuessJsonContentType" class="EasyRdf_Http_MockClientTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Http/MockClientTest.php" line="206" assertions="2" time="0.005484"/>
+    </testsuite>
+    <testsuite name="EasyRdf_Http_ResponseTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Http/ResponseTest.php" fullPackage="EasyRdf.Http" tests="12" assertions="31" failures="0" errors="0" time="0.070568">
+      <testcase name="testGetVersion" class="EasyRdf_Http_ResponseTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Http/ResponseTest.php" line="15" assertions="1" time="0.006082"/>
+      <testcase name="testGetMessage" class="EasyRdf_Http_ResponseTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Http/ResponseTest.php" line="27" assertions="1" time="0.005590"/>
+      <testcase name="testGetBody" class="EasyRdf_Http_ResponseTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Http/ResponseTest.php" line="39" assertions="1" time="0.005805"/>
+      <testcase name="testInvalidResponse" class="EasyRdf_Http_ResponseTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Http/ResponseTest.php" line="50" assertions="2" time="0.005674"/>
+      <testcase name="testInvalidStatusLine" class="EasyRdf_Http_ResponseTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Http/ResponseTest.php" line="59" assertions="2" time="0.005643"/>
+      <testcase name="testGetBodyChunked" class="EasyRdf_Http_ResponseTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Http/ResponseTest.php" line="70" assertions="1" time="0.005989"/>
+      <testcase name="testInvalidChunkedBody" class="EasyRdf_Http_ResponseTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Http/ResponseTest.php" line="81" assertions="2" time="0.006423"/>
+      <testcase name="test200Ok" class="EasyRdf_Http_ResponseTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Http/ResponseTest.php" line="93" assertions="4" time="0.006701"/>
+      <testcase name="test404IsError" class="EasyRdf_Http_ResponseTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Http/ResponseTest.php" line="118" assertions="4" time="0.005460"/>
+      <testcase name="test500isError" class="EasyRdf_Http_ResponseTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Http/ResponseTest.php" line="143" assertions="4" time="0.005398"/>
+      <testcase name="test300isRedirect" class="EasyRdf_Http_ResponseTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Http/ResponseTest.php" line="168" assertions="5" time="0.005925"/>
+      <testcase name="testGetHeaders" class="EasyRdf_Http_ResponseTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Http/ResponseTest.php" line="198" assertions="4" time="0.005878"/>
+    </testsuite>
+    <testsuite name="EasyRdf_Http_ClientTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Http/ClientTest.php" fullPackage="EasyRdf.Http" tests="18" assertions="35" failures="0" errors="0" time="0.090868">
+      <testcase name="testConstructWithConfig" class="EasyRdf_Http_ClientTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Http/ClientTest.php" line="24" assertions="1" time="0.004776"/>
+      <testcase name="testSetGetUriString" class="EasyRdf_Http_ClientTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Http/ClientTest.php" line="37" assertions="3" time="0.004756"/>
+      <testcase name="testSetGetUriObject" class="EasyRdf_Http_ClientTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Http/ClientTest.php" line="64" assertions="1" time="0.004558"/>
+      <testcase name="testSetConfig" class="EasyRdf_Http_ClientTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Http/ClientTest.php" line="74" assertions="1" time="0.004569"/>
+      <testcase name="testSetConfigNull" class="EasyRdf_Http_ClientTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Http/ClientTest.php" line="80" assertions="2" time="0.005624"/>
+      <testcase name="testSetConfigNonArray" class="EasyRdf_Http_ClientTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Http/ClientTest.php" line="89" assertions="2" time="0.005657"/>
+      <testcase name="testGetHeader" class="EasyRdf_Http_ClientTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Http/ClientTest.php" line="102" assertions="2" time="0.004672"/>
+      <testcase name="testUnsetHeader" class="EasyRdf_Http_ClientTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Http/ClientTest.php" line="117" assertions="1" time="0.004518"/>
+      <testcase name="testSetGetMethod" class="EasyRdf_Http_ClientTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Http/ClientTest.php" line="127" assertions="1" time="0.004441"/>
+      <testcase name="testSetNonStringMethod" class="EasyRdf_Http_ClientTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Http/ClientTest.php" line="134" assertions="2" time="0.005569"/>
+      <testcase name="testSetNumericMethod" class="EasyRdf_Http_ClientTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Http/ClientTest.php" line="143" assertions="2" time="0.005220"/>
+      <testcase name="testRedirectionCounterShouldStartAtZero" class="EasyRdf_Http_ClientTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Http/ClientTest.php" line="152" assertions="1" time="0.004224"/>
+      <testcase name="testSetParameterGet" class="EasyRdf_Http_ClientTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Http/ClientTest.php" line="158" assertions="1" time="0.004910"/>
+      <testcase name="testUnSetParameterGet" class="EasyRdf_Http_ClientTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Http/ClientTest.php" line="164" assertions="2" time="0.005119"/>
+      <testcase name="testSetRawData" class="EasyRdf_Http_ClientTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Http/ClientTest.php" line="173" assertions="1" time="0.004891"/>
+      <testcase name="testRequestNoUri" class="EasyRdf_Http_ClientTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Http/ClientTest.php" line="179" assertions="2" time="0.006163"/>
+      <testcase name="testResetParameters" class="EasyRdf_Http_ClientTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Http/ClientTest.php" line="189" assertions="5" time="0.005324"/>
+      <testcase name="testResetParametersClearAll" class="EasyRdf_Http_ClientTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/Http/ClientTest.php" line="204" assertions="5" time="0.005877"/>
+    </testsuite>
+    <testsuite name="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" fullPackage="EasyRdf" tests="138" assertions="260" failures="0" errors="0" time="1.126085">
+      <testcase name="testGetUri" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="79" assertions="1" time="0.007200"/>
+      <testcase name="testNewBNode" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="88" assertions="2" time="0.008204"/>
+      <testcase name="testParseData" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="105" assertions="4" time="0.012903"/>
+      <testcase name="testParseDataGuess" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="118" assertions="4" time="0.014139"/>
+      <testcase name="testLoadData" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="131" assertions="1" time="0.013427"/>
+      <testcase name="testLoadNullUri" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="141" assertions="2" time="0.007631"/>
+      <testcase name="testLoadEmptyUri" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="151" assertions="2" time="0.008630"/>
+      <testcase name="testLoadNonStringUri" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="161" assertions="2" time="0.008574"/>
+      <testcase name="testLoadUnknownFormat" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="171" assertions="2" time="0.007570"/>
+      <testcase name="testLoadHttpError" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="181" assertions="2" time="0.008568"/>
+      <testcase name="testLoadMockParser" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="195" assertions="1" time="0.007861"/>
+      <testcase name="testLoadMockHttpClient" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="207" assertions="1" time="0.012981"/>
+      <testcase name="testGetResourceSameGraph" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="218" assertions="3" time="0.007929"/>
+      <testcase name="testGetResourceDifferentGraph" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="228" assertions="1" time="0.007018"/>
+      <testcase name="testGetShortenedResource" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="237" assertions="1" time="0.007207"/>
+      <testcase name="testGetRelativeResource" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="247" assertions="1" time="0.007315"/>
+      <testcase name="testGetResourceForGraphUri" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="257" assertions="2" time="0.008083"/>
+      <testcase name="testGetResourceUnknown" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="268" assertions="1" time="0.008395"/>
+      <testcase name="testGetNullResourceForNullGraphUri" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="277" assertions="2" time="0.008660"/>
+      <testcase name="testGetResourceEmptyUri" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="287" assertions="2" time="0.009126"/>
+      <testcase name="testGetResourceNonStringUri" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="297" assertions="2" time="0.007540"/>
+      <testcase name="testResolveResource" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="307" assertions="2" time="0.008650"/>
+      <testcase name="testResourceWithType" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="316" assertions="1" time="0.009854"/>
+      <testcase name="testResourceWithTypeUri" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="327" assertions="1" time="0.009607"/>
+      <testcase name="testResourceWithMultipleTypes" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="338" assertions="3" time="0.010290"/>
+      <testcase name="testResources" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="352" assertions="3" time="0.017454"/>
+      <testcase name="testResourcesMatching" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="378" assertions="2" time="0.014880"/>
+      <testcase name="testResourcesMatchingObject" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="390" assertions="2" time="0.009064"/>
+      <testcase name="testGet" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="403" assertions="1" time="0.007873"/>
+      <testcase name="testGetWithUri" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="411" assertions="1" time="0.006992"/>
+      <testcase name="testGetWithLanguage" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="422" assertions="1" time="0.007049"/>
+      <testcase name="testGetInverse" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="430" assertions="1" time="0.008560"/>
+      <testcase name="testGetArray" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="439" assertions="1" time="0.008215"/>
+      <testcase name="testPropertyAsResource" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="447" assertions="1" time="0.007827"/>
+      <testcase name="testGetLiteral" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="455" assertions="1" time="0.009522"/>
+      <testcase name="testGetUriResource" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="464" assertions="1" time="0.009138"/>
+      <testcase name="testGetBnodeResource" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="473" assertions="1" time="0.010554"/>
+      <testcase name="testGetNonExistantLiteral" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="483" assertions="1" time="0.007528"/>
+      <testcase name="testGetArray2" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="490" assertions="1" time="0.007497"/>
+      <testcase name="testGetEmptyArray" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="498" assertions="1" time="0.006239"/>
+      <testcase name="testGetNonExistantResource" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="506" assertions="1" time="0.006677"/>
+      <testcase name="testGetNonExistantProperty" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="513" assertions="1" time="0.006757"/>
+      <testcase name="testGetNullResource" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="518" assertions="2" time="0.007643"/>
+      <testcase name="testGetEmptyResource" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="527" assertions="2" time="0.007322"/>
+      <testcase name="testGetNullProperty" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="536" assertions="2" time="0.007486"/>
+      <testcase name="testGetEmptyProperty" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="545" assertions="2" time="0.007686"/>
+      <testcase name="testGetNonStringProperty" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="554" assertions="2" time="0.007593"/>
+      <testcase name="testAll" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="563" assertions="3" time="0.007279"/>
+      <testcase name="testAllWithPropertyUri" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="571" assertions="3" time="0.007504"/>
+      <testcase name="testAllWithLang" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="582" assertions="2" time="0.006968"/>
+      <testcase name="testAllInverse" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="589" assertions="2" time="0.007375"/>
+      <testcase name="testAllNonExistantResource" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="596" assertions="1" time="0.006631"/>
+      <testcase name="testAllNonExistantProperty" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="604" assertions="1" time="0.006701"/>
+      <testcase name="testAllNullKey" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="612" assertions="2" time="0.007590"/>
+      <testcase name="testAllEmptyKey" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="621" assertions="2" time="0.007256"/>
+      <testcase name="testAllNonStringKey" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="630" assertions="2" time="0.007239"/>
+      <testcase name="testAllOfType" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="639" assertions="3" time="0.012388"/>
+      <testcase name="testAllOfTypeUnknown" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="652" assertions="2" time="0.006898"/>
+      <testcase name="testAllLiterals" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="660" assertions="3" time="0.007505"/>
+      <testcase name="testAllLiteralsEmpty" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="668" assertions="2" time="0.007008"/>
+      <testcase name="testAllResources" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="675" assertions="5" time="0.009272"/>
+      <testcase name="testJoinDefaultGlue" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="687" assertions="1" time="0.006759"/>
+      <testcase name="testJoinWithUri" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="695" assertions="1" time="0.006774"/>
+      <testcase name="testJoinWithLang" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="706" assertions="1" time="0.006779"/>
+      <testcase name="testJoinNonExistantProperty" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="714" assertions="1" time="0.006542"/>
+      <testcase name="testJoinCustomGlue" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="719" assertions="1" time="0.006858"/>
+      <testcase name="testJoinNullKey" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="727" assertions="2" time="0.007541"/>
+      <testcase name="testJoinEmptyKey" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="736" assertions="2" time="0.007693"/>
+      <testcase name="testJoinNonStringKey" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="745" assertions="2" time="0.007351"/>
+      <testcase name="testAdd" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="754" assertions="4" time="0.007552"/>
+      <testcase name="testAddWithUri" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="764" assertions="4" time="0.008130"/>
+      <testcase name="testAddLiteralWithLanguage" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="778" assertions="3" time="0.007662"/>
+      <testcase name="testAddMultipleLiterals" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="787" assertions="5" time="0.009034"/>
+      <testcase name="testAddLiteralMultipleTimes" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="798" assertions="2" time="0.007585"/>
+      <testcase name="testAddLiteralDifferentLanguages" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="807" assertions="3" time="0.008530"/>
+      <testcase name="testAddNull" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="817" assertions="3" time="0.007652"/>
+      <testcase name="testAddNullKey" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="826" assertions="2" time="0.007440"/>
+      <testcase name="testAddEmptyKey" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="835" assertions="2" time="0.007401"/>
+      <testcase name="testAddNonStringKey" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="844" assertions="2" time="0.007700"/>
+      <testcase name="testAddInvalidObject" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="853" assertions="2" time="0.007683"/>
+      <testcase name="testAddSingleValueToString" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="862" assertions="1" time="0.007117"/>
+      <testcase name="testAddSingleValueToResource" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="869" assertions="1" time="0.007118"/>
+      <testcase name="testAddPropertriesInvalidResourceClass" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="876" assertions="2" time="0.007219"/>
+      <testcase name="testAddResource" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="887" assertions="2" time="0.008226"/>
+      <testcase name="testAddBnodeResource" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="895" assertions="3" time="0.011128"/>
+      <testcase name="testAddDulicateTriple" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="904" assertions="4" time="0.009906"/>
+      <testcase name="testDelete" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="920" assertions="2" time="0.007740"/>
+      <testcase name="testDeleteWithUri" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="927" assertions="2" time="0.008436"/>
+      <testcase name="testDeleteNullKey" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="937" assertions="2" time="0.008476"/>
+      <testcase name="testDeleteEmptyKey" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="946" assertions="2" time="0.008813"/>
+      <testcase name="testDeleteNonStringKey" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="955" assertions="2" time="0.007509"/>
+      <testcase name="testDeleteValue" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="964" assertions="1" time="0.008611"/>
+      <testcase name="testDeleteResource" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="972" assertions="4" time="0.009239"/>
+      <testcase name="testGetType" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="983" assertions="1" time="0.012840"/>
+      <testcase name="testTypeUnknown" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="995" assertions="1" time="0.006464"/>
+      <testcase name="testPrimaryTopic" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="1001" assertions="1" time="0.012205"/>
+      <testcase name="testPrimaryTopicUnknown" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="1013" assertions="1" time="0.006124"/>
+      <testcase name="testSerialise" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="1019" assertions="1" time="0.006965"/>
+      <testcase name="testSerialiseByMime" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="1026" assertions="1" time="0.007328"/>
+      <testcase name="testIsEmpty" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="1037" assertions="1" time="0.006372"/>
+      <testcase name="testIsNotEmpty" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="1043" assertions="1" time="0.006373"/>
+      <testcase name="testIsEmptyAfterDelete" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="1050" assertions="1" time="0.006778"/>
+      <testcase name="testProperties" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="1058" assertions="1" time="0.007026"/>
+      <testcase name="testPropertiesForNonExistantResource" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="1066" assertions="1" time="0.006364"/>
+      <testcase name="testPropertyUris" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="1074" assertions="1" time="0.006532"/>
+      <testcase name="testNoReversePropertyUris" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="1085" assertions="1" time="0.006532"/>
+      <testcase name="testReversePropertyUris" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="1092" assertions="1" time="0.006230"/>
+      <testcase name="testPropertyUrisForNonExistantResource" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="1102" assertions="1" time="0.006558"/>
+      <testcase name="testHasProperty" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="1110" assertions="1" time="0.006517"/>
+      <testcase name="testHasInverseProperty" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="1117" assertions="1" time="0.006772"/>
+      <testcase name="testDoesntHaveProperty" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="1124" assertions="1" time="0.006828"/>
+      <testcase name="testDoesntHaveInverseProperty" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="1131" assertions="1" time="0.006956"/>
+      <testcase name="testDumpText" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="1138" assertions="4" time="0.007468"/>
+      <testcase name="testDumpEmptyGraph" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="1147" assertions="2" time="0.006376"/>
+      <testcase name="testDumpHtml" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="1154" assertions="4" time="0.008358"/>
+      <testcase name="testDumpLiterals" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="1163" assertions="11" time="0.011911"/>
+      <testcase name="testDumpResource" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="1187" assertions="11" time="0.013747"/>
+      <testcase name="testDumpResourceWithNoProperties" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="1210" assertions="2" time="0.006707"/>
+      <testcase name="testTypes" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="1217" assertions="2" time="0.007355"/>
+      <testcase name="testTypesNotLiteral" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="1224" assertions="3" time="0.009220"/>
+      <testcase name="testType" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="1234" assertions="1" time="0.007334"/>
+      <testcase name="testTypeForResourceWithNoType" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="1239" assertions="1" time="0.007105"/>
+      <testcase name="testTypeForUnamedGraph" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="1245" assertions="1" time="0.006099"/>
+      <testcase name="testTypeAsResource" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="1251" assertions="2" time="0.007603"/>
+      <testcase name="testTypeAsResourceForUnamedGraph" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="1258" assertions="1" time="0.006583"/>
+      <testcase name="testIsA" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="1264" assertions="1" time="0.007073"/>
+      <testcase name="testIsAFullUri" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="1269" assertions="1" time="0.007410"/>
+      <testcase name="testIsntA" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="1276" assertions="1" time="0.007354"/>
+      <testcase name="testAddType" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="1281" assertions="1" time="0.008904"/>
+      <testcase name="testSetType" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="1289" assertions="2" time="0.010012"/>
+      <testcase name="testLabelForUnnamedGraph" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="1300" assertions="1" time="0.006886"/>
+      <testcase name="testLabelWithSkosPrefLabel" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="1306" assertions="1" time="0.009565"/>
+      <testcase name="testLabelWithRdfsLabel" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="1315" assertions="1" time="0.009577"/>
+      <testcase name="testLabelWithFoafName" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="1323" assertions="1" time="0.008783"/>
+      <testcase name="testLabelWithDc11Title" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="1330" assertions="1" time="0.008710"/>
+      <testcase name="testLabelNoRdfsLabel" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="1336" assertions="1" time="0.007853"/>
+      <testcase name="testCountTriples" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="1341" assertions="2" time="0.007226"/>
+      <testcase name="testToString" class="EasyRdf_GraphTest" file="/home/vandaeko/Projecten/kvd/vendor/easyrdf-0.6.2/test/EasyRdf/GraphTest.php" line="1348" assertions="1" time="0.006366"/>
+    </testsuite>
+  </testsuite>
+</testsuites>
