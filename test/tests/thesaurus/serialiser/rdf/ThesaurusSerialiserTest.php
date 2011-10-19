@@ -136,7 +136,7 @@ class KVDthes_serialiser_rdf_ThesaurusSerialiserTest extends PHPUnit_Framework_T
                     xmlns:skos="http://www.w3.org/2004/02/skos/core#"
                     xmlns:dc="http://purl.org/dc/terms/"
                 >
-                <skos:ConceptScheme rdf:nodeID="eid1">
+                <skos:ConceptScheme rdf:nodeID="genid1">
                     <skos:prefLabel>Typologie Onroerend Erfgoed 2</skos:prefLabel>
                     <dc:title>Typologie Onroerend Erfgoed 2</dc:title>
                     <dc:language>nl-BE</dc:language>

@@ -259,7 +259,7 @@ class KVDthes_Serialiser_Rdf_TermSerialiserTest extends PHPUnit_Framework_TestCa
                     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
                     xmlns:skos="http://www.w3.org/2004/02/skos/core#"
                 >
-                <skos:Concept rdf:nodeID="eid1">
+                <skos:Concept rdf:nodeID="genid1">
                     <skos:prefLabel>Vaartuigen</skos:prefLabel>
                 </skos:Concept>
                 </rdf:RDF>';
