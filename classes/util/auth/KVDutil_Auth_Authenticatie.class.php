@@ -66,6 +66,7 @@ class KVDutil_Auth_Authenticatie
      * 
      * @param   string  $gebruikersnaam
      * @param   string  $paswoord
+     * @return  boolean
      */
     public function aanmelden($gebruikersnaam, $paswoord)
     {
@@ -74,6 +75,7 @@ class KVDutil_Auth_Authenticatie
 
     /**
      * Afmelden van de gebruiker.
+     * @return boolean
      */
     public function afmelden()
     {

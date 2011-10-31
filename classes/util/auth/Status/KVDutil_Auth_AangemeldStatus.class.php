@@ -48,6 +48,7 @@ class KVDutil_Auth_AangemeldStatus implements KVDutil_Auth_IStatus
      *
      * @param string $gebruikersnaam
      * @param string $paswoord
+     * @return  boolean Geeft aan of het aanmelden gelukt is
      */
     public function aanmelden($gebruikersnaam, $paswoord)
     {
@@ -57,6 +58,7 @@ class KVDutil_Auth_AangemeldStatus implements KVDutil_Auth_IStatus
 
     /**
      * De authenticatie klasse verandert naar status afgemeld
+     * @return boolean true
      */
     public function afmelden()
     {
