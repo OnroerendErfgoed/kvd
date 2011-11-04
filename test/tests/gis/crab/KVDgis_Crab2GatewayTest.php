@@ -15,7 +15,7 @@ class KVDgis_Crab2GatewayTest extends PHPUnit_Framework_TestCase
                             );
         if ( defined ( 'CRAB_PROXY_HOST' ) && CRAB_PROXY_HOST != '' ) {
             $this->parameters['proxy_host'] = CRAB_PROXY_HOST;
-            if ( defined( 'CRAB_PROXY_PORT' && CRAB_PROXY_PORT != '') ) {
+            if ( defined( 'CRAB_PROXY_PORT' ) && CRAB_PROXY_PORT != '') {
                 $this->parameters['proxy_port'] = CRAB_PROXY_PORT;
             }
         }
