@@ -1,11 +1,11 @@
 --Verwijderen overbodige deelgemeenten
-DELETE FROM kvd_adr.deelgemeente WHERE id = "13008B";
-DELETE FROM kvd_adr.deelgemeente WHERE id = "11002M";
-DELETE FROM kvd_adr.deelgemeente WHERE id = "71016B";
-DELETE FROM kvd_adr.deelgemeente WHERE id = "44021B";
-DELETE FROM kvd_adr.deelgemeente WHERE id = "11002C";
-DELETE FROM kvd_adr.deelgemeente WHERE id = "11002D";
-DELETE FROM kvd_adr.deelgemeente WHERE id = "11002H";
+DELETE FROM kvd_adr.deelgemeente WHERE id = '13008B';
+DELETE FROM kvd_adr.deelgemeente WHERE id = '11002M';
+DELETE FROM kvd_adr.deelgemeente WHERE id = '71016B';
+DELETE FROM kvd_adr.deelgemeente WHERE id = '44021B';
+DELETE FROM kvd_adr.deelgemeente WHERE id = '11002C';
+DELETE FROM kvd_adr.deelgemeente WHERE id = '11002D';
+DELETE FROM kvd_adr.deelgemeente WHERE id = '11002H';
 
 --Toevoegen nieuwe deelgemeenten
 INSERT INTO kvd_adr.deelgemeente VALUES ( '38002H' , 'Oeren' , 38002 );
@@ -15,35 +15,35 @@ INSERT INTO kvd_adr.deelgemeente VALUES ( '24059M' , 'Walsbets' , 24059 );
 INSERT INTO kvd_adr.deelgemeente VALUES ( '24059N' , 'Wezeren' , 24059 ); 
 
 --Hernoemen bestaanden deelgemeente
-UPDATE kvd_adr.deelgemeente SET naam = "Groot-Gelmen" WHERE id = "71053K";
-UPDATE kvd_adr.deelgemeente SET naam = "Petegem-aan-de-Leie" WHERE id = "44011C";
-UPDATE kvd_adr.deelgemeente SET naam = "Sint-Ulriks-Kapelle" WHERE id = "23016B" 
-UPDATE kvd_adr.deelgemeente SET naam = "Erps-Kwerps" WHERE id = "24055B";
-UPDATE kvd_adr.deelgemeente SET naam = "Neerlanden" WHERE id = "24059L" 
-UPDATE kvd_adr.deelgemeente SET naam = "Rumsdorp" WHERE id = "24059B" 
-UPDATE kvd_adr.deelgemeente SET naam = "Eliksem" WHERE id = "24059F";
-UPDATE kvd_adr.deelgemeente SET naam = "Ezemaal" WHERE id = "24059G";
-UPDATE kvd_adr.deelgemeente SET naam = "Laar" WHERE id = "24059H";
-UPDATE kvd_adr.deelgemeente SET naam = "Overwinden" WHERE id = "24059J";
-UPDATE kvd_adr.deelgemeente SET naam = "Wange" WHERE id = "24059E";
-UPDATE kvd_adr.deelgemeente SET naam = "Drieslinter" WHERE id = "24133A";
-UPDATE kvd_adr.deelgemeente SET naam = "Neerlinter" WHERE id = "24133B";
-UPDATE kvd_adr.deelgemeente SET naam = "Melkwezer" WHERE id = "24133D";
-UPDATE kvd_adr.deelgemeente SET naam = "Neerhespen" WHERE id = "24133E";
-UPDATE kvd_adr.deelgemeente SET naam = "Overhespen" WHERE id = "24133F";
-UPDATE kvd_adr.deelgemeente SET naam = "Wommersom" WHERE id = "24133G";
-UPDATE kvd_adr.deelgemeente SET naam = "Meensel-Kiezegem" WHERE id = "24135B";
-UPDATE kvd_adr.deelgemeente SET naam = "Helen-Bos" WHERE id = "24130B";
-UPDATE kvd_adr.deelgemeente SET naam = "Sint-Kruis" WHERE id = "31005E";
-UPDATE kvd_adr.deelgemeente SET naam = "Sint-Michiels" WHERE id = "31005G";
-UPDATE kvd_adr.deelgemeente SET naam = "Zandvoorde" WHERE id = "35013C";
-UPDATE kvd_adr.deelgemeente SET naam = "Beveren" WHERE id = "34040B";
-UPDATE kvd_adr.deelgemeente SET naam = "Hoeke" WHERE id = "31006B";
-UPDATE kvd_adr.deelgemeente SET naam = "Oostkerke" WHERE id = "31006C";
-UPDATE kvd_adr.deelgemeente SET naam = "Gent" WHERE id = "44021A";
-UPDATE kvd_adr.deelgemeente SET naam = "Sint-Denijs-Westrem" WHERE id = "44021C";
-UPDATE kvd_adr.deelgemeente SET naam = "Afsnee" WHERE id = "44021J";
-UPDATE kvd_adr.deelgemeente SET naam = "Opvelp" WHERE id = "24011D";
-UPDATE kvd_adr.deelgemeente SET naam = "Antwerpen" WHERE id = "11002A";
-UPDATE kvd_adr.deelgemeente SET naam = "Berendrecht" WHERE id = "11002K";
-UPDATE kvd_adr.deelgemeente SET naam = "Lillo" WHERE id = "11002B";
+UPDATE kvd_adr.deelgemeente SET naam = 'Groot-Gelmen' WHERE id = '71053K';
+UPDATE kvd_adr.deelgemeente SET naam = 'Petegem-aan-de-Leie' WHERE id = '44011C';
+UPDATE kvd_adr.deelgemeente SET naam = 'Sint-Ulriks-Kapelle' WHERE id = '23016B' 
+UPDATE kvd_adr.deelgemeente SET naam = 'Erps-Kwerps' WHERE id = '24055B';
+UPDATE kvd_adr.deelgemeente SET naam = 'Neerlanden' WHERE id = '24059L' 
+UPDATE kvd_adr.deelgemeente SET naam = 'Rumsdorp' WHERE id = '24059B' 
+UPDATE kvd_adr.deelgemeente SET naam = 'Eliksem' WHERE id = '24059F';
+UPDATE kvd_adr.deelgemeente SET naam = 'Ezemaal' WHERE id = '24059G';
+UPDATE kvd_adr.deelgemeente SET naam = 'Laar' WHERE id = '24059H';
+UPDATE kvd_adr.deelgemeente SET naam = 'Overwinden' WHERE id = '24059J';
+UPDATE kvd_adr.deelgemeente SET naam = 'Wange' WHERE id = '24059E';
+UPDATE kvd_adr.deelgemeente SET naam = 'Drieslinter' WHERE id = '24133A';
+UPDATE kvd_adr.deelgemeente SET naam = 'Neerlinter' WHERE id = '24133B';
+UPDATE kvd_adr.deelgemeente SET naam = 'Melkwezer' WHERE id = '24133D';
+UPDATE kvd_adr.deelgemeente SET naam = 'Neerhespen' WHERE id = '24133E';
+UPDATE kvd_adr.deelgemeente SET naam = 'Overhespen' WHERE id = '24133F';
+UPDATE kvd_adr.deelgemeente SET naam = 'Wommersom' WHERE id = '24133G';
+UPDATE kvd_adr.deelgemeente SET naam = 'Meensel-Kiezegem' WHERE id = '24135B';
+UPDATE kvd_adr.deelgemeente SET naam = 'Helen-Bos' WHERE id = '24130B';
+UPDATE kvd_adr.deelgemeente SET naam = 'Sint-Kruis' WHERE id = '31005E';
+UPDATE kvd_adr.deelgemeente SET naam = 'Sint-Michiels' WHERE id = '31005G';
+UPDATE kvd_adr.deelgemeente SET naam = 'Zandvoorde' WHERE id = '35013C';
+UPDATE kvd_adr.deelgemeente SET naam = 'Beveren' WHERE id = '34040B';
+UPDATE kvd_adr.deelgemeente SET naam = 'Hoeke' WHERE id = '31006B';
+UPDATE kvd_adr.deelgemeente SET naam = 'Oostkerke' WHERE id = '31006C';
+UPDATE kvd_adr.deelgemeente SET naam = 'Gent' WHERE id = '44021A';
+UPDATE kvd_adr.deelgemeente SET naam = 'Sint-Denijs-Westrem' WHERE id = '44021C';
+UPDATE kvd_adr.deelgemeente SET naam = 'Afsnee' WHERE id = '44021J';
+UPDATE kvd_adr.deelgemeente SET naam = 'Opvelp' WHERE id = '24011D';
+UPDATE kvd_adr.deelgemeente SET naam = 'Antwerpen' WHERE id = '11002A';
+UPDATE kvd_adr.deelgemeente SET naam = 'Berendrecht' WHERE id = '11002K';
+UPDATE kvd_adr.deelgemeente SET naam = 'Lillo' WHERE id = '11002B';
