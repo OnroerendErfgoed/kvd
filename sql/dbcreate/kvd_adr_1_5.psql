@@ -19,8 +19,8 @@ UPDATE kvd_adr.deelgemeente SET deelgemeente_naam = 'Groot-Gelmen' WHERE id = '7
 UPDATE kvd_adr.deelgemeente SET deelgemeente_naam = 'Petegem-aan-de-Leie' WHERE id = '44011C';
 UPDATE kvd_adr.deelgemeente SET deelgemeente_naam = 'Sint-Ulriks-Kapelle' WHERE id = '23016B'; 
 UPDATE kvd_adr.deelgemeente SET deelgemeente_naam = 'Erps-Kwerps' WHERE id = '24055B';
-UPDATE kvd_adr.deelgemeente SET deelgemeente_naam = 'Neerlanden' WHERE id = '24059L' 
-UPDATE kvd_adr.deelgemeente SET deelgemeente_naam = 'Rumsdorp' WHERE id = '24059B' 
+UPDATE kvd_adr.deelgemeente SET deelgemeente_naam = 'Neerlanden' WHERE id = '24059L'; 
+UPDATE kvd_adr.deelgemeente SET deelgemeente_naam = 'Rumsdorp' WHERE id = '24059B';
 UPDATE kvd_adr.deelgemeente SET deelgemeente_naam = 'Eliksem' WHERE id = '24059F';
 UPDATE kvd_adr.deelgemeente SET deelgemeente_naam = 'Ezemaal' WHERE id = '24059G';
 UPDATE kvd_adr.deelgemeente SET deelgemeente_naam = 'Laar' WHERE id = '24059H';
