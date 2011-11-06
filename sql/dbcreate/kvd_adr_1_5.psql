@@ -17,7 +17,7 @@ INSERT INTO kvd_adr.deelgemeente VALUES ( '24059N' , 'Wezeren' , 24059 );
 --Hernoemen bestaanden deelgemeente
 UPDATE kvd_adr.deelgemeente SET deelgemeente_naam = 'Groot-Gelmen' WHERE id = '71053K';
 UPDATE kvd_adr.deelgemeente SET deelgemeente_naam = 'Petegem-aan-de-Leie' WHERE id = '44011C';
-UPDATE kvd_adr.deelgemeente SET deelgemeente_naam = 'Sint-Ulriks-Kapelle' WHERE id = '23016B' 
+UPDATE kvd_adr.deelgemeente SET deelgemeente_naam = 'Sint-Ulriks-Kapelle' WHERE id = '23016B'; 
 UPDATE kvd_adr.deelgemeente SET deelgemeente_naam = 'Erps-Kwerps' WHERE id = '24055B';
 UPDATE kvd_adr.deelgemeente SET deelgemeente_naam = 'Neerlanden' WHERE id = '24059L' 
 UPDATE kvd_adr.deelgemeente SET deelgemeente_naam = 'Rumsdorp' WHERE id = '24059B' 
