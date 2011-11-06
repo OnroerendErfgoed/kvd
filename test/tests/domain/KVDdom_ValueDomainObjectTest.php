@@ -34,14 +34,10 @@ class KVDdom_ValueDomainObjectTest extends PHPUnit_Framework_TestCase
         $this->assertEquals( 'Henk', $this->do->getVoornaam( ) );
     }
 
-    /**
-     * testUnexistingProperty 
-     * 
-     * @expectedException   KVDdom_Fields_Exception
-     */
     public function testSetters( )
     {
         $this->do->setNaam( 'Van Daele' );
+        $this->assertEquals( 'Van Daele', $this->do->getNaam( ) );
     }
 
     /**
