@@ -49,9 +49,6 @@ class KVDdom_DomainObjectCollectionPager implements Countable
      */
     public function __construct ( $collection , $page = 1 , $rowsPerPage = 25)
     {
-        if ( $collection == null) {
-            $collection = new KVDdom_DomainObjectCollection( array( ) );
-        }
         // Indien het om een luie collectie gaat dan zorgen we er voor dat de pagina-groottes van de pager en de collectie gelijk zijn.
         if ( $collection instanceof KVDdom_LazyDomainObjectCollection ) {
             $collection->setRowsPerChunk( $rowsPerPage );
