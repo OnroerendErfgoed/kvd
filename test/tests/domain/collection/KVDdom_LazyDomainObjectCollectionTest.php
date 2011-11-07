@@ -114,5 +114,14 @@ class KVDdom_LazyDomainObjectCollectionTest extends PHPUnit_Framework_TestCase
         $this->coll->next( );
         $this->assertFalse( $this->coll->current(  ) );
     }
+
+    public function testToArray()
+    {
+        $arr = $this->coll->toArray();
+        $this->assertEquals( 3, count($arr));
+        $this->assertSame( $this->domObject, $arr[0] );
+        $this->assertSame( $this->domObject2, $arr[1] );
+        $this->assertSame( $this->domObject3, $arr[2] );
+    }
 }
 ?>

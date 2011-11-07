@@ -254,10 +254,21 @@ class KVDdom_LazyDomainObjectCollection extends KVDdom_DomainObjectCollection
     {
         return false;
     }
-    
+
+    /**
+     * toArray 
+     * 
+     * @return array
+     */
+    public function toArray()
+    {
+        return iterator_to_array( $this );
+    }
     
     /**
      * newNull
+     *
+     * @return KVDdom_NullLazyDomainObjectCollection
      */
     public static function newNull()
     {
@@ -307,6 +318,16 @@ class KVDdom_NullLazyDomainObjectCollection extends KVDdom_LazyDomainObjectColle
     public function getTotalRecordCount()
     {
         return 0;
+    }
+
+    /**
+     * toArray 
+     * 
+     * @return array
+     */
+    public function toArray()
+    {
+        return array( );
     }
 
     /**
