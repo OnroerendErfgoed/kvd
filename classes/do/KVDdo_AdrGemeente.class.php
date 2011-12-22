@@ -228,13 +228,5 @@ class KVDdo_NullAdrGemeente extends KVDdo_AdrGemeente
         return $this->provincie->getOmschrijving( ) . ' > ' . $this->naam;
     }
 
-    /**
-     * @return      KVDdo_NullAdrGemeente
-     * @deprecated  Lijkt me eigenlijk geen nut te hebben.
-     */
-    public static function newNull( )
-    {
-        return new KVDdo_NullAdrGemeente( );
-    }
 }
 ?>
