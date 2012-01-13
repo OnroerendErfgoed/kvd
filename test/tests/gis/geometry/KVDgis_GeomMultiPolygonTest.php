@@ -91,6 +91,21 @@ class KVDgis_GeomMultiPolygonTest extends PHPUnit_Framework_TestCase
         $this->testMultiPoly->setGeometryFromText('MULTIPOINT(178000 212000)');    
     }
 
+    function testGetAsJson( )
+    {
+        $this->testMultiPoly->setGeometryFromText(
+            'MULTIPOLYGON(((178000.25 212000.35, 178100.50 212003.55, 180560 212100)), 
+                          ((158000.25 200000.35, 158105.50 200203.55, 160560 200100), (160 250, 400 500, 210 321)))');
+        $js = new stdClass( );
+        $js->type = 'MultiPolygon';
+        $js->coordinates = array( 
+            array(array(array(178000.25, 212000.35), array(178100.50, 212003.55), array(180560, 212100))), 
+            array(array(array(158000.25, 200000.35), array(158105.50, 200203.55), array(160560, 200100)), 
+                  array(array(160, 250), array(400, 500), array(210, 321)))
+        );
+        $this->assertEquals( $js, $this->testMultiPoly->getAsJson(false) );
+    }
+
     /**
      * testVeryLargePolygon 
      * 
@@ -126,5 +141,6 @@ class KVDgis_GeomMultiPolygonTest extends PHPUnit_Framework_TestCase
                             'MULTIPOLYGON(((178000.25 212000.35, 178100.50 212003.55, 180560 212100)), ((158000.25 200000.35, 158105.50 200203.55, 160560 200100), (160 250, 400 500, 210 321)))'
                             );
     }
+
 }
 ?>

@@ -140,6 +140,24 @@ class KVDgis_GeomMultiPoint extends KVDgis_GeomGeometry
         return $buffer;
     }
 
+    /**
+     * getAsJson 
+     *
+     * @param boolean $encode
+     * 
+     * @return mixed String of Object.
+     */
+    public function getAsJson( $encode = true )
+    {
+        $json = new stdClass( );
+        $json->type = 'Multipoint';
+        $json->coordinates = array( );
+        foreach ( $this->points as $point ) {
+            $json->coordinates[] = $point->getAsJson(false)->coordinates;
+        }
+        return $encode ? json_encode( $json ) : $json;
+    }
+
     public function isEmpty( )
     {
         return count( $this->points ) == 0;

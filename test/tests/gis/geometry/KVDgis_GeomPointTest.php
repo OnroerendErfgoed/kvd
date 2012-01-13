@@ -63,6 +63,25 @@ class KVDgis_GeomPointTest extends PHPUnit_Framework_TestCase
             $this->assertEquals( $v, (string) $this->_testPoint );
         }
     }
-    
+
+    function testGetAsJson( )
+    {
+        $this->_testPoint->setGeometryFromText('POINT(178000 212000)');
+        $js = new stdClass( );
+        $js->type = 'Point';
+        $js->coordinates = array( 178000, 212000 );
+        $this->assertEquals( $js, json_decode( $this->_testPoint->getAsJson( ) ) );
+    }
+
+    function testGetAsJsonAsObject( )
+    {
+        $this->_testPoint->setGeometryFromText('POINT(178000 212000)');
+        $js = new stdClass( );
+        $js->type = 'Point';
+        $js->coordinates = array( 178000, 212000 );
+        $this->assertEquals( $js, $this->_testPoint->getAsJson( false ) );
+    }
+
+
 }
 ?>

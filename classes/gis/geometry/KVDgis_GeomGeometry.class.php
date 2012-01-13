@@ -177,6 +177,17 @@ abstract class KVDgis_GeomGeometry
     abstract public function getAsText();
 
     /**
+     * Converteer een Geometry naar de GeoJSON standaard.
+     *
+     * @param boolean $encode Teruggeven als json encoded in een string of 
+     *                        niet?
+     * 
+     * @return mixed Een string of een php object dat nog verder kan bewerkt 
+     *               worden voor het door json_encode gaat.
+     */
+    abstract public function getAsJson($encode = true );
+
+    /**
      * Id dit een lege geometrie of niet?
      * 
      * @since   16 jul 2009

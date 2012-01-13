@@ -134,6 +134,24 @@ class KVDgis_GeomMultiPolygon extends KVDgis_GeomGeometry
         return $buffer;
     }
 
+    /**
+     * getAsJson 
+     *
+     * @param boolean $encode
+     * 
+     * @return mixed String of Object
+     */
+    public function getAsJson( $encode = true )
+    {
+        $json = new stdClass( );
+        $json->type = 'MultiPolygon';
+        $json->coordinates = array( );
+        foreach ( $this->polys as $polygon ) {
+            $json->coordinates[] = $polygon->getAsJson(false)->coordinates;
+        }
+        return $encode ? json_encode( $json ) : $json;
+    }
+
     public function isEmpty( )
     {
         return ( count( $this->polys) < 1 );

@@ -111,5 +111,18 @@ class KVDgis_GeomPolygonTest extends PHPUnit_Framework_TestCase
                                                 );
         $this->assertEquals( 'POLYGON((178000 212000, 100000 150000), (178000 212000, 100000 150000))', (string) $this->testPolygon );
     }
+
+    function testGetAsJson( )
+    {
+        $this->testPolygon
+             ->setGeometryFromText('POLYGON((178000 212000, 100000 150000), (178000 212000, 100000 150000))');
+        $js = new stdClass( );
+        $js->type = 'Polygon';
+        $js->coordinates = array( 
+            array( array( 178000, 212000 ), array( 100000, 150000 ) ),
+            array( array( 178000, 212000 ), array( 100000, 150000 ) )
+        );
+        $this->assertEquals( $js, json_decode( $this->testPolygon->getAsJson( ) ) );
+    }
 }
 ?>

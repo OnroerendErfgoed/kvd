@@ -132,6 +132,15 @@ class KVDgis_GeomMultiPointTest extends PHPUnit_Framework_TestCase
     {
             $this->testMultiPoint->setGeometryFromText('POLYGON(178000 212000)');    
     }
+
+    function testGetAsJson( )
+    {
+        $this->testMultiPoint->setGeometryFromText('MULTIPOINT(178000 212000, 100000 150000)');
+        $js = new stdClass( );
+        $js->type = 'Multipoint';
+        $js->coordinates = array( array( 178000, 212000 ), array( 100000, 150000 ) );
+        $this->assertEquals( $js, json_decode( $this->testMultiPoint->getAsJson( ) ) );
+    }
     
 }
 ?>

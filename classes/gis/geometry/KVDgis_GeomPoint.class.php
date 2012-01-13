@@ -122,6 +122,21 @@ class KVDgis_GeomPoint extends KVDgis_GeomGeometry
     }
 
     /**
+     * getAsJson 
+     * 
+     * @param boolean $encode Json terug geven als string of als object?
+     * @return mixed String of Object.
+     */
+    public function getAsJson( $encode = true )
+    {
+        $json = new stdClass( );
+        $json->type = 'Point';
+        $json->coordinates = array( $this->x, $this->y );
+        
+        return $encode ? json_encode( $json ) : $json;
+    }
+
+    /**
      * isEmpty 
      * 
      * @return  boolean
