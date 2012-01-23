@@ -76,7 +76,10 @@ class KVDgis_OsmGateway implements KVDutil_Gateway
     protected function doRequest( $type, $z, $x, $y)
     {
         if ( $this->parameters['cache']['active'] == true ) {
-            $file = $this->parameters['cache']['cache_dir'] . "/$type/${z}_${x}_${y}.png";
+            if ( !is_dir( $this->parameters['cache']['cache_dir'] . "/$type/${z}" ) ) {
+                mkdir( $this->parameters['cache']['cache_dir'] . "/$type/${z}" );
+            }
+            $file = $this->parameters['cache']['cache_dir'] . "/$type/${z}/${x}_${y}.png";
             if ( is_file( $file) && filemtime($file) > time()-(86400*30) ) {
                 return file_get_contents( $file );
             }
