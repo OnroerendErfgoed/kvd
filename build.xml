@@ -195,6 +195,8 @@
 					<token key="CRAB_PWD" value="${crab.pwd}" />
 					<token key="CRAB_PROXY_HOST" value="${crab.proxy_host}" />
 					<token key="CRAB_PROXY_PORT" value="${crab.proxy_port}" />
+					<token key="OSM_PROXY_HOST" value="${osm.proxy_host}" />
+					<token key="OSM_PROXY_PORT" value="${osm.proxy_port}" />
 				</replacetokens>
 			</filterchain>
 		</copy>
