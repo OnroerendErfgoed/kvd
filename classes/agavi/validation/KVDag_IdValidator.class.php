@@ -41,6 +41,17 @@ class KVDag_IdValidator extends AgaviValidator
     {
         $value = $this->getData( $this->getArgument( ) );
 
+        // First we check if the object is of the correct type. 
+        // If so, we are ok and export the argument.
+        if ( $value instanceof KVDdom_DomainObject )  {
+            if ( $value->getClass( ) == $this->getParameter( 'domain_object' ) ) {
+                $this->export( $value );
+                return true;
+            } else {
+                return false;
+            }
+        }
+
         $this->sessie = $this->getContext( )
                              ->getDatabaseManager( )
                              ->getDatabase( $this->getParameter( 'session_name', 'sessie' ) )
