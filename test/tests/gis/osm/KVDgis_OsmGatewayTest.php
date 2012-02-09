@@ -73,8 +73,9 @@ class KVDgis_OsmGatewayTest extends PHPUnit_Framework_TestCase
         $res = $this->gateway->getMapnik( $z, $x, $y );
         $this->assertNotEmpty( $res );
 
-        $this->assertFileExists( $this->parameters['cache']['cache_dir'] . '/mapnik/16/33360_21950.png' );
-        unlink( $this->parameters['cache']['cache_dir'] . '/mapnik/16/33360_21950.png');
+        $this->assertFileExists( $this->parameters['cache']['cache_dir'] . '/mapnik/16/33360/21950.png' );
+        unlink( $this->parameters['cache']['cache_dir'] . '/mapnik/16/33360/21950.png');
+        rmdir( $this->parameters['cache']['cache_dir'] . '/mapnik/16/33360' );
         rmdir( $this->parameters['cache']['cache_dir'] . '/mapnik/16' );
         rmdir( $this->parameters['cache']['cache_dir'] . '/mapnik' );
         rmdir( $this->parameters['cache']['cache_dir'] . '/osma' );
@@ -96,7 +97,7 @@ class KVDgis_OsmGatewayTest extends PHPUnit_Framework_TestCase
         $res = $this->gateway->getMapnik( $z, $x, $y );
         $this->assertNotEmpty( $res );
 
-        $this->assertFileExists( $this->parameters['cache']['cache_dir'] . '/mapnik/16/33360_21950.png' );
+        $this->assertFileExists( $this->parameters['cache']['cache_dir'] . '/mapnik/16/33360/21950.png' );
 
         //Tweede request
         //Voorlopig geen idee hoe we kunnen checken dat de cache effectief werd 
@@ -104,7 +105,8 @@ class KVDgis_OsmGatewayTest extends PHPUnit_Framework_TestCase
         $res = $this->gateway->getMapnik( $z, $x, $y );
         $this->assertNotEmpty( $res );
 
-        unlink( $this->parameters['cache']['cache_dir'] . '/mapnik/16/33360_21950.png');
+        unlink( $this->parameters['cache']['cache_dir'] . '/mapnik/16/33360/21950.png');
+        unlink( $this->parameters['cache']['cache_dir'] . '/mapnik/16/33360/21950.png');
         rmdir( $this->parameters['cache']['cache_dir'] . '/mapnik/16' );
         rmdir( $this->parameters['cache']['cache_dir'] . '/mapnik' );
         rmdir( $this->parameters['cache']['cache_dir'] . '/osma' );
