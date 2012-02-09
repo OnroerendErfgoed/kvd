@@ -15,6 +15,8 @@
 	<property name="crab.pwd" value="" />
 	<property name="crab.proxy_host" value="" />
 	<property name="crab.proxy_port" value="" />
+	<property name="osm.proxy_host" value="" />
+	<property name="osm.proxy_port" value="" />
 
 	<taskdef name="generateautoloader" classname="phing.tasks.AutoloadGenerationTask" />
 

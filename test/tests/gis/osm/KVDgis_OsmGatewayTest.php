@@ -106,7 +106,7 @@ class KVDgis_OsmGatewayTest extends PHPUnit_Framework_TestCase
         $this->assertNotEmpty( $res );
 
         unlink( $this->parameters['cache']['cache_dir'] . '/mapnik/16/33360/21950.png');
-        unlink( $this->parameters['cache']['cache_dir'] . '/mapnik/16/33360/21950.png');
+        rmdir( $this->parameters['cache']['cache_dir'] . '/mapnik/16/33360');
         rmdir( $this->parameters['cache']['cache_dir'] . '/mapnik/16' );
         rmdir( $this->parameters['cache']['cache_dir'] . '/mapnik' );
         rmdir( $this->parameters['cache']['cache_dir'] . '/osma' );
