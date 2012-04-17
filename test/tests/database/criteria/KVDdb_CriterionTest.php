@@ -181,11 +181,11 @@ class KVDdb_CriterionTest extends PHPUnit_Framework_TestCase
     {
         $criterion = KVDdb_Criterion::searchFullTextIndex( 'tsv', 'koen & van & daele' );
         $this->assertInstanceOf ( 'KVDdb_Criterion', $criterion );
-        $this->assertEquals( "( tsv @@ to_tsquery( 'dutch', quote_literal( 'koen & van & daele' ) ) )", $criterion->generateSql( ));
+        $this->assertEquals( "( tsv @@ to_tsquery( 'dutch', 'koen & van & daele' ) )", $criterion->generateSql( ));
 
         $criterion = KVDdb_Criterion::searchFullTextIndex( 'tsv', 'koen & van & daele', 'english' );
         $this->assertInstanceOf ( 'KVDdb_Criterion', $criterion );
-        $this->assertEquals( "( tsv @@ to_tsquery( 'english', quote_literal( 'koen & van & daele' ) ) )", $criterion->generateSql( ));
+        $this->assertEquals( "( tsv @@ to_tsquery( 'english', 'koen & van & daele' ) )", $criterion->generateSql( ));
     }
 
     /**

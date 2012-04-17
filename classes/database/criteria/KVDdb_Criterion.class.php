@@ -809,7 +809,7 @@ class KVDdb_SearchFullTextIndexCriterion extends KVDdb_Criterion
         if ( $dbType == KVDdb_Criteria::DB_PGSQL ) {
             $sql =  '( ' . $this->field . 
                     " @@ to_tsquery( '" .$this->config . 
-                    "', quote_literal( " . $this->generateValue( $mode, $this->value ) . ' ) ) ';
+                    "', " . $this->generateValue( $mode, $this->value ) . ' ) ';
         } else {
             throw new InvalidArgumentException ( 
                 'This Criterion is only supported for Postgresql.' );
