@@ -1,4 +1,23 @@
 <?php
+/**
+ * KVDutil_Transformer_CollectionToCsv 
+ * 
+ * @package KVD.util 
+ * @version $Id: KVDutil_Transformer_CollectionToCsv.class.php 282 2012-04-27 15:15:19Z verbisph $
+ * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Philip Verbist <philip.verbist@hp.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
+
+/**
+ * KVDutil_BestandenToolkit 
+ * 
+ * @package KVD.util 
+ * @since 27 jan 2012
+ * @copyright 2012 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author Philip Verbist <philip.verbist@hp.be> 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ */
 class KVDutil_Transformer_CollectionToCsv
 {
     private $coll = null;
@@ -10,27 +29,61 @@ class KVDutil_Transformer_CollectionToCsv
         ),
     );
     
-    public function __construct( KVDdom_DomainObjectCollection $coll, $config )
+    /**
+     * __construct 
+     * 
+     * @param KVDdom_DomainObjectCollection $coll 
+     * @param array $config 
+     */
+    public function __construct( KVDdom_DomainObjectCollection $coll, $config = array(
+            'max' => 250,
+            'max_error' => 'Kan maximaal 250 records exporteren naar csv.',
+            'fields' => array(
+                'id' => 'getId',
+                'omschrijving' => 'getOmschrijving',
+            ),
+        ) 
+    )
     {
         $this->setConfig( $config );
         $this->setCollection( $coll );
     }
     
+    /**
+     * setCollection 
+     * 
+     * @param KVDdom_DomainObjectCollection $coll 
+     */
     public function setCollection( KVDdom_DomainObjectCollection $coll )
     {
         $this->coll = $coll;
     }
     
+    /**
+     * getCollection 
+     * 
+     * @return KVDdom_DomainObjectCollection 
+     */
     public function getCollection( )
     {
         return $this->coll;
     }
     
+    /**
+     * getConfig 
+     * 
+     * @return array 
+     */
     public function getConfig( )
     {
         return $this->config;
     }
     
+    /**
+     * setConfig 
+     * 
+     * @param Array $config 
+     */
     public function setConfig( $config )
     {
         foreach( $config as $key => $value ) {
@@ -46,6 +99,11 @@ class KVDutil_Transformer_CollectionToCsv
         }
     }
     
+    /**
+     * transform 
+     * 
+     * @return string
+     */
     public function transform( )
     {
         $csv = fopen('php://temp', 'r+');
@@ -72,13 +130,6 @@ class KVDutil_Transformer_CollectionToCsv
             foreach($this->config['fields'] as $key => $value)
             {
                 $var = KVDdom_Util_Helper::getDataForFieldString($node, $value);
-                /*
-                $values=explode('.',$value);
-                $var=$node;
-                foreach($values as $variable) {
-                    $var=$var->$variable;
-                }
-                */
                 $fieldValues[] = $var;
             }
             
