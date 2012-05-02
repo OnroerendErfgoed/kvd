@@ -107,7 +107,6 @@ class KVDutil_Transformer_CollectionToCsv
     public function transform( )
     {
         $csv = fopen('php://temp', 'r+');
-        //$this->coll->setRowsPerChunk( $this->config['max'] );
         
         $maxRelicten = $this->config['max'];
         if($this->coll->count() > $this->config['max'] ) {
