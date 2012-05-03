@@ -38,6 +38,20 @@ class KVDdom_Util_HelperTest extends PHPUnit_Framework_TestCase
         $this->assertEquals("Nee", KVDdom_Util_Helper::getDataForFieldString(new KVDdom_SimpleTestDomainObject( 1,  false ), "getTitel"));
     }
 
-    
+    /**
+     * @expectedException RuntimeException
+     */
+    public function testGetDataForFieldStringException( )
+    {
+        $titel = KVDdom_Util_Helper::getDataForFieldString(new KVDdom_SimpleTestDomainObject( 1, 'Van Daele, Koen' ), "getTitel.getData");
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testGetDataForInvalidFieldStringException( )
+    {
+        $titel = KVDdom_Util_Helper::getDataForFieldString(new KVDdom_SimpleTestDomainObject( 1, 'Van Daele, Koen' ), "getTi tel.getD ta");
+    }
 }
 ?>
