@@ -1,0 +1,69 @@
+--Verwijderen overbodige deelgemeenten
+
+DELETE FROM kvd_adr.deelgemeente WHERE id = '71066B';
+DELETE FROM kvd_adr.deelgemeente WHERE id = '24134F';
+DELETE FROM kvd_adr.deelgemeente WHERE id = '46024C';
+DELETE FROM kvd_adr.deelgemeente WHERE id = '45017B';
+DELETE FROM kvd_adr.deelgemeente WHERE id = '11023P';
+DELETE FROM kvd_adr.deelgemeente WHERE id = '35013F';
+DELETE FROM kvd_adr.deelgemeente WHERE id = '46020E';
+DELETE FROM kvd_adr.deelgemeente WHERE id = '35013B';
+DELETE FROM kvd_adr.deelgemeente WHERE id = '24062F';
+DELETE FROM kvd_adr.deelgemeente WHERE id = '31033B';
+DELETE FROM kvd_adr.deelgemeente WHERE id = '32006C';
+DELETE FROM kvd_adr.deelgemeente WHERE id = '35013E';
+DELETE FROM kvd_adr.deelgemeente WHERE id = '24062E';
+DELETE FROM kvd_adr.deelgemeente WHERE id = '33039H'; 
+DELETE FROM kvd_adr.deelgemeente WHERE id = '38025H'; 
+DELETE FROM kvd_adr.deelgemeente WHERE id = '11002E';
+DELETE FROM kvd_adr.deelgemeente WHERE id = '11002F';
+DELETE FROM kvd_adr.deelgemeente WHERE id = '11002G';
+DELETE FROM kvd_adr.deelgemeente WHERE id = '11002J';
+
+--Toevoegen nieuwe deelgemeenten
+
+INSERT INTO kvd_adr.deelgemeente (gemeente_id,id,deelgemeente_naam) VALUES ('45035','45035G','Bevere');
+INSERT INTO kvd_adr.deelgemeente (gemeente_id,id,deelgemeente_naam) VALUES ('36015','36015D','Beveren');
+INSERT INTO kvd_adr.deelgemeente (gemeente_id,id,deelgemeente_naam) VALUES ('73022','73022N','Bovelingen');
+INSERT INTO kvd_adr.deelgemeente (gemeente_id,id,deelgemeente_naam) VALUES ('45035','45035H','Edelare');
+INSERT INTO kvd_adr.deelgemeente (gemeente_id,id,deelgemeente_naam) VALUES ('45035','45035I','Eine');
+INSERT INTO kvd_adr.deelgemeente (gemeente_id,id,deelgemeente_naam) VALUES ('36008','36008C','Emelgem');
+INSERT INTO kvd_adr.deelgemeente (gemeente_id,id,deelgemeente_naam) VALUES ('45035','45035J','Ename');
+INSERT INTO kvd_adr.deelgemeente (gemeente_id,id,deelgemeente_naam) VALUES ('32003','32003O','Esen');
+INSERT INTO kvd_adr.deelgemeente (gemeente_id,id,deelgemeente_naam) VALUES ('71053','71053S','Gelmen');
+INSERT INTO kvd_adr.deelgemeente (gemeente_id,id,deelgemeente_naam) VALUES ('73083','73083T','Haren');
+INSERT INTO kvd_adr.deelgemeente (gemeente_id,id,deelgemeente_naam) VALUES ('32003','32003P','Kaaskerke');
+INSERT INTO kvd_adr.deelgemeente (gemeente_id,id,deelgemeente_naam) VALUES ('44019','44019D','Kluizen');
+INSERT INTO kvd_adr.deelgemeente (gemeente_id,id,deelgemeente_naam) VALUES ('73083','73083U','Kolmont');
+INSERT INTO kvd_adr.deelgemeente (gemeente_id,id,deelgemeente_naam) VALUES ('44043','44043F','Lemberge');
+INSERT INTO kvd_adr.deelgemeente (gemeente_id,id,deelgemeente_naam) VALUES ('45035','45035K','Leupegem');
+INSERT INTO kvd_adr.deelgemeente (gemeente_id,id,deelgemeente_naam) VALUES ('31005','31005I','Lissewege');
+INSERT INTO kvd_adr.deelgemeente (gemeente_id,id,deelgemeente_naam) VALUES ('71020','71020C','Loksbergen');
+INSERT INTO kvd_adr.deelgemeente (gemeente_id,id,deelgemeente_naam) VALUES ('45035','45035L','Nederename');
+INSERT INTO kvd_adr.deelgemeente (gemeente_id,id,deelgemeente_naam) VALUES ('23097','23097C','Onze-Lieve-Vrouw-Lombeek');
+INSERT INTO kvd_adr.deelgemeente (gemeente_id,id,deelgemeente_naam) VALUES ('45061','45061E','Ooike');
+INSERT INTO kvd_adr.deelgemeente (gemeente_id,id,deelgemeente_naam) VALUES ('41081','41081L','Oombergen');
+INSERT INTO kvd_adr.deelgemeente (gemeente_id,id,deelgemeente_naam) VALUES ('42004','42004B','Opdorp');
+INSERT INTO kvd_adr.deelgemeente (gemeente_id,id,deelgemeente_naam) VALUES ('23097','23097D','Pamel');
+INSERT INTO kvd_adr.deelgemeente (gemeente_id,id,deelgemeente_naam) VALUES ('44021','44021P','Sint-Kruis-Winkel');
+INSERT INTO kvd_adr.deelgemeente (gemeente_id,id,deelgemeente_naam) VALUES ('23097','23097E','Strijtem');
+INSERT INTO kvd_adr.deelgemeente (gemeente_id,id,deelgemeente_naam) VALUES ('38025','38025L','Vinkem');
+INSERT INTO kvd_adr.deelgemeente (gemeente_id,id,deelgemeente_naam) VALUES ('45035','45035M','Volkegem');
+INSERT INTO kvd_adr.deelgemeente (gemeente_id,id,deelgemeente_naam) VALUES ('38025','38025M','Wulveringem');
+INSERT INTO kvd_adr.deelgemeente (gemeente_id,id,deelgemeente_naam) VALUES ('24016','24016E','Vertrijk');
+INSERT INTO kvd_adr.deelgemeente (gemeente_id,id,deelgemeente_naam) VALUES ('24016','24016G','Willebringen');
+INSERT INTO kvd_adr.deelgemeente (gemeente_id,id,deelgemeente_naam) VALUES ('72004','72004D','Beek');
+INSERT INTO kvd_adr.deelgemeente (gemeente_id,id,deelgemeente_naam) VALUES ('72004','72004E','Gerdingen');
+INSERT INTO kvd_adr.deelgemeente (gemeente_id,id,deelgemeente_naam) VALUES ('44021','44021N','Desteldonk');
+INSERT INTO kvd_adr.deelgemeente (gemeente_id,id,deelgemeente_naam) VALUES ('73083','73083V','Diets-Heur');
+INSERT INTO kvd_adr.deelgemeente (gemeente_id,id,deelgemeente_naam) VALUES ('44021','44021O','Mendonk');
+
+--Hernoemen bestaande deelgemeente
+
+UPDATE kvd_adr.deelgemeente SET deelgemeente_naam = 'Gors-Opleeuw' WHERE id = '73009D'; 
+UPDATE kvd_adr.deelgemeente SET deelgemeente_naam = 'Moregem' WHERE id = '45061C';
+UPDATE kvd_adr.deelgemeente SET deelgemeente_naam = 'Meldert' WHERE id = '24041B';
+UPDATE kvd_adr.deelgemeente SET deelgemeente_naam = 'Zeebrugge' WHERE id = '31005B';
+UPDATE kvd_adr.deelgemeente SET deelgemeente_naam = 'Elene' WHERE id = '41081B';
+UPDATE kvd_adr.deelgemeente SET deelgemeente_naam = 'Neervelp' WHERE id = '24016D';
+UPDATE kvd_adr.deelgemeente SET deelgemeente_naam = 'Stene' WHERE id = '35013D';
