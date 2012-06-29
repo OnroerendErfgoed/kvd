@@ -1,11 +1,11 @@
 <?php
 /**
- * @package KVD.thes
+ * @package    KVD.thes
  * @subpackage Core
- * @version $Id$
- * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @version    $Id$
+ * @copyright  2004-2012 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
@@ -13,14 +13,15 @@
  * 
  * Deze class stelt een term in een thesaurus voor. Dit DomainObject is losjes gebasseerd op de 
  * zThes standaard maar heeft niet alle velden die in dat model aanwezig zijn.
- * @package KVD.thes
+ *
+ * @package    KVD.thes
  * @subpackage Core
- * @since 19 maart 2007
- * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @since      19 maart 2007
+ * @copyright  2004-2012 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
-abstract class KVDthes_Term extends KVDdom_ChangeableDomainObject
+abstract class KVDthes_Term extends KVDthes_Matchable
 {
     /**
      * Geeft aan dat de basis data voor de term werd geladen. 
@@ -46,6 +47,11 @@ abstract class KVDthes_Term extends KVDdom_ChangeableDomainObject
      * Geeft aan dat de Notes voor de term werden geladen.
      */
     CONST LS_NOTES = 16;
+
+    /**
+     * Geeft aan dat de matches voor de term geladen werden.
+     */
+    const LS_MATCHES = 64;
 
     /**
      * id 
@@ -107,20 +113,6 @@ abstract class KVDthes_Term extends KVDdom_ChangeableDomainObject
                                 'historyNote'   => null );
 
     /**
-     * loadState 
-     * 
-     * @var integer
-     */
-    protected $loadState;
-
-    /**
-     * thesaurus 
-     * 
-     * @var KVDthes_Thesaurus
-     */
-    protected $thesaurus;
-
-    /**
      * __construct 
      *
      * @param integer               $id
@@ -135,7 +127,7 @@ abstract class KVDthes_Term extends KVDdom_ChangeableDomainObject
      */
 	public function __construct ( $id, KVDdom_IWriteSessie $sessie, $term, KVDthes_TermType $type = null, $qualifier = null, $language = 'nl-BE', $sortKey = null, array $notes = null, KVDthes_Thesaurus $thesaurus = null)
 	{
-        parent::__construct($id, $sessie);
+        parent::__construct($id, $sessie, $thesaurus);
 		$this->term = $term;
         $this->type = is_null( $type ) ? KVDthes_TermType::newNull( ) : $type;
         $this->qualifier = $qualifier;
@@ -144,7 +136,6 @@ abstract class KVDthes_Term extends KVDdom_ChangeableDomainObject
         if ( $notes != null ) {
             $this->loadNotes( $notes );
         }
-        $this->thesaurus = ( $thesaurus != null ) ? $thesaurus : KVDthes_Thesaurus::newNull( );
         $this->relations = new KVDthes_Relations();
         $this->setLoadState( self::LS_TERM );
     }
@@ -159,17 +150,6 @@ abstract class KVDthes_Term extends KVDdom_ChangeableDomainObject
         $this->checkRelations( );
         $this->checkNotes( );
         parent::markDirty( );
-    }
-
-    /**
-     * isLoadState 
-     * 
-     * @param integer $state Zie de LS_* constanten.
-     * @return boolean
-     */
-    public function isLoadState( $state )
-    {
-        return ( bool ) ( $state & $this->loadState );
     }
 
     /**
@@ -197,19 +177,6 @@ abstract class KVDthes_Term extends KVDdom_ChangeableDomainObject
         if ( !( $this->loadState & self::LS_NOTES ) ) {
             $this->_sessie->getMapper( $this->getClass( ) )->loadNotes( $this );
             $this->setLoadState( self::LS_NOTES );
-        }
-    }
-
-    /**
-     * setLoadState 
-     * 
-     * @param integer $state 
-     * @return void
-     */
-    public function setLoadState( $state )
-    {
-        if ( !( $this->loadState & $state ) ) {
-            $this->loadState += $state;
         }
     }
 
@@ -794,16 +761,6 @@ abstract class KVDthes_Term extends KVDdom_ChangeableDomainObject
     }
 
     /**
-     * getThesaurus 
-     * 
-     * @return KVDthes_Thesaurus
-     */
-    public function getThesaurus( )
-    {
-        return $this->thesaurus;
-    }
-
-    /**
      * remove 
      * 
      * @since   7 apr 2009
@@ -831,16 +788,6 @@ abstract class KVDthes_Term extends KVDdom_ChangeableDomainObject
     }
 
     /**
-     * getClass 
-     * 
-     * @return string
-     */
-    public function getClass( )
-    {
-        return get_class( $this );
-    }
-
-    /**
      * getOmschrijving 
      * 
      * @return string
@@ -851,13 +798,13 @@ abstract class KVDthes_Term extends KVDdom_ChangeableDomainObject
     }
 
     /**
-     * __toString 
-     * 
+     * getClass
+     *
      * @return string
      */
-    public function __toString( )
+    public function getClass( )
     {
-        return $this->getOmschrijving( );
+        return get_class($this);
     }
 
     /**

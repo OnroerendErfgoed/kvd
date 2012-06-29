@@ -36,6 +36,20 @@ class KVDthes_Thesaurus implements KVDdom_DomainObject
     protected $id = 0;
 
     /**
+     * naam
+     *
+     * @var string
+     */
+    protected $naam;
+
+    /**
+     * korte_naam
+     *
+     * @var string
+     */
+    protected $korte_naam;
+
+    /**
      * language 
      * 
      * @var string
@@ -47,15 +61,17 @@ class KVDthes_Thesaurus implements KVDdom_DomainObject
      * 
      * @param KVDdom_IReadSessie $sessie 
      * @param intger $id 
-     * @param string $naam 
+     * @param string $naam
+     * @param string $korte_naam 
      * @param string $language 
      * @return void
      */
-    public function __construct( KVDdom_IReadSessie $sessie, $id, $naam, $language = 'Nederlands' )
+    public function __construct( KVDdom_IReadSessie $sessie, $id, $naam, $korte_naam = null, $language = 'Nederlands' )
     {
         $this->sessie = $sessie;
         $this->id = $id;
         $this->naam = $naam;
+        $this->korte_naam = $korte_naam;
         $this->language = $language;
         $this->sessie->registerClean( $this );
     }
@@ -68,6 +84,17 @@ class KVDthes_Thesaurus implements KVDdom_DomainObject
     public function getNaam()
     {
         return $this->naam;
+    }
+
+    /**
+     * getKorteNaam
+     *
+     * @since 1.5
+     * @return string
+     */
+    public function getKorteNaam()
+    {
+        return ($this->korte_naam === null ) ? $this->naam : $this->korte_naam;
     }
 
     /**

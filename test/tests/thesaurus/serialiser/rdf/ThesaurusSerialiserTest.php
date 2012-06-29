@@ -25,7 +25,7 @@ class KVDthes_serialiser_rdf_ThesaurusSerialiserTest extends PHPUnit_Framework_T
     {
         $this->sessie = $this->getMock(  'KVDthes_Sessie' );
 
-        $this->thes = new KVDthes_Thesaurus( $this->sessie, 1, 'Typologie Onroerend Erfgoed', 'nl-BE' );
+        $this->thes = new KVDthes_Thesaurus( $this->sessie, 1, 'Typologie Onroerend Erfgoed', 'Typologie', 'nl-BE' );
 
         $config = array( 'uri_templates' => 
                     array( '1' => 
@@ -120,7 +120,8 @@ class KVDthes_serialiser_rdf_ThesaurusSerialiserTest extends PHPUnit_Framework_T
     {
         $thes = new KVDthes_Thesaurus( $this->sessie, 
                                        2, 
-                                       'Typologie Onroerend Erfgoed 2', 
+                                       'Typologie Onroerend Erfgoed 2',
+                                       'Typologie',
                                        'nl-BE' );
 
         $oe = new KVDthes_TestTerm( 1, 

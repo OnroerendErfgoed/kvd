@@ -35,7 +35,7 @@ class KVDthes_ThesaurusTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $sessie = $this->getMock( 'KVDthes_Sessie' );
-        $this->object = new KVDthes_Thesaurus( $sessie, 1, 'Datering', 'nl-BE');
+        $this->object = new KVDthes_Thesaurus( $sessie, 1, 'Datering', 'DAT', 'nl-BE');
     }
 
     /**
@@ -51,8 +51,16 @@ class KVDthes_ThesaurusTest extends PHPUnit_Framework_TestCase
     public function testGetters( )
     {
         $this->assertEquals( 'Datering', $this->object->getNaam( ) );
+        $this->assertEquals( 'DAT', $this->object->getKorteNaam( ) );
         $this->assertEquals( 1 , $this->object->getId( ) );
         $this->assertEquals( 'nl-BE', $this->object->getLanguage( ) );
+    }
+
+    public function testNoKorteNaamGivesNaam()
+    {
+        $sessie = $this->getMock( 'KVDthes_Sessie' );
+        $this->object = new KVDthes_Thesaurus( $sessie, 1, 'Datering');
+        $this->assertEquals( 'Datering', $this->object->getKorteNaam( ) );
     }
 
     public function testGetClass() {

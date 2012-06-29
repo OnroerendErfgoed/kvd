@@ -54,6 +54,7 @@ class KVDthes_TermTest extends PHPUnit_Framework_TestCase
     {
         $this->object->setLoadState( KVDthes_Term::LS_NOTES );
         $this->object->setLoadState( KVDthes_Term::LS_REL );
+        $this->object->setLoadState( KVDthes_Term::LS_MATCH );
         $this->object->setTerm( 'klootschieten' );
         $this->assertEquals( 'klootschieten', $this->object->getTerm( ) );
     }
@@ -66,6 +67,7 @@ class KVDthes_TermTest extends PHPUnit_Framework_TestCase
     {
         $this->object->setLoadState( KVDthes_Term::LS_NOTES );
         $this->object->setLoadState( KVDthes_Term::LS_REL );
+        $this->object->setLoadState( KVDthes_Term::LS_MATCH );
         $this->object->setQualifier( 'groot erfgoed' );
         $this->assertEquals( 'groot erfgoed', $this->object->getQualifier( ) );
     }
@@ -82,6 +84,7 @@ class KVDthes_TermTest extends PHPUnit_Framework_TestCase
     {
         $this->object->setLoadState( KVDthes_Term::LS_NOTES );
         $this->object->setLoadState( KVDthes_Term::LS_REL );
+        $this->object->setLoadState( KVDthes_Term::LS_MATCH );
         $this->object->setType( new KVDthes_TermType( 'ND', 'Non-Descriptor' ) );
         $this->assertEquals( 'ND', $this->object->getType()->getId( ) );
     }
@@ -94,6 +97,7 @@ class KVDthes_TermTest extends PHPUnit_Framework_TestCase
     {
         $this->object->setLoadState( KVDthes_Term::LS_NOTES );
         $this->object->setLoadState( KVDthes_Term::LS_REL );
+        $this->object->setLoadState( KVDthes_Term::LS_MATCH );
         $this->object->setLanguage( 'en-US' );
         $this->assertEquals( 'en-US', $this->object->getLanguage( ) );
     }
@@ -114,6 +118,7 @@ class KVDthes_TermTest extends PHPUnit_Framework_TestCase
     {
         $this->object->setLoadState( KVDthes_Term::LS_NOTES );
         $this->object->setLoadState( KVDthes_Term::LS_REL );
+        $this->object->setLoadState( KVDthes_Term::LS_MATCH );
         $this->object->setSortKey( 'aaa' );
         $this->assertEquals( 'aaa', $this->object->getSortKey( ) );
     }
@@ -130,8 +135,10 @@ class KVDthes_TermTest extends PHPUnit_Framework_TestCase
         $termType = new KVDthes_TermType( 'PT', 'voorkeursterm' );
         $term2 = new KVDthes_TestTerm( 508, $this->sessie, 'kapellen', $termType, 'bouwkundig erfgoed' );
         $this->object->setLoadState( KVDthes_Term::LS_REL );
+        $this->object->setLoadState( KVDthes_Term::LS_MATCH );
         $this->object->setLoadState( KVDthes_Term::LS_NOTES );
         $term2->setLoadState( KVDthes_Term::LS_REL );
+        $term2->setLoadState( KVDthes_Term::LS_MATCH );
         $term2->setLoadState( KVDthes_Term::LS_NOTES );
         $this->object->setType( new KVDthes_TermType( 'ND', 'Non Descriptor' ) );
         $this->object->setPreferredTerm( $term2  );
@@ -146,8 +153,10 @@ class KVDthes_TermTest extends PHPUnit_Framework_TestCase
         $termType = new KVDthes_TermType( 'PT', 'voorkeursterm' );
         $term2 = new KVDthes_TestTerm( 508, $this->sessie, 'kapellen', $termType, 'bouwkundig erfgoed' );
         $this->object->setLoadState( KVDthes_Term::LS_REL );
+        $this->object->setLoadState( KVDthes_Term::LS_MATCH );
         $this->object->setLoadState( KVDthes_Term::LS_NOTES );
         $term2->setLoadState( KVDthes_Term::LS_REL );
+        $term2->setLoadState( KVDthes_Term::LS_MATCH );
         $term2->setLoadState( KVDthes_Term::LS_NOTES );
         $this->object->setType( new KVDthes_TermType( 'ND', 'Non Descriptor' ) );
         $this->object->addRelation( new KVDthes_Relation( KVDthes_Relation::REL_USE, $term2 ) );
@@ -161,8 +170,10 @@ class KVDthes_TermTest extends PHPUnit_Framework_TestCase
         $termType = new KVDthes_TermType( 'PT', 'voorkeursterm' );
         $term2 = new KVDthes_TestTerm( 508, $this->sessie, 'kapellen', $termType, 'bouwkundig erfgoed' );
         $this->object->setLoadState( KVDthes_Term::LS_REL );
+        $this->object->setLoadState( KVDthes_Term::LS_MATCH );
         $this->object->setLoadState( KVDthes_Term::LS_NOTES );
         $term2->setLoadState( KVDthes_Term::LS_REL );
+        $term2->setLoadState( KVDthes_Term::LS_MATCH );
         $term2->setLoadState( KVDthes_Term::LS_NOTES );
         $this->object->setType( new KVDthes_TermType( 'ND', 'Non Descriptor' ) );
         $this->object->addRelation( new KVDthes_Relation( KVDthes_Relation::REL_USE, $term2 ) );
@@ -178,6 +189,7 @@ class KVDthes_TermTest extends PHPUnit_Framework_TestCase
         $term2 = new KVDthes_TestTerm( 508, $this->sessie, 'kapellen', $termType, 'bouwkundig erfgoed' );
         $this->object->loadRelation( new KVDthes_Relation(KVDthes_Relation::REL_RT, $term2 ));
         $this->object->setLoadState( KVDthes_Term::LS_REL );
+        $this->object->setLoadState( KVDthes_Term::LS_MATCH );
         $term2->setLoadState( KVDthes_Term::LS_REL );
         $this->assertEquals( 1, count( $this->object->getRelations( ) ) );
         $this->assertEquals( 1, count( $term2->getRelations( ) ) );
@@ -187,6 +199,7 @@ class KVDthes_TermTest extends PHPUnit_Framework_TestCase
     {
         $this->object->setLoadState( KVDthes_Term::LS_NOTES );
         $this->object->setLoadState( KVDthes_Term::LS_REL );
+        $this->object->setLoadState( KVDthes_Term::LS_MATCH );
         $this->object->setScopeNote( 'SN' );
         $this->object->setHistoryNote( 'HN' );
         $this->object->setIndexingNote( 'IN' );

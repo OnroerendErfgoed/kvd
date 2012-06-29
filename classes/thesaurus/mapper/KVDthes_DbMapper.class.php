@@ -18,7 +18,7 @@
  * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
  * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
-abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
+abstract class KVDthes_DbMapper implements KVDthes_IDataMapper, KVDthes_IMatchableMapper
 {
     /**
      * sessie 
@@ -56,12 +56,23 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
      */
     protected function initialize( array $parameters )
     {
-        $this->parameters = array ( 'thesaurus_id' => 0, 'thesaurus_naam' => 'Onbepaalde Thesaurus', 'thesaurus_taal' => 'nl-BE');
+        $this->parameters = array ( 
+            'thesaurus_id' => 0, 
+            'thesaurus_naam' => 'Onbepaalde Thesaurus', 
+            'thesaurus_korte_naam' => null,
+            'thesaurus_taal' => 'nl-BE'
+        );
         if ( !isset ( $parameters['schema'] ) ) {
-            throw new KVDdom_MapperConfigurationException( 'Er is geen schema gespecifieerd voor deze thesaurus.', $this);
+            throw new KVDdom_MapperConfigurationException( 
+                'Er is geen schema gespecifieerd voor deze thesaurus.', $this);
         }
         if ( !isset ( $parameters['id_seq_naam'] ) ) {
-            throw new KVDdom_MapperConfigurationException( 'Er is geen naam van een sequentie gespecifieerd voor deze thesaurus.', $this);
+            throw new KVDdom_MapperConfigurationException( 
+                'Er is geen naam van een sequentie gespecifieerd voor deze thesaurus.', $this);
+        }
+        if ( !isset ( $parameters['do_class_finder'] ) ) {
+            throw new KVDdom_MapperConfigurationException( 
+                'Er is geen functie gespecifieerd die voor een bepaalde thesaurus id de mapper kan vinden.', $this);
         }
         $this->parameters = array_merge( $this->parameters , $parameters);
     }
@@ -153,19 +164,20 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
      */
     protected function getLoadRelationsStatement( )
     {
-        return sprintf( 'SELECT r.relation_type, t2.id AS id_to, t2.term AS term, tt.id AS type_id, tt.name AS type_naam, t2.qualifier AS qualifier, t2.language AS language, t2.sort_key AS sort_key 
-                        FROM %s.term t1 
-                            INNER JOIN %s.relation r ON ( t1.id = r.id_from AND t1.thesaurus_id = r.thesaurus_id ) 
-                            INNER JOIN %s.term t2 ON ( r.id_to=t2.id AND r.thesaurus_id=t2.thesaurus_id)
-                            INNER JOIN %s.term_type_code tt ON ( t2.type = tt.id )
-                        WHERE 
-                            t1.id = ?
-                            AND t1.thesaurus_id = %d',
-                        $this->parameters['schema'],
-                        $this->parameters['schema'],
-                        $this->parameters['schema'],
-                        $this->parameters['schema'],
-                        $this->parameters['thesaurus_id']);
+        return sprintf( 
+            'SELECT r.relation_type, t2.id AS id_to, t2.term AS term, tt.id AS type_id, tt.name AS type_naam, t2.qualifier AS qualifier, t2.language AS language, t2.sort_key AS sort_key 
+            FROM %s.term t1 
+                INNER JOIN %s.relation r ON ( t1.id = r.id_from AND t1.thesaurus_id = r.thesaurus_id ) 
+                INNER JOIN %s.term t2 ON ( r.id_to=t2.id AND r.thesaurus_id=t2.thesaurus_id)
+                INNER JOIN %s.term_type_code tt ON ( t2.type = tt.id )
+            WHERE 
+                t1.id = ?
+                AND t1.thesaurus_id = %d',
+            $this->parameters['schema'],
+            $this->parameters['schema'],
+            $this->parameters['schema'],
+            $this->parameters['schema'],
+            $this->parameters['thesaurus_id']);
     }
 
     /**
@@ -175,18 +187,20 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
      */
     protected function getFindSubTreeStatement( )
     {
-         return sprintf( 'SELECT v.id, lft, rght, depth, term_id, term, qualifier, language, sort_key 
-                         FROM %s.visitation v LEFT JOIN %s.term t ON ( v.term_id = t.id AND v.thesaurus_id = t.thesaurus_id )
-                         WHERE 
-                            t.thesaurus_id = %d
-                            AND ( lft BETWEEN ( SELECT lft FROM %s.visitation WHERE thesaurus_id = v.thesaurus_id AND term_id = ? LIMIT 1) 
-                                AND ( SELECT rght FROM %s.visitation WHERE thesaurus_id = v.thesaurus_id AND term_id = ? LIMIT 1) )
-                            ORDER BY lft',
-                         $this->parameters['schema'],
-                         $this->parameters['schema'],
-                         $this->parameters['schema'],
-                         $this->parameters['schema'],
-                         $this->parameters['thesarus_id']);
+        return sprintf( 
+            'SELECT v.id, lft, rght, depth, term_id, term, qualifier, language, sort_key 
+            FROM %s.visitation v 
+                LEFT JOIN %s.term t ON ( v.term_id = t.id AND v.thesaurus_id = t.thesaurus_id )
+            WHERE 
+                t.thesaurus_id = %d
+                AND ( lft BETWEEN ( SELECT lft FROM %s.visitation WHERE thesaurus_id = v.thesaurus_id AND term_id = ? LIMIT 1) 
+                    AND ( SELECT rght FROM %s.visitation WHERE thesaurus_id = v.thesaurus_id AND term_id = ? LIMIT 1) )
+                ORDER BY lft',
+             $this->parameters['schema'],
+             $this->parameters['schema'],
+             $this->parameters['schema'],
+             $this->parameters['schema'],
+             $this->parameters['thesarus_id']);
     }
 
     /**
@@ -196,9 +210,33 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
      */
     protected function getLoadNotesStatement( )
     {
-        return sprintf( 'SELECT scope_note, source_note, indexing_note, history_note FROM %s.notes WHERE term_id = ? AND thesaurus_id = %d', 
-                        $this->parameters['schema'],
-                        $this->parameters['thesaurus_id']);
+        return sprintf( 
+            'SELECT scope_note, source_note, indexing_note, history_note 
+            FROM %s.notes 
+            WHERE term_id = ? AND thesaurus_id = %d', 
+            $this->parameters['schema'],
+            $this->parameters['thesaurus_id']);
+    }
+
+    /**
+     * getLoadMatchesStatement 
+     *
+     * @return string
+     */
+    protected function getLoadMatchesStatement( )
+    {
+        return sprintf(
+            'SELECT m.term_match_type AS match_type, c.thesaurus_id AS concept_thesaurus_id, c.id AS concept_id, c.term AS term
+             FROM %s.term t
+                INNER JOIN %s.match m ON (t.id = m.term_id AND t.thesaurus_id = m.term_thesaurus_id ) 
+                INNER JOIN %s.concept c ON (m.concept_id = c.id AND m.concept_thesaurus_id = c.thesaurus_id)
+             WHERE 
+                t.id = ?
+                AND t.thesaurus_id = %d',
+            $this->parameters['schema'],
+            $this->parameters['schema'],
+            $this->parameters['schema'],
+            $this->parameters['thesaurus_id']);
     }
 
     /**
@@ -224,6 +262,17 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
     }
 
     /**
+     * getDomainObjectClass
+     *
+     * @param  integer $thesaurus Id of naam van een thesaurus.
+     * @return string|false Naam van het domainobject of false indien het niet gekend is.    
+     */
+    public function getDomainObjectClass( $thesaurus )
+    {
+        return call_user_func( $this->parameters['do_class_finder'], $thesaurus );
+    }
+
+    /**
      * findById 
      * 
      * @param integer $id 
@@ -244,7 +293,7 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
             $msg = $this->getReturnType( ) . " met id $id kon niet gevonden worden";
             throw new KVDdom_DomainObjectNotFoundException ( $msg , $this->getReturnType( ) , $id );
         }
-        return $this->doLoadRow( $id, $row);
+        return $this->doLoad( $id, $row);
     }
 
     /**
@@ -268,7 +317,7 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
         $stmt->execute();
         $termen = array( );
         while ( $row = $stmt->fetch( PDO::FETCH_OBJ ) ) {
-            $termen[$row->id] = $this->doLoadRow( $row->id, $row );
+            $termen[$row->id] = $this->doLoad( $row->id, $row );
         }
         return new KVDdom_DomainObjectCollection( $termen );
     }
@@ -286,7 +335,7 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
             $msg = "De root van " . $this->getReturnType( ) . " kon niet gevonden worden";
             throw new KVDdom_DomainObjectNotFoundException ( $msg , $this->getReturnType( ), null );
         }
-        return $this->doLoadRow( $row->id, $row);
+        return $this->doLoad( $row->id, $row);
     }
 
     /**
@@ -320,7 +369,7 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
         $stmt->execute( );
         $termen = array( );
         while ( $row = $stmt->fetch( PDO::FETCH_OBJ ) ) {
-            $termen[$row->id] = $this->doLoadRow( $row->id, $row );
+            $termen[$row->id] = $this->doLoad( $row->id, $row );
         }
         return new KVDdom_DomainObjectCollection( $termen );
     }
@@ -356,9 +405,25 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
         $stmt->execute( );
         $termen = array( );
         while ( $row = $stmt->fetch( PDO::FETCH_OBJ ) ) {
-            $termen[$row->id] = $this->doLoadRow( $row->id, $row );
+            $termen[$row->id] = $this->doLoad( $row->id, $row );
         }
         return new KVDdom_DomainObjectCollection( $termen );
+    }
+
+    /**
+     * doLoad
+     *
+     * @param integer  $id
+     * @param StdClass $row
+     * @return KVDthes_Term
+     */
+    public function doLoad ($id, $row)
+    {
+        $domainObject = $this->sessie->getIdentityMap()->getDomainObject( $this->getReturnType( ), $id);
+        if ($domainObject != null) {
+            return $domainObject;
+        }
+        return $this->doLoadRow($id, $row);
     }
 
     /**
@@ -370,10 +435,6 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
      */
     protected function doLoadRow( $id , $row )
     {
-        $domainObject = $this->sessie->getIdentityMap()->getDomainObject( $this->getReturnType( ), $id);
-        if ($domainObject != null) {
-            return $domainObject;
-        }
         $returnType = $this->getReturnType( );
         $thesaurus = $this->doLoadThesaurus( );
         $termType = new KVDthes_TermType( $row->type_id, $row->type_naam );
@@ -387,11 +448,18 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
      */
     protected function doLoadThesaurus( )
     {
-        $domainObject = $this->sessie->getIdentityMap()->getDomainObject( 'KVDthes_Thesaurus', $this->parameters['thesaurus_id'] );
+        $domainObject = $this->sessie
+                             ->getIdentityMap()
+                             ->getDomainObject('KVDthes_Thesaurus', 
+                                               $this->parameters['thesaurus_id']);
         if ($domainObject != null) {
             return $domainObject;
         }
-        return new KVDthes_Thesaurus( $this->sessie, $this->parameters['thesaurus_id'], $this->parameters['thesaurus_naam'], $this->parameters['thesaurus_taal'] );
+        return new KVDthes_Thesaurus($this->sessie, 
+                                     $this->parameters['thesaurus_id'], 
+                                     $this->parameters['thesaurus_naam'],
+                                     $this->parameters['thesaurus_korte_naam'],
+                                     $this->parameters['thesaurus_taal'] );
     }
 
     /**
@@ -406,10 +474,30 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
         $stmt->bindValue( 1, $termObj->getId( ), PDO::PARAM_INT );
         $stmt->execute( );
         while ( $row = $stmt->fetch( PDO::FETCH_OBJ ) ) {
-            $termObj->loadRelation( new KVDthes_Relation( $row->relation_type, $this->doLoadRow( $row->id_to, $row ) ) );
+            $termObj->loadRelation( new KVDthes_Relation( $row->relation_type, $this->doLoad( $row->id_to, $row ) ) );
         }
         $termObj->setLoadState( KVDthes_Term::LS_REL);
         return $termObj;
+    }
+
+    /**
+     * loadMatches
+     *
+     * @param KVDthes_Matchable $term
+     * @return KVDthes_Matches
+     */
+    public function loadMatches(KVDthes_Matchable $term)
+    {
+        $stmt = $this->conn->prepare( $this->getLoadMatchesStatement( ) );
+        $stmt->bindValue(1, $term->getId( ), PDO::PARAM_INT );
+        $stmt->execute( );
+        while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
+            $cm = $this->sessie
+                       ->getMapper($this->getDomainObjectClass($row->concept_thesaurus_id));
+            $term->loadMatch(new KVDthes_Match($row->match_type, $cm->doLoad($row->concept_id, $row)));
+        }
+        $term->setLoadState(KVDthes_Matchable::LS_MATCH);
+        return $term;
     }
 
     /**
@@ -458,7 +546,7 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
          // Algoritme gaat de lijst af en controleert of er al een object op het bovenliggende niveau zit.
          // Indien wel, dan wordt het bovenliggende object gekoppeld als de BT van het huidige.
          while ( $row = $stmt->fetch( PDO::FETCH_OBJ ) ) {
-             $current = $this->doLoadRow( $row->id, $row );
+             $current = $this->doLoad( $row->id, $row );
              if ( isset( $branch[$row->depth - 1]) ) {
                  $parent = $branch[$row->depth-1];
                  $current->addRelation( new KVDthes_Relation( KVDthes_Relation::REL_BT, $parent ) );
@@ -486,7 +574,7 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper
 		$stmt->execute( );
 		$domainObjects = array ( );
 		while ( $row = $stmt->fetch( PDO::FETCH_OBJ ) ) {
-			$domainObjects[$row->id] = $this->doLoadRow ( $row->id , $row );
+			$domainObjects[$row->id] = $this->doLoad( $row->id , $row );
 		}
 		return new $collectiontype( $domainObjects );
 	}
