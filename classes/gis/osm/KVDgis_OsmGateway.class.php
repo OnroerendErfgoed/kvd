@@ -24,10 +24,7 @@ class KVDgis_OsmGateway implements KVDutil_Gateway
         'cache'      => array( 'active' => false ),
         'osmservers' => array( 'mapnik' => array( 'a.tile.openstreetmap.org',
                                                   'b.tile.openstreetmap.org',
-                                                  'c.tile.openstreetmap.org' ),
-                               'osma'   => array( 'a.tah.openstreetmap.org',
-                                                  'b.tah.openstreetmap.org',
-                                                  'c.tah.openstreetmap.org' ) 
+                                                  'c.tile.openstreetmap.org' )
         ) 
     );
 
@@ -122,7 +119,7 @@ class KVDgis_OsmGateway implements KVDutil_Gateway
     /**
      * Genereer de url om een bepaalde tegel op te halen.
      * 
-     * @param string $type 
+     * @param string $type Momenteel ondersteunen we enkel mapnik.
      * @param integer $z 
      * @param integer $x 
      * @param integer $y 
@@ -133,10 +130,6 @@ class KVDgis_OsmGateway implements KVDutil_Gateway
         if ( $type == 'mapnik' ) {
             $server = $this->parameters['osmservers']['mapnik'][array_rand($this->parameters['osmservers']['mapnik'])];
             $url = 'http://' . $server;
-            $url .= "/".$z."/".$x."/".$y.".png";
-        } else {
-            $server = $this->parameters['osmservers']['osma'][array_rand($this->parameters['osmservers']['osma'])];
-            $url = 'http://' . $server . '/Tiles/tile.php';
             $url .= "/".$z."/".$x."/".$y.".png";
         }
         return $url;
@@ -155,17 +148,5 @@ class KVDgis_OsmGateway implements KVDutil_Gateway
         return $this->doRequest( 'mapnik', $z, $x, $y );
     }
 
-    /**
-     * Vraag een tegel gerenderd door osma op.
-     * 
-     * @param integer $z Zoomlevel
-     * @param integer $x X-waarde
-     * @param integer $y Y-waarde
-     * @return string De afbeelding als string.
-     */
-    public function getOsma( $z, $x, $y )
-    {
-        return $this->doRequest( 'osma', $z, $x, $y );
-    }
 }
 ?>

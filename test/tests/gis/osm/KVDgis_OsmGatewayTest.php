@@ -49,16 +49,6 @@ class KVDgis_OsmGatewayTest extends PHPUnit_Framework_TestCase
         $this->assertNotEmpty( $res );
     }
 
-    public function testOsma( )
-    {
-        $z = 16;
-        $x = 33360;
-        $y = 21950;
-
-        $res = $this->gateway->getOsma( $z, $x, $y );
-        $this->assertNotEmpty( $res );
-    }
-
     public function testMapnikWritesCache( )
     {
         $this->parameters['cache']['active'] = true;
