@@ -1,0 +1,5 @@
+--Hernoemen bestaande deelgemeentes
+
+UPDATE kvd_adr.deelgemeente SET deelgemeente_naam = 'Nieuwkerken-Waas' WHERE id = '46021B'; 
+UPDATE kvd_adr.deelgemeente SET deelgemeente_naam = 'Leeuwergem' WHERE id = '41081C';
+UPDATE kvd_adr.deelgemeente SET deelgemeente_naam = 'Sint-Jan' WHERE id = '33011C';
