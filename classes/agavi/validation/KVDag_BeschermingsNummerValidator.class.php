@@ -34,13 +34,16 @@ class KVDag_BeschermingsNummerValidator extends AgaviRegexValidator
                                 array $arguments = array(), 
                                 array $errors = array() )
     {
-        $parameters['pattern'] = '/^O[BWOLA][0-9]{6}$/';
+        $parameters['pattern'] = 
+            '/^O[BWOLA][0-9]{6}|4\.0[1-9]{1}[0-9]?\/[0-9]{5}\/[0-9]+\.[0-9]+$/';
         $parameters['match'] = true;
 
         if ( !isset( $errors[''] ) ) {
             $errors[''] = 'U hebt een ongeldig beschermingsnummer opgegeven. 
-            Een geldig nummer bestaat uit de hoofdletter O, gevolgd door een lettercode 
-            voor de provincie en een getal van 6 cijfers';
+            Een geldig Melanie nummer bestaat uit de hoofdletter O, gevolgd door een lettercode 
+            voor de provincie en een getal van 6 cijfers.
+            Een geldig Bredero nummer bestaat uit een categorie, gevolgd door een schuine streep,
+            een niscode, nog een schuine streep en een deeldossiernummer (met punt).';
         }
 
         parent::initialize( $context, $parameters, $arguments, $errors );
