@@ -56,6 +56,9 @@ class KVDdom_Util_Helper
         if ( is_bool( $domainObject ) ) {
             $domainObject = ( $domainObject ) ? 'Ja' : 'Nee';
         }
+        if ( is_array( $domainObject ) ) {
+            $domainObject = implode(', ', $domainObject);
+        }
         return $domainObject;
     }
 }

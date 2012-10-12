@@ -17,8 +17,6 @@
 class KVDdom_Util_HelperTest extends PHPUnit_Framework_TestCase
 {
 
-
-
     public $fieldobject;
 
     public function setUp()
@@ -34,8 +32,9 @@ class KVDdom_Util_HelperTest extends PHPUnit_Framework_TestCase
     public function testGetDataForFieldString( )
     {
         $this->assertEquals("Van Daele, Koen", KVDdom_Util_Helper::getDataForFieldString(new KVDdom_SimpleTestDomainObject( 1, 'Van Daele, Koen' ), "getTitel"));
-        $this->assertEquals("Ja", KVDdom_Util_Helper::getDataForFieldString(new KVDdom_SimpleTestDomainObject( 1,  true ), "getTitel"));
-        $this->assertEquals("Nee", KVDdom_Util_Helper::getDataForFieldString(new KVDdom_SimpleTestDomainObject( 1,  false ), "getTitel"));
+        $this->assertEquals("Ja", KVDdom_Util_Helper::getDataForFieldString(new KVDdom_SimpleTestDomainObject( 1, true ), "getTitel"));
+        $this->assertEquals("Nee", KVDdom_Util_Helper::getDataForFieldString(new KVDdom_SimpleTestDomainObject( 1, false ), "getTitel"));
+        $this->assertEquals("1, 2", KVDdom_Util_Helper::getDataForFieldString(new KVDdom_SimpleTestDomainObject( 1, array(1, 2) ), "getTitel"));
     }
 
     /**
