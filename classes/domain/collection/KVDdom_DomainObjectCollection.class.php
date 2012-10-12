@@ -188,5 +188,19 @@ class KVDdom_DomainObjectCollection implements SeekableIterator, Countable
         $this->rewind( );
         return $this->current( );
     }
+
+
+    /**
+     * vraag de ids op van de domain objecten in deze collection
+     *
+     * @return array Een array die alle id's bevat.
+     */
+    public function getIds()
+    {
+        $func = function( KVDdom_DomainObject $dom ) {
+            return $dom->getId();
+        };
+        return array_map($func, $this->collection);
+    }
 }
 ?>

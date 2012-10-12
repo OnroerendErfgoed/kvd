@@ -124,5 +124,10 @@ class KVDdom_DomainObjectCollectionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals( 'Object 54321, Object 9876, Object 123456789', $this->_domainObjectCollection->__toString( ) );
     }
 
+    public function testGetIds(  )
+    {
+        $this->assertEquals( array_values(array(54321, 9876, 123456789)), array_values($this->_domainObjectCollection->getIds()));
+    }
+
 }
 ?>
