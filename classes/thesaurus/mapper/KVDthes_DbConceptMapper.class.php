@@ -118,7 +118,7 @@ abstract class KVDthes_DbConceptMapper implements KVDdom_IDataMapper, KVDthes_IM
     protected function getLoadMatchesStatement( )
     {
         return sprintf( 
-            'SELECT m.concept_match_type AS match_type, t.id AS term_id, t.term AS term, tt.id AS type_id, tt.name AS type_naam, t.qualifier AS qualifier, t.language AS language, t.sort_key AS sort_key 
+            'SELECT m.concept_match_type AS match_type, t.thesaurus_id as term_thesaurus_id, t.id AS term_id, t.term AS term, tt.id AS type_id, tt.name AS type_naam, t.qualifier AS qualifier, t.language AS language, t.sort_key AS sort_key 
              FROM %s.concept c
                 INNER JOIN %s.match m ON (c.id = m.concept_id AND c.thesaurus_id = m.concept_thesaurus_id ) 
                 INNER JOIN %s.term t ON (m.term_id = t.id AND m.term_thesaurus_id = t.thesaurus_id)
