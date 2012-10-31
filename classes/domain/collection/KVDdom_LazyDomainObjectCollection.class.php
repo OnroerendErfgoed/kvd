@@ -159,6 +159,9 @@ class KVDdom_LazyDomainObjectCollection extends KVDdom_DomainObjectCollection
      */
     private function unloadChunk( $chunk )
     {
+        if ( $chunk == 0 ) {
+            return;
+        }
         $start = ($chunk - 1) * $this->_chunkyQuery->getRowsPerChunk();
         for ( $i = 0; $i < $this->_chunkyQuery->getRowsPerChunk( ); $i++ ) {
             $index = $start + $i;
