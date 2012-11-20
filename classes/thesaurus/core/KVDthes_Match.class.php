@@ -63,8 +63,8 @@ class KVDthes_Match
      * @var array
      */
     private static $typeomschrijving = array ( 
-        self::MATCH_BM => 'Ruimer dan' ,
-        self::MATCH_NM => 'Beperkter dan' ,
+        self::MATCH_BM => 'Specifieker dan' ,
+        self::MATCH_NM => 'Algemener dan' ,
         self::MATCH_RM => 'Gerelateerd aan' ,
         self::MATCH_EM => 'Exact gelijk aan' ,
         self::MATCH_CM => 'Bijna gelijk aan' 
