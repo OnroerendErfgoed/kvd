@@ -32,7 +32,6 @@ class KVDag_LdapDatabase extends AgaviDatabase
     {
         // determine how to get our parameters
         $method = $this->getParameter('method', 'normal');
-
         // get parameters
         switch($method) {
             case 'normal':
@@ -63,8 +62,25 @@ class KVDag_LdapDatabase extends AgaviDatabase
             'host'    		=> $host,
             'port'    		=> $port,
             'version'  		=> $version,
-            'basedn'      	=> $basedn
+            'basedn'      	=> $basedn,
         );
+        
+        //Connecteer de proxyuser
+        if( ($binddn != null && $bindpw != null ) ) {
+            $config['binddn'] = $binddn;
+            $config['bindpw'] = $bindpw;
+        }
+      
+        //Connecteer de authzID gebruiker 
+        if( AgaviConfig::get( 'ldap.proxyAs', false ) ){
+            $authzID = AgaviConfig::get( 'ldap.proxyAs' );
+            $proxy_auth_ctrl = array('oid' => '2.16.840.1.113730.3.4.18', 
+                'value' => "dn:$authzID", 'iscritical' => true);
+        
+            $config['options'] = array( 
+                'LDAP_OPT_SERVER_CONTROLS'=>array( $proxy_auth_ctrl)
+                );
+        }
 
         // Connecting using the configuration:
         $this->connection = Net_LDAP2::connect($config);
@@ -73,21 +89,9 @@ class KVDag_LdapDatabase extends AgaviDatabase
         if (Net_LDAP2::isError($this->connection)) {
             // the connection's foobar'd
             $error = 'Failed to create a KVDag_LdapDatabase connection';
-
             throw new AgaviDatabaseException($error);
         }
-
-        //ldapbeheerconnection
-        if( ($binddn != null && $bindpw != null ) ) {
-            $res = $this->connection->bind( $binddn, $bindpw );
-            if (Net_LDAP2::isError($res)) {
-                // the authentication's foobar'd
-                $error = 'Failed to authenticate to the KVDag_LdapDatabase connection';
-
-                throw new AgaviDatabaseException($error);
-            }
-        }
-
+        
         // make sure the connection went through
         if($this->connection === false) {
             // the connection's foobar'd
@@ -100,7 +104,7 @@ class KVDag_LdapDatabase extends AgaviDatabase
         // to the resource
         $this->resource =& $this->connection;
     }
-
+    
     /**
     * Execute the shutdown procedure.
     *
