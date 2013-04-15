@@ -35,7 +35,7 @@ class KVDag_BeschermingsNummerValidator extends AgaviRegexValidator
                                 array $errors = array() )
     {
         $parameters['pattern'] = 
-            '/^O[BWOLA][0-9]{6}|4\.0[1-9]{1}[0-9]?\/[0-9]{5}\/[0-9]+\.[0-9]+$/';
+            '/^O[BWOLA][0-9]{6}$|^4\.0[1-9]{1}[0-9]?\/[0-9]{5}\/[0-9]+\.[0-9]+$/';
         $parameters['match'] = true;
 
         if ( !isset( $errors[''] ) ) {
