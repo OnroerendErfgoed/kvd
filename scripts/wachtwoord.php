@@ -7,10 +7,10 @@
  * @copyright 2004-2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
- * 
  */
-require_once( '../classes/util/KVDutil_WachtwoordGenerator.class.php');
+
+require_once( dirname(__FILE__) . DIRECTORY_SEPARATOR . '../vendor/autoload.php' );
 
 $wg = new KVDutil_WachtwoordGenerator( );
-echo $wg->generate( );
+echo $wg->generate( ) . "\n";
 ?>
