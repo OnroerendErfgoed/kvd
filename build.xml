@@ -29,42 +29,6 @@
 		<echo msg=" docs: Maak de API-documentatie aan." />
 	</target>
 
-	<target name="generateAutoloader" description="Maak de autoloader aan.">
-		<generateautoloader destfile="classes/KVD_Autoload.php" outputtype="Function" outputname="KVD_Autoload">
-			<fileset dir="classes">
-				<include name="**/*.class.php" />
-				<include name="**/*.interface.php" />
-			</fileset>
-
-			<fileset dir="vendor">
-				<include name="easyrdf/lib/**/*.php" />
-			</fileset>
-		</generateautoloader>
-	</target>
-
-	<target name="generateTestAutoloader" description="Maak de autoloader voor de unit tests aan.">
-		<generateautoloader destfile="test/KVD_Autoload.php" outputtype="RegisteredFunction" outputname="KVD_Autoload">
-			<fileset dir="classes">
-				<include name="**/*.class.php" />
-				<include name="**/*.interface.php" />
-			</fileset>
-
-			<fileset dir="test/tests">
-				<include name="thesaurus/KVDthes_TestTerm.class.php" />
-				<include name="thesaurus/KVDthes_TestEditeerbareDomainObjectCollection.class.php" />
-				<include name="thesaurus/KVDthes_Sessie.class.php" />
-				<include name="util/Gateway/KVDutil_GatewayTestGateway.class.php" />
-				<include name="util/Gateway/KVDutil_GatewayTestGatewayFactory.class.php" />
-				<include name="domain/KVDdom_TestDomainObject.class.php" />
-				<include name="domain/KVDdom_TestSessie.class.php" />
-			</fileset>
-
-			<fileset dir="vendor">
-				<include name="easyrdf/lib/**/*.php" />
-			</fileset>
-		</generateautoloader>
-	</target>
-
 	<target name="createSchema" description="Maak de schema's van deze applicatie aan.">
 		<echo msg="Bestaande schema's worden verwijderd." />
 		<pdo url="pgsql://oeibeheerder:jawwmefe@localhost/oei" autocommit="on" onerror="continue">
@@ -204,7 +168,7 @@
 		</copy>
 	</target>
 
-	<target name="runTests" description="Laat de Unit Tests lopen." depends="createBuildDir,generateTestAutoloader,genBootstrap">
+	<target name="runTests" description="Laat de Unit Tests lopen." depends="createBuildDir,genBootstrap">
 		<available file="build/coverage.xml" type="file" property="build.coverage_exists" />
 		<available file="build/testsuites.xml" type="file" property="build.testsuite_exists" />
 		<available file="build/clover-coverage.xml" type="file" property="build.clover-coverage_xml_exists" />
@@ -242,7 +206,7 @@
 	</target>
 
 
-	<target name="genTestReports" description="Maak rapporten over de UnitTests aan." depends="createBuildDir,generateTestAutoloader,genBootstrap">
+	<target name="genTestReports" description="Maak rapporten over de UnitTests aan." depends="createBuildDir,genBootstrap">
 		<delete dir="build/reports" />
 		<mkdir dir="build/reports" />
 		<mkdir dir="build/reports/tests" />
