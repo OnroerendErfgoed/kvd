@@ -2,7 +2,7 @@
 
 error_reporting( E_ALL | E_STRICT );
 
-require_once( dirname(__FILE__) . DIRECTORY_SEPARATOR . 'KVD_Autoload.php' );
+require_once( dirname(__FILE__) . DIRECTORY_SEPARATOR . '../vendor/autoload.php' );
 
 define('CRAB_USER', '@@CRAB_USER@@');
 define('CRAB_PWD', '@@CRAB_PWD@@');

@@ -1,0 +1,23 @@
+{
+	"name": "oe/kvd",
+	"type": "library",
+	"authors": 	[
+		{
+			"name": "Koen Van Daele",
+			"email": "koen.vandaele@rwo.vlaanderen.be"
+		}, {
+			"name": "Dieter Standaert",
+			"email": "dieter.standaert@gmail.com"
+		}, {
+			"name": "Bram Goessens",
+			"email": "bram.goessens@rwo.vlaanderen.be"
+		}
+	],
+	"require": {
+		"php": ">=5.0.0",
+		"easyrdf/easyrdf": "*"
+	},
+	"autoload": {
+		"classmap": ["classes", "test/tests"]
+	}
+}
