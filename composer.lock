@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "6f37eb28678f1e5df281a99fa548d77a",
+    "hash": "0325850d7da803b23c606e404c785988",
     "packages": [
         {
             "name": "easyrdf/easyrdf",
@@ -49,6 +49,52 @@
                 "Turtle"
             ],
             "time": "2013-01-03 14:29:34"
+        },
+        {
+            "name": "tilleuls/wse-php",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/coopTilleuls/wse-php.git",
+                "reference": "b1773f4f240b99181259c09313393cf10e3c97df"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/coopTilleuls/wse-php/zipball/b1773f4f240b99181259c09313393cf10e3c97df",
+                "reference": "b1773f4f240b99181259c09313393cf10e3c97df",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kévin Dunglas",
+                    "email": "dunglas@gmail.com",
+                    "homepage": "http://dunglas.fr"
+                },
+                {
+                    "name": "Robert Richards",
+                    "email": "rrichards@ctindustries.net"
+                }
+            ],
+            "description": "Libraries for adding WS-* support to ext/soap in PHP",
+            "homepage": "http://les-tilleuls.coop",
+            "keywords": [
+                "soap",
+                "ws"
+            ],
+            "time": "2013-03-07 17:19:27"
         }
     ],
     "packages-dev": [
@@ -58,9 +104,9 @@
 
     ],
     "minimum-stability": "stable",
-    "stability-flags": [
-
-    ],
+    "stability-flags": {
+        "tilleuls/wse-php": 20
+    },
     "platform": {
         "php": ">=5.0.0"
     },
