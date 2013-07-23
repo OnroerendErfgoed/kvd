@@ -15,8 +15,7 @@
 	],
 	"require": {
 		"php": ">=5.0.0",
-		"easyrdf/easyrdf": "*",
-		"tilleuls/wse-php": "dev-master"
+		"easyrdf/easyrdf": "*"
 	},
 	"autoload": {
 		"classmap": ["classes", "test/tests"]

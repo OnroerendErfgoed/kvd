@@ -8,9 +8,6 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
-require_once( __DIR__ . '/../../../vendor/wse-php/soap-wsa.php' );
-require_once( __DIR__ . '/../../../vendor/wse-php/soap-wsse.php' );
-
 /**
  * Aangepaste soap client die kan werken met de WS-Security vereisten voor 
  * CRAB.
