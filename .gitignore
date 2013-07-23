@@ -3,6 +3,7 @@ composer.phar
 vendor
 
 # kvd-lib
+build.properties
 build
 test/KVD_Autoload.php
 test/bootstrap.php
