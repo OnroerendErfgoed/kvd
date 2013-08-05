@@ -44,7 +44,18 @@ class KVDgis_CrabCache
     public function __construct( $cacheDir, $expirationTimes )
     {
         if ( !is_dir( $cacheDir) ) {
-            throw new InvalidArgumentException ( 'De parameter $cacheDir van KVDgis_CrabCache is een directory die niet bestaat!');
+            $oldumask = umask(0);
+            if (!@mkdir($cacheDir, 0777)) {
+                throw new InvalidArgumentException ( 
+                    sprintf('Kan geen cacheDir aanmaken in %s', $cacheDir)
+                );
+            }
+            if (!is_dir($cacheDir)) {
+                throw new InvalidArgumentException ( 
+                    'De parameter $cacheDir van KVDgis_CrabCache is een directory die niet bestaat en niet kan aangemaakt worden!'
+                );
+            }
+            umask( $oldumask);
         }
         if ( strrpos( $cacheDir , '/' ) !== strlen( $cacheDir) - 1  ) {
             $cacheDir .= '/';
