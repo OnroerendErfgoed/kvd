@@ -3,19 +3,19 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "6f37eb28678f1e5df281a99fa548d77a",
+    "hash": "b0554decc35f3c5a5fea7bfa021c9ae9",
     "packages": [
         {
             "name": "easyrdf/easyrdf",
             "version": "0.7.2",
             "source": {
                 "type": "git",
-                "url": "git://github.com/njh/easyrdf.git",
+                "url": "https://github.com/njh/easyrdf.git",
                 "reference": "0.7.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/njh/easyrdf/archive/0.7.2.zip",
+                "url": "https://api.github.com/repos/njh/easyrdf/zipball/0.7.2",
                 "reference": "0.7.2",
                 "shasum": ""
             },

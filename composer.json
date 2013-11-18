@@ -15,7 +15,7 @@
 	],
 	"require": {
 		"php": ">=5.0.0",
-		"easyrdf/easyrdf": "*"
+		"easyrdf/easyrdf": ">=0.7.0"
 	},
 	"autoload": {
 		"classmap": ["classes", "test/tests"]
