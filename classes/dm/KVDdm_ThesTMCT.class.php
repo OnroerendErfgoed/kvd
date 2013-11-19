@@ -17,7 +17,7 @@
  * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
-class KVDdm_ThesTMT extends KVDthes_DbConceptMapper
+class KVDdm_ThesTMCT extends KVDthes_DbConceptMapper
 {
     const RETURNTYPE = 'KVDdo_ThesTMCT';
 
