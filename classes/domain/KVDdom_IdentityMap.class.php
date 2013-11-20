@@ -123,6 +123,27 @@ class KVDdom_GenericIdentityMap implements Iterator, Countable {
         }
         return false;
     }
+
+    /**
+     * Verwijder alle DomainObjecten van een bepaald type of alle 
+     * DomainObjecten
+     *
+     * @param mixed $type Het type waarvan de objecten moeten gewist worden of
+     *                    null om alle objecten te wissen.
+     * @return boolean True indien er iets gewist werd, anders false.
+     */
+    public function removeDomainObjects( $type = null )
+    {
+        if ($type === null) {
+            $this->maps = array();
+            return true;
+        } elseif(array_key_exists($type, $this->maps)) {
+            unset($this->maps[$type]);
+            return true;
+        }
+
+        return false;
+    }
     
     /**
      * @return integer Het aantal domainObject die nog aanwezig zijn in deze identity map. Onafhankelijk van hun type.

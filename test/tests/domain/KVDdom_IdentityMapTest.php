@@ -8,7 +8,7 @@ class KVDdom_GenericIdentityMapTest extends PHPUnit_Framework_TestCase
 
     private $_domObject2;
 
-    function setUp( )
+    public function setUp( )
     {
         $this->_domObject = new KVDdom_SimpleTestDomainObject( 54321, 'Object 54321' );
         $this->_domObject2 = new KVDdom_SimpleTestDomainObject( 9876, 'Object 9876' );
@@ -16,7 +16,7 @@ class KVDdom_GenericIdentityMapTest extends PHPUnit_Framework_TestCase
         $this->_identityMap = new KVDdom_GenericIdentityMap( );
     }
 
-    function tearDown( )
+    public function tearDown( )
     {
         $this->_identityMap = null;
         $this->_domObject = null;
@@ -24,7 +24,7 @@ class KVDdom_GenericIdentityMapTest extends PHPUnit_Framework_TestCase
         $this->_domObject3 = null;
     }
 
-    function testOneDomainObject()
+    public function testOneDomainObject()
     {
         $this->_identityMap->addDomainObject ( $this->_domObject );
         $this->assertNotNull ( $this->_identityMap->getDomainObject('KVDdom_SimpleTestDomainObject' , 54321) );
@@ -34,7 +34,7 @@ class KVDdom_GenericIdentityMapTest extends PHPUnit_Framework_TestCase
         $this->assertNull($this->_identityMap->getDomainObject('VM_Melding' , 54321));
     }
 
-    function testRemoveDomainObjects()
+    public function testRemoveDomainObject()
     {
         $this->_identityMap->addDomainObject ( $this->_domObject );
         $this->assertTrue ( $this->_identityMap->removeDomainObject ('KVDdom_SimpleTestDomainObject' , 54321) , 'Object kon niet verwijderd worden!' );
@@ -43,7 +43,37 @@ class KVDdom_GenericIdentityMapTest extends PHPUnit_Framework_TestCase
         $this->assertFalse ( $this->_identityMap->removeDomainObject ( 'VM_Melding' , 54321 ) );
     }
 
-    function testMultipleDomainObjects()
+    public function testRemoveDomainObjectsOfOneType()
+    {
+        $this->_identityMap->addDomainObject ( $this->_domObject );
+        $this->_identityMap->addDomainObject ( $this->_domObject2 );
+        $this->_identityMap->addDomainObject ( $this->_domObject3 );
+
+        $this->assertTrue($this->_identityMap->removeDomainObjects( $this->_domObject->getClass() ) );
+        $this->assertEquals( 0, count( $this->_identityMap ) );
+    }
+
+    public function testRemoveDomainObjectsOfUnexistingType()
+    {
+        $this->_identityMap->addDomainObject ( $this->_domObject );
+        $this->_identityMap->addDomainObject ( $this->_domObject2 );
+        $this->_identityMap->addDomainObject ( $this->_domObject3 );
+
+        $this->assertFalse($this->_identityMap->removeDomainObjects( 'KVDdom_OtherTestDomainObject' ) );
+        $this->assertEquals( 3, count( $this->_identityMap ) );
+    }
+
+    public function testRemoveAllDomainObjects()
+    {
+        $this->_identityMap->addDomainObject ( $this->_domObject );
+        $this->_identityMap->addDomainObject ( $this->_domObject2 );
+        $this->_identityMap->addDomainObject ( $this->_domObject3 );
+
+        $this->assertTrue($this->_identityMap->removeDomainObjects() );
+        $this->assertEquals(0, count($this->_identityMap));
+    }
+
+    public function testMultipleDomainObjects()
     {
         $this->_identityMap->addDomainObject ( $this->_domObject );
         $this->_identityMap->addDomainObject ( $this->_domObject2 );
@@ -62,7 +92,7 @@ class KVDdom_GenericIdentityMapTest extends PHPUnit_Framework_TestCase
         $this->assertNull( $domObjects2 );
     }
 
-    function testIterator()
+    public function testIterator()
     {
 
         $this->_identityMap->addDomainObject ( $this->_domObject );
