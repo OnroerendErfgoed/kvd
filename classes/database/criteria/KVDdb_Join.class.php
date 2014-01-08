@@ -96,4 +96,3 @@ class KVDdb_Join
         return $sql;
     }
 }
-?>      
