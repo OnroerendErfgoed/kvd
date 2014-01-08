@@ -8,3 +8,4 @@ build
 test/KVD_Autoload.php
 test/bootstrap.php
 test/tests/gis/osm/cache
+/nbproject/
