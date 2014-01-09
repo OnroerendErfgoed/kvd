@@ -72,8 +72,8 @@ class KVDthes_TreeVisitorDojoDatastore extends KVDthes_AbstractTreeVisitor
      * @param KVDthes_Term $node 
      * @return void
      */
-	public function visit(KVDthes_Term $node)
-	{
+    public function visit(KVDthes_Term $node)
+    {
         if($node->hasRelations(KVDthes_Relation::REL_NT)) {
             $this->currItem = new KVDthes_DojoDatastoreComposite(
                 $node->getId( ), $node->getQualifiedTerm( ),
@@ -108,7 +108,7 @@ class KVDthes_TreeVisitorDojoDatastore extends KVDthes_AbstractTreeVisitor
      * @return boolean
      */
 	public function enterComposite(KVDthes_Term $term)
-	{
+    {
         $this->depth++;
 		return true;
 	}
@@ -119,8 +119,8 @@ class KVDthes_TreeVisitorDojoDatastore extends KVDthes_AbstractTreeVisitor
      * @param KVDthes_Term $term
      * @return boolean
      */
-	public function leaveComposite(KVDthes_Term $term)
-	{
+    public function leaveComposite(KVDthes_Term $term)
+    {
         $this->depth--;
         return true;
 	}
@@ -311,7 +311,7 @@ class KVDthes_DojoDatastoreComposite extends KVDthes_DojoDatastoreTerm
      * @param integer $id 
      * @param string $term 
      * @param integer $depth 
-	 * @param string $term_type 
+     * @param string $term_type 
      * @return void
      */
     public function __construct( $id, $term , $depth, $term_type)
