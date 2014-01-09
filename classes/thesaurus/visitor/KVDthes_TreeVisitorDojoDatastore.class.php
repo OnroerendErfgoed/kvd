@@ -74,15 +74,16 @@ class KVDthes_TreeVisitorDojoDatastore extends KVDthes_AbstractTreeVisitor
      */
 	public function visit(KVDthes_Term $node)
 	{
-				
         if($node->hasRelations(KVDthes_Relation::REL_NT)) {
-            $this->currItem = new KVDthes_DojoDatastoreComposite( 
-					$node->getId( ) , $node->getQualifiedTerm( ) , 
-					$this->depth, $node->getType()->getId());
+            $this->currItem = new KVDthes_DojoDatastoreComposite(
+                $node->getId( ), $node->getQualifiedTerm( ),
+                $this->depth, $node->getType()->getId()
+            );
         } else {
-            $this->currItem = new KVDthes_DojoDatastoreTerm( 
-					$node->getId( ) , $node->getQualifiedTerm( ) , $this->depth, 
-					$node->getType()->getId());
+            $this->currItem = new KVDthes_DojoDatastoreTerm(
+                $node->getId( ), $node->getQualifiedTerm( ), $this->depth,
+                $node->getType()->getId()
+            );
         }
         $this->result->addItem( $this->currItem );
         return true;
@@ -244,7 +245,7 @@ class KVDthes_DojoDatastoreTerm
      */
     public $type;
 	
-	/**
+    /**
      * term_type 
      * 
      * Het term_type van de term in de Dojo Datastore.
@@ -253,13 +254,13 @@ class KVDthes_DojoDatastoreTerm
      */
     public $term_type;
 
-    
     /**
-     * __construct 
-     * 
-     * @param integer $id 
-     * @param string $term 
-     * @param integer $depth 
+     * __construct
+     *
+     * @param integer $id
+     * @param string $term
+     * @param integer $depth
+     * @param string $term_type
      * @return void
      */
     public function __construct( $id, $term , $depth, $term_type)
@@ -267,7 +268,7 @@ class KVDthes_DojoDatastoreTerm
         $this->id = (string) $id;
         $this->term = $term;
         $this->type = 'L ' . $depth;
-		$this->term_type = $term_type;
+        $this->term_type = $term_type;
     }
 
     /**
@@ -318,7 +319,7 @@ class KVDthes_DojoDatastoreComposite extends KVDthes_DojoDatastoreTerm
         $this->id = (string) $id;
         $this->term = $term;
         $this->type = 'L ' . $depth;
-		$this->term_type = $term_type;
+        $this->term_type = $term_type;
     }
 
     /**
