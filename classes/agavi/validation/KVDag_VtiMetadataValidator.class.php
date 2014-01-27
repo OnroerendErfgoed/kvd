@@ -73,7 +73,7 @@ class KVDag_VtiMetadataValidator extends AgaviValidator
         if(!is_array($list)) {
             $list = explode($this->getParameter('type_sep', ','), $list);
         }
-        $value = $this->getData($arg);
+        $originalValue = $value = $this->getData($arg);
 
         if(!is_scalar($value)) {
             $this->throwError('ongeldig_type', $arg);
@@ -82,13 +82,13 @@ class KVDag_VtiMetadataValidator extends AgaviValidator
 
         $value = strtolower($value);
         $list = array_map('strtolower', $list);
-        
+
         if(!in_array($value, $list, false)) {
             $this->throwError('ongeldig_type', $arg);
             return false;
         }
 
-        $this->metadata[$export] = $value;
+        $this->metadata[$export] = $originalValue;
 
         return true;
     }
