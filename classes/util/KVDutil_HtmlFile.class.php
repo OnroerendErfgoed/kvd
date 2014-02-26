@@ -73,7 +73,7 @@ class KVDutil_HtmlFile {
 	private function parseTitle()
 	{
 		if(preg_match("#<title>(.*)</title>#Us", $this->contents, $matches)) {
-			$this->title = trim($matches[1]);
+			$this->title = strip_tags(trim($matches[1]));
 		} elseif(preg_match("#<TITLE>(.*)</TITLE>#Us", $this->contents, $matches)) {
 			$this->title = trim($matches[1]);
 		} else {
