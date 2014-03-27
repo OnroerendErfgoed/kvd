@@ -289,15 +289,63 @@ class KVDutil_Date_FuzzyDateRange
     }
 
     /**
+     * isNull
+     *
+     * @return boolean
+     */
+    public function isNull()
+    {
+        return false;
+    }
+
+    /**
      * newNull 
      * 
      * @return KVDutil_Date_FuzzyDateRange
      */
     public static function newNull(  )
     {
-        return new KVDutil_Date_FuzzyDateRange();
+        return new KVDutil_Date_NullFuzzyDateRange();
     }
 
+}
+
+class KVDutil_Date_NullFuzzyDateRange extends KVDutil_Date_FuzzyDateRange
+{
+    public function __construct()
+    {
+        $this->punten['sa'] = null;
+        $this->punten['ka'] = null;
+        $this->punten['kb'] = null;
+        $this->punten['sb'] = null;
+        $this->setMetadata(array(
+            'omschrijving_van' => array( 'omschrijving' => 'Onbepaald',
+                                         'manueel' => false ),
+            'omschrijving_tot' => array( 'omschrijving' => 'Onbepaald',
+                                         'manueel' => false ),
+            'type_van' => 'jaar',
+            'type_tot' => 'jaar'
+        ));
+    }
+    /**
+     * getOmschrijving
+     *
+     * @return string
+     */
+    public function getOmschrijving()
+    {
+        return 'Onbepaald';
+    }
+
+    /**
+     * isNull
+     *
+     * @return boolean
+     */
+    public function isNull()
+    {
+        return true;
+    }
 }
 
 /**

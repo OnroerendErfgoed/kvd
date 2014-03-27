@@ -27,6 +27,7 @@ class FuzzyDateRangeTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf( 'KVDutil_Date_FuzzyDateRange_Date', $this->test->getKa( ) );
         $this->assertInstanceOf( 'KVDutil_Date_FuzzyDateRange_Date', $this->test->getKb( ) );
         $this->assertInstanceOf( 'KVDutil_Date_FuzzyDateRange_Date', $this->test->getSb( ) );
+        $this->assertFalse($this->test->isNull());
     }
 
     public function testType(  )
@@ -68,7 +69,24 @@ class FuzzyDateRangeTest extends PHPUnit_Framework_TestCase
         $this->assertEquals( 2010, $test->getKa( ) );
         $this->assertEquals( 2010, $test->getKb( ) );
         $this->assertEquals( 2010, $test->getSb( ) );
+    }
 
+    public function testNullFuzzyDateRange( )
+    {
+        $test = new KVDutil_Date_NullFuzzyDateRange();
+        $this->assertEquals( 'Onbepaald', $test->getOmschrijving() );
+        $this->assertEquals( null, $test->getSa() );
+        $this->assertEquals( null, $test->getKa() );
+        $this->assertEquals( null, $test->getKb() );
+        $this->assertEquals( null, $test->getSb() );
+        $this->assertTrue($test->isNull());
+    }
+
+    public function testNewNull()
+    {
+        $fuzzynull = KVDutil_Date_NullFuzzyDateRange::newNull();
+        $this->assertInstanceOf( 'KVDutil_Date_FuzzyDateRange', $fuzzynull );
+        $this->assertInstanceOf( 'KVDutil_Date_NullFuzzyDateRange', $fuzzynull );
     }
 
 }
