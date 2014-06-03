@@ -30,6 +30,24 @@ class KVDdb_JoinTest extends PHPUnit_Framework_TestCase
         $this->assertEquals( $join->generateSql( ), 'LEFT JOIN gemeente ON (locatie.gemeente_id = gemeente.id)');
     }
 
+    public function testRightJoin( )
+    {
+        $join = new KVDdb_Join( 'gemeente', array( array( 'locatie.gemeente_id', 'gemeente.id' ) ), KVDdb_Join::RIGHT_JOIN );
+        $this->assertEquals( $join->generateSql( ), 'RIGHT JOIN gemeente ON (locatie.gemeente_id = gemeente.id)');
+    }
+
+    public function testFullJoin( )
+    {
+        $join = new KVDdb_Join( 'gemeente', array( array( 'locatie.gemeente_id', 'gemeente.id' ) ), KVDdb_Join::FULL_JOIN );
+        $this->assertEquals( $join->generateSql( ), 'FULL JOIN gemeente ON (locatie.gemeente_id = gemeente.id)');
+    }
+
+    public function testInnerJoin( )
+    {
+        $join = new KVDdb_Join( 'gemeente', array( array( 'locatie.gemeente_id', 'gemeente.id' ) ), KVDdb_Join::INNER_JOIN );
+        $this->assertEquals( $join->generateSql( ), 'INNER JOIN gemeente ON (locatie.gemeente_id = gemeente.id)');
+    }
+
     /**
      * testNoFields 
      * 
