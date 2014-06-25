@@ -155,19 +155,19 @@ class KVDutil_HuisnummerFacade2Test extends PHPUnit_Framework_TestCase
         $this->assertEquals($huisnummers[2], '29');
         $this->assertEquals($huisnummers[3], '31');
     }
-/*
+
     public function testHuisnummerBereikEvenVerschil( )
     {
         $label = '25-31';
         $huisnummers = $this->facade->split( $label );
-        $this->assertIsA( $huisnummers, 'array' );
-        $this->assertEqual ( count( $huisnummers ) , 4);
-        $this->assertIdentical ( $huisnummers[0], '25' );
-        $this->assertIdentical ( $huisnummers[1], '27' );
-        $this->assertIdentical ( $huisnummers[2], '29' );
-        $this->assertIdentical ( $huisnummers[3], '31' );
+        $this->assertInternalType('array', $huisnummers);
+        $this->assertEquals(count($huisnummers), 4);
+        $this->assertEquals($huisnummers[0], '25');
+        $this->assertEquals($huisnummers[1], '27');
+        $this->assertEquals($huisnummers[2], '29');
+        $this->assertEquals($huisnummers[3], '31');
     }
-
+/*
     public function testHuisnummerBereikOnevenVerschil( )
     {
         $label = '25-32';
