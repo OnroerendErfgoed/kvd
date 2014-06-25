@@ -81,15 +81,18 @@ class KVDutil_HuisnummerFacade2Test extends PHPUnit_Framework_TestCase
         $this->assertEquals ('25, 35, 45', $string );
     }
 
-    /*
+    /**
+     * Deze test faalt momenteel.
+     * Zou eigenlijk wel moeten werken?
+     */
     public function testToStringUglyInput( )
     {
+        $this->markTestSkipped( 'This test currently fails' );
         $array = array( ' 25 ', '   35', '45   ' );
         $string = $this->facade->nummersToString( $array );
-        $this->assertType( 'string', $string );
-        $this->assertEquals ( '25, 35, 35', $string );
+        $this->assertInternalType( 'string', $string );
+        $this->assertEquals( '25, 35, 35', $string );
     }
-    */
 
     public function testSplitEenNummer( )
     {
@@ -109,49 +112,50 @@ class KVDutil_HuisnummerFacade2Test extends PHPUnit_Framework_TestCase
         $this->assertInternalType( 'array', $huisnummers );
         $this->assertEquals ( 1, count( $huisnummers ) );
         $hnr = $huisnummers[0];
-        $this->assertInstanceOf( 'KVDutil_HnrBisLetter', $hnr);
-        $this->assertEquals ( '25A', (string) $hnr );
+        $this->assertInstanceOf('KVDutil_HnrBisLetter', $hnr);
+        $this->assertEquals('25A', (string) $hnr );
     }
-/*
+
     public function testSplitNummerMetCijferBisnummer( )
     {
         $label = '25/1';
         $huisnummers = $this->facade->split( $label );
-        $this->assertIsA( $huisnummers, 'array' );
-        $this->assertEqual ( count( $huisnummers ) , 1);
-        $this->assertIdentical ( $huisnummers[0], '25/1' );
+        $this->assertInternalType('array', $huisnummers);
+        $this->assertEquals(count( $huisnummers ) , 1);
+        $this->assertEquals($huisnummers[0], '25/1');
     }
 
     public function testSplitHuisnummerMetCijferBisnummerGescheidenDoorUnderscore( )
     {
+        $this->markTestSkipped( 'This test currently fails' );
         $label = '111_1';
         $huisnummers = $this->facade->split( $label );
-        $this->assertIsA( $huisnummers, 'array' );
-        $this->assertEqual ( count( $huisnummers ) , 1);
-        $this->assertIdentical ( $huisnummers[0], '111_1' );
+        $this->assertInternalType('array', $huisnummers);
+        $this->assertEquals(count($huisnummers) , 1);
+        $this->assertEquals($huisnummers[0], '111_1');
     }
 
     public function testSplitNummerMetBusnummer( )
     {
         $label = '25 bus 3';
         $huisnummers = $this->facade->split( $label );
-        $this->assertIsA( $huisnummers, 'array' );
-        $this->assertEqual ( count( $huisnummers ) , 1, '25 bus 3 wordt gesplitst in een verkeerd aantal elementen: '.count( $huisnummers ) );
-        $this->assertIdentical ( $huisnummers[0], '25 bus 3' );
+        $this->assertInternalType('array', $huisnummers);
+        $this->assertEquals(count($huisnummers ) , 1, '25 bus 3 wordt gesplitst in een verkeerd aantal elementen: '.count( $huisnummers ) );
+        $this->assertEquals($huisnummers[0], '25 bus 3' );
     }
 
     public function testHuisnummerReeks( )
     {
         $label = '25,27,29,31';
         $huisnummers = $this->facade->split( $label );
-        $this->assertIsA( $huisnummers, 'array' );
-        $this->assertEqual ( count( $huisnummers ) , 4);
-        $this->assertIdentical ( $huisnummers[0], '25' );
-        $this->assertIdentical ( $huisnummers[1], '27' );
-        $this->assertIdentical ( $huisnummers[2], '29' );
-        $this->assertIdentical ( $huisnummers[3], '31' );
+        $this->assertInternalType('array', $huisnummers);
+        $this->assertEquals(count($huisnummers) , 4);
+        $this->assertEquals($huisnummers[0], '25');
+        $this->assertEquals($huisnummers[1], '27');
+        $this->assertEquals($huisnummers[2], '29');
+        $this->assertEquals($huisnummers[3], '31');
     }
-
+/*
     public function testHuisnummerBereikEvenVerschil( )
     {
         $label = '25-31';
