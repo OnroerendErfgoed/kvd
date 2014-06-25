@@ -17,6 +17,10 @@
 		"php": ">=5.0.0",
 		"easyrdf/easyrdf": ">=0.7.0"
 	},
+	"require-dev": {
+		"phing/phing": "2.*",
+		"phpunit/phpunit": "4.1.*"
+	},
 	"autoload": {
 		"classmap": ["classes", "test/tests"]
 	}

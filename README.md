@@ -13,9 +13,19 @@ Installatie kan via composer.
 $ curl -sS https://getcomposer.org/installer | php
 ```
 
+```bash
+$ php composer.phar update
+```
+
 Unit tests uitvoeren
 ```bash
-$ phing runTests
+$ ./vendor/bin/phing runTests
+```
+
+Unit tests uitvoeren en code coverage bekijken
+```bash
+$ ./vendor/bin/phing genTestReports
+$ firefox build/reports/coverage/index.html &
 ```
 
 Om de ws-crab unit tests uit te voeren moet je eerst een wachtwoord toevoegen 
