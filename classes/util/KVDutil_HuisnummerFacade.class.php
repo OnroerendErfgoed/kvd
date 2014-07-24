@@ -12,12 +12,13 @@
  * KVDUtil_HnrElement
  *  Een huisnummer element. Dit is de (abstracte) superklasse voor alle output van de 
  *  huisnummerlezer. Dit kan een huisnummer, huisnummerreeks, leesfout enz. zijn.
- * @package KVD.util
- * @subpackage huisnummer
- * @since september 2007
- * @copyright 2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Dieter Standaert <dieter.standaert@eds.com> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @package     KVD.util
+ * @subpackage  huisnummer
+ * @since       september 2007
+ * @deprecated  Zal verwijderd worden in de volgende versie.
+ * @copyright   2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
+ * @author      Dieter Standaert <dieter.standaert@eds.com> 
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 abstract class KVDUtil_HnrElement{
 	/**

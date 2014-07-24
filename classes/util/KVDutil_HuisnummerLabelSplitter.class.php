@@ -19,8 +19,9 @@
  *  echo $huisnummers[2]; // 19
  *  echo $huisnummers[3]; // 21
  * </code>
- * @package KVD.util
- * @since 9 aug 2006
+ * @package     KVD.util
+ * @since       9 aug 2006
+ * @deprecated  Zal verwijderd worden in de volgende versie.
  * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
