@@ -52,6 +52,23 @@ class KVDag_IdValidator extends AgaviValidator
             }
         }
 
+        // If the value isn't a KVDdom_DomainObject yet,
+        // we will check if the ID has the correct data type (standard: int)
+        switch ($this->getParameter( 'id_data_type', 'int')) {
+            case 'string':
+                if(!is_string($value)){
+                    return false;
+                }
+                break;
+            case 'int':
+            default:
+                $value = (int)$value;
+                if(!is_int($value)){
+                    return false;
+                }
+                break;
+        }
+        
         $this->sessie = $this->getContext( )
                              ->getDatabaseManager( )
                              ->getDatabase( $this->getParameter( 'session_name', 'sessie' ) )

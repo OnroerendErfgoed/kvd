@@ -45,6 +45,10 @@ class KVDag_DeelgemeenteNISValidator extends KVDag_IdValidator
             $parameters['domain_object'] = 'KVDdo_AdrDeelgemeente';
         }
         
+        if ( !isset( $parameters['id_data_type'] ) ) {
+            $parameters['id_data_type'] = 'string';
+        }
+        
         if ( !isset( $errors[''] ) ) {
             $errors[''] = 'U hebt een ongeldige deelgemeente ingegeven.';
         }
