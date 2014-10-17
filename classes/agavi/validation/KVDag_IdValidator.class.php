@@ -54,13 +54,23 @@ class KVDag_IdValidator extends AgaviValidator
 
         // If the value isn't a KVDdom_DomainObject yet,
         // we will check if the ID has the correct data type (standard: int)
-        switch ($this->getParameter( 'id_data_type', 'int')) {
+        $id_data_type = $this->getParameter( 'id_data_type', 'int');
+        $toegelaten_waarden = array('int', 'string');
+        if (!in_array($id_data_type, $toegelaten_waarden)){
+            throw new InvalidArgumentException( 
+                'De parameter id_data_type bevat geen geldige waarde. Toegelaten' . 
+                ' waarden zijn: ' . implode(', ', $toegelaten_waarden));
+        }
+        
+        // If the value isn't a KVDdom_DomainObject yet,
+        // we will check if the ID has the correct data type (standard: int)
+        switch ($id_data_type) {
             case 'string':
                 if(!is_string($value)){
                     return false;
                 }
                 break;
-            case 'int':
+            case 'int': 
             default:
                 $value = (int)$value;
                 if(!is_int($value)){
