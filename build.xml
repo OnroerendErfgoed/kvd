@@ -240,7 +240,7 @@
 				<echo>Unit tests werden met success uitgevoerd.</echo>
 			</then>
 			<else>
-				<echo>Niet alle unit tests werden succesvol uitgevoerd!</echo>
+				<fail message="Niet alle unit tests werden succesvol uitgevoerd!" />
 			</else>
 		</if>
 	</target>
