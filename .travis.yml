@@ -8,4 +8,4 @@ install: composer install
 script: ./vendor/bin/phing genTestReports
 notifications: 
     email:
-        recipients: - koen.vandaele@rwo.vlaanderen.be
+        - koen.vandaele@rwo.vlaanderen.be
