@@ -4,4 +4,4 @@ php:
     - 5.4
     - 5.5
 install: composer install
-script: phing genTestReports
+script: ./vendor/bin/phing genTestReports
