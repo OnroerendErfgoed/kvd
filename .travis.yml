@@ -5,7 +5,7 @@ php:
     - 5.5
     - 5.6
 install: composer install
-script: ./vendor/bin/phing genTestReports -Dcrab.run_integration_tests=true
+script: ./vendor/bin/phing genTestReports -Dcrab.run_integration_tests=false
 notifications: 
     email:
         - koen.vandaele@rwo.vlaanderen.be
