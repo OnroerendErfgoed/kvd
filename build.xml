@@ -11,6 +11,7 @@
 	<property name="agaviDir" value="/opt/csw/php5/lib/php/agavi/" />
 
 	<!-- Default values voor properties -->
+	<property name="crab.run_integration_tests" value="true" />
 	<property name="crab.user" value="" />
 	<property name="crab.pwd" value="" />
 	<property name="crab.proxy_host" value="" />
@@ -157,6 +158,7 @@
 		<copy file="test/dev/bootstrap.php.tpl" tofile="test/bootstrap.php" overwrite="true">
 			<filterchain>
 				<replacetokens begintoken="@@" endtoken="@@">
+					<token key="CRAB_RUN_INTEGRATION_TESTS" value="${crab.run_integration_tests}" />
 					<token key="CRAB_USER" value="${crab.user}" />
 					<token key="CRAB_PWD" value="${crab.pwd}" />
 					<token key="CRAB_PROXY_HOST" value="${crab.proxy_host}" />
@@ -194,16 +196,7 @@
 							--bootstrap test/bootstrap.php 
 							--configuration test/config/testsuites.xml 
 							--log-junit build/testsuites.xml"
-			  passthru="true" returnProperty="testsExit" />
-		<if>
-			<equals arg1="${testsExit}" arg2="0" />
-			<then>
-				<echo>Unit tests werden met success uitgevoerd.</echo>
-			</then>
-			<else>
-				<echo>Niet alle unit tests werden succesvol uitgevoerd!</echo>
-			</else>
-		</if>
+			  passthru="true" checkreturn="true" />
 	</target>
 
 
@@ -232,17 +225,8 @@
 							--log-junit build/testsuites.xml
 							--coverage-html build/reports/coverage
 							--coverage-clover build/clover-coverage.xml"
-			  passthru="true" returnProperty="testsExit" />
+		   	  passthru="true" checkreturn="true"/>
 
-		<if>
-			<equals arg1="${testsExit}" arg2="0" />
-			<then>
-				<echo>Unit tests werden met success uitgevoerd.</echo>
-			</then>
-			<else>
-				<echo>Niet alle unit tests werden succesvol uitgevoerd!</echo>
-			</else>
-		</if>
 	</target>
 
 	<target name="genCodeSnifferReports" description="Maak rapporten over de staat van de code aan." depends="createBuildDir">
