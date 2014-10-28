@@ -8,6 +8,9 @@ class KVDgis_Crab2GatewayTest extends PHPUnit_Framework_TestCase
     
     function setUp()
     {
+        if ( CRAB_RUN_INTEGRATION_TESTS === false  ) {
+            $this->markTestSkipped( );
+        }
         $this->parameters = array ( 'wsdl' => 'http://ws.agiv.be/crabws/nodataset.asmx?WSDL',
                                     'username' => CRAB_USER,
                                     'password' => CRAB_PWD,

@@ -1,6 +1,8 @@
 KVD Library
 ===========
 
+[![Build Status](https://magnum.travis-ci.com/OnroerendErfgoed/kvd.svg?token=xAr45rucPGUhyaRLE1HH&branch=master)](https://magnum.travis-ci.com/OnroerendErfgoed/kvd)
+
 Oude php bibliotheek met ondersteunende code. Wordt gebruikt door:
  * de inventaris
  * OAR
