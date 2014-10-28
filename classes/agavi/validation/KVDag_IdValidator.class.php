@@ -57,8 +57,9 @@ class KVDag_IdValidator extends AgaviValidator
         $id_data_type = $this->getParameter( 'id_data_type', 'int');
         $toegelaten_waarden = array('int', 'string');
         if (!in_array($id_data_type, $toegelaten_waarden)){
-            $this->throwError( 'invalid_id_data_type' );
-            return false;
+            throw new InvalidArgumentException ( "De parameter id_data_type ".
+                "heeft een ongekend type. Toegelaten waarden zijn: ".
+                implode(', ', $toegelaten_waarden ) );
         }
         
         // If the value isn't a KVDdom_DomainObject yet,
@@ -66,6 +67,7 @@ class KVDag_IdValidator extends AgaviValidator
         switch ($id_data_type) {
             case 'string':
                 if(!is_string($value)){
+                    $this->throwError( 'invalid_id_data_type' );
                     return false;
                 }
                 break;
@@ -73,6 +75,7 @@ class KVDag_IdValidator extends AgaviValidator
             default:
                 $value = (int)$value;
                 if(!is_int($value)){
+                    $this->throwError( 'invalid_id_data_type' );
                     return false;
                 }
                 break;
