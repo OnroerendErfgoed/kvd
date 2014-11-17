@@ -27,11 +27,6 @@
 class KVDgis_Crab2Gateway implements KVDutil_Gateway
 {
     /**
-     * @var string 
-     */
-    const CRAB_NAMESPACE = "http://ws.agiv.be/crabws";
-
-    /**
      * Code die CRAB gebruikt voor het Brussels Hoofdstedelijk Gewest
      * @var integer
      */
@@ -237,12 +232,7 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
             }
         }
 
-        $this->_client = new KVDgis_Crab2SoapClient ( $parameters['wsdl'] , $soap_options);
-        
-        if ( !isset( $parameters['username']) || !isset( $parameters['password'])) {
-            throw new InvalidArgumentException ( 'De array parameters moet de sleutels username en password bevatten!');
-        }
-        $this->_client->setAuthentication( $parameters['username'], $parameters['password']);
+        $this->_client = new SoapClient ( $parameters['wsdl'] , $soap_options);
 
         if ( !isset( $parameters['cache'] ) ) {
             $this->_cache = new KVDgis_NullCrabCache( );
@@ -261,23 +251,6 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
         }
         
     }
-
-    /**
-     * Stel de authenticatie-informatie in.
-     * 
-     * @param string $username Gebruikersnaam van de crab-servive. Te bekomen bij het AGIV.
-     * @param string $password Paswoord van de crab-service. Te bekomen bij het AGIV. 
-     * @return void
-     */
-    private function authenticate( $username,  $password ) {
-        $auth = new StdClass( );
-        $auth->Username = $username;
-        $auth->Password = $password;
-        
-        $authvalues = new SoapVar( $auth, SOAP_ENC_OBJECT , 'AuthHeader' , self::CRAB_NAMESPACE );
-        $header = new SoapHeader ( self::CRAB_NAMESPACE , 'AuthHeader' , $authvalues );
-        $this->_client->__setSoapHeaders( array( $header) );
-    } 
 
     /**
      * getCacheName 

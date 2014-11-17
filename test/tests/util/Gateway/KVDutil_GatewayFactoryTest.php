@@ -6,10 +6,7 @@ class KVDutil_GatewayFactoryTest extends PHPUnit_Framework_TestCase
 
     function setUp( )
     {
-
-        $config = array ( 'KVDgis_Crab2Gateway'         => array (  'wsdl' => 'http://ws.agiv.be/crabws/nodataset.asmx?WSDL',
-                                                                    'username' => 'CRABUSER',
-                                                                    'password' => 'CRABPWD' ),
+        $config = array ( 'KVDgis_Crab2Gateway'         => array (  'wsdl' => 'http://crab.agiv.be/wscrab/WsCrab.svc?wsdl' ),
                           'KVDutil_GatewayTestGateway'  => array (  'url'       => 'http://test.vioe.be/gateway',
                                                                     'username'  => 'TESTUSER',
                                                                     'pwd'       => 'TESTPWD' )

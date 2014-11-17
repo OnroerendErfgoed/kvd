@@ -5,17 +5,13 @@ class KVDgis_Crab2GatewayTest extends PHPUnit_Framework_TestCase
 {
 
     private $parameters;
-    
+
     function setUp()
     {
         if ( CRAB_RUN_INTEGRATION_TESTS === false  ) {
             $this->markTestSkipped( );
         }
-        $this->parameters = array ( 'wsdl' => 'http://ws.agiv.be/crabws/nodataset.asmx?WSDL',
-                                    'username' => CRAB_USER,
-                                    'password' => CRAB_PWD,
-                                    'safe_mode'=> false
-                            );
+        $this->parameters = array ( 'wsdl' => 'http://crab.agiv.be/wscrab/WsCrab.svc?wsdl', 'safe_mode'=> false);
         if ( defined ( 'CRAB_PROXY_HOST' ) && CRAB_PROXY_HOST != '' ) {
             $this->parameters['proxy_host'] = CRAB_PROXY_HOST;
             if ( defined( 'CRAB_PROXY_PORT' ) && CRAB_PROXY_PORT != '') {
