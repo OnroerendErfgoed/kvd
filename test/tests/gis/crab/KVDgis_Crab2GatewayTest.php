@@ -11,7 +11,10 @@ class KVDgis_Crab2GatewayTest extends PHPUnit_Framework_TestCase
         if ( CRAB_RUN_INTEGRATION_TESTS === false  ) {
             $this->markTestSkipped( );
         }
-        $this->parameters = array ( 'wsdl' => 'http://crab.agiv.be/wscrab/WsCrab.svc?wsdl', 'safe_mode'=> false);
+        $this->parameters = array (
+            'wsdl' => 'http://crab.agiv.be/wscrab/WsCrab.svc?wsdl',
+            'safe_mode'=> false
+        );
         if ( defined ( 'CRAB_PROXY_HOST' ) && CRAB_PROXY_HOST != '' ) {
             $this->parameters['proxy_host'] = CRAB_PROXY_HOST;
             if ( defined( 'CRAB_PROXY_PORT' ) && CRAB_PROXY_PORT != '') {
@@ -28,7 +31,6 @@ class KVDgis_Crab2GatewayTest extends PHPUnit_Framework_TestCase
             $this->markTestSkipped( $e->getMessage( ) );
         }
     }
-   
 
     function tearDown()
     {
