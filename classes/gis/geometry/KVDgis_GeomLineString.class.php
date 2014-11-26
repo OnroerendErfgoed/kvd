@@ -160,7 +160,7 @@ class KVDgis_GeomLineString extends KVDgis_GeomGeometry
     public function getAsJson( $encode = true )
     {
         $json = new stdClass( );
-        $json->type = 'Linestring';
+        $json->type = 'LineString';
         $json->coordinates = array( );
         foreach ( $this->points as $point ) {
             $json->coordinates[] = $point->getAsJson(false)->coordinates;

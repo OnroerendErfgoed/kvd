@@ -150,7 +150,7 @@ class KVDgis_GeomMultiPoint extends KVDgis_GeomGeometry
     public function getAsJson( $encode = true )
     {
         $json = new stdClass( );
-        $json->type = 'Multipoint';
+        $json->type = 'MultiPoint';
         $json->coordinates = array( );
         foreach ( $this->points as $point ) {
             $json->coordinates[] = $point->getAsJson(false)->coordinates;

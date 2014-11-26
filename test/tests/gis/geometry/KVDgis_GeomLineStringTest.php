@@ -104,7 +104,7 @@ class KVDgis_GeomLineStringTest extends PHPUnit_Framework_TestCase
     {
         $this->testLineString->setGeometryFromText('LINESTRING ( 178000 212000, 100000 150000 ) ');
         $js = new stdClass( );
-        $js->type = 'Linestring';
+        $js->type = 'LineString';
         $js->coordinates = array( array( 178000, 212000 ), array( 100000, 150000 ) );
         $this->assertEquals( $js, json_decode( $this->testLineString->getAsJson( ) ) );
     }
