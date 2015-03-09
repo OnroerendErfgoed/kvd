@@ -67,7 +67,7 @@ abstract class KVDthes_Matchable extends KVDdom_ChangeableDomainObject
     /**
      * @return A URI for this matchable.
      */
-    protected function getUri()
+    public function getUri()
     {
         return sprintf(static::BASE_URI, $this->id);
     }
