@@ -22,5 +22,5 @@
  */
 class KVDdo_ThesTMCT extends KVDthes_Concept
 {
-
+    const BASE_URI = 'http://heritagedata.org/live/schemes/eh_tmc/concepts/%s';
 }

@@ -22,5 +22,5 @@
  */
 class KVDdo_ThesAAT extends KVDthes_Concept
 {
-
+    const BASE_URI = 'http://vocab.getty.edu/aat/%s';
 }

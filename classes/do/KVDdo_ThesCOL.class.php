@@ -22,5 +22,5 @@
  */
 class KVDdo_ThesCOL extends KVDthes_Concept
 {
-
+    const BASE_URI = 'urn:col:%s';
 }
