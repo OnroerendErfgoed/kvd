@@ -2,9 +2,8 @@
 /**
  * @package KVD.dom
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @version $Id$
  */
- 
+
 /**
  * DomainObjects die niet gewijzigd kunnen worden maar wel veel data bevatten.
  *
@@ -25,19 +24,19 @@ abstract class KVDdom_ReadonlyDomainObject implements KVDdom_DomainObject , KVDd
      * @var integer
      */
     protected $id;
-    
+
     /**
      * Verwijzing naar het KVDdom_Sessie object
      * @var KVDdom_Sessie
      */
     protected $_sessie;
-    
+
     /**
      * Maak het KVDdom_DomainObject
-     * @param KVDdom_Sessie $sessie 
+     * @param KVDdom_Sessie $sessie
      * @param integer $id Id dat aan het nieuwe KVDdom_DomainObject moet gegeven worden.
      */
-    public function __construct ( $id , $sessie ) 
+    public function __construct ( $id , $sessie )
     {
         $this->_sessie = $sessie;
         $this->id = $id;
@@ -69,7 +68,7 @@ abstract class KVDdom_ReadonlyDomainObject implements KVDdom_DomainObject , KVDd
     {
         return false;
     }
-    
+
     /**
      * Markeert dit object als Clean
      *
@@ -81,8 +80,8 @@ abstract class KVDdom_ReadonlyDomainObject implements KVDdom_DomainObject , KVDd
     }
 
     /**
-     * __toString 
-     * 
+     * __toString
+     *
      * @return string
      */
     public function __toString( )

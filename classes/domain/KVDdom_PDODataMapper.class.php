@@ -1,9 +1,7 @@
 <?php
 /**
- * @version $Id$
  * @package KVD.dom
  * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
- * @version $Id$
  */
 
 /**
@@ -16,8 +14,8 @@
  */
 abstract class KVDdom_PDODataMapper {
     /**
-     * parameters 
-     * 
+     * parameters
+     *
      * @var array
      */
     protected $parameters = array( );
@@ -35,8 +33,8 @@ abstract class KVDdom_PDODataMapper {
     protected $_conn;
 
     /**
-     * systemFieldsMapper 
-     * 
+     * systemFieldsMapper
+     *
      * @var KVDdom_AbstractSystemFieldsMapper
      */
     protected $systemFieldsMapper;
@@ -59,30 +57,30 @@ abstract class KVDdom_PDODataMapper {
     const RETURNTYPE = "";
 
     /**
-     * tabel 
-     * 
+     * tabel
+     *
      * @var string
      */
     protected $tabel;
     /**
-     * velden 
-     * 
+     * velden
+     *
      * @var string
      */
     protected $velden;
     /**
-     * id 
-     * 
+     * id
+     *
      * @var string
      */
     protected $id;
 
     /**
      * Maak de mapper aan en stel een connectie in
-     * 
+     *
      * @todo Problemen met mapperParameters aanpakken.
-     * @param KVDdom_Sessie $sessie 
-     * @param array $parameters 
+     * @param KVDdom_Sessie $sessie
+     * @param array $parameters
      * @return void
      */
     public function __construct( $sessie , $parameters = array( ) )
@@ -100,8 +98,8 @@ abstract class KVDdom_PDODataMapper {
     }
 
     /**
-     * initialize 
-     * 
+     * initialize
+     *
      * @return void
      */
     protected function initialize( )
@@ -110,8 +108,8 @@ abstract class KVDdom_PDODataMapper {
     }
 
     /**
-     * determineSystemFieldsMapper 
-     * 
+     * determineSystemFieldsMapper
+     *
      * @return void
      */
     protected function determineSystemFieldsMapper( )
@@ -126,8 +124,8 @@ abstract class KVDdom_PDODataMapper {
     }
 
     /**
-     * getSelectStatement 
-     * 
+     * getSelectStatement
+     *
      * @return string SQL Statement
      */
     protected function getSelectStatement( )
@@ -141,28 +139,28 @@ abstract class KVDdom_PDODataMapper {
     }
 
     /**
-     * getFindByIdStatement 
+     * getFindByIdStatement
      * Het SQL statement dat nodig is om een DomainObject aan de hand van zijn Id terug te vinden in de databank
      * @return string SQL Statement
      */
     protected function getFindByIdStatement()
     {
-        return  $this->getSelectStatement( ) . 
+        return  $this->getSelectStatement( ) .
                 " WHERE " . $this->id . " = ?";
     }
 
     /**
-     * getFindAllStatement 
-     * 
+     * getFindAllStatement
+     *
      * De sql om alle DomainObjects van dit type te zoeken
      * @return string SQL Statement
      */
     protected function getFindAllStatement()
     {
-        return  $this->getSelectStatement( ) . 
+        return  $this->getSelectStatement( ) .
                 " ORDER BY " . $this->id . " ASC";
     }
-   
+
     /**
      * Een abstract functie die het grootste deel van het opzoekwerk naar een DomainObject met een specifieke Id uitvoert
      *
@@ -253,8 +251,8 @@ abstract class KVDdom_PDODataMapper {
     }
 
     /**
-     * getVeldenAsParameters 
-     * 
+     * getVeldenAsParameters
+     *
      * Geef een parameter string terug met een aantal vraagtekens gelijk aan het aantal velden.
      * @todo Nagaan of dit nog nuttig is.
      * @return string
@@ -262,15 +260,15 @@ abstract class KVDdom_PDODataMapper {
     protected function getVeldenAsParameters( )
     {
         if ( $this->velden == null ) {
-            return '';   
+            return '';
         }
         $fields = explode ( ', ' , $this->velden );
         return implode ( ', ' , array_fill( 0 , count( $fields ) , '?' ) );
     }
 
     /**
-     * Serialiseer de datamapper. 
-     * 
+     * Serialiseer de datamapper.
+     *
      * @return array
      */
     public function __sleep( )
@@ -281,14 +279,14 @@ abstract class KVDdom_PDODataMapper {
     }
 
     /**
-     * Deserialiseer de datamapper. 
-     * 
+     * Deserialiseer de datamapper.
+     *
      * @return void
      */
     public function __wakeup( )
     {
         $this->_conn = $this->_sessie->getDatabaseConnection( get_class($this) );
     }
-    
+
 }
 ?>

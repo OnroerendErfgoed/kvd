@@ -1,15 +1,15 @@
 <?php
 /**
  * @package KVD.dom
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @version $Id$
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
  * Een interface om aan te geven dat een DomainObject een Null Object kan zijn.
+ *
  * @link http://www.martinfowler.com/eaaCatalog/specialCase.html
  * @package KVD.dom
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  * @since 1.0.0
  */
 interface KVDdom_Nullable {

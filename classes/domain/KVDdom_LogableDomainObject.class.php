@@ -1,17 +1,17 @@
 <?php
 /**
  * @package KVD.dom
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @version $Id$
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
- 
+
 /**
  * DomainObjects die gelogd kunnen worden.
  *
- * Het loggen houdt in dat er voor elk record een gebruiker, wijziginsdatum en versie wordt bijgehouden. 
+ * Het loggen houdt in dat er voor elk record een gebruiker, wijziginsdatum en versie wordt bijgehouden.
  * Van elke wijziging wordt dan ook nog bijgehouden of ze al dan niet is goedgekeurd door de redactie.
+ *
  * @package KVD.dom
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  * @since 2005
  */
 abstract class KVDdom_LogableDomainObject extends KVDdom_ChangeableDomainObject implements KVDdom_Nullable
@@ -28,15 +28,15 @@ abstract class KVDdom_LogableDomainObject extends KVDdom_ChangeableDomainObject 
     protected $_geschiedenis;
 
     /**
-     * currentRecord 
-     * 
+     * currentRecord
+     *
      * True indien het record uit de hoofdtabellen komt, false indien het geladen werd uit de log tabellen.
      * @var boolean
      */
     protected $currentRecord;
 
     /**
-     * @param KVDdom_Sessie $sessie 
+     * @param KVDdom_Sessie $sessie
      * @param integer $id
      * @param KVDdom_RedigeerbareSystemFields $systemFields
      */
@@ -56,8 +56,8 @@ abstract class KVDdom_LogableDomainObject extends KVDdom_ChangeableDomainObject 
         $this->_geschiedenis = self::PLACEHOLDER;
     }
 
-    
-    
+
+
     /**
      * Geef het SystemFields object van dit DomainObject terug
      * @return KVDdom_RedigeerbareSystemFields
@@ -68,8 +68,8 @@ abstract class KVDdom_LogableDomainObject extends KVDdom_ChangeableDomainObject 
     }
 
     /**
-     * hasSystemFields 
-     * 
+     * hasSystemFields
+     *
      * @return boolean
      */
     public function hasSystemFields( )
@@ -86,8 +86,8 @@ abstract class KVDdom_LogableDomainObject extends KVDdom_ChangeableDomainObject 
     }
 
     /**
-     * isCurrentRecord 
-     * 
+     * isCurrentRecord
+     *
      * True indien het record uit de hoofdtabellen komt, false indien het geladen werd uit de log tabellen.
      * @return boolean
      */

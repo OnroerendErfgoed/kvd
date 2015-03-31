@@ -1,22 +1,19 @@
 <?php
 /**
  * @package KVD.dom
- * @version $Id$
  * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
-    
+
 /**
- * KVDdom_SystemFields 
- * 
+ * KVDdom_SystemFields
+ *
  * Een class die de status van DomainObjects bijhoudt. Heeft geen eigen DataMapper, deze taak wordt afgehandeld door de Abstracte DataMappers.
  * @deprecated  Gebruik het KVDdom_LegacySystemFields object dat identiek is aan dit.
  * @package KVD.dom
  * @since 2005
  * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 class KVDdom_SystemFields {
     /**
@@ -32,8 +29,8 @@ class KVDdom_SystemFields {
     private $versie;
 
     /**
-     * targetVersie 
-     * 
+     * targetVersie
+     *
      * Een versienummer. Belangrijk voor de Concurrency Control. Implementatie van Optimistic Offline Concurrency (POEAA).
      * Dit is het versienummer waarnaar geupdate wordt in geval van een update.
      * @var integer
@@ -46,7 +43,7 @@ class KVDdom_SystemFields {
      * @var string
      */
     private $bewerktOp;
-    
+
     /**
      * Werd het domainObject al nagezien door de redactie?
      * @var boolean
@@ -54,23 +51,23 @@ class KVDdom_SystemFields {
     private $gecontroleerd;
 
     /**
-     * gecontroleerdDoor 
-     * 
+     * gecontroleerdDoor
+     *
      * @var string Een gebruikersnaam zoals ze voorkomt in de databank.
      */
     private $gecontroleerdDoor;
 
     /**
-     * gecontroleerdOp 
-     * 
+     * gecontroleerdOp
+     *
      * Datum waarop het record gecontroleerd werd.
      * @var string
      */
     private $gecontroleerdOp;
 
     /**
-     * locked 
-     * 
+     * locked
+     *
      * @since 31 okt 2006
      * @var boolean
      */
@@ -84,7 +81,7 @@ class KVDdom_SystemFields {
      * @param boolean $gecontroleerd Werd het record al gecontroleerd?
      * @param string $gecontroleerdDoor Door wie werd het record gecontroleerd?
      * @param string $gecontroleerdOp Wanneer werd het record gecontroleerd?
-     */ 
+     */
     public function __construct ( $gebruikersNaam, $versie = 0, $bewerktOp = null, $gecontroleerd = false, $gecontroleerdDoor = null, $gecontroleerdOp = null)
     {
         if ($bewerktOp == null) {
@@ -100,7 +97,7 @@ class KVDdom_SystemFields {
     }
 
     /**
-     * Verhoog de versie-informatie in het object naar de volgende versie. 
+     * Verhoog de versie-informatie in het object naar de volgende versie.
      *
      * Indien een andere actor al de opdracht heeft gegeven, wordt deze update niet meer uitgevoerd. Dit maakt het mogelijk om SystemFields te delen tussen objecten.
      * @param string $gebruikersNaam Naam van de gebruiker die de update uitvoerde. Indien afwezig wordt de huidige gebruiker behouden.
@@ -124,7 +121,7 @@ class KVDdom_SystemFields {
     }
 
     /**
-     * @return string 
+     * @return string
      */
     public function getGebruikersNaam()
     {
@@ -140,8 +137,8 @@ class KVDdom_SystemFields {
     }
 
     /**
-     * getTargetVersie 
-     * 
+     * getTargetVersie
+     *
      * Dit geeft het versie-nummer terug waarnaar moet geupdate worden. Indien er nog geen updateSystemFields heeft plaatsgevonden is dit gelijk aan het initiele versienummer.
      * Belangrijk voor mappers die met een shared lock werken.
      * @since 31 okt 2006
@@ -169,8 +166,8 @@ class KVDdom_SystemFields {
     }
 
     /**
-     * getGecontroleerdDoor 
-     * 
+     * getGecontroleerdDoor
+     *
      * @return string
      */
     public function getGecontroleerdDoor( )
@@ -179,8 +176,8 @@ class KVDdom_SystemFields {
     }
 
     /**
-     * getGecontroleerdOp 
-     * 
+     * getGecontroleerdOp
+     *
      * @return string Een datum string
      */
     public function getGecontroleerdOp( )
@@ -189,8 +186,8 @@ class KVDdom_SystemFields {
     }
 
     /**
-     * setApproved 
-     * 
+     * setApproved
+     *
      * @param string $gebruikersNaam Naam van de gebruiker die de controle uitvoerde
      * @throws <b>KVDdom_RedactieException</b> Indien u probeert een record goed te keuren dat al goedgekeurd is.
      * @return void

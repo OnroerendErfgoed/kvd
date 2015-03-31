@@ -2,40 +2,37 @@
 /**
  * @package     KVD.dom
  * @copyright   2004-2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
- * @version     $Id$
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
- * KVDdom_PDOChunkyQuery 
- * 
+ * KVDdom_PDOChunkyQuery
+ *
  * Deze class voert een query in stukjes uit zodat er aan lazy loading gedaan kan worden.
- * Een andere class kan bepalen welk stuk van de resultaten moet teruggeven 
+ * Een andere class kan bepalen welk stuk van de resultaten moet teruggeven
  * worden door middel van setChunk.
  * Bv. setChunk(2) zal er voor zorgen dat de tweede blok records wordt geladen.
  *
  * @package     KVD.dom
  * @since       24 jul 2006
  * @copyright   2004-2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 class KVDdom_PDOChunkyQuery
 {
     /**
-     * Geeft aan in welke mode de query moet werken. 
+     * Geeft aan in welke mode de query moet werken.
      * Deze mode geeft aan dat er wordt verondersteld dat de sql string die wordt doorgegeven
      * al compleet is en gewoon kan uitgevoerd worden.
-     * @var integer 
+     * @var integer
      */
     const MODE_FILLED = 1;
 
     /**
-     * Geeft aan in welke mode de query moet werken. 
+     * Geeft aan in welke mode de query moet werken.
      * Deze mode geeft aan dat de class een geparemeteriseerde statement ontvagen waarin
      * de parameters nog moeten ingepast worden dmv. bindValue.
-     * @var integer 
+     * @var integer
      */
     const MODE_PARAMETERIZED = 2;
 
@@ -43,7 +40,7 @@ class KVDdom_PDOChunkyQuery
      * @var PDO
      */
     protected $conn;
-    
+
     /**
      * @var KVDdom_DataMapper
      */
@@ -85,29 +82,29 @@ class KVDdom_PDOChunkyQuery
     private $logger;
 
     /**
-     * mode 
-     * 
+     * mode
+     *
      * @var integer
      */
     private $mode;
 
     /**
-     * values 
-     * 
+     * values
+     *
      * @var array
      */
     private $values;
 
     /**
-     * stmt 
-     * 
+     * stmt
+     *
      * @var PDOStatement
      */
     private $stmt;
 
     /**
-     * index 
-     * 
+     * index
+     *
      * Array dat de indexen bevat waarop bepaalde parameters zoals max en offset gebonden moeten worden.
      * @var array
      */
@@ -124,12 +121,12 @@ class KVDdom_PDOChunkyQuery
      * @param KVDdom_SqlLogger      $logger         Een logger waarop sql statements gelogd kunnen worden.
      * @throws <b>InvalidArgumentException</b>      Indien er een ongeldige parameter wordt doorgegeven.
      */
-    public function __construct (   $conn , 
-                                    KVDdom_PDODataMapper $dataMapper , 
-                                    $sql , 
-                                    $idField = 'id', 
-                                    $mode = self::MODE_FILLED, 
-                                    array $values = null, 
+    public function __construct (   $conn ,
+                                    KVDdom_PDODataMapper $dataMapper ,
+                                    $sql ,
+                                    $idField = 'id',
+                                    $mode = self::MODE_FILLED,
+                                    array $values = null,
                                     $logger = null)
     {
         $this->conn = $conn;
@@ -185,7 +182,7 @@ class KVDdom_PDOChunkyQuery
             }
             $stmt->execute( );
         }
-        $this->totalRecordCount = $stmt->fetchColumn(0);        
+        $this->totalRecordCount = $stmt->fetchColumn(0);
     }
 
     /**
@@ -208,11 +205,11 @@ class KVDdom_PDOChunkyQuery
     }
 
     /**
-     * initializeStatement 
-     * 
+     * initializeStatement
+     *
      * Initialiseer de statement en berekent de index waarop parameters zoals max en start gebonden moeten worden.
      * @since   23 okt 2007
-     * @param   boolean     $clear  Afdwingen dat de statement opnieuw wordt aangemaakt.  
+     * @param   boolean     $clear  Afdwingen dat de statement opnieuw wordt aangemaakt.
      * @return  void
      */
     private function initializeStatement( $clear = false )
@@ -267,7 +264,7 @@ class KVDdom_PDOChunkyQuery
      */
     public function getTotalChunksCount()
     {
-        return ceil ( $this->getTotalRecordCount() / $this->getRowsPerChunk() );   
+        return ceil ( $this->getTotalRecordCount() / $this->getRowsPerChunk() );
     }
 
     /**
@@ -293,7 +290,7 @@ class KVDdom_PDOChunkyQuery
      */
     private function calculateStart()
     {
-        $this->start = ( ($this->chunk - 1) * $this->max );    
-    }    
+        $this->start = ( ($this->chunk - 1) * $this->max );
+    }
 }
 ?>

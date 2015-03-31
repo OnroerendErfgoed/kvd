@@ -1,15 +1,14 @@
 <?php
 /**
  * @package KVD.dom
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @version $Id$
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
  * Factory voor KVDdom_DataMappers
  *
  * @package KVD.dom
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  * @since 1.0.0
  */
 class KVDdom_MapperFactory
@@ -25,17 +24,17 @@ class KVDdom_MapperFactory
     private $mapperDirs;
 
     /**
-     * parameters 
-     * 
+     * parameters
+     *
      * @var array
      */
     private $parameters;
-    
+
     /**
      * @param KVDdom_Sessie $sessie Wordt doorgegeven aan de mapper omwille van de Uow en de connection.
      * @param array $mapperDirs Directories waar de mappers gevonden kunnen worden.
-     * @param array $parameters Parameters die moeten doorgegeven worden aan een mapper wanneer die wordt aangemaakt. 
-     *                          Associatieve array met als key de naam van de mapper en als value het parameter array 
+     * @param array $parameters Parameters die moeten doorgegeven worden aan een mapper wanneer die wordt aangemaakt.
+     *                          Associatieve array met als key de naam van de mapper en als value het parameter array
      *                          (dat zelf ook een associatieve array is).
      */
     public function __construct ( $sessie , $mapperDirs , $parameters = array( ) )
@@ -44,7 +43,7 @@ class KVDdom_MapperFactory
         $this->mapperDirs = $mapperDirs;
         $this->parameters = $parameters;
     }
-    
+
     /**
      * @param   string $teMappenClass Naam van de class waarvoor een mapper moet aangemaakt worden.
      * @todo    inladen van mapper geeft problemen door gewijzigde agavi config.
@@ -54,7 +53,7 @@ class KVDdom_MapperFactory
     public function createMapper ( $teMappenClass , $type = null )
     {
         $classMapper = $this->getClassMapper (  $teMappenClass , $type );
-            
+
         if ( !class_exists( $classMapper) ) {
             $this->loadClassMapperFile (  $classMapper );
         }
@@ -82,7 +81,7 @@ class KVDdom_MapperFactory
             if ( substr( $mapperDir , -1) != '/' ) {
                 $mapperDir .= '/';
             }
-                
+
             $classMapperFile = $mapperDir . $classMapper . '.class.php';
             if ( file_exists( $classMapperFile ) ) {
                 require_once( $classMapperFile );

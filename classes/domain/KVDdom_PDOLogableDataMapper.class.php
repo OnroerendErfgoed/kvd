@@ -1,21 +1,18 @@
-<?php    
+<?php
 /**
  * @package KVD.dom
- * @version $Id$
  * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
- * KVDdom_PDOLogableDataMapper 
- * 
+ * KVDdom_PDOLogableDataMapper
+ *
  * De abstracte mapper die alle Logable Datamappers gemeen hebben. Zij verzorgen de communicatie met de databank voor LogableDomainObjects.
  * @package KVD.dom
  * @since 5 okt 2006
  * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDOChangeableDataMapper
 {
@@ -32,39 +29,39 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDOChangeableDataMappe
 
     /**
      * De velden die nodig zijn voor het SystemFields object.
-     * 
+     *
      * @var string
      */
     protected $sfvelden = "versie";
 
     /**
-     * logtabel 
-     * 
+     * logtabel
+     *
      * @var string
      */
     protected $logtabel;
 
     /**
-     * getDeleteStatement 
-     * 
+     * getDeleteStatement
+     *
      * @return string SQL Statement
      */
     protected function getDeleteStatement( )
     {
-        return  "DELETE FROM " . $this->tabel . 
-                " WHERE " . $this->id . " = ? AND versie = ?";   
+        return  "DELETE FROM " . $this->tabel .
+                " WHERE " . $this->id . " = ? AND versie = ?";
     }
 
     protected function getUpdateStatement()
     {
         return  "UPDATE " . $this->tabel . " SET " .
-                $this->getUpdateFieldsStatement( ) . ( $this->systemFieldsMapper->getUpdateSystemFieldsString() <> "" ? ', ' . $this->systemFieldsMapper->getUpdateSystemFieldsString( ) : ''). 
+                $this->getUpdateFieldsStatement( ) . ( $this->systemFieldsMapper->getUpdateSystemFieldsString() <> "" ? ', ' . $this->systemFieldsMapper->getUpdateSystemFieldsString( ) : '').
                 " WHERE " . $this->id . " = ? AND versie = ?";
     }
 
     /**
-     * getLogSelectStatement 
-     * 
+     * getLogSelectStatement
+     *
      * @return string SQL Statement
      */
     abstract protected function getLogSelectStatement( );
@@ -75,7 +72,7 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDOChangeableDataMappe
      */
     protected function getFindByLogIdStatement()
     {
-        return  $this->getLogSelectStatement( ) . 
+        return  $this->getLogSelectStatement( ) .
                 " WHERE log_" . $this->id . " = ? AND versie = ?";
     }
 
@@ -84,7 +81,7 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDOChangeableDataMappe
      */
     protected function getFindByLogIdMaxVersieStatement()
     {
-        return  $this->getLogSelectStatement( ) . 
+        return  $this->getLogSelectStatement( ) .
                 " WHERE log_" . $this->id . " = ? AND versie = ( SELECT MAX( versie ) FROM " . $this->logtabel . " WHERE id = ? )";
     }
 
@@ -114,7 +111,7 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDOChangeableDataMappe
      */
     protected function getLogOrderStatement()
     {
-        return " ORDER BY versie DESC";    
+        return " ORDER BY versie DESC";
     }
 
     /**
@@ -151,7 +148,7 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDOChangeableDataMappe
 
     /**
      * Stel de waarden voor het selecteren van de te updaten record in
-     * @param PDOStatement $stmt 
+     * @param PDOStatement $stmt
      * @param integer $id
      * @param integer $versie
      * @param integer $firstParam De numerieke index in de PDO Statement van de id parameter.
@@ -163,9 +160,9 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDOChangeableDataMappe
     }
 
     /**
-     * update 
-     * 
-     * @param KVDdom_DomainObject $domainObject 
+     * update
+     *
+     * @param KVDdom_DomainObject $domainObject
      * @return KVDdom_DomainObject
      */
     public function update ( $domainObject )
@@ -175,12 +172,12 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDOChangeableDataMappe
         $this->systemFieldsMapper->updateSystemFields( $domainObject , $this->_sessie->getGebruiker( )->getGebruikersNaam( ) );
 
         $this->logInsert( $domainObject->getId( ) );
-        
+
         $stmt = $this->_conn->prepare( $this->getUpdateStatement( ));
         $lastIndex = $this->bindValues( $stmt , 1 , $domainObject );
         $lastIndex = $this->doSetSystemFields( $stmt , $domainObject , $lastIndex );
         $this->doSetUpdateWhere ( $stmt , $domainObject->getId( ) , $currentVersie , $lastIndex );
-        
+
         $stmt->execute( );
 
         if ( $stmt->rowCount( ) == 0 ) {
@@ -272,10 +269,10 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDOChangeableDataMappe
     abstract public function doLogLoad ( $id , $row );
 
     /**
-     * findByLogId 
-     * 
-     * @param integer $id 
-     * @param integer $versie 
+     * findByLogId
+     *
+     * @param integer $id
+     * @param integer $versie
      * @return KVDdom_DomainObject
      * @throws KVDdom_LogDomainObjectNotFoundException
      */
@@ -309,11 +306,11 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDOChangeableDataMappe
     }
 
     /**
-     * isVerwijderd 
+     * isVerwijderd
      *
      * Gaat na of een bepaald object nog voorkomt in de hoofdtabellen of niet.
      * @since 31 okt 2006
-     * @param KVDdom_LogableDomainObject $domainObject 
+     * @param KVDdom_LogableDomainObject $domainObject
      * @return boolean True indien het object enkel voorkomt in de logtabellen, false indien het object nog een bestaande hoofdversie heeft.
      * @deprecated Nagaan of dit nog zin heeft.
      */
@@ -328,12 +325,12 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDOChangeableDataMappe
     }
 
     /**
-     * getSystemFieldsString 
-     * 
+     * getSystemFieldsString
+     *
      * @deprecated              Beter om rechtstreeks naar de systemFieldsMapper te gaan.
-     * @param string $tabelNaam 
-     * @param boolean $logTabel 
-     * @param string $systemFields 
+     * @param string $tabelNaam
+     * @param boolean $logTabel
+     * @param string $systemFields
      * @return string
      */
     protected function getSystemFieldsString (  $tabelNaam , $logTabel = false , $systemFields = null )
@@ -356,11 +353,11 @@ abstract class KVDdom_PDOLogableDataMapper extends KVDdom_PDOChangeableDataMappe
     }
 
     /**
-     * doLoadSystemFields 
-     * 
+     * doLoadSystemFields
+     *
      * @deprecated              Beter om rechtstreeks naar de systemFieldsMapper te gaan.
-     * @param stdClass $row 
-     * @param string $prefix 
+     * @param stdClass $row
+     * @param string $prefix
      * @return KVDdom_LegacySystemFields
      */
     protected function doLoadSystemFields( $row , $prefix = null)

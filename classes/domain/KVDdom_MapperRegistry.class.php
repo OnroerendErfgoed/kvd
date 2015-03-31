@@ -1,24 +1,21 @@
 <?php
 /**
  * @package KVD.dom
- * @version $Id$
  * @copyright 2004-2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
- * KVDdom_MapperRegistry 
- * 
+ * KVDdom_MapperRegistry
+ *
  * Wanneer er een mapper gezocht wordt via getMapper wordt er gekeken of deze mapper al geladen is.
  * Indien niet wordt er aan de mapperfactory gevraagd om de mapper te laden.
  * @package KVD.dom
  * @since 2005
  * @copyright 2004-2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
-class KVDdom_MapperRegistry 
+class KVDdom_MapperRegistry
 {
 
     /**
@@ -32,8 +29,8 @@ class KVDdom_MapperRegistry
     private $mappers = array();
 
     /**
-     * domainObjectMappers 
-     * 
+     * domainObjectMappers
+     *
      * @var array
      */
     private $domainObjectMappers = array( );
@@ -63,7 +60,7 @@ class KVDdom_MapperRegistry
      * @param string $key Naam van de class waarvoor $domainObjectMapper een mapper is.
      * @param KVDdom_DataMapper $domainObjectMapper
      * @return void
-     */ 
+     */
     private function setMapper ( $key , $domainObjectMapper , $type = null )
     {
         if ( $type === null ) {
@@ -97,9 +94,9 @@ class KVDdom_MapperRegistry
     }
 
     /**
-     * hasSubTypes 
-     * 
-     * @param string $teMappenClass 
+     * hasSubTypes
+     *
+     * @param string $teMappenClass
      * @return boolean
      */
     private function hasSubTypes( $teMappenClass )
@@ -108,12 +105,12 @@ class KVDdom_MapperRegistry
     }
 
     /**
-     * subTypeExists 
-     * 
+     * subTypeExists
+     *
      * Nagaan of een bepaald subtype gekend is voor de teMappenClass.
      * @since 10 jan 2008
-     * @param string $teMappenClass 
-     * @param string $type 
+     * @param string $teMappenClass
+     * @param string $type
      * @return boolean
      */
     private function subTypeExists( $teMappenClass, $type )
@@ -122,9 +119,9 @@ class KVDdom_MapperRegistry
     }
 
     /**
-     * defaultMapper 
-     * 
-     * @param string $teMappenClass 
+     * defaultMapper
+     *
+     * @param string $teMappenClass
      * @return string
      * @throws LogicException Indien er geen standaard type is ingesteld voor een bepaalde te mappen class.
      */
@@ -136,16 +133,16 @@ class KVDdom_MapperRegistry
         if ( isset($this->domainObjectMappers[$teMappenClass]['mappers']['default'] ) ) {
             return $this->domainObjectMappers[$teMappenClass]['mappers']['default'];
         } else {
-            throw new LogicException ( sprintf ( 'Er is geen default type ingesteld voor de te mappen class %s.', $teMappenClass ) ); 
+            throw new LogicException ( sprintf ( 'Er is geen default type ingesteld voor de te mappen class %s.', $teMappenClass ) );
         }
     }
 
     /**
-     * checkMapper 
-     * 
+     * checkMapper
+     *
      * Controleer of een bepaalde mapper al geladen is en laadt ze indien nodig.
-     * @param string $teMappenClass 
-     * @param string $type 
+     * @param string $teMappenClass
+     * @param string $type
      * @return void
      */
     private function checkMapper( $teMappenClass, $type = null )
@@ -156,19 +153,19 @@ class KVDdom_MapperRegistry
     }
 
     /**
-     * setDefaultMapper 
-     * 
+     * setDefaultMapper
+     *
      * @since 10 jan 2008
-     * @param string $teMappenClass 
-     * @param string $type 
-     * @throws <b>LogicException</b>    Indien u een standaard type probeert in te stellen voor een class die maar 1 mapper heeft 
+     * @param string $teMappenClass
+     * @param string $type
+     * @throws <b>LogicException</b>    Indien u een standaard type probeert in te stellen voor een class die maar 1 mapper heeft
      *                                  of indien u een ongekend type opgeeft.
      * @return void
      */
     public function setDefaultMapper( $teMappenClass, $type )
     {
         if ( !$this->hasSubTypes( $teMappenClass ) ) {
-            throw new LogicException( sprintf( 'U probeert een default type in te stellen voor de te mappen class %s. 
+            throw new LogicException( sprintf( 'U probeert een default type in te stellen voor de te mappen class %s.
                                         Deze heeft echter geen geen gekende subtypes.', $teMappenClass ) );
         }
         if ( !$this->subTypeExists( $teMappenClass, $type ) ) {

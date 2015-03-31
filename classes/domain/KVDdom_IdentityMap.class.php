@@ -1,24 +1,21 @@
 <?php
 /**
  * @package KVD.dom
- * @version $Id$
  * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
- * KVDdom_GenericIdentityMap 
- * 
+ * KVDdom_GenericIdentityMap
+ *
  * Een generieke Identity Map (geen identity map per class, maar één voor alle classes)
  * @package KVD.dom
  * @since 2005
  * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 class KVDdom_GenericIdentityMap implements Iterator, Countable {
-    
+
     /**
      * @var array;
      */
@@ -75,7 +72,7 @@ class KVDdom_GenericIdentityMap implements Iterator, Countable {
                 $this->maps[$type][$id] = $domainObject;
             }
         }
-        
+
         Werkt dit niet evengoed?
         */
         $this->maps[$type][$id] = $domainObject;
@@ -103,7 +100,7 @@ class KVDdom_GenericIdentityMap implements Iterator, Countable {
     public function getDomainObjects ( $type )
     {
         if (array_key_exists($type, $this->maps)) {
-            return $this->maps[$type];            
+            return $this->maps[$type];
         }
         return null;
     }
@@ -125,7 +122,7 @@ class KVDdom_GenericIdentityMap implements Iterator, Countable {
     }
 
     /**
-     * Verwijder alle DomainObjecten van een bepaald type of alle 
+     * Verwijder alle DomainObjecten van een bepaald type of alle
      * DomainObjecten
      *
      * @param mixed $type Het type waarvan de objecten moeten gewist worden of
@@ -144,13 +141,13 @@ class KVDdom_GenericIdentityMap implements Iterator, Countable {
 
         return false;
     }
-    
+
     /**
      * @return integer Het aantal domainObject die nog aanwezig zijn in deze identity map. Onafhankelijk van hun type.
      */
     public function count( )
     {
-        return count( $this->maps, COUNT_RECURSIVE) - count( $this->maps,0 );        
+        return count( $this->maps, COUNT_RECURSIVE) - count( $this->maps,0 );
     }
 }
 ?>

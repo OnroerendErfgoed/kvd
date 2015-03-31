@@ -1,27 +1,25 @@
 <?php
 /**
  * @package     KVD.dom
- * @version     $Id$
  * @copyright 	2006-2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author 		Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license 	http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author 		Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
  * KVDdom_PDOChangeableDataMapper
  *
  * Een basis class die de mapping-functies voor alle DataMappers die werken met aanpasbare DomainObjects bevat.
+ *
  * @package     KVD.dom
  * @since       24 jul 2006
  * @copyright 	2006-2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author 		Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license 	http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author 		Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 abstract class KVDdom_PDOChangeableDataMapper extends KVDdom_PDODataMapper {
-    
+
     /**
-     * getUpdateFieldsStatement 
-     * 
+     * getUpdateFieldsStatement
+     *
      * @return  string  String om te gebruiken in update statement ( bv. naam = ?, beschrijving = ?)
      */
     protected function getUpdateFieldsStatement( )
@@ -41,17 +39,17 @@ abstract class KVDdom_PDOChangeableDataMapper extends KVDdom_PDODataMapper {
      */
     protected function getInsertStatement( )
     {
-        $fields = 'id' . 
-            ( $this->velden != null ? ',' . $this->velden : '') . 
+        $fields = 'id' .
+            ( $this->velden != null ? ',' . $this->velden : '') .
             ( $this->systemFieldsMapper->getSystemFields( ) <> "" ? ', ' . $this->systemFieldsMapper->getSystemFields( ) : '');
-        $parameters = '?' . 
-            ( $this->getVeldenAsParameters( ) <> "" ? ', ' . $this->getVeldenAsParameters( ) : '') . 
+        $parameters = '?' .
+            ( $this->getVeldenAsParameters( ) <> "" ? ', ' . $this->getVeldenAsParameters( ) : '') .
             ( $this->systemFieldsMapper->getInsertSystemFieldsString( ) <> "" ? ', ' . $this->systemFieldsMapper->getInsertSystemFieldsString( ) : '');
         $sql = sprintf( "INSERT INTO %s ( %s )VALUES ( %s)" , $this->tabel, $fields, $parameters );
         $this->_sessie->getSqlLogger( )->log( $sql );
         return $sql;
     }
-    
+
     /**
      * @return  string  SQL statement
      */
@@ -60,14 +58,14 @@ abstract class KVDdom_PDOChangeableDataMapper extends KVDdom_PDODataMapper {
         return  "DELETE FROM " . $this->tabel .
                 " WHERE " . $this->id . " = ?";
     }
-    
+
     /**
      * @return  string  SQL statement
      */
     protected function getUpdateStatement()
     {
         return  "UPDATE " . $this->tabel . " SET " .
-                $this->getUpdateFieldsStatement( ) . ( $this->velden == null ? '' : ', ') . $this->systemFieldsMapper->getUpdateSystemFieldsString() . 
+                $this->getUpdateFieldsStatement( ) . ( $this->velden == null ? '' : ', ') . $this->systemFieldsMapper->getUpdateSystemFieldsString() .
                 " WHERE " . $this->id . " = ?";
     }
 
@@ -91,12 +89,12 @@ abstract class KVDdom_PDOChangeableDataMapper extends KVDdom_PDODataMapper {
     }
 
     /**
-     * doInsert 
+     * doInsert
      *
      * Dit is een stub methode die de standaard handelingen uitvoert maar verder kan overschreven worden.
      * @since   25 okt 2006
-     * @param   PDOStatement                    $stmt 
-     * @param   KVDdom_ChangeableDomainObject   $domainObject 
+     * @param   PDOStatement                    $stmt
+     * @param   KVDdom_ChangeableDomainObject   $domainObject
      * @return  integer                         Nummer van de volgende te gebruiken index in het sql statement.
      */
     protected function doInsert( $stmt , $domainObject )
@@ -136,9 +134,9 @@ abstract class KVDdom_PDOChangeableDataMapper extends KVDdom_PDODataMapper {
     }
 
     /**
-     * getIdFromMysqlSequence 
-     * 
-     * @param   string  $sequenceName 
+     * getIdFromMysqlSequence
+     *
+     * @param   string  $sequenceName
      * @return  integer Het volgende nummer uit de sequentie.
      */
     protected function getIdFromMysqlSequence( $sequenceName )
@@ -147,7 +145,7 @@ abstract class KVDdom_PDOChangeableDataMapper extends KVDdom_PDODataMapper {
         $stmt = $this->_conn->query( "SELECT LAST_INSERT_ID( )" );
         return $stmt->fetchColumn( );
     }
-    
+
     /**
      * @param   KVDdom_ChangeableDomainObject
      * @return  KVDdom_ChangeableDomainObject
@@ -162,20 +160,20 @@ abstract class KVDdom_PDOChangeableDataMapper extends KVDdom_PDODataMapper {
         $stmt->execute(  );
         return $domainObject;
     }
-    
+
     /**
-     * bindValues 
+     * bindValues
      *
-     * Methode waarin alle inhouds-velden in het sql-statement een waarde moeten toegewezen krijgen. 
+     * Methode waarin alle inhouds-velden in het sql-statement een waarde moeten toegewezen krijgen.
      * Dus niet de id of systeemvelden, maar wel de echte data.
      * @since   25 okt 2006
-     * @param   PDOStatement                    $stmt 
-     * @param   integer                         $startIndex 
-     * @param   KVDdom_ChangeableDomainObject   $domainObject 
+     * @param   PDOStatement                    $stmt
+     * @param   integer                         $startIndex
+     * @param   KVDdom_ChangeableDomainObject   $domainObject
      * @return  integer                         Volgende te gebruiken index in het statement.
      */
     abstract protected function bindValues ( $stmt , $startIndex , $domainObject );
-    
+
     /**
      * Maak een nieuw object van dit type aan.
      *
@@ -185,11 +183,11 @@ abstract class KVDdom_PDOChangeableDataMapper extends KVDdom_PDODataMapper {
 
 
     /**
-     * insertDependentCollection 
-     * 
-     * @param KVDdom_DomainObject           $owner 
-     * @param KVDdom_DomainObjectCollection $coll 
-     * @param string                        $sql            Een sql statement dat de koppeltabel kan vullen. Er wordt verwacht dat er in 
+     * insertDependentCollection
+     *
+     * @param KVDdom_DomainObject           $owner
+     * @param KVDdom_DomainObjectCollection $coll
+     * @param string                        $sql            Een sql statement dat de koppeltabel kan vullen. Er wordt verwacht dat er in
      *                                                      dit statement 3 parameters beschikbaar zijn. De eerste bevat het id van de eigenaar,
      *                                                      de tweede het id van een element in de collection en het derde het huidige versienummer.
      * @param Integer                       $ownerIdType    Een PDO constante
@@ -213,10 +211,10 @@ abstract class KVDdom_PDOChangeableDataMapper extends KVDdom_PDODataMapper {
     }
 
     /**
-     * deleteDependentCollection 
-     * 
-     * @param KVDdom_DomainObject   $owner 
-     * @param string                $sql            Een sql statement dat de afhankelijke collectie verwijderd. Er wordt verwacht dat 
+     * deleteDependentCollection
+     *
+     * @param KVDdom_DomainObject   $owner
+     * @param string                $sql            Een sql statement dat de afhankelijke collectie verwijderd. Er wordt verwacht dat
      *                                              er twee parameters beschikbaar zijn, de eerste bevat het id van de eigenaar,
      *                                              de tweede het huidige versienummer.
      * @param integer               $owerIdType     Een PDO constante
@@ -229,6 +227,6 @@ abstract class KVDdom_PDOChangeableDataMapper extends KVDdom_PDODataMapper {
         $stmt->bindValue ( 2, $owner->getSystemFields( )->getVersie( ) , PDO::PARAM_INT );
         $stmt->execute();
     }
-    
+
 }
 ?>

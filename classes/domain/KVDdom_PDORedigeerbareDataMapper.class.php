@@ -1,28 +1,25 @@
-<?php    
+<?php
 /**
  * @package KVD.dom
- * @version $Id$
  * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
- * KVDdom_PDORedigeerbareDataMapper 
- * 
+ * KVDdom_PDORedigeerbareDataMapper
+ *
  * De abstracte mapper die alle Redigeerbare Datamappers gemeen hebben. Zij verzorgen de communicatie met de databank voor Domainobjects die de {@link KVDdom_Redigeerbaar} interface implementeren.
  * @package KVD.dom
  * @since 30 okt 2006
  * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 abstract class KVDdom_PDORedigeerbareDataMapper extends KVDdom_PDOLogableDataMapper
 {
 
     /**
      * De velden die nodig zijn voor het SystemFields object.
-     * 
+     *
      * @var string
      */
     protected $sfvelden = "gebruiker, bewerkt_op, versie, gecontroleerd, gecontroleerd_door, gecontroleerd_op";
@@ -32,7 +29,7 @@ abstract class KVDdom_PDORedigeerbareDataMapper extends KVDdom_PDOLogableDataMap
      */
     protected function getApproveRecordStatement( )
     {
-        return  "UPDATE " . $this->tabel . 
+        return  "UPDATE " . $this->tabel .
                 " SET gecontroleerd = true, gecontroleerd_door = ?, gecontroleerd_op = ?" .
                 " WHERE " . $this->id . " = ?";
     }
@@ -42,7 +39,7 @@ abstract class KVDdom_PDORedigeerbareDataMapper extends KVDdom_PDOLogableDataMap
      */
     protected function getApproveLogRecordsStatement( )
     {
-        return  "UPDATE " . $this->logtabel . 
+        return  "UPDATE " . $this->logtabel .
                 " SET gecontroleerd = true, gecontroleerd_door = ?, gecontroleerd_op = ?" .
                 " WHERE log_" . $this->id . " = ?";
     }
@@ -63,32 +60,32 @@ abstract class KVDdom_PDORedigeerbareDataMapper extends KVDdom_PDOLogableDataMap
      */
     protected function getFindVerwijderdeStatement( )
     {
-        return  $this->getLogSelectStatement( ) . 
+        return  $this->getLogSelectStatement( ) .
                 " WHERE NOT EXISTS ( SELECT 1 FROM " . $this->tabel . " WHERE id = log_" . $this->id . ") " .
                 " AND versie = ( SELECT max( versie ) FROM " . $this->logtabel . " AS log WHERE log.id = log_" . $this->id . ")";
     }
 
     /**
-     * getRevertDeleteStatement 
-     * 
+     * getRevertDeleteStatement
+     *
      * @return string Een SQL statement om de laatste gelogde versie van een object dat verwijderd werd terug te plaatsen.
      */
     protected function getRevertDeleteStatement( )
     {
-        return  "INSERT INTO " . $this->tabel . 
-                " ( SELECT * FROM " . $this->logtabel . 
+        return  "INSERT INTO " . $this->tabel .
+                " ( SELECT * FROM " . $this->logtabel .
                 " WHERE log_" . $this->id . " = ? AND" .
                 " versie = ( SELECT MAX( versie ) FROM " . $this->logtabel . " WHERE id = ? ) )";
     }
 
     /**
-     * getDeleteLastLogged 
-     * 
+     * getDeleteLastLogged
+     *
      * @return string SQL Statement dat de laaste gelogde versie verwijdert.
      */
     protected function getDeleteLastLoggedStatement( )
     {
-        return  "DELETE FROM " . $this->logtabel . 
+        return  "DELETE FROM " . $this->logtabel .
                 " WHERE id = ? AND versie = ( SELECT MAX( versie ) FROM " . $this->logtabel . " WHERE id = ? )";
     }
 
@@ -97,24 +94,24 @@ abstract class KVDdom_PDORedigeerbareDataMapper extends KVDdom_PDOLogableDataMap
      */
     protected function getClearLogStatement( )
     {
-        return  "DELETE FROM " . $this->logtabel . 
+        return  "DELETE FROM " . $this->logtabel .
                 " WHERE " . self::ID . " = ? ";
     }
 
     /**
-     * getRedactieOrderStatement 
-     * 
+     * getRedactieOrderStatement
+     *
      * @return string SQL statement dat de redactie kan sorteren.
      */
     protected function getRedactieOrderStatement( )
     {
-        return " ORDER BY bewerkt_op DESC";    
+        return " ORDER BY bewerkt_op DESC";
     }
-    
+
     /**
      * Zoek alle records van deze datamapper die nog niet gecontroleerd zijn.
      * @param string $orderField
-     * @param string $orderDirection 
+     * @param string $orderDirection
      * @return KVDdom_DomainObjectCollection
      */
     public function findTeRedacteren( $orderField = null , $orderDirection = null )
@@ -125,15 +122,15 @@ abstract class KVDdom_PDORedigeerbareDataMapper extends KVDdom_PDOLogableDataMap
     }
 
     /**
-     * abstractFindVerwijderde 
-     * 
+     * abstractFindVerwijderde
+     *
      * Zoek alle verwijderde records in de log tabellen.
      * @return KVDdom_DomainObjectCollection
      */
     public function findVerwijderde()
     {
         $stmt = $this->_conn->prepare ( $this->getFindVerwijderdeStatement( ) );
-        
+
         return $this->executeLogFindMany( $stmt );
     }
 
@@ -164,10 +161,10 @@ abstract class KVDdom_PDORedigeerbareDataMapper extends KVDdom_PDOLogableDataMap
     }
 
     /**
-     * undoDelete 
-     * 
+     * undoDelete
+     *
      * Skelet-methode die voldoende is voor simpele objecten maar moet geoverriden worden voor objecten die een tros objecten controleren.
-     * @param KVDdom_DomainObject $domainObject 
+     * @param KVDdom_DomainObject $domainObject
      */
     public function undoDelete( $domainObject )
     {
@@ -175,10 +172,10 @@ abstract class KVDdom_PDORedigeerbareDataMapper extends KVDdom_PDOLogableDataMap
     }
 
     /**
-     * confirmDelete 
-     * 
+     * confirmDelete
+     *
      * Skelet-methode die voldoende is voor simpele objecten maar moet geoverriden worden voor objecten die een tros objecten controleren.
-     * @param KVDdom_DomainObject $domainObject 
+     * @param KVDdom_DomainObject $domainObject
      */
     public function confirmDelete( $domainObject )
     {
@@ -186,9 +183,9 @@ abstract class KVDdom_PDORedigeerbareDataMapper extends KVDdom_PDOLogableDataMap
     }
 
     /**
-     * revertDelete 
-     * 
-     * @param KVDdom_DomainObject $domainObject 
+     * revertDelete
+     *
+     * @param KVDdom_DomainObject $domainObject
      * @throws <b>Exception</b> Indien het verwijderde record niet kon teruggeplaatst worden.
      */
     public function revertDelete( $domainObject )

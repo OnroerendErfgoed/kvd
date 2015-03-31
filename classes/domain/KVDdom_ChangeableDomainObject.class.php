@@ -1,24 +1,21 @@
 <?php
 /**
  * @package     KVD.dom
- * @version     $Id$
  * @copyright   2006-2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
- 
+
 /**
- * KVDdom_ChangeableDomainObject 
- * 
+ * KVDdom_ChangeableDomainObject
+ *
  * DomainObjects die gewijzigd kunnen worden.
  * Het wijzigen van een DomainObject gaat altijd via de UnitOfWork die in het KVDdom_Sessie object zit.
  * @package     KVD.dom
  * @since       2006
  * @copyright   2006-2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
-abstract class KVDdom_ChangeableDomainObject implements KVDdom_DomainObject, KVDdom_Nullable 
+abstract class KVDdom_ChangeableDomainObject implements KVDdom_DomainObject, KVDdom_Nullable
 {
 
     /**
@@ -31,7 +28,7 @@ abstract class KVDdom_ChangeableDomainObject implements KVDdom_DomainObject, KVD
      * @var integer
      */
     protected $id;
-    
+
     /**
      * Verwijzing naar het KVDdom_Sessie object
      * @var KVDdom_Sessie
@@ -39,27 +36,27 @@ abstract class KVDdom_ChangeableDomainObject implements KVDdom_DomainObject, KVD
     protected $_sessie;
 
     /**
-     * systemFields 
-     * 
+     * systemFields
+     *
      * @var KVDdom_ChangeableSystemFields
      */
     protected $systemFields;
 
     /**
-     * fields 
-     * 
+     * fields
+     *
      * Een optionele array van @link{KVDdom_Fields_AbstractField} objecten.
      * @var     array
      */
     protected $fields = array( );
-    
+
     /**
      * Maak het KVDdom_DomainObject
      * @param integer $id Id dat aan het nieuwe KVDdom_DomainObject moet gegeven worden.
-     * @param KVDdom_Sessie $sessie 
+     * @param KVDdom_Sessie $sessie
      * @param KVDdom_ChangeableSystemFields $systemFields
      */
-    public function __construct ( $id , $sessie , $systemFields = null) 
+    public function __construct ( $id , $sessie , $systemFields = null)
     {
         $this->_sessie = $sessie;
         $this->id = $id;
@@ -87,12 +84,12 @@ abstract class KVDdom_ChangeableDomainObject implements KVDdom_DomainObject, KVD
     }
 
     /**
-     * configureFields 
-     * 
+     * configureFields
+     *
      * Deze methode dient om de velden te configurern
-     * Methode die moet overschreven worden in concrete 
+     * Methode die moet overschreven worden in concrete
      * domainobjecten.
-     * @return  boolean Is het configureren geslaagd of niet. 
+     * @return  boolean Is het configureren geslaagd of niet.
      */
     protected function configureFields()
     {
@@ -100,11 +97,11 @@ abstract class KVDdom_ChangeableDomainObject implements KVDdom_DomainObject, KVD
     }
 
     /**
-     * initializeFields 
-     * 
-     * Stel de startwaarden in voor elk veld. Dit zal er NIET toe leiden dat 
+     * initializeFields
+     *
+     * Stel de startwaarden in voor elk veld. Dit zal er NIET toe leiden dat
      * een object als dirty gemarkeerd wordt.
-     * @param   array   $data   Een array met als sleutel de naam van een veld 
+     * @param   array   $data   Een array met als sleutel de naam van een veld
      *                          en als waarde de startwaarde voor dat veld.
      * @return  void
      */
@@ -114,7 +111,7 @@ abstract class KVDdom_ChangeableDomainObject implements KVDdom_DomainObject, KVD
             if ( isset( $this->fields[$key] ) ) {
                 $this->fields[$key]->initializeValue( $val );
             } else {
-                throw new KVDdom_Fields_Exception( 
+                throw new KVDdom_Fields_Exception(
                     sprintf( 'U probeert een startwaarde in te stellen voor een niet bestaand veld ( %s ).',
                     $key ) );
             }
@@ -122,14 +119,14 @@ abstract class KVDdom_ChangeableDomainObject implements KVDdom_DomainObject, KVD
     }
 
     /**
-     * __call 
-     * 
-     * Deze methode probeert te detecteren of er een magische get, set, add, 
+     * __call
+     *
+     * Deze methode probeert te detecteren of er een magische get, set, add,
      * remove of clear methode wordt aangeroepen.
      *
      * @since   maart 2010
      * @param   string  $name   Naam van de methode die werd aangeroepen.
-     * @param   array   $args   Argumenten die werden meegegeven aan de 
+     * @param   array   $args   Argumenten die werden meegegeven aan de
      *                          methode.
      * @return void
      */
@@ -141,13 +138,13 @@ abstract class KVDdom_ChangeableDomainObject implements KVDdom_DomainObject, KVD
             if ( $matches[1] == 'add' || $matches[1] == 'remove' ) {
                 $property = $this->pluralize( $property );
                 if ( !$property ) {
-                    throw new KVDdom_Fields_Exception( 'U probeert een bewerking 
-                        uit te voeren op een collection, maar de naam van de collection 
+                    throw new KVDdom_Fields_Exception( 'U probeert een bewerking
+                        uit te voeren op een collection, maar de naam van de collection
                         kon niet gevonden worden. Mogelijk moet u de pluralize methode aanpassen.' );
                 }
             }
             if ( !isset( $this->fields[$property] ) ) {
-                throw new KVDdom_Fields_Exception ( 'U probeert een bewerking uit te voeren met het veld ' 
+                throw new KVDdom_Fields_Exception ( 'U probeert een bewerking uit te voeren met het veld '
                                                     . $property . ', maar dit veld bestaat niet.' );
             }
             switch ($matches[1]) {
@@ -168,13 +165,13 @@ abstract class KVDdom_ChangeableDomainObject implements KVDdom_DomainObject, KVD
     }
 
     /**
-     * pluralize 
-     * 
+     * pluralize
+     *
      * @since   maart 2010
-     * @param   string  $property   Enkelvoudige property naam waarvoor een 
+     * @param   string  $property   Enkelvoudige property naam waarvoor een
      *                              meervoud moet gevonden worden.
-     * @return  mixed   string of boolean. Ofwel de meervoudige naam van de 
-     *                  property of false indien er geen meervoud kon gevonden 
+     * @return  mixed   string of boolean. Ofwel de meervoudige naam van de
+     *                  property of false indien er geen meervoud kon gevonden
      *                  worden voor de naam.
      */
     protected function pluralize( $property )
@@ -183,15 +180,15 @@ abstract class KVDdom_ChangeableDomainObject implements KVDdom_DomainObject, KVD
     }
 
     /**
-     * markFieldAsDirty 
-     * 
-     * Geef aan dat een veld gewijzigd is. Deze methode mag enkel aangeroepen 
-     * worden door een field zelf. Om dit te bewijzen geeft het field zichzelf 
-     * mee als argument. Zonder deze methode zouden we de markDirty methode 
+     * markFieldAsDirty
+     *
+     * Geef aan dat een veld gewijzigd is. Deze methode mag enkel aangeroepen
+     * worden door een field zelf. Om dit te bewijzen geeft het field zichzelf
+     * mee als argument. Zonder deze methode zouden we de markDirty methode
      * public moeten maken en dat wouden we verhinderen.
      *
      * @since   23 maart 2010
-     * @param   KVDdom_Fields_AbstractField $field 
+     * @param   KVDdom_Fields_AbstractField $field
      * @throws  KVDdom_Fields_Exception
      * @return  void
      */
@@ -203,7 +200,7 @@ abstract class KVDdom_ChangeableDomainObject implements KVDdom_DomainObject, KVD
             throw new KVDdom_Fields_Exception( 'U probeert een niet-bestaand veld als dirty te markeren!' );
         }
     }
-    
+
     /**
      * Markeert dit object als Clean
      *
@@ -247,13 +244,13 @@ abstract class KVDdom_ChangeableDomainObject implements KVDdom_DomainObject, KVD
     /**
      * Maakt een nieuw KVDdom_ChangeableDomainObject aan dat niet uit de databank wordt geladen
      *
-     * Deze methode werd uit de interface gehaald omdat sommige subtypes een 
-     * create methode moeten kunnen gebruiken die ook andere parameters kan 
+     * Deze methode werd uit de interface gehaald omdat sommige subtypes een
+     * create methode moeten kunnen gebruiken die ook andere parameters kan
      * aanvaarden. Momenteel kon dit niet en dit leidde tot E_STRICT fouten.
-     * @param   integer         $id     Het Id nummer voor het nieuwe object. Meestal wordt dit 
-     *                                  aangereikt door de DataMapper die er voor moet zorgen dat 
+     * @param   integer         $id     Het Id nummer voor het nieuwe object. Meestal wordt dit
+     *                                  aangereikt door de DataMapper die er voor moet zorgen dat
      *                                  dit nummer uniek is binnen het type object.
-     * @param   KVDdom_Sessie   $sessie Het sessie object. Of een ander object dat de 
+     * @param   KVDdom_Sessie   $sessie Het sessie object. Of een ander object dat de
      *                                  Unit Of Work implementeert
      * @return KVDdom_ChangeableDomainObject
      */
@@ -278,8 +275,8 @@ abstract class KVDdom_ChangeableDomainObject implements KVDdom_DomainObject, KVD
     }
 
     /**
-     * hasSystemFields 
-     * 
+     * hasSystemFields
+     *
      * @return boolean
      */
     public function hasSystemFields( )
@@ -288,8 +285,8 @@ abstract class KVDdom_ChangeableDomainObject implements KVDdom_DomainObject, KVD
     }
 
     /**
-     * getSystemFields 
-     * 
+     * getSystemFields
+     *
      * Geeft het systemFields object terug of null indien er geen is.
      * @return KVDdom_ChangeableSystemFields
      */
@@ -300,8 +297,8 @@ abstract class KVDdom_ChangeableDomainObject implements KVDdom_DomainObject, KVD
 
 
     /**
-     * __toString 
-     * 
+     * __toString
+     *
      * @return string
      */
     public function __toString( )

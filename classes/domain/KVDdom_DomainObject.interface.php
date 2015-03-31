@@ -1,18 +1,17 @@
 <?php
 /**
  * @package KVD.dom
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @version $Id$
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
  * De interface waaraan een DomainObject zich moet houden.
  * @package KVD.dom
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  * @since 1.0.0
  */
 
-interface KVDdom_DomainObject 
+interface KVDdom_DomainObject
 {
     /**
      * Een constante waar alle domainObjects mee werken zodat ze hetzelfde datum/tijd formaat gebruiken. Deze geeft enkel de datum weer.
@@ -31,7 +30,7 @@ interface KVDdom_DomainObject
      * @return integer
      */
     public function getId();
-    
+
     /**
      * Geef het type van een DomainObject terug. Onder andere nodig om de DataMapper te kunnen vinden.
      * @return string

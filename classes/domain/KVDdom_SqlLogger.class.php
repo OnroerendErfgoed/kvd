@@ -2,7 +2,6 @@
 /**
  * @package KVD.dom
  * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
- * @version $Id$
  */
 
 /**
