@@ -2,10 +2,8 @@
 /**
  * @package     KVD.do
  * @subpackage  Adr
- * @version     $Id$
  * @copyright   2006-2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
@@ -13,11 +11,10 @@
  * @subpackage  Adr
  * @since       maart 2006
  * @copyright   2006-2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 class KVDdo_AdrGemeente extends KVDdom_ReadonlyDomainObject {
-    
+
     /**
      * Het id dat voor de crab-webservice gebruikt wordt.
      * @var integer
@@ -47,8 +44,8 @@ class KVDdo_AdrGemeente extends KVDdom_ReadonlyDomainObject {
     protected $deelgemeenten;
 
     /**
-     * kadastergemeenten 
-     * 
+     * kadastergemeenten
+     *
      * @var KVDdom_DomainObjectCollection
      */
     protected $kadastergemeenten;
@@ -106,9 +103,9 @@ class KVDdo_AdrGemeente extends KVDdom_ReadonlyDomainObject {
         if ( $this->straten === self::PLACEHOLDER ) {
             $stratenMapper = $this->_sessie->getMapper( 'KVDdo_AdrStraat');
             $this->straten = $stratenMapper->findByGemeente( $this );
-            
+
         }
-        return $this->straten;    
+        return $this->straten;
     }
 
     /**
@@ -125,8 +122,8 @@ class KVDdo_AdrGemeente extends KVDdom_ReadonlyDomainObject {
     }
 
     /**
-     * getKadastergemeenten 
-     * 
+     * getKadastergemeenten
+     *
      * @since 31 aug 2007
      * @return KVDdom_DomainObjectCollection
      */
@@ -148,8 +145,8 @@ class KVDdo_AdrGemeente extends KVDdom_ReadonlyDomainObject {
     }
 
     /**
-     * getVolledigeOmschrijving 
-     * 
+     * getVolledigeOmschrijving
+     *
      * @since 14 maart 2007
      * @return string
      */
@@ -168,13 +165,13 @@ class KVDdo_AdrGemeente extends KVDdom_ReadonlyDomainObject {
 }
 
 /**
- * KVDdo_NullAdrGemeente 
- * 
+ * KVDdo_NullAdrGemeente
+ *
  * @package     KVD.do
  * @subpackage  Adr
  * @since       25 jul 2006
  * @copyright   2006-2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDdo_NullAdrGemeente extends KVDdo_AdrGemeente
@@ -182,7 +179,7 @@ class KVDdo_NullAdrGemeente extends KVDdo_AdrGemeente
     /**
      * @param KVDdo_AdrProvincie
      */
-    public function __construct ( KVDdo_AdrProvincie $provincie = null ) 
+    public function __construct ( KVDdo_AdrProvincie $provincie = null )
     {
         $this->provincie = ( $provincie === null ) ? KVDdo_AdrProvincie::newNull() : $provincie;
         $this->naam = 'Onbepaald';
@@ -192,7 +189,7 @@ class KVDdo_NullAdrGemeente extends KVDdo_AdrGemeente
         $this->deelgemeenten = new KVDdom_DomainObjectCollection( array( ) );
         $this->kadastergemeente = new KVDdom_DomainObjectCollection( array( ) );
     }
-    
+
     /**
      * @return boolean
      */
@@ -218,8 +215,8 @@ class KVDdo_NullAdrGemeente extends KVDdo_AdrGemeente
     }
 
     /**
-     * getVolledigeOmschrijving 
-     * 
+     * getVolledigeOmschrijving
+     *
      * @since 14 maart 2007
      * @return string
      */

@@ -2,14 +2,13 @@
 /**
  * @package KVD.do
  * @subpackage Adr
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @version $Id$
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
  * @package KVD.do
  * @subpackage Adr
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  * @since maart 2006
  */
 class KVDdo_AdrProvincie extends KVDdom_ReadonlyDomainObject{
@@ -36,7 +35,7 @@ class KVDdo_AdrProvincie extends KVDdom_ReadonlyDomainObject{
         $this->naam = $naam;
         $this->gemeenten = ( $gemeenten === null ) ? self::PLACEHOLDER : $gemeenten;
     }
-    
+
     /**
      * @return string
      */
@@ -53,9 +52,9 @@ class KVDdo_AdrProvincie extends KVDdom_ReadonlyDomainObject{
         if ( $this->gemeenten === self::PLACEHOLDER ) {
             $gemeentenMapper = $this->_sessie->getMapper( 'KVDdo_AdrGemeente');
             $this->gemeenten = $gemeentenMapper->findByProvincie( $this );
-            
+
         }
-        return $this->gemeenten;    
+        return $this->gemeenten;
     }
 
     /**
@@ -67,8 +66,8 @@ class KVDdo_AdrProvincie extends KVDdom_ReadonlyDomainObject{
     }
 
     /**
-     * getVolledigeOmschrijving 
-     * 
+     * getVolledigeOmschrijving
+     *
      * @since   22 aug 2008
      * @return  string
      */

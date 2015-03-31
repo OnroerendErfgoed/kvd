@@ -2,18 +2,17 @@
 /**
  * @package KVD.do
  * @subpackage Adr
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @version $Id$
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
  * @package KVD.do
  * @subpackage Adr
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  * @since maart 2006
  */
 class KVDdo_AdrHuisnummer extends KVDdom_ReadonlyDomainObject {
-    
+
     /**
      * @var string
      */
@@ -89,9 +88,9 @@ class KVDdo_AdrHuisnummer extends KVDdom_ReadonlyDomainObject {
         if ( $this->terreinobjecten === self::PLACEHOLDER ) {
             $percelenMapper = $this->_sessie->getMapper( 'KVDdo_AdrTerreinobject');
             $this->terreinobjecten = $percelenMapper->findByHuisnummer( $this );
-            
+
         }
-        return $this->terreinobjecten;    
+        return $this->terreinobjecten;
     }
 
     /**
@@ -125,9 +124,9 @@ class KVDdo_NullAdrHuisnummer extends KVDdo_AdrHuisnummer
         $this->huisnummer = 'Onbepaald';
         $this->straat = KVDdo_AdrStraat::newNull( );
         $this->postcode = null;
-        $this->terreinobjecten = new KVDdom_DomainObjectCollection( );        
+        $this->terreinobjecten = new KVDdom_DomainObjectCollection( );
     }
-    
+
     /**
      * @return boolean
      */

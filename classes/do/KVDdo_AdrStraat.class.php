@@ -3,7 +3,6 @@
  * @package KVD.do
  * @subpackage Adr
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @version $Id$
  */
 
 /**
@@ -13,7 +12,7 @@
  * @since maart 2006
  */
 class KVDdo_AdrStraat extends KVDdom_ReadonlyDomainObject {
-    
+
     /**
      * @var string
      */
@@ -85,9 +84,9 @@ class KVDdo_AdrStraat extends KVDdom_ReadonlyDomainObject {
         if ( $this->huisnummers === self::PLACEHOLDER ) {
             $huisnummerMapper = $this->_sessie->getMapper( 'KVDdo_AdrHuisnummer');
             $this->huisnummers = $huisnummerMapper->findByStraat( $this );
-            
+
         }
-        return $this->huisnummers;    
+        return $this->huisnummers;
     }
 
     /**
@@ -99,9 +98,9 @@ class KVDdo_AdrStraat extends KVDdom_ReadonlyDomainObject {
     }
 
     /**
-     * getVolledigeOmschrijving 
-     * 
-     * @since   22 aug 2008 
+     * getVolledigeOmschrijving
+     *
+     * @since   22 aug 2008
      * @return  string
      */
     public function getVolledigeOmschrijving( )

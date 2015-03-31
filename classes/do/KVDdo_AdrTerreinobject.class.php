@@ -2,14 +2,13 @@
 /**
  * @package KVD.do
  * @subpackage Adr
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @version $Id$
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
  * @package KVD.do
  * @subpackage Adr
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  * @since maart 2006
  */
 class KVDdo_AdrTerreinobject extends KVDdom_ReadonlyDomainObject {

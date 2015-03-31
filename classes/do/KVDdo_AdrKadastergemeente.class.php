@@ -2,32 +2,29 @@
 /**
  * @package KVD.do
  * @subpackage Adr
- * @version $Id$
  * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
- * KVDdo_AdrKadastergemeente 
- * 
+ * KVDdo_AdrKadastergemeente
+ *
  * @package KVD.do
  * @subpackage Adr
  * @since 31 aug 2007
  * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 class KVDdo_AdrKadastergemeente extends KVDdom_ReadonlyDomainObject {
-    
+
     /**
      * @var string
      */
     protected $naam;
 
     /**
-     * afdeling 
-     * 
+     * afdeling
+     *
      * @var integer
      */
     protected $afdeling;
@@ -53,8 +50,8 @@ class KVDdo_AdrKadastergemeente extends KVDdom_ReadonlyDomainObject {
     }
 
     /**
-     * getAfdeling 
-     * 
+     * getAfdeling
+     *
      * @return integer
      */
     public function getAfdeling( )
@@ -87,8 +84,8 @@ class KVDdo_AdrKadastergemeente extends KVDdom_ReadonlyDomainObject {
     }
 
     /**
-     * getVolledigeOmschrijving 
-     * 
+     * getVolledigeOmschrijving
+     *
      * @return string
      */
     public function getVolledigeOmschrijving( )
@@ -107,13 +104,13 @@ class KVDdo_AdrKadastergemeente extends KVDdom_ReadonlyDomainObject {
 }
 
 /**
- * KVDdo_NullAdrKadastergemeente 
- * 
+ * KVDdo_NullAdrKadastergemeente
+ *
  * @package KVD.do
  * @subpackage Adr
  * @since 31 aug 2007
  * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDdo_NullAdrKadastergemeente extends KVDdo_AdrKadastergemeente
@@ -123,7 +120,7 @@ class KVDdo_NullAdrKadastergemeente extends KVDdo_AdrKadastergemeente
      */
     public function __construct( $gemeente = null )
     {
-        $this->gemeente = ( is_null( $gemeente ) || !( $gemeente instanceof KVDdo_AdrGemeente ) ) ? KVDdo_AdrGemeente::newNull( ) : $gemeente; 
+        $this->gemeente = ( is_null( $gemeente ) || !( $gemeente instanceof KVDdo_AdrGemeente ) ) ? KVDdo_AdrGemeente::newNull( ) : $gemeente;
         $this->afdeling = null;
         $this->naam = 'Onbepaald';
         $this->id = null;

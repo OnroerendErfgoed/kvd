@@ -2,18 +2,17 @@
 /**
  * @package KVD.do
  * @subpackage Adr
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @version $Id$
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
  * @package KVD.do
  * @subpackage Adr
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  * @since 21 jun 2006
  */
 class KVDdo_AdrDeelgemeente extends KVDdom_ReadonlyDomainObject {
-    
+
     /**
      * @var string
      */
@@ -62,8 +61,8 @@ class KVDdo_AdrDeelgemeente extends KVDdom_ReadonlyDomainObject {
     }
 
     /**
-     * getVolledigeOmschrijving 
-     * 
+     * getVolledigeOmschrijving
+     *
      * @since 14 maart 2007
      * @return string
      */
@@ -95,7 +94,7 @@ class KVDdo_NullAdrDeelgemeente extends KVDdo_AdrDeelgemeente
      */
     public function __construct( KVDdo_AdrGemeente $gemeente = null )
     {
-        $this->gemeente = ( is_null( $gemeente ) ) ? KVDdo_AdrGemeente::newNull( ) : $gemeente; 
+        $this->gemeente = ( is_null( $gemeente ) ) ? KVDdo_AdrGemeente::newNull( ) : $gemeente;
         $this->naam = 'Onbepaald';
         $this->id = ( is_null( $gemeente ) ? null : $gemeente->getId() . 'X' );
     }
