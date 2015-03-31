@@ -2,10 +2,8 @@
 /**
  * @package KVD.dom
  * @subpackage collection
- * @version $Id$
  * @copyright 2004-2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
@@ -16,8 +14,7 @@
  * @subpackage collection
  * @since 2006
  * @copyright 2004-2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 class KVDdom_DomainObjectCollectionPager implements Countable
 {
@@ -41,7 +38,7 @@ class KVDdom_DomainObjectCollectionPager implements Countable
      */
     private $rowsPerPage;
 
-    
+
     /**
      * @param KVDdom_DomainObjectCollection     $collection
      * @param integer                           $page           De startPagina.
@@ -70,7 +67,7 @@ class KVDdom_DomainObjectCollectionPager implements Countable
      */
     public function getLastPage()
     {
-        return $this->getTotalPages();    
+        return $this->getTotalPages();
     }
 
     /**
@@ -112,7 +109,7 @@ class KVDdom_DomainObjectCollectionPager implements Countable
                 $this->totalPages = 1;
             }
 		}
-		return $this->totalPages;    
+		return $this->totalPages;
     }
 
     /**
@@ -130,7 +127,7 @@ class KVDdom_DomainObjectCollectionPager implements Countable
 			}
 			$links[] = $i;
 		}
-		return array_reverse($links);    
+		return array_reverse($links);
     }
 
     /**
@@ -148,7 +145,7 @@ class KVDdom_DomainObjectCollectionPager implements Countable
 			}
 			$links[] = $i;
 		}
-		return $links;    
+		return $links;
     }
 
     /**
@@ -156,7 +153,7 @@ class KVDdom_DomainObjectCollectionPager implements Countable
      */
     public function getPage()
     {
-        return $this->page;    
+        return $this->page;
     }
 
     /**
@@ -164,7 +161,7 @@ class KVDdom_DomainObjectCollectionPager implements Countable
      */
     public function getRowsPerPage()
     {
-        return $this->rowsPerPage;    
+        return $this->rowsPerPage;
     }
 
     /**
@@ -185,12 +182,12 @@ class KVDdom_DomainObjectCollectionPager implements Countable
      */
     public function getTotalRecordCount()
     {
-        return $this->_collection->getTotalRecordCount();    
+        return $this->_collection->getTotalRecordCount();
     }
 
     /**
-     * count 
-     * 
+     * count
+     *
      * @since   29 aug 2008
      * @return  integer
      */
@@ -204,7 +201,7 @@ class KVDdom_DomainObjectCollectionPager implements Countable
      */
     public function getResult()
     {
-        return new LimitIterator ( $this->_collection , $this->calculateStart() , $this->rowsPerPage );    
+        return new LimitIterator ( $this->_collection , $this->calculateStart() , $this->rowsPerPage );
     }
 
     /**

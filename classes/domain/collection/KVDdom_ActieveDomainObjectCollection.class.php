@@ -2,27 +2,24 @@
 /**
  * @package     KVD.dom
  * @subpackage  collection
- * @version     $Id$
  * @copyright   2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
- * KVDdom_ActieveDomainObjectCollection 
- * 
+ * KVDdom_ActieveDomainObjectCollection
+ *
  * @package     KVD.dom
  * @subpackage  collection
  * @since       30 april 2007
  * @copyright   2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 class KVDdom_ActieveDomainObjectCollection extends KVDdom_DomainObjectCollectionDecorator
 {
     /**
-     * rewind 
-     * 
+     * rewind
+     *
      * @return void
      */
     public function rewind( )
@@ -34,8 +31,8 @@ class KVDdom_ActieveDomainObjectCollection extends KVDdom_DomainObjectCollection
     }
 
     /**
-     * next 
-     * 
+     * next
+     *
      * @return void
      */
     public function next( )
@@ -45,10 +42,10 @@ class KVDdom_ActieveDomainObjectCollection extends KVDdom_DomainObjectCollection
             $this->next( );
         }
     }
-    
+
     /**
-     * count 
-     * 
+     * count
+     *
      * @return integer
      */
     public function count( )
@@ -64,8 +61,8 @@ class KVDdom_ActieveDomainObjectCollection extends KVDdom_DomainObjectCollection
     }
 
     /**
-     * getTotalRecordCount 
-     * 
+     * getTotalRecordCount
+     *
      * @return integer
      */
     public function getTotalRecordCount( )
@@ -80,7 +77,7 @@ class KVDdom_ActieveDomainObjectCollection extends KVDdom_DomainObjectCollection
     public function seek ($index)
     {
         if ( $index < 0 || $index >= $this->count() ) {
-            $index = 0; 
+            $index = 0;
         }
         $this->rewind();
         $position = 0;

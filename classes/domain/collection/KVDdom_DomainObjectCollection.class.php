@@ -2,21 +2,18 @@
 /**
  * @package    KVD.dom
  * @subpackage collection
- * @version    $Id$
  * @copyright  2004-2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
- 
+
 /**
  * Een collectie van {@link KVDdom_DomainObject} objecten.
- * 
+ *
  * @package    KVD.dom
  * @subpackage collection
  * @since      2005
  * @copyright  2004-2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDdom_DomainObjectCollection implements SeekableIterator, Countable
 {
@@ -51,7 +48,7 @@ class KVDdom_DomainObjectCollection implements SeekableIterator, Countable
     }
 
     /**
-     * @return mixed Het huidige {@link KVDdom_DomainObject} of 
+     * @return mixed Het huidige {@link KVDdom_DomainObject} of
      *               false indien er geen huidig object is.
      */
     public function current()
@@ -68,8 +65,8 @@ class KVDdom_DomainObjectCollection implements SeekableIterator, Countable
     }
 
     /**
-     * next 
-     * 
+     * next
+     *
      * @return void
      */
     public function next()
@@ -78,8 +75,8 @@ class KVDdom_DomainObjectCollection implements SeekableIterator, Countable
     }
 
     /**
-     * rewind 
-     * 
+     * rewind
+     *
      * @return void
      */
     public function rewind()
@@ -93,7 +90,7 @@ class KVDdom_DomainObjectCollection implements SeekableIterator, Countable
     public function seek ($index)
     {
         if ( $index < 0 || $index >= $this->getTotalRecordCount() ) {
-            $index = 0; 
+            $index = 0;
         }
         $this->rewind();
         $position = 0;
@@ -130,10 +127,10 @@ class KVDdom_DomainObjectCollection implements SeekableIterator, Countable
     }
 
     /**
-     * hasDomainObject 
-     * 
+     * hasDomainObject
+     *
      * @since 31 okt 2006
-     * @param KVDdom_DomainObject $domainObject 
+     * @param KVDdom_DomainObject $domainObject
      * @return boolean True indien het object gevonden werd.
      */
     public function hasDomainObject( $domainObject )
@@ -142,8 +139,8 @@ class KVDdom_DomainObjectCollection implements SeekableIterator, Countable
     }
 
     /**
-     * getDomainObjectWithId 
-     * 
+     * getDomainObjectWithId
+     *
      * @since 06 nov 2006
      * @param integer $id Zal normaal een integer zijn, eventueel een string.
      * @return mixed Het domainObject of null indien het niet gevonden werd.
@@ -154,8 +151,8 @@ class KVDdom_DomainObjectCollection implements SeekableIterator, Countable
     }
 
     /**
-     * __toString 
-     * 
+     * __toString
+     *
      * @return string
      */
     public function __toString( )
@@ -164,8 +161,8 @@ class KVDdom_DomainObjectCollection implements SeekableIterator, Countable
     }
 
     /**
-     * toArray 
-     * 
+     * toArray
+     *
      * @return array
      */
     public function toArray( )
@@ -174,13 +171,13 @@ class KVDdom_DomainObjectCollection implements SeekableIterator, Countable
     }
 
     /**
-     * getFirst 
-     * 
-     * Geef het eerste domainobject uit de collection of false indien er geen elementen zijn. 
-     * Let op dit, herinitialiseert de collection ook en zet de interne collectie pointer dus 
+     * getFirst
+     *
+     * Geef het eerste domainobject uit de collection of false indien er geen elementen zijn.
+     * Let op dit, herinitialiseert de collection ook en zet de interne collectie pointer dus
      * terug op het begin. Gebruik dit dus niet tijdens een loop.
      *
-     * @return mixed Het eerste {@link KVDdom_DomainObject} uit de collection 
+     * @return mixed Het eerste {@link KVDdom_DomainObject} uit de collection
      *               of false indien het niet bestaat.
      */
     public function getFirst( )

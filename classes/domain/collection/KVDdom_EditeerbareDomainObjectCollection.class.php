@@ -2,35 +2,32 @@
 /**
  * @package KVD.dom
  * @subpackage collection
- * @version $Id$
  * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
- * KVDdom_EditeerbareDomainObjectCollection 
- * 
+ * KVDdom_EditeerbareDomainObjectCollection
+ *
  * @package KVD.dom
  * @subpackage collection
  * @since 13 april 2007
  * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 class KVDdom_EditeerbareDomainObjectCollection extends KVDdom_DomainObjectCollection
 {
     /**
-     * type 
-     * 
+     * type
+     *
      * @var string
      */
     protected $type = null;
 
     /**
-     * __construct 
-     * 
-     * @param array     $collection 
+     * __construct
+     *
+     * @param array     $collection
      * @param string    $type
      * @return void
      */
@@ -47,9 +44,9 @@ class KVDdom_EditeerbareDomainObjectCollection extends KVDdom_DomainObjectCollec
     }
 
     /**
-     * checkType 
-     * 
-     * @param KVDdom_DomainObject $object 
+     * checkType
+     *
+     * @param KVDdom_DomainObject $object
      * @throws KVDdom_OngeldigTypeException     Indien het object een ongeldig type heeft.
      * @return void
      */
@@ -62,8 +59,8 @@ class KVDdom_EditeerbareDomainObjectCollection extends KVDdom_DomainObjectCollec
 
     /**
      * add
-     * 
-     * @param KVDdom_Domainobject $object 
+     *
+     * @param KVDdom_Domainobject $object
      * @return void
      */
     public function add( KVDdom_DomainObject $object )
@@ -75,10 +72,10 @@ class KVDdom_EditeerbareDomainObjectCollection extends KVDdom_DomainObjectCollec
     }
 
     /**
-     * replace 
-     * 
+     * replace
+     *
      * @since 15 april 2008
-     * @param KVDdom_DomainObject $object 
+     * @param KVDdom_DomainObject $object
      * @throws InvalidArgumentException     Indien het object niet bestaat in de collectie.
      * @return void
      */
@@ -94,7 +91,7 @@ class KVDdom_EditeerbareDomainObjectCollection extends KVDdom_DomainObjectCollec
 
     /**
      * remove
-     * 
+     *
      * @param KVDdom_DomainObject $object
      * @throws InvalidArgumentException     Indien het object niet bestaat in de collectie.
      * @return void
@@ -111,7 +108,7 @@ class KVDdom_EditeerbareDomainObjectCollection extends KVDdom_DomainObjectCollec
 
     /**
      * clear
-     * 
+     *
      * Deze methode maakt de collection leeg. Indien de objecten in deze collection nergens anders bestaan dan zullen deze definitief
      * verwijderd worden. Indien deze objecten ook ergens anders bestaand zullen deze niet verwijderd worden ( in dit geval worden dus
      * enkel de koppelingen gewist).
@@ -123,8 +120,8 @@ class KVDdom_EditeerbareDomainObjectCollection extends KVDdom_DomainObjectCollec
     }
 
     /**
-     * getImmutableCollection 
-     * 
+     * getImmutableCollection
+     *
      * Geef een collectie terug waarvan het aantal elementen vast ligt.
      * @return KVDdom_DomainObjectCollection
      */

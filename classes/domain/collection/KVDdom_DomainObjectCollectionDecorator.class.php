@@ -2,35 +2,32 @@
 /**
  * @package KVD.dom
  * @subpackage collection
- * @version $Id$
  * @copyright 2004-2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
- * KVDdom_DomainObjectCollectionDecorator 
- * 
+ * KVDdom_DomainObjectCollectionDecorator
+ *
  * @package KVD.dom
  * @subpackage collection
  * @since 30 april 2007
  * @copyright 2004-2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 class KVDdom_DomainObjectCollectionDecorator extends KVDdom_DomainObjectCollection
 {
     /**
-     * collection 
-     * 
+     * collection
+     *
      * @var KVDdom_DomainObjectCollection
      */
     protected $collection;
-    
+
     /**
-     * __construct 
-     * 
-     * @param KVDdom_DomainObjectCollection $coll 
+     * __construct
+     *
+     * @param KVDdom_DomainObjectCollection $coll
      * @return void
      */
     public function __construct ( KVDdom_DomainObjectCollection $coll )
@@ -39,8 +36,8 @@ class KVDdom_DomainObjectCollectionDecorator extends KVDdom_DomainObjectCollecti
     }
 
     /**
-     * getTotalRecordCount 
-     * 
+     * getTotalRecordCount
+     *
      * @deprecated
      * @return integer
      */
@@ -50,8 +47,8 @@ class KVDdom_DomainObjectCollectionDecorator extends KVDdom_DomainObjectCollecti
     }
 
     /**
-     * count 
-     * 
+     * count
+     *
      * @return integer
      */
     public function count( )
@@ -60,8 +57,8 @@ class KVDdom_DomainObjectCollectionDecorator extends KVDdom_DomainObjectCollecti
     }
 
     /**
-     * current 
-     * 
+     * current
+     *
      * @return KVDdom_DomainObject
      */
     public function current()
@@ -71,17 +68,17 @@ class KVDdom_DomainObjectCollectionDecorator extends KVDdom_DomainObjectCollecti
 
     /**
      * key
-     * 
+     *
      * @return integer
      */
     public function key()
     {
-        return $this->collection->key();   
+        return $this->collection->key();
     }
 
     /**
-     * next 
-     * 
+     * next
+     *
      * @return void
      */
     public function next()
@@ -90,8 +87,8 @@ class KVDdom_DomainObjectCollectionDecorator extends KVDdom_DomainObjectCollecti
     }
 
     /**
-     * rewind 
-     * 
+     * rewind
+     *
      * @return void
      */
     public function rewind()
@@ -117,8 +114,8 @@ class KVDdom_DomainObjectCollectionDecorator extends KVDdom_DomainObjectCollecti
     }
 
     /**
-     * clear 
-     * 
+     * clear
+     *
      * @return void
      */
     public function clear( )
@@ -127,9 +124,9 @@ class KVDdom_DomainObjectCollectionDecorator extends KVDdom_DomainObjectCollecti
     }
 
     /**
-     * hasDomainObject 
-     * 
-     * @param KVDdom_DomainObject $domainObject 
+     * hasDomainObject
+     *
+     * @param KVDdom_DomainObject $domainObject
      * @return boolean
      */
     public function hasDomainObject( $domainObject )
@@ -138,8 +135,8 @@ class KVDdom_DomainObjectCollectionDecorator extends KVDdom_DomainObjectCollecti
     }
 
     /**
-     * getDomainObjectWithId 
-     * 
+     * getDomainObjectWithId
+     *
      * @param integer $id
      * @return KVDdom_DomainObject
      */
@@ -149,8 +146,8 @@ class KVDdom_DomainObjectCollectionDecorator extends KVDdom_DomainObjectCollecti
     }
 
     /**
-     * toArray 
-     * 
+     * toArray
+     *
      * @return array
      */
     public function toArray( )
@@ -159,8 +156,8 @@ class KVDdom_DomainObjectCollectionDecorator extends KVDdom_DomainObjectCollecti
     }
 
     /**
-     * getFirst 
-     * 
+     * getFirst
+     *
      * @return  mixed   Het eerste {@link KVDdom_DomainObjectCollection} uit de collection of false indien de collection leeg is.
      */
     public function getFirst( )
