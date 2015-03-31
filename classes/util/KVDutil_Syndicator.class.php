@@ -3,9 +3,8 @@
  * @package KVD.util
  * @subpackage syndication
  * @author Dieter Standaert <dieter.standaert@eds.com>
- * @version $Id$
  */
- 
+
 /**
  * KVDUtil_Syndicator
  *
@@ -14,7 +13,7 @@
  * @author Dieter Standaert <dieter.standaert@eds.com>
  * @since 26 08 2008
  */
-abstract class KVDUtil_Syndicator 
+abstract class KVDUtil_Syndicator
 {
 	/**
 	 * @var DOMDocument het document met RSS/Atom data
@@ -43,7 +42,7 @@ abstract class KVDUtil_Syndicator
 		'item'	=>	'item',
 		'feeddesc'	=>	'description',
 		'itemdesc'	=>	'description');
-	
+
 	/**
 	 * @var integer tag voor items
 	 */
@@ -53,7 +52,7 @@ abstract class KVDUtil_Syndicator
 	 */
 	const FEED	=	1;
 
-	
+
 	public function __construct($title, $url, $description, DateTime $pubDate = null, $id = null)
 	{
 		try{
@@ -74,7 +73,7 @@ abstract class KVDUtil_Syndicator
 		}
 		throw new Exception("Unable to Create Object");
 	}
-	
+
 	/**
 	 * createSyndElement
 	 *
@@ -91,7 +90,7 @@ abstract class KVDUtil_Syndicator
 			return $this->rssDoc->createElementNS($namespace, $name, $value);
 		}
 	}
-	
+
 	/**
 	 * createLink
 	 *
@@ -105,7 +104,7 @@ abstract class KVDUtil_Syndicator
 		$link = $this->createSyndElement($this->NS, 'link', $url);
 		foreach($attributes as $name=>$value) {
 			$link->setAttribute($name, $value);
-		}	
+		}
 		$parent->appendChild($link);
 		return $link;
 	}
@@ -113,7 +112,7 @@ abstract class KVDUtil_Syndicator
 	/**
 	 * createRSSNode
 	 *  maakt een rss element aan in de 'parent'.
-	 * @param   integer     $type   
+	 * @param   integer     $type
 	 * @param   DOMElement  $parent
 	 * @param   string      $title
 	 * @param   string      $url
@@ -122,11 +121,11 @@ abstract class KVDUtil_Syndicator
 	 * @param   mixed       $id
 	 * @return  void
 	 */
-	protected function createRSSNode($type, DOMElement $parent, $title, $url, 
-		$description, DateTime $pubDate = null, $id=null) 
+	protected function createRSSNode($type, DOMElement $parent, $title, $url,
+		$description, DateTime $pubDate = null, $id=null)
 	{
 		$this->createLink($parent, $url);
-	
+
         if ( $type == KVDutil_Syndicator::FEED ) {
 		    $atomlink = $this->createSyndElement(null, "atom:link", '');
 		    $atomlink->setAttribute("rel", "self");
@@ -143,7 +142,7 @@ abstract class KVDUtil_Syndicator
 		}
 		$description = $this->createSyndElement($this->NS, $titletag, $description);
 		$parent->appendChild($description);
-	
+
 		if(!is_null($id)) {
 			$idnode = $this->createSyndElement($this->NS, 'guid', $id);
 			$parent->appendChild($idnode);
@@ -153,7 +152,7 @@ abstract class KVDUtil_Syndicator
 			$parent->appendChild($datenode);
 		}
 	}
-	
+
 	/**
 	 * addItem
 	 * @param   string      $title
@@ -171,7 +170,7 @@ abstract class KVDUtil_Syndicator
 		}
 		return false;
 	}
-	
+
 	/**
 	 * addAuthor
 	 * @param string
@@ -182,7 +181,7 @@ abstract class KVDUtil_Syndicator
 		trigger_error("Function not implemented");
 		return false;
 	}
-	
+
 	/**
 	 * dump
 	 * @return string the XML data of this document
@@ -197,14 +196,14 @@ abstract class KVDUtil_Syndicator
 	}
 
     /**
-     * formatDateTime 
-     * 
-     * @param   DateTime $date 
+     * formatDateTime
+     *
+     * @param   DateTime $date
      * @return  string
      */
     abstract protected function formatDateTime( DateTime $date);
 }
- 
+
 /**
  * KVDUtil_RSS1
  *
@@ -229,7 +228,7 @@ class KVDUtil_RSS1 extends KVDUtil_Syndicator
 	 */
 	protected $SHELL = '<rdf:RDF	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
 	xmlns="http://purl.org/rss/1.0/"/>';
-	
+
 	/**
 	 * addToItems
 	 *  voeg een url resource aan de lijst van items
@@ -248,7 +247,7 @@ class KVDUtil_RSS1 extends KVDUtil_Syndicator
 		$this->items->appendChild($item);
 		$item->setAttribute("resource", $url);
 	}
-	
+
 	/**
 	 * addItem
 	 * @param string
@@ -279,13 +278,13 @@ class KVDUtil_RSS1 extends KVDUtil_Syndicator
 	protected function createRSSNode($type, DOMElement $parent, $title, $url, $description, DateTime $pubDate = null, $id = null)
 	{
 		$parent->setAttributeNS(self::RDFNS, 'rdf:about', $url);
-		parent::createRSSNode($type, $parent, $title, $url, $description, $pubDate);	
+		parent::createRSSNode($type, $parent, $title, $url, $description, $pubDate);
 	}
 
     /**
-     * formatDateTime 
-     * 
-     * @param   DateTime $date 
+     * formatDateTime
+     *
+     * @param   DateTime $date
      * @return  string
      */
     protected function formatDateTime( DateTime $date )
@@ -294,9 +293,9 @@ class KVDUtil_RSS1 extends KVDUtil_Syndicator
     }
 }
 
- 
+
 /**
- * KVDUtil_RSS2 
+ * KVDUtil_RSS2
  *
  * @package KVD.util
  * @subpackage syndication
@@ -313,7 +312,7 @@ class KVDUtil_RSS2 extends KVDUtil_Syndicator
 	 * @var string
 	 */
 	protected $SHELL = "<rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\"/>";
-	
+
 	/**
 	 * __construct
 	 * @param string
@@ -333,9 +332,9 @@ class KVDUtil_RSS2 extends KVDUtil_Syndicator
 	}
 
     /**
-     * formatDateTime 
-     * 
-     * @param   DateTime $date 
+     * formatDateTime
+     *
+     * @param   DateTime $date
      * @return  string
      */
     protected function formatDateTime( DateTime $date )
@@ -344,7 +343,7 @@ class KVDUtil_RSS2 extends KVDUtil_Syndicator
     }
 }
 
- 
+
 /**
  * KVDUtil_Atom
  *
@@ -354,7 +353,7 @@ class KVDUtil_RSS2 extends KVDUtil_Syndicator
  * @since 26 08 2008
  */
 class KVDUtil_Atom extends KVDUtil_Syndicator
-{	
+{
 	/**
 	 * @var string
 	 */
@@ -423,7 +422,7 @@ class KVDUtil_Atom extends KVDUtil_Syndicator
 			}
 		}
 		return false;
-	}	
+	}
 	/**
 	 * addItem
 	 * @param string    $title
@@ -442,13 +441,13 @@ class KVDUtil_Atom extends KVDUtil_Syndicator
 			$pubDate = new DateTime( );
 		}
 		return parent::addItem($title, $link, $description, $pubDate, $id);
-	}	
+	}
 
     /**
-     * formatDateTime 
-     * 
+     * formatDateTime
+     *
      * @since   18 jun 2009
-     * @param   DateTime    $date 
+     * @param   DateTime    $date
      * @return  string      DateTime formatted for ATOM.
      */
     protected function formatDateTime( DateTime $date )

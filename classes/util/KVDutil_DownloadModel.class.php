@@ -1,42 +1,39 @@
 <?php
 /**
  * @package KVD.util
- * @version $Id
  * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
- * KVDutil_DownloadModel 
- * 
+ * KVDutil_DownloadModel
+ *
  * Class die alle bestanden in een bepaalde map weergeeft.
  * @package KVD.util
  * @since 2007
  * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 class KVDutil_DownloadModel implements IteratorAggregate
 {
     /**
-     * map 
-     * 
+     * map
+     *
      * @var string
      */
     private $map;
 
     /**
-     * bestanden 
-     * 
+     * bestanden
+     *
      * @var array
      */
     private $bestanden = array( );
-    
+
     /**
-     * __construct 
-     * 
-     * @param string $map 
+     * __construct
+     *
+     * @param string $map
      * @return void
      */
     public function __construct ( $map )
@@ -48,9 +45,9 @@ class KVDutil_DownloadModel implements IteratorAggregate
     }
 
     /**
-     * genBestanden 
-     * 
-     * @param string $map 
+     * genBestanden
+     *
+     * @param string $map
      * @return void
      */
     private function genBestanden( $map )
@@ -65,10 +62,10 @@ class KVDutil_DownloadModel implements IteratorAggregate
     }
 
     /**
-     * cmpSPLFileInfo 
-     * 
-     * @param   SPLFileInfo     $info1 
-     * @param   SPLFileInfo     $info2 
+     * cmpSPLFileInfo
+     *
+     * @param   SPLFileInfo     $info1
+     * @param   SPLFileInfo     $info2
      * @return  integer         -1, 0 of 1
      */
     private function cmpSPLFileInfo( SPLFileInfo $info1, SPLFileInfo $info2 )
@@ -77,8 +74,8 @@ class KVDutil_DownloadModel implements IteratorAggregate
     }
 
     /**
-     * getIterator 
-     * 
+     * getIterator
+     *
      * @return ArrayIterator
      */
     public function getIterator( )

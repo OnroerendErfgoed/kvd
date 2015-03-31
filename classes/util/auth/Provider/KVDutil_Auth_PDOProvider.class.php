@@ -2,10 +2,8 @@
 /**
  * @package    KVD.util
  * @subpackage auth
- * @version    $Id$
  * @copyright  2011 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author     Bram Goessens <bram.goessens@rwo.vlaanderen.be>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
@@ -16,7 +14,6 @@
  * @since      31 aug 2011
  * @copyright  2011 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author     Bram Goessens <bram.goessens@rwo.vlaanderen.be>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDutil_Auth_PDOProvider implements KVDutil_Auth_IProvider
 {
@@ -88,7 +85,7 @@ class KVDutil_Auth_PDOProvider implements KVDutil_Auth_IProvider
     }
 
     /**
-     * @param   string 
+     * @param   string
      * @param   string $paswoord
      * @return  KVDutil_Auth_Gebruiker
      */

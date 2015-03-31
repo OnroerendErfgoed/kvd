@@ -2,41 +2,38 @@
 /**
  * @package    KVD.util
  * @subpackage xml
- * @version    $Id$
  * @copyright  2008-2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @author     Bram Goessens <bram.goessens@rwo.vlaanderen.be> 
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
+ * @author     Bram Goessens <bram.goessens@rwo.vlaanderen.be>
  */
 
 /**
  * KVDutil_Xml_DomainObjectProcessor
- * 
- * Abstracte class die een aantal algemene zaken die een xml processor moet 
- * kunnen regelt. Bedoeling is dat er concrete implementaties geschreven worden 
- * die van een stuk xml een geldig domainobject maken of er een geldige 
+ *
+ * Abstracte class die een aantal algemene zaken die een xml processor moet
+ * kunnen regelt. Bedoeling is dat er concrete implementaties geschreven worden
+ * die van een stuk xml een geldig domainobject maken of er een geldige
  * bewerking mee doen.
  *
  * @package    KVD.util
  * @subpackage xml
  * @since      15 feb 2008
  * @copyright  2008-2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  * @author     Bram Goessens <bram.goessens@rwo.vlaanderen.be>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 abstract class KVDutil_Xml_DomainObjectProcessor
 {
     /**
-     * Er is een waarschuwing die dringend moet behandeld worden of zware 
+     * Er is een waarschuwing die dringend moet behandeld worden of zware
      * gevolgen kan hebben.
      *
-     * @var string 
+     * @var string
      */
     const WARNING_HOOG = 'HOOG';
 
     /**
-     * Er is een waarschuwing die best zou aangepakt worden, maar mogelijk ook 
+     * Er is een waarschuwing die best zou aangepakt worden, maar mogelijk ook
      * genegeerd kan worden.
      *
      * @var string
@@ -44,29 +41,29 @@ abstract class KVDutil_Xml_DomainObjectProcessor
     const WARNING_LAAG = 'LAAG';
 
     /**
-     * sessie 
-     * 
+     * sessie
+     *
      * @var KVDdom_IWriteSessie
      */
     protected $sessie;
 
     /**
-     * xml 
-     * 
+     * xml
+     *
      * @var SimpleXMLElement
      */
     protected $xml = null;
 
 
     /**
-     * warnings 
-     * 
+     * warnings
+     *
      * @var array
      */
     protected $warnings;
 
     /**
-     * @param   KVDdom_IWriteSessie     $sessie 
+     * @param   KVDdom_IWriteSessie     $sessie
      */
     public function __construct ( KVDdom_IWriteSessie $sessie )
     {
@@ -75,9 +72,9 @@ abstract class KVDutil_Xml_DomainObjectProcessor
     }
 
     /**
-     * setXml 
-     * 
-     * @param   SimpleXMLElement $xml 
+     * setXml
+     *
+     * @param   SimpleXMLElement $xml
      * @return  void
      */
     public function setXml( SimpleXMLElement $xml )
@@ -86,8 +83,8 @@ abstract class KVDutil_Xml_DomainObjectProcessor
     }
 
     /**
-     * checkXml 
-     * 
+     * checkXml
+     *
      * @throws <b>KVDutil_Xml_Exception</b> - Indien er geen geldig xml element is.
      */
     protected function checkXml( )
@@ -98,16 +95,16 @@ abstract class KVDutil_Xml_DomainObjectProcessor
     }
 
     /**
-     * process 
-     * 
+     * process
+     *
      * @return KVDdom_DomainObject
      */
     abstract public function process( );
-    
+
     /**
-     * addWarning 
-     * 
-     * @param   string  $warning 
+     * addWarning
+     *
+     * @param   string  $warning
      * @return  void
      */
     protected function addWarning( $warning , $priority = self::WARNING_HOOG )
@@ -116,8 +113,8 @@ abstract class KVDutil_Xml_DomainObjectProcessor
     }
 
     /**
-     * getWarnings 
-     * 
+     * getWarnings
+     *
      * @return  array
      */
     public function getWarnings( )
@@ -126,8 +123,8 @@ abstract class KVDutil_Xml_DomainObjectProcessor
     }
 
     /**
-     * hasWarnings 
-     * 
+     * hasWarnings
+     *
      * @return  boolean
      */
     public function hasWarnings( )

@@ -2,10 +2,8 @@
 /**
  * @package    KVD.util
  * @subpackage auth
- * @version    $Id$
  * @copyright  2011 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author     Bram Goessens <bram.goessens@rwo.vlaanderen.be>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
@@ -16,7 +14,6 @@
  * @since      30 aug 2011
  * @copyright  2011 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author     Bram Goessens <bram.goessens@rwo.vlaanderen.be>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDutil_Auth_Gebruiker implements KVDdom_Gebruiker, KVDdom_Nullable
 {
@@ -135,7 +132,7 @@ class KVDutil_Auth_Gebruiker implements KVDdom_Gebruiker, KVDdom_Nullable
     {
         return $this->id;
     }
-    
+
     /**
      * getGebruikersnaam
      *
@@ -214,7 +211,7 @@ class KVDutil_Auth_Gebruiker implements KVDdom_Gebruiker, KVDdom_Nullable
     {
         return get_class( $this );
     }
-    
+
     /**
      * __toString
      *
@@ -227,7 +224,7 @@ class KVDutil_Auth_Gebruiker implements KVDdom_Gebruiker, KVDdom_Nullable
 
     /**
      * Controleert of de rollen voor deze gebruiker geladen zijn.
-     * 
+     *
      * @return  boolean
      */
     public function checkRollen()

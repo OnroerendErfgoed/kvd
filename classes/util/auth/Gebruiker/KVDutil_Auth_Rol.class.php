@@ -2,10 +2,8 @@
 /**
  * @package    KVD.util
  * @subpackage auth
- * @version    $Id$
  * @copyright  2011 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author     Bram Goessens <bram.goessens@rwo.vlaanderen.be>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
@@ -16,7 +14,6 @@
  * @since      30 aug 2011
  * @copyright  2011 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author     Bram Goessens <bram.goessens@rwo.vlaanderen.be>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDutil_Auth_Rol implements KVDdom_DomainObject
 {
@@ -25,7 +22,7 @@ class KVDutil_Auth_Rol implements KVDdom_DomainObject
      * @var string
      */
     protected $id;
-    
+
     /**
      * naam van de rol
      *
@@ -66,7 +63,7 @@ class KVDutil_Auth_Rol implements KVDdom_DomainObject
     {
         return $this->id;
     }
-    
+
     /**
      * getNaam
      *
@@ -99,7 +96,7 @@ class KVDutil_Auth_Rol implements KVDdom_DomainObject
         }
         return $this->getNaam().' ('.$this->getBeschrijving().')';
     }
-    
+
     /**
      * Geef het type van een DomainObject terug. Onder andere nodig om de (@link KVDdom_DataMapper) te kunnen vinden.
      * @return string
@@ -108,7 +105,7 @@ class KVDutil_Auth_Rol implements KVDdom_DomainObject
     {
         return get_class( $this );
     }
-    
+
     /**
      * __toString
      *

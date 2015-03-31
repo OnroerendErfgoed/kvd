@@ -2,7 +2,6 @@
 /**
  * @package KVD.util
  * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @version $Id$
  */
 
 /**

@@ -1,10 +1,8 @@
 <?php
 /**
  * @package     KVD.util
- * @version     $Id: KVDutil_ImageToolkit.class.php 1 2007-10-05 13:16:16Z standadi $
  * @copyright   2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Dieter Standaert <dieter.standaert@eds.com> 
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author      Dieter Standaert <dieter.standaert@eds.com>
  */
 
 /**
@@ -13,18 +11,17 @@
  * @package     KVD.util
  * @since       september 2007
  * @copyright   2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Dieter Standaert <dieter.standaert@eds.com> 
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author      Dieter Standaert <dieter.standaert@eds.com>
  */
 
 class KVDutil_ImageToolkit
 {
 
-    /** 
+    /**
      * Maak een thumbnail van een afbeelding
      *
      * Maakt een thumbnail voor de foto. Daarbij worden de verhoudingen van de
-     * oorspronkelijke foto behouden en geven de parameters mee welke de 
+     * oorspronkelijke foto behouden en geven de parameters mee welke de
      * maximale afmetingen zijn.
      *
      * @todo documenteren hoe size werkt
@@ -36,7 +33,7 @@ class KVDutil_ImageToolkit
      */
     public static function createThumbnailFor($srcImg,$size = 128)
     {
-        /* calculate thumbnail size, preserving aspect ratio */ 
+        /* calculate thumbnail size, preserving aspect ratio */
         $oldX=imageSX($srcImg);
         $oldY=imageSY($srcImg);
         if ($oldX > $oldY) {
@@ -50,14 +47,14 @@ class KVDutil_ImageToolkit
         $dstImg=ImageCreateTrueColor($thumbW, $thumbH);
         /* Insert scaled picture */
         imagecopyresampled(
-            $dstImg, $srcImg, 0, 0, 0, 0, 
+            $dstImg, $srcImg, 0, 0, 0, 0,
             $thumbW, $thumbH, $oldX, $oldY
-        ); 
+        );
         /* Save file */
         return $dstImg;
     }
-   
-    /** 
+
+    /**
      * Geeft een string met de binaire data van de foto.
      *
      * @param resource $img een PHP beeld handler voor de foto
@@ -75,7 +72,7 @@ class KVDutil_ImageToolkit
         return $imageData;
     }
 
-  /** 
+  /**
    * getImage
    * 	Geeft een php beeld handler van de binaire data van de foto.
    * @throws RuntimeException - Indien de foto niet kon aangemaakt worden.
@@ -93,32 +90,32 @@ class KVDutil_ImageToolkit
         return $src;
     }
 
-    /** 
+    /**
      * Draait de foto van de handle willekeurig in stappen van 90 graden.
      *
      * @param resource $src een php source van de foto
-     * @param integer $angle het aantal graden dat de foto, 
+     * @param integer $angle het aantal graden dat de foto,
      *                       in wijzerszin, wordt gedraaid
      *
      * @return resource een php resource met het resultaat van de operatie.
-     */   
+     */
     public static function rotate($src, $angle)
     {
         $srcX = imagesx($src);
         $srcY = imagesy($src);
         switch( $angle ) {
-            case 90: 
+            case 90:
                 $dst = imagecreatetruecolor($srcY, $srcX);
                 for($x = 0; $x <$srcX; $x ++)
                     for($y = 0; $y <$srcY; $y ++)
                         imagecopy($dst, $src, $srcY-$y-1, $x, $x, $y, 1, 1);
                 break;
-            case 180: 
+            case 180:
                 $dstTemp = KVDutil_ImageToolkit::rotate($src, 90);
                 $dst = KVDutil_ImageToolkit::rotate($dstTemp, 90);
                 imagedestroy($dstTemp);
                 break;
-            case 270: 
+            case 270:
                 $dst = imagecreatetruecolor($srcY, $srcX);
                 for( $x=0; $x<$srcX; $x++ )
                     for( $y=0; $y<$srcY; $y++ )
@@ -129,8 +126,8 @@ class KVDutil_ImageToolkit
     }
 
     /**
-     * flip 
-     * 
+     * flip
+     *
      * @todo documenteren wat deze functie doet.
      *
      * @param mixed $src Afbeelding die geflipt moet worden.
@@ -149,11 +146,11 @@ class KVDutil_ImageToolkit
         }
         return $dst;
     }
- 
+
     /**
      * Vraag de afmetingen van een foto op.
      *
-     * Zoekt de breedte en hoogte van de foto op en geeft deze in een 
+     * Zoekt de breedte en hoogte van de foto op en geeft deze in een
      * array terug onder de sleutels x en y.
      *
      * @param resource $src Handle van de afbeelding
@@ -171,7 +168,7 @@ class KVDutil_ImageToolkit
      * Controleer of een foto aan bepaalde eisen voldoet.
      *
      * Neemt een foto en controleert of deze voldoet aan de eisen gegeven
-     * in de configuratie. De test bevat minimum en maximum afmetingen 
+     * in de configuratie. De test bevat minimum en maximum afmetingen
      * alsook mimetypes.
      *
      * @param string $filename bestandsnaam van de foto

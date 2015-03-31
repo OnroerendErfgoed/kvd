@@ -2,10 +2,8 @@
 /**
  * @package    KVD.util
  * @subpackage auth
- * @version    $Id$
  * @copyright  2011 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author     Bram Goessens <bram.goessens@rwo.vlaanderen.be>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
@@ -18,10 +16,9 @@
  * @since      29 aug 2011
  * @copyright  2011 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author     Bram Goessens <bram.goessens@rwo.vlaanderen.be>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 interface KVDutil_Auth_IStatus
-{    
+{
     /**
      * @param string $gebruikersnaam
      * @param string $paswoord
@@ -37,7 +34,7 @@ interface KVDutil_Auth_IStatus
      * @return  KVDutil_Auth_Gebruiker  Het gebruikersobject
      */
     public function getGebruiker();
-    
+
     /**
      * @return  boolean Geeft aan of de gebruiker is aangemeld
      */

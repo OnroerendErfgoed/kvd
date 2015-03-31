@@ -1,52 +1,49 @@
 <?php
 /**
- * @package   KVD.util 
- * @version   $Id$
+ * @package   KVD.util
  * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author    Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license   http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author    Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
- * Class die random wachtwoorden kan aanmaken. 
- * 
- * @package   KVD.util 
+ * Class die random wachtwoorden kan aanmaken.
+ *
+ * @package   KVD.util
  * @since     18 okt 2006
  * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author    Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license   http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author    Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 class KVDutil_WachtwoordGenerator
 {
     /**
      * De standaard-lengte van een wachtwoord.
-     * @var integer 
+     * @var integer
      */
     const LENGTE = 8;
-    
+
     /**
-     * lengte 
-     * 
+     * lengte
+     *
      * @var integer
      */
     private $lengte;
 
     /**
-     * hoofdletters 
-     * 
+     * hoofdletters
+     *
      * @var boolean
      */
     private $hoofdlettersGebruiken;
 
     /**
-     * teGebruikenTekens 
-     * 
+     * teGebruikenTekens
+     *
      * @var array
      */
     private $teGebruikenTekens = array (    '0123456789',
                                             'abcdefghijklmnopqrstuvwxyz',
                                             'ABCDEFGHIJKLMNOPQRSTUVWXYZ');
-    
+
     /**
      * @param $lengte integer Lengte van het aan te maken wachtwoord.
      * @param $hoofdletters boolean Of het wachtwoord hoofdletters moet bevatten.
@@ -55,20 +52,20 @@ class KVDutil_WachtwoordGenerator
     public function __construct ( $lengte = self::LENGTE , $hoofdletters = false )
     {
         if ( !is_int( $lengte ) ) {
-            throw new InvalidArgumentException ( 
-                'Lengte moet een getal zijn.' ); 
+            throw new InvalidArgumentException (
+                'Lengte moet een getal zijn.' );
         }
         if ( $lengte < 6 ) {
-            throw new InvalidArgumentException ( 
+            throw new InvalidArgumentException (
                 'Een wachtwoord mag nooit minder dan 6 tekens bevatten.' );
         }
         $this->lengte = $lengte;
         $this->hoofdlettersGebruiken = $hoofdletters;
     }
-    
+
     /**
-     * generate 
-     * 
+     * generate
+     *
      * @return string Een geldig paswoord
      * @throws <b>RuntimeException</b> Indien het niet mogelijk is een geldig paswoord aan te maken.
      */
@@ -88,7 +85,7 @@ class KVDutil_WachtwoordGenerator
     }
 
     /**
-     * generateWachtwoord 
+     * generateWachtwoord
      *
      * Genereert een enkel wachtwoord dat mogelijk niet aan alle regels voldoet.
      * @return string
@@ -96,7 +93,7 @@ class KVDutil_WachtwoordGenerator
     private function generateWachtwoord ( )
     {
         $buffer = '';
-        $maxStrings = $this->hoofdlettersGebruiken ? 2 : 1; 
+        $maxStrings = $this->hoofdlettersGebruiken ? 2 : 1;
         for ( $i=0 ; $i<$this->lengte ; $i++) {
             $str = $this->teGebruikenTekens[mt_rand(0, $maxStrings) ];
             $maxTeken = strlen( $str ) -1;
@@ -106,9 +103,9 @@ class KVDutil_WachtwoordGenerator
     }
 
     /**
-     * validateWachtwoord 
-     * 
-     * @param string $wachtwoord 
+     * validateWachtwoord
+     *
+     * @param string $wachtwoord
      * @return boolean
      */
     private function validateWachtwoord( $wachtwoord )

@@ -2,10 +2,8 @@
 /**
  * @package    KVD.util
  * @subpackage auth
- * @version    $Id$
  * @copyright  2011 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author     Bram Goessens <bram.goessens@rwo.vlaanderen.be>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
@@ -16,7 +14,6 @@
  * @since      2 sep 2011
  * @copyright  2011 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author     Bram Goessens <bram.goessens@rwo.vlaanderen.be>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDutil_Auth_ArrayProvider implements KVDutil_Auth_IProvider
 {
@@ -24,7 +21,7 @@ class KVDutil_Auth_ArrayProvider implements KVDutil_Auth_IProvider
      * array met data
      */
     private $connectie;
-    
+
     /**
      * parameters
      */
@@ -50,9 +47,9 @@ class KVDutil_Auth_ArrayProvider implements KVDutil_Auth_IProvider
     {
         $this->connectie = $connectie;
         $this->parameters = $parameters;
-        $this->initialize();      
+        $this->initialize();
     }
-    
+
     /*
      * Parameter-array vullen.
      */
@@ -132,7 +129,7 @@ class KVDutil_Auth_ArrayProvider implements KVDutil_Auth_IProvider
                                 $roldata[$this->parameters['rol_beschrijving']]
                             );
         }
-        
+
         return new KVDutil_Auth_RolCollectie( $results );
     }
 

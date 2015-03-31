@@ -2,46 +2,43 @@
 /**
  * @package     KVD.util
  * @subpackage  date
- * @version     $Id$
  * @copyright   2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
- * KVDutil_DateRange 
- * 
+ * KVDutil_DateRange
+ *
  * @package     KVD.util
  * @subpackage  date
  * @since       2 april 2007
  * @copyright   2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 class KVDutil_DateRange
 {
     const DATE_FORMAT = 'd-m-Y';
-    
+
     /**
-     * start 
-     * 
+     * start
+     *
      * Timestamp
      * @var integer
      */
     private $start;
 
     /**
-     * einde 
-     * 
+     * einde
+     *
      * Timestamp
      * @var integer
      */
     private $einde;
-    
+
     /**
-     * __construct 
-     * 
-     * @param mixed $start Integer of string. 
+     * __construct
+     *
+     * @param mixed $start Integer of string.
      * @param mixed $einde Integer of string.
      */
     public function __construct( $start , $einde )
@@ -51,8 +48,8 @@ class KVDutil_DateRange
     }
 
     /**
-     * getStart 
-     * 
+     * getStart
+     *
      * @return integer
      */
     public function getStart( )
@@ -61,8 +58,8 @@ class KVDutil_DateRange
     }
 
     /**
-     * getEinde 
-     * 
+     * getEinde
+     *
      * @return integer
      */
     public function getEinde( )
@@ -71,8 +68,8 @@ class KVDutil_DateRange
     }
 
     /**
-     * getOmschrijving 
-     * 
+     * getOmschrijving
+     *
      * @return string
      */
     public function getOmschrijving( )

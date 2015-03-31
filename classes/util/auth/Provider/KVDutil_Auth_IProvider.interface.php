@@ -2,10 +2,8 @@
 /**
  * @package    KVD.util
  * @subpackage auth
- * @version    $Id$
  * @copyright  2011 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author     Bram Goessens <bram.goessens@rwo.vlaanderen.be>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
@@ -17,7 +15,6 @@
  * @since      29 aug 2011
  * @copyright  2011 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author     Bram Goessens <bram.goessens@rwo.vlaanderen.be>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 interface KVDutil_Auth_IProvider
 {
@@ -33,7 +30,7 @@ interface KVDutil_Auth_IProvider
      * @return  KVDutil_AuthRolCollectie    $rollen
      */
     public function getRollenVoorApplicatieNaam( KVDutil_Auth_Gebruiker $gebruiker, $applicatieNaam);
-    
+
     /**
      * @param   KVDutil_Auth_Gebruiker      $gebruiker
      * @param   Object  Een Applicatie-object dat de methode getId() bevat,

@@ -2,10 +2,8 @@
 /**
  * @package    KVD.util
  * @subpackage auth
- * @version    $Id$
  * @copyright  2011 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author     Bram Goessens <bram.goessens@rwo.vlaanderen.be>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
@@ -16,7 +14,6 @@
  * @since      29 aug 2011
  * @copyright  2011 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author     Bram Goessens <bram.goessens@rwo.vlaanderen.be>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDutil_Auth_Authenticatie
 {
@@ -36,7 +33,7 @@ class KVDutil_Auth_Authenticatie
 
     /**
      * Actieve status van het object
-     * 
+     *
      * @var KVDutil_Auth_IStatus
      */
     private $status;
@@ -50,7 +47,7 @@ class KVDutil_Auth_Authenticatie
 
     /**
      * constructor
-     * 
+     *
      * @param   KVDutil_auth_IProvider  Object dat verkeer met datasource behandelt.
      */
     public function __construct( KVDutil_auth_IProvider $provider)
@@ -63,7 +60,7 @@ class KVDutil_Auth_Authenticatie
 
     /**
      * Aanmelden met opgegeven gebruikersnaam en paswoord.
-     * 
+     *
      * @param   string  $gebruikersnaam
      * @param   string  $paswoord
      * @return  boolean
@@ -94,7 +91,7 @@ class KVDutil_Auth_Authenticatie
 
     /**
      * Geeft weer of een gebruiker is aangemeld.
-     * 
+     *
      * @return  boolean
      */
     public function isAangemeld()
@@ -104,7 +101,7 @@ class KVDutil_Auth_Authenticatie
 
     /**
      * Verander de actieve status van het object
-     * 
+     *
      * @param   KVDutil_Auth_IStatus $status
      */
     public function setStatus(KVDutil_Auth_IStatus $status)

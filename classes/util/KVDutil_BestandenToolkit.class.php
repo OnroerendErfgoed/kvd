@@ -1,29 +1,26 @@
 <?php
 /**
- * KVDutil_BestandenToolkit 
- * 
- * @package KVD.util 
- * @version $Id$
+ * KVDutil_BestandenToolkit
+ *
+ * @package KVD.util
  * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
- * KVDutil_BestandenToolkit 
- * 
- * @package KVD.util 
+ * KVDutil_BestandenToolkit
+ *
+ * @package KVD.util
  * @since 29 jan 2007
  * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 class KVDutil_BestandenToolkit
 {
     /**
-     * bestandsGrootte 
-     * 
-     * @param string $pad 
+     * bestandsGrootte
+     *
+     * @param string $pad
      * @return string Geformatteerde bestandsgrootte.
      */
     public static function bestandsGrootte( $pad )
@@ -33,9 +30,9 @@ class KVDutil_BestandenToolkit
     }
 
     /**
-     * formatBestandsGrootte 
-     * 
-     * @param integer $grootte Grootte van een bestand in bytes. 
+     * formatBestandsGrootte
+     *
+     * @param integer $grootte Grootte van een bestand in bytes.
      * @return string
      */
     public static function formatBestandsGrootte( $grootte )

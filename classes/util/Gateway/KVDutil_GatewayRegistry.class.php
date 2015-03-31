@@ -2,24 +2,21 @@
 /**
  * @package    KVD.util
  * @subpackage gateway
- * @version    $Id$
  * @copyright  2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
- * KVDutil_GatewayRegistry 
- * 
+ * KVDutil_GatewayRegistry
+ *
  * @package    KVD.util
  * @subpackage gateway
  * @since      jan 2006
  * @copyright  2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 class KVDutil_GatewayRegistry {
-    
+
     /**
      * @var KVDutil_GatewayFactory
      */
@@ -29,7 +26,7 @@ class KVDutil_GatewayRegistry {
      * @var array Een array met de verschillende al geladen gateways.
      */
     private $gateways;
-    
+
     /**
      * @param KVDutil_GatewayFactory $factory
      */
@@ -52,10 +49,10 @@ class KVDutil_GatewayRegistry {
     }
 
     /**
-     * Indien we het object serialiseren, verwijderen we alle gekende gateways. 
-     * Dit zorgt er voor dat eventuele resources die de gateways vast hebben 
-     * niet meer geserialiseerd worden. 
-     * 
+     * Indien we het object serialiseren, verwijderen we alle gekende gateways.
+     * Dit zorgt er voor dat eventuele resources die de gateways vast hebben
+     * niet meer geserialiseerd worden.
+     *
      * @since 1.4.2
      * @return void
      */

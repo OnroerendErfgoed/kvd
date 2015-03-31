@@ -2,10 +2,8 @@
 /**
  * @package KVD.util
  * @subpackage htmlfile
- * @version $Id: KVDutil_HtmlFile.class.php 1 2007-10-05 13:16:16Z standadi $
  * @copyright 2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Dieter Standaert <dieter.standaert@eds.com> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author Dieter Standaert <dieter.standaert@eds.com>
  */
 
 /**
@@ -16,27 +14,26 @@
  * @subpackage huisnummer
  * @since september 2007
  * @copyright 2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Dieter Standaert <dieter.standaert@eds.com> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author Dieter Standaert <dieter.standaert@eds.com>
  */
 class KVDutil_HtmlFile {
-	
+
 	/**
 	 * @var string contents - de contents of the html file
 	 */
 	private $contents;
-	
+
 	/**
 	 * @var string title - title of the html page
 	 */
 	private $title;
-	
+
 
 	/**
 	 * @var string encoding for output strings
 	 */
 	private $encoding = "UTF-8";
-	
+
 	/**
 	 * __construct
 	 * @param string contents of the html page
@@ -46,7 +43,7 @@ class KVDutil_HtmlFile {
 		$this->contents = $contents;
 		$this->parseTitle();
 	}
-	
+
 	/**
 	 * getTitle
 	 * @return string the title of the html page
@@ -55,7 +52,7 @@ class KVDutil_HtmlFile {
 	{
 		return KVDutil_HtmlFile::ensureEncoding($this->title, $this->encoding);
 	}
-	
+
 	/**
 	 * getContents
 	 * @return string the contents of the html page
@@ -64,7 +61,7 @@ class KVDutil_HtmlFile {
 	{
 		return KVDutil_HtmlFile::ensureEncoding($this->contents, $this->encoding);
 	}
-	
+
 	/**
 	 * parseTitle
 	 * @return void
@@ -80,11 +77,11 @@ class KVDutil_HtmlFile {
 			$this->title = "";
 		}
 	}
-	
-	
-	/** 
+
+
+	/**
 	 * stripComment
-	 * @param string content 
+	 * @param string content
 	 * @return string content
 	 */
 	private static function stripComment($content)
@@ -92,7 +89,7 @@ class KVDutil_HtmlFile {
 		$result = preg_replace("#<\!\-\-.*\-\->#Us", "", $content);
 		return $result;
 	}
-	
+
 	/**
 	 * openFile
 	 *  Open een bestand (lokaal of remote).
@@ -103,15 +100,15 @@ class KVDutil_HtmlFile {
 	 * @return  KVDutil_HtmlFile
 	 */
 	public static function openFile($file, $flags = false, $context = null)
-	{	
+	{
 		if (!$content = file_get_contents($file, $flags, $context)){
 			throw new Exception("Bestand niet gevonden");
 		}
-		$htmlfile = KVDutil_HtmlFile::openContent($content);	
+		$htmlfile = KVDutil_HtmlFile::openContent($content);
 		return $htmlfile;
 	}
 
-	
+
 	/**
 	 * openContent
 	 *  Open een HTML string.
@@ -122,13 +119,13 @@ class KVDutil_HtmlFile {
 	public static function openContent($content)
 	{
 		$nocomment = KVDutil_HtmlFile::stripComment($content);
-		return new KVDutil_HtmlFile($nocomment);			
+		return new KVDutil_HtmlFile($nocomment);
 	}
-	
+
 
 	/**
 	 * ensureEncoding
-	 * 
+	 *
 	 * @param   string  $string     string to be encoded
      * @param   string  $encoding   encoding waarnaar moet omgezet worden
 	 * @return  string  in proper encoding.
@@ -142,18 +139,18 @@ class KVDutil_HtmlFile {
 			return mb_convert_encoding($string, $encoding, $source_encoding);
 		}
 	}
-	
-	
+
+
 	/**
 	 * setEncoding
 	 *  sets the encoding for this class.
 	 * @param string encoding
-	 */	
+	 */
 	public function setEncoding($encoding)
 	{
 		$this->encoding = $encoding;
 	}
-	
+
 	/**
 	 * getSourceEncoding
 	 *  returns the encoding of the original document.
@@ -162,7 +159,7 @@ class KVDutil_HtmlFile {
 	public function getSourceEncoding()
 	{
 		return mb_detect_encoding($this->contents,  'UTF-8, ISO-8859-1');
-	}	
+	}
 	/**
 	 * getTitleEncoding
 	 *  returns the encoding of the original document.
@@ -172,7 +169,7 @@ class KVDutil_HtmlFile {
 	{
 		return mb_detect_encoding($this->title,  'UTF-8, ISO-8859-1');
 	}
-	
+
 	/**
 	 * getTargetEncoding
 	 *  returns the encoding from the get-functions
