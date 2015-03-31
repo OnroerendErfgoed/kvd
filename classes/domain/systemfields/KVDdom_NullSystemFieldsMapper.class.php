@@ -2,29 +2,26 @@
 /**
  * @package KVD.dom
  * @subpackage systemfields
- * @version $Id$
  * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
- * KVDdom_NullSystemFieldsMapper 
- * 
+ * KVDdom_NullSystemFieldsMapper
+ *
  * @package KVD.dom
  * @subpackage systemfields
  * @since 1 jul 2007
  * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 class KVDdom_NullSystemFieldsMapper extends KVDdom_AbstractSystemFieldsMapper
 {
     /**
-     * doLoadSystemFields 
-     * 
-     * @param StdClass $row 
-     * @param string $prefix 
+     * doLoadSystemFields
+     *
+     * @param StdClass $row
+     * @param string $prefix
      * @return KVDdom_NullSystemFields
      */
     public function doLoadSystemFields( $row , $prefix = null )
@@ -33,9 +30,9 @@ class KVDdom_NullSystemFieldsMapper extends KVDdom_AbstractSystemFieldsMapper
     }
 
     /**
-     * newNull 
-     * 
-     * @param integer $versie 
+     * newNull
+     *
+     * @param integer $versie
      * @return KVDdom_NullSystemFields
      */
     public function newNull( $versie = 0)
@@ -44,10 +41,10 @@ class KVDdom_NullSystemFieldsMapper extends KVDdom_AbstractSystemFieldsMapper
     }
 
     /**
-     * updateSystemFields 
-     * 
-     * @param KVdom_DomainObject $domainObject 
-     * @param string $gebruiker 
+     * updateSystemFields
+     *
+     * @param KVdom_DomainObject $domainObject
+     * @param string $gebruiker
      * @return void
      */
     public function updateSystemFields( KVDdom_DomainObject $domainObject , $gebruiker=null)

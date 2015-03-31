@@ -1,29 +1,26 @@
-<?php    
+<?php
 /**
  * @package KVD.dom
  * @subpackage systemfields
- * @version $Id$
  * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
- * KVDdom_RedigeerbareSystemFieldsMapper 
- * 
+ * KVDdom_RedigeerbareSystemFieldsMapper
+ *
  * @package KVD.dom
  * @subpackage systemfields
  * @since 9 jul 2007
  * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 class KVDdom_LegacySystemFieldsMapper extends KVDdom_AbstractSystemFieldsMapper
 {
 
     /**
      * De velden die nodig zijn voor het SystemFields object.
-     * 
+     *
      * @var string
      */
     protected $systemFields = "gebruiker, bewerkt_op, versie, gecontroleerd, gecontroleerd_door, gecontroleerd_op";
@@ -53,7 +50,7 @@ class KVDdom_LegacySystemFieldsMapper extends KVDdom_AbstractSystemFieldsMapper
                                                 $row->$gecontroleerdDoor,
                                                 strtotime( $row->$gecontroleerdOp ) );
     }
-     
+
     /**
      * Stel de waarden van het SystemFields object in in de SQL statement
      *
@@ -76,11 +73,11 @@ class KVDdom_LegacySystemFieldsMapper extends KVDdom_AbstractSystemFieldsMapper
         $stmt->bindValue( $startIndex++ , $systemFields->getGecontroleerdOp( ) , PDO::PARAM_STR );
         return $startIndex;
     }
-        
+
     /**
-     * newNull 
-     * 
-     * @param integer $versie 
+     * newNull
+     *
+     * @param integer $versie
      * @return KVDdom_LegacySystemFields
      */
     public function newNull( $versie = 0 )
@@ -89,10 +86,10 @@ class KVDdom_LegacySystemFieldsMapper extends KVDdom_AbstractSystemFieldsMapper
     }
 
     /**
-     * updateSystemFields 
-     * 
-     * @param KVDdom_DomainObject $domainObject 
-     * @param string $gebruiker 
+     * updateSystemFields
+     *
+     * @param KVDdom_DomainObject $domainObject
+     * @param string $gebruiker
      * @return void
      */
     public function updateSystemFields( KVDdom_DomainObject $domainObject , $gebruiker = null )

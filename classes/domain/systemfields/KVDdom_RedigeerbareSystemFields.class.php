@@ -2,23 +2,20 @@
 /**
  * @package KVD.dom
  * @subpackage systemfields
- * @version $Id$
  * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
-    
+
 /**
- * KVDdom_RedigeerbareSystemFields 
- * 
+ * KVDdom_RedigeerbareSystemFields
+ *
  * Een class die de status van DomainObjects bijhoudt. De datamapping wordt verzorgd door de datamapper van het object waar het toe hoort.
  * Hiervoor beschikt dit object over een KVDdom_RedigeerbareSystemFieldsMapper.
  * @package KVD.dom
  * @subpackage systemfields
  * @since 12 jul 2007
  * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 class KVDdom_RedigeerbareSystemFields extends KVDdom_ChangeableSystemFields {
 
@@ -31,8 +28,8 @@ class KVDdom_RedigeerbareSystemFields extends KVDdom_ChangeableSystemFields {
     protected $gecontroleerdDoor;
 
     /**
-     * aangemaaktOp 
-     * 
+     * aangemaaktOp
+     *
      * Datum en tijd waarop het object werd gecontroleerd
      * @var DateTime
      */
@@ -47,7 +44,7 @@ class KVDdom_RedigeerbareSystemFields extends KVDdom_ChangeableSystemFields {
      * @param DateTime $bewerktOp Wanneer werd dit record het laatst bewerkt, null indien het nog nooit bewerkt werd.
      * @param string $gecontroleerdDoor Wie heeft het record bewerkt, null indien het nog niet gecontroleerd werd.
      * @param DateTime $gecontroleerdOp Wanneer werd dit record het laatst bewerkt, null indien het nog nooit gecontroleerd werd.
-     */ 
+     */
     public function __construct ( $aangemaaktDoor, DateTime $aangemaaktOp = null, $versie = 0, $bewerktDoor = null, DateTime $bewerktOp = null, $gecontroleerdDoor = null, DateTime $gecontroleerdOp = null)
     {
         parent::__construct( $aangemaaktDoor , $aangemaaktOp, $versie, $bewerktDoor, $bewerktOp, $gecontroleerdDoor, $gecontroleerdOp );
@@ -57,7 +54,7 @@ class KVDdom_RedigeerbareSystemFields extends KVDdom_ChangeableSystemFields {
     }
 
     /**
-     * Verhoog de versie-informatie in het object naar de volgende versie. 
+     * Verhoog de versie-informatie in het object naar de volgende versie.
      *
      * Indien een andere actor al de opdracht heeft gegeven, wordt deze update niet meer uitgevoerd. Dit maakt het mogelijk om SystemFields te delen tussen objecten.
      * @param string $gebruikersNaam Naam van de gebruiker die de update uitvoerde. Indien afwezig wordt de huidige gebruiker behouden.
@@ -83,7 +80,7 @@ class KVDdom_RedigeerbareSystemFields extends KVDdom_ChangeableSystemFields {
     }
 
     /**
-     * @return string 
+     * @return string
      */
     public function getGecontroleerdDoor()
     {
@@ -99,8 +96,8 @@ class KVDdom_RedigeerbareSystemFields extends KVDdom_ChangeableSystemFields {
     }
 
     /**
-     * isGecontroleerd 
-     * 
+     * isGecontroleerd
+     *
      * @return boolean
      */
     public function isGecontroleerd( )
@@ -109,8 +106,8 @@ class KVDdom_RedigeerbareSystemFields extends KVDdom_ChangeableSystemFields {
     }
 
     /**
-     * setApproved 
-     * 
+     * setApproved
+     *
      * @param string $gebruikersNaam Naam van de gebruiker die de controle uitvoerde
      * @throws <b>KVDdom_RedactieException</b> Indien u probeert een record goed te keuren dat al goedgekeurd is.
      * @return void
@@ -125,8 +122,8 @@ class KVDdom_RedigeerbareSystemFields extends KVDdom_ChangeableSystemFields {
     }
 
     /**
-     * newNull 
-     * 
+     * newNull
+     *
      * @return KVDdom_RedigeerbareSystemFields
      */
     public static function newNull( )

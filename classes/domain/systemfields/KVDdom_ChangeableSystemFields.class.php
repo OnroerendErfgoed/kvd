@@ -2,23 +2,20 @@
 /**
  * @package KVD.dom
  * @subpackage systemfields
- * @version $Id$
  * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
-    
+
 /**
- * KVDdom_ChangeableSystemFields 
- * 
+ * KVDdom_ChangeableSystemFields
+ *
  * Een class die de status van DomainObjects bijhoudt. De datamapping wordt verzorgd door de datamapper van het object waar het toe hoort.
  * Hiervoor beschikt dit object over een KVDdom_ChangeableSystemFieldsMapper.
  * @package KVD.dom
  * @subpackage systemfields
  * @since 12 jul 2007
  * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 class KVDdom_ChangeableSystemFields {
 
@@ -31,15 +28,15 @@ class KVDdom_ChangeableSystemFields {
     protected $aangemaaktDoor;
 
     /**
-     * aangemaaktOp 
-     * 
+     * aangemaaktOp
+     *
      * Datum en tijd waarop het object werd aangemaakt
      * @var DateTime
      */
     protected $aangemaaktOp;
 
     /**
-     * bewerktDoor 
+     * bewerktDoor
      *
      * De gebruiker die het record voor het eerst heeft ingevoerd.
      * @var string Een gebruikersnaam zoals ze voorkomt in de databank.
@@ -47,8 +44,8 @@ class KVDdom_ChangeableSystemFields {
     protected $bewerktDoor;
 
     /**
-     * bewerktOp 
-     * 
+     * bewerktOp
+     *
      * Datum en tijd waarop het object werd bewerkt.
      * @var DateTime
      */
@@ -61,8 +58,8 @@ class KVDdom_ChangeableSystemFields {
     protected $versie;
 
     /**
-     * targetVersie 
-     * 
+     * targetVersie
+     *
      * Een versienummer. Belangrijk voor de Concurrency Control. Implementatie van Optimistic Offline Concurrency (POEAA).
      * Dit is het versienummer waarnaar geupdate wordt in geval van een update.
      * @var integer
@@ -70,8 +67,8 @@ class KVDdom_ChangeableSystemFields {
     protected $targetVersie;
 
     /**
-     * locked 
-     * 
+     * locked
+     *
      * @var boolean
      */
     protected $locked;
@@ -83,7 +80,7 @@ class KVDdom_ChangeableSystemFields {
      * @param integer $versie Huidige versie van het record.
      * @param string $bewerktDoor Wie heeft het record bewerkt, null indien het nog niet bewerkt werd.
      * @param integer $bewerktOp Wanneer werd dit record het laatst bewerkt, null indien het nog nooit bewerkt werd.
-     */ 
+     */
     public function __construct ( $aangemaaktDoor, DateTime $aangemaaktOp = null, $versie = 0, $bewerktDoor = null, DateTime $bewerktOp = null)
     {
         if ($aangemaaktOp == null) {
@@ -98,7 +95,7 @@ class KVDdom_ChangeableSystemFields {
     }
 
     /**
-     * Verhoog de versie-informatie in het object naar de volgende versie. 
+     * Verhoog de versie-informatie in het object naar de volgende versie.
      *
      * Indien een andere actor al de opdracht heeft gegeven, wordt deze update niet meer uitgevoerd. Dit maakt het mogelijk om SystemFields te delen tussen objecten.
      * @param string $gebruikersNaam Naam van de gebruiker die de update uitvoerde. Indien afwezig wordt de huidige gebruiker behouden.
@@ -119,7 +116,7 @@ class KVDdom_ChangeableSystemFields {
     }
 
     /**
-     * @return string 
+     * @return string
      */
     public function getAangemaaktDoor()
     {
@@ -143,8 +140,8 @@ class KVDdom_ChangeableSystemFields {
     }
 
     /**
-     * getTargetVersie 
-     * 
+     * getTargetVersie
+     *
      * Dit geeft het versie-nummer terug waarnaar moet geupdate worden. Indien er nog geen updateSystemFields heeft plaatsgevonden is dit gelijk aan het initiele versienummer.
      * Belangrijk voor mappers die met een shared lock werken.
      * @return integer
@@ -163,8 +160,8 @@ class KVDdom_ChangeableSystemFields {
     }
 
     /**
-     * getBewerktDoor 
-     * 
+     * getBewerktDoor
+     *
      * @return string
      */
     public function getBewerktDoor( )
@@ -173,10 +170,10 @@ class KVDdom_ChangeableSystemFields {
     }
 
     /**
-     * isBewerkt 
+     * isBewerkt
      *
-     * @return  boolean     True indien het object al eens bewerkt werd sinds 
-     *                      het aanmaken. Dit is niet binnen een bepaalde sessie, 
+     * @return  boolean     True indien het object al eens bewerkt werd sinds
+     *                      het aanmaken. Dit is niet binnen een bepaalde sessie,
      *                      maar sinds de aanmaak in de databank.
      */
     public function isBewerkt( )
@@ -185,8 +182,8 @@ class KVDdom_ChangeableSystemFields {
     }
 
     /**
-     * newNull 
-     * 
+     * newNull
+     *
      * @return KVDdom_ChangeableSystemFields
      */
     public static function newNull( )

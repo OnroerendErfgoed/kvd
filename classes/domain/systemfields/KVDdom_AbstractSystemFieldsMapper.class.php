@@ -2,34 +2,31 @@
 /**
  * @package KVD.dom
  * @subpackage systemfields
- * @version $Id$
  * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
- * KVDdom_AbstractSystemFieldsMapper 
- * 
+ * KVDdom_AbstractSystemFieldsMapper
+ *
  * @package KVD.dom
  * @subpackage systemfields
  * @since 27 jun 2007
  * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 abstract class KVDdom_AbstractSystemFieldsMapper
 {
     /**
-     * systemFields 
-     * 
+     * systemFields
+     *
      * @var string
      */
     protected $systemFields = "";
 
     /**
-     * getSystemFields 
-     * 
+     * getSystemFields
+     *
      * @return string
      */
     public function getSystemFields( )
@@ -38,13 +35,13 @@ abstract class KVDdom_AbstractSystemFieldsMapper
     }
 
     /**
-     * getSystemFieldsString 
-     * 
-     * Stel de string samen om de system fields uit een bepaalde tabel te halen op basis van de tabelnaam en 
+     * getSystemFieldsString
+     *
+     * Stel de string samen om de system fields uit een bepaalde tabel te halen op basis van de tabelnaam en
      * het al dan niet zijn van een logtabel.
-     * @param string    $tabelNaam 
-     * @param boolean   $logTabel 
-     * @param string    $systemFields 
+     * @param string    $tabelNaam
+     * @param boolean   $logTabel
+     * @param string    $systemFields
      * @return string
      */
     public function getSystemFieldsString ( $tabelNaam , $logTabel = false , $systemFields = null )
@@ -62,8 +59,8 @@ abstract class KVDdom_AbstractSystemFieldsMapper
     }
 
     /**
-     * getUpdateSystemFieldsString 
-     * 
+     * getUpdateSystemFieldsString
+     *
      * Een sql string die kan gebruikt worden in een update statement om de systemfields te updaten ( bv. versie = ?, gebruiker = ? ).
      * @return string
      */
@@ -77,8 +74,8 @@ abstract class KVDdom_AbstractSystemFieldsMapper
     }
 
     /**
-     * getInsertSystemFieldsString 
-     * 
+     * getInsertSystemFieldsString
+     *
      * Een sql string die kan gebruikt worden in een insert statement om de systemfields aan te maken ( bv. ?, ? ). Komt neer op een string met
      * voor elk SystemField een placeholder.
      * @return string
@@ -90,17 +87,17 @@ abstract class KVDdom_AbstractSystemFieldsMapper
     }
 
     /**
-     * doLoadSystemFields 
-     * 
-     * @param StdClass  $row 
-     * @param string    $prefix 
+     * doLoadSystemFields
+     *
+     * @param StdClass  $row
+     * @param string    $prefix
      * @return KVDdom_ISystemFields
      */
     abstract public function doLoadSystemFields( $row , $prefix = null );
 
     /**
-     * doSetSytemFields 
-     * 
+     * doSetSytemFields
+     *
      * Stel de sytemfields in op het pdo statement.
      * @param PDOStatement          $stmt
      * @param KVDdom_DomainIbject   $sf             DomainObject waarvan de systemFields moeten ingesteld worden.
@@ -114,17 +111,17 @@ abstract class KVDdom_AbstractSystemFieldsMapper
 
     /**
      * newNull
-     * 
-     * @param integer $versie 
+     *
+     * @param integer $versie
      * @return KVDdom_ISystemFields
      */
     abstract public function newNull( $versie = null );
 
     /**
-     * create 
-     * 
+     * create
+     *
      * @todo Dingend refactoren, naar iets configureerbaars?
-     * @param string $mapper 
+     * @param string $mapper
      * @return KVDdom_AbstractSystemFieldsMapper
      */
     public static function create( $mapper )
@@ -149,10 +146,10 @@ abstract class KVDdom_AbstractSystemFieldsMapper
     }
 
     /**
-     * updateSystemFields 
-     * 
+     * updateSystemFields
+     *
      * @param KVDdom_DomainObject $domainObject
-     * @param string $gebruiker 
+     * @param string $gebruiker
      * @return void
      */
     abstract public function updateSystemFields( KVDdom_DomainObject $domainObject , $gebruiker=null);

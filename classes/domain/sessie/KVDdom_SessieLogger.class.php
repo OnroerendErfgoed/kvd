@@ -1,25 +1,19 @@
 <?php
 /**
- * KVDdom_SessieLogger
- * 
- * Deze class doet dienst als interface en een soort nullLogger tegelijk.
  * @package KVD.dom
  * @subpackage Sessie
  * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
- * @version $Id$
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
  * KVDdom_SessieLogger
- * 
+ *
  * Deze class doet dienst als interface en een soort nullLogger tegelijk.
  * @package KVD.dom
  * @subpackage Sessie
  * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  * @since 9 aug 2006
  */
 class KVDdom_SessieLogger
