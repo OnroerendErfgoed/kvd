@@ -2,43 +2,40 @@
 /**
  * @package     KVD.dom
  * @subpackage  fields
- * @version     $Id$
  * @copyright   2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
- * KVDdom_Fields_ArrayField 
- * 
- * Dit soort veld kan gebruikt worden om arrays van letterlijke waarden 
- * ( string, integer, ... ) op te slaan. Voor arrays van 
- * {@link KVDdom_DomainObject} moet het {@link KVDdom_Fields_CollectionField} 
+ * KVDdom_Fields_ArrayField
+ *
+ * Dit soort veld kan gebruikt worden om arrays van letterlijke waarden
+ * ( string, integer, ... ) op te slaan. Voor arrays van
+ * {@link KVDdom_DomainObject} moet het {@link KVDdom_Fields_CollectionField}
  * gebruikt worden.
  *
  * @package     KVD.dom
  * @subpackage  fields
  * @since       3 sep 2010
  * @copyright   2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 class KVDdom_Fields_ArrayField extends KVDdom_Fields_AbstractField
 {
 
     /**
-     * type 
-     * 
+     * type
+     *
      * @var string
      */
     protected $type;
 
     /**
-     * __construct 
-     * 
-     * @param KVDdom_DomainObject   $dom 
-     * @param string                $name 
-     * @param string                $type 
+     * __construct
+     *
+     * @param KVDdom_DomainObject   $dom
+     * @param string                $name
+     * @param string                $type
      * @return void
      */
     public function __construct( KVDdom_DomainObject $dom, $name, $type = null )
@@ -49,8 +46,8 @@ class KVDdom_Fields_ArrayField extends KVDdom_Fields_AbstractField
     }
 
     /**
-     * getType 
-     * 
+     * getType
+     *
      * @return string
      */
     public function getType( )
@@ -59,9 +56,9 @@ class KVDdom_Fields_ArrayField extends KVDdom_Fields_AbstractField
     }
 
     /**
-     * initializeValue 
-     * 
-     * @param   array $value 
+     * initializeValue
+     *
+     * @param   array $value
      * @return  void
      */
     public function initializeValue( $value )
@@ -70,8 +67,8 @@ class KVDdom_Fields_ArrayField extends KVDdom_Fields_AbstractField
     }
 
     /**
-     * getValue 
-     * 
+     * getValue
+     *
      * @return  array
      */
     public function getValue( )
@@ -80,8 +77,8 @@ class KVDdom_Fields_ArrayField extends KVDdom_Fields_AbstractField
     }
 
     /**
-     * setValue 
-     * 
+     * setValue
+     *
      * @param   array   $coll
      * @return  void
      */
@@ -94,9 +91,9 @@ class KVDdom_Fields_ArrayField extends KVDdom_Fields_AbstractField
     }
 
     /**
-     * add 
-     * 
-     * @param   mixed   $value 
+     * add
+     *
+     * @param   mixed   $value
      * @return  void
      */
     public function add( $value)
@@ -108,9 +105,9 @@ class KVDdom_Fields_ArrayField extends KVDdom_Fields_AbstractField
     }
 
     /**
-     * remove 
-     * 
-     * @param   mixed   $value 
+     * remove
+     *
+     * @param   mixed   $value
      * @return  void
      */
     public function remove( $value )
@@ -123,8 +120,8 @@ class KVDdom_Fields_ArrayField extends KVDdom_Fields_AbstractField
     }
 
     /**
-     * clear 
-     * 
+     * clear
+     *
      * @return void
      */
     public function clear( )

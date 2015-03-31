@@ -3,7 +3,6 @@
  * @package     KVD.dom
  * @subpackage  exception
  * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
- * @version     $Id$
  */
 
 /**
@@ -25,7 +24,7 @@ class KVDdom_DomainObjectNotFoundException extends Exception
      * @var mixed
      */
     private $id;
-    
+
     /**
      * @param string $msg
      * @param string $type
@@ -38,10 +37,10 @@ class KVDdom_DomainObjectNotFoundException extends Exception
         $this->id = $id ;
         $this->generateMessage();
     }
-    
+
     private function generateMessage ()
     {
-        $this->message .= " [DONotFound Error: Het record van het type {$this->getType()} met sleutel {$this->getId()}dat u probeert te openen kon niet gevonden worden.]";    
+        $this->message .= " [DONotFound Error: Het record van het type {$this->getType()} met sleutel {$this->getId()}dat u probeert te openen kon niet gevonden worden.]";
     }
 
      /**

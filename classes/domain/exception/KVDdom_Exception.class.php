@@ -2,21 +2,18 @@
 /**
  * @package     KVD.dom
  * @subpackage  exception
- * @version     $Id$
  * @copyright   2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author      Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
- * KVDdom_Exception 
- * 
+ * KVDdom_Exception
+ *
  * @package     KVD.dom
  * @subpackage  exception
  * @since       23 mrt 2010
  * @copyright   2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 class KVDdom_Exception extends Exception
 {
@@ -36,7 +33,7 @@ class KVDdom_ConcurrencyException extends Exception
      * @var KVDdom_DomainObject
      */
     protected $domainObject;
-    
+
     /**
      * @param string $msg
      * @param KVDdom_DomainObject $domainObject
@@ -91,21 +88,21 @@ class KVDdom_IncompleteSessieCommitException extends Exception
 }
 
 /**
- * KVDdom_ReferenceViolationException 
- * 
+ * KVDdom_ReferenceViolationException
+ *
  * @package KVD.dom.exception
  * @since 27 april 2007
  * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDdom_ReferenceViolationException extends Exception
 {
     protected $domainObject;
-    
+
     /**
-     * __construct 
-     * 
+     * __construct
+     *
      * @param KVDdom_DomainObject   $domainObject
      * @param PDOException          $exception
      * @return void
@@ -127,8 +124,8 @@ class KVDdom_ReferenceViolationException extends Exception
     }
 
     /**
-     * getException 
-     * 
+     * getException
+     *
      * De PDOException die de fout aangeeft.
      * @return PDOException
      */
@@ -139,39 +136,39 @@ class KVDdom_ReferenceViolationException extends Exception
 }
 
 /**
- * KVDdom_MapperConfigurationException 
- * 
+ * KVDdom_MapperConfigurationException
+ *
  * @package KVD.dom.exception
  * @since 24 mei 2007
  * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
-class KVDdom_MapperConfigurationException extends Exception 
+class KVDdom_MapperConfigurationException extends Exception
 {
-    public function __construct( $msg , $mapper ) 
+    public function __construct( $msg , $mapper )
     {
         $this->message .= " [Mapper Configuratie Error: " . get_class( $mapper ) . "] " . $msg;
     }
 }
 
 /**
- * KVDdom_OngeldigeTypeException 
- * 
+ * KVDdom_OngeldigeTypeException
+ *
  * @package KVD.dom.exception
  * @since 19 dec 2007
  * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDdom_OngeldigTypeException extends Exception
 {
     public function __construct( $gekregenType, $gevraagdType )
     {
-        $this->message .= " [Ongeldig Type: U probeert een bewerking uit te voeren met een object 
-        dat een ander type heeft dat de collection waarop u de bewerking uitvoert. U probeert een $gekregenType 
+        $this->message .= " [Ongeldig Type: U probeert een bewerking uit te voeren met een object
+        dat een ander type heeft dat de collection waarop u de bewerking uitvoert. U probeert een $gekregenType
         toe te voegen aan een collectie van het type $gevraagdType]";
     }
-    
+
 }
 ?>

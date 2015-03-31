@@ -2,35 +2,32 @@
 /**
  * @package     KVD.dom
  * @subpackage  fields
- * @version     $Id$
  * @copyright   2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
- * KVDdom_Fields_SingleField 
- * 
+ * KVDdom_Fields_SingleField
+ *
  * @package     KVD.dom
  * @subpackage  fields
  * @since       11 feb 2010
  * @copyright   2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 class KVDdom_Fields_SingleField extends KVDdom_Fields_AbstractField
 {
     /**
-     * default 
-     * 
+     * default
+     *
      * De standaard waarde die een veld heeft als het niet ingevuld is.
      * @var mixed
      */
     protected $default;
 
     /**
-     * type 
-     * 
+     * type
+     *
      * Het type van het veld. Wordt voorlopig nog niet gebruikt, maar kan
      * toegevoegd worden in de toekomst.
      * @var string
@@ -38,12 +35,12 @@ class KVDdom_Fields_SingleField extends KVDdom_Fields_AbstractField
     protected $type;
 
     /**
-     * __construct 
-     * 
-     * @param   KVDdom_DomainObject     $dom 
-     * @param   string                  $name 
-     * @param   mixed                   $default 
-     * @param   string                  $type 
+     * __construct
+     *
+     * @param   KVDdom_DomainObject     $dom
+     * @param   string                  $name
+     * @param   mixed                   $default
+     * @param   string                  $type
      * @return  void
      */
     public function __construct( KVDdom_DomainObject $dom, $name, $default = null, $type = null )
@@ -55,8 +52,8 @@ class KVDdom_Fields_SingleField extends KVDdom_Fields_AbstractField
 
 
     /**
-     * getDefaultValue 
-     * 
+     * getDefaultValue
+     *
      * @return mixed
      */
     public function getDefaultValue( )
@@ -65,8 +62,8 @@ class KVDdom_Fields_SingleField extends KVDdom_Fields_AbstractField
     }
 
     /**
-     * getType 
-     * 
+     * getType
+     *
      * @return string
      */
     public function getType( )
@@ -75,8 +72,8 @@ class KVDdom_Fields_SingleField extends KVDdom_Fields_AbstractField
     }
 
     /**
-     * getValue 
-     * 
+     * getValue
+     *
      * @return mixed
      */
     public function getValue( )
@@ -85,9 +82,9 @@ class KVDdom_Fields_SingleField extends KVDdom_Fields_AbstractField
     }
 
     /**
-     * setValue 
-     * 
-     * @param   mixed $value 
+     * setValue
+     *
+     * @param   mixed $value
      * @return  void
      */
     public function setValue($value)
@@ -99,9 +96,9 @@ class KVDdom_Fields_SingleField extends KVDdom_Fields_AbstractField
     }
 
     /**
-     * initializeValue 
-     * 
-     * @param   mixed $value 
+     * initializeValue
+     *
+     * @param   mixed $value
      * @return  void
      */
     public function initializeValue( $value )

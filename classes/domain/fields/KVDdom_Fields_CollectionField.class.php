@@ -2,63 +2,60 @@
 /**
  * @package     KVD.dom
  * @subpackage  fields
- * @version     $Id$
  * @copyright   2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
- * KVDdom_Fields_CollectionField 
- * 
+ * KVDdom_Fields_CollectionField
+ *
  * @package     KVD.dom
  * @subpackage  fields
  * @since       23 feb 2010
  * @copyright   2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 class KVDdom_Fields_CollectionField extends KVDdom_Fields_AbstractField
 {
     const PLACEHOLDER = 'TE LADEN';
 
     /**
-     * type 
-     * 
+     * type
+     *
      * @var string
      */
     protected $type;
 
     /**
-     * sessie 
-     * 
+     * sessie
+     *
      * @var KVDdom_IReadSessie
      */
     protected $sessie;
 
     /**
-     * mapper 
-     * 
+     * mapper
+     *
      * @var string
      */
     protected $mapper;
 
     /**
-     * finder 
-     * 
+     * finder
+     *
      * @var string
      */
     protected $finder;
 
     /**
-     * __construct 
-     * 
-     * @param KVDdom_DomainObject   $dom 
-     * @param string                $name 
-     * @param string                $type 
-     * @param KVDdom_IReadSessie    $sessie 
-     * @param string                $domain_object_mapper 
-     * @param string                $finder 
+     * __construct
+     *
+     * @param KVDdom_DomainObject   $dom
+     * @param string                $name
+     * @param string                $type
+     * @param KVDdom_IReadSessie    $sessie
+     * @param string                $domain_object_mapper
+     * @param string                $finder
      * @return void
      */
     public function __construct( KVDdom_DomainObject $dom, $name, $type = null, KVDdom_IReadSessie $sessie = null, $domain_object_mapper = null, $finder = null )
@@ -72,8 +69,8 @@ class KVDdom_Fields_CollectionField extends KVDdom_Fields_AbstractField
     }
 
     /**
-     * getType 
-     * 
+     * getType
+     *
      * @return string
      */
     public function getType( )
@@ -82,8 +79,8 @@ class KVDdom_Fields_CollectionField extends KVDdom_Fields_AbstractField
     }
 
     /**
-     * checkValues 
-     * 
+     * checkValues
+     *
      * @return void
      */
     protected function checkValues( )
@@ -94,9 +91,9 @@ class KVDdom_Fields_CollectionField extends KVDdom_Fields_AbstractField
     }
 
     /**
-     * initializeValue 
-     * 
-     * @param   KVDdom_EditeerbareDomainObjectCollection   $value 
+     * initializeValue
+     *
+     * @param   KVDdom_EditeerbareDomainObjectCollection   $value
      * @return  void
      */
     public function initializeValue( $value )
@@ -105,8 +102,8 @@ class KVDdom_Fields_CollectionField extends KVDdom_Fields_AbstractField
     }
 
     /**
-     * getValue 
-     * 
+     * getValue
+     *
      * @return  KVDdom_DomainObjectCollection
      */
     public function getValue( )
@@ -116,8 +113,8 @@ class KVDdom_Fields_CollectionField extends KVDdom_Fields_AbstractField
     }
 
     /**
-     * setValue 
-     * 
+     * setValue
+     *
      * @param   KVDdom_DomainObjectCollection   $coll
      * @return  void
      */
@@ -131,9 +128,9 @@ class KVDdom_Fields_CollectionField extends KVDdom_Fields_AbstractField
     }
 
     /**
-     * add 
-     * 
-     * @param   KVDdom_DomainObject $value 
+     * add
+     *
+     * @param   KVDdom_DomainObject $value
      * @return  void
      */
     public function add( KVDdom_DomainObject $value)
@@ -146,9 +143,9 @@ class KVDdom_Fields_CollectionField extends KVDdom_Fields_AbstractField
     }
 
     /**
-     * remove 
-     * 
-     * @param   KVDdom_DomainObject $value 
+     * remove
+     *
+     * @param   KVDdom_DomainObject $value
      * @return  void
      */
     public function remove( KVDdom_DomainObject $value )
@@ -161,8 +158,8 @@ class KVDdom_Fields_CollectionField extends KVDdom_Fields_AbstractField
     }
 
     /**
-     * clear 
-     * 
+     * clear
+     *
      * @return void
      */
     public function clear( )

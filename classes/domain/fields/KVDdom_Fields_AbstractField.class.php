@@ -2,50 +2,47 @@
 /**
  * @package     KVD.dom
  * @subpackage  fields
- * @version     $Id$
  * @copyright   2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
- * KVDdom_Fields_AbstractField 
- * 
+ * KVDdom_Fields_AbstractField
+ *
  * @package     KVD.dom
  * @subpackage  fields
  * @since       11 feb 2010
  * @copyright   2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 abstract class KVDdom_Fields_AbstractField
 {
     /**
-     * dom 
-     * 
+     * dom
+     *
      * @var KVDdom_DomainObject
      */
     protected $dom;
 
     /**
-     * name 
-     * 
+     * name
+     *
      * @var string
      */
     protected $name;
 
     /**
-     * value 
-     * 
+     * value
+     *
      * @var mixed
      */
     protected $value;
 
     /**
-     * __construct 
-     * 
-     * @param   KVDdom_DomainObject     $dom    Object waartoe het veld behoort 
-     * @param   string                  $name   Naam van het veld           
+     * __construct
+     *
+     * @param   KVDdom_DomainObject     $dom    Object waartoe het veld behoort
+     * @param   string                  $name   Naam van het veld
      * @return  void
      */
     public function __construct( KVDdom_DomainObject $dom, $name )
@@ -55,8 +52,8 @@ abstract class KVDdom_Fields_AbstractField
     }
 
     /**
-     * getName 
-     * 
+     * getName
+     *
      * Naam van het veld
      * @return string
      */
@@ -66,17 +63,17 @@ abstract class KVDdom_Fields_AbstractField
     }
 
     /**
-     * getValue 
-     * 
+     * getValue
+     *
      * De huidige waarde van het veld
      * @return mixed
      */
     abstract public function getValue(  );
 
     /**
-     * setValue 
-     * 
-     * Stel een nieuwe waarde voor het veld. Voor een meervoudig veld zal dit 
+     * setValue
+     *
+     * Stel een nieuwe waarde voor het veld. Voor een meervoudig veld zal dit
      * alle veldwaarden vervangen.
      * @param   mixed   $value
      * @return  void
@@ -84,12 +81,12 @@ abstract class KVDdom_Fields_AbstractField
     abstract public function setValue( $value  );
 
     /**
-     * initializeValue 
-     * 
+     * initializeValue
+     *
      * Methode om een veld een startwaarde toe te kennen.
      * Dit zal er niet toe leiden dat het object als
      * dirty gemarkeerd wordt.
-     * @param   mixed $value 
+     * @param   mixed $value
      * @return  void
      */
     abstract public function initializeValue( $value );
