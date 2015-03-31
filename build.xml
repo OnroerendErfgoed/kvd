@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<project name="kvd" basedir=".">
+<project name="kvd" basedir="." default="runBuild">
 
 	<property file="${project.basedir}/build.properties" />
 
