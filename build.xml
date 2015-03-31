@@ -1,14 +1,7 @@
 <?xml version="1.0" ?>
-<project name="kvd" default="main" basedir=".">
+<project name="kvd" basedir=".">
 
 	<property file="${project.basedir}/build.properties" />
-
-	<property name="projectsDir" value="/data/projects/kvd" />
-
-	<property name="kvdLibDir" value="${projectsDir}/kvd" />
-	<property name="kvdSqlDir" value="${projectsDir}/kvd/sql" />
-	<property name="docsDir" value="/data/docs/kvd/kvd" />
-	<property name="agaviDir" value="/opt/csw/php5/lib/php/agavi/" />
 
 	<!-- Default values voor properties -->
 	<property name="crab.run_integration_tests" value="true" />
@@ -20,96 +13,6 @@
 	<property name="osm.proxy_port" value="" />
 
 	<taskdef name="generateautoloader" classname="phing.tasks.AutoloadGenerationTask" />
-
-	<target name="main" description="Overzicht van de mogelijke taken">
-		<echo msg="U kunt volgende taken uitvoeren:" />
-		<echo msg=" createSchema:	Maak de db-schema's van KVD_adr aan." />
-		<echo msg=" createSchema_1_1:	Update de db-schema's van KVD_adr naar versie 1.1." />
-		<echo msg=" clearCrabCache: Maak de crab cache leeg." />
-		<echo msg=" createCrabPackage: Genereer een pakket met de crab classes." />
-		<echo msg=" docs: Maak de API-documentatie aan." />
-	</target>
-
-	<target name="createSchema" description="Maak de schema's van deze applicatie aan.">
-		<echo msg="Bestaande schema's worden verwijderd." />
-		<pdo url="pgsql://oeibeheerder:jawwmefe@localhost/oei" autocommit="on" onerror="continue">
-			DROP SCHEMA kvd_adr CASCADE;
-		</pdo>
-		<echo msg="Bezig met aanmaken van schema kvd_adr." />
-		<pdo url="pgsql://oeibeheerder:jawwmefe@localhost/oei" src="${kvdSqlDir}/dbcreate/kvd_adr.psql" autocommit="off" onerror="abort"/>
-		<echo msg="Bezig met toekennen van rechten op schema kvd_adr." />
-		<pdo url="pgsql://oeibeheerder:jawwmefe@localhost/oei" src="${kvdSqlDir}/usergrant/kvd_adr.psql" autocommit="off" onerror="abort"/>
-		<echo msg="Bezig met vullen van de gemeentelijst." />
-		<pdo url="pgsql://oeibeheerder:jawwmefe@localhost/oei" src="${kvdSqlDir}/dbcreate/kvd_adr_fill_gemeenten.psql" autocommit="off" onerror="abort"/>
-		<echo msg="Bezig met vullen van de deelgemeentelijst." />
-		<pdo url="pgsql://oeibeheerder:jawwmefe@localhost/oei" src="${kvdSqlDir}/dbcreate/kvd_adr_fill_deelgemeenten.psql" autocommit="off" onerror="abort"/>
-	</target>
-
-	<target name="createSchema_1_1" description="Update de schemas naar versie 1.1">
-		<echo msg="Bezig met wijzigen van schema kvd_adr." />
-		<pdo url="pgsql://oeibeheerder:jawwmefe@localhost/oei" src="${kvdSqlDir}/dbcreate/kvd_adr_1_1.psql" autocommit="off" onerror="continue"/>
-		<echo msg="Bezig met toekennen van rechten op schema kvd_adr." />
-		<pdo url="pgsql://oeibeheerder:jawwmefe@localhost/oei" src="${kvdSqlDir}/usergrant/kvd_adr_1_1.psql" autocommit="off" onerror="abort"/>
-		<echo msg="Bezig met vullen van de kadastergemeentelijst." />
-		<pdo url="pgsql://oeibeheerder:jawwmefe@localhost/oei" src="${kvdSqlDir}/dbcreate/kvd_adr_fill_kadastergemeenten.psql" autocommit="off" onerror="abort"/>
-	</target>
-
-	<target name="clearCrabCache" description="Leeg de crab Cache.">
-		<echo msg="Alle bestanden in de crabcache worden gewist." />
-		<echo msg="Mogelijk mislukt dit omdat u geen schrijfrechten heb op de map." />
-		<delete verbose="true" >
-			<fileset dir="/tmp/crabcache">
-				<include name="*.crbcache" />
-			</fileset>
-		</delete>
-	</target>
-
-	<target name="createCrabPackage" description="Genereer een pakket met de crab classes.">
-		<property name="builddir"  value="${user.home}/phpCrab" />
-		<mkdir dir="${builddir}" />
-		<mkdir dir="${builddir}/docs" />
-		<copy todir="${builddir}/classes/gis">
-			<fileset dir="classes/gis" >
-				<include name="crab/*.class.php" />
-				<include name="geometry/*.class.php" />
-				<exclude name="geometry/KVDgis_GeomPolygon.class.php" />
-				<exclude name="geometry/KVDgis_GeomLine.class.php" />
-			</fileset>
-		</copy>
-		<copy todir="${builddir}/classes/util">
-			<fileset dir="classes/util" >
-				<include name="KVDutil_CacheFile.class.php" />
-				<include name="KVDutil_HuisnummerLabelSplitter.class.php" />
-				<include name="KVDutil_XMLSecurityKey.class.php" />
-				<include name="Gateway/*.class.php" />
-				<include name="soap/*.class.php" />
-			</fileset>
-		</copy>
-		<copy todir="${builddir}/tests">
-			<fileset dir="tests">
-				<include name="KVDgis_all.test.php" />
-			</fileset>
-		</copy>
-		<copy todir="${builddir}/tests/gis">
-			<fileset dir="tests/gis">
-				<include name="crab/*.test.php" />
-				<include name="geometry/*.test.php" />
-			</fileset>
-		</copy>
-		<copy todir="${builddir}/tests/util">
-			<fileset dir="tests/util">
-				<include name="KVDutil_GatewayFactory.test.php" />
-				<include name="KVDutil_GatewayRegistry.test.php" />
-				<include name="KVDutil_HuisnummerLabelSplitter.test.php" />
-			</fileset>
-		</copy>
-		<copy file="doc/phpCrab/README.TXT" toFile="${builddir}/README.TXT" />
-		<echo msg="De html documentatie wordt nu aangemaakt." />
-		<phpdoc title="phpCrab documentatie" destdir="${builddir}/docs" sourcepath="${builddir}/classes" output="HTML:frames:earthli" />
-		<echo msg="Er wordt een archief aangemaakt." />
-		<tar destfile="${user.home}/phpCrab.tar.gz" basedir="${builddir}" compression="gzip" />
-		<delete dir="${builddir}" />
-	</target>
 
 	<target name="createBuildDir">
 		<available file="build" property="build.build_dir_exists" />
@@ -229,26 +132,8 @@
 
 	</target>
 
-	<target name="genCodeSnifferReports" description="Maak rapporten over de staat van de code aan." depends="createBuildDir">
-		<delete dir="build/reports/sniffs" />
-		<mkdir dir="build/reports/sniffs" />
-		<exec command="phpcs --standard=${project.basedir}/dev/phpcs/VIOE/ruleset.xml ${project.basedir}/classes 
-			--ignore=${project.basedir}/classes/KVD_Autoload.php
-			--report-summary --report-full=${project.basedir}/build/reports/sniffs/sniffs.txt
-			--report-checkstyle=${project.basedir}/build/reports/sniffs/checkstyle.xml" />
-		<copy file="build/reports/sniffs/checkstyle.xml" tofile="build/bitten_lint.xml" overwrite="true">
-			<filterchain>
-				<xsltfilter style="phing/style/checkstyle_to_bitten.xslt" />
-				<replaceregexp>
-					<regexp pattern="${project.basedir}" replace="" />
-				</replaceregexp>
-			</filterchain>
-		</copy>
-	</target>
-
 	<target name="runBuild" description="Maak een volledig build met unit tests en documentatie." depends="createBuildDir">
 		<phingcall target="genTestReports" />
-		<phingcall target="genCodeSnifferReports" />
 		<phingcall target="genDocs" />
 	</target>
 
