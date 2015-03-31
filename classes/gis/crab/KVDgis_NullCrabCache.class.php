@@ -2,23 +2,20 @@
 /**
  * @package    KVD.gis
  * @subpackage crab
- * @version    $Id$
  * @copyright  2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
- * KVDgis_NullCrabCache 
- * 
+ * KVDgis_NullCrabCache
+ *
  * Een implementatie van het Special Case pattern, zorgt er voor dat er niets gecached wordt.
- * 
+ *
  * @package    KVD.gis
  * @subpackage crab
  * @since      jan 2006
  * @copyright  2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 class KVDgis_NullCrabCache extends KVDgis_CrabCache
 {
@@ -29,35 +26,35 @@ class KVDgis_NullCrabCache extends KVDgis_CrabCache
 
     /**
      *
-     * @param string functionName      
-     * @param array parameters      
+     * @param string functionName
+     * @param array parameters
      * @return string
      * @access public
      */
-    public function getCacheName( $functionName,  $parameters ) 
+    public function getCacheName( $functionName,  $parameters )
     {
         return null;
-    } 
+    }
 
     /**
      *
-     * @param string cacheName      
-     * @param string buffer      
+     * @param string cacheName
+     * @param string buffer
      * @return bool
      * @access public
      */
-    public function cachePut( $functionName , $parameters ,  $buffer ) 
+    public function cachePut( $functionName , $parameters ,  $buffer )
     {
         return false;
     }
 
     /**
      *
-     * @param string cacheName      
+     * @param string cacheName
      * @return mixed
      * @access public
      */
-    public function cacheGet( $functionName, $parameters ) 
+    public function cacheGet( $functionName, $parameters )
     {
         return false;
     }
@@ -74,7 +71,7 @@ class KVDgis_NullCrabCache extends KVDgis_CrabCache
     /**
      * @return void
      */
-    public function clearAllCaches( ) 
+    public function clearAllCaches( )
     {
     }
 

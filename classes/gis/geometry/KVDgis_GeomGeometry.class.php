@@ -1,11 +1,9 @@
 <?php
-/** 
+/**
  * @package    KVD.gis
  * @subpackage geometry
- * @version    $Id$
  * @copyright  2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
@@ -18,7 +16,6 @@
  * @since      jan 2006
  * @copyright  2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 abstract class KVDgis_GeomGeometry
 {
@@ -27,7 +24,6 @@ abstract class KVDgis_GeomGeometry
      */
     private $srid;
 
-    
     /**
      * @var boolean geeft aan of de reguliere expresses voor de types al geladen zijn
      */
@@ -52,8 +48,8 @@ abstract class KVDgis_GeomGeometry
      * @var string reguliere expressie voor een multi polygoon
      */
     protected $RE_MULTIPOLYGON;
-    
-    
+
+
     /**
      * @param integer $srid Spatial Referencing System Identifier
      */
@@ -81,7 +77,7 @@ abstract class KVDgis_GeomGeometry
         $this->RE_SIGNED = "(-|\+)?\d+(\.\d+)?";
         // Syntax: <signed numeric literal> <signed numeric literal>
         // Bijvoorbeeld: +0.235 -5.2
-        $this->RE_POINT = $this->RE_SIGNED."\s+".$this->RE_SIGNED; 
+        $this->RE_POINT = $this->RE_SIGNED."\s+".$this->RE_SIGNED;
         // Syntax: '(' <point> { ',' <point>}* ')'
         // Bijvoorbeeld: (+0.235 -5.2, 2 -5)
         $this->RE_LINESTRING = "\([\s\d\.\+-,]*\)";
@@ -90,12 +86,12 @@ abstract class KVDgis_GeomGeometry
         $KOPPELING = "[\s,]*";
         $this->RE_POLYGON = "\((".$KOPPELING.$this->RE_LINESTRING.")*\s*\)";
         // Syntax: '(' { <koppeling>?<polygon>}* ')'
-        // Bijvoorbeeld: (((+0.235 -5.2, 2 -5), (0.2 -5, 2 -15)), 
+        // Bijvoorbeeld: (((+0.235 -5.2, 2 -5), (0.2 -5, 2 -15)),
         // ((+12.235 -6.2, 3 -1), (0.9 -7, 3 -10)))
         $this->RE_MULTIPOLYGON = "\((".$KOPPELING.$this->RE_POLYGON.")*\s*\)";
-         
+
     }
-    
+
     /**
      * @param integer $srid Spatial Referencing System Identifier
      */
@@ -103,21 +99,21 @@ abstract class KVDgis_GeomGeometry
     {
         $this->srid = $srid;
     }
-    
+
     /**
      * @return integer Spatial Referencing System Identifier
      */
     public function getSrid ()
     {
-        return $this->srid;    
+        return $this->srid;
     }
 
     /**
-     * createFromText 
-     * 
+     * createFromText
+     *
      * @since   16 mei 2009
      * @throws  InvalidArgumentException    Indien de string ongeldig is.
-     * @param   string              $wkt 
+     * @param   string              $wkt
      * @return  KVDgis_GeomGeometry
      */
     public static function createFromText( $wkt )
@@ -137,7 +133,7 @@ abstract class KVDgis_GeomGeometry
             $g = new KVDgis_GeomLineString();
         } else {
             throw new InvalidArgumentException (
-                'Ongeldige Well-Known Text string: ' . $wkt . 
+                'Ongeldige Well-Known Text string: ' . $wkt .
                 "\n. Het door u opgegeven type wordt niet ondersteund.");
         }
         $g->setGeometryFromText( $wkt );
@@ -154,7 +150,7 @@ abstract class KVDgis_GeomGeometry
         $firstBrace = strpos($string, '(');
         if ($firstBrace === false) {
             throw new InvalidArgumentException (
-                'Ongeldige parameter. ' . $string . ' bevat geen openingshaakje!');    
+                'Ongeldige parameter. ' . $string . ' bevat geen openingshaakje!');
         }
         $lastBrace = strrpos($string, ')');
         if ($lastBrace === false) {
@@ -169,7 +165,7 @@ abstract class KVDgis_GeomGeometry
      * Stel een Geometry in volgens de Well-Known Text standaard.
      */
     abstract public function setGeometryFromText( $wkt );
-    
+
     /**
      * Converteer een Geometry naar de Well-Known Text standaard.
      * @return string
@@ -179,25 +175,25 @@ abstract class KVDgis_GeomGeometry
     /**
      * Converteer een Geometry naar de GeoJSON standaard.
      *
-     * @param boolean $encode Teruggeven als json encoded in een string of 
+     * @param boolean $encode Teruggeven als json encoded in een string of
      *                        niet?
-     * 
-     * @return mixed Een string of een php object dat nog verder kan bewerkt 
+     *
+     * @return mixed Een string of een php object dat nog verder kan bewerkt
      *               worden voor het door json_encode gaat.
      */
     abstract public function getAsJson($encode = true );
 
     /**
      * Id dit een lege geometrie of niet?
-     * 
+     *
      * @since   16 jul 2009
      * @return boolean
      */
     abstract public function isEmpty( );
 
     /**
-     * __toString 
-     * 
+     * __toString
+     *
      * De WKT voorstelling van de geometry.
      * @return  string
      */

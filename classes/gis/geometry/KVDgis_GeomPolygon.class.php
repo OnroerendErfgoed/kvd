@@ -2,10 +2,8 @@
 /**
  * @package    KVD.gis
  * @subpackage geometry
- * @version    $Id$
  * @copyright  2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
@@ -15,21 +13,20 @@
  * @subpackage geometry
  * @since      11 jun 2009
  * @copyright  2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 class KVDgis_GeomPolygon extends KVDgis_GeomGeometry
 {
     /**
-     * outer 
-     * 
+     * outer
+     *
      * @var KVDgis_GeomLinearRing
      */
     private $outer;
 
     /**
-     * inner 
-     * 
+     * inner
+     *
      * @var array
      */
     private $inner = array( );
@@ -39,9 +36,9 @@ class KVDgis_GeomPolygon extends KVDgis_GeomGeometry
      * @param KVDgis_GeomLinearRing     $outer
      * @param array                     $inner
      */
-    public function __construct ( 
-                        $srid = -1, 
-                        KVDgis_GeomLinearRing $outer = null, 
+    public function __construct (
+                        $srid = -1,
+                        KVDgis_GeomLinearRing $outer = null,
                         array $inner = null)
     {
         $this->setSrid($srid);
@@ -57,15 +54,15 @@ class KVDgis_GeomPolygon extends KVDgis_GeomGeometry
     }
 
     /**
-     * getOuterRing 
-     * 
+     * getOuterRing
+     *
      * @return KVDgis_GeomLinearRing
      */
     public function getOuterRing( )
     {
         return $this->outer;
     }
-    
+
     /**
      * setOuterRing
      *
@@ -76,7 +73,7 @@ class KVDgis_GeomPolygon extends KVDgis_GeomGeometry
     {
         $this->outer = $outer;
     }
-    
+
     /**
      * setInnerRings
      *
@@ -101,8 +98,8 @@ class KVDgis_GeomPolygon extends KVDgis_GeomGeometry
     }
 
     /**
-     * getInnerRings 
-     * 
+     * getInnerRings
+     *
      * @return  array   Een array van {@link KVDgis_GeomLinearRing} objecten.
      */
     public function getInnerRings( )
@@ -127,10 +124,10 @@ class KVDgis_GeomPolygon extends KVDgis_GeomGeometry
     }
 
     /**
-     * getAsJson 
+     * getAsJson
      *
      * @param boolean $encode
-     * 
+     *
      * @return mixed String of Object
      */
     public function getAsJson( $encode = true )
@@ -165,15 +162,15 @@ class KVDgis_GeomPolygon extends KVDgis_GeomGeometry
         }
         if (substr($wkt, 0, 7) != 'POLYGON') {
             throw new InvalidArgumentException (
-                'Ongeldige Well-Known Text string: ' . $wkt . 
+                'Ongeldige Well-Known Text string: ' . $wkt .
                 "\n. De string zou moeten beginnen met 'POLYGON'.");
         }
-        
+
         $stringPolygon = $this->getStringBetweenBraces($wkt);
         $linestrings = array( );
-        preg_match_all( '#\s*'.$this->RE_LINESTRING.'\s*#', 
-                        $stringPolygon, 
-                        $linestrings, 
+        preg_match_all( '#\s*'.$this->RE_LINESTRING.'\s*#',
+                        $stringPolygon,
+                        $linestrings,
                         PREG_SET_ORDER);
         $first = true;
         foreach ( $linestrings as $ls ) {
@@ -189,8 +186,8 @@ class KVDgis_GeomPolygon extends KVDgis_GeomGeometry
     }
 
     /**
-     * isEmpty 
-     * 
+     * isEmpty
+     *
      * @return  boolean
      */
     public function isEmpty( )

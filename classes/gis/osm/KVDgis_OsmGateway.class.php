@@ -2,10 +2,8 @@
 /**
  * @package    KVD.gis
  * @subpackage osm
- * @version    $Id$
  * @copyright  2011 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
@@ -15,8 +13,7 @@
  * @subpackage osm
  * @since      1.5
  * @copyright  2011 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 class KVDgis_OsmGateway implements KVDutil_Gateway
 {

@@ -2,21 +2,18 @@
 /**
  * @package    KVD.gis
  * @subpackage geometry
- * @version    $Id$
  * @copyright  2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
- * KVDgis_GeomPoint 
- * 
+ * KVDgis_GeomPoint
+ *
  * @package    KVD.gis
  * @subpackage geometry
  * @since      jan 2006
  * @copyright  2011 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 class KVDgis_GeomPoint extends KVDgis_GeomGeometry
 {
@@ -41,7 +38,7 @@ class KVDgis_GeomPoint extends KVDgis_GeomGeometry
         $this->setX($x);
         $this->setY($y);
     }
-    
+
     /**
      * @param number $x
      * @throws InvalidArgumentException - Indien $x geen integer of float is.
@@ -49,7 +46,7 @@ class KVDgis_GeomPoint extends KVDgis_GeomGeometry
     public function setX($x)
     {
         if ( !is_numeric( $x ) && !is_null( $x ) ) {
-            throw new InvalidArgumentException( 
+            throw new InvalidArgumentException(
                 "$x is geen geldig nummer en kan dus geen punt in een geometry zijn!" );
         }
         $this->x = $x;
@@ -62,7 +59,7 @@ class KVDgis_GeomPoint extends KVDgis_GeomGeometry
     public function setY($y)
     {
         if ( !is_numeric( $y ) && !is_null( $y ) ) {
-            throw new InvalidArgumentException( 
+            throw new InvalidArgumentException(
                 "$y is geen geldig nummer en kan dus geen punt in een geometry zijn!" );
         }
         $this->y = $y;
@@ -73,7 +70,7 @@ class KVDgis_GeomPoint extends KVDgis_GeomGeometry
      */
     public function getX()
     {
-        return $this->x;    
+        return $this->x;
     }
 
     /**
@@ -81,7 +78,7 @@ class KVDgis_GeomPoint extends KVDgis_GeomGeometry
      */
     public function getY()
     {
-        return $this->y;    
+        return $this->y;
     }
 
     /**
@@ -98,10 +95,10 @@ class KVDgis_GeomPoint extends KVDgis_GeomGeometry
         }
         if (substr($wkt, 0, 5) != 'POINT') {
             throw new InvalidArgumentException (
-                'Ongeldige Well-Known Text string: ' . $wkt . 
+                'Ongeldige Well-Known Text string: ' . $wkt .
                 "\n. De string zou moeten beginnen met 'POINT'.");
         }
-        
+
         $stringPoint = $this->getStringBetweenBraces($wkt);
         $points = explode(" ", $stringPoint);
         $this->setX($points['0']);
@@ -122,8 +119,8 @@ class KVDgis_GeomPoint extends KVDgis_GeomGeometry
     }
 
     /**
-     * getAsJson 
-     * 
+     * getAsJson
+     *
      * @param boolean $encode Json terug geven als string of als object?
      * @return mixed String of Object.
      */
@@ -132,13 +129,13 @@ class KVDgis_GeomPoint extends KVDgis_GeomGeometry
         $json = new stdClass( );
         $json->type = 'Point';
         $json->coordinates = array( $this->x, $this->y );
-        
+
         return $encode ? json_encode( $json ) : $json;
     }
 
     /**
-     * isEmpty 
-     * 
+     * isEmpty
+     *
      * @return  boolean
      */
     public function isEmpty( )

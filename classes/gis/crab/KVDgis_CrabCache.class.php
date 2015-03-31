@@ -2,10 +2,8 @@
 /**
  * @package KVD.gis
  * @subpackage crab
- * @version $Id$
  * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
@@ -16,8 +14,7 @@
  * @subpackage crab
  * @since jan 2006
  * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 class KVDgis_CrabCache
 {
@@ -36,7 +33,7 @@ class KVDgis_CrabCache
      * @var array
      */
     private $loadedCaches;
-    
+
     /**
      * @param string $cacheDir
      * @param array $expirationTimes
@@ -46,12 +43,12 @@ class KVDgis_CrabCache
         if ( !is_dir( $cacheDir) ) {
             $oldumask = umask(0);
             if (!@mkdir($cacheDir, 0777)) {
-                throw new InvalidArgumentException ( 
+                throw new InvalidArgumentException (
                     sprintf('Kan geen cacheDir aanmaken in %s', $cacheDir)
                 );
             }
             if (!is_dir($cacheDir)) {
-                throw new InvalidArgumentException ( 
+                throw new InvalidArgumentException (
                     'De parameter $cacheDir van KVDgis_CrabCache is een directory die niet bestaat en niet kan aangemaakt worden!'
                 );
             }
@@ -69,15 +66,15 @@ class KVDgis_CrabCache
 
     /**
      *
-     * @param string functionName      
-     * @param array parameters      
+     * @param string functionName
+     * @param array parameters
      * @return string
      * @access public
      */
-    public function getCacheName( $functionName,  $parameters ) 
+    public function getCacheName( $functionName,  $parameters )
     {
         return $this->cacheDir . $functionName . '#' . implode( '#',$parameters) . '.crbcache';
-    } 
+    }
 
     /**
      * @param string $functionName
@@ -90,12 +87,12 @@ class KVDgis_CrabCache
 
     /**
      *
-     * @param string cacheName      
-     * @param string buffer      
+     * @param string cacheName
+     * @param string buffer
      * @return bool
      * @access public
      */
-    public function cachePut( $functionName , $parameters ,  $buffer ) 
+    public function cachePut( $functionName , $parameters ,  $buffer )
     {
         $cache = $this->checkCache ( $functionName , $parameters );
         return $cache->put( $buffer );
@@ -103,11 +100,11 @@ class KVDgis_CrabCache
 
     /**
      *
-     * @param string cacheName      
+     * @param string cacheName
      * @return mixed
      * @access public
      */
-    public function cacheGet( $functionName, $parameters ) 
+    public function cacheGet( $functionName, $parameters )
     {
         $cache = $this->checkCache ( $functionName , $parameters );
         return $cache->get();
@@ -118,7 +115,7 @@ class KVDgis_CrabCache
      * @param array $parameters
      * @return KVDutil_CacheFile
      */
-    private function checkCache ( $functionName , $parameters ) 
+    private function checkCache ( $functionName , $parameters )
     {
         $cacheName = $this->getCacheName( $functionName , $parameters );
         if ( isset( $this->loadedCaches[$cacheName]) ) {
@@ -144,7 +141,7 @@ class KVDgis_CrabCache
     /**
      * @return void
      */
-    public function clearAllCaches( ) 
+    public function clearAllCaches( )
     {
         $directory = new DirectoryIterator( $this->cacheDir );
         foreach( $directory as $file ) {

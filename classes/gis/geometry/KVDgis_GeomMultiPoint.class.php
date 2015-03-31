@@ -2,21 +2,18 @@
 /**
  * @package    KVD.gis
  * @subpackage geometry
- * @version    $Id$
  * @copyright  2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license    GNU General Public License {@link http://www.gnu.org/copyleft/gpl.html}
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
  * Class die een multipoint voorstelt.
- * 
+ *
  * @package    KVD.gis
  * @subpackage geometry
  * @since      23 jun 2006
  * @copyright  2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license    GNU General Public License {@link http://www.gnu.org/copyleft/gpl.html}
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 class KVDgis_GeomMultiPoint extends KVDgis_GeomGeometry
 {
@@ -38,9 +35,9 @@ class KVDgis_GeomMultiPoint extends KVDgis_GeomGeometry
     }
 
     /**
-     * addPoint 
-     * 
-     * @param KVDgis_GeomPoint $point 
+     * addPoint
+     *
+     * @param KVDgis_GeomPoint $point
      * @return void
      */
     public function addPoint( KVDgis_GeomPoint $point )
@@ -52,18 +49,18 @@ class KVDgis_GeomMultiPoint extends KVDgis_GeomGeometry
     }
 
     /**
-     * clearPoints 
-     * 
+     * clearPoints
+     *
      * @return void
      */
     public function clearPoints( )
     {
-        $this->points = array( );    
+        $this->points = array( );
     }
 
     /**
-     * setPoints 
-     * 
+     * setPoints
+     *
      * @param array $points Een verzameling KVDgis_GeomPoint objecten.
      * @return void
      */
@@ -75,8 +72,8 @@ class KVDgis_GeomMultiPoint extends KVDgis_GeomGeometry
     }
 
     /**
-     * getPoints 
-     * 
+     * getPoints
+     *
      * @return array $points Een verzameling KVDgis_GeomPoint objecten.
      */
     public function getPoints( )
@@ -85,10 +82,10 @@ class KVDgis_GeomMultiPoint extends KVDgis_GeomGeometry
     }
 
     /**
-     * 
+     *
      * @see KVDgis_GeomGeometry::setGeometryFromText()
-     * @param string $wkt vb. MULTIPOINT((1 2), (4 5), (8 9)). 
-     *                    Het ongeldige type dat postgis en de meeste 
+     * @param string $wkt vb. MULTIPOINT((1 2), (4 5), (8 9)).
+     *                    Het ongeldige type dat postgis en de meeste
      *                    andere paketten aanmaken kan ook gelezen worden.
      * @throws <b>InvalidArgumentException</b> - Indien de wkt-string ongeldig is.
      */
@@ -100,11 +97,11 @@ class KVDgis_GeomMultiPoint extends KVDgis_GeomGeometry
         }
         if (substr($wkt, 0, 10) != 'MULTIPOINT') {
             throw new InvalidArgumentException (
-                'Ongeldige Well-Known Text string: ' . $wkt . 
+                'Ongeldige Well-Known Text string: ' . $wkt .
                 "\n. De string zou moeten beginnen met 'MULTIPOINT'.");
         }
         $this->clearPoints( );
-        
+
         $stringMultiPoint = $this->getStringBetweenBraces($wkt);
         $points = explode(",", $stringMultiPoint);
         foreach ( $points as $point ) {
@@ -141,10 +138,10 @@ class KVDgis_GeomMultiPoint extends KVDgis_GeomGeometry
     }
 
     /**
-     * getAsJson 
+     * getAsJson
      *
      * @param boolean $encode
-     * 
+     *
      * @return mixed String of Object.
      */
     public function getAsJson( $encode = true )

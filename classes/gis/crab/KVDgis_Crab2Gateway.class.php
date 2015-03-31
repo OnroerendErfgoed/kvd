@@ -3,18 +3,17 @@
  * @package KVD.gis
  * @subpackage crab
  * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
- * @version $Id$
  * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
  * KVDgis_Crab2Gateway
  *
  * Een Gateway om te connecteren met crab2. Heeft bijna identiek dezelfde API als {@link KVDgis_Crab1Gateway}. De Crab1 gateway wordt echter niet meer onderhouden.
- * Gelieve er rekening mee te houden dat alle strings die door Crab2 worden teruggegeven in UTF-8 zijn. 
- * Zorg er dus voor dat html pagina's die deze data weergeven ook in UTF-8 zijn of converteer de strings eerst naar latin1 via utf8_decode. 
+ * Gelieve er rekening mee te houden dat alle strings die door Crab2 worden teruggegeven in UTF-8 zijn.
+ * Zorg er dus voor dat html pagina's die deze data weergeven ook in UTF-8 zijn of converteer de strings eerst naar latin1 via utf8_decode.
  * Alles weergeven in UTF-8 geniet de voorkeur omdat er ander onaangename neveneffecten kunnen ontstaan bij het heen-en-weer encoderen/decoderen.
+ *
  * @package KVD.gis
  * @subpackage crab
  * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
@@ -22,7 +21,6 @@
  * @uses KVDgis_CrabCache
  * @uses KVDgis_NullCrabCache
  * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDgis_Crab2Gateway implements KVDutil_Gateway
 {
@@ -33,18 +31,18 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
     const GEWEST_BRUSSEL = 1;
     /**
      * Code die CRAB gebruikt voor het Vlaams Gewest
-     * @var integer 
+     * @var integer
      */
     const GEWEST_VLAANDEREN = 2;
     /**
      * Code die CRAB gebruikt voor het Waals Gewest
-     * @var integer 
+     * @var integer
      */
     const GEWEST_WALLONIE = 3;
 
 
     /**
-     * Code om lijsten van gemeenten te sorten op hun CRAB id. 
+     * Code om lijsten van gemeenten te sorten op hun CRAB id.
      * @var integer
      */
     const GEM_SORT_ID = 1;
@@ -59,19 +57,19 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
      */
     const GEM_SORT_TCGN = 3;
     /**
-     * 
+     *
      * Code om lijsten van gemeenten te sorteren op de taalcode van het eerste taalstelsel van de gemeente.
      * @var integer
      */
     const GEM_SORT_TC = 4;
     /**
-     *  
+     *
      * Code om lijsten van gemeenten te sorteren op de taalcode van het tweede taalstelsel van de gemeente.
      * @var integer
      */
     const GEM_SORT_TCTT = 5;
     /**
-     *  
+     *
      * Code om lijsten van gemeenten te sorteren op hun NIScode.
      * @var integer
      */
@@ -126,7 +124,7 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
     const WEG_SORT_ID = 1;
     /**
      * Code om de lijsten met wegobjecten te sorteren op de aard van het wegobject.
-     * @var integer 
+     * @var integer
      */
     const WEG_SORT_AARD = 2;
 
@@ -140,7 +138,7 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
      *  @var integer
      */
     const TERREIN_SORT_AARD = 2;
-    
+
     /**
      * @var SoapClient
      * @access private
@@ -156,19 +154,19 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
     /**
      * Initializeer de Crab2Gateway voor gebruik.
      *
-     * Parameters is een associatieve array met de volgende sleutels: 
+     * Parameters is een associatieve array met de volgende sleutels:
      * - wsdl ( url naar de wsdl file)
      * - username
-     * - password. 
-     * Deze parameters zijn altijd vereist. Tevens zijn er ook nog de volgende 
+     * - password.
+     * Deze parameters zijn altijd vereist. Tevens zijn er ook nog de volgende
      * optionele parameters:
      * - proxy_host: host die als proxy server dienst doet
      * - proxy_port: poort op de proxy server
-     * - safe_mode: indien true dan zal er steeds getest worden of de service 
-     * bereikbaar is voor de soapclient in gang wordt gezet. Werkt beter voor 
+     * - safe_mode: indien true dan zal er steeds getest worden of de service
+     * bereikbaar is voor de soapclient in gang wordt gezet. Werkt beter voor
      * bv. unit testing maar zal zeker trager zijn. Default is false.
-     * - cache: De parmeter cache is optioneel. Indien ze weggelaten wordt zal 
-     * er geen data gecached worden. 
+     * - cache: De parmeter cache is optioneel. Indien ze weggelaten wordt zal
+     * er geen data gecached worden.
      * De parameter is eveneens een array met de volgende sleutels:
      * - active ( boolean ): indien false zal er geen data gecached worden
      * - cacheDir ( string ): dir waarin de caches worden aangemaakt
@@ -198,7 +196,7 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
         if ( !isset( $parameters['wsdl'] ) ) {
             throw new InvalidArgumentException ( 'De array parameters moet een sleutel wsdl bevatten!' );
         }
-    
+
         $soap_options = array ( 'exceptions'            => 1,
                                 'features'              => SOAP_SINGLE_ELEMENT_ARRAYS,
                                 'trace'                 => 0,
@@ -210,8 +208,8 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
             $soap_options['proxy_port'] = $parameters['proxy_port'];
         }
         if ( isset( $parameters['safe_mode'] ) && $parameters['safe_mode'] === true ) {
-            $cOps = array( 
-                'http' => array ( 
+            $cOps = array(
+                'http' => array (
                     'method' => 'GET'
                 )
             );
@@ -224,10 +222,10 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
                 $cOps['http']['request_fulluri'] = true;
             }
             $streamContext = stream_context_create( $cOps);
-            $res = @file_get_contents( $parameters['wsdl'], false, $streamContext ); 
+            $res = @file_get_contents( $parameters['wsdl'], false, $streamContext );
             if ( !$res ) {
-                throw new KVDutil_GatewayUnavailableException ( 
-                    'De Crab2Gateway kan geen verbinding maken met de Crab webservice. De WSDL file is niet beschikbaar.' , 
+                throw new KVDutil_GatewayUnavailableException (
+                    'De Crab2Gateway kan geen verbinding maken met de Crab webservice. De WSDL file is niet beschikbaar.' ,
                     __CLASS__ );
             }
         }
@@ -249,14 +247,14 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
                 $this->_cache = new KVDgis_CrabCache( $parameters['cache']['cacheDir'], $parameters['cache']['expirationTimes']);
             }
         }
-        
+
     }
 
     /**
-     * getCacheName 
-     * 
+     * getCacheName
+     *
      * @param string $function Naam van de functie die moet gecached worden.
-     * @return string 
+     * @return string
      */
     private function getCacheName( $function )
     {
@@ -291,7 +289,7 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
             return unserialize( $result );
         }
         $params->GewestId = $gewestId;
-        $params->SorteerVeld = $sorteerVeld; 
+        $params->SorteerVeld = $sorteerVeld;
         $paramsWrapper = new SoapParam ( $params , "ListGemeentenByGewestId" );
         try {
             $result = $this->_client->ListGemeentenByGewestId( $paramsWrapper );
@@ -299,7 +297,7 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
         } catch ( SoapFault $e ) {
             throw new RuntimeException ( 'Kon de lijst met gemeentes niet laden.' );
         }
-        
+
         $gemeenten = array( );
         foreach ( $gemeenteItems as $gemeente) {
             $gemeenteArray = array( );
@@ -344,10 +342,10 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
         $gemeente['centerY'] = ( float ) $gemeenteObject->CenterY;
         return $gemeente;
     }
-    
+
     /**
      * Vraag een gemeente op op basis van zijn crab Id.
-     * 
+     *
      * @param integer $gemeenteId De crab Id van de gemeente.
      * @return array Associatieve array met de volgende sleutels:
      * <ul>
@@ -373,13 +371,13 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
         } catch ( Exception $e ) {
             throw new RuntimeException ( "Kon de gemeente met gemeenteId $gemeenteId niet laden wegens: " . $e->getMessage( ) );
         }
-    } 
+    }
 
     /**
      * Vraag een gemeente op op basis van zijn naam.
-     * 
-     * @param string $gemeenteNaam      
-     * @param integer $gewestId Zie de KVDgis_Crab2Gateway::GEWEST_ constanten 
+     *
+     * @param string $gemeenteNaam
+     * @param integer $gewestId Zie de KVDgis_Crab2Gateway::GEWEST_ constanten
      * @return array Associatieve array met de volgende sleutels:
      * <ul>
      *  <li>gewestId: Het nummer van het gewest waarin de straat ligt.</li>
@@ -393,7 +391,7 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
      * </ul>
      * @throws RuntimeException Indien de gemeente niet kon geladen worden.
      */
-    public function getGemeenteByGemeenteNaam( $gemeenteNaam,  $gewestId = self::GEWEST_VLAANDEREN ) 
+    public function getGemeenteByGemeenteNaam( $gemeenteNaam,  $gewestId = self::GEWEST_VLAANDEREN )
     {
         $params = new stdClass( );
         $params->GemeenteNaam = $gemeenteNaam;
@@ -409,8 +407,8 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
 
     /**
      * Vraag een gemeente op op basis van de NIS-code.
-     * 
-     * @param integer $nisGemeenteCode      
+     *
+     * @param integer $nisGemeenteCode
      * @return array Associatieve array met de volgende sleutels:
      * <ul>
      *  <li>gewestId: Het nummer van het gewest waarin de straat ligt.</li>
@@ -424,7 +422,7 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
      * </ul>
      * @throws RuntimeException Indien de gemeente niet kon geladen worden.
      */
-    public function getGemeenteByNISGemeenteCode( $nisGemeenteCode ) 
+    public function getGemeenteByNISGemeenteCode( $nisGemeenteCode )
     {
         $params = new stdClass( );
         $params->NISGemeenteCode = $nisGemeenteCode;
@@ -435,11 +433,11 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
         } catch ( Exception $e ) {
             throw new RuntimeException ( "Kon de gemeente met nisGemeenteCode $nisGemeenteCode niet laden wegens: " . $e->getMessage( ) );
         }
-    } 
+    }
 
     /**
      *
-     * @param integer $gemeenteId      
+     * @param integer $gemeenteId
      * @param integer $sorteerVeld Zie de KVDgis_Crab2Gateway::STRAAT_SORT_ constanten.
      * @return array Een associatieve array met de volgende sleutels:
      * <ul>
@@ -450,7 +448,7 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
      * @throws InvalidArgumentException Indien er een ongeldig sorteerveld wordt opgegeven.
      * @throws RuntimeException Indien de straten niet geladen kunnen worden, meestal door een SOAP probleem.
      */
-    public function listStraatnamenByGemeenteId( $gemeenteId,  $sorteerVeld = self::STRAAT_SORT_NAAM ) 
+    public function listStraatnamenByGemeenteId( $gemeenteId,  $sorteerVeld = self::STRAAT_SORT_NAAM )
     {
         if ( $sorteerVeld < 1 || $sorteerVeld > 6  ) {
             throw new InvalidArgumentException ( "De parameter sorteerVeld van de functie listStraatnamenByGemeenteId moet tussen 1 en 6 liggen!");
@@ -497,7 +495,7 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
      */
     private function loadStraatnaamArray ( $straatnaamObject )
     {
-        
+
         if ( !( is_object( $straatnaamObject ) ) ) {
             throw new InvalidArgumentException ( 'Kan enkel maar een straat laden op basis van een object!');
         }
@@ -512,7 +510,7 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
 
     /**
      *
-     * @param integer $straatnaamId      
+     * @param integer $straatnaamId
      * @return array Een associatieve array met de volgende sleutels:
      * <ul>
      *  <li> straatnaam: Naam van de straat</li>
@@ -524,7 +522,7 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
      * @access public
      * @throws RuntimeException Indien de straatnaam niet kon geladen worden
      */
-    public function getStraatnaamByStraatnaamId( $straatnaamId ) 
+    public function getStraatnaamByStraatnaamId( $straatnaamId )
     {
         $params = new stdClass( );
         $params->StraatnaamId = ( int ) $straatnaamId;
@@ -539,7 +537,7 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
 
     /**
      *
-     * @param string $straatnaam      
+     * @param string $straatnaam
      * @param integer $gemeenteId Het CRAB id van de gemeente ( niet de NIS code ).
      * @return array Een associatieve array met de volgende sleutels:
      * <ul>
@@ -549,10 +547,10 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
      *  <li> taalCode: Taal waarin de straatnaam is opgesteld</li>
      *  <li> straatnaamLabel: Een label voor de straatnaam, te gebruiken in keuzelijsten</li>
      * </ul>
-     * @throws RuntimeException Indien de straatnaam niet kon geladen worden 
+     * @throws RuntimeException Indien de straatnaam niet kon geladen worden
      * @access public
      */
-    public function getStraatnaamByStraatnaam( $straatnaam,  $gemeenteId ) 
+    public function getStraatnaamByStraatnaam( $straatnaam,  $gemeenteId )
     {
         $params = new stdClass( );
         $params->Straatnaam = ( string ) $straatnaam;
@@ -564,11 +562,11 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
         } catch ( Exception $e ) {
             throw new RuntimeException ( "Kon de straatnaam met straatnaam $straatnaam in gemeente $gemeenteId niet wegens: " . $e->getMessage( ) );
         }
-    } 
+    }
 
     /**
      *
-     * @param integer straatnaamId      
+     * @param integer straatnaamId
      * @param integer sorteerVeld Zie de HUISNR_SORT_ constanten.
      * @return array Een associatieve array met de volgende sleutels:
      * <ul>
@@ -643,7 +641,7 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
      * </ul>
      * @throws RuntimeException Indien het huisnummer niet geladen kon worden.
      */
-    public function getHuisnummerByHuisnummerId( $huisnummerId ) 
+    public function getHuisnummerByHuisnummerId( $huisnummerId )
     {
         $params = new stdClass( );
         $params->HuisnummerId = $huisnummerId;
@@ -654,8 +652,8 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
         } catch ( Exception $e ) {
             throw new RuntimeException ( "Kon het huisnummer met huisnummerId $huisnummerId niet laden wegens: " . $e->getMessage( ) );
         }
-    } 
-    
+    }
+
     /**
      *
      * @param string huisnummer
@@ -668,7 +666,7 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
      * </ul>
      * @throws RuntimeException Indien het huisnummer niet geladen kon worden.
      */
-    public function getHuisnummerByHuisnummer( $huisnummer,  $straatnaamId ) 
+    public function getHuisnummerByHuisnummer( $huisnummer,  $straatnaamId )
     {
         $params = new stdClass( );
         $params->Huisnummer = $huisnummer;
@@ -705,7 +703,7 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
 
     /**
      * @param integer straatnaamId
-     * @param integer sorteerVeld      
+     * @param integer sorteerVeld
      * @return array Een associatieve array met de volgende sleutels:
      * <ul>
      *  <li>identificatorWegobject: Een code die het wegobject voorstelt, komt uit Multinet.</li>
@@ -714,7 +712,7 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
      * @throws RuntimeException Indien de lijst met wegobjecten niet geladen kan worden.
      * @throws InvalidArgumentException Indien er op een ongeldig sorteerVeld gesorteerd wordt.
      */
-    public function listWegobjectenByStraatnaamId( $straatnaamId,  $sorteerVeld = self::WEG_SORT_ID ) 
+    public function listWegobjectenByStraatnaamId( $straatnaamId,  $sorteerVeld = self::WEG_SORT_ID )
     {
         if ( $sorteerVeld < 1 || $sorteerVeld > 2 ) {
             throw new InvalidArgumentException ( "De parameter sorteerVeld van de functie listWegobjectenByStraatnaamId moet tussen 1 en 2 liggen!");
@@ -758,7 +756,7 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
      *      echo "X: " . $infoTerreinObject['centerX'] . " ,Y: " . $infoTerreinObject['centerY'];
      *  }
      * </code>
-     * @param integer huisnummerId      
+     * @param integer huisnummerId
      * @param integer sorteerVeld Zie de KVDgis_Crab2Gateway::TERREIN_SORT_ constanten
      * @return array Een associatieve array met de volgende sleutels:
      * <ul>
@@ -767,7 +765,7 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
      * </ul>
      * @throws InvalidArgumentException Indien er op een ongeldig sorteerVeld wordt gesorteerd.
      */
-    public function listTerreinobjectenByHuisnummerId( $huisnummerId,  $sorteerVeld = self::TERREIN_SORT_ID ) 
+    public function listTerreinobjectenByHuisnummerId( $huisnummerId,  $sorteerVeld = self::TERREIN_SORT_ID )
     {
         if ( $sorteerVeld < 1 || $sorteerVeld > 2 ) {
             throw new InvalidArgumentException ( "De parameter sorteerVeld van de functie listTerreinobjectenByHuisnummerId moet tussen 1 en 2 liggen!");
@@ -787,7 +785,7 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
         } catch ( Exception $e ) {
             throw new RuntimeException ( 'Kan de lijst met terreinobjecten niet laden wegens: ' . $e->getMessage( ) );
         }
-        
+
         $terreinobjecten = array( );
         if ( isset( $result->ListTerreinobjectenByHuisnummerIdResult->TerreinobjectItem ) ) {
            foreach ( $result->ListTerreinobjectenByHuisnummerIdResult->TerreinobjectItem as $terreinobject ) {
@@ -799,7 +797,7 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
         }
         $this->_cache->cachePut ( $this->getCacheName ( __FUNCTION__ ) , $functionParameters , serialize( $terreinobjecten ) );
         return $terreinobjecten;
-    } 
+    }
 
     /**
      * @param string $identificatorTerreinobject Dit komt overeen met het kadastraal perceel.
@@ -863,13 +861,13 @@ class KVDgis_Crab2Gateway implements KVDutil_Gateway
 }
 
 /**
- * KVDgis_NullCrab2Gateway 
- * 
+ * KVDgis_NullCrab2Gateway
+ *
  * @package KVD.gis
  * @subpackage crab
  * @since 5 maart 2007
  * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
@@ -880,12 +878,12 @@ class KVDgis_NullCrab2Gateway extends KVDgis_Crab2Gateway
 
     }
 
-    public function listStraatnamenByGemeenteId( $gemeenteId,  $sorteerVeld = self::STRAAT_SORT_NAAM ) 
+    public function listStraatnamenByGemeenteId( $gemeenteId,  $sorteerVeld = self::STRAAT_SORT_NAAM )
     {
         return array ( array( 'straatnaam' => 'CRAB Onbereikbaar', 'straatnaamId' => 0, 'straatnaamLabel' => 'CRAB Onbereikbaar' ) );
     }
 
-    public function getStraatnaamByStraatnaamId( $straatnaamId ) 
+    public function getStraatnaamByStraatnaamId( $straatnaamId )
     {
         $straatnaam = array( );
         $straatnaam['straatnaam'] = 'CRAB Onbereikbaar';
@@ -896,7 +894,7 @@ class KVDgis_NullCrab2Gateway extends KVDgis_Crab2Gateway
         return $straatnaam;
     }
 
-    public function getStraatnaamByStraatnaam( $straatnaam,  $gemeenteId ) 
+    public function getStraatnaamByStraatnaam( $straatnaam,  $gemeenteId )
     {
         $straatnaam = array( );
         $straatnaam['straatnaam'] = 'CRAB Onbereikbaar';
@@ -912,17 +910,17 @@ class KVDgis_NullCrab2Gateway extends KVDgis_Crab2Gateway
         return array ( array ( 'huisnummer' => 'CRAB Onbereikbaar', 'huisnummerId' => 0 ) );
     }
 
-    public function getHuisnummerByHuisnummerId( $huisnummerId ) 
+    public function getHuisnummerByHuisnummerId( $huisnummerId )
     {
         return array(   'huisnummer' => 'CRAB Onbereikbaar',
-                        'huisnummerId' => 0,        
+                        'huisnummerId' => 0,
                         'straatnaamId' => 0 );
     }
-    
-    public function getHuisnummerByHuisnummer( $huisnummer,  $straatnaamId ) 
+
+    public function getHuisnummerByHuisnummer( $huisnummer,  $straatnaamId )
     {
         return array(   'huisnummer' => 'CRAB Onbereikbaar',
-                        'huisnummerId' => 0,        
+                        'huisnummerId' => 0,
                         'straatnaamId' => 0 );
     }
     public function getPostkantonByHuisnummerId ( $huisnummerId )
@@ -930,16 +928,16 @@ class KVDgis_NullCrab2Gateway extends KVDgis_Crab2Gateway
         return array ( 'postkantonCode' => 0000 );
     }
 
-    public function listWegobjectenByStraatnaamId( $straatnaamId,  $sorteerVeld = self::WEG_SORT_ID ) 
+    public function listWegobjectenByStraatnaamId( $straatnaamId,  $sorteerVeld = self::WEG_SORT_ID )
     {
        return array( array( 'identificatorWegobject' => 'CRAB Onbereikbaar', 'aardWegobject' => 0 ) );
     }
-    
+
     public function listTerreinobjectenByHuisnummerId( $huisnummerId,  $sorteerVeld = self::TERREIN_SORT_ID )
     {
        return array( array( 'identificatorTerreinobject' => 'CRAB Onbereikbaar', 'aardTerreinobjectCode' => 0 ) );
     }
-    
+
     public function getTerreinobjectByIdentificatorTerreinobject( $identificatorTerreinobject )
     {
         return array ( 'identificatorTerreinobject' => 'CRAB Onbereikbaar',
