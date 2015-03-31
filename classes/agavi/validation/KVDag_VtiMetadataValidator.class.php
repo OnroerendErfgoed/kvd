@@ -2,34 +2,31 @@
 /**
  * @package    KVD.agavi
  * @subpackage validation
- * @version    $Id$
  * @copyright  2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
  * Validator die controleert of er voldoende metadata voor een vti aanwezig is.
- * 
+ *
  * @package    KVD.agavi
  * @subpackage validation
  * @since      21 okt 2010
  * @copyright  2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 class KVDag_VtiMetadataValidator extends AgaviValidator
 {
     /**
-     * metadata 
-     * 
+     * metadata
+     *
      * @var array
      */
     protected $metadata = array(  );
 
     /**
-     * validate 
-     * 
+     * validate
+     *
      * @return boolean  True when valid
      */
     public function validate(  )
@@ -38,15 +35,15 @@ class KVDag_VtiMetadataValidator extends AgaviValidator
 
         $flags[] = $this->validateType( 'type_van', 'type_van' );
         $flags[] = $this->validateType( 'type_tot', 'type_tot' );
-        $flags[] = $this->validateOmschrijving( 
+        $flags[] = $this->validateOmschrijving(
                     'omschrijving_van_omschrijving', 'omschrijving_van_omschrijving', 50 );
-        $flags[] = $this->validateOmschrijving( 
+        $flags[] = $this->validateOmschrijving(
                     'omschrijving_tot_omschrijving', 'omschrijving_tot_omschrijving', 50 );
-        $flags[] = $this->validateOmschrijvingManueel( 
+        $flags[] = $this->validateOmschrijvingManueel(
                     'omschrijving_van_manueel', 'omschrijving_van_manueel' );
-        $flags[] = $this->validateOmschrijvingManueel( 
+        $flags[] = $this->validateOmschrijvingManueel(
                     'omschrijving_tot_manueel', 'omschrijving_tot_manueel' );
-        $flags[] = $this->validateOmschrijving( 
+        $flags[] = $this->validateOmschrijving(
                     'omschrijving', 'omschrijving', 110 );
 
         if ( $ret =  !in_array( false, $flags, true  ) ) {
@@ -58,11 +55,11 @@ class KVDag_VtiMetadataValidator extends AgaviValidator
     }
 
     /**
-     * validateType 
-     * 
-     * @param string $param     Naam van het argument dat moet gevalideerd 
+     * validateType
+     *
+     * @param string $param     Naam van het argument dat moet gevalideerd
      * worden.
-     * @param string $export    Naam waaronder de waarde zal worden opgeslagen 
+     * @param string $export    Naam waaronder de waarde zal worden opgeslagen
      * in het metadata attribuut.
      * @return boolean
      */
@@ -94,10 +91,10 @@ class KVDag_VtiMetadataValidator extends AgaviValidator
     }
 
     /**
-     * validateOmschrijving 
-     * 
+     * validateOmschrijving
+     *
      * @param string $param     Naam van het argument
-     * @param string $export    Naam waaronder het argument zal worden 
+     * @param string $export    Naam waaronder het argument zal worden
      * opgeslagen in het metadata attribuut
      * @param int $length       Maximum lengte van de omschrijving.
      * @return boolean
@@ -109,7 +106,7 @@ class KVDag_VtiMetadataValidator extends AgaviValidator
         $utf8 = $this->getParameter('utf8', true);
 
         $originalValue =& $this->getData($arg);
-        
+
         if(!is_scalar($originalValue)) {
             // non scalar values would cause notices
             $this->throwError('ongeldige_omschrijving', $arg);
@@ -125,7 +122,7 @@ class KVDag_VtiMetadataValidator extends AgaviValidator
         if(preg_match($pattern, $originalValue, $matches)) {
             $originalValue = $matches['trimmed'];
         }
-        
+
         $value = $originalValue;
 
         if($utf8) {
@@ -143,10 +140,10 @@ class KVDag_VtiMetadataValidator extends AgaviValidator
     }
 
     /**
-     * validateOmschrijvingManueel 
-     * 
+     * validateOmschrijvingManueel
+     *
      * @param string $param     Naam van het argument
-     * @param string $export    Naam waaronder de waarde wordt opgeslagen in 
+     * @param string $export    Naam waaronder de waarde wordt opgeslagen in
      * het metadata attribuut.
      * @return boolean
      */
@@ -168,20 +165,20 @@ class KVDag_VtiMetadataValidator extends AgaviValidator
     }
 
     /**
-     * exportMetadata 
-     * 
-     * Exporteer de metadata in een formaat dat kan gebruikt worden in {@link 
+     * exportMetadata
+     *
+     * Exporteer de metadata in een formaat dat kan gebruikt worden in {@link
      * KVDutil_Date_FuzzyDateRange}.
      *
      * @return void
      */
     public function exportMetadata(  )
     {
-        $this->metadata['omschrijving_van'] = array( 
+        $this->metadata['omschrijving_van'] = array(
             'omschrijving'  => $this->metadata['omschrijving_van_omschrijving'],
             'manueel'       => $this->metadata['omschrijving_van_manueel'] );
 
-        $this->metadata['omschrijving_tot'] = array( 
+        $this->metadata['omschrijving_tot'] = array(
             'omschrijving'  => $this->metadata['omschrijving_tot_omschrijving'],
             'manueel'       => $this->metadata['omschrijving_tot_manueel'] );
         unset( $this->metadata['omschrijving_van_omschrijving'] );

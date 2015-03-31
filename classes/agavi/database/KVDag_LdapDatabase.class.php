@@ -2,10 +2,8 @@
 /**
  * @package   KVD.agavi
  * @subpackagedatabase
- * @version   $Id$
  * @copyright 2011 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author    Bram Goessens <bram.goessens@rwo.vlaanderen.be>
- * @license   http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
@@ -16,7 +14,6 @@
  * @since     2011
  * @copyright 2004-2011 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author    Bram Goessens <bram.goessens@rwo.vlaanderen.be>
- * @license   http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDag_LdapDatabase extends AgaviDatabase
 {
@@ -64,20 +61,20 @@ class KVDag_LdapDatabase extends AgaviDatabase
             'version'  		=> $version,
             'basedn'      	=> $basedn,
         );
-        
+
         //Connecteer de proxyuser
         if( ($binddn != null && $bindpw != null ) ) {
             $config['binddn'] = $binddn;
             $config['bindpw'] = $bindpw;
         }
-      
-        //Connecteer de authzID gebruiker 
+
+        //Connecteer de authzID gebruiker
         if( AgaviConfig::get( 'ldap.proxyAs', false ) ){
             $authzID = AgaviConfig::get( 'ldap.proxyAs' );
-            $proxy_auth_ctrl = array('oid' => '2.16.840.1.113730.3.4.18', 
+            $proxy_auth_ctrl = array('oid' => '2.16.840.1.113730.3.4.18',
                 'value' => "dn:$authzID", 'iscritical' => true);
-        
-            $config['options'] = array( 
+
+            $config['options'] = array(
                 'LDAP_OPT_SERVER_CONTROLS'=>array( $proxy_auth_ctrl)
                 );
         }
@@ -91,7 +88,7 @@ class KVDag_LdapDatabase extends AgaviDatabase
             $error = 'Failed to create a KVDag_LdapDatabase connection';
             throw new AgaviDatabaseException($error);
         }
-        
+
         // make sure the connection went through
         if($this->connection === false) {
             // the connection's foobar'd
@@ -104,7 +101,7 @@ class KVDag_LdapDatabase extends AgaviDatabase
         // to the resource
         $this->resource =& $this->connection;
     }
-    
+
     /**
     * Execute the shutdown procedure.
     *

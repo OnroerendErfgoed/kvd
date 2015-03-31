@@ -2,10 +2,8 @@
 /**
  * @package    KVD.agavi
  * @subpackage validation
- * @version    $Id$
  * @copyright  2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
@@ -23,7 +21,6 @@
  * @since      19 aug 2008
  * @copyright  2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDag_DeelgemeenteNISValidator extends KVDag_IdValidator
 {
