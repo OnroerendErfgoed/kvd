@@ -2,10 +2,8 @@
 /**
  * @package    KVD.database
  * @subpackage criteria
- * @version    $Id$
  * @copyright  2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
@@ -16,61 +14,60 @@
  * @since      28 aug 2006
  * @copyright  2006-2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDdb_SimpleQuery implements KVDdb_IQuery
 {
 
     /**
-     * fields 
-     * 
+     * fields
+     *
      * @var array
      */
     private $fields;
 
     /**
-     * table 
-     * 
+     * table
+     *
      * @var string
      */
     private $table;
 
     /**
-     * joins 
-     * 
+     * joins
+     *
      * @var array
      */
     private $joins;
 
     /**
-     * criteria 
-     * 
+     * criteria
+     *
      * @var KVDdb_Criteria
      */
     private $criteria;
 
     /**
-     * distinct 
-     * 
+     * distinct
+     *
      * @var boolean
      */
     private $distinct;
 
     /**
-     * __construct 
-     * 
-     * @param array          $fields 
-     * @param string         $table 
-     * @param KVDdb_Criteria $criteria 
-     * @param boolean        $distinct Of enkel de unieke waarden gezocht 
-     *                                 mogen worden, standaard wordt alles 
+     * __construct
+     *
+     * @param array          $fields
+     * @param string         $table
+     * @param KVDdb_Criteria $criteria
+     * @param boolean        $distinct Of enkel de unieke waarden gezocht
+     *                                 mogen worden, standaard wordt alles
      *                                 gezocht.
      * @return void
      */
-    public function __construct ( 
-                        $fields , 
-                        $table , 
-                        KVDdb_Criteria $criteria = null, 
+    public function __construct (
+                        $fields ,
+                        $table ,
+                        KVDdb_Criteria $criteria = null,
                         $distinct = false )
     {
         $this->fields = $fields;
@@ -81,17 +78,17 @@ class KVDdb_SimpleQuery implements KVDdb_IQuery
     }
 
     /**
-     * generateSql 
-     * 
+     * generateSql
+     *
      * @return string
      */
-    public function generateSql( 
-                        $mode = KVDdb_Criteria::MODE_FILLED, 
+    public function generateSql(
+                        $mode = KVDdb_Criteria::MODE_FILLED,
                         $dbType = KVDdb_Criteria::DB_MYSQL )
     {
-        $sql = sprintf( 'SELECT%s %s FROM %s', 
-                        $this->distinct ? ' DISTINCT' : '', 
-                        implode( $this->fields, ', ' ), 
+        $sql = sprintf( 'SELECT%s %s FROM %s',
+                        $this->distinct ? ' DISTINCT' : '',
+                        implode( $this->fields, ', ' ),
                         $this->table );
         if ( $this->hasJoins( ) ) {
             foreach( $this->joins as $join ) {
@@ -106,8 +103,8 @@ class KVDdb_SimpleQuery implements KVDdb_IQuery
     }
 
     /**
-     * getValues 
-     * 
+     * getValues
+     *
      * @since   1.4
      * @return  array
      */
@@ -117,9 +114,9 @@ class KVDdb_SimpleQuery implements KVDdb_IQuery
     }
 
     /**
-     * addJoin 
-     * 
-     * @param KVDdb_Join $join 
+     * addJoin
+     *
+     * @param KVDdb_Join $join
      * @return void
      */
     public function addJoin( KVDdb_Join $join )
@@ -128,8 +125,8 @@ class KVDdb_SimpleQuery implements KVDdb_IQuery
     }
 
     /**
-     * hasJoins 
-     * 
+     * hasJoins
+     *
      * @return boolean
      */
     public function hasJoins( )

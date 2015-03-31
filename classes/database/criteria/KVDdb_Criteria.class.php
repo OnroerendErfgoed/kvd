@@ -2,10 +2,8 @@
 /**
  * @package    KVD.database
  * @subpackage criteria
- * @version    $Id$
  * @copyright  2006-2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
@@ -16,7 +14,6 @@
  * @since      24 aug 2006
  * @copyright  2006-2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDdb_Criteria implements Countable
 {
@@ -24,33 +21,33 @@ class KVDdb_Criteria implements Countable
      * @var string
      */
     const ASC = 'ASC';
-    
+
     /**
      * @var string
      */
     const DESC = 'DESC';
 
     /**
-     * @var integer 
+     * @var integer
      */
     const MODE_FILLED = 1;
 
     /**
-     * @var integer 
+     * @var integer
      */
     const MODE_PARAMETERIZED = 2;
 
     /**
-     * @var integer 
+     * @var integer
      */
     const DB_MYSQL = 1;
 
     /**
-     * @var integer 
+     * @var integer
      */
     const DB_PGSQL = 2;
-    
-    
+
+
     /**
      * @var array
      */
@@ -66,7 +63,7 @@ class KVDdb_Criteria implements Countable
         $this->criteria = array( );
         $this->orderFields = array( );
     }
-   
+
     /**
      * @param KVDdb_Criterion $criterion
      */
@@ -107,10 +104,10 @@ class KVDdb_Criteria implements Countable
     }
 
     /**
-     * generateWhereClause 
-     * 
+     * generateWhereClause
+     *
      * @param   integer     $mode   Zie de MODE_ constanten
-     * @param   integer     $dbType Zie de DB_ constanten.    
+     * @param   integer     $dbType Zie de DB_ constanten.
      * @return  string
      */
     private function generateWhereClause( $mode, $dbType )
@@ -126,8 +123,8 @@ class KVDdb_Criteria implements Countable
     }
 
     /**
-     * generateOrderClause 
-     * 
+     * generateOrderClause
+     *
      * @return string
      */
     private function generateOrderClause( )
@@ -147,8 +144,8 @@ class KVDdb_Criteria implements Countable
     }
 
     /**
-     * hasOrder 
-     * 
+     * hasOrder
+     *
      * Ga na of er een sorteervolgorde werd ingesteld.
      * @return  boolean
      */
@@ -158,11 +155,11 @@ class KVDdb_Criteria implements Countable
     }
 
     /**
-     * hasCriteria 
-     * 
+     * hasCriteria
+     *
      * Ga na of er zoekcriteria werden ingesteld.
      *
-     * @param   string  $field  Indien aanwezig zal er gekeken worden 
+     * @param   string  $field  Indien aanwezig zal er gekeken worden
      *                          of er zoekcriteria op dit veld aanwezig zijn.
      * @return  boolean
      */
@@ -174,19 +171,19 @@ class KVDdb_Criteria implements Countable
         }
         return count( $this->criteria ) > 0;
     }
-    
+
     /**
      * Telt het aantal criterion objecten.
      * @return integer
-     */ 
+     */
     public function count( )
     {
         return count( $this->criteria );
     }
 
     /**
-     * getFields 
-     * 
+     * getFields
+     *
      * Lijst met alle velden waarop criteria zitten.
      * @return array
      */
@@ -200,8 +197,8 @@ class KVDdb_Criteria implements Countable
     }
 
     /**
-     * getValues 
-     * 
+     * getValues
+     *
      * @return array
      */
     public function getValues( )
@@ -212,6 +209,6 @@ class KVDdb_Criteria implements Countable
         }
         return $ret;
     }
-    
+
 }
 ?>

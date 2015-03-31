@@ -2,14 +2,12 @@
 /**
  * @package    KVD.database
  * @subpackage criteria
- * @version    $Id$
  * @copyright  2006-2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
- * Een criterion is een object dat een voorwaarde in een SQl statement 
+ * Een criterion is een object dat een voorwaarde in een SQl statement
  * voorstelt.
  *
  * @package    KVD.database
@@ -17,7 +15,6 @@
  * @since      24 aug 2006
  * @copyright  2006-2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDdb_Criterion
 {
@@ -25,19 +22,19 @@ class KVDdb_Criterion
      * @var string
      */
     const EN = ' AND ';
-    
+
     /**
      * @var string
      */
     const OF = ' OR ';
-    
+
     /**
      * @var string
      */
     const EQUAL = '=';
 
     /**
-     * @var string 
+     * @var string
      */
     const NOT_EQUAL = '<>';
 
@@ -62,12 +59,12 @@ class KVDdb_Criterion
     const NOT_IN = 'NOT IN';
 
     /**
-     * @var string 
+     * @var string
      */
     const EXISTS = 'EXISTS';
 
     /**
-     * @var string 
+     * @var string
      */
     const NOT_EXISTS = 'NOT EXISTS';
 
@@ -90,14 +87,14 @@ class KVDdb_Criterion
      * @var array
      */
     protected $children;
-   
+
     /**
      * @param string $sqlOperator
      * @param string $field
      * @param mixed $value
      */
     protected function __construct ( $sqlOperator, $field, $value )
-    {   
+    {
         $this->sqlOperator = $sqlOperator;
         $this->field = $field;
         $this->value = $value;
@@ -120,10 +117,10 @@ class KVDdb_Criterion
     }
 
     /**
-     * generateValue 
-     * 
+     * generateValue
+     *
      * @param integer $mode
-     * @param mixed   $value 
+     * @param mixed   $value
      * @return string
      */
     protected function generateValue( $mode = KVDdb_Criteria::MODE_FILLED , $value)
@@ -132,17 +129,17 @@ class KVDdb_Criterion
     }
 
     /**
-     * generateSql 
-     * 
-     * @param integer $mode 
-     * @param integer $dbType 
+     * generateSql
+     *
+     * @param integer $mode
+     * @param integer $dbType
      * @return string
      */
-    public function generateSql( 
-                        $mode = KVDdb_Criteria::MODE_FILLED , 
+    public function generateSql(
+                        $mode = KVDdb_Criteria::MODE_FILLED ,
                         $dbType = KVDdb_Criteria::DB_MYSQL )
     {
-        $sql =  "( " . $this->field . ' ' . $this->sqlOperator . ' ' . 
+        $sql =  "( " . $this->field . ' ' . $this->sqlOperator . ' ' .
                 $this->generateValue( $mode, $this->value );
         $sql .= $this->generateSqlChildren( $mode, $dbType );
         return $sql .= ' )';
@@ -161,8 +158,8 @@ class KVDdb_Criterion
     }
 
     /**
-     * getField 
-     * 
+     * getField
+     *
      * Naam van de velden waarvoor dit criterion en zijn children dienen.
      * @since   9 mei 2009
      * @return  array
@@ -174,8 +171,8 @@ class KVDdb_Criterion
     }
 
     /**
-     * getFieldsChildren 
-     * 
+     * getFieldsChildren
+     *
      * @return array
      */
     protected function getFieldsChildren( )
@@ -188,8 +185,8 @@ class KVDdb_Criterion
     }
 
     /**
-     * getValues 
-     * 
+     * getValues
+     *
      * @return array
      */
     public function getValues( )
@@ -200,8 +197,8 @@ class KVDdb_Criterion
 
 
     /**
-     * getValuesChildren 
-     * 
+     * getValuesChildren
+     *
      * @return array
      */
     protected function getValuesChildren( )
@@ -211,7 +208,7 @@ class KVDdb_Criterion
             $ret = array_merge( $ret, $child['criterion']->getValues( ) );
         }
         return $ret;
-        
+
     }
 
     /**
@@ -241,10 +238,10 @@ class KVDdb_Criterion
     }
 
     /**
-     * notEquals 
-     * 
-     * @param string $field 
-     * @param mixed $value 
+     * notEquals
+     *
+     * @param string $field
+     * @param mixed $value
      * @return KVDdb_Criterion
      */
     public static function notEquals( $field , $value )
@@ -261,7 +258,7 @@ class KVDdb_Criterion
     {
         return new KVDdb_MatchCriterion ( $field, $value );
     }
-    
+
     /**
      * @param string $field
      * @param mixed $value
@@ -342,9 +339,9 @@ class KVDdb_Criterion
     }
 
     /**
-     * notExists 
-     * 
-     * @param   KVDdb_IQuery    $value 
+     * notExists
+     *
+     * @param   KVDdb_IQuery    $value
      * @return  KVDdb_ExistsCriterion
      */
     public static function notExists( $value )
@@ -371,11 +368,11 @@ class KVDdb_Criterion
     }
 
     /**
-     * year 
-     * 
-     * @param string $field 
-     * @param integer $value 
-     * @return KVDdb_YearEqualsCriterion 
+     * year
+     *
+     * @param string $field
+     * @param integer $value
+     * @return KVDdb_YearEqualsCriterion
      */
     public static function year( $field, $value )
     {
@@ -383,12 +380,12 @@ class KVDdb_Criterion
     }
 
     /**
-     * searchFullTextIndex 
-     * 
+     * searchFullTextIndex
+     *
      * @since   1.4
-     * @param   string  $field 
-     * @param   string  $value 
-     * @param   string  $config 
+     * @param   string  $field
+     * @param   string  $value
+     * @param   string  $config
      * @return  KVDdb_SearchFullTextIndexCriterion
      */
     public static function searchFullTextIndex( $field, $value, $config = 'dutch' )
@@ -413,19 +410,19 @@ class KVDdb_MatchCriterion extends KVDdb_Criterion
     {
         parent::__construct( null, $field, $value );
     }
-    
+
     /**
-     * generateSql 
-     * 
-     * @param integer $mode 
-     * @param integer $dbType 
+     * generateSql
+     *
+     * @param integer $mode
+     * @param integer $dbType
      * @return string
      */
-    public function generateSql( 
-                        $mode = KVDdb_Criteria::MODE_FILLED, 
+    public function generateSql(
+                        $mode = KVDdb_Criteria::MODE_FILLED,
                         $dbType = KVDdb_Criteria::DB_MYSQL )
     {
-        $sql =  "( UPPER( " . $this->field . ' ) LIKE UPPER( ' . 
+        $sql =  "( UPPER( " . $this->field . ' ) LIKE UPPER( ' .
                 $this->generateValue( $mode, $this->value ) . ' )';
         $sql .= $this->generateSqlChildren( $mode, $dbType );
         return $sql .= ' )';
@@ -433,7 +430,7 @@ class KVDdb_MatchCriterion extends KVDdb_Criterion
 }
 
 /**
- * Criterion om na te gaan dat een bepaald veld niet matcht met een LIKe 
+ * Criterion om na te gaan dat een bepaald veld niet matcht met een LIKe
  * expressie.
  *
  * @package    KVD.database
@@ -449,19 +446,19 @@ class KVDdb_NotMatchCriterion extends KVDdb_Criterion
     {
         parent::__construct( null, $field, $value );
     }
-    
+
     /**
-     * generateSql 
-     * 
-     * @param integer $mode 
-     * @param integer $dbType 
+     * generateSql
+     *
+     * @param integer $mode
+     * @param integer $dbType
      * @return string
      */
-    public function generateSql( 
-                        $mode = KVDdb_Criteria::MODE_FILLED , 
+    public function generateSql(
+                        $mode = KVDdb_Criteria::MODE_FILLED ,
                         $dbType = KVDdb_Criteria::DB_MYSQL )
     {
-        $sql =  "( UPPER( " . $this->field . ' ) NOT LIKE UPPER( ' . 
+        $sql =  "( UPPER( " . $this->field . ' ) NOT LIKE UPPER( ' .
                 $this->generateValue( $mode, $this->value ) . ' )';
         $sql .= $this->generateSqlChildren( $mode, $dbType );
         return $sql .= ' )';
@@ -469,28 +466,28 @@ class KVDdb_NotMatchCriterion extends KVDdb_Criterion
 }
 
 /**
- * Criterion dat nagaat of een bepaalde waarde aanwezig is in een lijst van 
- * waarden. 
- * 
+ * Criterion dat nagaat of een bepaalde waarde aanwezig is in een lijst van
+ * waarden.
+ *
  * @package    KVD.database
  * @subpackage criteria
  * @since      28 aug 2006
  * @copyright  2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDdb_InCriterion extends KVDdb_Criterion
 {
 
     /**
-     * generateSql 
-     * 
-     * @param integer $mode 
-     * @param integer $dbType 
+     * generateSql
+     *
+     * @param integer $mode
+     * @param integer $dbType
      * @return string
      */
-    public function generateSql( 
-                        $mode = KVDdb_Criteria::MODE_FILLED , 
+    public function generateSql(
+                        $mode = KVDdb_Criteria::MODE_FILLED ,
                         $dbType = KVDdb_Criteria::DB_MYSQL )
     {
         $values = $this->value;
@@ -504,7 +501,7 @@ class KVDdb_InCriterion extends KVDdb_Criterion
     }
 
     /**
-     * getValues 
+     * getValues
      *
      * @since 15 jul 2008
      * @return array
@@ -513,7 +510,7 @@ class KVDdb_InCriterion extends KVDdb_Criterion
     {
         return $this->value;
     }
-    
+
 
 }
 
@@ -524,30 +521,30 @@ class KVDdb_InCriterion extends KVDdb_Criterion
  * @subpackage criteria
  * @since      28 aug 2006
  * @copyright  2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDdb_InSubselectCriterion extends KVDdb_Criterion
 {
     /**
-     * generateSql 
-     * 
-     * @param integer $mode 
-     * @param integer $dbType 
+     * generateSql
+     *
+     * @param integer $mode
+     * @param integer $dbType
      * @return string
      */
-    public function generateSql( 
-                        $mode = KVDdb_Criteria::MODE_FILLED, 
+    public function generateSql(
+                        $mode = KVDdb_Criteria::MODE_FILLED,
                         $dbType = KVDdb_Criteria::DB_MYSQL )
     {
-        $sql =  "( " . $this->field . " " . $this->sqlOperator . 
+        $sql =  "( " . $this->field . " " . $this->sqlOperator .
                 " ( " . $this->value->generateSql( $mode, $dbType ) . " )";
         $sql .= $this->generateSqlChildren( $mode, $dbType);
         return $sql .= ' )';
     }
 
     /**
-     * getValues 
+     * getValues
      *
      * Een Subselect mag enkel de values voor zijn kinderen teruggeven.
      * @since 16 april 2008
@@ -561,13 +558,13 @@ class KVDdb_InSubselectCriterion extends KVDdb_Criterion
 }
 
 /**
- * Criterion dat nagaat of iets bestaat in een bepaalde subexpressie. 
- * 
+ * Criterion dat nagaat of iets bestaat in een bepaalde subexpressie.
+ *
  * @package    KVD.database
  * @subpackage criteria
  * @since      27 mrt 2009
  * @copyright  2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDdb_ExistsCriterion extends KVDdb_Criterion
@@ -576,16 +573,16 @@ class KVDdb_ExistsCriterion extends KVDdb_Criterion
     {
         parent::__construct( $operator, null, $value );
     }
-    
+
     /**
-     * generateSql 
-     * 
-     * @param integer $mode 
-     * @param integer $dbType 
+     * generateSql
+     *
+     * @param integer $mode
+     * @param integer $dbType
      * @return string
      */
-    public function generateSql( 
-                        $mode = KVDdb_Criteria::MODE_FILLED, 
+    public function generateSql(
+                        $mode = KVDdb_Criteria::MODE_FILLED,
                         $dbType = KVDdb_Criteria::DB_MYSQL )
     {
         $sql = "( " . $this->sqlOperator . " ( " . $this->value->generateSql( ) . " )";
@@ -594,7 +591,7 @@ class KVDdb_ExistsCriterion extends KVDdb_Criterion
     }
 
     /**
-     * getValues 
+     * getValues
      *
      * Een Exists mag enkel de values voor zijn kinderen teruggeven.
      * @since 16 april 2008
@@ -618,7 +615,7 @@ class KVDdb_ExistsCriterion extends KVDdb_Criterion
  */
 class KVDdb_IsNullCriterion extends KVDdb_Criterion
 {
-    
+
     /**
      * @param string $field
      */
@@ -628,14 +625,14 @@ class KVDdb_IsNullCriterion extends KVDdb_Criterion
     }
 
     /**
-     * generateSql 
-     * 
-     * @param integer $mode 
-     * @param integer $dbType 
+     * generateSql
+     *
+     * @param integer $mode
+     * @param integer $dbType
      * @return string
      */
-    public function generateSql( 
-                        $mode = KVDdb_Criteria::MODE_FILLED, 
+    public function generateSql(
+                        $mode = KVDdb_Criteria::MODE_FILLED,
                         $dbType = KVDdb_Criteria::DB_MYSQL )
     {
         $sql = "( " . $this->field . " IS NULL";
@@ -644,8 +641,8 @@ class KVDdb_IsNullCriterion extends KVDdb_Criterion
     }
 
     /**
-     * getValues 
-     * 
+     * getValues
+     *
      * Een IsNull heeft geen waarden die achteraf gebonden moeten worden, enkel een veld.
      * @since   9 mei 2009
      * @return  array
@@ -669,7 +666,7 @@ class KVDdb_IsNullCriterion extends KVDdb_Criterion
  */
 class KVDdb_IsNotNullCriterion extends KVDdb_Criterion
 {
-    
+
     /**
      * @param string $field
      */
@@ -682,14 +679,14 @@ class KVDdb_IsNotNullCriterion extends KVDdb_Criterion
      * @return string
      */
     /**
-     * generateSql 
-     * 
-     * @param integer $mode 
-     * @param integer $dbType 
+     * generateSql
+     *
+     * @param integer $mode
+     * @param integer $dbType
      * @return string
      */
-    public function generateSql( 
-                        $mode = KVDdb_Criteria::MODE_FILLED , 
+    public function generateSql(
+                        $mode = KVDdb_Criteria::MODE_FILLED ,
                         $dbType = KVDdb_Criteria::DB_MYSQL )
     {
         $sql = "( " . $this->field . " IS NOT NULL";
@@ -698,8 +695,8 @@ class KVDdb_IsNotNullCriterion extends KVDdb_Criterion
     }
 
     /**
-     * getValues 
-     * 
+     * getValues
+     *
      * Een IsNotNull heeft geen waarden die achteraf gebonden moeten worden, enkel een veld.
      * @since   9 mei 2009
      * @return  array
@@ -711,25 +708,25 @@ class KVDdb_IsNotNullCriterion extends KVDdb_Criterion
 }
 
 /**
- * Criterion dat nagaat of het jaar van een bepaalde datum gelijk is aan een 
+ * Criterion dat nagaat of het jaar van een bepaalde datum gelijk is aan een
  * bepaald jaar.
  *
  * Werkt momenteel enkel voor mysql.
- * 
+ *
  * @package    KVD.database
  * @subpackage criteria
  * @since      22 aug 2007
  * @copyright  2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDdb_YearEqualsCriterion extends KVDdb_Criterion
 {
     /**
-     * __construct 
-     * 
-     * @param string $field 
-     * @param integer $value 
+     * __construct
+     *
+     * @param string $field
+     * @param integer $value
      * @return void
      */
     public function __construct( $field, $value)
@@ -738,14 +735,14 @@ class KVDdb_YearEqualsCriterion extends KVDdb_Criterion
     }
 
     /**
-     * generateSql 
-     * 
-     * @param mixed $mode 
-     * @param mixed $dbType 
+     * generateSql
+     *
+     * @param mixed $mode
+     * @param mixed $dbType
      * @return void
      */
-    public function generateSql( 
-        $mode = KVDdb_Criteria::MODE_FILLED , 
+    public function generateSql(
+        $mode = KVDdb_Criteria::MODE_FILLED ,
         $dbType = KVDdb_Criteria::DB_MYSQL )
     {
         if ( $dbType == KVDdb_Criteria::DB_MYSQL ) {
@@ -760,32 +757,32 @@ class KVDdb_YearEqualsCriterion extends KVDdb_Criterion
 
 /**
  * Criterion om een full-text search uit te voeren.
- * 
+ *
  * Werkt momenteel alleen voor PostgreSQL.
  *
  * @package    KVD.database
  * @subpackage criteria
  * @since      1.4
  * @copyright  2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDdb_SearchFullTextIndexCriterion extends KVDdb_Criterion
 {
     /**
-     * config 
-     * 
+     * config
+     *
      * Een naam van een text search config zoals gekend door postgresql
      * @var string
      */
     protected $config;
 
     /**
-     * __construct 
-     * 
-     * @param   string  $field 
-     * @param   string  $value 
-     * @param   string  $config     Naam van een test search config zoals 
+     * __construct
+     *
+     * @param   string  $field
+     * @param   string  $value
+     * @param   string  $config     Naam van een test search config zoals
      * gekend door postgres.
      * @return void
      */
@@ -796,22 +793,22 @@ class KVDdb_SearchFullTextIndexCriterion extends KVDdb_Criterion
     }
 
     /**
-     * generateSql 
-     * 
-     * @param   integer  $mode 
-     * @param   integer  $dbType 
+     * generateSql
+     *
+     * @param   integer  $mode
+     * @param   integer  $dbType
      * @return  string
      */
-    public function generateSql( 
-                        $mode = KVDdb_Criteria::MODE_FILLED, 
+    public function generateSql(
+                        $mode = KVDdb_Criteria::MODE_FILLED,
                         $dbType = KVDdb_Criteria::DB_PGSQL )
     {
         if ( $dbType == KVDdb_Criteria::DB_PGSQL ) {
-            $sql =  '( ' . $this->field . 
-                    " @@ to_tsquery( '" .$this->config . 
+            $sql =  '( ' . $this->field .
+                    " @@ to_tsquery( '" .$this->config .
                     "', " . $this->generateValue( $mode, $this->value ) . ' ) ';
         } else {
-            throw new InvalidArgumentException ( 
+            throw new InvalidArgumentException (
                 'This Criterion is only supported for Postgresql.' );
         }
         $sql .= $this->generateSqlChildren( $mode, $dbType );
