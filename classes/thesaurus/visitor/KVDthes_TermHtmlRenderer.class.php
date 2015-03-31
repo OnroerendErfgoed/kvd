@@ -2,38 +2,35 @@
 /**
  * @package    KVD.thes
  * @subpackage visitor
- * @version    $Id$
  * @copyright  2004-2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
- * KVDthes_TermHtmlRenderer 
- * 
- * Basis renderer voor een {@link KVDthes_RenderingTreeVisitor} die 
+ * KVDthes_TermHtmlRenderer
+ *
+ * Basis renderer voor een {@link KVDthes_RenderingTreeVisitor} die
  * de termen rendert als geneste unordererd lists.
  *
  * @package    KVD.thes
  * @subpackage visitor
  * @since      19 apr 2009
  * @copyright  2004-2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 class KVDthes_TermHtmlRenderer implements KVDthes_ITermRenderer
 {
     /**
-     * parameters 
-     * 
+     * parameters
+     *
      * @var array
      */
     protected $parameters = array( );
 
     /**
-     * __construct 
-     * 
-     * @param   array $parameters 
+     * __construct
+     *
+     * @param   array $parameters
      * @return  void
      */
     public function __construct( array $parameters = array( ) )
@@ -42,9 +39,9 @@ class KVDthes_TermHtmlRenderer implements KVDthes_ITermRenderer
     }
 
     /**
-     * renderTerm 
-     * 
-     * @param   KVDthes_Term $term 
+     * renderTerm
+     *
+     * @param   KVDthes_Term $term
      * @return  string
      */
     public function renderTerm( KVDthes_Term $term )
@@ -53,8 +50,8 @@ class KVDthes_TermHtmlRenderer implements KVDthes_ITermRenderer
     }
 
     /**
-     * getResultStart 
-     * 
+     * getResultStart
+     *
      * @return  string
      */
     public function getResultStart( )
@@ -63,8 +60,8 @@ class KVDthes_TermHtmlRenderer implements KVDthes_ITermRenderer
     }
 
     /**
-     * getResultEnd 
-     * 
+     * getResultEnd
+     *
      * @return  string
      */
     public function getResultEnd( )
@@ -73,8 +70,8 @@ class KVDthes_TermHtmlRenderer implements KVDthes_ITermRenderer
     }
 
     /**
-     * getVisitStart 
-     * 
+     * getVisitStart
+     *
      * @return  string
      */
     public function getVisitStart( )
@@ -83,8 +80,8 @@ class KVDthes_TermHtmlRenderer implements KVDthes_ITermRenderer
     }
 
     /**
-     * getVisitEnd 
-     * 
+     * getVisitEnd
+     *
      * @return  string
      */
     public function getVisitEnd( )
@@ -93,8 +90,8 @@ class KVDthes_TermHtmlRenderer implements KVDthes_ITermRenderer
     }
 
     /**
-     * getCompositeStart 
-     * 
+     * getCompositeStart
+     *
      * @return  string
      */
     public function getCompositeStart( )
@@ -103,8 +100,8 @@ class KVDthes_TermHtmlRenderer implements KVDthes_ITermRenderer
     }
 
     /**
-     * getCompositeEnd 
-     * 
+     * getCompositeEnd
+     *
      * @return  string
      */
     public function getCompositeEnd( )

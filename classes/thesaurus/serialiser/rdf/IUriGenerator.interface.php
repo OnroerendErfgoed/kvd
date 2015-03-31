@@ -2,28 +2,25 @@
 /**
  * @package    KVD.thes
  * @subpackage serialiser
- * @version    $Id$
  * @copyright  2011 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
- * Interface die plugins moeten implementeren die kunnen gebruikt worden bij 
+ * Interface die plugins moeten implementeren die kunnen gebruikt worden bij
  * het serialiseren van thesauri naar rdf.
- * 
+ *
  * @package    KVD.thes
  * @subpackage serialiser
  * @since      1.5
  * @copyright  2011 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 interface KVDthes_Serialiser_Rdf_IUriGenerator
 {
     /**
      * Maak een uri aan waaronder de term gekend mag zijn.
-     * 
+     *
      * @param KVDthes_Term  $term
      * @return string
      */
@@ -31,7 +28,7 @@ interface KVDthes_Serialiser_Rdf_IUriGenerator
 
     /**
      * Maak een uri aan waaronder de thesaurus gekend mag zijn.
-     * 
+     *
      * @param KVDthes_Thesaurus  $thes
      * @return string
      */

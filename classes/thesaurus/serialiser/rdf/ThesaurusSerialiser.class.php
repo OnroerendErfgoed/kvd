@@ -2,41 +2,38 @@
 /**
  * @package    KVD.thes
  * @subpackage serialiser
- * @version    $Id$
  * @copyright  2011 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
  * Object dat een thesaurus kan serialiseren naar rdf/xml.
  *
- * Opgelet, dit zal niet de volledige thesaurus omzetten naar xml, maar zal de 
+ * Opgelet, dit zal niet de volledige thesaurus omzetten naar xml, maar zal de
  * informatie over de thesaurus as such omzetten naar een skos:ConceptScheme
- * 
+ *
  * @package    KVD.thes
  * @subpackage serialiser
  * @since      1.5
  * @copyright  2011 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 class KVDthes_Serialiser_Rdf_ThesaurusSerialiser extends KVDthes_Serialiser_Rdf_AbstractSerialiser
 {
     /**
-     * transform 
-     * 
+     * transform
+     *
      * @param KVDthes_Term $thes
      * @return EasyRdf_Resource
      */
     public function transform( KVDthes_Term $thes )
     {
         if ( $thes->isNull( ) ) {
-            throw new InvalidArgumentException( 
+            throw new InvalidArgumentException(
                 'Een nullobject kan niet geserialiseerd worden!' );
         }
         if ( $thes->getType( )->getId( ) != 'HR'  ) {
-            throw new InvalidArgumentException( 
+            throw new InvalidArgumentException(
                 'Om een thesaurus te kunnen serialiseren hebben we de HR term nodig.' );
         }
         $term = $thes;

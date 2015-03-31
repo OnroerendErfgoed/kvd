@@ -2,43 +2,40 @@
 /**
  * @package KVD.thes
  * @subpackage visitor
- * @version $Id$
  * @copyright 2004-2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
- * KVDthes_XMLVisitor 
- * 
+ * KVDthes_XMLVisitor
+ *
  * @package KVD.thes
  * @subpackage visitor
  * @since 9 jan 2008
  * @copyright 2004-2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 class KVDthes_GetRelationsVisitor extends KVDthes_AbstractSimpleVisitor
 {
     /**
-     * result 
-     * 
+     * result
+     *
      * @var string
      */
     private $result = array( );
 
     /**
-     * from 
-     * 
+     * from
+     *
      * @var mixed String of integer.
      */
     private $from;
 
 
     /**
-     * visit 
-     * 
-     * @param KVDthes_Term $node 
+     * visit
+     *
+     * @param KVDthes_Term $node
      * @return void
      */
 	public function visit(KVDthes_Term $node)
@@ -48,9 +45,9 @@ class KVDthes_GetRelationsVisitor extends KVDthes_AbstractSimpleVisitor
     }
 
     /**
-     * visitRelation 
-     * 
-     * @param KVDthes_Relation $relation 
+     * visitRelation
+     *
+     * @param KVDthes_Relation $relation
      * @return boolean
      */
     public function visitRelation(KVDthes_Relation $relation)
@@ -60,8 +57,8 @@ class KVDthes_GetRelationsVisitor extends KVDthes_AbstractSimpleVisitor
     }
 
     /**
-     * enterComposite 
-     * 
+     * enterComposite
+     *
      * @param KVDthes_Term $term
      * @return boolean
      */
@@ -71,8 +68,8 @@ class KVDthes_GetRelationsVisitor extends KVDthes_AbstractSimpleVisitor
 	}
 
     /**
-     * leaveComposite 
-     * 
+     * leaveComposite
+     *
      * @param KVDthes_Term $term
      * @return boolean
      */
@@ -83,8 +80,8 @@ class KVDthes_GetRelationsVisitor extends KVDthes_AbstractSimpleVisitor
 
     /**
      * getIterator
-     * 
-     * @param KVDthes_Relations $relations 
+     *
+     * @param KVDthes_Relations $relations
      * @return void
      */
     public function getIterator( KVDthes_Relations $relations )
@@ -93,10 +90,10 @@ class KVDthes_GetRelationsVisitor extends KVDthes_AbstractSimpleVisitor
     }
 
     /**
-     * getResult 
-     * 
-     * Deze methode geeft het resultaat van de visit terug, een array waarmee 
-     * de relatie-structuur kan gepersisteerd worden in een andere vorm, 
+     * getResult
+     *
+     * Deze methode geeft het resultaat van de visit terug, een array waarmee
+     * de relatie-structuur kan gepersisteerd worden in een andere vorm,
      * meest waarschijnlijk een databank.
      * @return array    Een array met arrays met telkens drie sleutels ( id_from, rel_type, id_to ).
      */

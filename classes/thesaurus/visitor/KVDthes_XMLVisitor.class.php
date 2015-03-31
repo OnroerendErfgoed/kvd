@@ -2,41 +2,38 @@
 /**
  * @package    KVD.thes
  * @subpackage visitor
- * @version    $Id$
  * @copyright  2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
  * Deze vistitor transformeert een in-memory tree van thesaurus termen tot een zthes file.
- * 
+ *
  * @package    KVD.thes
  * @subpackage visitor
  * @since      19 maart 2007
  * @copyright  2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 class KVDthes_XMLVisitor extends KVDthes_AbstractSimpleVisitor
 {
     /**
-     * dom 
-     * 
+     * dom
+     *
      * @var DOMDocument
      */
     private $dom;
 
     /**
-     * zthes 
-     * 
+     * zthes
+     *
      * @var mixed
      */
     private $zthes;
 
     /**
-     * result 
-     * 
+     * result
+     *
      * @var string
      */
     public $result = '';
@@ -49,9 +46,9 @@ class KVDthes_XMLVisitor extends KVDthes_AbstractSimpleVisitor
     }
 
     /**
-     * visit 
-     * 
-     * @param KVDthes_Term $node 
+     * visit
+     *
+     * @param KVDthes_Term $node
      * @return void
      */
     public function visit(KVDthes_Term $node)
@@ -118,8 +115,8 @@ class KVDthes_XMLVisitor extends KVDthes_AbstractSimpleVisitor
     }
 
     /**
-     * enterComposite 
-     * 
+     * enterComposite
+     *
      * @param KVDthes_Term $term
      * @return boolean
      */
@@ -129,8 +126,8 @@ class KVDthes_XMLVisitor extends KVDthes_AbstractSimpleVisitor
     }
 
     /**
-     * leaveComposite 
-     * 
+     * leaveComposite
+     *
      * @param KVDthes_Term $term
      * @return boolean
      */
@@ -143,8 +140,8 @@ class KVDthes_XMLVisitor extends KVDthes_AbstractSimpleVisitor
 
     /**
      * getIterator
-     * 
-     * @param KVDthes_Relations $relations 
+     *
+     * @param KVDthes_Relations $relations
      * @return void
      */
     public function getIterator( KVDthes_Relations $relations )

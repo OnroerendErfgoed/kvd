@@ -2,43 +2,40 @@
 /**
  * @package     KVD.thes
  * @subpackage  mapper
- * @version     $Id$
  * @copyright   2012 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
  * Een mapper voor KVDthes_Concept objecten.
- * 
+ *
  * @package     KVD.thes
  * @subpackage  mapper
  * @since       1.6
  * @copyright   2012 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 abstract class KVDthes_DbConceptMapper implements KVDdom_IDataMapper, KVDthes_IMatchableMapper
 {
     /**
-     * sessie 
-     * 
+     * sessie
+     *
      * @var KVDdom_IWriteSessie
      */
     protected $sessie;
 
     /**
-     * conn 
-     * 
+     * conn
+     *
      * @var PDO
      */
     protected $conn;
 
     /**
-     * __construct 
-     * 
-     * @param KVDdom_IWriteSessie $sessie 
-     * @param array $parameters 
+     * __construct
+     *
+     * @param KVDdom_IWriteSessie $sessie
+     * @param array $parameters
      */
     public function __construct ( $sessie , $parameters )
     {
@@ -48,23 +45,23 @@ abstract class KVDthes_DbConceptMapper implements KVDdom_IDataMapper, KVDthes_IM
     }
 
     /**
-     * initialize 
-     * 
-     * @param array $parameters 
+     * initialize
+     *
+     * @param array $parameters
      * @throws KVDdom_MapperConfigurationException Indien er een parameter niet gespecifieerd werd.
      * @return void
      */
     protected function initialize( array $parameters )
     {
-        $this->parameters = array ( 'thesaurus_id' => 0, 
-                                    'thesaurus_naam' => 'Onbepaalde Thesaurus', 
+        $this->parameters = array ( 'thesaurus_id' => 0,
+                                    'thesaurus_naam' => 'Onbepaalde Thesaurus',
                                     'thesaurus_korte_naam' => null,
                                     'thesaurus_taal' => 'nl-BE');
         if ( !isset ( $parameters['schema'] ) ) {
             throw new KVDdom_MapperConfigurationException( 'Er is geen schema gespecifieerd voor deze thesaurus.', $this);
         }
         if ( !isset ( $parameters['do_class_finder'] ) ) {
-            throw new KVDdom_MapperConfigurationException( 
+            throw new KVDdom_MapperConfigurationException(
                 'Er is geen functie gespecifieerd die voor een bepaalde thesaurus id de mapper kan vinden.', $this);
         }
         $this->parameters = array_merge( $this->parameters , $parameters);
@@ -74,7 +71,7 @@ abstract class KVDthes_DbConceptMapper implements KVDdom_IDataMapper, KVDthes_IM
      * getDomainObjectClass
      *
      * @param  integer $thesaurus Id of naam van een thesaurus.
-     * @return string|false Naam van het domainobject of false indien het niet gekend is.    
+     * @return string|false Naam van het domainobject of false indien het niet gekend is.
      */
     public function getDomainObjectClass( $thesaurus )
     {
@@ -83,16 +80,16 @@ abstract class KVDthes_DbConceptMapper implements KVDdom_IDataMapper, KVDthes_IM
 
     protected function getSelectStatement( )
     {
-        return sprintf( 'SELECT c.id, c.term 
-                         FROM %s.concept c 
-                         WHERE c.thesaurus_id = %d' , 
-                         $this->parameters['schema'], 
+        return sprintf( 'SELECT c.id, c.term
+                         FROM %s.concept c
+                         WHERE c.thesaurus_id = %d' ,
+                         $this->parameters['schema'],
                          $this->parameters['thesaurus_id'] );
     }
 
     /**
-     * getFindByIdStatement 
-     * 
+     * getFindByIdStatement
+     *
      * @return string SQL Statement
      */
     protected function getFindByIdStatement( )
@@ -101,8 +98,8 @@ abstract class KVDthes_DbConceptMapper implements KVDdom_IDataMapper, KVDthes_IM
     }
 
     /**
-     * getFindAllStatement 
-     * 
+     * getFindAllStatement
+     *
      * @return string
      */
     protected function getFindAllStatement( )
@@ -111,19 +108,19 @@ abstract class KVDthes_DbConceptMapper implements KVDdom_IDataMapper, KVDthes_IM
     }
 
     /**
-     * getLoadMatchesStatement 
-     * 
+     * getLoadMatchesStatement
+     *
      * @return string
      */
     protected function getLoadMatchesStatement( )
     {
-        return sprintf( 
-            'SELECT m.concept_match_type AS match_type, t.thesaurus_id as term_thesaurus_id, t.id AS term_id, t.term AS term, tt.id AS type_id, tt.name AS type_naam, t.qualifier AS qualifier, t.language AS language, t.sort_key AS sort_key 
+        return sprintf(
+            'SELECT m.concept_match_type AS match_type, t.thesaurus_id as term_thesaurus_id, t.id AS term_id, t.term AS term, tt.id AS type_id, tt.name AS type_naam, t.qualifier AS qualifier, t.language AS language, t.sort_key AS sort_key
              FROM %s.concept c
-                INNER JOIN %s.match m ON (c.id = m.concept_id AND c.thesaurus_id = m.concept_thesaurus_id ) 
+                INNER JOIN %s.match m ON (c.id = m.concept_id AND c.thesaurus_id = m.concept_thesaurus_id )
                 INNER JOIN %s.term t ON (m.term_id = t.id AND m.term_thesaurus_id = t.thesaurus_id)
                 INNER JOIN %s.term_type_code tt ON (t.type = tt.id)
-             WHERE 
+             WHERE
                 c.id = ?
                 AND c.thesaurus_id = %d',
             $this->parameters['schema'],
@@ -134,9 +131,9 @@ abstract class KVDthes_DbConceptMapper implements KVDdom_IDataMapper, KVDthes_IM
     }
 
     /**
-     * findById 
-     * 
-     * @param integer $id 
+     * findById
+     *
+     * @param integer $id
      * @return KVDthes_Concept
      * @throws KVDdom_DomainObjectNotFoundException - Indien het concept niet bestaat
      */
@@ -194,10 +191,10 @@ abstract class KVDthes_DbConceptMapper implements KVDdom_IDataMapper, KVDthes_IM
     }
 
     /**
-     * doLoadRow 
-     * 
-     * @param integer   $id 
-     * @param StdClass  $row 
+     * doLoadRow
+     *
+     * @param integer   $id
+     * @param StdClass  $row
      * @return KVDthes_Concept
      */
     protected function doLoadRow( $id , $row )
@@ -208,8 +205,8 @@ abstract class KVDthes_DbConceptMapper implements KVDdom_IDataMapper, KVDthes_IM
     }
 
     /**
-     * doLoadThesaurus 
-     * 
+     * doLoadThesaurus
+     *
      * @return KVDthes_Thesaurus
      */
     protected function doLoadThesaurus( )
@@ -310,17 +307,17 @@ abstract class KVDthes_DbConceptMapper implements KVDdom_IDataMapper, KVDthes_IM
 	}
 
     /**
-     * getReturnType 
-     * 
+     * getReturnType
+     *
      * @return string
      */
     abstract protected function getReturnType( );
 
     /**
-     * bindValues 
-     * 
-     * @param   PDOStatement    $stmt 
-     * @param   integer         $nextIndex 
+     * bindValues
+     *
+     * @param   PDOStatement    $stmt
+     * @param   integer         $nextIndex
      * @param   KVDthes_Concept $concept
      * @return  integer         Volgende te gebruiken index.
      */
@@ -331,15 +328,15 @@ abstract class KVDthes_DbConceptMapper implements KVDdom_IDataMapper, KVDthes_IM
     }
 
     /**
-     * insert 
-     * 
-     * @param  KVDthes_Concept $concept 
+     * insert
+     *
+     * @param  KVDthes_Concept $concept
      * @return KVDthes_Concept
      */
     public function insert( KVDthes_Concept $concept )
     {
-        $sql = sprintf( 'INSERT INTO %s.concept (thesaurus_id, id, term ) VALUES ( %s, ?, ?)', 
-                        $this->parameters['schema'], 
+        $sql = sprintf( 'INSERT INTO %s.concept (thesaurus_id, id, term ) VALUES ( %s, ?, ?)',
+                        $this->parameters['schema'],
                         $this->parameters['thesaurus_id'] );
         $stmt = $this->conn->prepare(  $sql );
         $stmt->bindValue(1, $concept->getId(), PDO::PARAM_INT );
@@ -357,12 +354,12 @@ abstract class KVDthes_DbConceptMapper implements KVDdom_IDataMapper, KVDthes_IM
      * @param  KVDthes_Concept $concept
      * @return KVDthes_Concept
      */
-    public function update(KVDthes_Concept $concept) 
+    public function update(KVDthes_Concept $concept)
     {
-        $sql = sprintf( 'UPDATE %s.concept SET 
+        $sql = sprintf( 'UPDATE %s.concept SET
                             term = ?
-                         WHERE thesaurus_id = %s AND id = ?', 
-                         $this->parameters['schema'], 
+                         WHERE thesaurus_id = %s AND id = ?',
+                         $this->parameters['schema'],
                          $this->parameters['thesaurus_id'] );
         $stmt = $this->conn->prepare($sql);
         $nextIndex = $this->bindValues($stmt, 1, $concept);
@@ -406,26 +403,26 @@ abstract class KVDthes_DbConceptMapper implements KVDdom_IDataMapper, KVDthes_IM
      */
     protected function deleteNotes(KVDthes_Concept $concept)
     {
-        $sql = sprintf( 'DELETE FROM %s.concept_notes WHERE thesaurus_id = %s AND concept_id = ?', 
-                        $this->parameters['schema'], 
+        $sql = sprintf( 'DELETE FROM %s.concept_notes WHERE thesaurus_id = %s AND concept_id = ?',
+                        $this->parameters['schema'],
                         $this->parameters['thesaurus_id'] );
         $stmt = $this->conn->prepare( $sql );
         $stmt->bindValue(1, $concept->getId( ), PDO::PARAM_INT );
         $stmt->execute( );
     }
-    
+
     /**
-     * insertNotes 
-     * 
+     * insertNotes
+     *
      * @param  KVDthes_Concept $concept
      * @return void
      */
     protected function insertNotes(KVDthes_Concept $concept)
     {
-        $sql = sprintf( 'INSERT INTO %s.notes 
-                        (thesaurus_id, term_id, type, language, note) 
-                        VALUES ( %s, ?, ?, ?)', 
-                        $this->parameters['schema'], 
+        $sql = sprintf( 'INSERT INTO %s.notes
+                        (thesaurus_id, term_id, type, language, note)
+                        VALUES ( %s, ?, ?, ?)',
+                        $this->parameters['schema'],
                         $this->parameters['thesaurus_id'] );
         if ( count( $concept->getNotes( ) ) > 0 ) {
             $stmt = $this->conn->prepare(  $sql );
@@ -441,14 +438,14 @@ abstract class KVDthes_DbConceptMapper implements KVDdom_IDataMapper, KVDthes_IM
 
     /**
      * deleteMatches
-     * 
+     *
      * @param  KVDthes_Concept $concept
      * @return void
      */
     private function deleteMatches(KVDthes_Concept $concept)
     {
-        $sql = sprintf( 'DELETE FROM %s.match WHERE concept_thesaurus_id = %s AND concept_id = ?', 
-                        $this->parameters['schema'], 
+        $sql = sprintf( 'DELETE FROM %s.match WHERE concept_thesaurus_id = %s AND concept_id = ?',
+                        $this->parameters['schema'],
                         $this->parameters['thesaurus_id'] );
         $stmt = $this->conn->prepare ($sql );
         $stmt->bindValue (1, $concept->getId( ), PDO::PARAM_INT );
@@ -457,16 +454,16 @@ abstract class KVDthes_DbConceptMapper implements KVDdom_IDataMapper, KVDthes_IM
 
     /**
      * insertMatches
-     * 
+     *
      * @param  KVDthes_Concept $concept
      * @return void
      */
     private function insertMatches(KVDthes_Concept $concept )
     {
-        $sql = sprintf( 
-            'INSERT INTO %s.match(concept_thesaurus_id, concept_id, concept_match_type, term_match_type, term_thesaurus_id, term_id) 
-             VALUES (%s, ?, ?, ?, ?, ?)', 
-             $this->parameters['schema'], 
+        $sql = sprintf(
+            'INSERT INTO %s.match(concept_thesaurus_id, concept_id, concept_match_type, term_match_type, term_thesaurus_id, term_id)
+             VALUES (%s, ?, ?, ?, ?, ?)',
+             $this->parameters['schema'],
              $this->parameters['thesaurus_id'] );
         if ( count( $concept->getMatches() ) > 0 ) {
             $stmt = $this->conn->prepare($sql);

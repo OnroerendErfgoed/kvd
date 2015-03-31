@@ -2,27 +2,24 @@
 /**
  * @package    KVD.thes
  * @subpackage serialiser
- * @version    $Id$
  * @copyright  2011 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
- * Object dat een thesaurusterm kan serialiseren naar rdf/xml. 
- * 
+ * Object dat een thesaurusterm kan serialiseren naar rdf/xml.
+ *
  * @package    KVD.thes
  * @subpackage serialiser
  * @since      1.5
  * @copyright  2011 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 class KVDthes_Serialiser_Rdf_TermSerialiser extends KVDthes_Serialiser_Rdf_AbstractSerialiser
 {
     /**
-     * transform 
-     * 
+     * transform
+     *
      * @param KVDthes_term $thes
      * @return EasyRdf_Resource
      */
@@ -79,7 +76,7 @@ class KVDthes_Serialiser_Rdf_TermSerialiser extends KVDthes_Serialiser_Rdf_Abstr
             }
         }
 
-        if ( $term->getType( )->getId( ) != 'NL' && 
+        if ( $term->getType( )->getId( ) != 'NL' &&
              $term->hasRelations( KVDthes_Relation::REL_BT ) ) {
             $bt = $term->getBroaderTerm( );
             while ( $bt->getType( )->getId( ) == 'NL' ) {

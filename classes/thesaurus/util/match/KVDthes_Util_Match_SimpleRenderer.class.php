@@ -2,24 +2,21 @@
 /**
  * @package    KVD.thes
  * @subpackage util
- * @version    $Id$
  * @copyright  2012 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
  * Een renderer die een link naar een concept rendert.
  *
- * Deze renderer gaat er van uit dat er een enkele url is waarin 1 parameter id 
+ * Deze renderer gaat er van uit dat er een enkele url is waarin 1 parameter id
  * moet toegevoegd worden.
  *
  * @package    KVD.thes
  * @subpackage util
  * @since      1.6
  * @copyright  2012 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 class KVDthes_Util_Match_SimpleRenderer implements KVDthes_Util_Match_IMatchRenderer
 {
@@ -33,8 +30,8 @@ class KVDthes_Util_Match_SimpleRenderer implements KVDthes_Util_Match_IMatchRend
     /**
      * __construct
      *
-     * @param array $parameters Only parameter required is url. This parameter 
-     * must be in sprintf syntax en contain a placeholder that can be replaced 
+     * @param array $parameters Only parameter required is url. This parameter
+     * must be in sprintf syntax en contain a placeholder that can be replaced
      * with an identifier in a thesaurus. eg. http://thesaurs/%s
      * @return void
      */
@@ -59,7 +56,7 @@ class KVDthes_Util_Match_SimpleRenderer implements KVDthes_Util_Match_IMatchRend
         if ( !$link || !isset($this->parameters['url'] )) {
             return $match->getTypeOmschrijving() . ' ' . $omschrijving;
         }
-        return sprintf( 
+        return sprintf(
             '%s <a href="%s">%s</a>',
             $match->getTypeOmschrijving(),
             sprintf( $this->parameters['url'], $match->getMatchable()->getId()),

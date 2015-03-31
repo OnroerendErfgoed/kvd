@@ -2,58 +2,55 @@
 /**
  * @package KVD.thes
  * @subpackage mapper
- * @version $Id$
  * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
- * KVDthes_XmlMapper 
- * 
+ * KVDthes_XmlMapper
+ *
  * @package KVD.thes
  * @subpackage mapper
  * @since 3 apil 2007
  * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 abstract class KVDthes_XmlMapper implements KVDthes_IDataMapper
 {
     /**
-     * sessie 
-     * 
+     * sessie
+     *
      * @var KVDthes_ISessie
      */
     protected $sessie;
 
     /**
-     * dom 
-     * 
+     * dom
+     *
      * @var DOMDocument
      */
     protected $dom;
 
     /**
-     * xp 
-     * 
+     * xp
+     *
      * @var DOMXPath
      */
     protected $xp;
 
     /**
-     * root 
-     * 
+     * root
+     *
      * De root node van deze thesaurus.
      * @var KVDthes_Term
      */
     protected $root = null;
 
     /**
-     * __construct 
-     * 
-     * @param KVDthes_ISessie $sessie 
-     * @param array $parameters 
+     * __construct
+     *
+     * @param KVDthes_ISessie $sessie
+     * @param array $parameters
      */
     public function __construct ( $sessie , $parameters )
     {
@@ -71,9 +68,9 @@ abstract class KVDthes_XmlMapper implements KVDthes_IDataMapper
     }
 
     /**
-     * findById 
-     * 
-     * @param integer $id 
+     * findById
+     *
+     * @param integer $id
      * @return KVDthes_Term
      * @throws Exception - Indien de term niet bestaat
      */
@@ -86,8 +83,8 @@ abstract class KVDthes_XmlMapper implements KVDthes_IDataMapper
     }
 
     /**
-     * findAll 
-     * 
+     * findAll
+     *
      * @return KVDdom_DomainObjectCollection
      */
     public function findAll( )
@@ -100,11 +97,11 @@ abstract class KVDthes_XmlMapper implements KVDthes_IDataMapper
     }
 
     /**
-     * compareTerm 
-     * 
+     * compareTerm
+     *
      * Callback functie voor de findAll methode.
-     * @param KVDthes_Term $a 
-     * @param KVDthes_Term $b 
+     * @param KVDthes_Term $a
+     * @param KVDthes_Term $b
      * @return integer
      */
     private function compareTerm( KVDthes_Term $a, KVDthes_Term $b )
@@ -119,8 +116,8 @@ abstract class KVDthes_XmlMapper implements KVDthes_IDataMapper
     }
 
     /**
-     * findRoot 
-     * 
+     * findRoot
+     *
      * @todo error handling indien de root niet gevonden werd.
      * @return KVDthes_Term
      */
@@ -130,7 +127,7 @@ abstract class KVDthes_XmlMapper implements KVDthes_IDataMapper
     }
 
     /**
-     * Een two-pass loading systeem. Eerst worden de termen allemaal geladen en dan worden de relaties gelegd. 
+     * Een two-pass loading systeem. Eerst worden de termen allemaal geladen en dan worden de relaties gelegd.
      */
     private function loadIdentityMap( )
     {
@@ -154,8 +151,8 @@ abstract class KVDthes_XmlMapper implements KVDthes_IDataMapper
     }
 
     /**
-     * doLoadThesaurus 
-     * 
+     * doLoadThesaurus
+     *
      * @return KVDthes_Thesaurus
      */
     private function doLoadThesaurus( )
@@ -164,9 +161,9 @@ abstract class KVDthes_XmlMapper implements KVDthes_IDataMapper
     }
 
     /**
-     * loadType 
-     * 
-     * @param   string              $code 
+     * loadType
+     *
+     * @param   string              $code
      * @return  KVDthes_TermType
      */
     private function loadType( $code )
@@ -189,9 +186,9 @@ abstract class KVDthes_XmlMapper implements KVDthes_IDataMapper
     }
 
     /**
-     * findNodeForTerm 
-     * 
-     * @param   KVDthes_Term $termObj 
+     * findNodeForTerm
+     *
+     * @param   KVDthes_Term $termObj
      * @return  DOMNode
      */
     private function findNodeForTerm( KVDthes_Term $termObj )
@@ -204,12 +201,12 @@ abstract class KVDthes_XmlMapper implements KVDthes_IDataMapper
 
         return $list->item(0);
     }
-    
+
 
     /**
-     * loadRelations 
-     * 
-     * @param KVDdom_DomainObject $termObj 
+     * loadRelations
+     *
+     * @param KVDdom_DomainObject $termObj
      * @return KVDdom_DomainObject
      */
     public function loadRelations( KVDthes_Term $termObj )
@@ -226,9 +223,9 @@ abstract class KVDthes_XmlMapper implements KVDthes_IDataMapper
     }
 
     /**
-     * loadNotes 
-     * 
-     * @param   KVDthes_Term $term 
+     * loadNotes
+     *
+     * @param   KVDthes_Term $term
      * @return  KVDthes_Term
      */
     public function loadNotes( KVDthes_Term $term )
@@ -236,7 +233,7 @@ abstract class KVDthes_XmlMapper implements KVDthes_IDataMapper
         $termElem = $this->findNodeForTerm( $term );
 
         $notes = array( );
-        
+
         foreach ( $termElem->getElementsByTagName( 'termNote' ) as $note ) {
             if ( $note->hasAttribute( 'label' ) ) {
                 $noteType = strtolower( $note->getAttribute( 'label' ) ) . 'Note';
@@ -250,8 +247,8 @@ abstract class KVDthes_XmlMapper implements KVDthes_IDataMapper
     }
 
     /**
-     * getReturnType 
-     * 
+     * getReturnType
+     *
      * @return string
      */
     abstract protected function getReturnType( );

@@ -2,10 +2,8 @@
 /**
  * @package KVD.thes
  * @subpackage visitor
- * @version $Id$
  * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
@@ -17,7 +15,6 @@
  * @todo afwerken en zorgen dat het werkt als er meerdere paden naar de root node zijn.
  * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDthes_AgaviReverseTreeVisitorHtml extends KVDthes_AbstractTreeVisitor
 {

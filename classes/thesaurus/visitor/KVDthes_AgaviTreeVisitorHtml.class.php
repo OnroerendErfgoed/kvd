@@ -2,66 +2,63 @@
 /**
  * @package KVD.thes
  * @subpackage visitor
- * @version $Id$
  * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
- * KVDthes_AgaviTreeVisitorHtml 
- * 
+ * KVDthes_AgaviTreeVisitorHtml
+ *
  * @package KVD.thes
  * @subpackage visitor
  * @since 19 maart 2007
  * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 class KVDthes_AgaviTreeVisitorHtml extends KVDthes_AbstractTreeVisitor
 {
     /**
-     * depth 
-     * 
+     * depth
+     *
      * @var integer
      */
 	private $depth = 1;
 
     /**
-     * result 
-     * 
+     * result
+     *
      * @var string
      */
     private $result = "<ul>\n";
 
     /**
-     * ro 
-     * 
+     * ro
+     *
      * @var AgaviRouting
      */
     private $ro;
 
     /**
-     * termRoute 
-     * 
+     * termRoute
+     *
      * @var string
      */
     private $termRoute;
 
     /**
-     * termIdParameter 
-     * 
+     * termIdParameter
+     *
      * @var string
      */
     private $termIdParameter;
 
     /**
-     * __construct 
-     * 
-     * @param AgaviRouting  $ro 
-     * @param string        $termRoute 
-     * @param string        $termIdParameter 
-     * @param integer       $relationsSortOrder 
+     * __construct
+     *
+     * @param AgaviRouting  $ro
+     * @param string        $termRoute
+     * @param string        $termIdParameter
+     * @param integer       $relationsSortOrder
      * @return void
      */
     public function __construct( AgaviRouting $ro , $termRoute, $termIdParameter = 'id', $relationsSortOrder = KVDthes_TermSorter::SORT_UNSORTED )
@@ -73,8 +70,8 @@ class KVDthes_AgaviTreeVisitorHtml extends KVDthes_AbstractTreeVisitor
     }
 
     /**
-     * pad 
-     * 
+     * pad
+     *
      * @return string
      */
 	private function pad()
@@ -87,9 +84,9 @@ class KVDthes_AgaviTreeVisitorHtml extends KVDthes_AbstractTreeVisitor
 	}
 
     /**
-     * visit 
-     * 
-     * @param KVDthes_Term $node 
+     * visit
+     *
+     * @param KVDthes_Term $node
      * @return void
      */
 	public function visit(KVDthes_Term $node)
@@ -102,8 +99,8 @@ class KVDthes_AgaviTreeVisitorHtml extends KVDthes_AbstractTreeVisitor
     }
 
     /**
-     * enterComposite 
-     * 
+     * enterComposite
+     *
      * @return boolean
      */
 	public function enterComposite(KVDthes_Term $node)
@@ -118,8 +115,8 @@ class KVDthes_AgaviTreeVisitorHtml extends KVDthes_AbstractTreeVisitor
 	}
 
     /**
-     * leaveComposite 
-     * 
+     * leaveComposite
+     *
      * @return boolean
      */
 	public function leaveComposite(KVDthes_Term $node)
@@ -135,8 +132,8 @@ class KVDthes_AgaviTreeVisitorHtml extends KVDthes_AbstractTreeVisitor
 
     /**
      * getIterator
-     * 
-     * @param KVDthes_Relations $relations 
+     *
+     * @param KVDthes_Relations $relations
      * @return void
      */
     public function getIterator( KVDthes_Relations $relations )
@@ -145,8 +142,8 @@ class KVDthes_AgaviTreeVisitorHtml extends KVDthes_AbstractTreeVisitor
     }
 
     /**
-     * getResult 
-     * 
+     * getResult
+     *
      * @return string
      */
     public function getResult( )

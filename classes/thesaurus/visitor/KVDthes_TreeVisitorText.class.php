@@ -2,41 +2,38 @@
 /**
  * @package    KVD.thes
  * @subpackage visitor
- * @version    $Id$
  * @copyright  2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
- * KVDthes_TreeVisitorText 
- * 
+ * KVDthes_TreeVisitorText
+ *
  * @package    KVD.thes
  * @subpackage visitor
  * @since      19 maart 2007
  * @copyright  2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 class KVDthes_TreeVisitorText extends KVDthes_AbstractTreeVisitor
 {
     /**
-     * depth 
-     * 
+     * depth
+     *
      * @var integer
      */
     private $depth = 1;
 
     /**
-     * result 
-     * 
+     * result
+     *
      * @var string
      */
     private $result = '';
 
     /**
-     * __construct 
-     * 
+     * __construct
+     *
      * @param integer $sortOrder    Zie de constanten in KVDthes_Relations
      * @return void
      */
@@ -46,8 +43,8 @@ class KVDthes_TreeVisitorText extends KVDthes_AbstractTreeVisitor
     }
 
     /**
-     * pad 
-     * 
+     * pad
+     *
      * @return string
      */
     private function pad()
@@ -60,9 +57,9 @@ class KVDthes_TreeVisitorText extends KVDthes_AbstractTreeVisitor
     }
 
     /**
-     * visit 
-     * 
-     * @param KVDthes_Term $node 
+     * visit
+     *
+     * @param KVDthes_Term $node
      * @return void
      */
     public function visit(KVDthes_Term $node)
@@ -72,8 +69,8 @@ class KVDthes_TreeVisitorText extends KVDthes_AbstractTreeVisitor
     }
 
     /**
-     * enterComposite 
-     * 
+     * enterComposite
+     *
      * @param KVDthes_Term $term
      * @return boolean
      */
@@ -84,8 +81,8 @@ class KVDthes_TreeVisitorText extends KVDthes_AbstractTreeVisitor
     }
 
     /**
-     * leaveComposite 
-     * 
+     * leaveComposite
+     *
      * @param KVDthes_Term $term
      * @return boolean
      */
@@ -97,8 +94,8 @@ class KVDthes_TreeVisitorText extends KVDthes_AbstractTreeVisitor
 
     /**
      * getIterator
-     * 
-     * @param KVDthes_Relations $relations 
+     *
+     * @param KVDthes_Relations $relations
      * @return void
      */
     public function getIterator( KVDthes_Relations $relations )
@@ -107,8 +104,8 @@ class KVDthes_TreeVisitorText extends KVDthes_AbstractTreeVisitor
     }
 
     /**
-     * getResult 
-     * 
+     * getResult
+     *
      * @return string
      */
     public function getResult( )

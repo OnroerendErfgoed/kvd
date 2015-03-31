@@ -2,49 +2,46 @@
 /**
  * @package KVD.thes
  * @subpackage visitor
- * @version $Id$
  * @copyright 2004-2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
- * KVDthes_TreeVisitorDojoDatastore 
- * 
+ * KVDthes_TreeVisitorDojoDatastore
+ *
  * @package KVD.thes
  * @subpackage visitor
  * @since 12 sep 2007
  * @copyright 2004-2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 class KVDthes_TreeVisitorDojoDatastore extends KVDthes_AbstractTreeVisitor
 {
 
     /**
-     * depth 
-     * 
+     * depth
+     *
      * @var integer
      */
 	private $depth = 1;
-    
+
     /**
-     * result 
-     * 
+     * result
+     *
      * @var KVDthes_DojoDatastore
      */
     private $result;
 
     /**
-     * currItem 
-     * 
+     * currItem
+     *
      * @var KVDthes_DojoDatastoreTerm
      */
     private $currItem;
 
     /**
-     * __construct 
-     * 
+     * __construct
+     *
      * @param integer $sortOrder    Zie de constanten in KVDthes_Relations
      * @return void
      */
@@ -55,9 +52,9 @@ class KVDthes_TreeVisitorDojoDatastore extends KVDthes_AbstractTreeVisitor
     }
 
     /**
-     * enterRelations 
-     * 
-     * @param KVDthes_Term $node 
+     * enterRelations
+     *
+     * @param KVDthes_Term $node
      * @return boolean
      */
     public function enterRelations( KVDthes_Term $node )
@@ -67,9 +64,9 @@ class KVDthes_TreeVisitorDojoDatastore extends KVDthes_AbstractTreeVisitor
     }
 
     /**
-     * visit 
-     * 
-     * @param KVDthes_Term $node 
+     * visit
+     *
+     * @param KVDthes_Term $node
      * @return void
      */
     public function visit(KVDthes_Term $node)
@@ -90,9 +87,9 @@ class KVDthes_TreeVisitorDojoDatastore extends KVDthes_AbstractTreeVisitor
     }
 
     /**
-     * visitRelation 
-     * 
-     * @param KVDthes_Relation $rel 
+     * visitRelation
+     *
+     * @param KVDthes_Relation $rel
      * @return boolean
      */
     public function visitRelation( KVDthes_Relation $rel )
@@ -102,8 +99,8 @@ class KVDthes_TreeVisitorDojoDatastore extends KVDthes_AbstractTreeVisitor
     }
 
     /**
-     * enterComposite 
-     * 
+     * enterComposite
+     *
      * @param KVDthes_Term $term
      * @return boolean
      */
@@ -114,8 +111,8 @@ class KVDthes_TreeVisitorDojoDatastore extends KVDthes_AbstractTreeVisitor
 	}
 
     /**
-     * leaveComposite 
-     * 
+     * leaveComposite
+     *
      * @param KVDthes_Term $term
      * @return boolean
      */
@@ -127,8 +124,8 @@ class KVDthes_TreeVisitorDojoDatastore extends KVDthes_AbstractTreeVisitor
 
     /**
      * getIterator
-     * 
-     * @param KVDthes_Relations $relations 
+     *
+     * @param KVDthes_Relations $relations
      * @return void
      */
     public function getIterator( KVDthes_Relations $relations )
@@ -137,8 +134,8 @@ class KVDthes_TreeVisitorDojoDatastore extends KVDthes_AbstractTreeVisitor
     }
 
     /**
-     * getResult 
-     * 
+     * getResult
+     *
      * @return KVDthes_DojoDatastore
      */
     public function getResult( )
@@ -149,42 +146,42 @@ class KVDthes_TreeVisitorDojoDatastore extends KVDthes_AbstractTreeVisitor
 }
 
 /**
- * KVDthes_DojoDatastore 
- * 
- * @package KVD.thes 
+ * KVDthes_DojoDatastore
+ *
+ * @package KVD.thes
  * @subpackage visitor
  * @since 12 sep 2007
  * @copyright 2004-2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDthes_DojoDatastore
 {
     /**
-     * identifier 
-     * 
+     * identifier
+     *
      * @var string
      */
     public $identifier = 'id';
 
     /**
-     * label 
-     * 
+     * label
+     *
      * @var string
      */
     public $label = 'term';
 
     /**
-     * items 
-     * 
+     * items
+     *
      * @var array
      */
     public $items = array( );
 
     /**
-     * addItem 
-     * 
-     * @param KVDthes_DojoDatastoreTerm $item 
+     * addItem
+     *
+     * @param KVDthes_DojoDatastoreTerm $item
      * @return void
      */
     public function addItem( KVDthes_DojoDatastoreTerm $item )
@@ -196,8 +193,8 @@ class KVDthes_DojoDatastore
     }
 
     /**
-     * clean 
-     * 
+     * clean
+     *
      * Kuis de item op zodat de datastore structuur correct is.
      * @return void
      */
@@ -205,49 +202,49 @@ class KVDthes_DojoDatastore
     {
         $this->items = array_values( $this->items );
     }
-    
+
 }
 
 /**
- * KVDthes_DojoDatastoreTerm 
- * 
+ * KVDthes_DojoDatastoreTerm
+ *
  * @package KVD.thes
  * @subpackage visitor
  * @since 12 sep 2007
  * @copyright 2004-2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDthes_DojoDatastoreTerm
 {
     /**
-     * id 
-     * 
+     * id
+     *
      * Het id van de term waarover het gaat.
      * @var string
      */
     public $id;
 
     /**
-     * term 
-     * 
+     * term
+     *
      * De naam van de term waarover het gaat.
      * @var string
      */
     public $term;
 
     /**
-     * type 
-     * 
+     * type
+     *
      * Het type van de term in de Dojo Datastore.
      * Dit is nodig om de term op het correcte niveau te plaatsen.
      * @var string
      */
     public $type;
-	
+
     /**
-     * term_type 
-     * 
+     * term_type
+     *
      * Het term_type van de term in de Dojo Datastore.
      * Dit is nodig om het onderscheid te kunnen maken tussen stam, gids en preferred termen
      * @var string
@@ -272,46 +269,46 @@ class KVDthes_DojoDatastoreTerm
     }
 
     /**
-     * addChild 
-     * 
-     * @param integer $id 
+     * addChild
+     *
+     * @param integer $id
      * @return void
      */
     public function addChild( $id )
     {
-        
+
     }
 }
 
 
 /**
- * KVDthes_DojoDatastoreTerm 
- * 
+ * KVDthes_DojoDatastoreTerm
+ *
  * @package KVD.thes
  * @subpackage visitor
  * @since 12 sep 2007
  * @copyright 2004-2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDthes_DojoDatastoreComposite extends KVDthes_DojoDatastoreTerm
 {
-  
+
     /**
-     * children 
-     * 
+     * children
+     *
      * Een lijst van termen die een NT zijn van deze term.
      * @var array
      */
     public $children = array( );
-    
+
     /**
-     * __construct 
-     * 
-     * @param integer $id 
-     * @param string $term 
-     * @param integer $depth 
-     * @param string $term_type 
+     * __construct
+     *
+     * @param integer $id
+     * @param string $term
+     * @param integer $depth
+     * @param string $term_type
      * @return void
      */
     public function __construct( $id, $term , $depth, $term_type)
@@ -323,9 +320,9 @@ class KVDthes_DojoDatastoreComposite extends KVDthes_DojoDatastoreTerm
     }
 
     /**
-     * addChild 
-     * 
-     * @param integer $id 
+     * addChild
+     *
+     * @param integer $id
      * @return void
      */
     public function addChild( $id )
@@ -336,28 +333,28 @@ class KVDthes_DojoDatastoreComposite extends KVDthes_DojoDatastoreTerm
 
 
 /**
- * KVDthes_DojoDatastoreReference 
- * 
+ * KVDthes_DojoDatastoreReference
+ *
  * @package KVD.thes
  * @subpackage visitor
  * @since 12 sep 2007
  * @copyright 2004-2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDthes_DojoDatastoreReference
 {
     /**
-     * _reference 
-     * 
+     * _reference
+     *
      * @var string
      */
     public $_reference;
 
     /**
-     * __construct 
-     * 
-     * @param integer $id 
+     * __construct
+     *
+     * @param integer $id
      * @return void
      */
     public function __construct( $id )

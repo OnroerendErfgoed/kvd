@@ -2,10 +2,8 @@
 /**
  * @package     KVD.thes
  * @subpackage  visitor
- * @version     $Id: KVDthes_TreeVisitorHtml.class.php 459 2008-07-15 08:42:44Z vandaeko $
  * @copyright   2004-2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
@@ -17,36 +15,35 @@
  * @subpackage  visitor
  * @since       19 apr 2009
  * @copyright   2004-2009 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 class KVDthes_RenderingTreeVisitor extends KVDthes_AbstractTreeVisitor
 {
     /**
-     * renderer 
-     * 
+     * renderer
+     *
      * @var KVDthes_ITermRenderer
      */
     private $renderer;
 
     /**
-     * depth 
-     * 
+     * depth
+     *
      * @var integer
      */
 	private $depth;
 
     /**
-     * result 
-     * 
+     * result
+     *
      * @var string
      */
     private $result;
 
     /**
-     * __construct 
-     * 
-     * @param KVDthes_ITermRenderer     $renderer   Instantie van een class die de termen kan renderen.  
+     * __construct
+     *
+     * @param KVDthes_ITermRenderer     $renderer   Instantie van een class die de termen kan renderen.
      * @param integer                   $sortOrder  Zie de constanten in KVDthes_Relations. Vooraleer de relaties van een term
      *                                              zullen gevolgd worden zullen ze op deze wijze gesorteerd worden.
      * @return void
@@ -65,8 +62,8 @@ class KVDthes_RenderingTreeVisitor extends KVDthes_AbstractTreeVisitor
     }
 
     /**
-     * pad 
-     * 
+     * pad
+     *
      * @return string
      */
 	private function pad()
@@ -75,9 +72,9 @@ class KVDthes_RenderingTreeVisitor extends KVDthes_AbstractTreeVisitor
 	}
 
     /**
-     * visit 
-     * 
-     * @param KVDthes_Term $node 
+     * visit
+     *
+     * @param KVDthes_Term $node
      * @return void
      */
 	public function visit(KVDthes_Term $node)
@@ -90,8 +87,8 @@ class KVDthes_RenderingTreeVisitor extends KVDthes_AbstractTreeVisitor
     }
 
     /**
-     * enterComposite 
-     * 
+     * enterComposite
+     *
      * @return boolean
      */
 	public function enterComposite(KVDthes_Term $node)
@@ -106,8 +103,8 @@ class KVDthes_RenderingTreeVisitor extends KVDthes_AbstractTreeVisitor
 	}
 
     /**
-     * leaveComposite 
-     * 
+     * leaveComposite
+     *
      * @return boolean
      */
 	public function leaveComposite(KVDthes_Term $node)
@@ -123,8 +120,8 @@ class KVDthes_RenderingTreeVisitor extends KVDthes_AbstractTreeVisitor
 
     /**
      * getIterator
-     * 
-     * @param   KVDthes_Relations $relations 
+     *
+     * @param   KVDthes_Relations $relations
      * @return  KVDthes_RelationsIterator
      */
     public function getIterator( KVDthes_Relations $relations )
@@ -133,8 +130,8 @@ class KVDthes_RenderingTreeVisitor extends KVDthes_AbstractTreeVisitor
     }
 
     /**
-     * getResult 
-     * 
+     * getResult
+     *
      * @return string
      */
     public function getResult( )

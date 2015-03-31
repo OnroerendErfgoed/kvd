@@ -2,33 +2,30 @@
 /**
  * @package    KVD.thes
  * @subpackage serialiser
- * @version    $Id$
  * @copyright  2011 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
  * Abstracte class die door alle serialiser kan geerfd worden.
- * 
+ *
  * @package    KVd.thes
  * @subpackage serialiser
  * @since      1.5
  * @copyright  2011 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 abstract class KVDthes_Serialiser_Rdf_AbstractSerialiser
 {
     protected $graph;
-    
+
     /**
-     * uriGenerators 
-     * 
+     * uriGenerators
+     *
      * @var array
      */
     protected $uriGenerators;
-    
+
     public function __construct( EasyRdf_Graph $graph = null)
     {
         if ( $graph === null ) {
@@ -48,9 +45,9 @@ abstract class KVDthes_Serialiser_Rdf_AbstractSerialiser
     }
 
     /**
-     * addUriGenerator 
-     * 
-     * @param KVDthes_Serialiser_Rdf_IUriGenerator $urigen 
+     * addUriGenerator
+     *
+     * @param KVDthes_Serialiser_Rdf_IUriGenerator $urigen
      * @return void
      */
     public function addUriGenerator( KVDthes_Serialiser_Rdf_IUriGenerator $urigen )
@@ -59,16 +56,16 @@ abstract class KVDthes_Serialiser_Rdf_AbstractSerialiser
     }
 
     /**
-     * transform 
-     * 
+     * transform
+     *
      * @param KVDthes_term $thes
      * @return EasyRdf_Resource
      */
     abstract public function transform( KVDthes_Term $term );
 
     /**
-     * getGraph 
-     * 
+     * getGraph
+     *
      * @return EasyRdf_Graph
      */
     public function getGraph( )
@@ -78,8 +75,8 @@ abstract class KVDthes_Serialiser_Rdf_AbstractSerialiser
 
     /**
      * Bekom een geserialiseerde vorm van de rdf graph.
-     * 
-     * @param  string $format 
+     *
+     * @param  string $format
      * @return string
      */
     public function serialise( $format = 'rdfxml' )
@@ -88,9 +85,9 @@ abstract class KVDthes_Serialiser_Rdf_AbstractSerialiser
     }
 
     /**
-     * genTermUri 
-     * 
-     * @param KVDthes_Term $term 
+     * genTermUri
+     *
+     * @param KVDthes_Term $term
      * @return string
      */
     protected function genTermUri( KVDthes_Term $term )
@@ -103,15 +100,15 @@ abstract class KVDthes_Serialiser_Rdf_AbstractSerialiser
                 //Verder loopen
             }
         }
-        throw new InvalidArgumentException( 
+        throw new InvalidArgumentException(
             sprintf( 'Kan geen uri genereren voor de term %s.', $term->getTerm( ) )
         );
     }
 
     /**
-     * genThesaurusUri 
-     * 
-     * @param KVDthes_Thesaurus $thesaurus 
+     * genThesaurusUri
+     *
+     * @param KVDthes_Thesaurus $thesaurus
      * @return string
      */
     protected function genThesaurusUri( KVDthes_Thesaurus $thesaurus )
@@ -124,8 +121,8 @@ abstract class KVDthes_Serialiser_Rdf_AbstractSerialiser
                 //Verder loopen
             }
         }
-        throw new InvalidArgumentException( 
-            sprintf( 'Kan geen uri genereren voor de thesaurus %s.', 
+        throw new InvalidArgumentException(
+            sprintf( 'Kan geen uri genereren voor de thesaurus %s.',
                      $thesaurus->getOmschrijving( ) )
         );
     }
