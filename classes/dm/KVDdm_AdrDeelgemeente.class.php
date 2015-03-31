@@ -2,20 +2,19 @@
 /**
  * @package KVD.dm
  * @subpackage Adr
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @version $Id$
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
  * @package KVD.dm
  * @subpackage Adr
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  * @since 21 jun 2006
  */
 class KVDdm_AdrDeelgemeente extends KVDdom_PDODataMapper {
 
     const ID = "deelgemeente.id";
-    
+
     const RETURNTYPE = "KVDdo_AdrDeelgemeente";
 
     const TABEL = "kvd_adr.deelgemeente";
@@ -23,23 +22,23 @@ class KVDdm_AdrDeelgemeente extends KVDdom_PDODataMapper {
     const VELDEN = "deelgemeente_naam, gemeente_id";
 
     /**
-     * getSelectStatement 
-     * 
+     * getSelectStatement
+     *
      * @return string
      */
     protected function getSelectStatement( )
     {
         return  "SELECT " . self::ID . ", " . self::VELDEN . " , " . KVDdm_AdrGemeente::VELDEN . " , " . KVDdm_AdrProvincie::VELDEN .
-                " FROM " . self::TABEL . 
-                " LEFT JOIN " . KVDdm_AdrGemeente::TABEL . 
+                " FROM " . self::TABEL .
+                " LEFT JOIN " . KVDdm_AdrGemeente::TABEL .
                 " ON (" . self::TABEL . ".gemeente_id = " . KVDdm_AdrGemeente::TABEL . ".id)" .
-                " LEFT JOIN " . KVDdm_AdrProvincie::TABEL . 
+                " LEFT JOIN " . KVDdm_AdrProvincie::TABEL .
                 " ON (" . KVDdm_AdrGemeente::TABEL . ".provincie_id = " . KVDdm_AdrProvincie::TABEL . ".id)";
     }
 
     /**
-     * getFindByIdStatement 
-     * 
+     * getFindByIdStatement
+     *
      * @return string
      */
     protected function getFindByIdStatement( )
@@ -48,8 +47,8 @@ class KVDdm_AdrDeelgemeente extends KVDdom_PDODataMapper {
     }
 
     /**
-     * getFindAllStatement 
-     * 
+     * getFindAllStatement
+     *
      * @return string
      */
     protected function getFindAllStatement( )
@@ -58,8 +57,8 @@ class KVDdm_AdrDeelgemeente extends KVDdom_PDODataMapper {
     }
 
     /**
-     * getFindAllByNaamStatement 
-     * 
+     * getFindAllByNaamStatement
+     *
      * @since   13 mrt 2009
      * @return  string
      */
@@ -69,8 +68,8 @@ class KVDdm_AdrDeelgemeente extends KVDdom_PDODataMapper {
     }
 
     /**
-     * getFindByGemeenteStatement 
-     * 
+     * getFindByGemeenteStatement
+     *
      * @return string
      */
     private function getFindByGemeenteStatement()
@@ -80,8 +79,8 @@ class KVDdm_AdrDeelgemeente extends KVDdom_PDODataMapper {
     }
 
     /**
-     * getFindByNaamStatement 
-     * 
+     * getFindByNaamStatement
+     *
      * @return string
      */
     private function getFindByNaamStatement( )
@@ -116,26 +115,26 @@ class KVDdm_AdrDeelgemeente extends KVDdom_PDODataMapper {
      * @return KVDdo_AdrGemeente
      */
     public function doLoad( $id, $rs)
-    {   
+    {
         $domainObject = $this->_sessie->getIdentityMap( )->getDomainObject( self::RETURNTYPE, $id);
         if ( $domainObject !== null ) {
             return $domainObject;
         }
 
-        $gemeenteMapper = $this->_sessie->getMapper( 'KVDdo_AdrGemeente' ); 
+        $gemeenteMapper = $this->_sessie->getMapper( 'KVDdo_AdrGemeente' );
         $gemeente = $gemeenteMapper->doLoad( $rs->gemeente_id , $rs );
 
         if ( $id == null && $rs->deelgemeente_naam == null ) {
             return new KVDdo_NullAdrDeelgemeente( $gemeente );
         }
-        
-        return new KVDdo_AdrDeelgemeente (  $id , 
+
+        return new KVDdo_AdrDeelgemeente (  $id ,
                                             $this->_sessie,
                                             $rs->deelgemeente_naam,
                                             $gemeente
                                             );
     }
-    
+
     /**
      * @param KVDdo_AdrGemeente $gemeente
      * @param string $orderField, Veld om op te sorteren. Kan id, deelgemeenteNaam, gemeenteNaam of provincieNaam zijn.
@@ -169,10 +168,10 @@ class KVDdm_AdrDeelgemeente extends KVDdom_PDODataMapper {
     }
 
     /**
-     * findAllByNaam 
-     * 
+     * findAllByNaam
+     *
      * Zoek alle deelgemeenten met een bepaalde naam.
-     * @param   string $naam 
+     * @param   string $naam
      * @return  KVDdom_DomainObjectCollection
      */
     public function findAllByNaam( $naam )
@@ -183,10 +182,10 @@ class KVDdm_AdrDeelgemeente extends KVDdom_PDODataMapper {
     }
 
     /**
-     * findByCriteria 
+     * findByCriteria
      *
      * @since 30 okt 2007
-     * @param KVDdb_Criteria $criteria 
+     * @param KVDdb_Criteria $criteria
      * @return void
      */
     public function findByCriteria ( KVDdb_Criteria $criteria )
@@ -216,7 +215,7 @@ class KVDdm_AdrDeelgemeente extends KVDdom_PDODataMapper {
                 $orderFieldName = 'provincie.provincie_naam';
                 break;
             case "getrapt":
-                $orderFieldName = 'provincie.provincie_naam ASC, gemeente.gemeente_naam ASC, deelgemeente.deelgemeente_naam'; 
+                $orderFieldName = 'provincie.provincie_naam ASC, gemeente.gemeente_naam ASC, deelgemeente.deelgemeente_naam';
                 break;
             default:
                 $orderFieldName = 'gemeente.id';

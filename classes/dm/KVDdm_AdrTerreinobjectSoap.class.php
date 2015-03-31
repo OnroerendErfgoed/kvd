@@ -3,23 +3,20 @@
  * @package KVD.dm
  * @subpackage Adr
  * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
- * @version $Id$
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
- * KVDdm_AdrTerreinobjectSoap 
- * 
+ * KVDdm_AdrTerreinobjectSoap
+ *
  * @package KVD.dm
  * @subpackage Adr
  * @since maart 2006
  * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 class KVDdm_AdrTerreinobjectSoap {
-    
+
     /**
      * Code volgens de EPSG voor de Belge Lambert projectie.
      * @var integer
@@ -28,10 +25,10 @@ class KVDdm_AdrTerreinobjectSoap {
 
     /**
      * Het soort domain-object dat wordt teruggegeven door deze mapper.
-     * @var string 
+     * @var string
      */
     const RETURNTYPE = "KVDdo_AdrTerreinObject";
-    
+
     /**
      * @var KVDdom_Sessie;
      */
@@ -41,7 +38,7 @@ class KVDdm_AdrTerreinobjectSoap {
      * @var KVDgis_Crab2Gateway;
      */
     private $_gateway;
-    
+
     /**
      * @param KVDdom_Sessie $sessie
      */
@@ -53,7 +50,7 @@ class KVDdm_AdrTerreinobjectSoap {
 
     /**
      * @param integer $id
-     * @param array $crabData   Een associatieve array met minimaal de sleutels identificatorTerreinobject, aardTerreinobjectCode, centerX en centerY. 
+     * @param array $crabData   Een associatieve array met minimaal de sleutels identificatorTerreinobject, aardTerreinobjectCode, centerX en centerY.
      * @return KVDdo_AdrTerreinobject
      */
     public function doLoad( $id , $crabData , $huisnummer)
@@ -85,7 +82,7 @@ class KVDdm_AdrTerreinobjectSoap {
      * @return KVDdo_AdrTerreinobjet
      * @todo herbekijken hoe het zit met het huisnummer
      * @throws <b>KVDdom_DomainObjectNotFoundException</b> Indien het object niet geladen kon worden.
-     */ 
+     */
     public function findById ( $id )
     {
         $domainObject = $this->_sessie->getIdentityMap( )->getDomainObject( self::RETURNTYPE, $id);
@@ -98,9 +95,9 @@ class KVDdm_AdrTerreinobjectSoap {
             $message = "Kon het terreinobject niet laden omdat de crab service een fout gaf:\n " . $e->getMessage( );
             throw new KVDdom_DomainObjectNotFoundException ( $message , 'KVDdo_AdrTerreinobject' , $id  );
         }
-        
+
         $huisnummer = KVDdo_AdrHuisnummer::newNull( );
-        
+
         return $this->doLoad( $id, $terreinArray, $huisnummer );
     }
 
@@ -117,7 +114,7 @@ class KVDdm_AdrTerreinobjectSoap {
             try {
                 $terreinArray = $this->_gateway->getTerreinobjectByIdentificatorTerreinobject( $terreinobjectArray['identificatorTerreinobject'] );
             } catch ( Exception $e ) {
-                continue;    
+                continue;
             }
             $terreinobject = $this->doLoad ( $terreinobjectArray['identificatorTerreinobject'] , $terreinArray , $huisnummer);
             $domainObjects[] = $terreinobject;

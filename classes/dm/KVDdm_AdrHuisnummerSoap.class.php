@@ -3,28 +3,25 @@
  * @package KVD.dm
  * @subpackage Adr
  * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
- * @version $Id$
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
- * KVDdm_AdrHuisnummerSoap 
- * 
+ * KVDdm_AdrHuisnummerSoap
+ *
  * @package KVD.dm
  * @subpackage Adr
  * @since maart 2006
  * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 class KVDdm_AdrHuisnummerSoap {
-    
+
     /**
-     * Het soort domain-objects dat deze mapper teruggeeft. 
+     * Het soort domain-objects dat deze mapper teruggeeft.
      */
     const RETURNTYPE = "KVDdo_AdrHuisnummer";
-    
+
     /**
      * @var KVDdom_Sessie;
      */
@@ -34,7 +31,7 @@ class KVDdm_AdrHuisnummerSoap {
      * @var KVDgis_Crab2Gateway;
      */
     private $_gateway;
-    
+
     /**
      * @param KVDdom_Sessie $sessie
      */
@@ -46,7 +43,7 @@ class KVDdm_AdrHuisnummerSoap {
 
     /**
      * @param integer $id
-     * @param array $crabData   Een associatieve array met minimaal de sleutel huisnummer en huisnummerId. 
+     * @param array $crabData   Een associatieve array met minimaal de sleutel huisnummer en huisnummerId.
      *                          Indien er geen KVDdo_AdrStraat wordt meegegeven als derde parameter moet er ook een sleutel straatnaamId aanwezig zijn.
      * @param KVDdo_AdrStraat
      * @return KVDdo_AdrHuisnummer
@@ -57,7 +54,7 @@ class KVDdm_AdrHuisnummerSoap {
         if ( $domainObject !== null ) {
             return $domainObject;
         }
-        
+
         if ( is_null( $straat ) ) {
             $straatMapper = $this->_sessie->getMapper( 'KVDdo_AdrStraat');
             $straat = $straatMapper->findById( $crabData['straatnaamId']);
@@ -74,7 +71,7 @@ class KVDdm_AdrHuisnummerSoap {
      * @param integer $id Id van het huisnummer, dit is een nummer dat toegewezen werd door crab.
      * @return KVDdo_AdrHuisnummer
      * @throws <b>KVDdom_DomainObjectNotFoundException</b> Indien het object niet geladen kon worden.
-     */ 
+     */
     public function findById ( $id )
     {
         $domainObject = $this->_sessie->getIdentityMap( )->getDomainObject( self::RETURNTYPE, $id);
@@ -101,7 +98,7 @@ class KVDdm_AdrHuisnummerSoap {
      * @param integer $straatId Het crabId van de straat.
      * @return KVDdo_AdrHuisnummer
      * @throws <b>KVDdom_DomainObjectNotFoundException</b> Indien het object niet geladen kon worden.
-     */ 
+     */
     public function findByHuisnummer ( $huisnummer , $straatId )
     {
         try {
@@ -134,9 +131,9 @@ class KVDdm_AdrHuisnummerSoap {
     }
 
     /**
-     * findPostCodeByHuisnummer 
-     * 
-     * @param KVDdo_AdrHuisnummer $huisnummer 
+     * findPostCodeByHuisnummer
+     *
+     * @param KVDdo_AdrHuisnummer $huisnummer
      * @return integer De postkantonCode van het huisnummer.
      */
     public function findPostCodeByHuisnummer( $huisnummer )
@@ -145,7 +142,7 @@ class KVDdm_AdrHuisnummerSoap {
             $postkantonArray = $this->_gateway->getPostkantonByHuisnummerId ( $huisnummer->getId( ) );
         } catch ( RuntimeException $e ) {
             return 'Onbepaald';
-        } 
+        }
         return $postkantonArray['postkantonCode'];
     }
 

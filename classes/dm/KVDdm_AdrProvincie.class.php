@@ -3,7 +3,6 @@
  * @package KVD.dm
  * @subpackage Adr
  * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
- * @version $Id$
  */
 
 /**
@@ -15,7 +14,7 @@
 class KVDdm_AdrProvincie extends KVDdom_PDODataMapper {
 
     const ID = "provincie.id";
-    
+
     const RETURNTYPE = "KVDdo_AdrProvincie";
 
     const TABEL = "kvd_adr.provincie";
@@ -23,8 +22,8 @@ class KVDdm_AdrProvincie extends KVDdom_PDODataMapper {
     const VELDEN = "provincie_naam";
 
     /**
-     * getSelectStatement 
-     * 
+     * getSelectStatement
+     *
      * @return string
      */
     protected function getSelectStatement( )
@@ -33,8 +32,8 @@ class KVDdm_AdrProvincie extends KVDdom_PDODataMapper {
     }
 
     /**
-     * getFindByIdStatement 
-     * 
+     * getFindByIdStatement
+     *
      * @return string
      */
     protected function getFindByIdStatement( )
@@ -43,8 +42,8 @@ class KVDdm_AdrProvincie extends KVDdom_PDODataMapper {
     }
 
     /**
-     * getFindByNaamStatement 
-     * 
+     * getFindByNaamStatement
+     *
      * @return string
      */
     protected function getFindByNaamStatement( )
@@ -53,8 +52,8 @@ class KVDdm_AdrProvincie extends KVDdom_PDODataMapper {
     }
 
     /**
-     * getFindAllStatement 
-     * 
+     * getFindAllStatement
+     *
      * @return string
      */
     protected function getFindAllStatement( )
@@ -90,8 +89,8 @@ class KVDdm_AdrProvincie extends KVDdom_PDODataMapper {
     }
 
     /**
-     * findByNaam 
-     * 
+     * findByNaam
+     *
      * @throws  KVDdom_DomainObjectNotFoundException
      * @return  KVDdo_AdrProvincie
      */
@@ -113,7 +112,7 @@ class KVDdm_AdrProvincie extends KVDdom_PDODataMapper {
      * @return KVDdo_AdrProvincie
      */
     public function doLoad( $id, $rs)
-    {   
+    {
         $domainObject = $this->_sessie->getIdentityMap( )->getDomainObject( self::RETURNTYPE, $id);
         if ( $domainObject !== null ) {
             return $domainObject;
@@ -123,18 +122,18 @@ class KVDdm_AdrProvincie extends KVDdom_PDODataMapper {
             return KVDdo_AdrProvincie::newNull( );
         }
 
-        return new KVDdo_AdrProvincie ( $id , 
+        return new KVDdo_AdrProvincie ( $id ,
                                         $this->_sessie,
-                                        $rs->provincie_naam 
+                                        $rs->provincie_naam
                                         );
     }
 
 
     /**
-     * findByCriteria 
+     * findByCriteria
      *
      * @since 30 okt 2007
-     * @param KVDdb_Criteria $criteria 
+     * @param KVDdb_Criteria $criteria
      * @return void
      */
     public function findByCriteria ( KVDdb_Criteria $criteria )
@@ -147,6 +146,6 @@ class KVDdm_AdrProvincie extends KVDdom_PDODataMapper {
         }
         return $this->executeFindMany( $stmt );
     }
-    
+
 }
 ?>

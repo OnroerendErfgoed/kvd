@@ -2,10 +2,8 @@
 /**
  * @package     KVD.dm
  * @subpackage  Adr
- * @version $Id$
  * @copyright   2006-2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
@@ -14,12 +12,11 @@
  * @since       maart 2006
  * @copyright   2006-2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDdm_AdrGemeente extends KVDdom_PDODataMapper {
 
     const ID = "gemeente.id";
-    
+
     const RETURNTYPE = "KVDdo_AdrGemeente";
 
     const TABEL = "kvd_adr.gemeente";
@@ -27,20 +24,20 @@ class KVDdm_AdrGemeente extends KVDdom_PDODataMapper {
     const VELDEN = "gemeente_naam, crab_id , provincie_id";
 
     /**
-     * getSelectStatement 
-     * 
+     * getSelectStatement
+     *
      * @return string
      */
     protected function getSelectStatement( )
     {
         return  "SELECT " . self::ID . ", " . self::VELDEN . " , " . KVDdm_AdrProvincie::VELDEN .
-                " FROM " . self::TABEL . " LEFT JOIN " . KVDdm_AdrProvincie::TABEL . 
+                " FROM " . self::TABEL . " LEFT JOIN " . KVDdm_AdrProvincie::TABEL .
                 " ON (" . self::TABEL . ".provincie_id = " . KVDdm_AdrProvincie::TABEL . ".id)";
     }
 
     /**
-     * getFindByIdStatement 
-     * 
+     * getFindByIdStatement
+     *
      * @return string
      */
     protected function getFindByIdStatement( )
@@ -49,8 +46,8 @@ class KVDdm_AdrGemeente extends KVDdom_PDODataMapper {
     }
 
     /**
-     * getFindByCrabIdStatement 
-     * 
+     * getFindByCrabIdStatement
+     *
      * @return string
      */
     protected function getFindByCrabIdStatement( )
@@ -59,8 +56,8 @@ class KVDdm_AdrGemeente extends KVDdom_PDODataMapper {
     }
 
     /**
-     * getFindAllStatement 
-     * 
+     * getFindAllStatement
+     *
      * @return string
      */
     protected function getFindAllStatement( )
@@ -69,8 +66,8 @@ class KVDdm_AdrGemeente extends KVDdom_PDODataMapper {
     }
 
     /**
-     * getFindByProvincieStatement 
-     * 
+     * getFindByProvincieStatement
+     *
      * @return string
      */
     private function getFindByProvincieStatement()
@@ -80,8 +77,8 @@ class KVDdm_AdrGemeente extends KVDdom_PDODataMapper {
     }
 
     /**
-     * getFindByNaamStatement 
-     * 
+     * getFindByNaamStatement
+     *
      * @return string
      */
     private function getFindByNaamStatement( )
@@ -133,27 +130,27 @@ class KVDdm_AdrGemeente extends KVDdom_PDODataMapper {
      * @return  KVDdo_AdrGemeente
      */
     public function doLoad( $id, $rs)
-    {   
+    {
         $domainObject = $this->_sessie->getIdentityMap( )->getDomainObject( self::RETURNTYPE, $id);
         if ( $domainObject !== null ) {
             return $domainObject;
         }
 
-        $provincieMapper = $this->_sessie->getMapper( 'KVDdo_AdrProvincie' ); 
+        $provincieMapper = $this->_sessie->getMapper( 'KVDdo_AdrProvincie' );
         $provincie = $provincieMapper->doLoad( $rs->provincie_id , $rs );
 
         if ( $id == null && $rs->gemeente_naam == null ) {
             return new KVDdo_NullAdrGemeente( $provincie );
         }
-        
-        return new KVDdo_AdrGemeente (  $id , 
+
+        return new KVDdo_AdrGemeente (  $id ,
                                         $this->_sessie,
                                         $rs->gemeente_naam,
                                         $rs->crab_id,
                                         $provincie
                                         );
     }
-    
+
     /**
      * @param   KVDdo_AdrProvincie  $provincie
      * @param   string              $orderField     Veld om op te sorteren. Kan id, gemeenteNaam of provincieNaam zijn.
@@ -187,10 +184,10 @@ class KVDdm_AdrGemeente extends KVDdom_PDODataMapper {
     }
 
     /**
-     * findByCriteria 
+     * findByCriteria
      *
      * @since   30 okt 2007
-     * @param   KVDdb_Criteria $criteria 
+     * @param   KVDdb_Criteria $criteria
      * @return  KVDdom_DomainObjectCollection
      */
     public function findByCriteria ( KVDdb_Criteria $criteria )

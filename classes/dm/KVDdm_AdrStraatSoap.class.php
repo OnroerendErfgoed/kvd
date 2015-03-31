@@ -3,28 +3,25 @@
  * @package KVD.dm
  * @subpackage Adr
  * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
- * @version $Id$
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
- * KVDdm_AdrStraatSoap 
- * 
+ * KVDdm_AdrStraatSoap
+ *
  * @package KVD.dm
  * @subpackage Adr
  * @since maart 2006
  * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 class KVDdm_AdrStraatSoap {
-    
+
     /**
-     * Het soort domain-object dat deze mapper teruggeeft. 
+     * Het soort domain-object dat deze mapper teruggeeft.
      */
     const RETURNTYPE = "KVDdo_AdrStraat";
-    
+
     /**
      * @var KVDdom_Sessie;
      */
@@ -34,7 +31,7 @@ class KVDdm_AdrStraatSoap {
      * @var KVDgis_Crab2Gateway;
      */
     private $_gateway;
-    
+
     /**
      * @param KVDdom_Sessie $sessie
      */
@@ -50,7 +47,7 @@ class KVDdm_AdrStraatSoap {
 
     /**
      * @param integer $id
-     * @param array $crabData   Een associatieve array met minimaal de sleutel straatnaam, straatnaamLabel. 
+     * @param array $crabData   Een associatieve array met minimaal de sleutel straatnaam, straatnaamLabel.
      *                          Indien er geen KVDdo_AdrGemeente wordt meegegeven als derde parameter moet er ook een sleutel gemeenteId aanwezig zijn.
      *                          Deze sleutel is niet de nisGemeenteCode maar de crabId.
      * @param KVDdo_AdrGemeente
@@ -62,7 +59,7 @@ class KVDdm_AdrStraatSoap {
         if ( $domainObject !== null ) {
             return $domainObject;
         }
-        
+
         if ( is_null( $gemeente ) ) {
             try {
                 $gemeente = $this->_sessie->getMapper( 'KVDdo_AdrGemeente')->findByCrabId( $crabData['gemeenteId']);
@@ -84,7 +81,7 @@ class KVDdm_AdrStraatSoap {
      * @param integer $id Id van de straat, dit is een nummer dat toegewezen werd door crab.
      * @return KVDdo_AdrStraat
      * @throws <b>KVDdom_DomainObjectNotFoundException</b> Indien het object niet geladen kon worden.
-     */ 
+     */
     public function findById ( $id )
     {
         $domainObject = $this->_sessie->getIdentityMap()->getDomainObject( self::RETURNTYPE , $id);

@@ -3,30 +3,27 @@
  * @package KVD.dm
  * @subpackage Adr
  * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  * @author Dieter Standaert <dieter.standaert@eds.com>
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
- * @version $Id: KVDdm_AdrHuisnummer.class.php 304 2007-05-24 14:23:03Z vandaeko $
  */
 
 /**
  * KVDdm_AdrHuisnummerDb
- * 
+ *
  * @package KVD.dm
  * @subpackage Adr
  * @since maart 2008
  * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  * @author Dieter Standaert <dieter.standaert@eds.com>
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDdm_AdrHuisnummerDb extends KVDdom_PDODataMapper{
-    
+
 	/**
-	 * Het soort domain-objects dat deze mapper teruggeeft. 
+	 * Het soort domain-objects dat deze mapper teruggeeft.
 	 */
 	const RETURNTYPE = "KVDdo_AdrHuisnummer";
-	
+
   /**
    * initialize
    *
@@ -37,7 +34,7 @@ class KVDdm_AdrHuisnummerDb extends KVDdom_PDODataMapper{
 	 $this->tabel = "kvd_adr.huisnummer";
 	 $this->velden =	"nummer, straat_id";
 	}
-	
+
 	/**
 	 * getFindByHuisnummerStatement
 	 * @return string sql statement
@@ -45,8 +42,8 @@ class KVDdm_AdrHuisnummerDb extends KVDdom_PDODataMapper{
 	public function getFindByHuisnummerStatement()
 	{
 		return $this->getSelectStatement()." WHERE huisnummer.nummer = ? AND huisnummer.straat_id = ?";
-	}	
-	
+	}
+
 	/**
 	 * getFindByStraatStatement
 	 * @return string sql statement
@@ -54,11 +51,11 @@ class KVDdm_AdrHuisnummerDb extends KVDdom_PDODataMapper{
 	public function getFindByStraatIdStatement()
 	{
 		return $this->getSelectStatement()." WHERE huisnummer.straat_id = ?";
-	}	
+	}
 
 	/**
 	 * @param integer $id
-	 * @param array $crabData   Een associatieve array met minimaal de sleutel huisnummer en huisnummerId. 
+	 * @param array $crabData   Een associatieve array met minimaal de sleutel huisnummer en huisnummerId.
 	 *                          Indien er geen KVDdo_AdrStraat wordt meegegeven als derde parameter moet er ook een sleutel straatnaamId aanwezig zijn.
 	 * @param KVDdo_AdrStraat
 	 * @return KVDdo_AdrHuisnummer
@@ -90,7 +87,7 @@ class KVDdm_AdrHuisnummerDb extends KVDdom_PDODataMapper{
 	 * @param integer $id Id van het huisnummer, dit is een nummer dat toegewezen werd door crab.
 	 * @return KVDdo_AdrHuisnummer
 	 * @throws <b>KVDdom_DomainObjectNotFoundException</b> Indien het object niet geladen kon worden.
-	 */ 
+	 */
 	public function findById ( $id )
 	{
 		return $this->abstractFindById(self::RETURNTYPE,$id);
@@ -102,10 +99,10 @@ class KVDdm_AdrHuisnummerDb extends KVDdom_PDODataMapper{
 	 * @param integer $straatId Het crabId van de straat.
 	 * @return KVDdo_AdrHuisnummer
 	 * @throws <b>KVDdom_DomainObjectNotFoundException</b> Indien het object niet geladen kon worden.
-	 */ 
+	 */
 	public function findByHuisnummer ( $huisnummer , $straatId )
 	{
-	
+
 		$sql = $this->getFindByHuisnummerStatement();
 		$this->_sessie->getSqlLogger( )->log( $sql );
 		$stmt = $this->_conn->prepare($sql);
@@ -131,7 +128,7 @@ class KVDdm_AdrHuisnummerDb extends KVDdom_PDODataMapper{
 		$stmt->bindValue(1, $straat->getId(), PDO::PARAM_INT);
 		return $this->executeFindMany($stmt);
 	}
-		
+
 
 	/**
 	 * Zoek alle huisnummers in een bepaalde straat.
@@ -148,20 +145,20 @@ class KVDdm_AdrHuisnummerDb extends KVDdom_PDODataMapper{
 	}
 
   /**
-	 * findPostCodeByHuisnummer 
-	 * 
-	 * @param KVDdo_AdrHuisnummer $huisnummer 
+	 * findPostCodeByHuisnummer
+	 *
+	 * @param KVDdo_AdrHuisnummer $huisnummer
 	 * @return integer De postkantonCode van het huisnummer.
 	 */
 	public function findPostCodeByHuisnummer( $huisnummer )
 	{
 		return 'Onbepaald';
-	} 
+	}
 
 	/**
 	 * findAll
 	 * @return KVDdom_Collection
-	 */	
+	 */
 	public function findAll()
 	{
 		 return $this->abstractFindAll(self::RETURNTYPE);

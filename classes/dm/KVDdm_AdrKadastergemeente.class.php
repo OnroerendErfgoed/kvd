@@ -2,26 +2,23 @@
 /**
  * @package KVD.dm
  * @subpackage Adr
- * @version $Id$
  * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
- * KVDdm_AdrKadastergemeente 
- * 
+ * KVDdm_AdrKadastergemeente
+ *
  * @package KVD.dm
  * @subpackage Adr
  * @since 31 aug 2007
  * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 class KVDdm_AdrKadastergemeente extends KVDdom_PDODataMapper {
 
     const ID = "kadastergemeente.id";
-    
+
     const RETURNTYPE = "KVDdo_AdrKadastergemeente";
 
     const TABEL = "kvd_adr.kadastergemeente";
@@ -29,23 +26,23 @@ class KVDdm_AdrKadastergemeente extends KVDdom_PDODataMapper {
     const VELDEN = "kadastergemeente_naam, afdeling, gemeente_id";
 
     /**
-     * getSelectStatement 
-     * 
+     * getSelectStatement
+     *
      * @return string
      */
     protected function getSelectStatement( )
     {
         return  "SELECT " . self::ID . ", " . self::VELDEN . " , " . KVDdm_AdrGemeente::VELDEN . " , " . KVDdm_AdrProvincie::VELDEN .
-                " FROM " . self::TABEL . 
-                " LEFT JOIN " . KVDdm_AdrGemeente::TABEL . 
+                " FROM " . self::TABEL .
+                " LEFT JOIN " . KVDdm_AdrGemeente::TABEL .
                 " ON (" . self::TABEL . ".gemeente_id = " . KVDdm_AdrGemeente::TABEL . ".id)" .
-                " LEFT JOIN " . KVDdm_AdrProvincie::TABEL . 
+                " LEFT JOIN " . KVDdm_AdrProvincie::TABEL .
                 " ON (" . KVDdm_AdrGemeente::TABEL . ".provincie_id = " . KVDdm_AdrProvincie::TABEL . ".id)";
     }
 
     /**
-     * getFindByIdStatement 
-     * 
+     * getFindByIdStatement
+     *
      * @return string
      */
     protected function getFindByIdStatement( )
@@ -54,8 +51,8 @@ class KVDdm_AdrKadastergemeente extends KVDdom_PDODataMapper {
     }
 
     /**
-     * getFindAllStatement 
-     * 
+     * getFindAllStatement
+     *
      * @return string
      */
     protected function getFindAllStatement( )
@@ -64,8 +61,8 @@ class KVDdm_AdrKadastergemeente extends KVDdom_PDODataMapper {
     }
 
     /**
-     * getFindByGemeenteStatement 
-     * 
+     * getFindByGemeenteStatement
+     *
      * @return string
      */
     private function getFindByGemeenteStatement()
@@ -75,8 +72,8 @@ class KVDdm_AdrKadastergemeente extends KVDdom_PDODataMapper {
     }
 
     /**
-     * getFindByNaamStatement 
-     * 
+     * getFindByNaamStatement
+     *
      * @return string
      */
     private function getFindByNaamStatement( )
@@ -111,23 +108,23 @@ class KVDdm_AdrKadastergemeente extends KVDdom_PDODataMapper {
      * @return KVDdo_AdrKadasterGemeente
      */
     public function doLoad( $id, $rs)
-    {   
+    {
         $domainObject = $this->_sessie->getIdentityMap( )->getDomainObject( self::RETURNTYPE, $id);
         if ( $domainObject !== null ) {
             return $domainObject;
         }
 
-        $gemeenteMapper = $this->_sessie->getMapper( 'KVDdo_AdrGemeente' ); 
+        $gemeenteMapper = $this->_sessie->getMapper( 'KVDdo_AdrGemeente' );
         $gemeente = $gemeenteMapper->doLoad( $rs->gemeente_id , $rs );
-        
-        return new KVDdo_AdrKadastergemeente (  $id , 
+
+        return new KVDdo_AdrKadastergemeente (  $id ,
                                                 $this->_sessie,
                                                 $rs->afdeling,
                                                 $rs->kadastergemeente_naam,
                                                 $gemeente
                                                 );
     }
-    
+
     /**
      * @param KVDdo_AdrGemeente $gemeente
      * @param string $orderField    Veld om op te sorteren. Kan id, kadastergemeenteNaam, gemeenteNaam, provincieNaam of getrapt zijn.
@@ -161,10 +158,10 @@ class KVDdm_AdrKadastergemeente extends KVDdom_PDODataMapper {
     }
 
     /**
-     * findByCriteria 
+     * findByCriteria
      *
      * @since 30 okt 2007
-     * @param KVDdb_Criteria $criteria 
+     * @param KVDdb_Criteria $criteria
      * @return void
      */
     public function findByCriteria ( KVDdb_Criteria $criteria )
@@ -179,9 +176,9 @@ class KVDdm_AdrKadastergemeente extends KVDdom_PDODataMapper {
     }
 
     /**
-     * getOrderClause 
-     * 
-     * @param string $orderField 
+     * getOrderClause
+     *
+     * @param string $orderField
      * @return string
      */
     private function getOrderClause ( $orderField = 'id' )
@@ -203,7 +200,7 @@ class KVDdm_AdrKadastergemeente extends KVDdom_PDODataMapper {
                 $orderFieldName = 'provincie.provincie_naam';
                 break;
             case "getrapt":
-                $orderFieldName = 'provincie.provincie_naam ASC, gemeente.gemeente_naam ASC, kadastergemeente.kadastergemeente_naam'; 
+                $orderFieldName = 'provincie.provincie_naam ASC, gemeente.gemeente_naam ASC, kadastergemeente.kadastergemeente_naam';
                 break;
             default:
                 $orderFieldName = 'gemeente.id';

@@ -2,30 +2,27 @@
 /**
  * @package     KVD.dm
  * @subpackage  Adr
- * @version     $Id: KVDdm_AdrStraat.class.php 440 2008-05-23 12:52:01Z vandaeko $
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  * @author      Dieter Standaert <dieter.standaert@eds.com>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
- * KVDdm_AdrStraatDb 
- * 
+ * KVDdm_AdrStraatDb
+ *
  * @package     KVD.dm
  * @subpackage  Adr
  * @since       augustus 2008
  * @copyright   2004-2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  * @author      Dieter Standaert <dieter.standaert@eds.com>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDdm_AdrStraatDb extends KVDdom_PDODataMapper{
-    
+
 	/**
-	 * Het soort domain-object dat deze mapper teruggeeft. 
+	 * Het soort domain-object dat deze mapper teruggeeft.
 	 */
 	const RETURNTYPE = "KVDdo_AdrStraat";
-	
+
   /**
    * initialize
    *
@@ -36,7 +33,7 @@ class KVDdm_AdrStraatDb extends KVDdom_PDODataMapper{
 	 $this->tabel = "kvd_adr.straat";
 	 $this->velden =	"naam, label, gemeente_id";
 	}
-	
+
 	/**
 	 * getFindByGemeenteIdStatement
 	 * @return string sql statement
@@ -54,10 +51,10 @@ class KVDdm_AdrStraatDb extends KVDdom_PDODataMapper{
 	{
 		return $this->getSelectStatement()." WHERE straat.gemeente_id = ? AND UPPER(straat.naam) = UPPER( ? )";
 	}
-	
+
 	/**
 	 * @param   integer             $id
-	 * @param   StdClass            $rs 
+	 * @param   StdClass            $rs
      * @param   KVDdo_AdrGemeente   $gemeente
 	 * @return  KVDdo_AdrStraat
 	 */
@@ -70,7 +67,7 @@ class KVDdm_AdrStraatDb extends KVDdom_PDODataMapper{
 		if ( $domainObject !== null ) {
 			return $domainObject;
 		}
-		
+
 		if($gemeente == null) {
 			try {
 				$gemeente = $this->_sessie->getMapper( 'KVDdo_AdrGemeente')->findById($rs->gemeente_id);
@@ -91,8 +88,8 @@ class KVDdm_AdrStraatDb extends KVDdom_PDODataMapper{
 	 * findById
 	 * @param integer id
 	 * @return MELBAdo_Werkset
-	 */		
-	public function findById($id) 
+	 */
+	public function findById($id)
 	{
 		return $this->abstractFindById(self::RETURNTYPE,$id);
 	}
@@ -130,7 +127,7 @@ class KVDdm_AdrStraatDb extends KVDdom_PDODataMapper{
 
 	/**
 	 * Zoek een straat op basis van zijn naam en de gemeente waarin de straat ligt.
-     * 
+     *
 	 * @param   KVDdo_AdrGemeente $gemeente
      * @param   string            $naam
 	 * @return  KVDdo_AdrStraat
@@ -152,7 +149,7 @@ class KVDdm_AdrStraatDb extends KVDdom_PDODataMapper{
 	/**
 	 * findAll
 	 * @return KVDdom_DomainObjectCollection Een verzameling van {@link KVDdo_AdrStraat} objecten
-	 */	
+	 */
 	public function findAll()
 	{
 		 return $this->abstractFindAll(self::RETURNTYPE);

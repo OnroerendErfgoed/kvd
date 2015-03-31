@@ -3,25 +3,22 @@
  * @package KVD.dm
  * @subpackage Adr
  * @copyright 2004-2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  * @author Dieter Standaert <dieter.standaert@eds.com>
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
- * @version $Id: KVDdm_AdrTerreinobject.class.php 379 2007-12-04 11:18:16Z vandaeko $
  */
 
 /**
- * KVDdm_AdrTerreinobjectDb 
- * 
+ * KVDdm_AdrTerreinobjectDb
+ *
  * @package KVD.dm
  * @subpackage Adr
  * @since augustus 2008
  * @copyright 2004-2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  * @author Dieter Standaert <dieter.standaert@eds.com>
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDdm_AdrTerreinobjectDb extends KVDdom_PDODataMapper{
-    
+
 	/**
 	 * Code volgens de EPSG voor de Belge Lambert projectie.
 	 * @var integer
@@ -30,7 +27,7 @@ class KVDdm_AdrTerreinobjectDb extends KVDdom_PDODataMapper{
 
 	/**
 	 * Het soort domain-object dat wordt teruggegeven door deze mapper.
-	 * @var string 
+	 * @var string
 	 */
 	const RETURNTYPE = "KVDdo_AdrTerreinObject";
 
@@ -95,7 +92,7 @@ class KVDdm_AdrTerreinobjectDb extends KVDdom_PDODataMapper{
 	 * @return KVDdo_AdrTerreinobjet
 	 * @todo herbekijken hoe het zit met het huisnummer
 	 * @throws <b>KVDdom_DomainObjectNotFoundException</b> Indien het object niet geladen kon worden.
-	 */ 
+	 */
 	public function findById ( $id )
 	{
 		return $this->abstractFindById(self::RETURNTYPE,$id);
@@ -131,7 +128,7 @@ class KVDdm_AdrTerreinobjectDb extends KVDdom_PDODataMapper{
 	/**
 	 * findAll
 	 * @return KVDdom_Collection
-	 */	
+	 */
 	public function findAll()
 	{
 		 return $this->abstractFindAll(self::RETURNTYPE);
