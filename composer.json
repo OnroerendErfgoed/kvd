@@ -20,6 +20,7 @@
 	"require-dev": {
 		"phing/phing": "2.*",
 		"phpunit/phpunit": "4.1.*",
+        "phpdocumentor/phpdocumentor": "2.*",
         "satooshi/php-coveralls": "dev-master"
 	},
 	"autoload": {

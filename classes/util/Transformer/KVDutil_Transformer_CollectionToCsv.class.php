@@ -14,7 +14,7 @@
  * @since 27 jan 2012
  * @copyright 2012 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author Philip Verbist <philip.verbist@hp.be>
- /
+ */
 class KVDutil_Transformer_CollectionToCsv
 {
     private $coll = null;
