@@ -2,10 +2,8 @@
 /**
  * @package    KVD.thes
  * @subpackage core
- * @version    $Id$
  * @copyright  2004-2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author     Dieter Standaert <dieter.standaert@hp.com>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
@@ -19,7 +17,6 @@
  * @since      14 april 2010
  * @copyright  2004-2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
  * @author     Dieter Standaert <dieter.standaert@hp.com>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 abstract class KVDthes_EditeerbareDomainObjectCollection 
                     extends KVDdom_EditeerbareDomainObjectCollection

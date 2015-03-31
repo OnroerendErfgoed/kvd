@@ -2,29 +2,26 @@
 /**
  * @package    KVD.thes
  * @subpackage Core
- * @version    $Id$
  * @copyright  2012 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
- * KVDthes_Concept 
- * 
- * Deze class stelt een concept, zoals gekend in SKOS voor. Is momenteel vooral 
+ * KVDthes_Concept
+ *
+ * Deze class stelt een concept, zoals gekend in SKOS voor. Is momenteel vooral
  * bedoeld om te linken met externe thesauri.
  *
  * @package    KVD.thes
  * @subpackage Core
  * @since      1.6
  * @copyright  2012 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 abstract class KVDthes_Concept extends KVDthes_Matchable
 {
     /**
-     * Geeft aan dat de basis data voor het concept werd geladen. 
+     * Geeft aan dat de basis data voor het concept werd geladen.
      */
     CONST LS_CONCEPT = 1;
 
@@ -45,21 +42,21 @@ abstract class KVDthes_Concept extends KVDthes_Matchable
 
     /**
      * Identifier van het concept in het schema waartoe het behoort.
-     * 
+     *
      * @var integer
      */
     protected $id = 0;
 
     /**
      * Omschrijving van het concept.
-     * 
+     *
      * @var string
      */
 	protected $term = 'Onbepaald';
 
     /**
-     * notes 
-     * 
+     * notes
+     *
      * @var     array   Array van strings.
      */
     protected $notes = array( 'scopeNote'     => null,
@@ -77,7 +74,7 @@ abstract class KVDthes_Concept extends KVDthes_Matchable
     protected $matches;
 
     /**
-     * __construct 
+     * __construct
      *
      * @param integer             $id
      * @param KVDdom_IWriteSessie $sessie
@@ -173,7 +170,7 @@ abstract class KVDthes_Concept extends KVDthes_Matchable
      * setNote
      *
      * @param string $type
-     * @param string $note 
+     * @param string $note
      */
     public function setNote( $note, $type = 'scopeNote' )
     {
@@ -197,7 +194,7 @@ abstract class KVDthes_Concept extends KVDthes_Matchable
 
     /**
      * checkMatches
-     * 
+     *
      * Check if the matches have been loaded yet, if not load them.
      * @return void
      */
@@ -211,7 +208,7 @@ abstract class KVDthes_Concept extends KVDthes_Matchable
 
     /**
      * getMatches
-     * 
+     *
      * @return KVDdom_DomainObjectCollection
      */
     public function getMatches( )
@@ -222,7 +219,7 @@ abstract class KVDthes_Concept extends KVDthes_Matchable
 
     /**
      * hasMatches
-     * 
+     *
      * @param  string  $type   Een constante uit {@link KVDthes_Match} of null
      * @return boolean Geeft aan of een term matches heeft in het algemeen of van een bepaald type.
      */
@@ -234,8 +231,8 @@ abstract class KVDthes_Concept extends KVDthes_Matchable
 
     /**
      * loadMatch
-     * 
-     * @param KVDthes_Match $match 
+     *
+     * @param KVDthes_Match $match
      * @return void
      */
     public function loadMatch (KVDthes_Match $match)
@@ -249,7 +246,7 @@ abstract class KVDthes_Concept extends KVDthes_Matchable
     /**
      * clearMatches
      *
-     * @param  string $type Een van de MATCH_ constanten uit de 
+     * @param  string $type Een van de MATCH_ constanten uit de
      *                      {@link KVDthes_Match} class.
      * @return void
      */

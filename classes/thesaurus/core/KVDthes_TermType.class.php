@@ -2,29 +2,26 @@
 /**
  * @package    KVD.thes
  * @subpackage core
- * @version    $Id$
  * @copyright  2009-2011 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
- * KVDthes_TermType 
- * 
+ * KVDthes_TermType
+ *
  * @package    KVD.thes
  * @subpackage core
  * @since      16 apr 2009
  * @copyright  2009-2011 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 class KVDthes_TermType extends KVDdom_ValueDomainObject
 {
     /**
-     * __construct 
-     * 
-     * @param   string  $id 
-     * @param   string  $type 
+     * __construct
+     *
+     * @param   string  $id
+     * @param   string  $type
      * @return  KVDthes_TermType
      */
     public function __construct( $id, $type = 'Onbepaald' )
@@ -34,8 +31,8 @@ class KVDthes_TermType extends KVDdom_ValueDomainObject
     }
 
     /**
-     * getType 
-     * 
+     * getType
+     *
      * @return  string
      */
     public function getType( )
@@ -44,8 +41,8 @@ class KVDthes_TermType extends KVDdom_ValueDomainObject
     }
 
     /**
-     * getOmschrijving 
-     * 
+     * getOmschrijving
+     *
      * @return  string
      */
     public function getOmschrijving( )
@@ -54,14 +51,14 @@ class KVDthes_TermType extends KVDdom_ValueDomainObject
     }
 
     /**
-     * newNull 
-     * 
+     * newNull
+     *
      * @return  KVDthes_TermType
      */
     public static function newNull( )
     {
         return new KVDthes_TermType( 'ND', 'Non Descriptor');
     }
-    
+
 }
 ?>

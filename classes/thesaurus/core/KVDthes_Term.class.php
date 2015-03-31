@@ -2,44 +2,41 @@
 /**
  * @package    KVD.thes
  * @subpackage Core
- * @version    $Id$
  * @copyright  2004-2012 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
- * KVDthes_Term 
- * 
- * Deze class stelt een term in een thesaurus voor. Dit DomainObject is losjes gebasseerd op de 
+ * KVDthes_Term
+ *
+ * Deze class stelt een term in een thesaurus voor. Dit DomainObject is losjes gebasseerd op de
  * zThes standaard maar heeft niet alle velden die in dat model aanwezig zijn.
  *
  * @package    KVD.thes
  * @subpackage Core
  * @since      19 maart 2007
  * @copyright  2004-2012 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 abstract class KVDthes_Term extends KVDthes_Matchable
 {
     /**
-     * Geeft aan dat de basis data voor de term werd geladen. 
+     * Geeft aan dat de basis data voor de term werd geladen.
      */
     CONST LS_TERM = 1;
 
     /**
-     * Geeft aan dat de BT relaties voor deze term geladen werden. 
+     * Geeft aan dat de BT relaties voor deze term geladen werden.
      */
     CONST LS_RELBT = 2;
 
     /**
-     * Geeft aan dat de NT relaties voor deze term geladen werden. 
+     * Geeft aan dat de NT relaties voor deze term geladen werden.
      */
     CONST LS_RELNT = 4;
 
     /**
-     * Geeft aan dat de relaties van deze term werden geladen. 
+     * Geeft aan dat de relaties van deze term werden geladen.
      */
     CONST LS_REL = 8;
 
@@ -54,57 +51,57 @@ abstract class KVDthes_Term extends KVDthes_Matchable
     const LS_MATCHES = 64;
 
     /**
-     * id 
-     * 
+     * id
+     *
      * @var integer
      */
     protected $id = 0;
 
     /**
-     * term 
-     * 
+     * term
+     *
      * @var string
      */
 	protected $term = 'Onbepaald';
 
     /**
-     * type: 
-     * 
+     * type:
+     *
      * @var     KVDthes_TermType
      */
     protected $type;
 
     /**
-     * qualifier 
-     * 
+     * qualifier
+     *
      * @var string
      */
     protected $qualifier = null;
 
     /**
-     * language 
-     * 
+     * language
+     *
      * @var string
      */
     protected $language = 'nl-BE';
 
     /**
-     * sortKey 
-     * 
+     * sortKey
+     *
      * @var string
      */
     protected $sortKey = null;
 
     /**
-     * relations 
-     * 
+     * relations
+     *
      * @var KVDthes_Relations
      */
     protected $relations;
 
     /**
-     * notes 
-     * 
+     * notes
+     *
      * @var     array   Array van strings.
      */
     protected $notes = array(   'scopeNote'     => null,
@@ -113,11 +110,11 @@ abstract class KVDthes_Term extends KVDthes_Matchable
                                 'historyNote'   => null );
 
     /**
-     * __construct 
+     * __construct
      *
      * @param integer               $id
      * @param KVDdom_IWriteSessie   $sessie
-     * @param string                $term 
+     * @param string                $term
      * @param string                $qualifier
      * @param string                $language
      * @param string                $sortKey
@@ -141,8 +138,8 @@ abstract class KVDthes_Term extends KVDthes_Matchable
     }
 
     /**
-     * markDirty 
-     * 
+     * markDirty
+     *
      * @return void
      */
     protected function markDirty( )
@@ -153,8 +150,8 @@ abstract class KVDthes_Term extends KVDthes_Matchable
     }
 
     /**
-     * checkRelations 
-     * 
+     * checkRelations
+     *
      * Check if the relations have been loaded yet, if not load them.
      * @return void
      */
@@ -167,8 +164,8 @@ abstract class KVDthes_Term extends KVDthes_Matchable
     }
 
     /**
-     * checkScopeNote 
-     * 
+     * checkScopeNote
+     *
      * Check if the notes have been loaded yet, if not load them.
      * @return void
      */
@@ -181,8 +178,8 @@ abstract class KVDthes_Term extends KVDthes_Matchable
     }
 
     /**
-     * getTerm 
-     * 
+     * getTerm
+     *
      * @return string
      */
 	public function getTerm()
@@ -192,10 +189,10 @@ abstract class KVDthes_Term extends KVDthes_Matchable
 
 
     /**
-     * setTerm 
-     * 
+     * setTerm
+     *
      * @since   7 apr 2009
-     * @param   string $term 
+     * @param   string $term
      * @return  void
      */
     public function setTerm( $term )
@@ -205,8 +202,8 @@ abstract class KVDthes_Term extends KVDthes_Matchable
     }
 
     /**
-     * getType 
-     * 
+     * getType
+     *
      * @since   16 apr 2009
      * @return  KVDthes_TermType
      */
@@ -216,10 +213,10 @@ abstract class KVDthes_Term extends KVDthes_Matchable
     }
 
     /**
-     * setType 
-     * 
+     * setType
+     *
      * @since   16 apr 2009
-     * @param   KVDthes_TermType $type 
+     * @param   KVDthes_TermType $type
      * @return  void
      */
     public function setType( KVDthes_TermType $type )
@@ -229,8 +226,8 @@ abstract class KVDthes_Term extends KVDthes_Matchable
     }
 
     /**
-     * getQualifier 
-     * 
+     * getQualifier
+     *
      * Geef de qualifier terug. Een qualifier is extra informatie die de term uniek maakt binnen een thesaurus.
      * Stel bijvoorbeeld dat we twee termen hebben genaamd 'obelisken' waarbij de ene slaat op een grafmonument
      * en de andere op een object binnen een tuin dan zou de ene de qualifier 'grafmonument' en de andere de
@@ -245,10 +242,10 @@ abstract class KVDthes_Term extends KVDthes_Matchable
     }
 
     /**
-     * setQualifier 
-     * 
+     * setQualifier
+     *
      * @since   7 apr 2009
-     * @param   string $qual 
+     * @param   string $qual
      * @return  void
      */
     public function setQualifier( $qual )
@@ -258,8 +255,8 @@ abstract class KVDthes_Term extends KVDthes_Matchable
     }
 
     /**
-     * getQualifiedTerm 
-     * 
+     * getQualifiedTerm
+     *
      * Geef een unieke weergave van een bepaalde term, dit bestaat uit de term gevolgd door de qualifier tussen
      * haakjes. bv. 'obelisken (grafmonument)'.
      * @return string
@@ -270,8 +267,8 @@ abstract class KVDthes_Term extends KVDthes_Matchable
     }
 
     /**
-     * getId 
-     * 
+     * getId
+     *
      * @return integer
      */
     public function getId( )
@@ -280,8 +277,8 @@ abstract class KVDthes_Term extends KVDthes_Matchable
     }
 
     /**
-     * getSortKey 
-     * 
+     * getSortKey
+     *
      * Deze methode biedt de mogelijkheid om een term op een andere dan een puur alfabetische manier te sorteren.
      * @return string
      */
@@ -291,10 +288,10 @@ abstract class KVDthes_Term extends KVDthes_Matchable
     }
 
     /**
-     * setSortKey 
-     * 
+     * setSortKey
+     *
      * @since   7 apr 2009
-     * @param   string $sort 
+     * @param   string $sort
      * @return  void
      */
     public function setSortKey( $sort )
@@ -304,8 +301,8 @@ abstract class KVDthes_Term extends KVDthes_Matchable
     }
 
     /**
-     * getScopeNote 
-     * 
+     * getScopeNote
+     *
      * @return string
      */
     public function getScopeNote( )
@@ -315,10 +312,10 @@ abstract class KVDthes_Term extends KVDthes_Matchable
     }
 
     /**
-     * setScopeNote 
-     * 
+     * setScopeNote
+     *
      * @since   7 apr 2009
-     * @param   string $note 
+     * @param   string $note
      * @return  void
      */
     public function setScopeNote( $note )
@@ -329,8 +326,8 @@ abstract class KVDthes_Term extends KVDthes_Matchable
     }
 
     /**
-     * getSourceNote 
-     * 
+     * getSourceNote
+     *
      * @return string
      */
     public function getSourceNote( )
@@ -340,10 +337,10 @@ abstract class KVDthes_Term extends KVDthes_Matchable
     }
 
     /**
-     * setSourceNote 
-     * 
+     * setSourceNote
+     *
      * @since   7 apr 2009
-     * @param   string $note 
+     * @param   string $note
      * @return  void
      */
     public function setSourceNote( $note )
@@ -354,8 +351,8 @@ abstract class KVDthes_Term extends KVDthes_Matchable
     }
 
     /**
-     * getIndexingNote 
-     * 
+     * getIndexingNote
+     *
      * @since   22 apr 2009
      * @return  string
      */
@@ -366,10 +363,10 @@ abstract class KVDthes_Term extends KVDthes_Matchable
     }
 
     /**
-     * setIndexingNote 
-     * 
+     * setIndexingNote
+     *
      * @since   22 apr 2009
-     * @param   string $note 
+     * @param   string $note
      * @return  void
      */
     public function setIndexingNote( $note )
@@ -380,8 +377,8 @@ abstract class KVDthes_Term extends KVDthes_Matchable
     }
 
     /**
-     * getHistoryNote 
-     * 
+     * getHistoryNote
+     *
      * @since   22 apr 2009
      * @return  string
      */
@@ -392,10 +389,10 @@ abstract class KVDthes_Term extends KVDthes_Matchable
     }
 
     /**
-     * setHistoryNote 
-     * 
+     * setHistoryNote
+     *
      * @since   22 apr 2009
-     * @param   string $note 
+     * @param   string $note
      * @return  void
      */
     public function setHistoryNote( $note )
@@ -406,9 +403,9 @@ abstract class KVDthes_Term extends KVDthes_Matchable
     }
 
     /**
-     * loadRelation 
-     * 
-     * @param KVDthes_Relation $relation 
+     * loadRelation
+     *
+     * @param KVDthes_Relation $relation
      * @return void
      */
     public function loadRelation ( KVDthes_Relation $relation )
@@ -419,8 +416,8 @@ abstract class KVDthes_Term extends KVDthes_Matchable
     }
 
     /**
-     * clearRelations 
-     * 
+     * clearRelations
+     *
      * @param   string  $type   Een van de REL_ constanten uit de {@link KVDthes_Relation} class.
      * @return  void
      */
@@ -434,9 +431,9 @@ abstract class KVDthes_Term extends KVDthes_Matchable
     }
 
     /**
-     * addRelation 
-     * 
-     * @param KVDthes_Relation $relation 
+     * addRelation
+     *
+     * @param KVDthes_Relation $relation
      * @return void
      */
     public function addRelation( KVDthes_Relation $relation )
@@ -451,9 +448,9 @@ abstract class KVDthes_Term extends KVDthes_Matchable
     }
 
     /**
-     * removeRelation 
-     * 
-     * @param   KVDthes_Relation $relation 
+     * removeRelation
+     *
+     * @param   KVDthes_Relation $relation
      * @return  void
      */
     public function removeRelation( KVDthes_Relation $relation )
@@ -467,8 +464,8 @@ abstract class KVDthes_Term extends KVDthes_Matchable
     }
 
     /**
-     * getRelations 
-     * 
+     * getRelations
+     *
      * @return KVDdom_DomainObjectCollection
      */
     public function getRelations( )
@@ -478,8 +475,8 @@ abstract class KVDthes_Term extends KVDthes_Matchable
     }
 
     /**
-     * hasRelations 
-     * 
+     * hasRelations
+     *
      * @since   18 apr 2009
      * @param   string      $type   Een constante uit {@link KVDthes_Relation} of null
      * @return  boolean     Geeft aan of een term relaties heeft in het algemeen of van een bepaald type.
@@ -492,8 +489,8 @@ abstract class KVDthes_Term extends KVDthes_Matchable
 
 
     /**
-     * sortRelations 
-     * 
+     * sortRelations
+     *
      * @param   integer     $methode    Een van de sort-constanten uit KVDthes_Relations.
      * @return void
      */
@@ -505,8 +502,8 @@ abstract class KVDthes_Term extends KVDthes_Matchable
 
     /**
      * loadNotes
-     * 
-     * @param   array $n 
+     *
+     * @param   array $n
      * @return  void
      */
     public function loadNotes( array $notes ) {
@@ -515,9 +512,9 @@ abstract class KVDthes_Term extends KVDthes_Matchable
     }
 
     /**
-     * accept 
-     * 
-     * @param KVDthes_TreeVisitor $visitor 
+     * accept
+     *
+     * @param KVDthes_TreeVisitor $visitor
      * @return boolean
      */
     public function accept( KVDthes_AbstractTreeVisitor $visitor )
@@ -544,9 +541,9 @@ abstract class KVDthes_Term extends KVDthes_Matchable
     }
 
     /**
-     * acceptSimple 
-     * 
-     * @param KVDthes_AbstractSimpleVisitor $visitor 
+     * acceptSimple
+     *
+     * @param KVDthes_AbstractSimpleVisitor $visitor
      * @return boolean
      */
     public function acceptSimple( KVDthes_AbstractSimpleVisitor $visitor )
@@ -565,8 +562,8 @@ abstract class KVDthes_Term extends KVDthes_Matchable
     }
 
     /**
-     * isPreferredTerm 
-     * 
+     * isPreferredTerm
+     *
      * @return boolean
      */
     public function isPreferredTerm( )
@@ -575,8 +572,8 @@ abstract class KVDthes_Term extends KVDthes_Matchable
     }
 
     /**
-     * getPreferredTerm 
-     * 
+     * getPreferredTerm
+     *
      * @return KVDthes_Term     Ofwel de preferred Term, ofwel deze term zelf.
      */
     public function getPreferredTerm( )
@@ -592,10 +589,10 @@ abstract class KVDthes_Term extends KVDthes_Matchable
     }
 
     /**
-     * setPreferredTerm 
-     * 
+     * setPreferredTerm
+     *
      * @since   10 apr 2009
-     * @param   KVDthes_Term    $term 
+     * @param   KVDthes_Term    $term
      * @return  void
      */
     public function setPreferredTerm( KVDthes_Term $term )
@@ -618,8 +615,8 @@ abstract class KVDthes_Term extends KVDthes_Matchable
     }
 
     /**
-     * getNonPreferredTerms 
-     * 
+     * getNonPreferredTerms
+     *
      * @return KVDthes_RelationsIterator
      */
     public function getNonPreferredTerms( )
@@ -634,8 +631,8 @@ abstract class KVDthes_Term extends KVDthes_Matchable
     }
 
     /**
-     * getRelatedTerms 
-     * 
+     * getRelatedTerms
+     *
      * @return  KVDdom_DomainObjectCollection
      */
     public function getRelatedTerms( )
@@ -650,8 +647,8 @@ abstract class KVDthes_Term extends KVDthes_Matchable
     }
 
     /**
-     * getNarrowerTerms 
-     * 
+     * getNarrowerTerms
+     *
      * @return KVDthes_RelationsIterator
      */
     public function getNarrowerTerms( )
@@ -666,8 +663,8 @@ abstract class KVDthes_Term extends KVDthes_Matchable
     }
 
     /**
-     * getLanguage 
-     * 
+     * getLanguage
+     *
      * @return string
      */
     public function getLanguage( )
@@ -676,10 +673,10 @@ abstract class KVDthes_Term extends KVDthes_Matchable
     }
 
     /**
-     * setLanguage 
-     * 
+     * setLanguage
+     *
      * @since   7 apr 2009
-     * @param   string $lang 
+     * @param   string $lang
      * @return  void
      */
     public function setLanguage( $lang )
@@ -689,8 +686,8 @@ abstract class KVDthes_Term extends KVDthes_Matchable
     }
 
     /**
-     * hasNTRelations 
-     * 
+     * hasNTRelations
+     *
      * @return boolean
      */
     public function hasNTRelations( )
@@ -699,10 +696,10 @@ abstract class KVDthes_Term extends KVDthes_Matchable
         return count( $this->relations->getNTIterator( ) ) > 0;
     }
 
-    
+
     /**
-     * hasBTRelations 
-     * 
+     * hasBTRelations
+     *
      * @return boolean
      */
     public function hasBTRelations( )
@@ -712,8 +709,8 @@ abstract class KVDthes_Term extends KVDthes_Matchable
     }
 
     /**
-     * hasBT 
-     * 
+     * hasBT
+     *
      * @return boolean
      */
     public function hasBT( )
@@ -722,8 +719,8 @@ abstract class KVDthes_Term extends KVDthes_Matchable
     }
 
     /**
-     * getBroaderTerm 
-     * 
+     * getBroaderTerm
+     *
      * @return KVDthes_Term
      */
     public function getBroaderTerm( )
@@ -735,10 +732,10 @@ abstract class KVDthes_Term extends KVDthes_Matchable
     }
 
     /**
-     * setBroaderTerm 
-     * 
+     * setBroaderTerm
+     *
      * @since   10 apr 2009
-     * @param   KVDthes_Term    $term 
+     * @param   KVDthes_Term    $term
      * @return  void
      */
     public function setBroaderTerm( KVDthes_Term $term )
@@ -761,8 +758,8 @@ abstract class KVDthes_Term extends KVDthes_Matchable
     }
 
     /**
-     * remove 
-     * 
+     * remove
+     *
      * @since   7 apr 2009
      * @return  void
      */
@@ -772,12 +769,12 @@ abstract class KVDthes_Term extends KVDthes_Matchable
     }
 
     /**
-     * create 
-     * 
+     * create
+     *
      * @param   string                  $returnType
-     * @param   integer                 $id 
-     * @param   KVDdom_IWriteSessie     $sessie 
-     * @param   KVDthes_Thesaurus       $thes 
+     * @param   integer                 $id
+     * @param   KVDdom_IWriteSessie     $sessie
+     * @param   KVDthes_Thesaurus       $thes
      * @return void
      */
     public static function create($returnType, $id, KVDdom_IWriteSessie $sessie, KVDthes_Thesaurus $thes )
@@ -788,8 +785,8 @@ abstract class KVDthes_Term extends KVDthes_Matchable
     }
 
     /**
-     * getOmschrijving 
-     * 
+     * getOmschrijving
+     *
      * @return string
      */
     public function getOmschrijving( )
@@ -808,8 +805,8 @@ abstract class KVDthes_Term extends KVDthes_Matchable
     }
 
     /**
-     * isNull 
-     * 
+     * isNull
+     *
      * @return boolean
      */
     public function isNull()
@@ -818,9 +815,9 @@ abstract class KVDthes_Term extends KVDthes_Matchable
     }
 
     /**
-     * newNull 
-     * 
-     * @since   17 apr 2009    
+     * newNull
+     *
+     * @since   17 apr 2009
      * @return  KVDthes_NullTerm
      */
     public static function newNull( )

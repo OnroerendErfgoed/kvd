@@ -2,27 +2,24 @@
 /**
  * @package    KVD.thes
  * @subpackage core
- * @version    $Id$
  * @copyright  2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
- * KVDthes_NullTerm 
- * 
+ * KVDthes_NullTerm
+ *
  * @package    KVD.thes
  * @subpackage core
  * @since      19 maart 2007
  * @copyright  2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 class KVDthes_NullTerm extends KVDthes_Term
 {
     /**
-     * __construct 
-     * 
+     * __construct
+     *
      * @return void
      */
     public function __construct( )
@@ -33,9 +30,9 @@ class KVDthes_NullTerm extends KVDthes_Term
     }
 
     /**
-     * setTerm 
-     * 
-     * @param string $term 
+     * setTerm
+     *
+     * @param string $term
      * @return void
      */
     public function setTerm( $term )
@@ -45,9 +42,9 @@ class KVDthes_NullTerm extends KVDthes_Term
 
 
     /**
-     * addRelation 
-     * 
-     * @param KVDthes_Relation $relation 
+     * addRelation
+     *
+     * @param KVDthes_Relation $relation
      * @return void
      */
     public function addRelation ( KVDthes_Relation $relation )
@@ -57,9 +54,9 @@ class KVDthes_NullTerm extends KVDthes_Term
 
 
     /**
-     * accept 
-     * 
-     * @param KVDthes_TreeVisitor $visitor 
+     * accept
+     *
+     * @param KVDthes_TreeVisitor $visitor
      * @return void
      */
     public function accept( KVDthes_AbstractTreeVisitor $visitor )
@@ -68,8 +65,8 @@ class KVDthes_NullTerm extends KVDthes_Term
     }
 
     /**
-     * isPreferredTerm 
-     * 
+     * isPreferredTerm
+     *
      * @return boolean
      */
     public function isPreferredTerm( )
@@ -78,8 +75,8 @@ class KVDthes_NullTerm extends KVDthes_Term
     }
 
     /**
-     * getPreferredTerm 
-     * 
+     * getPreferredTerm
+     *
      * @return KVDthes_NullTerm
      */
     public function getPreferredTerm( )
@@ -88,8 +85,8 @@ class KVDthes_NullTerm extends KVDthes_Term
     }
 
     /**
-     * isNull 
-     * 
+     * isNull
+     *
      * @return boolean
      */
     public function isNull()

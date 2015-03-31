@@ -2,48 +2,45 @@
 /**
  * @package    KVD.thes
  * @subpackage core
- * @version    $Id$
  * @copyright  2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
- * KVDthes_RelationTypeIterator 
- * 
+ * KVDthes_RelationTypeIterator
+ *
  * @package    KVD.thes
  * @subpackage core
  * @since      maart 2007
  * @copyright  2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 class KVDthes_RelationTypeIterator extends KVDthes_RelationsIterator
 {
     /**
-     * type 
-     * 
+     * type
+     *
      * @var string
      */
     protected $type;
 
     /**
-     * __construct 
-     * 
-     * @param array $relations 
-     * @param string $type 
+     * __construct
+     *
+     * @param array $relations
+     * @param string $type
      * @return void
      */
     public function __construct( array $relations , $type )
-    {   
+    {
         parent::__construct( $relations );
         $this->type = $type;
         $this->rewind( );
     }
 
     /**
-     * rewind 
-     * 
+     * rewind
+     *
      * @return void
      */
     public function rewind( )
@@ -55,8 +52,8 @@ class KVDthes_RelationTypeIterator extends KVDthes_RelationsIterator
     }
 
     /**
-     * next 
-     * 
+     * next
+     *
      * @return void
      */
     public function next( )
@@ -67,8 +64,8 @@ class KVDthes_RelationTypeIterator extends KVDthes_RelationsIterator
     }
 
     /**
-     * count 
-     * 
+     * count
+     *
      * @return integer
      */
     public function count( )
@@ -77,9 +74,9 @@ class KVDthes_RelationTypeIterator extends KVDthes_RelationsIterator
     }
 
     /**
-     * typeFilter 
-     * 
-     * @param KVDthes_Relation $relation 
+     * typeFilter
+     *
+     * @param KVDthes_Relation $relation
      * @return boolean
      */
     private function typeFilter( $relation )

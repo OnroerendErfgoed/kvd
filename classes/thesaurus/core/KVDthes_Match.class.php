@@ -2,21 +2,18 @@
 /**
  * @package    KVD.thes
  * @subpackage Core
- * @version    $Id$
  * @copyright  2012 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
- * KVDthes_Match 
+ * KVDthes_Match
  *
  * @package    KVD.thes
  * @subpackage Core
  * @since      1.6
  * @copyright  2012 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 class KVDthes_Match
 {
@@ -46,8 +43,8 @@ class KVDthes_Match
     const MATCH_CM = 'CM';
 
     /**
-     * inverse 
-     * 
+     * inverse
+     *
      * Een array dat aangeeft wat de inverse matches zijn.
      * @var array
      */
@@ -62,31 +59,31 @@ class KVDthes_Match
      *
      * @var array
      */
-    private static $typeomschrijving = array ( 
+    private static $typeomschrijving = array (
         self::MATCH_BM => 'Specifieker dan' ,
         self::MATCH_NM => 'Algemener dan' ,
         self::MATCH_RM => 'Gerelateerd aan' ,
         self::MATCH_EM => 'Exact gelijk aan' ,
-        self::MATCH_CM => 'Bijna gelijk aan' 
+        self::MATCH_CM => 'Bijna gelijk aan'
     );
 
     /**
-     * type 
-     * 
+     * type
+     *
      * @var string
      */
     private $type;
 
     /**
      * The thing being matched
-     * 
+     *
      * @var KVDthes_Matchable
      */
     private $matchable;
 
     /**
-     * __construct 
-     * 
+     * __construct
+     *
      * @param string $type Een class-constante die de soort match aangeeft.
      * @param KVDthes_Matchable $matchable
      */
@@ -100,8 +97,8 @@ class KVDthes_Match
     }
 
     /**
-     * getType 
-     * 
+     * getType
+     *
      * @return string
      */
     public function getType ()

@@ -2,42 +2,39 @@
 /**
  * @package    KVD.thes
  * @subpackage core
- * @version    $Id$
  * @copyright  2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
- * KVDthes_RelationsIterator 
- * 
+ * KVDthes_RelationsIterator
+ *
  * @package    KVD.thes
  * @subpackage core
  * @since      19 maart 2007
  * @copyright  2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 class KVDthes_RelationsIterator implements Iterator, Countable
 {
     /**
-     * index 
-     * 
+     * index
+     *
      * @var integer
      */
     protected $index = 0;
 
     /**
-     * relations 
-     * 
+     * relations
+     *
      * @var array
      */
     protected $relations;
 
     /**
-     * __construct 
-     * 
-     * @param array $relations 
+     * __construct
+     *
+     * @param array $relations
      * @return KVDthes
      */
     public function __construct ( array $relations )
@@ -46,8 +43,8 @@ class KVDthes_RelationsIterator implements Iterator, Countable
     }
 
     /**
-     * next 
-     * 
+     * next
+     *
      * @return void
      */
     public function next( )
@@ -56,8 +53,8 @@ class KVDthes_RelationsIterator implements Iterator, Countable
     }
 
     /**
-     * current 
-     * 
+     * current
+     *
      * @return KVDthes_Relation
      */
     public function current( )
@@ -66,8 +63,8 @@ class KVDthes_RelationsIterator implements Iterator, Countable
     }
 
     /**
-     * rewind 
-     * 
+     * rewind
+     *
      * @return void
      */
     public function rewind( )
@@ -76,8 +73,8 @@ class KVDthes_RelationsIterator implements Iterator, Countable
     }
 
     /**
-     * key 
-     * 
+     * key
+     *
      * @return integer
      */
     public function key( )
@@ -86,8 +83,8 @@ class KVDthes_RelationsIterator implements Iterator, Countable
     }
 
     /**
-     * valid 
-     * 
+     * valid
+     *
      * @return boolean
      */
     public function valid( )
@@ -96,8 +93,8 @@ class KVDthes_RelationsIterator implements Iterator, Countable
     }
 
     /**
-     * count 
-     * 
+     * count
+     *
      * @return integer
      */
     public function count( )

@@ -2,24 +2,21 @@
 /**
  * @package    KVD.thes
  * @subpackage Core
- * @version    $Id$
  * @copyright  2012 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
  * KVDthes_Matchable
- * 
- * Deze class stelt een term of concept voor dat kan gelinked worden aan een ander 
+ *
+ * Deze class stelt een term of concept voor dat kan gelinked worden aan een ander
  * concept over de grezen van thesauri heen.
  *
  * @package    KVD.thes
  * @subpackage Core
  * @since      1.6
  * @copyright  2012 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 abstract class KVDthes_Matchable extends KVDdom_ChangeableDomainObject
 {
@@ -30,15 +27,15 @@ abstract class KVDthes_Matchable extends KVDdom_ChangeableDomainObject
     CONST LS_MATCH = 128;
 
     /**
-     * loadState 
-     * 
+     * loadState
+     *
      * @var integer
      */
     protected $loadState;
 
     /**
      * De thesaurus of het concept scheme zoals gekend in SKOS.
-     * 
+     *
      * @var KVDthes_Thesaurus
      */
     protected $thesaurus;
@@ -201,8 +198,8 @@ abstract class KVDthes_Matchable extends KVDdom_ChangeableDomainObject
     }
 
     /**
-     * getThesaurus 
-     * 
+     * getThesaurus
+     *
      * @return KVDthes_Thesaurus
      */
     public function getThesaurus( )

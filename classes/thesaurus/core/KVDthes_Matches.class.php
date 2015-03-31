@@ -2,35 +2,32 @@
 /**
  * @package    KVD.thes
  * @subpackage Core
- * @version    $Id$
  * @copyright  2012 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
  * KVDthes_Matches
- * 
+ *
  * @package    KVD.thes
  * @subpackage Core
  * @since      1.6
  * @copyright  2012 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 class KVDthes_Matches implements IteratorAggregate, Countable
 {
 
     /**
      * matches
-     * 
+     *
      * @var array
      */
     protected $matches;
 
     /**
-     * __construct 
-     * 
+     * __construct
+     *
      * @return void
      */
     public function __construct()
@@ -40,7 +37,7 @@ class KVDthes_Matches implements IteratorAggregate, Countable
 
     /**
      * addMatch
-     * 
+     *
      * @param  KVDthes_Match $match
      * @return boolean       True indien de match werd toegevoegd, false indien ze al aanwezig was.
      */
@@ -55,7 +52,7 @@ class KVDthes_Matches implements IteratorAggregate, Countable
 
     /**
      * removeMatch
-     * 
+     *
      * @param  KVDthes_Match $match
      * @return boolean       True indien de match werd verwijderd, false indien ze niet aanwezig was en dus niet verwijderd kon worden.
      */
@@ -72,18 +69,18 @@ class KVDthes_Matches implements IteratorAggregate, Countable
 
     /**
      * hasMatch
-     * 
+     *
      * @param  KVDthes_Match $match
      * @return boolean
      */
-    public function hasMatch(KVDthes_Match $match) 
+    public function hasMatch(KVDthes_Match $match)
     {
         return in_array($match, $this->matches);
     }
 
     /**
-     * getImmutableCollection 
-     * 
+     * getImmutableCollection
+     *
      * @return  KVDdom_DomainObjectCollection
      */
     public function getImmutableCollection( )
@@ -92,8 +89,8 @@ class KVDthes_Matches implements IteratorAggregate, Countable
     }
 
     /**
-     * getIterator 
-     * 
+     * getIterator
+     *
      * @param  $type   Type van matches of null om alle matches te krijgen.
      * @return KVDthes_MatchesIterator
      */

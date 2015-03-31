@@ -2,33 +2,30 @@
 /**
  * @package    KVD.thes
  * @subpackage core
- * @version    $Id$
  * @copyright  2012 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
- * KVDthes_MatchTypeIterator 
- * 
+ * KVDthes_MatchTypeIterator
+ *
  * @package    KVD.thes
  * @subpackage core
  * @since      1.6
  * @copyright  2012 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 class KVDthes_MatchTypeIterator extends KVDthes_MatchesIterator
 {
     /**
-     * type 
-     * 
+     * type
+     *
      * @var string
      */
     protected $type;
 
     /**
-     * __construct 
+     * __construct
      *
      * @param array $matches
      * @param string $type
@@ -55,8 +52,8 @@ class KVDthes_MatchTypeIterator extends KVDthes_MatchesIterator
     }
 
     /**
-     * next 
-     * 
+     * next
+     *
      * @return void
      */
     public function next( )
@@ -67,8 +64,8 @@ class KVDthes_MatchTypeIterator extends KVDthes_MatchesIterator
     }
 
     /**
-     * count 
-     * 
+     * count
+     *
      * @return integer
      */
     public function count( )
@@ -77,8 +74,8 @@ class KVDthes_MatchTypeIterator extends KVDthes_MatchesIterator
     }
 
     /**
-     * typeFilter 
-     * 
+     * typeFilter
+     *
      * @param KVDthes_Match $match
      * @return boolean
      */

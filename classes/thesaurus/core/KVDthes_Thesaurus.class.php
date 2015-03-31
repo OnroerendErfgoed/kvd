@@ -2,35 +2,32 @@
 /**
  * @package    KVD.thes
  * @subpackage core
- * @version    $Id$
  * @copyright  2004-2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
  * KVDthes_Thesaurus
- * 
+ *
  * @package    KVD.thes
  * @subpackage core
  * @since      24 juni 2008
  * @copyright  2004-2008 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author     Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 class KVDthes_Thesaurus implements KVDdom_DomainObject
 {
 
     /**
-     * sessie 
-     * 
+     * sessie
+     *
      * @var KVDthes_ISessie
      */
     protected $sessie;
 
     /**
-     * id 
-     * 
+     * id
+     *
      * @var integer
      */
     protected $id = 0;
@@ -50,20 +47,20 @@ class KVDthes_Thesaurus implements KVDdom_DomainObject
     protected $korte_naam;
 
     /**
-     * language 
-     * 
+     * language
+     *
      * @var string
      */
     protected $language = 'Nederlands';
 
     /**
-     * __construct 
-     * 
-     * @param KVDdom_IReadSessie $sessie 
-     * @param intger $id 
+     * __construct
+     *
+     * @param KVDdom_IReadSessie $sessie
+     * @param intger $id
      * @param string $naam
-     * @param string $korte_naam 
-     * @param string $language 
+     * @param string $korte_naam
+     * @param string $language
      * @return void
      */
     public function __construct( KVDdom_IReadSessie $sessie, $id, $naam, $korte_naam = null, $language = 'Nederlands' )
@@ -77,8 +74,8 @@ class KVDthes_Thesaurus implements KVDdom_DomainObject
     }
 
     /**
-     * getTerm 
-     * 
+     * getTerm
+     *
      * @return string
      */
     public function getNaam()
@@ -98,8 +95,8 @@ class KVDthes_Thesaurus implements KVDdom_DomainObject
     }
 
     /**
-     * getId 
-     * 
+     * getId
+     *
      * @return integer
      */
     public function getId( )
@@ -108,8 +105,8 @@ class KVDthes_Thesaurus implements KVDdom_DomainObject
     }
 
     /**
-     * getLanguage 
-     * 
+     * getLanguage
+     *
      * @return string
      */
     public function getLanguage( )
@@ -118,8 +115,8 @@ class KVDthes_Thesaurus implements KVDdom_DomainObject
     }
 
     /**
-     * getClass 
-     * 
+     * getClass
+     *
      * @return string
      */
     public function getClass( )
@@ -128,8 +125,8 @@ class KVDthes_Thesaurus implements KVDdom_DomainObject
     }
 
     /**
-     * getOmschrijving 
-     * 
+     * getOmschrijving
+     *
      * @return string
      */
     public function getOmschrijving( )
@@ -138,8 +135,8 @@ class KVDthes_Thesaurus implements KVDdom_DomainObject
     }
 
     /**
-     * __toString 
-     * 
+     * __toString
+     *
      * @return string
      */
     public function __toString( )
@@ -148,8 +145,8 @@ class KVDthes_Thesaurus implements KVDdom_DomainObject
     }
 
     /**
-     * isNull 
-     * 
+     * isNull
+     *
      * @return boolean
      */
     public function isNull()
@@ -158,8 +155,8 @@ class KVDthes_Thesaurus implements KVDdom_DomainObject
     }
 
     /**
-     * newNull 
-     * 
+     * newNull
+     *
      * @return KVDthes_NullThesaurus
      */
     public static function newNull( )

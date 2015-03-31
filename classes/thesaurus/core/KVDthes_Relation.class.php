@@ -2,52 +2,49 @@
 /**
  * @package KVD.thes
  * @subpackage Core
- * @version $Id$
  * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
- * KVDthes_Relation 
- * 
+ * KVDthes_Relation
+ *
  * @package KVD.thes
  * @subpackage Core
  * @since 19 maart 2007
  * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 class KVDthes_Relation
 {
     /**
-     * Broader Term  
+     * Broader Term
      */
     const REL_BT = 'BT';
 
     /**
-     * Narrower Term 
+     * Narrower Term
      */
     const REL_NT = 'NT';
 
     /**
-     * Related Term 
+     * Related Term
      */
     const REL_RT = 'RT';
 
     /**
-     * Use 
+     * Use
      */
     const REL_USE = 'USE';
 
     /**
-     * Use For 
+     * Use For
      */
     const REL_UF = 'UF';
 
     /**
-     * inverse 
-     * 
+     * inverse
+     *
      * Een array dat aangeeft wat de inverse relaties zijn aangezien elke relatie in 2 richtingen verloopt.
      * @var array
      */
@@ -58,24 +55,24 @@ class KVDthes_Relation
                                         self::REL_UF => self::REL_USE );
 
     /**
-     * type 
-     * 
+     * type
+     *
      * @var string
      */
     private $type;
 
     /**
-     * term 
-     * 
+     * term
+     *
      * @var KVDthes_Term
      */
     private $term;
 
     /**
-     * __construct 
-     * 
+     * __construct
+     *
      * @param string $type Een class-constante die het soort relatie aangeeft.
-     * @param KVDthes_Term $term 
+     * @param KVDthes_Term $term
      * @return void
      */
     public function __construct( $type , KVDthes_Term $term )
@@ -88,8 +85,8 @@ class KVDthes_Relation
     }
 
     /**
-     * getType 
-     * 
+     * getType
+     *
      * @return string
      */
     public function getType ()
@@ -98,8 +95,8 @@ class KVDthes_Relation
     }
 
     /**
-     * getTerm 
-     * 
+     * getTerm
+     *
      * @return KVDthes_Term
      */
     public function getTerm( )
@@ -109,9 +106,9 @@ class KVDthes_Relation
 
 
     /**
-     * equals 
-     * 
-     * @param KVDthes_Relation $relation 
+     * equals
+     *
+     * @param KVDthes_Relation $relation
      * @return void
      */
     public function equals( KVDthes_Relation $relation )
@@ -120,8 +117,8 @@ class KVDthes_Relation
     }
 
     /**
-     * getInverseRelation 
-     * 
+     * getInverseRelation
+     *
      * @return string Type van de inverse relatie
      */
     public function getInverseRelation()

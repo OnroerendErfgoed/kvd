@@ -2,35 +2,32 @@
 /**
  * @package KVD.thes
  * @subpackage Core
- * @version $Id$
  * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
- * KVDthes_Relations 
- * 
+ * KVDthes_Relations
+ *
  * @package KVD.thes
  * @subpackage Core
  * @since 19 maart 2007
  * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 class KVDthes_Relations implements IteratorAggregate, Countable
 {
 
     /**
-     * relations 
-     * 
+     * relations
+     *
      * @var array
      */
     protected $relations;
 
     /**
-     * __construct 
-     * 
+     * __construct
+     *
      * @return void
      */
     public function __construct()
@@ -39,9 +36,9 @@ class KVDthes_Relations implements IteratorAggregate, Countable
     }
 
     /**
-     * addRelation 
-     * 
-     * @param   KVDthes_Relation     $relation 
+     * addRelation
+     *
+     * @param   KVDthes_Relation     $relation
      * @return  boolean         True indien de relatie werd toegevoegd, false indien ze al aanwezig was.
      */
     public function addRelation ( KVDthes_Relation $relation )
@@ -55,9 +52,9 @@ class KVDthes_Relations implements IteratorAggregate, Countable
     }
 
     /**
-     * removeRelation 
-     * 
-     * @param   KVDthes_Relation     $relation 
+     * removeRelation
+     *
+     * @param   KVDthes_Relation     $relation
      * @return  boolean             True indien de relatie werd verwijderd, false indien ze niet aanwezig was en dus niet verwijderd kon worden.
      */
     public function removeRelation ( KVDthes_Relation $relation )
@@ -72,19 +69,19 @@ class KVDthes_Relations implements IteratorAggregate, Countable
     }
 
     /**
-     * hasRelation 
-     * 
-     * @param   KVDthes_Relation    $relation 
+     * hasRelation
+     *
+     * @param   KVDthes_Relation    $relation
      * @return  boolean
      */
-    public function hasRelation( KVDthes_Relation $relation ) 
+    public function hasRelation( KVDthes_Relation $relation )
     {
         return in_array( $relation, $this->relations );
     }
 
     /**
-     * getImmutableCollection 
-     * 
+     * getImmutableCollection
+     *
      * @return  KVDdom_DomainObjectCollection
      */
     public function getImmutableCollection( )
@@ -93,8 +90,8 @@ class KVDthes_Relations implements IteratorAggregate, Countable
     }
 
     /**
-     * getIterator 
-     * 
+     * getIterator
+     *
      * @param   $type   Type van relations of null om alle relations te krijgen.
      * @return  KVDthes_RelationsIterator
      */
@@ -108,8 +105,8 @@ class KVDthes_Relations implements IteratorAggregate, Countable
     }
 
     /**
-     * getNTIterator 
-     * 
+     * getNTIterator
+     *
      * @return KVDthes_RelationTypeIterator
      */
     public function getNTIterator()
@@ -118,8 +115,8 @@ class KVDthes_Relations implements IteratorAggregate, Countable
     }
 
     /**
-     * getBTIterator 
-     * 
+     * getBTIterator
+     *
      * @return KVDthes_RelationTypeIterator
      */
     public function getBTIterator()
@@ -128,8 +125,8 @@ class KVDthes_Relations implements IteratorAggregate, Countable
     }
 
     /**
-     * getUSEIterator 
-     * 
+     * getUSEIterator
+     *
      * @return KVDthes_RelationTypeIterator
      */
     public function getUSEIterator()
@@ -138,8 +135,8 @@ class KVDthes_Relations implements IteratorAggregate, Countable
     }
 
     /**
-     * getUFIterator 
-     * 
+     * getUFIterator
+     *
      * @return KVDthes_RelationsTypeIterator
      */
     public function getUFIterator()
@@ -148,8 +145,8 @@ class KVDthes_Relations implements IteratorAggregate, Countable
     }
 
     /**
-     * getRTIterator 
-     * 
+     * getRTIterator
+     *
      * @return KVDthes_RelationsTypeIterator
      */
     public function getRTIterator()
@@ -158,8 +155,8 @@ class KVDthes_Relations implements IteratorAggregate, Countable
     }
 
     /**
-     * count 
-     * 
+     * count
+     *
      * Geeft het aantal relaties terug.
      * @param   $type       Een type constante uit {@link KVDthes_Relation} of null.
      * @return  integer     Het totaal aantal relaties of indien er een type werd opgegeven, het aantal relaties van dit type.
@@ -175,10 +172,10 @@ class KVDthes_Relations implements IteratorAggregate, Countable
     }
 
     /**
-     * sort 
-     * 
+     * sort
+     *
      * Sorteer de relaties op een bepaalde manier, standaard wordt er alfabetisch gesorteerd op de term.
-     * @param integer $sortMethod 
+     * @param integer $sortMethod
      * @return void
      */
     public function sort( $sortMethod = KVDthes_TermSorter::SORT_TERM )
