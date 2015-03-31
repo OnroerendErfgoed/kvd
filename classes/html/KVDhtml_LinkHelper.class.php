@@ -1,13 +1,12 @@
 <?php
 /**
  * @package KVD.html
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @version $Id$
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
  * @package KVD.html
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  * @since 1.0.0
  */
 class KVDhtml_LinkHelper
@@ -19,7 +18,7 @@ class KVDhtml_LinkHelper
 
     /**
      * Genereer een html link.
-     * 
+     *
      * Voorbeeld:
      * <code>
      *      $link = $helper->genHtmlLink ( 'index.php', 'Home','Terug naar huis','VetteLink');

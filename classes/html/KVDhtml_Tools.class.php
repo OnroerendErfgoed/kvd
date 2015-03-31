@@ -1,28 +1,25 @@
 <?php
 /**
  * @package   KVD.html
- * @version   $Id$
  * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author    Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license   http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author    Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
  * Utility methodes om te helpen met het verwerken van HTML.
- * 
+ *
  * @package   KVD.html
  * @since     16 maart 2007
  * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author    Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license   http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author    Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 class KVDhtml_Tools
 {
     /**
-     * out 
+     * out
      *
-     * Methode om output goed te escapen naar html. 
-     * @param string $value 
+     * Methode om output goed te escapen naar html.
+     * @param string $value
      * @return string Opgekuiste string
      */
     public static function out( $value )
@@ -31,22 +28,22 @@ class KVDhtml_Tools
     }
 
     /**
-     * outImplode 
-     * 
-     * @param array $value 
-     * @param string $delimiter 
+     * outImplode
+     *
+     * @param array $value
+     * @param string $delimiter
      * @return void
      */
     public static function outImplode( array $value , $delimiter )
     {
-        return implode( $delimiter , 
+        return implode( $delimiter ,
                         array_map( array ( 'KVDhtml_Tools' , 'out' ), $value ) );
     }
 
     /**
-     * dateOut 
-     * 
-     * @param DateTime $value 
+     * dateOut
+     *
+     * @param DateTime $value
      * @return string
      */
     public static function dateOut( DateTime $value )
@@ -58,9 +55,9 @@ class KVDhtml_Tools
     }
 
     /**
-     * dateTimeOut 
-     * 
-     * @param DateTime $value 
+     * dateTimeOut
+     *
+     * @param DateTime $value
      * @return string
      */
     public static function dateTimeOut( DateTime $value )

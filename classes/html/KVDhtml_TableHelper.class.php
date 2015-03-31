@@ -1,26 +1,23 @@
 <?php
 /**
  * @package KVD.html
- * @version $Id$
  * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 
 /**
- * KVDhtml_TableHelper 
- * 
+ * KVDhtml_TableHelper
+ *
  * Maak een HTML tabel aan op basis van enkele parameters.
  * Vooral bedoeld voor datatabellen die een eenvoudige layout hebben, momenteel kunnen er bijvoorbeeld geen cellen samengevoegd worden.
  * @since 2005
  * @package KVD.html
  * @copyright 2004-2006 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 class KVDhtml_TableHelper {
     /**
-     * Array die de headers bevat 
+     * Array die de headers bevat
      * @var array
      */
     private $headers;
@@ -36,7 +33,7 @@ class KVDhtml_TableHelper {
      * @var string
      */
     private $footer;
-    
+
     /**
      * Het caption element van de tabel. Dit is een apart html element dat buiten de tabel zelf staat.
      * @var string
@@ -48,37 +45,37 @@ class KVDhtml_TableHelper {
      * @var string
      */
     private $title = null;
-    
+
     /**
      * Het summary element van de tabel
      * @var string
      */
     private $summary;
-    
+
     /**
      * Het aantal kolommen van de tabel
      * @var integer
      */
     protected $numCols;
-    
+
     /**
      * Het aantal rijen van de tabel
      * @var integer
      */
     protected $numRows;
-    
+
     /**
      * Css class-namen die worden toegevoegd aan bepaalde elementen.
      * @var array
      */
     protected $cssClasses;
-    
+
     /**
      * Moet er een afwisselende stijl toegepast worden op de rijen?
      * @var boolean
      */
     protected $alternateRow;
-    
+
     /**
      * Gaat het om een lijst (true) of een record (false)?
      * @var boolean
@@ -90,7 +87,7 @@ class KVDhtml_TableHelper {
      * @var string
      */
     protected $emptyCell;
-    
+
     /**
      * Maak een nieuwe KVDhtml_TableHelper aan.
      */
@@ -116,7 +113,7 @@ class KVDhtml_TableHelper {
      * Gaat het om een lijst van records (waarde true) of om de weergave van één record (waarde false).
      *
      * Wanneer het om een lijst gaat staan de veldnamen bovenaan, anders staan de veldnamen links.
-     * @param boolean $lijst 
+     * @param boolean $lijst
      */
     public function setLijst($lijst=true)
     {
@@ -127,7 +124,7 @@ class KVDhtml_TableHelper {
      * Stel de waarde in die aan lege cellen gegeven wordt. Belangrijk omdat IE een css-probleem heeft.
      *
      * Wordt standaard ingesteld op een non-breaking space.
-     * @param string $value 
+     * @param string $value
      */
     public function setEmptyCell($value='&#160;')
     {
@@ -190,13 +187,13 @@ class KVDhtml_TableHelper {
      */
     public function setFooter($footer)
     {
-        $this->footer = $footer;    
+        $this->footer = $footer;
     }
 
     /**
      * Verwijder de bestaande rijen.
      */
-    public function clearRows() 
+    public function clearRows()
     {
         $this->rows = array();
     }
@@ -270,7 +267,7 @@ class KVDhtml_TableHelper {
             foreach ($this->rows as $row) {
                 if ( count($row) > $this->numCols) {
                     $this->numCols = count($row);
-                }    
+                }
             }
         }
     }
@@ -295,7 +292,7 @@ class KVDhtml_TableHelper {
 
     /**
      * Genereer een Html voorstelling van de header (caption, summary en thead) van een tabel.
-     * @return string 
+     * @return string
      */
     protected function toHtmlHeader() {
         if (isset($this->summary)) {
@@ -328,7 +325,7 @@ class KVDhtml_TableHelper {
      * Genereer een Html voorstelling van het lichaam van de tabel (tbody).
      *
      * Indien een rij minder cellen bevat dan er headers zijn, wordt deze uitgevuld met lege cellen.
-     * @return string 
+     * @return string
      */
     protected function toHtmlBody() {
         if (!isset($this->rows) || count( $this->rows) == 0 ) {
@@ -368,7 +365,7 @@ class KVDhtml_TableHelper {
 
     /**
      * Genereer een Html voorstelling van footer van de tabel (tfoot) en sluit de tabel.
-     * 
+     *
      * @return string
      */
     protected function toHtmlFooter() {
@@ -377,15 +374,15 @@ class KVDhtml_TableHelper {
             $numCols = $this->lijst ? $this->numCols : $this->numCols +1;
             $footer = " <tfoot{$this->cssClasses['TFoot']}>\n  <tr>\n";
             $footer .= "   <td colspan=\"{$numCols}\">{$this->footer}</td>\n";
-            $footer .= "  </tr>\n </tfoot>\n";    
+            $footer .= "  </tr>\n </tfoot>\n";
         }
         $footer .= "</table>\n";
         return $footer;
     }
-    
+
     /**
      * Genereer een Html voorstelling van de tabel.
-     * 
+     *
      * Indien er geen data werd toegevoegd zal een lege string worden teruggegeven.
      * @return string
      */

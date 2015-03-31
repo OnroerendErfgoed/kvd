@@ -1,72 +1,70 @@
 <?php
 /**
- * KVDhtml_OptionsHelper 
- * 
+ * KVDhtml_OptionsHelper
+ *
  * @package     KVD.html
- * @version     $Id$
  * @copyright   2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
- 
+
 /**
- * KVDhtml_AbstractOptionsHelper 
- * 
- * Helper class die een collectie van opties neemt en er een html options list  
+ * KVDhtml_AbstractOptionsHelper
+ *
+ * Helper class die een collectie van opties neemt en er een html options list
  * ( voor een select veld in een form) van maakt.
+ *
  * @package     KVD.html
  * @since       9 jan 2007
  * @copyright   2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
- * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
 abstract class KVDhtml_AbstractOptionsHelper
 {
 	/**
-	 * collection 
+	 * collection
 	 * @var KVDdom_DomainObjectCollection
 	 */
 	protected $collection;
 
 	/**
-	 * addEmptyLine 
+	 * addEmptyLine
 	 * @var boolean
 	 */
 	protected $addEmptyLine;
 
 	/**
-	 * selectedValue 
-	 * 
+	 * selectedValue
+	 *
 	 * @var mixed Zal meestal integer of string zijn.
 	 */
 	protected $selectedValue;
 
 	/**
-	 * emptyId 
-	 * 
+	 * emptyId
+	 *
 	 * @var mixed Zal meestal integer of string zijn.
 	 */
 	protected $emptyId = null;
 
 	/**
-	 * emptyValue 
-	 * 
+	 * emptyValue
+	 *
 	 * @var string
 	 */
 	protected $emptyValue = '';
 
 	/**
-	 * @var string 
+	 * @var string
 	 */
 	protected static $optionFormat = "<option value=\"%s\"%s>%s</option>\n";
 
 	/**
-	 * setEmptyValues 
-	 * 
+	 * setEmptyValues
+	 *
 	 * Stel de waarden in voor de lege regel.
 	 * @since 7 feb 2007
-	 * @param string $id 
-	 * @param string $value 
+	 * @param string $id
+	 * @param string $value
 	 * @return void
 	 */
 	public function setEmptyValues( $id = '' , $value = '' )
@@ -76,8 +74,8 @@ abstract class KVDhtml_AbstractOptionsHelper
 	}
 
 	/**
-	 * toHtml 
-	 * 
+	 * toHtml
+	 *
 	 * @return string Html-weergave van de option-list
 	 */
 	public function toHtml( )
@@ -94,11 +92,11 @@ abstract class KVDhtml_AbstractOptionsHelper
 
 
 	/**
-	 * generateOption 
-	 * 
-	 * @param mixed $value 
-	 * @param string $omschrijving 
-	 * @param mixed $selected 
+	 * generateOption
+	 *
+	 * @param mixed $value
+	 * @param string $omschrijving
+	 * @param mixed $selected
 	 * @return string
 	 */
 	protected function generateOption( $value , $omschrijving , $selected = false )
@@ -140,42 +138,42 @@ abstract class KVDhtml_AbstractOptionsHelper
 	{
 		return new KVDhtml_OptionsHelper($collection, $addEmptyLine, $valueField, $omschrijvingField, $selectedValue);
 	}
-} 
- 
- 
+}
+
+
 /**
- * KVDhtml_OptionsHelper 
- * 
- * Helper class die een collectie van {@link KVDdom_DomainObject} neemt en er een html options list  
+ * KVDhtml_OptionsHelper
+ *
+ * Helper class die een collectie van {@link KVDdom_DomainObject} neemt en er een html options list
  * ( voor een select veld in een form) van maakt.
  * @package KVD.html
  * @since 9 jan 2007
  * @copyright 2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
- 
+
 class KVDhtml_OptionsHelper extends KVDhtml_AbstractOptionsHelper
 {
- 
+
 	/**
-	 * valueField 
-	 * 
+	 * valueField
+	 *
 	 * @var string
 	 */
 	private $valueField;
 
 	/**
-	 * omschrijvingField 
-	 * 
+	 * omschrijvingField
+	 *
 	 * @var string
 	 */
 	private $omschrijvingField;
 
 
 	/**
-	 * __construct 
-	 * 
+	 * __construct
+	 *
 	 * @param KVDdom_DomainObjectCollection $collection Een gewone array van domainobjecten zal ook werken
 	 * @param boolean $addEmptyLine Moet er een lege regel bovenaan de lijst worden toegevoegd?
 	 * @param string $valueField Het veld dat als index dient.
@@ -192,9 +190,9 @@ class KVDhtml_OptionsHelper extends KVDhtml_AbstractOptionsHelper
 	}
 
 	/**
-	 * getValue 
-	 * 
-	 * @param KVDdom_DomainObject $object 
+	 * getValue
+	 *
+	 * @param KVDdom_DomainObject $object
 	 * @return mixed Meestal integer of string
 	 */
 	private function getValue( $object )
@@ -204,9 +202,9 @@ class KVDhtml_OptionsHelper extends KVDhtml_AbstractOptionsHelper
 	}
 
 	/**
-	 * getOmschrijving 
-	 * 
-	 * @param KVDdom_DomainObject $object 
+	 * getOmschrijving
+	 *
+	 * @param KVDdom_DomainObject $object
 	 * @return string
 	 */
 	private function getOmschrijving( $object )
@@ -233,26 +231,26 @@ class KVDhtml_OptionsHelper extends KVDhtml_AbstractOptionsHelper
 }
 
 
- 
+
 /**
- * KVDhtml_OptionsHelperArray 
- * 
- * Helper class die een collectie van strings neemt en er een html options list  
+ * KVDhtml_OptionsHelperArray
+ *
+ * Helper class die een collectie van strings neemt en er een html options list
  * ( voor een select veld in een form) van maakt.
  * @package     KVD.html
  * @since       9 jan 2007
  * @copyright   2004-2007 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDhtml_OptionsHelperArray extends KVDhtml_AbstractOptionsHelper
 {
     /**
-     * __construct 
-     * 
-     * @param   array   $collection 
-     * @param   boolean $addEmptyLine 
-     * @param   string  $selectedValue 
+     * __construct
+     *
+     * @param   array   $collection
+     * @param   boolean $addEmptyLine
+     * @param   string  $selectedValue
      * @return  void
      */
 	public function __construct($collection, $addEmptyLine = false, $selectedValue = null)

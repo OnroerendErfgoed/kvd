@@ -1,13 +1,12 @@
 <?php
 /**
  * @package KVD.html
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
- * @version $Id$
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  */
- 
+
 /**
  * @package KVD.html
- * @author Koen Van Daele <koen.vandaele@lin.vlaanderen.be>
+ * @author Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  * @since 1.0.0
  */
 class KVDhtml_PagedTableHelper extends KVDhtml_TableHelper {
@@ -24,7 +23,7 @@ class KVDhtml_PagedTableHelper extends KVDhtml_TableHelper {
         parent::__construct();
         $this->_HtmlLinkHelper = New KVDhtml_LinkHelper();
     }
-    
+
     /**
      * Stel de pagina-links in.
      *
@@ -43,7 +42,7 @@ class KVDhtml_PagedTableHelper extends KVDhtml_TableHelper {
      *                          'vorige' => 'index.php?p=1',
      *                          'volgende' => 'index.php?p=3'
      *                          );
-     *      $tabel->setPageLinks ( $currentPage , $totalPages , $links );                     
+     *      $tabel->setPageLinks ( $currentPage , $totalPages , $links );
      * </code>
      * @param integer $currentPage
      * @param integer $totalPages
