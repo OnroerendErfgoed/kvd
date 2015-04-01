@@ -1,6 +1,8 @@
 {
 	"name": "oe/kvd",
+    "description": "A library of assorted PHP code. Quite old and in maintenance mode.",
 	"type": "library",
+    "license": "MIT",
 	"authors": 	[
 		{
 			"name": "Koen Van Daele",
