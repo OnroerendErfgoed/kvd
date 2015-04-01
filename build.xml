@@ -71,63 +71,19 @@
 				</replacetokens>
 			</filterchain>
 		</copy>
-	</target>
+    </target>
 
-	<target name="runTests" description="Laat de Unit Tests lopen." depends="createBuildDir,genBootstrap">
-		<available file="build/coverage.xml" type="file" property="build.coverage_exists" />
-		<available file="build/testsuites.xml" type="file" property="build.testsuite_exists" />
-		<available file="build/clover-coverage.xml" type="file" property="build.clover-coverage_xml_exists" />
-		<if>
-			<istrue value="build.coverage_exists" />
-			<then>
-				<delete file="build/coverage.xml" />
-			</then>
-		</if>
-		<if>
-			<istrue value="build.testsuites_exists" />
-			<then>
-				<delete file="build/testsuites.xml" />
-			</then>
-		</if>
-		<if>
-			<istrue value="build.clover-coverage_exists" />
-			<then>
-				<delete file="build/clover-coverage.xml" />
-			</then>
-		</if>
-		<exec command="./vendor/bin/phpunit 
-							--bootstrap test/bootstrap.php 
-							--configuration test/config/testsuites.xml 
-							--log-junit build/testsuites.xml"
-			  passthru="true" checkreturn="true" />
-	</target>
-
-
-	<target name="genTestReports" description="Maak rapporten over de UnitTests aan." depends="createBuildDir,genBootstrap">
-		<delete dir="build/reports" />
-		<mkdir dir="build/reports" />
-		<mkdir dir="build/reports/tests" />
-		<mkdir dir="build/reports/coverage" />
-		<available file="build/testsuites.xml" type="file" property="build.testsuite_exists" />
-		<available file="build/clover-coverage.xml" type="file" property="build.clover-coverage_xml_exists" />
-		<if>
-			<istrue value="build.testsuites_exists" />
-			<then>
-				<delete file="build/testsuites.xml" />
-			</then>
-		</if>
-		<if>
-			<istrue value="build.clover-coverage_exists" />
-			<then>
-				<delete file="build/clover-coverage.xml" />
-			</then>
-		</if>
+	<target name="runTestsTravis" description="Maak rapporten over de UnitTests aan." depends="createBuildDir,genBootstrap">
 		<exec command="./vendor/bin/phpunit
 							--bootstrap test/bootstrap.php 
-							--configuration test/config/testsuites.xml 
-							--log-junit build/testsuites.xml
-							--coverage-html build/reports/coverage
-							--coverage-clover build/clover-coverage.xml"
+							--configuration phpunit.xml.travis"
+		   	  passthru="true" checkreturn="true"/>
+	</target>
+
+	<target name="genTestReports" description="Maak rapporten over de UnitTests aan." depends="createBuildDir,genBootstrap">
+		<exec command="./vendor/bin/phpunit
+							--bootstrap test/bootstrap.php 
+							--configuration phpunit.xml.dist"
 		   	  passthru="true" checkreturn="true"/>
 
 	</target>

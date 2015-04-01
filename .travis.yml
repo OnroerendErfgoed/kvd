@@ -5,9 +5,10 @@ php:
     - 5.5
     - 5.6
 install: composer install --dev --no-interaction
-script: ./vendor/bin/phing genTestReports -Dcrab.run_integration_tests=false
+script: ./vendor/bin/phing runTestsTravis -Dcrab.run_integration_tests=false
 after_script:
     - php vendor/bin/coveralls -v
-notifications: 
+notifications:
     email:
         - koen.vandaele@rwo.vlaanderen.be
+        - bram.goessens@rwo.vlaanderen.be
