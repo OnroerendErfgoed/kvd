@@ -1,7 +1,7 @@
 KVD Library
 ===========
 
-[![Build Status](https://travis-ci.org/OnroerendErfgoed/kvd.svg&branch=master)](https://travis-ci.org/OnroerendErfgoed/kvd)
+[![Build Status](https://travis-ci.org/OnroerendErfgoed/kvd.svg?branch=master)](https://travis-ci.org/OnroerendErfgoed/kvd)
 [![Coverage](https://coveralls.io/repos/OnroerendErfgoed/kvd/badge.png?branch=master)](https://coveralls.io/r/OnroerendErfgoed/kvd?branch=master)
 [![Packagist](https://poser.pugx.org/oe/kvd/v/stable.svg)](https://packagist.org/packages/oe/kvd)
 
