@@ -192,19 +192,24 @@ abstract class KVDdom_PDOChangeableDataMapper extends KVDdom_PDODataMapper {
      *                                                      de tweede het id van een element in de collection en het derde het huidige versienummer.
      * @param Integer                       $ownerIdType    Een PDO constante
      * @param Integer                       $collIdType     Een PDO constante
+     * @param string                        $ownerIdMethod  finder methode
+     * @param string                        $collIdMethod   finder methode
      * @return void
      */
-    protected function insertDependentCollection( KVDdom_DomainObject $owner, KVDdom_DomainObjectCollection $coll , $sql, $ownerIdType = PDO::PARAM_INT, $collIdType = PDO::PARAM_INT )
+    protected function insertDependentCollection( KVDdom_DomainObject $owner,
+            KVDdom_DomainObjectCollection $coll , $sql,
+            $ownerIdType = PDO::PARAM_INT, $collIdType = PDO::PARAM_INT,
+            $ownerIdMethod = 'getId', $collIdMethod = 'getId')
     {
         if ( count( $coll ) > 0 ) {
                 $stmt = $this->_conn->prepare( $sql );
-                $stmt->bindValue( 1 , $owner->getId( ) , $ownerIdType);
+                $stmt->bindValue( 1 , $owner->$ownerIdMethod( ) , $ownerIdType);
                 $stmt->bindValue( 3 , $owner->getSystemFields( )->getTargetVersie( ) , PDO::PARAM_INT );
                 foreach ( $coll as $item ) {
                     if ( !$item instanceof KVDdom_DomainObject ) {
                         throw new InvalidArgumentException( 'Een collection mag alleen maar DomainObjecten bevatten!' );
                     }
-                    $stmt->bindValue( 2 , $item->getId( ) , $collIdType);
+                    $stmt->bindValue( 2 , $item->$collIdMethod( ) , $collIdType);
                     $stmt->execute( );
                 }
         }
