@@ -1,0 +1,7 @@
+----------------------------------
+-- Kleine deelgemeentenupdates. --
+----------------------------------
+
+UPDATE kvd_adr.deelgemeente SET deelgemeente_naam = 'De Klinge' WHERE id = '46020B';
+
+INSERT INTO kvd_adr.deelgemeente VALUES ('45059H', 'Sint-Maria-Oudenhove', 45059 );
