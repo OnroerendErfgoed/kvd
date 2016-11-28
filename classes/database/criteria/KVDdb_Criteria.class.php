@@ -210,5 +210,14 @@ class KVDdb_Criteria implements Countable
         return $ret;
     }
 
+    public function getCriteria($field = null)
+    {
+        $ret = array( );
+        foreach ( $this->criteria as $criterion) {
+            $ret = array_merge( $ret, $criterion->getCriteria( $field ) );
+        }
+        return $ret;
+    }
+
 }
 ?>

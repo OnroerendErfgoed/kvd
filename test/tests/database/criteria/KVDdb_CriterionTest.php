@@ -236,4 +236,25 @@ class KVDdb_CriterionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals( array( 'provincie', 'gemeente' ), $criterion->getFields() );
     }
 
+    public function testGetCriteria( )
+    {
+        $ct1 = KVDdb_Criterion::equals( 'provincie' , 'West-Vlaanderen' );
+        $this->assertEquals( array( $ct1 ), $ct1->getCriteria() );
+
+        $ct2 = KVDdb_Criterion::equals( 'gemeente' , 'Gent' );
+        $ct1->addOr($ct2);
+        $this->assertEquals( array( $ct1, $ct2 ), $ct1->getCriteria() );
+    }
+
+    public function testGetCriteriaField( )
+    {
+        $ct1 = KVDdb_Criterion::equals( 'provincie' , 'West-Vlaanderen' );
+        $this->assertEquals( array(), $ct1->getCriteria('gemeente') );
+
+        $ct2 = KVDdb_Criterion::equals( 'gemeente' , 'Gent' );
+        $ct1->addOr($ct2);
+        $this->assertEquals( array( $ct2 ), $ct1->getCriteria('gemeente') );
+    }
+
+
 }

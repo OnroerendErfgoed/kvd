@@ -212,6 +212,36 @@ class KVDdb_Criterion
     }
 
     /**
+     * Get all criterions in this object
+     *
+     * @param string $field Only return criterions for a certain field
+     * @return array
+     */
+    public function getCriteria( $field = null )
+    {
+        $ret = array();
+        if ($field === null || $field == $this->field) {
+            $ret[] = $this;
+        }
+        return array_merge( $ret, $this->getCriteriaChildren( ) );
+    }
+
+
+    /**
+     * getCriteriaChildren
+     *
+     * @return array
+     */
+    protected function getCriteriaChildren( $field = null)
+    {
+        $ret = array();
+        foreach ( $this->children as $child ) {
+            $ret = array_merge( $ret, $child['criterion']->getCriteria($field));
+        }
+        return $ret;
+    }
+
+    /**
      * @param KVDdb_Criterion
      */
     public function addOr( $criterion )

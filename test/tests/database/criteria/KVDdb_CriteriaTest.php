@@ -3,23 +3,23 @@
  * @package     KVD.database
  * @version     $Id$
  * @copyright   2009-2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 
 /**
- * KVDdb_CriteriaTest 
- * 
+ * KVDdb_CriteriaTest
+ *
  * @package     KVD.database
  * @since       jan 2010
  * @copyright   2009-2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDdb_CriteriaTest extends PHPUnit_Framework_TestCase
 {
     private $criteria;
-    
+
     public function setUp( )
     {
         $this->criteria = new KVDdb_Criteria( );
@@ -36,7 +36,7 @@ class KVDdb_CriteriaTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals( '', $this->criteria->generateSql(  ) );
     }
-    
+
     public function testAddCriteria( )
     {
         $this->criteria->add( $this->criterion_one );
@@ -54,7 +54,7 @@ class KVDdb_CriteriaTest extends PHPUnit_Framework_TestCase
     public function testGenerateSqlMultipleCriteria( )
     {
         $this->criteria->add( $this->criterion_one );
-        
+
         $this->criteria->add( $this->criterion_two );
 
         $this->assertEquals( "WHERE ( provincie = 40000 ) AND ( UPPER( naam ) LIKE UPPER( '%huis%' ) )", $this->criteria->generateSql());
@@ -75,10 +75,10 @@ class KVDdb_CriteriaTest extends PHPUnit_Framework_TestCase
     public function testGenerateSqlWithMultipleOrder( )
     {
         $this->criteria->add( $this->criterion_two );
-        
+
         $this->criteria->addDescendingOrder( 'provincie' );
         $this->criteria->addAscendingOrder( 'gemeente' );
-        
+
         $this->assertEquals( "WHERE ( UPPER( naam ) LIKE UPPER( '%huis%' ) ) ORDER BY provincie DESC , gemeente ASC", $this->criteria->generateSql( ) );
     }
 
@@ -89,23 +89,34 @@ class KVDdb_CriteriaTest extends PHPUnit_Framework_TestCase
         $this->criteria->clearOrder( );
         $this->assertEquals( '', $this->criteria->generateSql()  );
     }
-    
+
+    public function testGetCriteria()
+    {
+        $this->criteria->add( $this->criterion_one );
+        $this->criteria->add( $this->criterion_two );
+
+        $this->assertEquals(
+            array($this->criterion_one, $this->criterion_two),
+            $this->criteria->getCriteria()
+        );
+    }
+
 }
 
 
 /**
- * KVDdb_CriteriaIntegrationTest 
- * 
+ * KVDdb_CriteriaIntegrationTest
+ *
  * @package     KVD.database
  * @since       jan 2010
  * @copyright   2009-2010 {@link http://www.vioe.be Vlaams Instituut voor het Onroerend Erfgoed}
- * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be> 
+ * @author      Koen Van Daele <koen.vandaele@rwo.vlaanderen.be>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU General Public License
  */
 class KVDdb_CriteriaIntegrationTest extends PHPUnit_Framework_TestCase
 {
     private $criteria;
-    
+
     public function setUp( )
     {
         $this->criteria = new KVDdb_Criteria( );
@@ -130,13 +141,13 @@ class KVDdb_CriteriaIntegrationTest extends PHPUnit_Framework_TestCase
         $criterion2->addAnd( KVDdb_Criterion::equals( 'gemeente' , 'Maldegem' ) );
         $criterion->addOr( $criterion2 );
         $this->assertEquals( "( provincie = 'West-Vlaanderen' OR ( provincie = 'Oost-Vlaanderen' AND ( gemeente = 'Maldegem' ) ) )", $criterion->generateSql() );
-        
+
         $this->criteria->add( $criterion );
-        
+
         $this->criteria->add( KVDdb_Criterion::matches ( 'naam' , '%berg%' ) );
         $this->assertEquals( "WHERE ( provincie = 'West-Vlaanderen' OR ( provincie = 'Oost-Vlaanderen' AND ( gemeente = 'Maldegem' ) ) ) AND ( UPPER( naam ) LIKE UPPER( '%berg%' ) )", $this->criteria->generateSql() );
     }
-    
+
     public function testParameterized( )
     {
         $this->criteria->add( KVDdb_Criterion::equals ( 'provincie' , 'West-Vlaanderen' ) );
@@ -146,7 +157,7 @@ class KVDdb_CriteriaIntegrationTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * testParameterizedWithSubSelect 
+     * testParameterizedWithSubSelect
      *
      * Test een geparameterizeerde subselect. Tot voor kort (zie ticket 363 in de OEPS applicatie) bevatte het getValues( ) array een SimpleQuery object.
      * Probleem zou moeten opgelost zijn, een InSubSelect geeft enkel nog de values van zijn children terug.
