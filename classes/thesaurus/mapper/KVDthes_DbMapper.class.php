@@ -577,11 +577,17 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper, KVDthes_IMatchab
 	}
 
     /**
+     * Create a new term
+     *
+     * @param integer $id
+     *
      * @return  KVDthes_Term
      */
-    public function create ( )
+    public function create($id = null)
     {
-        $id = $this->getIdFromSequence( $this->parameters['schema'] . '.' . $this->parameters['id_seq_naam'] );
+        if (is_null($id)) {
+            $id = $this->getIdFromSequence( $this->parameters['schema'] . '.' . $this->parameters['id_seq_naam'] );
+        }
         $termType = $this->getReturnType( );
         return call_user_func( $termType . '::create', $termType, $id, $this->sessie, $this->doLoadThesaurus( ) );
     }
