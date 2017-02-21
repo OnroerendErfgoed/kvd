@@ -628,7 +628,12 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper, KVDthes_IMatchab
     }
 
     /**
-     * insert
+     * Insert a new term.
+     *
+     * Please make sure to call insertRelations if you have also added 
+     * relations to the term.
+     *
+     * This was changed to allow doing batch syncs in den inventaris.
      *
      * @param   KVDthes_Term $term
      * @return  KVDthes_Term
@@ -642,8 +647,6 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper, KVDthes_IMatchab
         $stmt->execute( );
 
         $this->insertNotes( $term );
-
-        $this->insertRelations( $term );
 
         return $term;
     }
