@@ -630,15 +630,25 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper, KVDthes_IMatchab
     /**
      * Insert a new term.
      *
-     * Please make sure to call insertRelations if you have also added 
-     * relations to the term.
-     *
-     * This was changed to allow doing batch syncs in den inventaris.
-     *
      * @param   KVDthes_Term $term
      * @return  KVDthes_Term
      */
     public function insert( KVDthes_Term $term )
+    {
+        $term = $this->insertBase($term);
+        $term = $this->insertExtended($term);
+        return $term;
+    }
+
+    /**
+     * Insert a new term.
+     *
+     * This will not insert any relations. Please call insertExtended for that.
+     *
+     * @param   KVDthes_Term $term
+     * @return  KVDthes_Term
+     */
+    public function insertBase( KVDthes_Term $term )
     {
         $sql = sprintf( 'INSERT INTO %s.term (thesaurus_id, id, term, type, language, qualifier, sort_key ) VALUES ( %s, ?, ?, ?, ?, ?, ? )', $this->parameters['schema'], $this->parameters['thesaurus_id'] );
         $stmt = $this->conn->prepare(  $sql );
@@ -647,6 +657,22 @@ abstract class KVDthes_DbMapper implements KVDthes_IDataMapper, KVDthes_IMatchab
         $stmt->execute( );
 
         $this->insertNotes( $term );
+
+        return $term;
+    }
+
+    /**
+     * Insert the relations for a new term.
+     *
+     * This will only insert relations. Please make sure the source and target 
+     * term have been created before calling this..
+     *
+     * @param   KVDthes_Term $term
+     * @return  KVDthes_Term
+     */
+    public function insertExtended( KVDthes_Term $term )
+    {
+        $this->insertRelations( $term );
 
         return $term;
     }
