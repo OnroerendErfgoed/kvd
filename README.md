@@ -5,11 +5,10 @@ KVD Library
 [![Coverage](https://coveralls.io/repos/OnroerendErfgoed/kvd/badge.png?branch=master)](https://coveralls.io/r/OnroerendErfgoed/kvd?branch=master)
 [![Packagist](https://poser.pugx.org/oe/kvd/v/stable.svg)](https://packagist.org/packages/oe/kvd)
 
-Oude php bibliotheek met ondersteunende code. Wordt gebruikt door:
+Oude php bibliotheek met ondersteunende code. Wordt gebruikt door, maar is end
+of life.
  * de inventaris
  * OAR
- * CAI
- * mogelijk bibliotheek
 
 Installatie kan via composer.
 
